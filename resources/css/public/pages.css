@@ -11,7 +11,7 @@
 }
 
 .lead {
-    font-size: 1.25rem;
+    font-size: var(--fs-lead);
 }
 
 /* A heading one step below the page title: same family, clearly smaller */
@@ -207,6 +207,10 @@
     display: grid;
     gap: var(--space-2);
     margin-bottom: var(--space-5);
+}
+
+.collection__head h2 {
+    font: 600 var(--fs-h3) / 1.2 var(--font-display);
 }
 
 .collection__head h2 a {

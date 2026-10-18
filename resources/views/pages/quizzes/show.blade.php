@@ -15,13 +15,20 @@
 
         <div class="intro">
             <div class="intro__main">
-                <x-subject-tag :category="$quiz->category" />
                 <h1 class="page-title">{{ $quiz->title }}</h1>
                 @if ($quiz->summary)
                     <p class="lead">{{ $quiz->summary }}</p>
                 @endif
 
                 <dl class="facts">
+                    @if ($quiz->category)
+                        <dt>{{ __('public.quiz.subject') }}</dt>
+                        <dd>{{ $quiz->category->subject()->name }}</dd>
+                        @if ($quiz->category->parent)
+                            <dt>{{ __('public.quiz.topic') }}</dt>
+                            <dd>{{ $quiz->category->name }}</dd>
+                        @endif
+                    @endif
                     @if ($quiz->level)
                         <dt>{{ __('public.quiz.level') }}</dt>
                         <dd>{{ $quiz->level->name }} ({{ $quiz->level->ageLabel() }})</dd>

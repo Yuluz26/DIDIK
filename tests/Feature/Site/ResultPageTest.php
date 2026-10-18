@@ -54,6 +54,21 @@ class ResultPageTest extends TestCase
             ->assertSee('<meta name="robots" content="noindex">', false);
     }
 
+    public function test_points_are_only_listed_when_questions_are_worth_different_amounts(): void
+    {
+        // One point each: "3 of 4 questions" already says it all.
+        $even = $this->publishedQuiz(4);
+        $this->resultPage('even', $this->play('even', $even, wrong: [3]))
+            ->assertSee(__('public.result.score', ['correct' => 3, 'total' => 4]))
+            ->assertDontSee(__('public.result.points', ['score' => 3, 'max' => 4]));
+
+        // A question worth three points makes the points line meaningful.
+        $weighted = $this->publishedQuiz(2);
+        $weighted->questions()->orderBy('position')->first()->update(['points' => 3]);
+        $this->resultPage('weighted', $this->play('weighted', $weighted, wrong: [1]))
+            ->assertSee(__('public.result.points', ['score' => 3, 'max' => 4]));
+    }
+
     public function test_a_perfect_run_earns_three_stars_and_everyone_earns_at_least_one(): void
     {
         $quiz = $this->publishedQuiz(2);

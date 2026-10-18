@@ -24,19 +24,18 @@
 
 .stone-list li {
     position: relative;
-    padding-inline-start: 2.25rem;
+    padding-inline-start: 1.75rem;
 }
 
 .stone-list li::before {
     content: '';
     position: absolute;
     inset-inline-start: 0;
-    inset-block-start: 0.4em;
-    width: 1.1rem;
-    height: 1.1rem;
+    inset-block-start: 0.55em;
+    width: 0.75rem;
+    height: 0.75rem;
     border-radius: 50%;
-    background: var(--ground);
-    box-shadow: var(--raised-1);
+    background: var(--brand);
 }
 
 /* 1. Hero */
@@ -67,7 +66,7 @@
 
 .hero__lead {
     max-width: 30rem;
-    font-size: 1.25rem;
+    font-size: var(--fs-lead);
 }
 
 .hero__live {
@@ -134,17 +133,22 @@
 }
 
 .live__field {
+    --didi: clamp(4rem, 2.5rem + 3.2vw, 6rem);
     position: relative;
     display: grid;
-    grid-template-columns: 4rem minmax(0, 1fr);
+    grid-template-columns: var(--didi) minmax(0, 1fr);
     gap: var(--space-3);
+}
+
+.live__didi .mascot {
+    --mascot-size: var(--didi);
 }
 
 .live__didi {
     position: absolute;
     inset-block-start: 0;
     inset-inline-start: -0.25rem;
-    width: 4rem;
+    width: var(--didi);
     transition: transform var(--dur-hop) var(--ease-hop);
 }
 
@@ -268,7 +272,7 @@
     display: grid;
     gap: var(--space-3);
     max-width: 36rem;
-    margin-bottom: var(--space-8);
+    margin-bottom: var(--space-7);
 }
 
 .ways__list {
@@ -363,4 +367,36 @@
 
 .quizizz-teaser__head p {
     margin-top: var(--space-2);
+}
+
+/*
+ * Motion on the home page: the hero's secondary parts rise in once on load. Nothing animates on
+ * scroll, so no content waits to be revealed. Opacity and translate only, and the headline is never
+ * animated, so the first paint is the finished text.
+ */
+@keyframes rise {
+    from {
+        opacity: 0;
+        translate: 0 0.875rem;
+    }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .hero__lead,
+    .hero__copy > .btn,
+    .hero__live {
+        animation: rise var(--dur-enter) var(--ease-out) both;
+    }
+
+    .hero__lead {
+        animation-delay: var(--stagger);
+    }
+
+    .hero__copy > .btn {
+        animation-delay: calc(var(--stagger) * 2);
+    }
+
+    .hero__live {
+        animation-delay: var(--stagger);
+    }
 }

@@ -16,10 +16,12 @@
 
             <h1 class="result__headline" id="result-title">{{ $message }}</h1>
 
+            {{-- The stars above already say how many; points only matter when questions are worth different amounts. --}}
             <p class="result__facts">
                 <span>{{ __('public.result.score', ['correct' => $attempt->correct_count, 'total' => $attempt->question_count]) }}</span>
-                <span>{{ __('public.result.points', ['score' => $attempt->score, 'max' => $attempt->max_score]) }}</span>
-                <span>{{ __('public.result.stars', ['count' => $attempt->stars]) }}</span>
+                @if ($attempt->max_score !== $attempt->question_count)
+                    <span>{{ __('public.result.points', ['score' => $attempt->score, 'max' => $attempt->max_score]) }}</span>
+                @endif
             </p>
 
             <div class="result__actions">

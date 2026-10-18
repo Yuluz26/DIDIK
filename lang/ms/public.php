@@ -95,6 +95,8 @@ return [
         'start' => 'Mula',
         'resume' => 'Sambung bermain',
         'questions' => 'Soalan',
+        'subject' => 'Subjek',
+        'topic' => 'Topik',
         'level' => 'Tahap',
         'difficulty' => 'Kesukaran',
         'how' => 'Cara bermain',

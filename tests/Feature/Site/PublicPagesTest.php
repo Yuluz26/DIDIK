@@ -156,6 +156,18 @@ class PublicPagesTest extends TestCase
         $this->get(route('quizzes.index', ['q' => 'dis!']))->assertDontSee('Diskaun 50% Betul');
     }
 
+    public function test_the_intro_lists_subject_and_topic_as_facts_not_as_a_label_above_the_title(): void
+    {
+        $subject = Category::factory()->create(['name' => 'Sains']);
+        $topic = Category::factory()->topicOf($subject)->create(['name' => 'Haiwan']);
+        $quiz = $this->publishedQuiz(1, ['category_id' => $topic->id]);
+
+        $page = $this->get(route('quizzes.show', $quiz->slug))->assertOk();
+
+        $page->assertSeeInOrder([__('public.quiz.subject'), 'Sains', __('public.quiz.topic'), 'Haiwan']);
+        $page->assertDontSee('class="tag', false);
+    }
+
     public function test_browse_shows_a_kind_empty_state(): void
     {
         $this->get(route('quizzes.index'))->assertOk()->assertSee(__('public.browse.nothing_title'));
