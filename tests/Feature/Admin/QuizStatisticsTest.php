@@ -113,6 +113,74 @@ class QuizStatisticsTest extends TestCase
         $this->assertSame([5, 5], $rows->pluck('answers')->all());
     }
 
+    public function test_the_hardest_questions_only_look_at_the_most_recent_answers(): void
+    {
+        $quiz = $this->publishedQuiz(2);
+        [$early, $late] = $quiz->questions()->with('options')->get()->all();
+
+        foreach (range(1, 5) as $i) {
+            $this->answer($quiz, $early, false);   // five misses, a while ago
+        }
+        foreach (range(1, 5) as $i) {
+            $this->answer($quiz, $late, true);     // five hits, lately
+        }
+
+        // With a window of five answers the early misses are out of sight.
+        $rows = (new QuizStatistics(recentAnswers: 5))->hardestQuestions();
+
+        $this->assertSame([$late->id], $rows->pluck('id')->all());
+        $this->assertEquals(100.0, $rows->first()->percent);
+
+        // With a wide window both are seen, hardest first.
+        $this->assertSame([$early->id, $late->id], (new QuizStatistics)->hardestQuestions()->pluck('id')->all());
+    }
+
+    public function test_the_dashboard_and_the_publishing_rules_agree_on_what_is_broken(): void
+    {
+        // The dashboard decides health with one SQL aggregate, publishing with Quiz::publishingProblems().
+        // Both must call the same quizzes broken, whatever shape their questions are in.
+        $make = function (string $title, bool $published, ?callable $build = null): Quiz {
+            $quiz = Quiz::factory()->{$published ? 'published' : 'create'}()->create(['title' => $title]);
+
+            if ($build) {
+                $build($quiz);
+            }
+
+            return $quiz;
+        };
+
+        foreach ([true, false] as $published) {
+            $make('Tiada soalan', $published);
+            $make('Satu pilihan sahaja', $published, fn ($q) => Question::factory()->for($q)->withOptions(1, 0)->create(['position' => 1]));
+            $make('Tiada jawapan betul', $published, fn ($q) => Question::factory()->for($q)->withOptions(3, 9)->create(['position' => 1]));
+            $make('Elok', $published, fn ($q) => Question::factory()->for($q)->withOptions(3, 1)->create(['position' => 1]));
+            $make('Soalan rosak sudah dibuang', $published, function ($q) {
+                Question::factory()->for($q)->withOptions(3, 0)->create(['position' => 1]);
+                Question::factory()->for($q)->withOptions(1, 0)->create(['position' => 2])->delete();
+            });
+            $make('Pilihan dibuang tinggal satu', $published, function ($q) {
+                $question = Question::factory()->for($q)->withOptions(3, 0)->create(['position' => 1]);
+                $question->options()->where('is_correct', false)->limit(2)->get()->each->delete();
+            });
+        }
+
+        $attention = (new QuizStatistics)->attention(limit: 100);
+
+        $broken = $attention['broken']->map(fn ($row) => $row['quiz']->title)->sort()->values()->all();
+        $ready = $attention['ready']->pluck('title')->sort()->values()->all();
+
+        $expectedBroken = Quiz::where('status', 'published')->get()
+            ->filter(fn (Quiz $quiz) => $quiz->publishingProblems() !== [])->pluck('title')->sort()->values()->all();
+        $expectedReady = Quiz::where('status', 'draft')->get()
+            ->filter(fn (Quiz $quiz) => $quiz->publishingProblems() === [])->pluck('title')->sort()->values()->all();
+
+        $this->assertSame($expectedBroken, $broken);
+        $this->assertSame($expectedReady, $ready);
+        $this->assertSame(['Elok', 'Soalan rosak sudah dibuang'], $expectedReady, 'the guard itself must see healthy quizzes');
+        $this->assertCount(4, $expectedBroken);
+        $attention['broken']->each(fn ($row) => $this->assertNotEmpty($row['problems']));
+    }
+
     public function test_deleted_questions_drop_out_of_the_hardest_list(): void
     {
         $quiz = $this->publishedQuiz(1);
