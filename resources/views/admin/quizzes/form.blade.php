@@ -109,7 +109,7 @@
         </section>
 
         {{-- 2. How it is played. Settings for each concept come from the concept itself. --}}
-        <section class="panel form__section" aria-labelledby="sec-play" x-data="{ concept: @js($conceptKey) }">
+        <section class="panel form__section" aria-labelledby="sec-play" x-data="conceptPicker(@js($conceptKey))">
             <h2 class="panel__title" id="sec-play">{{ __('quizzes.sections.play') }}</h2>
             <p class="field__hint">{{ __('quizzes.fields.concept_help') }}</p>
 

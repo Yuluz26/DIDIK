@@ -28,7 +28,7 @@
             <x-field name="position" type="number" min="0" max="999" :label="__('collections.fields.position')" :help="__('collections.fields.position_help')" :value="$collection->position" />
         </div>
 
-        <fieldset class="form__section" x-data="linkList(@js($config))">
+        <fieldset class="form__section" x-data="linkList(@literal($config))">
             <legend class="field__label">{{ __('collections.fields.links') }}</legend>
             <p class="field__hint">{{ __('collections.fields.links_help') }}</p>
 

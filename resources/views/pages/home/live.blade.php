@@ -14,7 +14,7 @@
     ];
 @endphp
 
-<div class="live" x-data="liveQuestion(@js($payload))">
+<div class="live" x-data="liveQuestion(@literal($payload))">
     <div class="live__head">
         <h2 class="live__title">{{ __('public.home.live.heading') }}</h2>
         <p class="live__from">{{ __('public.home.live.from', ['title' => $live['quiz']->title]) }}</p>

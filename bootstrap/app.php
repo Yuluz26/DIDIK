@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\EnsureAdmin;
+use App\Http\Middleware\SecurityHeaders;
 use Illuminate\Contracts\Auth\Middleware\AuthenticatesRequests;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -22,6 +23,12 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias(['admin' => EnsureAdmin::class]);
+        $middleware->append(SecurityHeaders::class);
+        // Requests for any other Host are refused (400), so a forged Host header cannot put an
+        // attacker's address into generated links. Off in local and testing (the framework skips it).
+        $middleware->trustHosts(
+            at: fn () => array_map(fn (string $host) => '^'.preg_quote($host, '/').'$', config('didik.trusted_hosts')),
+        );
         // The role check must run before route-model binding: otherwise a signed-in user without
         // the role learns which records exist (404 vs 403) before being refused.
         $middleware->appendToPriorityList(AuthenticatesRequests::class, EnsureAdmin::class);

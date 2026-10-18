@@ -31,7 +31,7 @@
 @endphp
 
 <x-layouts.public :title="$quiz->title" :noindex="true" :minimal="true" :body-class="'page-play concept-'.$concept->key()">
-    <div class="player theme-{{ $theme }}" x-data="quizPlayer(@js($config))" x-init="start()">
+    <div class="player theme-{{ $theme }}" x-data="quizPlayer(@literal($config))" x-init="start()">
         <noscript>
             <div class="container"><p class="alert alert--warn">{{ __('public.player.no_script') }}</p></div>
         </noscript>

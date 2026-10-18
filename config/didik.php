@@ -14,4 +14,23 @@ return [
     */
     'quizizz_hosts' => ['quizizz.com', 'wayground.com', 'joinmyquiz.com'],
 
+    /*
+    | Content-Security-Policy on every response (scripts and styles from this site only). Leave on:
+    | it is what limits the damage if a page ever echoes something it should not.
+    */
+    'csp' => (bool) env('DIDIK_CSP', true),
+
+    /*
+    | Strict-Transport-Security max-age in seconds, sent only on HTTPS responses. 0 turns it off.
+    | Six months by default; raise it once HTTPS is settled.
+    */
+    'hsts_seconds' => (int) env('DIDIK_HSTS_SECONDS', 15552000),
+
+    /*
+    | Host names the app answers to, besides APP_URL's own host and its subdomains. Needed when the
+    | site is also served on another name (for example the bare domain next to www). Plain host
+    | names, comma separated. Only enforced outside local and testing.
+    */
+    'trusted_hosts' => array_values(array_filter(array_map('trim', explode(',', (string) env('TRUSTED_HOSTS', ''))))),
+
 ];

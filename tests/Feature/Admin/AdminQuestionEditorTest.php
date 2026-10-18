@@ -104,6 +104,26 @@ class AdminQuestionEditorTest extends TestCase
         $this->assertDatabaseCount('questions', 2);
     }
 
+    public function test_saving_again_without_changing_anything_keeps_every_marked_answer(): void
+    {
+        // Regression: re-saving cleared the right answer of every question that was not changed.
+        $quiz = $this->publishedQuiz(3);
+        $this->save($quiz, [...$this->loaded($quiz), $this->trueFalse(['correct' => 1])])->assertSessionHasNoErrors();
+
+        $marked = fn () => $quiz->questions()->with('options')->get()
+            ->map(fn (Question $q) => $q->options->search(fn ($o) => $o->is_correct))->all();
+        $before = $marked();
+        $this->assertSame([0, 0, 0, 1], $before);
+
+        // Save the very same set twice more, as the editor would post it back.
+        foreach ([1, 2] as $round) {
+            $this->save($quiz, $this->loaded($quiz))->assertSessionHasNoErrors();
+
+            $this->assertSame($before, $marked(), "round {$round}");
+            $this->assertSame(0, $quiz->fresh()->publishingProblems() === [] ? 0 : 1, 'the quiz must still be publishable');
+        }
+    }
+
     public function test_reordering_changes_positions_but_not_ids(): void
     {
         $quiz = $this->publishedQuiz(3);

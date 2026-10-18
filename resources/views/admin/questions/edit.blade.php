@@ -34,7 +34,7 @@
     </x-slot:actions>
 
     <form method="post" action="{{ route('admin.quizzes.questions.update', $quiz) }}" novalidate
-          x-data="questionEditor(@js($config))" @input="markDirty()" @submit="submit()" @click="reveal($event)">
+          x-data="questionEditor(@literal($config))" @input="markDirty()" @submit="submit()" @click="reveal($event)">
         @csrf
         @method('PUT')
 

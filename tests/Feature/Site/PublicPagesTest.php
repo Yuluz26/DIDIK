@@ -4,8 +4,11 @@ namespace Tests\Feature\Site;
 
 use App\Enums\Difficulty;
 use App\Models\Category;
+use App\Models\Question;
+use App\Models\Quiz;
 use App\Models\SchoolLevel;
 use App\Models\Tag;
+use App\Services\LiveQuestion;
 use Database\Seeders\ReferenceDataSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Concerns\CreatesQuizzes;
@@ -44,9 +47,9 @@ class PublicPagesTest extends TestCase
         $html = $this->get('/')->assertOk()->getContent();
 
         // The browser gets option ids and text so it can show them; nothing says which is right.
-        // @js() renders JSON.parse('...') with quotes escaped as \u0022: read it as a JSON string, then as JSON.
-        preg_match("/liveQuestion\\(JSON\\.parse\\('(.*?)'\\)\\)/s", $html, $match);
-        $payload = json_decode(json_decode('"'.$match[1].'"', flags: JSON_THROW_ON_ERROR), true, flags: JSON_THROW_ON_ERROR);
+        // The component's data is a plain object literal in the attribute (Alpine's CSP build has no JSON.parse).
+        preg_match('/x-data="liveQuestion\((.*?)\)"/s', $html, $match);
+        $payload = json_decode(html_entity_decode($match[1], ENT_QUOTES), true, flags: JSON_THROW_ON_ERROR);
 
         $this->assertSame($question->id, $payload['question']['id']);
         $this->assertCount(3, $payload['question']['options']);
@@ -78,6 +81,64 @@ class PublicPagesTest extends TestCase
         $this->postJson(route('live.answer'), ['question_id' => $visible->id, 'option_id' => $hidden->options()->value('id')])
             ->assertNotFound();
         $this->postJson(route('live.answer'), ['question_id' => 'abc'])->assertUnprocessable();
+    }
+
+    public function test_the_live_question_endpoint_will_not_reveal_answers_for_any_other_question(): void
+    {
+        // Several quizzes, one of which holds its feedback back until the end of the quiz.
+        $this->publishedQuiz(3);
+        $this->publishedQuiz(3, ['feedback_mode' => 'end']);
+        $this->publishedQuiz(3);
+
+        $featured = app(LiveQuestion::class)->today();
+        $this->assertNotNull($featured);
+
+        $others = Question::whereKeyNot($featured['question_id'])->with('options')->get();
+        $this->assertGreaterThanOrEqual(8, $others->count());
+
+        // The question on the homepage can be answered...
+        $this->postJson(route('live.answer'), ['question_id' => $featured['question_id'], 'option_id' => $featured['options'][0]['id']])
+            ->assertOk()->assertJsonStructure(['correct', 'correct_option_id']);
+
+        // ...but nothing else can be asked about, however valid the ids are. The only other question that
+        // answers is yesterday's, kept for a child who loaded the page before midnight.
+        $answerable = $others->filter(fn ($question) => $this->postJson(route('live.answer'), [
+            'question_id' => $question->id,
+            'option_id' => $question->options->first()->id,
+        ])->status() === 200);
+
+        $this->assertLessThanOrEqual(1, $answerable->count());
+    }
+
+    public function test_the_featured_question_stays_the_same_all_day_and_yesterdays_still_answers_after_midnight(): void
+    {
+        $this->travelTo(now()->setTime(23, 50));
+        $this->publishedQuiz(2);
+        $first = app(LiveQuestion::class)->today();
+
+        // New content during the day does not change the pick.
+        $this->publishedQuiz(4);
+        $this->assertSame($first['question_id'], app(LiveQuestion::class)->today()['question_id']);
+
+        // Just after midnight a child who loaded the page earlier can still check their answer.
+        $this->travelTo(now()->addMinutes(20));
+        $this->postJson(route('live.answer'), ['question_id' => $first['question_id'], 'option_id' => $first['options'][0]['id']])
+            ->assertOk();
+    }
+
+    public function test_a_featured_question_that_was_taken_down_is_replaced(): void
+    {
+        $quiz = $this->publishedQuiz(1);
+        $this->publishedQuiz(1);
+        $live = app(LiveQuestion::class);
+        $before = $live->today()['question_id'];
+
+        Quiz::whereKey(Question::find($before)->quiz_id)->update(['status' => 'draft']);
+
+        $after = $live->today();
+        $this->assertNotNull($after);
+        $this->assertNotSame($before, $after['question_id']);
+        $this->postJson(route('live.answer'), ['question_id' => $before, 'option_id' => 1])->assertNotFound();
     }
 
     public function test_browse_lists_only_quizzes_the_public_may_see(): void

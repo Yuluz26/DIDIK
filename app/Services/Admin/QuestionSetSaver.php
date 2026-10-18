@@ -68,14 +68,17 @@ class QuestionSetSaver
                 'correct' => $index === $correct,
             ])->all();
 
+        // The database allows one correct option per question, so clear the flags before setting one.
+        // Do this BEFORE reading the rows: Eloquent only writes what changed from the state it loaded,
+        // so a row read earlier that was already correct would see "true -> true", write nothing, and
+        // be left cleared by this statement.
+        $question->options()->update(['is_correct' => false]);
+
         $current = $question->options()->get();
         $byId = $current->keyBy('id');
 
         // True/false reuses the first two rows whatever their ids, so a type change loses nothing.
         $reuse = $current->values();
-
-        // The database allows one correct option per question, so clear the flag before setting it.
-        $question->options()->update(['is_correct' => false]);
 
         $kept = [];
 
