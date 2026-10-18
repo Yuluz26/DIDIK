@@ -27,6 +27,25 @@
     opacity: 1;
 }
 
+/* The native file picker, dressed like the rest of the form instead of the browser default */
+.field__control[type='file'] {
+    padding: var(--space-2);
+    color: var(--ink-2);
+    cursor: pointer;
+}
+
+.field__control[type='file']::file-selector-button {
+    margin-inline-end: var(--space-3);
+    padding: var(--space-2) var(--space-4);
+    border: 0;
+    border-radius: var(--radius-pill);
+    background: var(--ground);
+    box-shadow: var(--raised-1);
+    color: var(--ink);
+    font: 800 var(--fs-small) / 1.2 var(--font-body);
+    cursor: pointer;
+}
+
 textarea.field__control {
     min-height: 7rem;
     resize: vertical;

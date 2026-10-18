@@ -25,10 +25,6 @@
         {{ $label }}@if ($required)<span class="field__flag">{{ __('admin.common.required') }}</span>@endif
     </label>
 
-    @if ($help)
-        <p class="field__hint" id="{{ $id }}-help">{{ $help }}</p>
-    @endif
-
     @if ($control === 'select')
         <select
             {{ $attributes->merge(['class' => 'field__control']) }}
@@ -58,6 +54,12 @@
             @if ($hasError) aria-invalid="true" @endif
             @if ($describedBy) aria-describedby="{{ $describedBy }}" @endif
         >
+    @endif
+
+    {{-- Help sits under the control, not between label and control, so controls in one row line up
+         whatever the help text above or beside them needs. aria-describedby ties it to the control. --}}
+    @if ($help)
+        <p class="field__hint" id="{{ $id }}-help">{{ $help }}</p>
     @endif
 
     @if ($hasError)
