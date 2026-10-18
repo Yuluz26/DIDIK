@@ -28,10 +28,16 @@ final class Svg
             ? ' aria-hidden="true"'
             : ' role="img" aria-label="'.e($label).'"';
 
-        // Drop the file's own size and class, keep its viewBox and stroke settings.
-        $markup = preg_replace('/\s(width|height|class)="[^"]*"/', '', $markup);
+        // Only the root <svg> tag loses its own size and class. Shapes inside keep theirs: a <rect>
+        // without its width and height is invisible.
+        $markup = preg_replace_callback(
+            '/^<svg\b[^>]*>/s',
+            fn (array $root) => '<svg '.$attributes.preg_replace('/\s(?:width|height|class)="[^"]*"|^<svg/', '', $root[0]),
+            $markup,
+            1,
+        );
 
-        return new HtmlString(preg_replace('/^<svg/', '<svg '.$attributes, $markup, 1));
+        return new HtmlString($markup);
     }
 
     private static function read(string $name): string
