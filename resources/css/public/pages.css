@@ -1,0 +1,247 @@
+/* Shared page furniture for the inner pages */
+.page-head {
+    display: grid;
+    gap: var(--space-3);
+    max-width: 40rem;
+    padding-block: var(--space-6) var(--space-6);
+}
+
+.page-title {
+    font: 600 var(--fs-h2) / 1.12 var(--font-display);
+}
+
+.lead {
+    font-size: 1.25rem;
+}
+
+/* A heading one step below the page title: same family, clearly smaller */
+.subhead {
+    font: 500 var(--fs-h3) / 1.2 var(--font-display);
+}
+
+/* Browse */
+.browse {
+    display: grid;
+    gap: var(--space-6);
+    padding-bottom: var(--space-6);
+}
+
+@media (min-width: 64rem) {
+    .browse {
+        grid-template-columns: 19rem minmax(0, 1fr);
+        gap: var(--space-8);
+        align-items: start;
+    }
+}
+
+.filters {
+    display: grid;
+    gap: var(--space-5);
+}
+
+.filters > summary {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: 3rem;
+    font-weight: 800;
+    list-style: none;
+    cursor: pointer;
+}
+
+.filters > summary::-webkit-details-marker {
+    display: none;
+}
+
+@media (min-width: 64rem) {
+    .filters {
+        position: sticky;
+        inset-block-start: var(--space-5);
+    }
+
+    .filters > summary {
+        display: none;
+    }
+}
+
+.filters__body {
+    display: grid;
+    gap: var(--space-5);
+    padding-top: var(--space-3);
+}
+
+.search {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--space-3);
+    align-items: end;
+}
+
+.filter-group {
+    display: grid;
+    gap: var(--space-3);
+}
+
+.filter-group__label {
+    font-size: var(--fs-body);
+    font-weight: 800;
+}
+
+.results__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-3);
+    margin-bottom: var(--space-5);
+}
+
+.results__count {
+    font: 600 var(--fs-h3) / 1.2 var(--font-display);
+}
+
+.results__list {
+    display: grid;
+    gap: var(--space-4);
+    list-style: none;
+}
+
+.empty {
+    display: grid;
+    justify-items: center;
+    gap: var(--space-4);
+    padding: var(--space-7) var(--space-4);
+    text-align: center;
+}
+
+.empty__title {
+    font-size: var(--fs-h2);
+}
+
+.empty p {
+    max-width: 26rem;
+}
+
+/* Pagination */
+.pager {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    align-items: center;
+    justify-content: center;
+    margin-top: var(--space-6);
+    list-style: none;
+}
+
+/* Quiz introduction */
+.intro {
+    display: grid;
+    gap: var(--space-6);
+    padding-bottom: var(--space-6);
+}
+
+@media (min-width: 64rem) {
+    .intro {
+        grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+        gap: var(--space-8);
+        align-items: start;
+    }
+}
+
+.intro__main {
+    display: grid;
+    justify-items: start;
+    gap: var(--space-5);
+}
+
+.facts {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    gap: var(--space-3) var(--space-5);
+    margin: 0;
+}
+
+.facts dt {
+    color: var(--ink-2);
+    font-weight: 800;
+}
+
+.facts dd {
+    margin: 0;
+    font-weight: 800;
+}
+
+.intro__rules {
+    display: grid;
+    gap: var(--space-4);
+    margin-top: var(--space-4);
+}
+
+.intro__visual {
+    display: grid;
+    gap: var(--space-5);
+}
+
+.intro__visual h2 {
+    font-size: var(--fs-h3);
+}
+
+.intro__start {
+    display: grid;
+    justify-items: start;
+    gap: var(--space-3);
+}
+
+.intro__note {
+    color: var(--ink-2);
+    font-weight: 700;
+}
+
+/* Quizizz pages */
+.collections {
+    display: grid;
+    gap: var(--space-8);
+}
+
+.collection__head {
+    display: grid;
+    gap: var(--space-2);
+    margin-bottom: var(--space-5);
+}
+
+.collection__head h2 a {
+    color: var(--ink);
+    text-decoration: none;
+}
+
+/* Long-form text: about and privacy */
+.prose {
+    display: grid;
+    gap: var(--space-5);
+    padding-bottom: var(--space-6);
+}
+
+.prose h2 {
+    margin-top: var(--space-4);
+    font-size: var(--fs-h3);
+}
+
+.prose ul,
+.prose ol {
+    display: grid;
+    gap: var(--space-3);
+    padding-inline-start: 1.25rem;
+}
+
+/* Error pages */
+.error-page {
+    display: grid;
+    justify-items: center;
+    gap: var(--space-5);
+    padding-block: var(--space-8);
+    text-align: center;
+}
+
+.error-page p {
+    max-width: 28rem;
+}

@@ -34,9 +34,9 @@ class ReferenceDataSeeder extends Seeder
         }
 
         $subjects = [
-            ['Bahasa Melayu', 'bahasa-melayu', CategoryTheme::Peach, 'book'],
+            ['Bahasa Melayu', 'bahasa-melayu', CategoryTheme::Peach, 'book-open'],
             ['Matematik', 'matematik', CategoryTheme::Sky, 'calculator'],
-            ['Sains', 'sains', CategoryTheme::Butter, 'flask'],
+            ['Sains', 'sains', CategoryTheme::Butter, 'flask-conical'],
             ['Bahasa Inggeris', 'bahasa-inggeris', CategoryTheme::Lilac, 'languages'],
         ];
 

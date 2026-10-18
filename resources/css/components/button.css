@@ -1,0 +1,121 @@
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+    min-height: 3.5rem;
+    padding: 0 var(--space-6);
+    border: 0;
+    border-radius: var(--radius-pill);
+    background: var(--ground);
+    color: var(--ink);
+    box-shadow: var(--raised-2);
+    font: 600 1.125rem / 1.1 var(--font-display);
+    text-align: center;
+    text-decoration: none;
+    transition:
+        box-shadow var(--dur-state) var(--ease-out),
+        transform var(--dur-state) var(--ease-out),
+        background-color var(--dur-state) var(--ease-out);
+}
+
+.btn:active {
+    transform: none;
+    box-shadow: var(--inset-2);
+    transition-duration: var(--dur-press);
+}
+
+.btn[aria-disabled='true'],
+.btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    box-shadow: var(--raised-1);
+}
+
+@media (hover: hover) {
+    .btn:hover:not([aria-disabled='true'], :disabled) {
+        box-shadow: var(--raised-3);
+        transform: translateY(-1px);
+        color: var(--ink);
+    }
+
+    .btn:active:not([aria-disabled='true'], :disabled) {
+        transform: none;
+        box-shadow: var(--inset-2);
+    }
+}
+
+/* The one action on a screen. Flat brand fill, full-contrast label. */
+.btn--primary {
+    background: var(--brand);
+    color: var(--on-brand);
+    box-shadow: 5px 5px 14px rgb(28 107 74 / 0.38), -5px -5px 12px var(--light);
+}
+
+.btn--primary:active {
+    box-shadow: inset 4px 4px 10px rgb(0 0 0 / 0.28);
+}
+
+@media (hover: hover) {
+    .btn--primary:hover:not([aria-disabled='true'], :disabled) {
+        background: var(--brand-hover);
+        color: var(--on-brand);
+        box-shadow: 8px 8px 20px rgb(28 107 74 / 0.4), -6px -6px 14px var(--light);
+    }
+
+    .btn--primary:active:not([aria-disabled='true'], :disabled) {
+        box-shadow: inset 4px 4px 10px rgb(0 0 0 / 0.28);
+    }
+}
+
+.btn--quiet {
+    min-height: 3rem;
+    padding-inline: var(--space-4);
+    background: transparent;
+    color: var(--brand);
+    box-shadow: none;
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+}
+
+.btn--quiet:active {
+    box-shadow: none;
+}
+
+@media (hover: hover) {
+    .btn--quiet:hover:not([aria-disabled='true'], :disabled) {
+        background: transparent;
+        box-shadow: none;
+        transform: none;
+        color: var(--brand-hover);
+    }
+}
+
+.btn--danger {
+    background: var(--danger);
+    color: var(--on-brand);
+}
+
+@media (hover: hover) {
+    .btn--danger:hover:not([aria-disabled='true'], :disabled) {
+        background: var(--danger);
+        color: var(--on-brand);
+        filter: brightness(0.92);
+    }
+}
+
+.btn--sm {
+    min-height: 3rem;
+    padding-inline: var(--space-5);
+    font-size: 1rem;
+}
+
+.btn--icon {
+    width: 3rem;
+    min-height: 3rem;
+    padding: 0;
+}
+
+.btn--block {
+    width: 100%;
+}

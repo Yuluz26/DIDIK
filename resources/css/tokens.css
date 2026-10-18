@@ -1,0 +1,114 @@
+/*
+ * DIDIK design tokens: the single source of truth for colour, type, space, depth and motion.
+ * Specified in docs/design/DESIGN.md. Colour pairs are checked by tests/Unit/DesignTokenContrastTest.php,
+ * so keep each colour as one plain `--name: #hex;` declaration.
+ */
+:root {
+    color-scheme: light;
+
+    /* Ground and ink */
+    --ground: #e8f0eb;
+    --ink: #17241d;
+    --ink-2: #3e5247;
+    --brand: #1c6b4a;
+    --brand-hover: #165a3d;
+    --on-brand: #ffffff;
+    --focus: #1d4ed8;
+    --river: #cfe6f2;
+    --star-fill: #f5c04a;
+    --star-stroke: #8c5e00;
+
+    /* Feedback: each tint is only ever used with its own ink */
+    --tint-ok: #cdebd8;
+    --ink-ok: #14532d;
+    --tint-hint: #ffe1d2;
+    --ink-hint: #8a2f0b;
+    --tint-info: #d3e8f8;
+    --ink-info: #174f78;
+
+    /* Subjects: names match App\Enums\CategoryTheme */
+    --tint-peach: #ffdccc;
+    --ink-peach: #7a3115;
+    --tint-sky: #d3e8f8;
+    --ink-sky: #174f78;
+    --tint-butter: #fbebb5;
+    --ink-butter: #6b4e00;
+    --tint-lilac: #e4daf6;
+    --ink-lilac: #4f3689;
+    --tint-mint: #cdebd8;
+    --ink-mint: #1b5e3f;
+
+    /* Didi, the mascot */
+    --didi-fur: #e7b98a;
+    --didi-shade: #c88f5a;
+    --didi-belly: #fff4e6;
+    --didi-ear: #f7c6c0;
+
+    /* Admin */
+    --admin-bg: #f3f6f4;
+    --panel: #ffffff;
+    --field-border: #6f847a;
+    --danger: #b42318;
+    --warn-tint: #fdefc8;
+    --warn-ink: #7a4b00;
+
+    /* Depth: light from the top left. Raised means pressable, inset means chosen or holding something. */
+    --light: rgb(255 255 255 / 0.95);
+    --dark: rgb(98 128 112 / 0.32);
+    --raised-1: 3px 3px 8px var(--dark), -3px -3px 8px var(--light);
+    --raised-2: 6px 6px 16px var(--dark), -6px -6px 16px var(--light);
+    --raised-3: 12px 12px 28px var(--dark), -10px -10px 24px var(--light);
+    --inset-1: inset 3px 3px 7px var(--dark), inset -3px -3px 7px var(--light);
+    --inset-2: inset 6px 6px 14px var(--dark), inset -6px -6px 14px var(--light);
+
+    /* Type */
+    --font-display: 'Fredoka Variable', ui-rounded, 'Hiragino Maru Gothic ProN', system-ui, sans-serif;
+    --font-body: 'Nunito Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    --fs-display: clamp(2.25rem, 1rem + 4vw, 3.5rem);
+    --fs-h2: clamp(1.75rem, 1.2rem + 2.2vw, 2.75rem);
+    --fs-h3: clamp(1.25rem, 1.05rem + 1vw, 1.625rem);
+    --fs-body: 1.125rem;
+    --fs-small: 0.9375rem;
+
+    /* Space (4px base) */
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-5: 1.5rem;
+    --space-6: 2rem;
+    --space-7: 3rem;
+    --space-8: 4rem;
+    --space-9: 6rem;
+    --section-gap: clamp(4rem, 10vw, 8rem);
+
+    /* Shape: four radii and nothing else */
+    --radius-sm: 12px;
+    --radius-md: 20px;
+    --radius-lg: 28px;
+    --radius-pill: 999px;
+
+    /* Layout */
+    --gutter: clamp(1rem, 4vw, 2rem);
+    --container: 72rem;
+    --reading: 40rem;
+
+    /* Motion: only transform, opacity and shadow animate. Reduced motion zeroes the durations below. */
+    --dur-press: 120ms;
+    --dur-state: 200ms;
+    --dur-feedback: 320ms;
+    --dur-hop: 520ms;
+    --stagger: 140ms;
+    --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+    --ease-hop: cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    :root {
+        --dur-press: 0.01ms;
+        --dur-state: 0.01ms;
+        --dur-feedback: 0.01ms;
+        --dur-hop: 0.01ms;
+        --stagger: 0ms;
+    }
+}

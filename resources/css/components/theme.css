@@ -1,0 +1,6 @@
+/* Subject colours. Set on any element; children read --theme-tint and --theme-ink. */
+.theme-peach { --theme-tint: var(--tint-peach); --theme-ink: var(--ink-peach); }
+.theme-sky { --theme-tint: var(--tint-sky); --theme-ink: var(--ink-sky); }
+.theme-butter { --theme-tint: var(--tint-butter); --theme-ink: var(--ink-butter); }
+.theme-lilac { --theme-tint: var(--tint-lilac); --theme-ink: var(--ink-lilac); }
+.theme-mint { --theme-tint: var(--tint-mint); --theme-ink: var(--ink-mint); }

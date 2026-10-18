@@ -1,0 +1,118 @@
+/* One quiz per row: the subject as a coloured disc, the title, a play button. Not a card grid. */
+.quiz-row {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-3) var(--space-3) var(--space-3) var(--space-3);
+    border-radius: var(--radius-lg);
+    background: var(--ground);
+    box-shadow: var(--raised-2);
+    transition:
+        box-shadow var(--dur-state) var(--ease-out),
+        transform var(--dur-state) var(--ease-out);
+}
+
+@media (hover: hover) {
+    .quiz-row:hover {
+        box-shadow: var(--raised-3);
+        transform: translateY(-1px);
+    }
+}
+
+.quiz-row__disc {
+    display: grid;
+    place-items: center;
+    width: 3.75rem;
+    height: 3.75rem;
+    border-radius: 50%;
+    background: var(--theme-tint, var(--tint-mint));
+    color: var(--theme-ink, var(--ink-mint));
+    box-shadow: var(--raised-1);
+}
+
+.quiz-row__disc .icon {
+    width: 1.75rem;
+    height: 1.75rem;
+}
+
+.quiz-row__title {
+    font-size: var(--fs-h3);
+    line-height: 1.15;
+}
+
+.quiz-row__title a {
+    color: var(--ink);
+    text-decoration: none;
+}
+
+/* The whole row is the link to the introduction; the play button sits above it. */
+.quiz-row__title a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+}
+
+.quiz-row__title a:focus-visible {
+    outline: none;
+}
+
+.quiz-row:has(.quiz-row__title a:focus-visible) {
+    outline: 3px solid var(--focus);
+    outline-offset: 3px;
+}
+
+.quiz-row__meta {
+    margin-top: var(--space-1);
+    color: var(--ink-2);
+    font-size: var(--fs-small);
+    font-weight: 700;
+}
+
+.quiz-row__play {
+    position: relative;
+    z-index: 1;
+}
+
+/* Quizizz link: an external activity, labelled as such */
+.link-row {
+    display: grid;
+    gap: var(--space-3) var(--space-4);
+    padding: var(--space-4);
+    border-radius: var(--radius-lg);
+    background: var(--ground);
+    box-shadow: var(--raised-2);
+}
+
+@media (min-width: 40rem) {
+    .link-row {
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        align-items: center;
+    }
+}
+
+.link-row__thumb {
+    width: 3.75rem;
+    height: 3.75rem;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: var(--raised-1);
+}
+
+.link-row__title {
+    font-size: var(--fs-h3);
+    line-height: 1.15;
+}
+
+.link-row__text {
+    margin-top: var(--space-1);
+}
+
+.link-row__meta {
+    margin-top: var(--space-1);
+    color: var(--ink-2);
+    font-size: var(--fs-small);
+    font-weight: 700;
+}

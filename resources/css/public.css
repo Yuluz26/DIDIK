@@ -1,0 +1,26 @@
+@layer reset, tokens, base, components, pages;
+
+@import './fonts.css';
+@import './tokens.css' layer(tokens);
+@import './base.css' layer(base);
+
+@import './components/icon.css' layer(components);
+@import './components/surface.css' layer(components);
+@import './components/button.css' layer(components);
+@import './components/chip.css' layer(components);
+@import './components/field.css' layer(components);
+@import './components/alert.css' layer(components);
+@import './components/river.css' layer(components);
+@import './components/star.css' layer(components);
+@import './components/mascot.css' layer(components);
+@import './components/dialog.css' layer(components);
+@import './components/theme.css' layer(components);
+@import './components/answer.css' layer(components);
+
+@import './public/layout.css' layer(pages);
+@import './public/rows.css' layer(pages);
+@import './public/home.css' layer(pages);
+@import './public/games.css' layer(pages);
+@import './public/player.css' layer(pages);
+@import './public/pages.css' layer(pages);
+@import './public/result.css' layer(pages);

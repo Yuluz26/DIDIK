@@ -1,0 +1,22 @@
+.dialog {
+    width: min(100% - 2 * var(--gutter), 28rem);
+    max-height: calc(100dvh - 2 * var(--gutter));
+    padding: var(--space-6);
+    border: 0;
+    border-radius: var(--radius-lg);
+    background: var(--ground);
+    color: var(--ink);
+    box-shadow: var(--raised-3);
+}
+
+.dialog::backdrop {
+    background: rgb(23 36 29 / 0.55);
+}
+
+.dialog__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    justify-content: flex-end;
+    margin-top: var(--space-5);
+}

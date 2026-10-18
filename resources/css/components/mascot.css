@@ -1,0 +1,35 @@
+/* Didi the mouse-deer. Colours come from tokens so the art stays in one place. */
+.mascot {
+    width: var(--mascot-size, 8rem);
+    height: auto;
+}
+
+/* Shared by the full drawing and the small logo mark */
+:is(.mascot, .logo__mark) .m-fur { fill: var(--didi-fur); }
+:is(.mascot, .logo__mark) .m-shade { fill: var(--didi-shade); }
+:is(.mascot, .logo__mark) .m-belly { fill: var(--didi-belly); }
+:is(.mascot, .logo__mark) .m-ear { fill: var(--didi-ear); }
+:is(.mascot, .logo__mark) .m-scarf { fill: var(--brand); }
+:is(.mascot, .logo__mark) .m-ink { fill: var(--ink); }
+:is(.mascot, .logo__mark) .m-white { fill: var(--panel); }
+:is(.mascot, .logo__mark) .m-cheek { fill: var(--didi-ear); opacity: 0.75; }
+
+.mascot .m-line {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 3.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.mascot .m-arm {
+    fill: none;
+    stroke: var(--didi-fur);
+    stroke-width: 16;
+    stroke-linecap: round;
+}
+
+.mascot--sm { --mascot-size: 4rem; }
+.mascot--md { --mascot-size: 8rem; }
+.mascot--lg { --mascot-size: 12rem; }
+.mascot--xl { --mascot-size: 18rem; }

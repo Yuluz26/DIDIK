@@ -1,0 +1,186 @@
+/* The quiz player: the same layout for every game concept. Concepts add a progress strip only. */
+.player {
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding-bottom: var(--space-8);
+}
+
+.player__bar {
+    padding-block: var(--space-4);
+}
+
+.player__bar-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+}
+
+.player__title {
+    display: none;
+    flex: 1;
+    overflow: hidden;
+    font: 600 var(--fs-body) / 1.2 var(--font-display);
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+@media (min-width: 40rem) {
+    .player__title {
+        display: block;
+    }
+}
+
+.player__position {
+    color: var(--ink-2);
+    font-size: var(--fs-small);
+    font-weight: 800;
+}
+
+.player__progress {
+    width: min(100% - 2 * var(--gutter), 44rem);
+    padding-block: var(--space-3) var(--space-5);
+}
+
+.stage {
+    display: grid;
+    gap: var(--space-5);
+    width: min(100% - 2 * var(--gutter), 44rem);
+}
+
+.stage__panel {
+    display: grid;
+    justify-items: center;
+    gap: var(--space-4);
+    padding-block: var(--space-7);
+    text-align: center;
+}
+
+.stage__title {
+    font-size: var(--fs-h2);
+}
+
+.stage__note {
+    font-weight: 800;
+}
+
+.stage__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    justify-content: center;
+}
+
+.question {
+    font: 600 var(--fs-h2) / 1.15 var(--font-display);
+    text-wrap: balance;
+}
+
+.answers {
+    display: grid;
+    gap: var(--space-4);
+    margin-top: var(--space-5);
+}
+
+/* Two and four answers sit in two columns; three read better in one. */
+@media (min-width: 48rem) {
+    .answers:not([data-count='3'], [data-count='1']) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* Feedback after an answer: a tint with its own ink, an icon, words and a way forward */
+.feedback {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: var(--space-4) var(--space-5);
+    margin-top: var(--space-5);
+    padding: var(--space-5);
+    border-radius: var(--radius-lg);
+    background: var(--tint-ok);
+    color: var(--ink-ok);
+    box-shadow: var(--inset-1);
+}
+
+.feedback[data-kind='hint'] {
+    background: var(--tint-hint);
+    color: var(--ink-hint);
+}
+
+.feedback[data-kind='recorded'] {
+    background: var(--tint-info);
+    color: var(--ink-info);
+}
+
+.feedback__body {
+    display: grid;
+    gap: var(--space-2);
+}
+
+.feedback__title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font: 600 var(--fs-h3) / 1.2 var(--font-display);
+}
+
+.feedback__answer {
+    font-weight: 800;
+}
+
+.feedback__answer,
+.feedback__explanation {
+    color: var(--ink);
+}
+
+.feedback__next {
+    grid-column: 1 / -1;
+}
+
+@media (min-width: 40rem) {
+    .feedback__next {
+        justify-self: end;
+    }
+}
+
+/* Kutip Bintang strip */
+.stars-strip {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3) var(--space-5);
+}
+
+.stars-strip__text {
+    color: var(--ink-2);
+    font-weight: 800;
+}
+
+.stars-strip__streak {
+    color: var(--ink-ok);
+    font-weight: 800;
+}
+
+.slot.is-answered {
+    background: var(--tint-info);
+    box-shadow: var(--raised-1);
+}
+
+/* Answered, but no star earned: kept as a gentle, empty slot */
+.slot.is-missed {
+    background: var(--tint-hint);
+    box-shadow: var(--raised-1);
+}
+
+/* Misi Berlevel strip */
+.path__caption {
+    margin-bottom: var(--space-3);
+    color: var(--ink-2);
+    font-weight: 800;
+}
+
+.path__stone.is-done {
+    background: var(--tint-info);
+}

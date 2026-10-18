@@ -251,6 +251,23 @@ class AttemptService
         return $attempt;
     }
 
+    /** The visitor's unfinished attempt for this quiz, if it is recent enough to resume. */
+    public function resumable(Quiz $quiz, string $sessionHash): ?Attempt
+    {
+        return $this->openAttempt($quiz, $sessionHash);
+    }
+
+    /** The visitor's most recently finished attempt for this quiz. */
+    public function lastFinished(Quiz $quiz, string $sessionHash): ?Attempt
+    {
+        return Attempt::where('quiz_id', $quiz->id)
+            ->where('session_hash', $sessionHash)
+            ->whereNotNull('completed_at')
+            ->latest('completed_at')
+            ->latest('id')
+            ->first();
+    }
+
     private function openAttempt(Quiz $quiz, string $sessionHash): ?Attempt
     {
         return Attempt::where('quiz_id', $quiz->id)

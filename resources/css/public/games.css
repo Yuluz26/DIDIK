@@ -1,0 +1,154 @@
+/*
+ * Progress, in the three shapes the game concepts use. The same classes draw the small
+ * demonstrations on the homepage and the live strips in the player.
+ */
+
+/* Dots and bar (Soalan & Jawapan) */
+.dots {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+    list-style: none;
+}
+
+.dots__dot {
+    width: 0.9rem;
+    height: 0.9rem;
+    border-radius: 50%;
+    box-shadow: var(--inset-1);
+}
+
+.dots__dot.is-done {
+    background: var(--brand);
+    box-shadow: none;
+}
+
+.dots__dot.is-current {
+    box-shadow: 0 0 0 3px var(--ground), 0 0 0 6px var(--brand);
+}
+
+.bar {
+    width: 100%;
+    height: 0.9rem;
+    overflow: hidden;
+    border-radius: var(--radius-pill);
+    box-shadow: var(--inset-1);
+}
+
+.bar__fill {
+    height: 100%;
+    border-radius: inherit;
+    background: var(--brand);
+    transform: scaleX(var(--progress, 0));
+    transform-origin: left center;
+    transition: transform var(--dur-feedback) var(--ease-out);
+}
+
+/* Star slots (Kutip Bintang): the slot is a hole until a star is earned */
+.slots {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    list-style: none;
+}
+
+.slot {
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    box-shadow: var(--inset-1);
+}
+
+.slot .star {
+    width: 1.6rem;
+    height: 1.6rem;
+    opacity: 0.5;
+}
+
+.slot.is-lit {
+    box-shadow: var(--raised-1);
+}
+
+.slot.is-lit .star {
+    opacity: 1;
+}
+
+.slot.is-current {
+    box-shadow: var(--inset-1), 0 0 0 3px var(--brand);
+}
+
+/*
+ * The river path (Misi Berlevel). One cell per bank or stone; Didi rides above the cells and
+ * moves exactly one cell per hop, so no position is calculated in script.
+ */
+.path {
+    position: relative;
+    width: 100%;
+    padding: 4.5rem var(--space-3) var(--space-4);
+    border-radius: var(--radius-md);
+    background: var(--river);
+    box-shadow: var(--inset-1);
+}
+
+.path__cells {
+    display: grid;
+    grid-template-columns: repeat(var(--count), minmax(0, 1fr));
+    list-style: none;
+}
+
+.path__cell {
+    display: grid;
+    place-items: center;
+    padding-inline: 0.2rem;
+}
+
+.path__stone,
+.path__bank {
+    display: grid;
+    place-items: center;
+    width: min(100%, 2.75rem);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--ground);
+    box-shadow: var(--raised-1);
+    color: var(--ink-2);
+}
+
+.path__bank {
+    box-shadow: var(--raised-2);
+    color: var(--brand);
+}
+
+.path__stone .icon,
+.path__bank .icon {
+    width: 55%;
+    height: 55%;
+}
+
+.path__stone.is-right {
+    background: var(--tint-ok);
+    color: var(--ink-ok);
+}
+
+.path__stone.is-wrong {
+    background: var(--tint-hint);
+    color: var(--ink-hint);
+}
+
+.path__stone.is-current {
+    box-shadow: var(--inset-1), 0 0 0 3px var(--brand);
+}
+
+.path__rider {
+    position: absolute;
+    inset-block-start: 0.25rem;
+    inset-inline-start: var(--space-3);
+    display: flex;
+    justify-content: center;
+    width: calc((100% - 2 * var(--space-3)) / var(--count));
+    transform: translateX(calc(var(--step, 0) * 100%));
+    transition: transform var(--dur-hop) var(--ease-hop);
+}

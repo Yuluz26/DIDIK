@@ -1,0 +1,17 @@
+/* Raised = can be pressed or lifts off the page. Inset = holds something or is chosen. */
+.surface {
+    padding: var(--space-6);
+    border-radius: var(--radius-lg);
+    background: var(--ground);
+    box-shadow: var(--raised-2);
+}
+
+.surface--well {
+    border-radius: var(--radius-md);
+    box-shadow: var(--inset-1);
+}
+
+.surface--river {
+    background: var(--river);
+    box-shadow: var(--inset-1);
+}

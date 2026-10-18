@@ -6,7 +6,13 @@ use App\Games\GameConceptRegistry;
 use App\Games\QuestionAnswer;
 use App\Games\RiverQuest;
 use App\Games\StarCollector;
+use App\Models\Quiz;
+use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -31,5 +37,13 @@ class AppServiceProvider extends ServiceProvider
         // Fail loudly in development and tests on N+1 queries, silently dropped attributes
         // and reads of attributes that were never loaded. Production stays forgiving.
         Model::shouldBeStrict(! $this->app->isProduction());
+
+        Paginator::defaultView('pagination.didik');
+
+        // The public face of a quiz: only published quizzes inside their availability window.
+        Route::bind('publicQuiz', fn (string $slug) => Quiz::available()->where('slug', $slug)->firstOrFail());
+
+        RateLimiter::for('attempts', fn (Request $request) => Limit::perMinute(30)->by($request->ip()));
+        RateLimiter::for('answers', fn (Request $request) => Limit::perMinute(120)->by($request->ip()));
     }
 }

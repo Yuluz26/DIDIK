@@ -17,6 +17,9 @@ class Category extends Model
 {
     use HasFactory, HasUniqueSlug;
 
+    /** Icons an admin may give a subject (file names in resources/svg/icons). */
+    public const ICONS = ['book-open', 'calculator', 'flask-conical', 'languages', 'shapes', 'sparkles', 'heart', 'waves'];
+
     protected function casts(): array
     {
         return [
@@ -59,7 +62,9 @@ class Category extends Model
     /** Ids of this category plus all of its topics, for "everything in this subject" filters. */
     public function withDescendantIds(): array
     {
-        return [$this->id, ...$this->children()->pluck('id')->all()];
+        $this->loadMissing('children');
+
+        return [$this->id, ...$this->children->pluck('id')->all()];
     }
 
     /** Theme used for display: topics follow their subject. */

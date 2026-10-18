@@ -1,0 +1,13 @@
+/* Stars carry their meaning in the outline, not the fill: the fill is decorative. */
+.star {
+    width: 1.5em;
+    height: 1.5em;
+    fill: transparent;
+    stroke: var(--ink-2);
+    stroke-width: 1.75;
+}
+
+.star--on {
+    fill: var(--star-fill);
+    stroke: var(--star-stroke);
+}

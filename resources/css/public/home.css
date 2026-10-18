@@ -1,0 +1,366 @@
+/* Page rhythm: the gap between sections is always clearly larger than any gap inside one. */
+.section {
+    margin-top: var(--section-gap);
+}
+
+.stack {
+    display: grid;
+    gap: var(--space-4);
+}
+
+.chip-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    list-style: none;
+}
+
+/* Stone bullets: the motif at text size */
+.stone-list {
+    display: grid;
+    gap: var(--space-4);
+    list-style: none;
+}
+
+.stone-list li {
+    position: relative;
+    padding-inline-start: 2.25rem;
+}
+
+.stone-list li::before {
+    content: '';
+    position: absolute;
+    inset-inline-start: 0;
+    inset-block-start: 0.4em;
+    width: 1.1rem;
+    height: 1.1rem;
+    border-radius: 50%;
+    background: var(--ground);
+    box-shadow: var(--raised-1);
+}
+
+/* 1. Hero */
+.hero {
+    padding-block: clamp(1rem, 4vw, 3rem) 0;
+    /* The river field below runs off the right edge of the screen; clip it instead of scrolling. */
+    overflow-x: clip;
+}
+
+.hero__grid {
+    display: grid;
+    gap: var(--space-7);
+    align-items: center;
+}
+
+@media (min-width: 64rem) {
+    .hero__grid {
+        grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+        gap: var(--space-8);
+    }
+}
+
+.hero__copy {
+    display: grid;
+    justify-items: start;
+    gap: var(--space-5);
+}
+
+.hero__lead {
+    max-width: 30rem;
+    font-size: 1.25rem;
+}
+
+.hero__live {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    justify-items: center;
+    padding-block: var(--space-6);
+}
+
+/* The river: one flat field of colour, bleeding off the screen edge. It is the motif at full size. */
+.hero__live::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    inset-block: 0;
+    inset-inline: calc(-1 * var(--gutter));
+    border-radius: var(--radius-lg);
+    background: var(--river);
+    box-shadow: var(--inset-1);
+}
+
+@media (min-width: 64rem) {
+    .hero__live {
+        padding: var(--space-7) 0 var(--space-7) var(--space-7);
+    }
+
+    .hero__live::before {
+        inset-inline-start: 0;
+        inset-inline-end: -50vw;
+        border-radius: 6rem 0 0 6rem;
+    }
+}
+
+/* The live question: a river panel with answer stones, Didi in the gutter beside them */
+.live {
+    display: grid;
+    gap: var(--space-5);
+    width: 100%;
+    padding-inline: var(--space-2);
+}
+
+.live__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-2) var(--space-4);
+}
+
+.live__title {
+    font-size: var(--fs-h3);
+}
+
+.live__from {
+    color: var(--ink-2);
+    font-size: var(--fs-small);
+    font-weight: 700;
+}
+
+.live__question {
+    margin-bottom: var(--space-5);
+    font: 600 var(--fs-h3) / 1.25 var(--font-display);
+}
+
+.live__field {
+    position: relative;
+    display: grid;
+    grid-template-columns: 4rem minmax(0, 1fr);
+    gap: var(--space-3);
+}
+
+.live__didi {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: -0.25rem;
+    width: 4rem;
+    transition: transform var(--dur-hop) var(--ease-hop);
+}
+
+.live__stones {
+    display: grid;
+    grid-column: 2;
+    gap: var(--space-4);
+    list-style: none;
+}
+
+@media (min-width: 40rem) {
+    .live__stones li:nth-child(even) {
+        margin-inline-start: var(--space-6);
+    }
+}
+
+.live__feedback {
+    display: grid;
+    justify-items: start;
+    gap: var(--space-3);
+    min-height: 4.5rem;
+}
+
+.live__message {
+    font-weight: 800;
+}
+
+.live__explanation {
+    color: var(--ink);
+}
+
+/* 2. Subjects */
+.subjects__grid {
+    display: grid;
+    gap: var(--space-8);
+    align-items: center;
+}
+
+@media (min-width: 64rem) {
+    .subjects__grid {
+        grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    }
+}
+
+.subjects__copy {
+    display: grid;
+    justify-items: start;
+    gap: var(--space-5);
+}
+
+.subjects__lead {
+    max-width: 30rem;
+}
+
+.subjects__levels-title {
+    margin-top: var(--space-3);
+}
+
+.subjects__stones {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-5);
+    padding-bottom: var(--space-6);
+    list-style: none;
+}
+
+/* Stepping stones: every second one sits lower */
+.subjects__stones li:nth-child(even) {
+    transform: translateY(var(--space-6));
+}
+
+.subject-stone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-1);
+    aspect-ratio: 1;
+    padding: var(--space-4);
+    border-radius: 50%;
+    background: var(--theme-tint);
+    color: var(--theme-ink);
+    box-shadow: var(--raised-2);
+    text-align: center;
+    text-decoration: none;
+    transition:
+        box-shadow var(--dur-state) var(--ease-out),
+        transform var(--dur-state) var(--ease-out);
+}
+
+.subject-stone .icon {
+    width: 2.25rem;
+    height: 2.25rem;
+    margin-bottom: var(--space-1);
+}
+
+.subject-stone__name {
+    font: 600 var(--fs-h3) / 1.1 var(--font-display);
+}
+
+.subject-stone__count {
+    font-size: var(--fs-small);
+    font-weight: 800;
+}
+
+@media (hover: hover) {
+    .subject-stone:hover {
+        box-shadow: var(--raised-3);
+        transform: translateY(-2px);
+        color: var(--theme-ink);
+    }
+}
+
+.subject-stone:active {
+    box-shadow: var(--inset-2);
+    transform: none;
+}
+
+/* 3. Ways to play */
+.ways__intro {
+    display: grid;
+    gap: var(--space-3);
+    max-width: 36rem;
+    margin-bottom: var(--space-8);
+}
+
+.ways__list {
+    display: grid;
+    gap: var(--space-8);
+    list-style: none;
+}
+
+.way {
+    display: grid;
+    gap: var(--space-5);
+    align-items: center;
+}
+
+@media (min-width: 48rem) {
+    .way {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: var(--space-8);
+    }
+
+    .way:nth-child(even) .way__visual {
+        order: 2;
+    }
+}
+
+.way__visual {
+    display: grid;
+    place-items: center;
+    align-content: center;
+    gap: var(--space-5);
+    min-height: 13rem;
+}
+
+.way__caption {
+    color: var(--ink-2);
+    font-weight: 800;
+}
+
+.way__question {
+    font: 600 var(--fs-h3) / 1.2 var(--font-display);
+}
+
+.way__answers {
+    display: grid;
+    gap: var(--space-3);
+    width: min(100%, 18rem);
+}
+
+.way__text {
+    display: grid;
+    justify-items: start;
+    gap: var(--space-3);
+}
+
+/* 4. Parents, on the river */
+.section-flush {
+    margin-top: var(--section-gap);
+}
+
+.parents {
+    padding-block: clamp(4rem, 9vw, 7rem);
+}
+
+.parents__grid {
+    display: grid;
+    gap: var(--space-6);
+    align-items: center;
+}
+
+@media (min-width: 48rem) {
+    .parents__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: var(--space-8);
+    }
+}
+
+.parents__body {
+    display: grid;
+    justify-items: start;
+    gap: var(--space-5);
+}
+
+/* 5. Quizizz teaser */
+.quizizz-teaser__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+}
+
+.quizizz-teaser__head p {
+    margin-top: var(--space-2);
+}

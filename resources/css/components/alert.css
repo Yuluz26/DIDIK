@@ -1,0 +1,20 @@
+/* Always icon + words + tint. Colour alone never carries the message. */
+.alert {
+    display: flex;
+    gap: var(--space-3);
+    align-items: flex-start;
+    padding: var(--space-4) var(--space-5);
+    border-radius: var(--radius-md);
+    background: var(--tint-info);
+    color: var(--ink-info);
+    font-weight: 700;
+}
+
+.alert .icon {
+    margin-top: 0.2em;
+}
+
+.alert--ok { background: var(--tint-ok); color: var(--ink-ok); }
+.alert--hint { background: var(--tint-hint); color: var(--ink-hint); }
+.alert--warn { background: var(--warn-tint); color: var(--warn-ink); }
+.alert--danger { background: var(--tint-hint); color: var(--danger); }
