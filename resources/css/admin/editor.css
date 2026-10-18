@@ -26,13 +26,65 @@
 }
 
 .q-card__number {
-    font: 600 var(--fs-h3) / 1 var(--font-display);
+    flex: 1 1 14rem;
+    min-width: 0;
+    font: 600 var(--fs-h3) / 1.2 var(--font-display);
 }
 
-.q-card__tools {
+/* The heading is a disclosure button: number first, and while folded the text and the right answer. */
+.q-card__toggle {
     display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2);
+    align-items: flex-start;
+    gap: var(--space-3);
+    inline-size: 100%;
+    min-height: 2.75rem;
+    padding: var(--space-1) 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    text-align: start;
+    cursor: pointer;
+}
+
+.q-card__toggle .icon {
+    flex: none;
+    margin-block-start: 0.15em;
+    transition: transform var(--dur-state) var(--ease-out);
+}
+
+.q-card__toggle[aria-expanded='false'] .icon {
+    transform: rotate(-90deg);
+}
+
+.q-card__label {
+    display: grid;
+    min-width: 0;
+}
+
+.q-card__summary,
+.q-card__answer {
+    overflow: hidden;
+    color: var(--ink-2);
+    font: 600 var(--fs-body) / 1.4 var(--font-body);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.q-card__answer {
+    font-size: var(--fs-small);
+    font-weight: 700;
+}
+
+.q-card__body {
+    display: grid;
+    gap: var(--space-4);
+}
+
+/* A folded card is just its heading row, so it takes less room than an open one. */
+.q-card[data-open='false'] {
+    gap: 0;
+    padding-block: var(--space-3);
 }
 
 .q-options {
@@ -86,6 +138,29 @@
 .savebar__state {
     flex: 1 1 12rem;
     font-weight: 800;
+}
+
+/* On a phone the bar covers a fifth of the screen: keep the state and the button, drop the hint. */
+@media (max-width: 40rem) {
+    .savebar {
+        flex-wrap: nowrap;
+        padding: var(--space-3) var(--space-4);
+    }
+
+    .savebar .panel__note {
+        display: none;
+    }
+
+    .savebar__state {
+        flex: 1 1 auto;
+        font-size: var(--fs-small);
+    }
+
+    .savebar .btn {
+        flex: none;
+        padding-inline: var(--space-4);
+        white-space: nowrap;
+    }
 }
 
 .savebar__state[data-dirty='true'] {

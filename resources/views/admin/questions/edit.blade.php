@@ -21,6 +21,9 @@
             'correctFor' => __('editor.correct_for', ['letter' => ':letter']),
             'removeOption' => __('editor.remove_option', ['letter' => ':letter']),
             'questionN' => __('editor.question_n', ['number' => ':number']),
+            'noBody' => __('editor.no_body'),
+            'answer' => __('editor.answer_is', ['answer' => ':answer']),
+            'truth' => [__('enums.true_false.true'), __('enums.true_false.false')],
         ],
     ];
 @endphp
@@ -31,7 +34,7 @@
     </x-slot:actions>
 
     <form method="post" action="{{ route('admin.quizzes.questions.update', $quiz) }}" novalidate
-          x-data="questionEditor(@js($config))" @input="markDirty()" @submit="submit()">
+          x-data="questionEditor(@js($config))" @input="markDirty()" @submit="submit()" @click="reveal($event)">
         @csrf
         @method('PUT')
 
@@ -47,17 +50,35 @@
                 </div>
             </section>
 
+            {{-- Past a few questions the page is long: let the admin fold and unfold them together --}}
+            <div class="actions" x-show="canFold" x-cloak>
+                <button type="button" class="btn btn--sm" @click="openAll()"><x-icon name="chevron-down" /> {{ __('editor.open_all') }}</button>
+                <button type="button" class="btn btn--sm" @click="closeAll()"><x-icon name="chevron-up" /> {{ __('editor.close_all') }}</button>
+            </div>
+
             <template x-for="(q, i) in questions" :key="q.key">
-                <section class="q-card" :id="'q-' + i" :aria-labelledby="fieldId(i, 'heading')">
+                <section class="q-card" :id="'q-' + i" :aria-labelledby="fieldId(i, 'heading')" :data-open="q.open">
                     <div class="q-card__head">
-                        <h2 class="q-card__number" :id="fieldId(i, 'heading')" x-text="questionLabel(i)"></h2>
-                        <div class="q-card__tools">
-                            <button type="button" class="btn btn--sm" @click="move(i, -1)" :aria-disabled="isFirst(i)" :disabled="isFirst(i)"><x-icon name="arrow-up" /> {{ __('editor.move_up') }}</button>
-                            <button type="button" class="btn btn--sm" @click="move(i, 1)" :aria-disabled="isLast(i)" :disabled="isLast(i)"><x-icon name="arrow-down" /> {{ __('editor.move_down') }}</button>
+                        <h2 class="q-card__number" :id="fieldId(i, 'heading')">
+                            <button type="button" class="q-card__toggle" :aria-expanded="q.open" :aria-controls="'q-body-' + i" @click="toggle(q)">
+                                <x-icon name="chevron-down" />
+                                <span class="q-card__label">
+                                    <span x-text="questionLabel(i)"></span>
+                                    <span class="q-card__summary" x-show="!q.open" x-text="summary(q)"></span>
+                                    <span class="q-card__answer" x-show="!q.open && answerText(q) !== ''" x-text="answerText(q)"></span>
+                                </span>
+                            </button>
+                        </h2>
+                        <div class="actions">
+                            <button type="button" class="btn btn--sm" :id="fieldId(i, 'up')" @click="move(i, -1)" :aria-disabled="isFirst(i)" :disabled="isFirst(i)"><x-icon name="arrow-up" /> {{ __('editor.move_up') }}</button>
+                            <button type="button" class="btn btn--sm" :id="fieldId(i, 'down')" @click="move(i, 1)" :aria-disabled="isLast(i)" :disabled="isLast(i)"><x-icon name="arrow-down" /> {{ __('editor.move_down') }}</button>
                             <button type="button" class="btn btn--sm" @click="duplicate(i)" :disabled="!canAdd"><x-icon name="copy" /> {{ __('editor.duplicate') }}</button>
                             <button type="button" class="btn btn--sm" @click="askRemove(i)"><x-icon name="trash-2" /> {{ __('editor.remove') }}</button>
                         </div>
                     </div>
+
+                    {{-- Everything below stays in the page when folded (x-show, not x-if), so it is still submitted. --}}
+                    <div class="q-card__body" :id="'q-body-' + i" x-show="q.open">
 
                     <input type="hidden" :name="name(i, 'id')" :value="q.id" :disabled="q.id === null">
 
@@ -135,6 +156,7 @@
                         <p class="field__hint">{{ __('editor.explanation_help') }}</p>
                         <textarea class="field__control" rows="2" maxlength="1000" :id="fieldId(i, 'explanation')" :name="name(i, 'explanation')" x-model="q.explanation"></textarea>
                         <p class="field__error" x-show="hasError(i, 'explanation')" x-text="errorFor(i, 'explanation')" x-cloak></p>
+                    </div>
                     </div>
                 </section>
             </template>

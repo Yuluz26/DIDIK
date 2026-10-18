@@ -1,3 +1,8 @@
+import { focusWhenShown } from '../lib/focus';
+
+/** A quiz with more questions than this starts folded, so a long page stays easy to scan. */
+const FOLD_AFTER = 3;
+
 /**
  * The question editor. All questions of a quiz live on one page and are saved together.
  * The page is an ordinary form: every field below renders real inputs named
@@ -20,10 +25,23 @@ export default function questionEditor(config) {
         points: Number(data.points ?? 1) || 1,
         correct: Number(data.correct ?? 0) || 0,
         options: (data.options ?? []).map(option),
+        open: data.open ?? true,
     });
 
+    // Questions that came back from the server: folded when there are many, unless one has a problem.
+    const loaded = (config) => {
+        const list = (config.questions ?? []).map(question);
+        const failing = (i) => Object.keys(config.errors ?? {}).some((key) => key.startsWith(`questions.${i}.`));
+
+        list.forEach((q, i) => {
+            q.open = list.length <= FOLD_AFTER || failing(i);
+        });
+
+        return list;
+    };
+
     return {
-        questions: (config.questions ?? []).map(question),
+        questions: loaded(config),
         errors: config.errors ?? {},
         max: config.max,
         dirty: false,
@@ -53,6 +71,10 @@ export default function questionEditor(config) {
             return this.total === 0;
         },
 
+        get canFold() {
+            return this.total > FOLD_AFTER;
+        },
+
         get stateText() {
             return this.dirty ? config.strings.dirty : config.strings.clean;
         },
@@ -63,6 +85,19 @@ export default function questionEditor(config) {
 
         get removeTitle() {
             return config.strings.removeTitle.replace(':number', (this.removing ?? 0) + 1);
+        },
+
+        // What a folded question shows: its text, and the answer that is marked right.
+        summary(q) {
+            const text = q.body.trim();
+
+            return text === '' ? config.strings.noBody : text;
+        },
+
+        answerText(q) {
+            const text = q.type === 'truefalse' ? config.strings.truth[q.correct] : (q.options[q.correct]?.body ?? '').trim();
+
+            return text === '' ? '' : config.strings.answer.replace(':answer', text);
         },
 
         isTrueFalse(q) {
@@ -121,6 +156,33 @@ export default function questionEditor(config) {
             this.dirty = true;
         },
 
+        toggle(q) {
+            q.open = !q.open;
+        },
+
+        openAll() {
+            this.questions.forEach((q) => (q.open = true));
+        },
+
+        closeAll() {
+            this.questions.forEach((q) => (q.open = false));
+        },
+
+        // A link in the error summary points at a field that may be folded away: open its question first.
+        reveal(event) {
+            const link = event.target.closest('a[href^="#q-"]');
+            const match = link && /^#(q-(\d+)-.+)$/.exec(link.getAttribute('href'));
+            const q = match && this.questions[Number(match[2])];
+
+            if (!q) {
+                return;
+            }
+
+            event.preventDefault();
+            q.open = true;
+            focusWhenShown(() => document.getElementById(match[1]));
+        },
+
         addQuestion(type = 'single') {
             if (!this.canAdd) {
                 return;
@@ -145,6 +207,7 @@ export default function questionEditor(config) {
             const copy = question({
                 ...source,
                 id: null,
+                open: true,
                 options: source.options.map((o) => ({ body: o.body })),
             });
 
@@ -163,7 +226,9 @@ export default function questionEditor(config) {
             const [moved] = this.questions.splice(i, 1);
             this.questions.splice(target, 0, moved);
             this.markDirty();
-            this.focusQuestion(target);
+
+            // Keep focus on the button that was used, now in its new place, so it can be pressed again.
+            this.focusTool(target, step < 0 ? 'up' : 'down', step < 0 ? 'down' : 'up');
         },
 
         askRemove(i) {
@@ -234,7 +299,17 @@ export default function questionEditor(config) {
         },
 
         focusQuestion(i) {
-            this.$nextTick(() => document.getElementById(this.fieldId(i, 'body'))?.focus());
+            focusWhenShown(() => document.getElementById(this.fieldId(i, 'body')));
+        },
+
+        // The button for `tool` at question i, or `fallback` when that one is disabled (first or last place).
+        focusTool(i, tool, fallback) {
+            this.$nextTick(() => {
+                const button = document.getElementById(this.fieldId(i, tool));
+                const target = button && !button.disabled ? button : document.getElementById(this.fieldId(i, fallback));
+
+                target?.focus();
+            });
         },
 
         submit() {
