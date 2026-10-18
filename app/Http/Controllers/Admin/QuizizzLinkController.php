@@ -8,6 +8,8 @@ use App\Http\Requests\Admin\QuizizzLinkRequest;
 use App\Models\Category;
 use App\Models\QuizizzLink;
 use App\Models\SchoolLevel;
+use App\Rules\QuizizzUrl;
+use App\Support\Like;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -30,12 +32,12 @@ class QuizizzLinkController extends Controller
             ->with(['category.parent', 'level'])
             ->when($status, fn ($q) => $q->where('status', $status))
             ->when($search !== '', function ($q) use ($search) {
-                $like = '%'.addcslashes($search, '\\%_').'%';
+                $like = Like::contains($search);
                 $q->where(fn ($w) => $w
-                    ->where('title', 'like', $like)
-                    ->orWhere('description', 'like', $like)
-                    ->orWhere('url', 'like', $like)
-                    ->orWhereHas('tags', fn ($t) => $t->where('name', 'like', $like)));
+                    ->whereRaw(Like::clause('title'), [$like])
+                    ->orWhereRaw(Like::clause('description'), [$like])
+                    ->orWhereRaw(Like::clause('url'), [$like])
+                    ->orWhereHas('tags', fn ($t) => $t->whereRaw(Like::clause('name'), [$like])));
             })
             ->orderByDesc('updated_at')
             ->paginate(20)
@@ -120,6 +122,7 @@ class QuizizzLinkController extends Controller
             'link' => $link,
             'subjects' => Category::subjects()->with('children')->get(),
             'levels' => SchoolLevel::orderBy('position')->get(),
+            'hosts' => QuizizzUrl::hostsText(),
         ];
     }
 }

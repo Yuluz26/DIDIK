@@ -139,8 +139,21 @@ class PublicPagesTest extends TestCase
             ->assertDontSee('<script>alert(1)</script>', false)
             ->assertSee('&lt;script&gt;alert(1)&lt;/script&gt;', false);
 
-        // A lone percent sign must not match everything.
+        // A lone percent sign must not match everything...
         $this->get(route('quizzes.index', ['q' => '%']))->assertDontSee('Biasa');
+    }
+
+    public function test_percent_and_underscore_in_a_search_match_themselves(): void
+    {
+        $this->publishedQuiz(1, ['title' => 'Diskaun 50% Betul']);
+        $this->publishedQuiz(1, ['title' => 'Diskaun 500 Betul']);
+        $this->publishedQuiz(1, ['title' => 'Ruang_Nama']);
+        $this->publishedQuiz(1, ['title' => 'RuangXNama']);
+
+        // ...and a percent sign in a title can be found, which a backslash escape cannot do on SQLite.
+        $this->get(route('quizzes.index', ['q' => '50%']))->assertSee('Diskaun 50% Betul')->assertDontSee('Diskaun 500 Betul');
+        $this->get(route('quizzes.index', ['q' => 'g_N']))->assertSee('Ruang_Nama')->assertDontSee('RuangXNama');
+        $this->get(route('quizzes.index', ['q' => 'dis!']))->assertDontSee('Diskaun 50% Betul');
     }
 
     public function test_browse_shows_a_kind_empty_state(): void

@@ -9,7 +9,7 @@
         @include('admin.partials.errors')
 
         <x-field name="title" :label="__('links.fields.title')" :value="$link->title" maxlength="160" required />
-        <x-field name="url" type="url" :label="__('links.fields.url')" :help="__('links.fields.url_help')" :value="$link->url" maxlength="500" placeholder="https://quizizz.com/…" autocomplete="off" required />
+        <x-field name="url" type="url" :label="__('links.fields.url')" :help="__('links.fields.url_help', ['hosts' => $hosts])" :value="$link->url" maxlength="500" placeholder="https://quizizz.com/…" autocomplete="off" required />
         <x-field name="description" control="textarea" :label="__('links.fields.description')" :value="$link->description" maxlength="600" />
 
         <div class="form__grid form__grid--2">

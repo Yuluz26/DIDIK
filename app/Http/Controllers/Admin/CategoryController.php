@@ -12,6 +12,7 @@ use App\Models\QuizizzLink;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
@@ -55,7 +56,14 @@ class CategoryController extends Controller
 
     public function update(CategoryRequest $request, Category $category): RedirectResponse
     {
-        $category->update($this->attributes($request->validated(), $category));
+        DB::transaction(function () use ($request, $category) {
+            $category->update($this->attributes($request->validated()));
+
+            // Topics keep a copy of their subject's colour and icon, so a change has to reach them.
+            if ($category->type === CategoryType::Subject) {
+                $category->children()->update(['theme' => $category->theme->value, 'icon' => $category->icon]);
+            }
+        });
 
         return redirect()->route('admin.categories.index')->with('status', __('admin.common.saved'));
     }
@@ -89,7 +97,7 @@ class CategoryController extends Controller
      * @param  array<string, mixed>  $data
      * @return array<string, mixed>
      */
-    private function attributes(array $data, ?Category $existing = null): array
+    private function attributes(array $data): array
     {
         $data['position'] = $data['position'] ?? 0;
 
@@ -98,11 +106,6 @@ class CategoryController extends Controller
             $parent = Category::findOrFail($data['parent_id']);
             $data['theme'] = $parent->theme->value;
             $data['icon'] = $parent->icon;
-        }
-
-        // The kind of category never changes after it is created.
-        if ($existing) {
-            $data['type'] = $existing->type->value;
         }
 
         return $data;

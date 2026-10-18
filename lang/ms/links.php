@@ -13,7 +13,7 @@ return [
     'fields' => [
         'title' => 'Tajuk',
         'url' => 'Pautan Quizizz',
-        'url_help' => 'Mesti bermula dengan https:// dan berada di quizizz.com.',
+        'url_help' => 'Mesti bermula dengan https:// dan berada di :hosts.',
         'description' => 'Keterangan',
         'category' => 'Subjek atau topik',
         'level' => 'Tahap sekolah',
@@ -26,6 +26,7 @@ return [
         'thumbnail_remove' => 'Buang gambar kecil',
         'thumbnail_current' => 'Gambar semasa',
     ],
-    'url_invalid' => 'Pautan mesti bermula dengan https:// dan berada di quizizz.com (atau subdomainnya).',
+    'url_invalid' => 'Pautan mesti bermula dengan https:// dan berada di :hosts (atau subdomainnya).',
     'open' => 'Buka di Quizizz',
+    'or' => 'atau',
 ];

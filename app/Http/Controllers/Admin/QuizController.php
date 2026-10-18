@@ -12,6 +12,7 @@ use App\Models\Category;
 use App\Models\Quiz;
 use App\Models\SchoolLevel;
 use App\Services\Admin\QuizWorkflow;
+use App\Support\Like;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -31,8 +32,8 @@ class QuizController extends Controller
             ->withCount(['questions', 'attempts'])
             ->when($status, fn ($q) => $q->where('status', $status))
             ->when($search !== '', function ($q) use ($search) {
-                $like = '%'.addcslashes($search, '\\%_').'%';
-                $q->where(fn ($w) => $w->where('title', 'like', $like)->orWhere('summary', 'like', $like));
+                $like = Like::contains($search);
+                $q->where(fn ($w) => $w->whereRaw(Like::clause('title'), [$like])->orWhereRaw(Like::clause('summary'), [$like]));
             })
             ->orderByDesc('updated_at')
             ->paginate(20)

@@ -8,6 +8,7 @@ use App\Games\GameConceptRegistry;
 use App\Models\Category;
 use App\Models\Quiz;
 use App\Models\SchoolLevel;
+use App\Support\Like;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -71,12 +72,12 @@ class Catalog
             ->when($level, fn ($q) => $q->where('school_level_id', $level->id))
             ->when($difficulty, fn ($q) => $q->where('difficulty', $difficulty))
             ->when($search !== '', function ($q) use ($search) {
-                $like = '%'.addcslashes($search, '\\%_').'%';
+                $like = Like::contains($search);
 
                 $q->where(fn ($w) => $w
-                    ->where('title', 'like', $like)
-                    ->orWhere('summary', 'like', $like)
-                    ->orWhereHas('tags', fn ($t) => $t->where('name', 'like', $like)));
+                    ->whereRaw(Like::clause('title'), [$like])
+                    ->orWhereRaw(Like::clause('summary'), [$like])
+                    ->orWhereHas('tags', fn ($t) => $t->whereRaw(Like::clause('name'), [$like])));
             })
             ->orderByDesc('published_at')
             ->orderBy('title');

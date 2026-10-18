@@ -15,6 +15,16 @@ class CategoryRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation(): void
+    {
+        $category = $this->route('category');
+
+        // The kind of category is fixed when it is created, so on edit the stored one wins over the form.
+        if ($category instanceof Category) {
+            $this->merge(['type' => $category->type->value]);
+        }
+    }
+
     /** @return array<string, mixed> */
     public function rules(): array
     {
