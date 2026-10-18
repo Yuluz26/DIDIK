@@ -1,0 +1,77 @@
+<?php
+
+/*
+| Bahasa Melayu messages for the rules DIDIK uses. Any rule not listed here falls back to
+| English (see APP_FALLBACK_LOCALE), so a new rule never shows a raw key.
+*/
+return [
+    'required' => ':attribute wajib diisi.',
+    'string' => ':attribute mesti berupa teks.',
+    'email' => ':attribute mesti alamat emel yang sah.',
+    'max' => [
+        'string' => ':attribute tidak boleh melebihi :max aksara.',
+        'numeric' => ':attribute tidak boleh melebihi :max.',
+        'file' => ':attribute tidak boleh melebihi :max kilobait.',
+        'array' => ':attribute tidak boleh mempunyai lebih daripada :max item.',
+    ],
+    'min' => [
+        'string' => ':attribute mesti sekurang-kurangnya :min aksara.',
+        'numeric' => ':attribute mesti sekurang-kurangnya :min.',
+        'array' => ':attribute mesti mempunyai sekurang-kurangnya :min item.',
+    ],
+    'between' => [
+        'numeric' => ':attribute mesti antara :min dan :max.',
+    ],
+    'integer' => ':attribute mesti nombor bulat.',
+    'boolean' => ':attribute mesti ya atau tidak.',
+    'in' => ':attribute yang dipilih tidak sah.',
+    'exists' => ':attribute yang dipilih tidak sah.',
+    'unique' => ':attribute sudah digunakan.',
+    'url' => ':attribute mesti pautan yang sah.',
+    'date' => ':attribute mesti tarikh yang sah.',
+    'after' => ':attribute mesti selepas :date.',
+    'after_or_equal' => ':attribute mesti pada atau selepas :date.',
+    'array' => ':attribute mesti senarai.',
+    'image' => ':attribute mesti imej.',
+    'mimes' => ':attribute mesti fail jenis: :values.',
+    'dimensions' => ':attribute mempunyai dimensi imej yang tidak sah.',
+    'uploaded' => ':attribute gagal dimuat naik.',
+    'distinct' => ':attribute mempunyai nilai yang berulang.',
+    'required_with' => ':attribute wajib diisi.',
+
+    'custom' => [],
+
+    'attributes' => [
+        'email' => 'Emel',
+        'password' => 'Kata laluan',
+        'name' => 'Nama',
+        'title' => 'Tajuk',
+        'summary' => 'Ringkasan',
+        'slug' => 'Slug',
+        'category_id' => 'Kategori',
+        'school_level_id' => 'Tahap sekolah',
+        'difficulty' => 'Kesukaran',
+        'status' => 'Status',
+        'language' => 'Bahasa soalan',
+        'game_concept' => 'Cara bermain',
+        'attempts_allowed' => 'Bilangan percubaan',
+        'feedback_mode' => 'Maklum balas',
+        'available_from' => 'Dibuka pada',
+        'available_until' => 'Ditutup pada',
+        'tags' => 'Tag',
+        'body' => 'Soalan',
+        'explanation' => 'Penjelasan',
+        'points' => 'Mata',
+        'type' => 'Jenis soalan',
+        'questions' => 'Soalan',
+        'options' => 'Pilihan jawapan',
+        'url' => 'Pautan',
+        'description' => 'Keterangan',
+        'thumbnail' => 'Gambar kecil',
+        'theme' => 'Warna',
+        'icon' => 'Ikon',
+        'parent_id' => 'Subjek induk',
+        'position' => 'Susunan',
+        'links' => 'Pautan',
+    ],
+];

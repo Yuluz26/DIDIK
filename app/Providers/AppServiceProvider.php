@@ -40,6 +40,9 @@ class AppServiceProvider extends ServiceProvider
 
         Paginator::defaultView('pagination.didik');
 
+        // Admin URLs read in Bahasa Melayu: /admin/kuiz/baharu, /admin/kuiz/1/sunting.
+        Route::resourceVerbs(['create' => 'baharu', 'edit' => 'sunting']);
+
         // The public face of a quiz: only published quizzes inside their availability window.
         Route::bind('publicQuiz', fn (string $slug) => Quiz::available()->where('slug', $slug)->firstOrFail());
 

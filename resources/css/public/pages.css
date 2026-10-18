@@ -245,3 +245,28 @@
 .error-page p {
     max-width: 28rem;
 }
+
+/* Admin sign-in uses the public layout, so its styles live here */
+.login {
+    display: grid;
+    min-height: 100dvh;
+    place-items: center;
+    padding: var(--space-5) var(--gutter);
+}
+
+.login__panel {
+    display: grid;
+    justify-items: center;
+    gap: var(--space-4);
+    width: min(100%, 26rem);
+}
+
+.login__title {
+    font: 600 var(--fs-h2) / 1.12 var(--font-display);
+}
+
+.login__form {
+    display: grid;
+    gap: var(--space-4);
+    width: 100%;
+}

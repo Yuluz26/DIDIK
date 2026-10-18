@@ -86,6 +86,36 @@ class Quiz extends Model
             && ($this->available_until === null || $this->available_until->gte($now));
     }
 
+    /**
+     * Why this quiz cannot be published (or is not properly playable), as readable sentences.
+     * An empty list means it is ready.
+     *
+     * @return list<string>
+     */
+    public function publishingProblems(): array
+    {
+        $this->loadMissing('questions.options');
+
+        if ($this->questions->isEmpty()) {
+            return [__('quizzes.problem_no_questions')];
+        }
+
+        $problems = [];
+
+        foreach ($this->questions->values() as $index => $question) {
+            $number = $index + 1;
+            $options = $question->options;
+
+            if ($options->count() < 2) {
+                $problems[] = __('quizzes.problem_options', ['number' => $number]);
+            } elseif ($options->where('is_correct', true)->count() !== 1) {
+                $problems[] = __('quizzes.problem_correct', ['number' => $number]);
+            }
+        }
+
+        return $problems;
+    }
+
     /** The game concept, falling back to the default when the stored key is unknown. */
     public function concept(): GameConcept
     {

@@ -1,0 +1,152 @@
+/* The admin shell. Flat and quiet: the brand shows in colour and type, depth is kept for the buttons. */
+.admin {
+    background: var(--admin-bg);
+    font-size: 1rem;
+}
+
+.admin-shell {
+    display: grid;
+    min-height: 100vh;
+    min-height: 100dvh;
+}
+
+@media (min-width: 64rem) {
+    .admin-shell {
+        grid-template-columns: 16rem minmax(0, 1fr);
+    }
+}
+
+.admin-side {
+    display: none;
+}
+
+@media (min-width: 64rem) {
+    .admin-side {
+        position: sticky;
+        inset-block-start: 0;
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-5);
+        height: 100vh;
+        height: 100dvh;
+        padding: var(--space-5) var(--space-4);
+        border-inline-end: 1px solid var(--admin-line);
+        background: var(--panel);
+    }
+}
+
+.admin-brand {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    text-decoration: none;
+}
+
+.admin-brand__tag {
+    padding-inline-start: 3.75rem;
+    color: var(--ink-2);
+    font-size: var(--fs-small);
+    font-weight: 800;
+}
+
+.admin-nav ul {
+    display: grid;
+    gap: var(--space-1);
+    list-style: none;
+}
+
+.admin-nav a,
+.admin-nav__plain {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    min-height: 2.75rem;
+    padding: 0 var(--space-3);
+    border-radius: var(--radius-sm);
+    color: var(--ink);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+@media (hover: hover) {
+    .admin-nav a:hover,
+    .admin-nav__plain:hover {
+        background: var(--admin-bg);
+        color: var(--ink);
+    }
+}
+
+.admin-nav a[aria-current='page'] {
+    background: var(--tint-ok);
+    color: var(--ink-ok);
+    font-weight: 800;
+}
+
+.admin-side__foot {
+    display: grid;
+    gap: var(--space-3);
+    margin-top: auto;
+}
+
+.admin-side__user {
+    padding-inline: var(--space-3);
+    color: var(--ink-2);
+    font-size: var(--fs-small);
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+.admin-menu .admin-side__foot {
+    margin-top: var(--space-5);
+}
+
+.admin-main {
+    min-width: 0;
+}
+
+.admin-top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3) var(--space-4);
+    padding: var(--space-5) var(--gutter) var(--space-4);
+}
+
+.admin-top__menu {
+    flex: none;
+}
+
+@media (min-width: 64rem) {
+    .admin-top__menu {
+        display: none;
+    }
+}
+
+.admin-top__title {
+    flex: 1 1 14rem;
+    min-width: 0;
+}
+
+.admin-top__title h1 {
+    font-size: var(--fs-h2);
+    line-height: 1.12;
+}
+
+.admin-top__title p {
+    margin-top: var(--space-1);
+    color: var(--ink-2);
+    font-weight: 700;
+}
+
+.admin-top__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+}
+
+.admin-content {
+    display: grid;
+    gap: var(--space-5);
+    padding: 0 var(--gutter) var(--space-8);
+    align-content: start;
+}

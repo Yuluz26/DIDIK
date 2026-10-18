@@ -1,0 +1,30 @@
+<?php
+
+return [
+    'title' => 'Koleksi Quizizz',
+    'lead' => 'Kumpulkan pautan menjadi koleksi yang disusun. Hanya koleksi diterbitkan dengan pautan diterbitkan muncul di laman.',
+    'create' => 'Koleksi baharu',
+    'create_title' => 'Koleksi baharu',
+    'edit_title' => 'Sunting koleksi',
+    'cols' => ['title' => 'Koleksi', 'links' => 'Pautan', 'status' => 'Status'],
+    'empty_title' => 'Belum ada koleksi.',
+    'empty_text' => 'Cipta koleksi, kemudian tambah pautan dari perpustakaan anda.',
+    'fields' => [
+        'title' => 'Tajuk',
+        'description' => 'Keterangan',
+        'status' => 'Status',
+        'position' => 'Susunan koleksi',
+        'position_help' => 'Nombor kecil muncul dahulu.',
+        'links' => 'Pautan dalam koleksi',
+        'links_help' => 'Susunan di sini ialah susunan yang dilihat pengunjung.',
+        'add_link' => 'Tambah pautan',
+        'pick' => 'Pilih pautan…',
+        'none_yet' => 'Belum ada pautan dalam koleksi ini.',
+        'no_more' => 'Semua pautan sudah ada dalam koleksi.',
+        'remove' => 'Buang :title daripada koleksi',
+        'up' => 'Naikkan :title',
+        'down' => 'Turunkan :title',
+    ],
+    'keep_links' => 'Hanya koleksi dipadam. Pautan di dalamnya kekal dalam perpustakaan.',
+    'not_public' => 'Pautan draf, rosak atau diarkibkan disimpan dalam koleksi tetapi tidak dipaparkan kepada pengunjung.',
+];

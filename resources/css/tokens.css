@@ -51,6 +51,7 @@
     --danger: #b42318;
     --warn-tint: #fdefc8;
     --warn-ink: #7a4b00;
+    --admin-line: #d3ded7;
 
     /* Depth: light from the top left. Raised means pressable, inset means chosen or holding something. */
     --light: rgb(255 255 255 / 0.95);

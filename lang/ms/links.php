@@ -1,0 +1,31 @@
+<?php
+
+return [
+    'title' => 'Pautan Quizizz',
+    'lead' => 'Pautan ke aktiviti Quizizz anda sendiri. DIDIK hanya menyimpan pautan dan membukanya di tab baharu: ia tidak mengimport, membenamkan atau menyalin kandungan Quizizz.',
+    'create' => 'Pautan baharu',
+    'create_title' => 'Pautan baharu',
+    'edit_title' => 'Sunting pautan',
+    'search' => 'Cari tajuk, keterangan, tag atau pautan',
+    'cols' => ['title' => 'Pautan', 'subject' => 'Subjek', 'status' => 'Status', 'updated' => 'Dikemas kini'],
+    'empty_title' => 'Belum ada pautan.',
+    'empty_text' => 'Tambah pautan Quizizz yang anda cipta, kemudian kumpulkan dalam koleksi.',
+    'fields' => [
+        'title' => 'Tajuk',
+        'url' => 'Pautan Quizizz',
+        'url_help' => 'Mesti bermula dengan https:// dan berada di quizizz.com.',
+        'description' => 'Keterangan',
+        'category' => 'Subjek atau topik',
+        'level' => 'Tahap sekolah',
+        'tags' => 'Tag',
+        'tags_help' => 'Dipisahkan dengan koma.',
+        'status' => 'Status',
+        'status_help' => 'Tandakan "Pautan rosak" jika Quizizz sudah memadam atau menukar aktiviti. Ia akan disembunyikan daripada pengunjung.',
+        'thumbnail' => 'Gambar kecil (pilihan)',
+        'thumbnail_help' => 'JPG, PNG atau WebP, sehingga 2 MB. Gambar yang digunakan hendaklah anda berhak guna.',
+        'thumbnail_remove' => 'Buang gambar kecil',
+        'thumbnail_current' => 'Gambar semasa',
+    ],
+    'url_invalid' => 'Pautan mesti bermula dengan https:// dan berada di quizizz.com (atau subdomainnya).',
+    'open' => 'Buka di Quizizz',
+];

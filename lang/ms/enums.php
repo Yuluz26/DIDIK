@@ -15,6 +15,10 @@ return [
         'single' => 'Pilihan jawapan',
         'truefalse' => 'Betul atau salah',
     ],
+    'true_false' => [
+        'true' => 'Betul',
+        'false' => 'Salah',
+    ],
     'feedback_mode' => [
         'instant' => 'Selepas setiap jawapan',
         'end' => 'Di hujung kuiz',
