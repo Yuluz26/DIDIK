@@ -26,7 +26,7 @@
                     @endif
                 </h2>
 
-                <div class="table__actions">
+                <div class="actions">
                     @if ($quiz->status !== \App\Enums\QuizStatus::Published)
                         <form method="post" action="{{ route('admin.quizzes.publish', $quiz) }}">@csrf
                             <x-button variant="primary" size="sm" type="submit" :aria-disabled="$problems ? 'true' : 'false'"><x-icon name="eye" /> {{ __('quizzes.publish') }}</x-button>

@@ -13,24 +13,24 @@
             </div>
         @else
             <div class="table-wrap">
-                <table class="table">
+                <table class="table table--stack" role="table">
                     <caption class="visually-hidden">{{ __('collections.title') }}</caption>
-                    <thead>
-                        <tr>
-                            <th scope="col">{{ __('collections.cols.title') }}</th>
-                            <th scope="col" class="table__num">{{ __('collections.cols.links') }}</th>
-                            <th scope="col">{{ __('collections.cols.status') }}</th>
-                            <th scope="col"><span class="visually-hidden">{{ __('admin.common.actions') }}</span></th>
+                    <thead role="rowgroup">
+                        <tr role="row">
+                            <th role="columnheader" scope="col">{{ __('collections.cols.title') }}</th>
+                            <th role="columnheader" scope="col" class="table__num">{{ __('collections.cols.links') }}</th>
+                            <th role="columnheader" scope="col">{{ __('collections.cols.status') }}</th>
+                            <th role="columnheader" scope="col"><span class="visually-hidden">{{ __('admin.common.actions') }}</span></th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody role="rowgroup">
                         @foreach ($collections as $collection)
-                            <tr>
-                                <td><span class="table__title"><a href="{{ route('admin.collections.edit', $collection) }}">{{ $collection->title }}</a></span></td>
-                                <td class="table__num">{{ $collection->links_count }}</td>
-                                <td><span class="status status--{{ $collection->status->value }}">{{ $collection->status->label() }}</span></td>
-                                <td>
-                                    <div class="table__actions">
+                            <tr role="row">
+                                <td role="cell"><span class="table__title"><a href="{{ route('admin.collections.edit', $collection) }}">{{ $collection->title }}</a></span></td>
+                                <td role="cell" class="table__num" data-suffix="{{ mb_strtolower(__('collections.cols.links')) }}">{{ $collection->links_count }}</td>
+                                <td role="cell"><span class="status status--{{ $collection->status->value }}">{{ $collection->status->label() }}</span></td>
+                                <td role="cell">
+                                    <div class="actions">
                                         @if ($collection->status === \App\Enums\LinkStatus::Published)
                                             <x-button size="sm" :href="route('quizizz.show', $collection)" target="_blank" rel="noopener"><x-icon name="external-link" /> {{ __('admin.common.view') }}</x-button>
                                         @endif

@@ -37,31 +37,31 @@
             </div>
         @else
             <div class="table-wrap">
-                <table class="table">
+                <table class="table table--stack" role="table">
                     <caption class="visually-hidden">{{ __('quizzes.title') }}</caption>
-                    <thead>
-                        <tr>
-                            <th scope="col">{{ __('quizzes.cols.title') }}</th>
-                            <th scope="col">{{ __('quizzes.cols.level') }}</th>
-                            <th scope="col">{{ __('quizzes.cols.status') }}</th>
-                            <th scope="col" class="table__num">{{ __('quizzes.cols.questions') }}</th>
-                            <th scope="col" class="table__num">{{ __('quizzes.cols.plays') }}</th>
-                            <th scope="col"><span class="visually-hidden">{{ __('admin.common.actions') }}</span></th>
+                    <thead role="rowgroup">
+                        <tr role="row">
+                            <th role="columnheader" scope="col">{{ __('quizzes.cols.title') }}</th>
+                            <th role="columnheader" scope="col">{{ __('quizzes.cols.level') }}</th>
+                            <th role="columnheader" scope="col">{{ __('quizzes.cols.status') }}</th>
+                            <th role="columnheader" scope="col" class="table__num">{{ __('quizzes.cols.questions') }}</th>
+                            <th role="columnheader" scope="col" class="table__num">{{ __('quizzes.cols.plays') }}</th>
+                            <th role="columnheader" scope="col"><span class="visually-hidden">{{ __('admin.common.actions') }}</span></th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody role="rowgroup">
                         @foreach ($quizzes as $quiz)
-                            <tr>
-                                <td>
+                            <tr role="row">
+                                <td role="cell">
                                     <span class="table__title"><a href="{{ route('admin.quizzes.edit', $quiz) }}">{{ $quiz->title }}</a></span>
                                     <span class="table__sub">{{ $quiz->category?->name }}</span>
                                 </td>
-                                <td>{{ $quiz->level?->name ?? '—' }}</td>
-                                <td><span class="status status--{{ $quiz->status->value }}">{{ $quiz->status->label() }}</span></td>
-                                <td class="table__num">{{ $quiz->questions_count }}</td>
-                                <td class="table__num">{{ $quiz->attempts_count }}</td>
-                                <td>
-                                    <div class="table__actions">
+                                <td role="cell" @class(['table__none' => ! $quiz->level])>{{ $quiz->level?->name ?? '—' }}</td>
+                                <td role="cell"><span class="status status--{{ $quiz->status->value }}">{{ $quiz->status->label() }}</span></td>
+                                <td role="cell" class="table__num" data-suffix="{{ mb_strtolower(__('quizzes.cols.questions')) }}">{{ $quiz->questions_count }}</td>
+                                <td role="cell" class="table__num" data-suffix="{{ mb_strtolower(__('quizzes.cols.plays')) }}">{{ $quiz->attempts_count }}</td>
+                                <td role="cell">
+                                    <div class="actions">
                                         <x-button size="sm" :href="route('admin.quizzes.questions.edit', $quiz)"><x-icon name="list-checks" /> {{ __('quizzes.questions') }}</x-button>
                                         <x-button size="sm" :href="route('admin.quizzes.edit', $quiz)"><x-icon name="pencil" /> {{ __('admin.common.edit') }}</x-button>
                                     </div>

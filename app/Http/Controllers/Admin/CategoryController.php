@@ -26,7 +26,12 @@ class CategoryController extends Controller
             ->groupBy('category_id')
             ->pluck('total', 'category_id');
 
-        return view('admin.categories.index', ['subjects' => $subjects, 'counts' => $counts]);
+        // A subject's own figure covers its topics too, otherwise "Matematik: 0 kuiz" is true and useless.
+        $totals = $subjects->mapWithKeys(fn (Category $subject) => [
+            $subject->id => $counts->get($subject->id, 0) + $subject->children->sum(fn (Category $topic) => $counts->get($topic->id, 0)),
+        ]);
+
+        return view('admin.categories.index', ['subjects' => $subjects, 'counts' => $counts, 'totals' => $totals]);
     }
 
     public function create(Request $request): View

@@ -6,6 +6,8 @@
 
 .admin-shell {
     display: grid;
+    /* An explicit track: an implicit `auto` one grows to the widest table instead of letting it scroll. */
+    grid-template-columns: minmax(0, 1fr);
     min-height: 100vh;
     min-height: 100dvh;
 }
@@ -146,6 +148,7 @@
 
 .admin-content {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--space-5);
     padding: 0 var(--gutter) var(--space-8);
     align-content: start;

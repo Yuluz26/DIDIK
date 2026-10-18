@@ -39,7 +39,7 @@
                     <li>
                         <input type="hidden" name="links[]" :value="link.id">
                         <span><strong x-text="link.title"></strong> <span class="status" x-text="link.status"></span></span>
-                        <span class="table__actions">
+                        <span class="actions">
                             <button type="button" class="btn btn--sm btn--icon" @click="move(index, -1)" :disabled="isFirst(index)" :aria-label="label('{{ __('collections.fields.up', ['title' => ':title']) }}', link)"><x-icon name="arrow-up" /></button>
                             <button type="button" class="btn btn--sm btn--icon" @click="move(index, 1)" :disabled="isLast(index)" :aria-label="label('{{ __('collections.fields.down', ['title' => ':title']) }}', link)"><x-icon name="arrow-down" /></button>
                             <button type="button" class="btn btn--sm btn--icon" @click="remove(index)" :aria-label="label('{{ __('collections.fields.remove', ['title' => ':title']) }}', link)"><x-icon name="x" /></button>

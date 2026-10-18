@@ -6,7 +6,7 @@ return [
     'create' => 'Pautan baharu',
     'create_title' => 'Pautan baharu',
     'edit_title' => 'Sunting pautan',
-    'search' => 'Cari tajuk, keterangan, tag atau pautan',
+    'search' => 'Cari tajuk, tag atau pautan',
     'cols' => ['title' => 'Pautan', 'subject' => 'Subjek', 'status' => 'Status', 'updated' => 'Dikemas kini'],
     'empty_title' => 'Belum ada pautan.',
     'empty_text' => 'Tambah pautan Quizizz yang anda cipta, kemudian kumpulkan dalam koleksi.',

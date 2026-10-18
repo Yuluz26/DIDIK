@@ -37,6 +37,7 @@
 
 .panel__head .panel__note {
     margin-inline-start: var(--space-2);
+    font: 700 var(--fs-small) / 1.4 var(--font-body);
 }
 
 .field__flag {
@@ -120,9 +121,14 @@
     font-weight: 700;
 }
 
-/* Tables scroll inside their own box on narrow screens; the page never does. */
+/*
+ * Tables scroll inside their own box on narrow screens; the page never does. The wrapper is also a
+ * size container, so a list switches layout when the room it has is short, whatever the screen is
+ * (a laptop with the sidebar open has less room than a tablet without it).
+ */
 .table-wrap {
     overflow-x: auto;
+    container-type: inline-size;
 }
 
 .table {
@@ -149,6 +155,10 @@
     font-weight: 600;
 }
 
+.table td:first-child {
+    min-width: 11rem;
+}
+
 .table__title {
     display: block;
     font-weight: 800;
@@ -170,15 +180,110 @@
     font-variant-numeric: tabular-nums;
 }
 
-.table__actions {
+/* A row of buttons: in a table cell, a panel header or a form's status line. */
+.actions {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-2);
+}
+
+/* In a table row the buttons stay on one line at the end of the row; the column takes the width it needs. */
+.table td > .actions {
+    flex-wrap: nowrap;
     justify-content: flex-end;
 }
 
-.table__actions form {
+.actions form {
     display: inline;
+}
+
+/* Admin screens repeat their buttons, so they rest flat and only tint when pointed at. */
+.actions .btn {
+    min-height: 2.75rem;
+    padding-inline: var(--space-4);
+    border: 1px solid var(--admin-line);
+    background: transparent;
+    box-shadow: none;
+}
+
+.actions .btn:active {
+    background: var(--admin-bg);
+    box-shadow: none;
+}
+
+@media (hover: hover) {
+    .actions .btn:hover:not([aria-disabled='true'], :disabled) {
+        background: var(--admin-bg);
+        box-shadow: none;
+        transform: none;
+    }
+}
+
+/*
+ * Short on room: one entry per row instead of a table that scrolls sideways. The markup carries
+ * explicit table roles because some screen readers drop the table semantics once the display type
+ * changes.
+ */
+@container (max-width: 50rem) {
+    .table--stack thead {
+        position: absolute;
+        inline-size: 1px;
+        block-size: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+    }
+
+    .table--stack,
+    .table--stack tbody {
+        display: block;
+    }
+
+    .table--stack tr {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: var(--space-1) var(--space-3);
+        padding-block: var(--space-4);
+        border-bottom: 1px solid var(--admin-line);
+    }
+
+    .table--stack tr:last-child {
+        border-bottom: 0;
+    }
+
+    .table--stack td {
+        padding: 0;
+        border: 0;
+    }
+
+    .table--stack td:first-child {
+        flex: 1 0 100%;
+    }
+
+    .table--stack td:last-child {
+        flex: 1 0 100%;
+        margin-block-start: var(--space-2);
+    }
+
+    .table--stack .table__num {
+        text-align: start;
+    }
+
+    .table--stack td[data-suffix]::after {
+        content: ' ' attr(data-suffix);
+        color: var(--ink-2);
+    }
+
+    .table--stack td > .actions {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+    }
+
+    /* A dash standing in for "no value" reads as clutter once the cell is part of a sentence. */
+    .table--stack .table__none {
+        display: none;
+    }
 }
 
 .status {

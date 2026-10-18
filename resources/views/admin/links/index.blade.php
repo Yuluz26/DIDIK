@@ -37,30 +37,30 @@
             </div>
         @else
             <div class="table-wrap">
-                <table class="table">
+                <table class="table table--stack" role="table">
                     <caption class="visually-hidden">{{ __('links.title') }}</caption>
-                    <thead>
-                        <tr>
-                            <th scope="col">{{ __('links.cols.title') }}</th>
-                            <th scope="col">{{ __('links.cols.subject') }}</th>
-                            <th scope="col">{{ __('links.cols.status') }}</th>
-                            <th scope="col"><span class="visually-hidden">{{ __('admin.common.actions') }}</span></th>
+                    <thead role="rowgroup">
+                        <tr role="row">
+                            <th role="columnheader" scope="col">{{ __('links.cols.title') }}</th>
+                            <th role="columnheader" scope="col">{{ __('links.cols.subject') }}</th>
+                            <th role="columnheader" scope="col">{{ __('links.cols.status') }}</th>
+                            <th role="columnheader" scope="col"><span class="visually-hidden">{{ __('admin.common.actions') }}</span></th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody role="rowgroup">
                         @foreach ($links as $link)
-                            <tr>
-                                <td>
+                            <tr role="row">
+                                <td role="cell">
                                     <span class="table__title"><a href="{{ route('admin.links.edit', $link) }}">{{ $link->title }}</a></span>
                                     <span class="table__sub url-hint">{{ parse_url($link->url, PHP_URL_HOST) }}{{ parse_url($link->url, PHP_URL_PATH) }}</span>
                                 </td>
-                                <td>
+                                <td role="cell" @class(['table__none' => ! $link->category && ! $link->level])>
                                     {{ $link->category?->name ?? '—' }}
                                     @if ($link->level)<span class="table__sub">{{ $link->level->name }}</span>@endif
                                 </td>
-                                <td><span class="status status--{{ $link->status->value }}">{{ $link->status->label() }}</span></td>
-                                <td>
-                                    <div class="table__actions">
+                                <td role="cell"><span class="status status--{{ $link->status->value }}">{{ $link->status->label() }}</span></td>
+                                <td role="cell">
+                                    <div class="actions">
                                         <x-button size="sm" :href="$link->url" target="_blank" rel="noopener noreferrer" :aria-label="__('links.open').': '.$link->title"><x-icon name="external-link" /> {{ __('admin.common.open') }}</x-button>
                                         <x-button size="sm" :href="route('admin.links.edit', $link)"><x-icon name="pencil" /> {{ __('admin.common.edit') }}</x-button>
                                         @include('admin.partials.delete', ['action' => route('admin.links.destroy', $link), 'name' => $link->title, 'text' => null])

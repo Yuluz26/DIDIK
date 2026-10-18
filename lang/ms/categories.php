@@ -18,6 +18,7 @@ return [
     'position_help' => 'Nombor kecil muncul dahulu.',
     'topic_follows' => 'Topik mengikut warna dan ikon subjeknya.',
     'quizzes' => ':count kuiz',
+    'col_quizzes' => 'Kuiz',
     'no_topics' => 'Belum ada topik.',
     'empty_title' => 'Belum ada subjek.',
     'empty_text' => 'Subjek asas dicipta oleh seeder rujukan: php artisan db:seed --class=ReferenceDataSeeder.',
