@@ -10,7 +10,7 @@
 @endphp
 
 <div class="filter-group" role="group" aria-labelledby="filter-{{ $param }}">
-    <h3 class="filter-group__label" id="filter-{{ $param }}">{{ $label }}</h3>
+    <p class="filter-group__label" id="filter-{{ $param }}">{{ $label }}</p>
     <ul class="chip-list">
         <li>
             <a class="chip" href="{{ $url(null) }}" @if ($current === null) aria-current="true" @endif>

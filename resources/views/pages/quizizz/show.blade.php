@@ -17,7 +17,7 @@
         @else
             <div class="stack">
                 @foreach ($collection->publishedLinks as $link)
-                    <x-link-row :link="$link" />
+                    <x-link-row :link="$link" heading="h2" />
                 @endforeach
             </div>
         @endif

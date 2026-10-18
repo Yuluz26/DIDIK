@@ -1,3 +1,4 @@
+import { focusWhenShown } from '../lib/focus';
 import { postJson } from '../lib/http';
 
 /**
@@ -488,15 +489,15 @@ export default function quizPlayer(config) {
         },
 
         focusQuestion() {
-            this.$nextTick(() => this.$refs.question?.focus({ preventScroll: false }));
+            focusWhenShown(this.$refs.question);
         },
 
         focusNext() {
-            this.$nextTick(() => this.$refs.next?.focus());
+            focusWhenShown(this.$refs.next);
         },
 
         focusCheckpoint() {
-            this.$nextTick(() => this.$refs.continue?.focus());
+            focusWhenShown(this.$refs.continue);
         },
     };
 }

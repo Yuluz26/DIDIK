@@ -1,4 +1,5 @@
-@props(['link'])
+{{-- $heading is the level of the title: h3 under a section heading, h2 straight under the page's h1. --}}
+@props(['link', 'heading' => 'h3'])
 
 @php
     $category = $link->category;
@@ -15,7 +16,7 @@
     @endif
 
     <div class="link-row__body">
-        <h3 class="link-row__title">{{ $link->title }}</h3>
+        <{{ $heading }} class="link-row__title">{{ $link->title }}</{{ $heading }}>
         @if ($link->description)
             <p class="link-row__text">{{ $link->description }}</p>
         @endif

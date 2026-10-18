@@ -27,6 +27,8 @@
 .site-nav a {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
+    min-width: 2.75rem;
     min-height: 3rem;
     padding: 0 var(--space-4);
     border-radius: var(--radius-pill);
@@ -125,6 +127,7 @@
 .site-footer__nav a {
     display: inline-flex;
     align-items: center;
+    min-width: 2.75rem;
     min-height: 3rem;
     color: var(--ink);
     font-weight: 800;
