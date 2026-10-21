@@ -52,11 +52,14 @@ class Guard:
             await response(scope, receive, send)
             return
 
-        csp = getattr(scope.get("app").state, "csp", None) if scope.get("app") else None
+        app = scope.get("app")
 
         async def send_with_headers(message: dict) -> None:
             if message["type"] == "http.response.start":
                 extra = list(SECURITY_HEADERS)
+                # Read when the response starts, not when the request arrives: serving the page may
+                # have just picked up a new build, whose inline scripts the policy must match.
+                csp = getattr(app.state, "csp", None) if app else None
                 if csp:
                     extra.append((b"content-security-policy", csp.encode()))
                 message["headers"] = list(message.get("headers", [])) + extra

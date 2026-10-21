@@ -29,7 +29,8 @@
 		rewardText,
 		nextLabel = 'Soalan seterusnya',
 		world,
-		total = 300
+		total = 300,
+		ranked = true
 	}: {
 		client: RoomClient;
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -42,6 +43,7 @@
 		nextLabel?: string;
 		world: Snippet;
 		total?: number;
+		ranked?: boolean;
 	} = $props();
 
 	const seat = $derived(game.seat ?? {});
@@ -60,7 +62,7 @@
 	});
 </script>
 
-<Hud {me} score={game.score} rank={game.rank} {unit} streak={seat.streak ?? 0} />
+<Hud {me} score={game.score} rank={ranked ? game.rank : null} {unit} streak={seat.streak ?? 0} />
 
 {#if game.stage === 'intro'}
 	<main class="wrap"><Countdown clock={game.clock} offset={client.offset} {title} /></main>

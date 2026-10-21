@@ -384,6 +384,21 @@ textarea {
 	}
 }
 
+/* A small reward (+2, +35) rising from where it was earned, then fading. */
+@keyframes gain {
+	from {
+		opacity: 0;
+		transform: translateY(35%);
+	}
+	20% {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+		transform: translateY(-100%);
+	}
+}
+
 @keyframes bob {
 	0%,
 	100% {

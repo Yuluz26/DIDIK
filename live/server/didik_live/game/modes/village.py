@@ -23,6 +23,9 @@ BUILDINGS = [
 ]
 DECORATIONS = ["kelapa", "bunga", "pelita", "wau", "kucing", "ayam"]
 MAX_DECORATIONS = 80
+# The padang in front of the village, as fractions of the map; the web app draws the same field.
+PADANG_X = (0.04, 0.96)
+PADANG_Y = (0.80, 0.97)
 
 
 class VillageMode(SelfPacedMode):
@@ -91,8 +94,8 @@ class VillageMode(SelfPacedMode):
         item = {
             "id": self._decor_id,
             "kind": decoration,
-            "x": round(min(0.97, max(0.03, x)), 3),
-            "y": round(min(0.97, max(0.62, y)), 3),
+            "x": round(min(PADANG_X[1], max(PADANG_X[0], x)), 3),
+            "y": round(min(PADANG_Y[1], max(PADANG_Y[0], y)), 3),
             "by": player.id,
         }
         self.decor.append(item)
@@ -114,6 +117,12 @@ class VillageMode(SelfPacedMode):
             ],
             "built": self.built,
             "decor": self.decor,
+            # Who has carried the most material, so the village can show them at work.
+            "helpers": [
+                {"id": pid, "n": n}
+                for pid, n in sorted(self.contrib.items(), key=lambda kv: -kv[1])
+                if pid in self.room.players
+            ][:12],
         }
 
     def world_view(self, player: Any) -> dict[str, Any]:
@@ -139,6 +148,6 @@ class VillageMode(SelfPacedMode):
         seat = self.seats.get(bot.id)
         if seat is not None and seat.extra["tokens"] > 0 and now >= seat.bot_at and self.stage == "play":
             self.act(bot, seat, "place", {
-                "kind": self.rng.choice(DECORATIONS), "x": self.rng.uniform(0.05, 0.95), "y": self.rng.uniform(0.66, 0.95)
+                "kind": self.rng.choice(DECORATIONS), "x": self.rng.uniform(*PADANG_X), "y": self.rng.uniform(*PADANG_Y)
             })
         super().bot_tick(bot, now)

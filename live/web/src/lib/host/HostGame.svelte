@@ -6,6 +6,9 @@
 	import JumpHost from '$lib/games/jump/JumpHost.svelte';
 	import TeamsWorld from '$lib/games/teams/TeamsWorld.svelte';
 	import RaceRiver from '$lib/games/race/RaceRiver.svelte';
+	import VillageWorld from '$lib/games/village/VillageWorld.svelte';
+	import GardenHost from '$lib/games/garden/GardenHost.svelte';
+	import PictureHost from '$lib/games/picture/PictureHost.svelte';
 	import ScoreTowers from '$ui/ScoreTowers.svelte';
 	import SelfHost from './SelfHost.svelte';
 	import SyncHost from './SyncHost.svelte';
@@ -37,6 +40,24 @@
 	<SelfHost {client} {game} {people} feed={view.feed} title={mode.title} unit="petak" total={minutes}>
 		{#snippet world()}
 			{#if game.world?.cells}<TeamsWorld {client} world={game.world} step={null} big />{/if}
+		{/snippet}
+	</SelfHost>
+{:else if mode.key === 'kampung'}
+	<SelfHost {client} {game} {people} feed={view.feed} title={mode.title} unit="bahan" total={minutes} boardTitle="Paling banyak membantu">
+		{#snippet world()}
+			{#if game.world?.buildings}<VillageWorld {client} world={game.world} {people} big />{/if}
+		{/snippet}
+	</SelfHost>
+{:else if mode.key === 'teka'}
+	<SyncHost {client} {game} {people} title={mode.title} wideSide>
+		{#snippet side()}
+			{#if game.picture}<PictureHost {client} frame={game.picture} {people} />{/if}
+		{/snippet}
+	</SyncHost>
+{:else if mode.key === 'kebun'}
+	<SelfHost {client} {game} {people} feed={view.feed} title={mode.title} unit="mata" total={minutes}>
+		{#snippet world()}
+			{#if game.world?.top}<GardenHost world={game.world} {people} />{/if}
 		{/snippet}
 	</SelfHost>
 {:else}

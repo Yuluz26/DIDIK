@@ -1,7 +1,8 @@
 <!--
 	A walkable 3/4 world: a flat ground drawing, then props and characters sorted by how far down the
 	screen they stand, so a child walking behind a tree is hidden by it and walks in front of it below.
-	With `follow`, the view keeps the child's own character in the middle.
+	With `follow`, the view keeps the child's own character in the middle. The `overlay` snippet is
+	drawn above everything, in the world's own coordinates (multiply tiles by the tile size).
 -->
 <script lang="ts" module>
 	export interface WorldProp {
@@ -11,9 +12,12 @@
 		y: number;
 		variant?: number;
 		state?: string;
+		progress?: number;
 		label?: string;
 		badge?: string | number;
 		action?: () => void;
+		/** Drawn by the world's own `art` snippet instead of the shared props. */
+		custom?: boolean;
 	}
 
 	export interface WorldActor {
@@ -44,7 +48,10 @@
 		actors = [],
 		me = null,
 		follow = false,
-		names = true
+		names = true,
+		step = 110,
+		art,
+		overlay
 	}: {
 		width: number;
 		height: number;
@@ -54,11 +61,17 @@
 		actors?: WorldActor[];
 		me?: string | null;
 		follow?: boolean;
-		names?: boolean;
+		/** Name tags over the characters: everyone's, only the child's own ('me'), or none. */
+		names?: boolean | 'me';
+		/** How long characters take to move to a new position, in milliseconds. */
+		step?: number;
+		art?: Snippet<[WorldProp, number]>;
+		overlay?: Snippet<[number]>;
 	} = $props();
 
 	let vw = $state(0);
 	let vh = $state(0);
+	const chibi = $derived(Math.round(tile * 1.05));
 	const mine = $derived(me ? actors.find((a) => a.id === me) : undefined);
 
 	const camera = $derived.by(() => {
@@ -71,7 +84,15 @@
 	});
 </script>
 
-<div class="viewport" class:follow bind:clientWidth={vw} bind:clientHeight={vh}>
+{#snippet drawing(prop: WorldProp)}
+	{#if prop.custom && art}
+		{@render art(prop, tile)}
+	{:else}
+		<Prop kind={prop.kind} variant={prop.variant} state={prop.state} progress={prop.progress} {tile} />
+	{/if}
+{/snippet}
+
+<div class="viewport" class:follow bind:clientWidth={vw} bind:clientHeight={vh} style:--step="{step}ms">
 	<div class="world" style:width="{W * tile}px" style:height="{H * tile}px" style:transform="translate3d({camera.x}px, {camera.y}px, 0)">
 		<svg class="ground" viewBox="0 0 {W} {H}" width={W * tile} height={H * tile} aria-hidden="true" focusable="false">
 			{@render ground()}
@@ -80,11 +101,9 @@
 		{#each props as prop (prop.id)}
 			<div class="place" style:left="{prop.x * tile}px" style:top="{prop.y * tile}px" style:z-index={Math.round(prop.y * 10)}>
 				{#if prop.action}
-					<button type="button" class="hit" onclick={prop.action} aria-label={prop.label}>
-						<Prop kind={prop.kind} variant={prop.variant} state={prop.state} {tile} />
-					</button>
+					<button type="button" class="hit" onclick={prop.action} aria-label={prop.label}>{@render drawing(prop)}</button>
 				{:else}
-					<Prop kind={prop.kind} variant={prop.variant} state={prop.state} {tile} />
+					{@render drawing(prop)}
 				{/if}
 				{#if prop.badge !== undefined}<span class="badge">{prop.badge}</span>{/if}
 			</div>
@@ -93,7 +112,6 @@
 		{#each actors as actor (actor.id)}
 			<div
 				class="place actor"
-				class:me={actor.id === me}
 				style:left="{actor.x * tile}px"
 				style:top="{actor.y * tile}px"
 				style:z-index={Math.round(actor.y * 10) + 1}
@@ -102,14 +120,27 @@
 					animal={actor.animal}
 					colour={actor.colour}
 					skin={actor.skin}
-					size={Math.round(tile * 1.05)}
+					size={chibi}
 					walking={actor.walking}
 					facing={actor.facing}
 					mood={actor.mood}
 				/>
-				{#if names}<span class="tag">{actor.id === me ? 'Kamu' : actor.name}</span>{/if}
 			</div>
 		{/each}
+
+		<!-- Name tags float above everything, so a tree or an easel never hides who is who. -->
+		{#each actors as actor (actor.id)}
+			{#if actor.id === me ? names : names === true && actor.name}
+				<span
+					class="tag"
+					class:me={actor.id === me}
+					style:left="{Math.min(W - 0.9, Math.max(0.9, actor.x)) * tile}px"
+					style:top="{actor.y * tile - chibi * 1.25}px">{actor.id === me ? 'Kamu' : actor.name}</span
+				>
+			{/if}
+		{/each}
+
+		{#if overlay}<div class="overlay">{@render overlay(tile)}</div>{/if}
 	</div>
 </div>
 
@@ -136,6 +167,13 @@
 		inset: 0;
 		display: block;
 	}
+	/* Overlay content ignores the pointer unless it asks for it (a control sets pointer-events: auto). */
+	.overlay {
+		position: absolute;
+		inset: 0;
+		z-index: 1000;
+		pointer-events: none;
+	}
 	.place {
 		position: absolute;
 		translate: -50% -100%;
@@ -157,6 +195,14 @@
 	.hit:hover {
 		transform: translateY(-4px) scale(1.06);
 	}
+	.hit:active {
+		transform: translateY(0) scale(0.98);
+	}
+	.hit:focus-visible {
+		outline: 3px solid var(--sun);
+		outline-offset: 3px;
+		border-radius: var(--r-sm);
+	}
 	.badge {
 		position: absolute;
 		top: 0;
@@ -169,18 +215,20 @@
 		text-align: center;
 		box-shadow: 0 2px 0 rgb(0 0 0 / 0.15);
 	}
-	.actor {
-		display: grid;
-		justify-items: center;
-		translate: -50% calc(-100% + 0.75rem);
+	.actor,
+	.tag {
 		transition:
-			left 110ms linear,
-			top 110ms linear;
+			left var(--step) linear,
+			top var(--step) linear;
 		pointer-events: none;
 	}
+	.actor {
+		translate: -50% calc(-100% + 0.75rem);
+	}
 	.tag {
-		order: -1;
-		margin-bottom: -0.2rem;
+		position: absolute;
+		z-index: 900;
+		translate: -50% calc(-100% + 0.95rem);
 		padding: 0 0.4rem;
 		border-radius: var(--r-pill);
 		background: rgb(255 255 255 / 0.92);
@@ -190,7 +238,7 @@
 		white-space: nowrap;
 		box-shadow: 0 1px 0 rgb(0 0 0 / 0.12);
 	}
-	.me .tag {
+	.tag.me {
 		background: var(--sun);
 	}
 </style>

@@ -20,7 +20,8 @@
 		title,
 		unit = 'mata',
 		scene,
-		side
+		side,
+		wideSide = false
 	}: {
 		client: RoomClient;
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -30,6 +31,8 @@
 		unit?: string;
 		scene?: Snippet;
 		side?: Snippet;
+		/** A wider side column, for games whose picture matters as much as the question. */
+		wideSide?: boolean;
 	} = $props();
 
 	const typed = $derived(game.question && !['single', 'multiple', 'truefalse'].includes(game.question.type));
@@ -53,7 +56,7 @@
 			<Leaderboard rows={game.standings} {people} {unit} limit={5} />
 		</section>
 	{:else if game.question}
-		<div class="layout" class:with-side={!!side}>
+		<div class="layout" class:with-side={!!side} class:wide-side={wideSide}>
 			<div class="q">
 				<div class="top">
 					{#if game.stage === 'question'}
@@ -89,6 +92,9 @@
 	.layout.with-side {
 		grid-template-columns: minmax(0, 1fr) minmax(16rem, 22rem);
 		align-items: start;
+	}
+	.layout.with-side.wide-side {
+		grid-template-columns: minmax(0, 1fr) minmax(18rem, 29rem);
 	}
 	.q {
 		display: grid;

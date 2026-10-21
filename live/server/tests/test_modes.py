@@ -165,7 +165,8 @@ def test_village_is_built_together_and_ends_when_complete() -> None:
         await settle()
         results = host_socket.view()["results"]
         assert results["kind"] == "coop" and results["complete"]
-        assert mode.decor and all(0.62 <= d["y"] <= 0.97 for d in mode.decor)  # kept on the ground
+        assert mode.decor and all(0.80 <= d["y"] <= 0.97 for d in mode.decor)  # kept on the padang
+        assert host_socket.view()["results"]["players"][0]["score"] > 0
         room.close()
 
     run(scenario())

@@ -20,7 +20,8 @@
 		unit = 'mata',
 		total = 300,
 		world,
-		board = true
+		board = true,
+		boardTitle = 'Kedudukan'
 	}: {
 		client: RoomClient;
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -32,6 +33,7 @@
 		total?: number;
 		world?: Snippet;
 		board?: boolean;
+		boardTitle?: string;
 	} = $props();
 </script>
 
@@ -43,7 +45,7 @@
 		{#if world}<section class="world">{@render world()}</section>{/if}
 		<aside class="side">
 			{#if board}
-				<h2>Kedudukan</h2>
+				<h2>{boardTitle}</h2>
 				<Leaderboard rows={game.leaders} {people} {unit} limit={8} compact={!!world} />
 			{/if}
 			<Feed items={feed} {people} />

@@ -95,7 +95,7 @@ class GardenMode(SelfPacedMode):
 
     def world_view(self, player: Any) -> dict[str, Any]:
         if player is None:
-            return {"top": self.top_gardens()}
+            return {"top": self.top_gardens(), "crops": CROPS, "maxPlots": MAX_PLOTS}
         seat = self.seats.get(player.id)
         if seat is None:
             return {"crops": CROPS, "shop": SHOP}
@@ -113,7 +113,11 @@ class GardenMode(SelfPacedMode):
 
     def top_gardens(self) -> list[dict[str, Any]]:
         best = sorted(self.players(), key=lambda p: -p.score)[:3]
-        return [{"id": p.id, "plots": self.seats[p.id].extra["plots"]} for p in best if p.id in self.seats]
+        return [
+            {"id": p.id, "plots": self.seats[p.id].extra["plots"], "earned": self.seats[p.id].extra["earned"]}
+            for p in best
+            if p.id in self.seats
+        ]
 
     # ------------------------------------------------------------ bots
 

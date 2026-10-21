@@ -10,6 +10,9 @@
 	import TeamsWorld from './teams/TeamsWorld.svelte';
 	import TreasureIsland from './treasure/TreasureIsland.svelte';
 	import { lootLine } from './treasure/loot';
+	import VillageWorld from './village/VillageWorld.svelte';
+	import GardenPlayer from './garden/GardenPlayer.svelte';
+	import PictureGuess from './picture/PictureGuess.svelte';
 
 	let { client, view, me, people }: { client: RoomClient; view: View; me: Me; people: Map<string, Person> } = $props();
 
@@ -50,6 +53,41 @@
 			{#if game.world?.cells}<TeamsWorld {client} world={game.world} step={game.seat?.step ?? null} />{/if}
 		{/snippet}
 	</SelfPlayer>
+{:else if mode.key === 'kampung'}
+	<SelfPlayer
+		{client}
+		{game}
+		{me}
+		title={mode.title}
+		unit="bahan"
+		total={minutes}
+		ranked={false}
+		rewardText={(r) => (r.materials ? `+${r.materials} bahan binaan${r.decoration ? ', dan satu hiasan untuk padang!' : ''}` : '')}
+	>
+		{#snippet world()}
+			{#if game.world?.buildings}<VillageWorld {client} world={game.world} {people} me={me.id} />{/if}
+		{/snippet}
+	</SelfPlayer>
+{:else if mode.key === 'kebun'}
+	<SelfPlayer
+		{client}
+		{game}
+		{me}
+		title={mode.title}
+		unit="mata"
+		total={minutes}
+		rewardText={(r) => (r.water ? `+${r.water} titisan air untuk kebun!` : '')}
+	>
+		{#snippet world()}
+			{#if game.world?.plots}<GardenPlayer {client} world={game.world} {me} />{/if}
+		{/snippet}
+	</SelfPlayer>
+{:else if mode.key === 'teka'}
+	<SyncPlayer {client} {game} {me} {people} title={mode.title}>
+		{#snippet scene()}
+			{#if game.picture}<PictureGuess {client} frame={game.picture} {me} {people} />{/if}
+		{/snippet}
+	</SyncPlayer>
 {:else}
 	<p class="wrap">Permainan ini sedang disiapkan.</p>
 {/if}

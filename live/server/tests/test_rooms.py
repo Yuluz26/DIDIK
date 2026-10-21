@@ -93,15 +93,19 @@ def test_a_whole_boat_race() -> None:
 
         assert room.start_game() is None
         mode = room.mode
+        def seen(stage: str) -> bool:
+            # The child's screen, not just the server, has reached the stage (views are batched).
+            views = fast_socket.views()
+            game = (views[-1].get("game") or {}) if views else {}
+            return mode.stage == stage and game.get("stage") == stage and game.get("index") == mode.index
+
         for _ in range(3):
-            await until(lambda: mode.stage == "question")
-            await settle(0.1)
+            await until(lambda: seen("question"))
             question = fast_socket.view()["game"]["question"]
             assert "correct" not in json.dumps(question)
             room.handle_player(ace, {"t": "answer", "a": mode.pres.sample_answer(True, mode.rng)})
             room.handle_player(dud, {"t": "answer", "a": mode.pres.sample_answer(False, mode.rng)})
-            await until(lambda: mode.stage == "reveal")
-            await settle(0.15)
+            await until(lambda: seen("reveal") and "result" in fast_socket.view()["game"])
             game = fast_socket.view()["game"]
             assert game["result"]["correct"] is True and game["result"]["points"] >= 60
             assert "reveal" in game
