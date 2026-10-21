@@ -32,7 +32,8 @@ class OpenRoom(BaseModel):
 
 
 def join_link(request: Request, slug: str) -> str:
-    return f"{str(request.base_url).rstrip('/')}/m/{slug}"
+    base = request.app.state.settings.public_url or str(request.base_url).rstrip("/")
+    return f"{base}/m/{slug}"
 
 
 def _quiz_for(db: Session, quiz_id: int, user: User) -> Quiz:

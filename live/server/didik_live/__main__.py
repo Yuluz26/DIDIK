@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import argparse
 import logging
+import os
 import socket
 
 import uvicorn
@@ -36,6 +37,9 @@ def main() -> None:
     logging.basicConfig(level=logging.INFO, format="%(message)s")
     print(f"\n  DIDIK Main Bersama\n  Buka:  http://localhost:{args.port}")
     if args.lan and (address := lan_address()):
+        # Room links and QR codes point here, so a phone can scan them even when the host's own
+        # browser opened the site as localhost.
+        os.environ.setdefault("DIDIK_PUBLIC_URL", f"http://{address}:{args.port}")
         print(f"  Telefon di Wi-Fi yang sama:  http://{address}:{args.port}")
     print("  Akaun demo: demo@didik.test / main-bersama\n")
 

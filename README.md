@@ -1,5 +1,7 @@
 # DIDIK — Claude Code Prompt Pack
 
+> **DIDIK Main Bersama** (permainan kuiz langsung, Python + SvelteKit) ada dalam folder `live/`. Cara menjalankannya di localhost: [`live/README.md`](live/README.md).
+
 This pack contains five staged prompts for planning, designing, building, hardening, and polishing DIDIK.
 
 ## Recommended workflow

@@ -2,12 +2,16 @@ from __future__ import annotations
 
 import asyncio
 import json
+from dataclasses import replace
 
 import anyio
 import pytest
 from fastapi.testclient import TestClient
 
+from didik_live.app import create_app
+from didik_live.config import Settings
 from didik_live.game.room import JoinError
+from didik_live.seed import DEMO_EMAIL, DEMO_PASSWORD
 
 from .conftest import sample_id
 from .roomkit import connection, open_room, settle, until
@@ -251,3 +255,14 @@ def test_unknown_rooms_and_foreign_origins(client: TestClient) -> None:
     with client.websocket_connect("/ws/000000") as ws:
         assert receive(ws)["code"] == "no-room"
     assert client.get("/api/rooms/000000").status_code == 404
+
+
+def test_room_links_use_the_public_address_when_one_is_set(settings: Settings) -> None:
+    # `didik-live --lan` sets this, so a phone can scan the QR code of a host on localhost.
+    app = create_app(replace(settings, public_url="http://192.168.1.20:8080"))
+    with TestClient(app) as client:
+        client.post("/api/auth/login", json={"email": DEMO_EMAIL, "password": DEMO_PASSWORD})
+        quiz_id = sample_id(client, "Sains: Betul atau Salah?")
+        room = client.post("/api/rooms", json={"quiz_id": quiz_id, "mode": "lumba"}).json()
+        assert room["link"] == f"http://192.168.1.20:8080/m/{room['slug']}"
+        assert client.get(f"/api/rooms/{room['code']}").json()["link"] == room["link"]

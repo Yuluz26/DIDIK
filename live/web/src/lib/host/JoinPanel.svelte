@@ -1,13 +1,25 @@
 <!-- How children get in: the word link, the QR code and the six-digit code, big enough for a TV. -->
 <script lang="ts">
+	import { api } from '$lib/api';
 	import type { RoomInfo } from '$lib/types';
 	import Icon from '$ui/Icon.svelte';
 
 	let { room, compact = false }: { room: RoomInfo; compact?: boolean } = $props();
 
-	const link = $derived(`${location.origin}/m/${room.slug}`);
-	const host = $derived(`${location.host}/m/`);
+	// The server knows the address children can reach (with `didik-live --lan`, the computer's Wi-Fi
+	// address, even when this screen was opened as localhost); the QR code uses the same one.
+	let base = $state(location.origin);
+	const link = $derived(`${base}/m/${room.slug}`);
+	const host = $derived(`${base.replace(/^https?:\/\//, '')}/m/`);
 	let copied = $state(false);
+
+	$effect(() => {
+		const slug = room.slug;
+		api
+			.get<{ link: string }>(`/api/rooms/${room.code}`)
+			.then((info) => (base = info.link.slice(0, -`/m/${slug}`.length)))
+			.catch(() => {});
+	});
 
 	async function copy() {
 		try {

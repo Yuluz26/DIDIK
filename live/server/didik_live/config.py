@@ -30,6 +30,9 @@ class Settings:
     seed_demo: bool
     session_days: int = 30
     max_upload_bytes: int = 5 * 1024 * 1024
+    # The address children use to reach the site (room links and QR codes). When empty, links use the
+    # address the host's browser used, which is "localhost" on the host's own computer.
+    public_url: str | None = None
 
     @property
     def upload_dir(self) -> Path:
@@ -48,4 +51,5 @@ def load_settings() -> Settings:
         secure_cookies=_flag("DIDIK_SECURE_COOKIES", False),
         allow_bots=_flag("DIDIK_ALLOW_BOTS", True),
         seed_demo=_flag("DIDIK_SEED_DEMO", True),
+        public_url=(os.environ.get("DIDIK_PUBLIC_URL") or "").strip().rstrip("/") or None,
     )
