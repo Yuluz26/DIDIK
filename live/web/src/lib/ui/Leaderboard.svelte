@@ -30,7 +30,7 @@
 		{@const person = people.get(row.id)}
 		<li class:me={row.id === me} animate:flip={{ duration: 520 }}>
 			<span class="rank" class:top={row.rank <= 3}>{row.rank}</span>
-			<Avatar animal={person?.avatar} colour={person?.colour} size={compact ? 30 : 38} />
+			<Avatar animal={person?.avatar} colour={person?.colour} skin={person?.skin} size={compact ? 30 : 38} />
 			<span class="name">{person?.name ?? 'Pemain'}{#if person?.bot}<span class="bot">bot</span>{/if}</span>
 			{#if row.gained}<span class="gained">+{row.gained}</span>{/if}
 			<span class="score">{row.score.toLocaleString('ms-MY')} <small>{unit}</small></span>

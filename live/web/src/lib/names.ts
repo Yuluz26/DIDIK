@@ -31,6 +31,14 @@ export const SKINS: Record<string, string> = {
 	s5: '#7e4e2c'
 };
 
+export const SKIN_NAMES: Record<string, string> = {
+	s1: 'Cerah',
+	s2: 'Kuning langsat',
+	s3: 'Sawo matang',
+	s4: 'Coklat',
+	s5: 'Hitam manis'
+};
+
 export const COLOUR_NAMES: Record<string, string> = {
 	jingga: 'Jingga',
 	kuning: 'Kuning',

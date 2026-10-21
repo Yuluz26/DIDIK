@@ -9,6 +9,7 @@
 	import { confetti } from '$lib/confetti';
 	import { play } from '$lib/sound';
 	import Avatar from './Avatar.svelte';
+	import Chibi from './Chibi.svelte';
 	import Didi from './Didi.svelte';
 
 	let {
@@ -42,7 +43,7 @@
 			{#each results.players as row (row.id)}
 				{@const person = people.get(row.id)}
 				<li class:me={row.id === me}>
-					<Avatar animal={person?.avatar} colour={person?.colour} size={52} mood="cheer" bob />
+					<Avatar animal={person?.avatar} colour={person?.colour} skin={person?.skin} size={52} mood="cheer" bob />
 					<span>{row.id === me ? 'Kamu' : person?.name}</span>
 					<small>{row.score} bahan</small>
 				</li>
@@ -63,11 +64,16 @@
 			{#each order as row (row.id)}
 				{@const person = people.get(row.id)}
 				<li class="step step--{row.rank}" class:me={row.id === me}>
-					{#if row.rank === 1}<svg class="crown" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17l2-10 5 5 2-7 2 7 5-5 2 10z" fill="#ffb627" stroke="#c98400" stroke-width="1.5" stroke-linejoin="round" /></svg>{/if}
-					<Avatar animal={person?.avatar} colour={person?.colour} size={row.rank === 1 ? 92 : 72} mood="cheer" />
-					<span class="name">{person?.name}</span>
-					<span class="score">{row.score.toLocaleString('ms-MY')} {unit}</span>
-					<span class="block"><span>{row.rank}</span></span>
+					<span class="who">
+						{#if row.id === me}<span class="tag">Kamu</span>{/if}
+						{#if row.rank === 1}<svg class="crown" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17l2-10 5 5 2-7 2 7 5-5 2 10z" fill="#ffb627" stroke="#c98400" stroke-width="1.5" stroke-linejoin="round" /></svg>{/if}
+						<Chibi animal={person?.avatar} colour={person?.colour} skin={person?.skin} size={row.rank === 1 ? 78 : 64} mood="cheer" />
+					</span>
+					<span class="block">
+						<span class="rank">{row.rank}</span>
+						<span class="name">{person?.name}</span>
+						<span class="score">{row.score.toLocaleString('ms-MY')} {unit}</span>
+					</span>
 				</li>
 			{/each}
 		</ol>
@@ -82,7 +88,7 @@
 					{@const person = people.get(row.id)}
 					<li class:me={row.id === me}>
 						<span class="rank">{row.rank}</span>
-						<Avatar animal={person?.avatar} colour={person?.colour} size={32} />
+						<Avatar animal={person?.avatar} colour={person?.colour} skin={person?.skin} size={32} />
 						<span class="name">{person?.name}</span>
 						<span class="score">{row.score.toLocaleString('ms-MY')}</span>
 					</li>
@@ -131,7 +137,6 @@
 		position: relative;
 		display: grid;
 		justify-items: center;
-		gap: 0.25rem;
 		width: min(11rem, 31%);
 		animation: rise-in 700ms var(--spring) both;
 	}
@@ -141,47 +146,63 @@
 	.step--2 {
 		animation-delay: 0.25s;
 	}
+	/* The winner stands on the block: the feet overlap its top face. */
+	.who {
+		position: relative;
+		z-index: 1;
+		display: grid;
+		justify-items: center;
+		margin-bottom: -1rem;
+	}
 	.crown {
-		position: absolute;
-		top: -1.5rem;
-		width: 2.6rem;
+		width: 2.4rem;
+		margin-bottom: -0.5rem;
 		animation: wiggle 1.2s ease-in-out 3;
 	}
-	.name {
-		max-width: 100%;
-		font: 600 clamp(0.95rem, 0.8rem + 0.6vw, 1.15rem) / 1.15 var(--font-display);
-		text-align: center;
-		text-wrap: balance;
-		overflow-wrap: anywhere;
-	}
-	.me .name {
+	.tag {
 		padding: 0 0.5rem;
 		border-radius: var(--r-pill);
 		background: var(--sun);
-	}
-	.score {
 		font-weight: 800;
-		color: var(--ink-2);
+		font-size: 0.8rem;
 	}
 	.block {
 		display: grid;
-		place-items: center;
+		align-content: start;
+		justify-items: center;
+		gap: 0.1rem;
 		width: 100%;
+		padding: 1.25rem 0.4rem 0.8rem;
 		border-radius: var(--r-md) var(--r-md) 0 0;
 		color: #fff;
-		font: 600 2.2rem var(--font-display);
+		text-align: center;
+		box-shadow: inset 0 0.9rem 0 rgb(255 255 255 / 0.22);
+	}
+	.rank {
+		font: 600 2rem/1 var(--font-display);
+	}
+	.block .name {
+		max-width: 100%;
+		font: 600 clamp(0.9rem, 0.78rem + 0.5vw, 1.1rem) / 1.15 var(--font-display);
+		text-wrap: balance;
+		overflow-wrap: anywhere;
+	}
+	.block .score {
+		font-weight: 800;
+		font-size: 0.85rem;
+		opacity: 0.85;
 	}
 	.step--1 .block {
-		height: 8.5rem;
+		min-height: 9.5rem;
 		background: var(--sun);
 		color: var(--ink);
 	}
 	.step--2 .block {
-		height: 6rem;
+		min-height: 7.5rem;
 		background: var(--sea);
 	}
 	.step--3 .block {
-		height: 4.5rem;
+		min-height: 6rem;
 		background: var(--coral);
 	}
 	.you {
@@ -217,7 +238,11 @@
 	}
 	.rest .name {
 		flex: 1;
-		font-size: 1rem;
+		font: 600 1rem var(--font-display);
+	}
+	.rest .score {
+		font-weight: 800;
+		color: var(--ink-2);
 	}
 	.helpers {
 		display: grid;

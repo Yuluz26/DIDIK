@@ -15,7 +15,7 @@
 </script>
 
 <header class="hud">
-	<Avatar animal={me.avatar} colour={me.colour} size={40} />
+	<Avatar animal={me.avatar} colour={me.colour} skin={me.skin} size={40} />
 	<div class="who">
 		<span class="name">{me.name}</span>
 		{#if rank}<span class="rank">Tempat ke-{rank}</span>{/if}

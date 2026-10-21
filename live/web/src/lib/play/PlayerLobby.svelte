@@ -2,7 +2,7 @@
 <script lang="ts">
 	import type { RoomClient } from '$lib/room.svelte';
 	import type { Me, Person, View } from '$lib/types';
-	import Avatar from '$ui/Avatar.svelte';
+	import CharacterStage from '$ui/CharacterStage.svelte';
 	import StickerBar from '$ui/StickerBar.svelte';
 	import SoundToggle from '$ui/SoundToggle.svelte';
 	import WorldBadge from '$lib/worlds/WorldBadge.svelte';
@@ -22,7 +22,7 @@
 	</div>
 
 	<section class="hello">
-		<Avatar animal={me.avatar} colour={me.colour} size={120} bob mood="cheer" />
+		<CharacterStage animal={me.avatar} colour={me.colour} skin={me.skin} size={84} />
 		<h1>Hai, {me.name}!</h1>
 		<p class="wait">Tunggu hos tekan <strong>Mula</strong><span class="dots" aria-hidden="true"><i>.</i><i>.</i><i>.</i></span></p>
 	</section>

@@ -70,7 +70,7 @@
 			<h2>Kedudukan</h2>
 			<Leaderboard rows={game.standings} {people} me={me.id} {unit} limit={5} />
 			{#if game.rank > 5}
-				<p class="mine"><Avatar animal={me.avatar} colour={me.colour} size={34} /> Kamu di tempat ke-{game.rank}. Teruskan!</p>
+				<p class="mine"><Avatar animal={me.avatar} colour={me.colour} skin={me.skin} size={34} /> Kamu di tempat ke-{game.rank}. Teruskan!</p>
 			{/if}
 		</section>
 	{:else if game.question}

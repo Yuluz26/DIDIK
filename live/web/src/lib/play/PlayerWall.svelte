@@ -15,7 +15,7 @@
 <ul class="wall" style:--size="{size}px">
 	{#each people as person (person.id)}
 		<li class="person" class:me={person.id === me} class:away={!person.online} data-player={person.id}>
-			<Avatar animal={person.avatar} colour={person.colour} {size} bob mood={person.online ? 'happy' : 'sleep'} />
+			<Avatar animal={person.avatar} colour={person.colour} skin={person.skin} {size} bob mood={person.online ? 'happy' : 'sleep'} />
 			<span class="name">{person.id === me ? 'Kamu' : person.name}</span>
 			{#if person.bot}<span class="tag">bot</span>{/if}
 			{#if onremove}

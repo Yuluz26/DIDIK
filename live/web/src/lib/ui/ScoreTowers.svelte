@@ -30,7 +30,7 @@
 		<li class="tower">
 			<span class="amount">{row.score.toLocaleString('ms-MY')}<small>{unit}</small></span>
 			<span class="track"><span class="fill" style:transform="scaleY({Math.max(0.04, row.score / top)})"></span></span>
-			<Avatar animal={person?.avatar} colour={person?.colour} size={46} mood={row.rank === 1 ? 'cheer' : 'happy'} />
+			<Avatar animal={person?.avatar} colour={person?.colour} skin={person?.skin} size={46} mood={row.rank === 1 ? 'cheer' : 'happy'} />
 			<span class="name">{person?.name ?? ''}</span>
 		</li>
 	{/each}

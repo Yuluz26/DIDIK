@@ -12,7 +12,7 @@
 	import Didi from '$ui/Didi.svelte';
 	import Logo from '$ui/Logo.svelte';
 	import Podium from '$ui/Podium.svelte';
-	import Avatar from '$ui/Avatar.svelte';
+	import CharacterStage from '$ui/CharacterStage.svelte';
 	import WorldBadge from '$lib/worlds/WorldBadge.svelte';
 	import JoinForm from '$lib/play/JoinForm.svelte';
 	import PlayerLobby from '$lib/play/PlayerLobby.svelte';
@@ -66,7 +66,7 @@
 	</main>
 {:else if view && me && view.phase === 'waiting'}
 	<main class="center wrap">
-		<Avatar animal={me.avatar} colour={me.colour} size={120} bob />
+		<CharacterStage animal={me.avatar} colour={me.colour} skin={me.skin} size={84} mood="happy" />
 		<h1>Tunggu sebentar, {me.name}</h1>
 		<p>Hos akan benarkan kamu masuk.</p>
 	</main>

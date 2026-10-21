@@ -70,8 +70,8 @@
 		</div>
 		<div class="crowd" aria-hidden="true">
 			<span class="didi"><Didi mood="wave" size={170} /></span>
-			{#each [['harimau', 'jingga', 0], ['penyu', 'teal', 1], ['enggang', 'kuning', 2], ['gajah', 'biru', 3], ['arnab', 'jambu', 4], ['beruang', 'hijau', 5]] as [animal, colour, i] (animal)}
-				<span class="pal p{i}"><Avatar animal={String(animal)} colour={String(colour)} size={64} bob /></span>
+			{#each [['harimau', 'jingga', 's2'], ['penyu', 'teal', 's4'], ['enggang', 'kuning', 's1'], ['gajah', 'biru', 's5'], ['arnab', 'jambu', 's3'], ['beruang', 'hijau', 's2']] as [animal, colour, skin], i (animal)}
+				<span class="pal p{i}"><Avatar {animal} {colour} {skin} size={64} bob /></span>
 			{/each}
 		</div>
 	</section>

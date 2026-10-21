@@ -46,7 +46,7 @@
 					<ol>
 						{#each world.escaped as id, i (id)}
 							{@const person = people.get(id)}
-							<li><span class="n">{i + 1}</span><Avatar animal={person?.avatar} colour={person?.colour} size={30} /> {person?.name}</li>
+							<li><span class="n">{i + 1}</span><Avatar animal={person?.avatar} colour={person?.colour} skin={person?.skin} size={30} /> {person?.name}</li>
 						{/each}
 					</ol>
 				</section>

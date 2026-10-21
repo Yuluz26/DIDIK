@@ -12,6 +12,14 @@ export interface Fx {
 
 type Status = 'idle' | 'connecting' | 'open' | 'reconnecting' | 'ended';
 
+/** What a child picks on the join screen: a nickname, an animal hood, a colour and a skin tone. */
+export interface JoinData {
+	name: string;
+	avatar: string;
+	colour: string;
+	skin: string;
+}
+
 const TOKEN_PREFIX = 'didik-live:token:';
 
 function storage(): Storage | null {
@@ -49,7 +57,7 @@ export class RoomClient {
 	private posListeners = new Set<() => void>();
 	private attempts = 0;
 	private stopped = false;
-	private joinData: Record<string, string> | null = null;
+	private joinData: JoinData | null = null;
 	private errorTimer: ReturnType<typeof setTimeout> | null = null;
 	private pingTimer: ReturnType<typeof setInterval> | null = null;
 
@@ -101,7 +109,7 @@ export class RoomClient {
 	}
 
 	/** A child chooses avatar and name, then joins (connecting first if needed). */
-	join(data: { name: string; avatar: string; colour: string }): void {
+	join(data: JoinData): void {
 		this.joinData = data;
 		this.joining = true;
 		if (this.ws?.readyState === WebSocket.OPEN) this.raw({ t: 'join', ...data });

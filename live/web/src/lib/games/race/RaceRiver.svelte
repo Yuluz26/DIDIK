@@ -69,7 +69,7 @@
 			<div class="lane">
 				<div class="runner" style:transform="translateX({progress(boat.m) * 100}%)">
 					<div class="boat" class:mine={boat.id === me} class:rowing={rowing.has(boat.id)}>
-						<span class="head"><Avatar animal={person?.avatar} colour={person?.colour} size={compact ? 24 : 34} /></span>
+						<span class="head"><Avatar animal={person?.avatar} colour={person?.colour} skin={person?.skin} size={compact ? 24 : 34} /></span>
 						<svg class="hull" viewBox="0 0 80 30" aria-hidden="true">
 							<path class="paddle" d="M50 4 L66 28" stroke="#8e5a2e" stroke-width="3.5" stroke-linecap="round" />
 							<path d="M2 10 H78 Q72 28 56 28 H24 Q8 28 2 10 Z" fill="#c9572e" />

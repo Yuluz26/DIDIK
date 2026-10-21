@@ -1,12 +1,15 @@
 <!--
-	A child joining: pick an animal, a colour, and a suggested nickname. No typing needed, no real
-	name asked for. A host can allow typed nicknames; those are checked on the server.
+	A child joining: pick an animal hood, a colour, a skin tone and a suggested nickname, and see the
+	character they will play as. No typing needed, no real name asked for. A host can allow typed
+	nicknames; those are checked on the server.
 -->
 <script lang="ts">
+	import type { JoinData } from '$lib/room.svelte';
 	import type { RoomInfo } from '$lib/types';
-	import { ANIMALS, COLOURS, COLOUR_NAMES, randomOf, suggestName } from '$lib/names';
+	import { ANIMALS, COLOURS, COLOUR_NAMES, SKINS, SKIN_NAMES, randomOf, suggestName } from '$lib/names';
 	import { play, unlock } from '$lib/sound';
 	import Avatar from '$ui/Avatar.svelte';
+	import CharacterStage from '$ui/CharacterStage.svelte';
 	import Icon from '$ui/Icon.svelte';
 
 	let {
@@ -14,10 +17,11 @@
 		busy = false,
 		error = null,
 		onjoin
-	}: { info: RoomInfo; busy?: boolean; error?: string | null; onjoin: (data: { name: string; avatar: string; colour: string }) => void } = $props();
+	}: { info: RoomInfo; busy?: boolean; error?: string | null; onjoin: (data: JoinData) => void } = $props();
 
 	let animal = $state(randomOf(Object.keys(ANIMALS)));
 	let colour = $state(randomOf(Object.keys(COLOURS)));
+	let skin = $state(randomOf(Object.keys(SKINS)));
 	let name = $state('');
 	let typing = $state(false);
 	let typed = $state('');
@@ -36,15 +40,13 @@
 		event.preventDefault();
 		unlock();
 		play('join');
-		onjoin({ name: typing && typed.trim() ? typed.trim() : name, avatar: animal, colour });
+		onjoin({ name: typing && typed.trim() ? typed.trim() : name, avatar: animal, colour, skin });
 	}
 </script>
 
 <form class="join" onsubmit={submit}>
 	<div class="preview">
-		{#key animal + colour}
-			<span class="me"><Avatar {animal} {colour} size={124} mood="cheer" /></span>
-		{/key}
+		<CharacterStage {animal} {colour} {skin} />
 		<div class="name-row">
 			{#if typing}
 				<label class="visually-hidden" for="own-name">Nama kamu</label>
@@ -68,32 +70,54 @@
 		<div class="animals">
 			{#each Object.entries(ANIMALS) as [key, label] (key)}
 				<button type="button" class="animal" class:on={animal === key} onclick={() => chooseAnimal(key)} aria-pressed={animal === key}>
-					<Avatar animal={key} {colour} size={58} />
+					<Avatar animal={key} {colour} {skin} size={58} />
 					<span>{label}</span>
 				</button>
 			{/each}
 		</div>
 	</fieldset>
 
-	<fieldset class="pick">
-		<legend>Pilih warna</legend>
-		<div class="colours">
-			{#each Object.entries(COLOURS) as [key, hex] (key)}
-				<button
-					type="button"
-					class="swatch"
-					class:on={colour === key}
-					style:--swatch={hex}
-					onclick={() => {
-						play('tap');
-						colour = key;
-					}}
-					aria-pressed={colour === key}
-					aria-label={COLOUR_NAMES[key]}
-				></button>
-			{/each}
-		</div>
-	</fieldset>
+	<div class="looks">
+		<fieldset class="pick">
+			<legend>Warna baju</legend>
+			<div class="colours">
+				{#each Object.entries(COLOURS) as [key, hex] (key)}
+					<button
+						type="button"
+						class="swatch"
+						class:on={colour === key}
+						style:--swatch={hex}
+						onclick={() => {
+							play('tap');
+							colour = key;
+						}}
+						aria-pressed={colour === key}
+						aria-label={COLOUR_NAMES[key]}
+					></button>
+				{/each}
+			</div>
+		</fieldset>
+
+		<fieldset class="pick">
+			<legend>Warna kulit</legend>
+			<div class="colours">
+				{#each Object.entries(SKINS) as [key, hex] (key)}
+					<button
+						type="button"
+						class="swatch"
+						class:on={skin === key}
+						style:--swatch={hex}
+						onclick={() => {
+							play('tap');
+							skin = key;
+						}}
+						aria-pressed={skin === key}
+						aria-label={SKIN_NAMES[key]}
+					></button>
+				{/each}
+			</div>
+		</fieldset>
+	</div>
 
 	{#if error}<p class="error" role="alert">{error}</p>{/if}
 	{#if !info.accepting}<p class="error" role="alert">{info.reason}</p>{/if}
@@ -112,10 +136,6 @@
 		display: grid;
 		justify-items: center;
 		gap: 0.6rem;
-	}
-	.me {
-		display: inline-block;
-		animation: pop-in 480ms var(--spring);
 	}
 	.name-row {
 		display: flex;
@@ -192,6 +212,15 @@
 		outline: 3px solid var(--ink);
 		outline-offset: 2px;
 		transform: scale(1.1);
+	}
+	.looks {
+		display: grid;
+		gap: 1.4rem;
+	}
+	@media (min-width: 640px) {
+		.looks {
+			grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+		}
 	}
 	.error {
 		padding: 0.7rem 1rem;

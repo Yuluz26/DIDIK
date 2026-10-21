@@ -85,7 +85,7 @@
 				<span class="crowd">
 					{#each people_here.slice(0, visible) as person (person.id)}
 						<span class="who" class:me={person.id === me} in:receive={{ key: person.id }} out:send={{ key: person.id }}>
-							<Avatar animal={person.avatar} colour={person.colour} size={big ? 44 : 34} mood={revealing ? (right ? 'cheer' : 'oops') : 'happy'} />
+							<Avatar animal={person.avatar} colour={person.colour} skin={person.skin} size={big ? 44 : 34} mood={revealing ? (right ? 'cheer' : 'oops') : 'happy'} />
 						</span>
 					{/each}
 					{#if people_here.length > visible}<span class="more">+{people_here.length - visible}</span>{/if}
@@ -106,7 +106,7 @@
 			<span class="hint">Belum lompat:</span>
 			{#each waiting.slice(0, 10) as person (person.id)}
 				<span class="who" in:receive={{ key: person.id }} out:send={{ key: person.id }}>
-					<Avatar animal={person.avatar} colour={person.colour} size={28} />
+					<Avatar animal={person.avatar} colour={person.colour} skin={person.skin} size={28} />
 				</span>
 			{/each}
 		{/if}
@@ -114,7 +114,7 @@
 			<span class="fishes">
 				<span class="hint">Ikan:</span>
 				{#each fish.slice(0, 10) as person (person.id)}
-					<span class="fish" title="{person.name} jadi ikan"><Avatar animal={person.avatar} colour={person.colour} size={26} /></span>
+					<span class="fish" title="{person.name} jadi ikan"><Avatar animal={person.avatar} colour={person.colour} skin={person.skin} size={26} /></span>
 				{/each}
 			</span>
 		{/if}

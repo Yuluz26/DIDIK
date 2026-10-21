@@ -14,7 +14,7 @@
 		{#each shown as item (item.id)}
 			{@const person = item.player ? people.get(item.player) : null}
 			<li class="item kind-{item.kind}" animate:flip={{ duration: 300 }}>
-				{#if person}<Avatar animal={person.avatar} colour={person.colour} size={30} />{/if}
+				{#if person}<Avatar animal={person.avatar} colour={person.colour} skin={person.skin} size={30} />{/if}
 				<span>{item.text}</span>
 			</li>
 		{/each}
