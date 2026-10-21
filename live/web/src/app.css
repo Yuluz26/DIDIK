@@ -624,15 +624,20 @@ textarea {
 	animation: pop-in 480ms var(--spring) both;
 }
 
+/* A badge on the tile's corner, not inline: picking an option must not squeeze its words. */
 .tile .mark {
+	position: absolute;
+	top: -0.55rem;
+	right: -0.45rem;
 	display: grid;
 	place-items: center;
-	flex: none;
 	width: 2rem;
 	height: 2rem;
 	border-radius: 50%;
 	background: #fff;
 	color: var(--good);
+	box-shadow: 0 2px 0 rgb(0 0 0 / 0.18);
+	animation: pop-in 320ms var(--spring);
 }
 
 .tile.wrong .mark {

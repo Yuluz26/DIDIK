@@ -18,6 +18,8 @@
 		action?: () => void;
 		/** Drawn by the world's own `art` snippet instead of the shared props. */
 		custom?: boolean;
+		/** Moves smoothly to a new position (a boat racing) instead of jumping there. */
+		glide?: boolean;
 	}
 
 	export interface WorldActor {
@@ -48,6 +50,7 @@
 		actors = [],
 		me = null,
 		follow = false,
+		focus = null,
 		names = true,
 		step = 110,
 		art,
@@ -61,6 +64,8 @@
 		actors?: WorldActor[];
 		me?: string | null;
 		follow?: boolean;
+		/** With `follow`, the point (in tiles) to keep in the middle instead of the child's character. */
+		focus?: { x: number; y: number } | null;
 		/** Name tags over the characters: everyone's, only the child's own ('me'), or none. */
 		names?: boolean | 'me';
 		/** How long characters take to move to a new position, in milliseconds. */
@@ -74,12 +79,14 @@
 	const chibi = $derived(Math.round(tile * 1.05));
 	const mine = $derived(me ? actors.find((a) => a.id === me) : undefined);
 
+	const target = $derived(focus ?? (mine ? { x: mine.x, y: mine.y } : null));
+
 	const camera = $derived.by(() => {
 		const mapW = W * tile;
 		const mapH = H * tile;
-		if (!follow || !mine) return { x: mapW < vw ? (vw - mapW) / 2 : 0, y: 0 };
-		const x = mapW < vw ? (vw - mapW) / 2 : Math.min(0, Math.max(vw - mapW, vw / 2 - mine.x * tile));
-		const y = mapH < vh ? (vh - mapH) / 2 : Math.min(0, Math.max(vh - mapH, vh / 2 - mine.y * tile));
+		if (!follow || !target) return { x: mapW < vw ? (vw - mapW) / 2 : 0, y: 0 };
+		const x = mapW < vw ? (vw - mapW) / 2 : Math.min(0, Math.max(vw - mapW, vw / 2 - target.x * tile));
+		const y = mapH < vh ? (vh - mapH) / 2 : Math.min(0, Math.max(vh - mapH, vh / 2 - target.y * tile));
 		return { x, y };
 	});
 </script>
@@ -99,7 +106,7 @@
 		</svg>
 
 		{#each props as prop (prop.id)}
-			<div class="place" style:left="{prop.x * tile}px" style:top="{prop.y * tile}px" style:z-index={Math.round(prop.y * 10)}>
+			<div class="place" class:glide={prop.glide} style:left="{prop.x * tile}px" style:top="{prop.y * tile}px" style:z-index={Math.round(prop.y * 10)}>
 				{#if prop.action}
 					<button type="button" class="hit" onclick={prop.action} aria-label={prop.label}>{@render drawing(prop)}</button>
 				{:else}
@@ -179,6 +186,11 @@
 		translate: -50% -100%;
 		width: max-content;
 		line-height: 0;
+	}
+	.glide {
+		transition:
+			left 1.1s var(--ease-out),
+			top 1.1s var(--ease-out);
 	}
 	/* Near the right edge an absolutely placed box would shrink; drawings keep their own size. */
 	.place :global(svg) {

@@ -39,6 +39,7 @@
 		cat: [0.75, 0.7],
 		hen: [0.75, 0.7],
 		pot: [0.9, 1.4],
+		banner: [2.4, 1.9],
 		pondok: [2.4, 2.4],
 		tempayan: [0.9, 0.95],
 		scarecrow: [1.1, 1.9]
@@ -221,6 +222,22 @@
 		<ellipse cx="30.5" cy="30" rx="2" ry="2.6" fill="#2a2433" /><ellipse cx="41.5" cy="30" rx="2" ry="2.6" fill="#2a2433" />
 		<path d="M34.5 34.5 h3 l-1.5 2z" fill="#e8798a" />
 		<ellipse cx="29" cy="63" rx="5" ry="3" fill="#fde7c8" /><ellipse cx="43" cy="63" rx="5" ry="3" fill="#fde7c8" />
+	{:else if kind === 'banner'}
+		<!-- A cloth banner on two poles; `state` is its word. The finish banner (variant 0) is chequered. -->
+		<ellipse cx="120" cy="186" rx="108" ry="5" fill="#000" opacity=".14" />
+		<rect x="16" y="30" width="9" height="158" rx="3" fill="#8e5a2e" /><rect x="215" y="30" width="9" height="158" rx="3" fill="#8e5a2e" />
+		<circle cx="20.5" cy="28" r="7" fill="#ffd34d" /><circle cx="219.5" cy="28" r="7" fill="#ffd34d" />
+		{#if variant === 0}
+			<rect x="25" y="38" width="190" height="62" fill="#fff" />
+			{#each Array.from({ length: 19 }, (_, i) => i) as i (i)}
+				<rect x={25 + i * 10} y={i % 2 ? 38 : 48} width="10" height="10" fill="#1f2d27" />
+				<rect x={25 + i * 10} y={i % 2 ? 90 : 80} width="10" height="10" fill="#1f2d27" />
+			{/each}
+			<text x="120" y="77" text-anchor="middle" font-family="Fredoka Variable, sans-serif" font-size="24" font-weight="600" fill="#e2483d">{state}</text>
+		{:else}
+			<rect x="25" y="40" width="190" height="56" rx="6" fill="#1f9d55" />
+			<text x="120" y="77" text-anchor="middle" font-family="Fredoka Variable, sans-serif" font-size="26" font-weight="600" fill="#fff">{state}</text>
+		{/if}
 	{:else if kind === 'pot'}
 		<!-- A leafy plant in a clay pot, for indoor places. -->
 		<ellipse cx="45" cy="134" rx="30" ry="5" fill="#000" opacity=".15" />
