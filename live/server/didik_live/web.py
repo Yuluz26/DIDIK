@@ -53,7 +53,7 @@ class Shell:
         self.web_dir = web_dir
         self.app = app
         self.html: str | None = None
-        self._stamp: float | None = None
+        self._stamp: float | None = -1.0  # never a real mtime, so the first refresh always runs
         self.refresh()
 
     def path(self) -> Path | None:
