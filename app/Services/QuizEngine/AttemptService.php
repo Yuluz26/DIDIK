@@ -57,15 +57,25 @@ class AttemptService
             throw new QuizUnavailable;
         }
 
-        return Attempt::create([
-            'uuid' => (string) Str::uuid(),
-            'quiz_id' => $quiz->id,
-            'session_hash' => $sessionHash,
-            'layout' => $layout,
-            'started_at' => now(),
-            'question_count' => count($layout['questions']),
-            'max_score' => $this->maxScore($layout['questions']),
-        ]);
+        return DB::transaction(function () use ($quiz, $sessionHash, $layout) {
+            // A visitor has at most one unfinished attempt per quiz. Those left behind by a restart or a
+            // long absence are dropped: an old tab could still answer them (so a quiz limited to one
+            // attempt could be finished twice), and they only pile up.
+            Attempt::where('quiz_id', $quiz->id)
+                ->where('session_hash', $sessionHash)
+                ->whereNull('completed_at')
+                ->delete();
+
+            return Attempt::create([
+                'uuid' => (string) Str::uuid(),
+                'quiz_id' => $quiz->id,
+                'session_hash' => $sessionHash,
+                'layout' => $layout,
+                'started_at' => now(),
+                'question_count' => count($layout['questions']),
+                'max_score' => $this->maxScore($layout['questions']),
+            ]);
+        });
     }
 
     /** Attempts the visitor may still make, or null when the quiz allows unlimited attempts. */

@@ -198,11 +198,13 @@ class AttemptApiTest extends TestCase
         $this->answer('child', $state['urls']['answer'], $foreign->id, $this->correctOptionId($foreign->id))->assertStatus(422);
     }
 
-    public function test_starting_is_rate_limited_per_address(): void
+    public function test_starting_is_rate_limited_per_address_even_for_a_client_that_drops_its_cookie(): void
     {
         $quiz = $this->publishedQuiz(1);
 
-        for ($i = 0; $i < 30; $i++) {
+        // No cookie is kept between these requests, so each one is a "new visitor": only the ceiling
+        // per network address (300 a minute, generous enough for a whole school behind one router) applies.
+        for ($i = 0; $i < 300; $i++) {
             $this->postJson(route('attempts.start', $quiz->slug))->assertOk();
         }
 

@@ -1,12 +1,15 @@
 <?php
 
 use App\Http\Middleware\EnsureAdmin;
+use App\Http\Middleware\PreventRequestForgery;
 use App\Http\Middleware\SecurityHeaders;
 use Illuminate\Contracts\Auth\Middleware\AuthenticatesRequests;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Foundation\Http\Middleware\PreventRequestForgery as FrameworkPreventRequestForgery;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Middleware\ThrottleRequests;
 use Illuminate\Support\Facades\Route;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -24,6 +27,13 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias(['admin' => EnsureAdmin::class]);
         $middleware->append(SecurityHeaders::class);
+        $middleware->web(
+            // One cookie only: the session's (see the class for why the XSRF-TOKEN cookie goes).
+            replace: [FrameworkPreventRequestForgery::class => PreventRequestForgery::class],
+            // A generous ceiling per network address for every page, so one client cannot flood the
+            // server (every cookie-less request would otherwise create a session row).
+            append: [ThrottleRequests::using('web')],
+        );
         // Requests for any other Host are refused (400), so a forged Host header cannot put an
         // attacker's address into generated links. Off in local and testing (the framework skips it).
         $middleware->trustHosts(

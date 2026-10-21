@@ -15,6 +15,12 @@ return [
     'quizizz_hosts' => ['quizizz.com', 'wayground.com', 'joinmyquiz.com'],
 
     /*
+    | How long quiz attempts (and the answers in them) are kept before didik:prune deletes them.
+    | The privacy page quotes this number, so change it here and the page follows.
+    */
+    'retention_days' => (int) env('DIDIK_RETENTION_DAYS', 90),
+
+    /*
     | Content-Security-Policy on every response (scripts and styles from this site only). Leave on:
     | it is what limits the damage if a page ever echoes something it should not.
     */

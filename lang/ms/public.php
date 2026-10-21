@@ -217,7 +217,8 @@ return [
     'privacy' => [
         'title' => 'Privasi',
         'meta_description' => 'Apa yang DIDIK simpan dan tidak simpan tentang anak anda.',
-        'lead' => 'DIDIK direka supaya anak boleh bermain tanpa memberi apa-apa maklumat peribadi.',
+        'lead' => 'DIDIK direka supaya anak boleh bermain tanpa memberi nama, e-mel atau apa-apa yang mengenal pasti dirinya.',
+        // :days, :hours and :cookie are filled in from the settings the app really runs with.
         'sections' => [
             [
                 'heading' => 'Apa yang kami tidak minta',
@@ -229,27 +230,50 @@ return [
             [
                 'heading' => 'Apa yang kami simpan',
                 'items' => [
-                    'Setiap percubaan kuiz disimpan tanpa nama: kuiz mana, soalan mana dijawab, betul atau tidak, dan markah.',
-                    'Satu kuki sesi yang perlu supaya kuiz boleh disambung semula dan keputusan hanya dapat dilihat pada peranti yang sama. Ia dipadam apabila sesi tamat.',
-                    'Pengecam percubaan disimpan sebagai cincangan yang tidak boleh dipulihkan kepada pengecam sesi sebenar.',
+                    'Setiap percubaan kuiz disimpan tanpa nama: kuiz mana, soalan mana dijawab, betul atau tidak, markah, dan bila ia bermula. Percubaan dipadam secara automatik selepas :days hari.',
+                    'Satu kuki, ":cookie", yang diperlukan supaya kuiz boleh disambung semula dan keputusan hanya dapat dilihat pada peranti yang sama. Ia luput selepas :hours jam tanpa aktiviti. Tiada kuki lain.',
+                    'Percubaan dikaitkan dengan peranti melalui cincangan berkunci bagi pengecam sesi. Cincangan itu tidak boleh dipulihkan tanpa kunci rahsia pelayan.',
+                    'Alamat IP dan jenis pelayar anak tidak disimpan dalam pangkalan data DIDIK.',
+                ],
+            ],
+            [
+                'heading' => 'Apa yang mungkin direkodkan di luar DIDIK',
+                'items' => [
+                    'Seperti kebanyakan laman, pelayan web yang menempatkan DIDIK boleh mencatat alamat IP dan jenis pelayar dalam log sistemnya untuk tujuan keselamatan. Log itu bukan data percubaan, tidak dikaitkan dengan jawapan anak, dan dikawal oleh penyedia hosting.',
                 ],
             ],
             [
                 'heading' => 'Apa yang tidak ada di sini',
                 'items' => [
-                    'Tiada iklan dan tiada penjejak pihak ketiga.',
+                    'Tiada iklan, tiada analitik dan tiada penjejak pihak ketiga.',
                     'Fon disimpan dalam laman ini, jadi alamat peranti anda tidak dihantar kepada perkhidmatan fon.',
                     'Kami tidak menjual atau berkongsi data percubaan.',
                 ],
             ],
             [
+                'heading' => 'Pentadbir',
+                'items' => [
+                    'Hanya pentadbir kandungan mempunyai akaun (nama, e-mel dan kata laluan yang dicincang). Kanak-kanak tidak mempunyai akaun.',
+                ],
+            ],
+            [
                 'heading' => 'Pautan Quizizz',
                 'items' => [
-                    'Apabila anda membuka pautan Quizizz, anda meninggalkan DIDIK. Quizizz mempunyai dasar privasinya sendiri.',
+                    'Apabila anda membuka pautan Quizizz, anda meninggalkan DIDIK. Quizizz (kini Wayground) mempunyai dasar privasinya sendiri.',
                 ],
             ],
         ],
         'contact' => 'Soalan tentang privasi? Hubungi kami di :email.',
+        'english' => [
+            'heading' => 'In English',
+            'items' => [
+                'Children play without giving a name, email, photo or location, and there are no accounts for them.',
+                'Each quiz attempt is stored without a name (which quiz, which questions, right or wrong, score, start time) and deleted automatically after :days days.',
+                'One cookie (":cookie") is set, so a quiz can be resumed and results are visible only on the same device. It expires after :hours hours of inactivity. There are no other cookies.',
+                "The child's IP address and browser are not stored in DIDIK's database. The web server hosting DIDIK may record them in its own system logs, outside DIDIK and unrelated to the answers.",
+                'There are no ads, analytics or third-party trackers, and fonts are served from this site.',
+            ],
+        ],
     ],
 
     'errors' => [

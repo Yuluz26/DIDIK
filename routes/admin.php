@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
     Route::get('log-masuk', [AuthController::class, 'create'])->name('login');
-    Route::post('log-masuk', [AuthController::class, 'store'])->name('login.store');
+    Route::post('log-masuk', [AuthController::class, 'store'])->middleware('throttle:login')->name('login.store');
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {

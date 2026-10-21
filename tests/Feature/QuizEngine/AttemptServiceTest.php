@@ -36,6 +36,51 @@ class AttemptServiceTest extends TestCase
         $this->engine = app(AttemptService::class);
     }
 
+    public function test_a_quiz_limited_to_one_attempt_cannot_be_finished_twice_by_restarting(): void
+    {
+        $quiz = $this->publishedQuiz(1, ['attempts_allowed' => 1]);
+
+        $first = $this->engine->startOrResume($quiz, self::SESSION);
+        $second = $this->engine->startOrResume($quiz, self::SESSION, restart: true);
+
+        // The first one is gone: its tab can no longer answer it.
+        $this->assertModelMissing($first);
+        $this->assertSame(1, Attempt::where('quiz_id', $quiz->id)->count());
+
+        $question = $quiz->questions()->first();
+        $this->engine->answer($second, $question->id, $this->correctOptionId($question->id));
+
+        $this->expectException(AttemptsExhausted::class);
+        $this->engine->startOrResume($quiz, self::SESSION, restart: true);
+    }
+
+    public function test_an_attempt_abandoned_for_hours_is_dropped_when_the_visitor_starts_again(): void
+    {
+        $quiz = $this->publishedQuiz(1);
+        $stale = $this->engine->startOrResume($quiz, self::SESSION);
+        $stale->forceFill(['started_at' => now()->subHours(AttemptService::RESUME_WINDOW_HOURS + 1)])->save();
+
+        $fresh = $this->engine->startOrResume($quiz, self::SESSION);
+
+        $this->assertNotSame($stale->id, $fresh->id);
+        $this->assertModelMissing($stale);
+    }
+
+    public function test_finished_attempts_and_other_visitors_attempts_are_never_touched_by_a_restart(): void
+    {
+        $quiz = $this->publishedQuiz(1);
+        $question = $quiz->questions()->first();
+
+        $done = $this->engine->startOrResume($quiz, self::SESSION);
+        $this->engine->answer($done, $question->id, $this->correctOptionId($question->id));
+        $other = $this->engine->startOrResume($quiz, 'hash-of-another-session');
+
+        $this->engine->startOrResume($quiz, self::SESSION, restart: true);
+
+        $this->assertModelExists($done->fresh());
+        $this->assertModelExists($other);
+    }
+
     public function test_starting_builds_a_layout_from_playable_questions_only(): void
     {
         $quiz = $this->publishedQuiz(3);

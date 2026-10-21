@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin;
 
 use App\Enums\UserRole;
+use App\Support\ClientKey;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -70,6 +71,7 @@ class LoginRequest extends FormRequest
 
     private function throttleKey(): string
     {
-        return Str::transliterate(Str::lower($this->string('email')->toString()).'|'.$this->ip());
+        // Hashed so neither the address nor the e-mail sits readable in the cache.
+        return hash('sha256', Str::lower($this->string('email')->toString()).'|'.ClientKey::address($this));
     }
 }
