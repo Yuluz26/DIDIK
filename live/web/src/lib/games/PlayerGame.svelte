@@ -50,7 +50,7 @@
 {:else if mode.key === 'pasukan'}
 	<SelfPlayer {client} {game} {me} title={mode.title} unit="petak" total={minutes} rewardText={(r) => (r.flags ? `Dapat ${r.flags} bendera!` : '')}>
 		{#snippet world()}
-			{#if game.world?.cells}<TeamsWorld {client} world={game.world} step={game.seat?.step ?? null} />{/if}
+			{#if game.world?.cells}<TeamsWorld {client} world={game.world} step={game.seat?.step ?? null} people={[...people.values()]} me={me.id} />{/if}
 		{/snippet}
 	</SelfPlayer>
 {:else if mode.key === 'kampung'}

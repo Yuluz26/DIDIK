@@ -39,7 +39,7 @@
 {:else if mode.key === 'pasukan'}
 	<SelfHost {client} {game} {people} feed={view.feed} title={mode.title} unit="petak" total={minutes}>
 		{#snippet world()}
-			{#if game.world?.cells}<TeamsWorld {client} world={game.world} step={null} big />{/if}
+			{#if game.world?.cells}<TeamsWorld {client} world={game.world} step={null} people={[...people.values()]} big />{/if}
 		{/snippet}
 	</SelfHost>
 {:else if mode.key === 'kampung'}

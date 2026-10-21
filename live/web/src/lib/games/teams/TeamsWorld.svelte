@@ -1,6 +1,7 @@
 <!-- A child's Pasukan Warna world: their team, their flags, and the island to claim. -->
 <script lang="ts">
 	import type { RoomClient } from '$lib/room.svelte';
+	import type { Person } from '$lib/types';
 	import { TEAM_COLOURS } from '$lib/names';
 	import { play } from '$lib/sound';
 	import Icon from '$ui/Icon.svelte';
@@ -11,16 +12,21 @@
 		client,
 		world,
 		step,
+		people = [],
+		me = null,
 		big = false
 	}: {
 		client: RoomClient;
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		world: any;
 		step: string | null;
+		people?: Person[];
+		me?: string | null;
 		big?: boolean;
 	} = $props();
 
 	let fresh = $state<string | null>(null);
+	let innerHeight = $state(800);
 	const team = $derived(world.myTeam ? TEAM_COLOURS[world.myTeam] : null);
 
 	$effect(() =>
@@ -33,6 +39,8 @@
 	);
 </script>
 
+<svelte:window bind:innerHeight />
+
 <div class="teams" class:big>
 	{#if team}
 		<p class="mine" style:--team={team.colour} style:--soft={team.soft}>
@@ -41,7 +49,16 @@
 		</p>
 	{/if}
 	<TeamBar teams={world.teams} mine={world.myTeam} />
-	<HexMap cells={world.cells} targets={world.targets ?? []} costs={world.costs ?? {}} {fresh} oncapture={(cell) => client.send({ t: 'capture', cell })} />
+	<HexMap
+		cells={world.cells}
+		targets={world.targets ?? []}
+		costs={world.costs ?? {}}
+		{fresh}
+		{people}
+		{me}
+		maxHeight={big ? innerHeight * 0.62 : Infinity}
+		oncapture={(cell) => client.send({ t: 'capture', cell })}
+	/>
 	{#if step === 'capture'}
 		<div class="capture">
 			<p><strong>Tawan satu petak!</strong> Ketik petak bercahaya. Petak kosong perlukan 1 bendera, petak lawan 2.</p>

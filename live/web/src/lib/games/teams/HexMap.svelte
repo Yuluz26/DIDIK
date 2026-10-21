@@ -1,9 +1,12 @@
 <!--
-	Pasukan Warna's island of hexagons. Orange is Pasukan Harimau, teal is Pasukan Penyu. When a child
-	has flags, the hexagons they can take glow and show what they cost.
+	Pasukan Warna's island of hexagons. Orange is Pasukan Harimau, teal is Pasukan Penyu; each team's
+	children stand by their base. When a child has flags, the hexagons they can take glow and show
+	what they cost. The island always fits its space, and on the big screen the screen's height too.
 -->
 <script lang="ts">
+	import type { Person } from '$lib/types';
 	import { TEAM_COLOURS } from '$lib/names';
+	import Chibi from '$ui/Chibi.svelte';
 
 	interface Cell {
 		key: string;
@@ -18,12 +21,18 @@
 		targets = [],
 		costs = {},
 		fresh = null,
+		people = [],
+		me = null,
+		maxHeight = Infinity,
 		oncapture
 	}: {
 		cells: Cell[];
 		targets?: string[];
 		costs?: Record<string, number | null>;
 		fresh?: string | null;
+		people?: Person[];
+		me?: string | null;
+		maxHeight?: number;
 		oncapture?: (key: string) => void;
 	} = $props();
 
@@ -45,6 +54,21 @@
 	});
 	const can = $derived(new Set(targets));
 
+	let width = $state(0);
+	const fit = $derived(Math.min(width, maxHeight * (box.w / box.h)));
+	const px = (units: number) => (units / box.w) * fit;
+
+	// Each team's children gather beside their base, the child's own character at the front.
+	const crowds = $derived(
+		cells
+			.filter((c) => c.base && c.owner)
+			.map((base) => {
+				const at = centre(base);
+				const members = people.filter((p) => p.team === base.owner).sort((a, b) => Number(b.id === me) - Number(a.id === me));
+				return { key: base.key, x: at.x, y: at.y, members: members.slice(0, 5) };
+			})
+	);
+
 	function fill(owner: string | null) {
 		return owner ? TEAM_COLOURS[owner]?.colour : '#cfe8a8';
 	}
@@ -53,45 +77,87 @@
 	}
 </script>
 
-<svg class="hexes" viewBox="{box.x} {box.y} {box.w} {box.h}" role="group" aria-label="Peta pulau">
-	<rect x={box.x} y={box.y} width={box.w} height={box.h} fill="#3ba7d9" rx="6" />
-	{#each cells as cell (cell.key)}
-		{@const c = centre(cell)}
-		{@const target = can.has(cell.key)}
-		<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-		<g
-			class="cell"
-			class:target
-			class:fresh={fresh === cell.key}
-			role={target ? 'button' : undefined}
-			tabindex={target ? 0 : undefined}
-			aria-label={target ? `Tawan petak (${costs[cell.key]} bendera)` : undefined}
-			onclick={() => target && oncapture?.(cell.key)}
-			onkeydown={(e) => target && (e.key === 'Enter' || e.key === ' ') && oncapture?.(cell.key)}
-			style:transform-origin="{c.x}px {c.y}px"
-		>
-			<polygon points={corners(c.x, c.y + 1.2)} fill={edge(cell.owner)} />
-			<polygon points={corners(c.x, c.y)} fill={fill(cell.owner)} />
-			{#if cell.base}
-				<path d="M{c.x - 2} {c.y + 4.5} v-9.5" stroke="#6b4a2e" stroke-width="0.9" stroke-linecap="round" />
-				<path d="M{c.x - 1.6} {c.y - 5} l6 2.2 -6 2.2z" fill="#fff" />
-				<circle cx={c.x + 0.6} cy={c.y - 2.8} r="0.9" fill={edge(cell.owner)} />
-			{/if}
-			{#if target}
-				<polygon class="ring" points={corners(c.x, c.y, S * 0.8)} fill="none" stroke="#fff" stroke-width="1.2" />
-				<text x={c.x} y={c.y + 1.6} text-anchor="middle" class="cost">{costs[cell.key] === 2 ? '2' : '1'}</text>
-			{/if}
-		</g>
-	{/each}
-</svg>
+<div class="map" bind:clientWidth={width}>
+	<div class="frame" style:width="{fit}px">
+		<svg class="hexes" viewBox="{box.x} {box.y} {box.w} {box.h}" role="group" aria-label="Peta pulau">
+			<rect x={box.x} y={box.y} width={box.w} height={box.h} fill="#3ba7d9" rx="6" />
+			{#each cells as cell (cell.key)}
+				{@const c = centre(cell)}
+				{@const target = can.has(cell.key)}
+				<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+				<g
+					class="cell"
+					class:target
+					class:fresh={fresh === cell.key}
+					role={target ? 'button' : undefined}
+					tabindex={target ? 0 : undefined}
+					aria-label={target ? `Tawan petak (${costs[cell.key]} bendera)` : undefined}
+					onclick={() => target && oncapture?.(cell.key)}
+					onkeydown={(e) => target && (e.key === 'Enter' || e.key === ' ') && oncapture?.(cell.key)}
+					style:transform-origin="{c.x}px {c.y}px"
+				>
+					<polygon points={corners(c.x, c.y + 1.2)} fill={edge(cell.owner)} />
+					<polygon points={corners(c.x, c.y)} fill={fill(cell.owner)} />
+					{#if cell.base}
+						<path d="M{c.x - 2} {c.y + 4.5} v-9.5" stroke="#6b4a2e" stroke-width="0.9" stroke-linecap="round" />
+						<path d="M{c.x - 1.6} {c.y - 5} l6 2.2 -6 2.2z" fill="#fff" />
+						<circle cx={c.x + 0.6} cy={c.y - 2.8} r="0.9" fill={edge(cell.owner)} />
+					{/if}
+					{#if cell.owner && !cell.base}
+						<!-- A small flag on every claimed hexagon. -->
+						<path d="M{c.x - 0.8} {c.y + 3} v-6.4" stroke="#6b4a2e" stroke-width="0.7" stroke-linecap="round" />
+						<path d="M{c.x - 0.5} {c.y - 3.4} l4 1.5 -4 1.5z" fill="#fff" />
+					{:else if !cell.owner && (cell.q * 3 + cell.r) % 3 === 0}
+						<path d="M{c.x - 3} {c.y + 2} l0.6 -1.6 0.6 1.6 M{c.x + 2} {c.y - 1} l0.5 -1.3 0.5 1.3" stroke="#9fc77a" stroke-width="0.6" fill="none" stroke-linecap="round" />
+					{/if}
+					{#if target}
+						<polygon class="ring" points={corners(c.x, c.y, S * 0.8)} fill="none" stroke="#fff" stroke-width="1.2" />
+						<text x={c.x} y={c.y + 1.6} text-anchor="middle" class="cost">{costs[cell.key] === 2 ? '2' : '1'}</text>
+					{/if}
+				</g>
+			{/each}
+		</svg>
+		{#each crowds as crowd (crowd.key)}
+			<div class="crowd" style:left="{px(crowd.x - box.x)}px" style:top="{px(crowd.y - box.y + 5)}px" aria-hidden="true">
+				{#each crowd.members as person (person.id)}
+					<span class="member" class:me={person.id === me}>
+						<Chibi animal={person.avatar} colour={person.colour} skin={person.skin} size={Math.max(16, Math.round(px(11)))} />
+					</span>
+				{/each}
+			</div>
+		{/each}
+	</div>
+</div>
 
 <style>
+	.map {
+		min-width: 0;
+	}
+	.frame {
+		position: relative;
+		margin-inline: auto;
+	}
 	.hexes {
 		display: block;
 		width: 100%;
 		height: auto;
 		border-radius: var(--r-lg);
 		box-shadow: var(--card-shadow);
+	}
+	.crowd {
+		position: absolute;
+		display: flex;
+		translate: -50% -100%;
+		line-height: 0;
+		pointer-events: none;
+	}
+	.member + .member {
+		margin-left: -0.3rem;
+	}
+	.member.me {
+		position: relative;
+		z-index: 1;
+		filter: drop-shadow(0 0 2px #fff);
 	}
 	.cell {
 		transition: transform 300ms var(--spring);
