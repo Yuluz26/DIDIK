@@ -96,6 +96,11 @@ _MESSAGES = {
     "union_tag_invalid": "Jenis soalan tidak dikenali.",
     "union_tag_not_found": "Pilih jenis soalan.",
     "extra_forbidden": "Medan ini tidak dikenali.",
+    "float_type": "Tulis satu nombor.",
+    "float_parsing": "Tulis satu nombor.",
+    "int_type": "Tulis nombor bulat.",
+    "int_parsing": "Tulis nombor bulat.",
+    "bool_type": "Pilih ya atau tidak.",
 }
 
 

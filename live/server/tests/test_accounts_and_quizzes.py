@@ -112,6 +112,15 @@ def test_editor_errors_point_at_the_exact_field(client: TestClient) -> None:
     assert locs[("questions", 1, "choices", 1, "text")] == "Wajib diisi."
 
 
+def test_an_empty_number_answer_is_explained(client: TestClient) -> None:
+    register(client)
+    quiz = {"title": "Kuiz", "questions": [{"type": "number", "prompt": "2 + 2?", "answer": None}]}
+    response = client.post("/api/quizzes", json=quiz)
+    assert response.status_code == 422
+    locs = {tuple(e["loc"]): e["message"] for e in response.json()["errors"]}
+    assert locs[("questions", 0, "answer")] == "Tulis satu nombor."
+
+
 def test_samples_can_be_copied_but_not_edited_by_other_parents(client: TestClient) -> None:
     register(client)
     sample = sample_id(client, "Matematik Ceria")
