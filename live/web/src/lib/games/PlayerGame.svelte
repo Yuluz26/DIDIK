@@ -41,7 +41,7 @@
 	>
 		{#snippet world()}
 			{#if game.world?.tiles}
-				<TreasureIsland world={game.world} ondig={(tile) => client.send({ t: 'dig', tile })} />
+				<TreasureIsland world={game.world} {me} ondig={(tile) => client.send({ t: 'dig', tile })} />
 			{/if}
 		{/snippet}
 	</SelfPlayer>

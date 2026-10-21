@@ -197,12 +197,19 @@
 		max-width: none;
 	}
 	.hit {
+		position: relative;
 		display: block;
 		padding: 0;
 		border: 0;
 		background: none;
 		cursor: pointer;
 		transition: transform var(--t-state) var(--spring);
+	}
+	/* A finger is bigger than a small drawing: the tap area reaches a little past it. */
+	.hit::after {
+		content: '';
+		position: absolute;
+		inset: -0.45rem;
 	}
 	.hit:hover {
 		transform: translateY(-4px) scale(1.06);
