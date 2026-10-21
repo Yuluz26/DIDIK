@@ -37,6 +37,9 @@
 	.logo:hover svg {
 		transform: rotate(-8deg) scale(1.06);
 	}
+	.word {
+		white-space: nowrap;
+	}
 	.word span {
 		color: var(--brand);
 		font-weight: 500;

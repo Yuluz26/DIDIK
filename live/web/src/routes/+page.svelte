@@ -5,8 +5,8 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { play } from '$lib/sound';
-	import Avatar from '$ui/Avatar.svelte';
 	import Didi from '$ui/Didi.svelte';
+	import PlazaScene from '$lib/worlds/PlazaScene.svelte';
 	import Icon from '$ui/Icon.svelte';
 	import Logo from '$ui/Logo.svelte';
 	import WorldBadge from '$lib/worlds/WorldBadge.svelte';
@@ -43,7 +43,7 @@
 
 <header class="top wrap">
 	<Logo />
-	<a class="parents" href="/ibu-bapa">Untuk ibu bapa <Icon name="next" size={18} /></a>
+	<a class="parents" href="/ibu-bapa"><span class="long">Untuk ibu bapa</span><span class="short">Ibu bapa</span> <Icon name="next" size={18} /></a>
 </header>
 
 <main>
@@ -68,11 +68,9 @@
 			</form>
 			{#if problem}<p id="code-problem" class="field-error">{problem}</p>{/if}
 		</div>
-		<div class="crowd" aria-hidden="true">
-			<span class="didi"><Didi mood="wave" size={170} /></span>
-			{#each [['harimau', 'jingga', 's2'], ['penyu', 'teal', 's4'], ['enggang', 'kuning', 's1'], ['gajah', 'biru', 's5'], ['arnab', 'jambu', 's3'], ['beruang', 'hijau', 's2']] as [animal, colour, skin], i (animal)}
-				<span class="pal p{i}"><Avatar {animal} {colour} {skin} size={64} bob /></span>
-			{/each}
+		<div class="scene">
+			<PlazaScene />
+			<span class="didi" aria-hidden="true"><Didi mood="wave" size={120} /></span>
 		</div>
 	</section>
 
@@ -123,6 +121,18 @@
 		gap: 0.3rem;
 		font-weight: 800;
 		text-decoration: none;
+		white-space: nowrap;
+	}
+	.parents .short {
+		display: none;
+	}
+	@media (max-width: 440px) {
+		.parents .long {
+			display: none;
+		}
+		.parents .short {
+			display: inline;
+		}
 	}
 	.hero {
 		display: grid;
@@ -154,27 +164,16 @@
 		letter-spacing: 0.06em;
 		text-align: center;
 	}
-	.crowd {
+	/* The town square, with Didi welcoming at its front corner. */
+	.scene {
 		position: relative;
-		height: 22rem;
+		padding-bottom: 1.5rem;
 	}
 	.didi {
 		position: absolute;
-		left: 50%;
-		top: 50%;
-		translate: -50% -50%;
-	}
-	.pal {
-		position: absolute;
-	}
-	.p0 { left: 6%; top: 12%; }
-	.p1 { right: 8%; top: 6%; }
-	.p2 { left: 0; bottom: 22%; }
-	.p3 { right: 2%; bottom: 26%; }
-	.p4 { left: 22%; bottom: 0; }
-	.p5 { right: 22%; bottom: 2%; }
-	.pal:hover :global(svg) {
-		animation: wiggle 0.6s ease-in-out;
+		right: -0.6rem;
+		bottom: -0.4rem;
+		filter: drop-shadow(0 6px 0 rgb(31 45 39 / 0.12));
 	}
 	.games {
 		padding-block: 3.5rem;
@@ -275,12 +274,11 @@
 			grid-template-columns: minmax(0, 1fr);
 			padding-top: 1.2rem;
 		}
-		.crowd {
+		.scene {
 			order: -1;
-			height: 15rem;
 		}
-		.crowd {
-			--didi-w: 120px;
+		.didi {
+			--didi-w: 76px;
 		}
 		.steps {
 			grid-template-columns: minmax(0, 1fr);

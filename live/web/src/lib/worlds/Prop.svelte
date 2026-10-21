@@ -40,6 +40,7 @@
 		hen: [0.75, 0.7],
 		pot: [0.9, 1.4],
 		banner: [2.4, 1.9],
+		fountain: [2.4, 1.7],
 		pondok: [2.4, 2.4],
 		tempayan: [0.9, 0.95],
 		scarecrow: [1.1, 1.9]
@@ -222,6 +223,17 @@
 		<ellipse cx="30.5" cy="30" rx="2" ry="2.6" fill="#2a2433" /><ellipse cx="41.5" cy="30" rx="2" ry="2.6" fill="#2a2433" />
 		<path d="M34.5 34.5 h3 l-1.5 2z" fill="#e8798a" />
 		<ellipse cx="29" cy="63" rx="5" ry="3" fill="#fde7c8" /><ellipse cx="43" cy="63" rx="5" ry="3" fill="#fde7c8" />
+	{:else if kind === 'fountain'}
+		<!-- A round stone fountain for a town square. -->
+		<ellipse cx="120" cy="160" rx="112" ry="12" fill="#000" opacity=".14" />
+		<ellipse cx="120" cy="128" rx="112" ry="34" fill="#c3cdd3" />
+		<rect x="8" y="104" width="224" height="26" fill="#c3cdd3" />
+		<ellipse cx="120" cy="104" rx="112" ry="34" fill="#e1e7ea" />
+		<ellipse cx="120" cy="106" rx="96" ry="26" fill="#3ba7d9" />
+		<path d="M64 110 q12 -6 24 0 M150 116 q12 -6 24 0" stroke="#9fd8f0" stroke-width="4" fill="none" stroke-linecap="round" />
+		<rect x="110" y="56" width="20" height="52" rx="6" fill="#c3cdd3" />
+		<ellipse cx="120" cy="58" rx="30" ry="10" fill="#e1e7ea" />
+		<path class="spout" d="M120 52 q-18 -40 -40 -8 M120 52 q18 -40 40 -8 M120 52 v-36" stroke="#9fd8f0" stroke-width="5" fill="none" stroke-linecap="round" />
 	{:else if kind === 'banner'}
 		<!-- A cloth banner on two poles; `state` is its word. The finish banner (variant 0) is chequered. -->
 		<ellipse cx="120" cy="186" rx="108" ry="5" fill="#000" opacity=".14" />
@@ -302,6 +314,10 @@
 	}
 	.flame {
 		animation: flicker 900ms ease-in-out infinite alternate;
+	}
+	.spout {
+		transform-origin: 120px 52px;
+		animation: flicker 1.2s ease-in-out infinite alternate;
 	}
 	.kite {
 		transform-origin: 65px 104px;
