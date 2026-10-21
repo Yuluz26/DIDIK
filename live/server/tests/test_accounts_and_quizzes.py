@@ -25,12 +25,12 @@ def register(client: TestClient, email: str = "ibu@contoh.my") -> None:
 
 
 def test_register_sign_in_and_out(client: TestClient) -> None:
-    assert client.get("/api/auth/me").json() == {"user": None}
+    assert client.get("/api/auth/me").json() == {"user": None, "demo": True}
     register(client)
     assert client.get("/api/auth/me").json()["user"]["email"] == "ibu@contoh.my"
 
     assert client.post("/api/auth/logout").status_code == 204
-    assert client.get("/api/auth/me").json() == {"user": None}
+    assert client.get("/api/auth/me").json()["user"] is None
 
     wrong = client.post("/api/auth/login", json={"email": "IBU@contoh.my", "password": "salah-sekali"})
     assert wrong.status_code == 422

@@ -416,7 +416,8 @@ class Room:
         elif kind == "approve":
             self.approve(str(msg.get("id")), bool(msg.get("yes", True)))
         elif kind == "bots":
-            error = self.set_bots(msg.get("count"))
+            current = sum(1 for p in self.players.values() if p.is_bot)
+            error = self.set_bots(current + int(msg["change"]) if isinstance(msg.get("change"), int) else msg.get("count"))
         elif kind == "settings" and self.phase == "lobby":
             error = self.update_settings(msg.get("settings"))
         elif kind == "mode" and self.phase == "lobby":

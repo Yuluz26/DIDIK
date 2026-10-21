@@ -1,7 +1,8 @@
 """Serving the built web app (live/web/build) from the same origin as the API and the sockets.
 
-The page's few inline scripts are hashed at start-up into the Content-Security-Policy, so the policy
-allows exactly those scripts and nothing injected.
+The page's few inline scripts are hashed into the Content-Security-Policy, so the policy allows
+exactly those scripts and nothing injected. The page is re-read when a new build replaces it, so
+`npm run build` takes effect without restarting the server.
 """
 
 from __future__ import annotations
@@ -11,7 +12,7 @@ import hashlib
 import re
 from pathlib import Path
 
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse, HTMLResponse, Response
 
 INLINE_SCRIPT = re.compile(r"<script(?![^>]*\bsrc=)[^>]*>(.*?)</script>", re.S | re.I)
@@ -45,21 +46,43 @@ def policy(script_hashes: list[str]) -> str:
     )
 
 
+class Shell:
+    """The SPA's one HTML page and the policy that matches its inline scripts."""
+
+    def __init__(self, web_dir: Path, app: FastAPI) -> None:
+        self.web_dir = web_dir
+        self.app = app
+        self.html: str | None = None
+        self._stamp: float | None = None
+        self.refresh()
+
+    def path(self) -> Path | None:
+        return next((self.web_dir / n for n in ("200.html", "index.html") if (self.web_dir / n).is_file()), None)
+
+    def refresh(self) -> None:
+        path = self.path()
+        stamp = path.stat().st_mtime if path else None
+        if stamp == self._stamp and (self.html is not None or path is None):
+            return
+        self._stamp = stamp
+        self.html = path.read_text(encoding="utf-8") if path else None
+        hashes = [
+            base64.b64encode(hashlib.sha256(body.encode()).digest()).decode()
+            for body in (INLINE_SCRIPT.findall(self.html) if self.html else [])
+        ]
+        self.app.state.csp = policy(hashes)
+
+
 def mount_web(app: FastAPI, web_dir: Path) -> None:
-    fallback = next((web_dir / name for name in ("200.html", "index.html") if (web_dir / name).is_file()), None)
-    shell = fallback.read_text(encoding="utf-8") if fallback else None
-    hashes = [
-        base64.b64encode(hashlib.sha256(body.encode()).digest()).decode()
-        for body in (INLINE_SCRIPT.findall(shell) if shell else [])
-    ]
-    app.state.csp = policy(hashes)
+    shell = Shell(web_dir, app)
     root = web_dir.resolve()
 
     @app.get("/{path:path}", include_in_schema=False)
-    def web(path: str, request: Request) -> Response:
+    def web(path: str) -> Response:
         if path.startswith(("api/", "ws/", "uploads/")):
             raise HTTPException(404, "Tidak dijumpai.")
-        if shell is None:
+        shell.refresh()
+        if shell.html is None:
             return HTMLResponse(NOT_BUILT, status_code=503)
         if path:
             candidate = (root / path).resolve()
@@ -67,4 +90,4 @@ def mount_web(app: FastAPI, web_dir: Path) -> None:
                 immutable = path.startswith("_app/immutable/")
                 headers = {"Cache-Control": "public, max-age=31536000, immutable" if immutable else "no-cache"}
                 return FileResponse(candidate, headers=headers)
-        return HTMLResponse(shell, headers={"Cache-Control": "no-cache"})
+        return HTMLResponse(shell.html, headers={"Cache-Control": "no-cache"})

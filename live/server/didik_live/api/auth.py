@@ -54,8 +54,9 @@ def user_out(user: User | None) -> dict | None:
 
 
 @router.get("/me")
-def me(user: User | None = Depends(current_user)) -> dict:
-    return {"user": user_out(user)}
+def me(request: Request, user: User | None = Depends(current_user)) -> dict:
+    # `demo` tells the sign-in page to show the local demo account (only when it was seeded).
+    return {"user": user_out(user), "demo": request.app.state.settings.seed_demo}
 
 
 @router.post("/register", status_code=201)

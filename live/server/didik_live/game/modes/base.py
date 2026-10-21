@@ -520,6 +520,7 @@ class SelfPacedMode(BaseMode):
         return {
             "stage": self.stage,
             "clock": self.clock(),
+            "length": self.settings.minutes * 60,
             "seat": self.seat_view(player),
             "score": player.score,
             "rank": self.rank_of(player),
@@ -527,7 +528,13 @@ class SelfPacedMode(BaseMode):
         }
 
     def host_view(self) -> dict[str, Any]:
-        return {"stage": self.stage, "clock": self.clock(), "leaders": self.leaders(10), "world": self.world_view(None)}
+        return {
+            "stage": self.stage,
+            "clock": self.clock(),
+            "length": self.settings.minutes * 60,
+            "leaders": self.leaders(10),
+            "world": self.world_view(None),
+        }
 
     def world_view(self, player: Player | None) -> dict[str, Any]:
         """Game hook: the shared or personal world (island, village, map) for this viewer."""

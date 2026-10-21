@@ -213,7 +213,8 @@ textarea {
 
 .btn:disabled,
 .btn[aria-disabled='true'] {
-	filter: saturate(0.2) brightness(1.08);
+	filter: saturate(0.35);
+	opacity: 0.5;
 	cursor: not-allowed;
 	transform: none;
 }
@@ -429,5 +430,141 @@ textarea {
 		animation-iteration-count: 1 !important;
 		transition-duration: 1ms !important;
 		scroll-behavior: auto !important;
+	}
+}
+
+/* ---------------------------------------------------------------- answer tiles (shared by every game) */
+
+.tiles-wrap {
+	container: tiles / inline-size;
+}
+
+.tiles {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0.75rem;
+}
+
+/* Long options get the full width when the space is narrow (a phone, or a side panel). */
+@container tiles (max-width: 34rem) {
+	.tiles.long {
+		grid-template-columns: minmax(0, 1fr);
+	}
+	.tiles.long .tile {
+		min-height: 3.6rem;
+	}
+}
+
+.tiles.one-col {
+	grid-template-columns: minmax(0, 1fr);
+}
+
+.tile {
+	--c: var(--coral);
+	--shade: var(--coral-deep);
+	--on: #fff;
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	min-height: 4.6rem;
+	padding: 0.85rem 1rem;
+	border: 0;
+	border-radius: var(--r-md);
+	background: var(--c);
+	color: var(--on);
+	font: 600 clamp(1.08rem, 0.95rem + 0.5vw, 1.35rem) / 1.2 var(--font-display);
+	text-align: left;
+	cursor: pointer;
+	box-shadow: var(--lift-low);
+	transition:
+		transform var(--t-state) var(--spring),
+		box-shadow var(--t-press) var(--ease-out),
+		opacity var(--t-state),
+		filter var(--t-state);
+	touch-action: manipulation;
+	animation: rise-in var(--t-enter) var(--ease-out) both;
+	animation-delay: calc(var(--i, 0) * 60ms);
+}
+
+.tile:not(:disabled):hover {
+	transform: translateY(-3px) rotate(-0.6deg);
+	box-shadow: 0 6px 0 var(--shade), 0 12px 20px rgb(31 45 39 / 0.16);
+}
+
+.tile:not(:disabled):active {
+	transform: translateY(3px) scale(0.97, 0.94);
+	box-shadow: 0 0 0 var(--shade);
+}
+
+.tile:disabled {
+	cursor: default;
+}
+
+.tile .letter {
+	display: grid;
+	place-items: center;
+	flex: none;
+	width: 2.1rem;
+	height: 2.1rem;
+	border-radius: 0.7rem;
+	background: rgb(255 255 255 / 0.24);
+	font-size: 1rem;
+}
+
+.tile .text {
+	flex: 1;
+	min-width: 0;
+	overflow-wrap: break-word;
+	hyphens: auto;
+}
+
+.tile.t0 { --c: var(--coral); --shade: var(--coral-deep); }
+.tile.t1 { --c: var(--sea); --shade: var(--sea-deep); }
+.tile.t2 { --c: var(--sun); --shade: var(--sun-deep); --on: var(--ink); }
+.tile.t3 { --c: var(--sky); --shade: var(--sky-deep); }
+.tile.t4 { --c: var(--leaf); --shade: var(--leaf-deep); --on: var(--ink); }
+.tile.t5 { --c: var(--berry); --shade: var(--berry-deep); }
+
+.tile.picked {
+	outline: 4px solid var(--ink);
+	outline-offset: 3px;
+}
+
+.tile.dim {
+	opacity: 0.35;
+	filter: saturate(0.4);
+}
+
+.tile.right {
+	animation: pop-in 480ms var(--spring) both;
+}
+
+.tile .mark {
+	display: grid;
+	place-items: center;
+	flex: none;
+	width: 2rem;
+	height: 2rem;
+	border-radius: 50%;
+	background: #fff;
+	color: var(--good);
+}
+
+.tile.wrong .mark {
+	color: var(--almost);
+}
+
+.tile .count {
+	flex: none;
+	padding: 0.1rem 0.55rem;
+	border-radius: var(--r-pill);
+	background: rgb(0 0 0 / 0.18);
+	font-size: 0.95rem;
+}
+
+@media (max-width: 380px) {
+	.tiles {
+		grid-template-columns: minmax(0, 1fr);
 	}
 }
