@@ -4,8 +4,10 @@
 	import type { Me, Person, View } from '$lib/types';
 	import SelfPlayer from './SelfPlayer.svelte';
 	import SyncPlayer from './SyncPlayer.svelte';
+	import ForestPlayer from './forest/ForestPlayer.svelte';
 	import JumpPlayer from './jump/JumpPlayer.svelte';
 	import RaceRiver from './race/RaceRiver.svelte';
+	import TeamsWorld from './teams/TeamsWorld.svelte';
 	import TreasureIsland from './treasure/TreasureIsland.svelte';
 	import { lootLine } from './treasure/loot';
 
@@ -38,6 +40,14 @@
 			{#if game.world?.tiles}
 				<TreasureIsland world={game.world} ondig={(tile) => client.send({ t: 'dig', tile })} />
 			{/if}
+		{/snippet}
+	</SelfPlayer>
+{:else if mode.key === 'hutan'}
+	<ForestPlayer {client} {game} {me} {people} />
+{:else if mode.key === 'pasukan'}
+	<SelfPlayer {client} {game} {me} title={mode.title} unit="petak" total={minutes} rewardText={(r) => (r.flags ? `Dapat ${r.flags} bendera!` : '')}>
+		{#snippet world()}
+			{#if game.world?.cells}<TeamsWorld {client} world={game.world} step={game.seat?.step ?? null} />{/if}
 		{/snippet}
 	</SelfPlayer>
 {:else}

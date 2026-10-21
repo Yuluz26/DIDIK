@@ -83,6 +83,7 @@ class Player:
     nickname: str
     avatar: str
     colour: str
+    skin: str = "s2"
     token: str = field(default_factory=lambda: secrets.token_urlsafe(24))
     is_bot: bool = False
     approved: bool = True
@@ -103,6 +104,7 @@ class Player:
             "name": self.nickname,
             "avatar": self.avatar,
             "colour": self.colour,
+            "skin": self.skin,
             "score": self.score,
             "team": self.team,
             "online": self.connected,

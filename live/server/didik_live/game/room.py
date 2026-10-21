@@ -294,6 +294,7 @@ class Room:
 
         avatar = data.get("avatar") if data.get("avatar") in names.ANIMALS else "kancil"
         colour = data.get("colour") if data.get("colour") in names.COLOURS else self.rng.choice(names.COLOURS)
+        skin = data.get("skin") if data.get("skin") in names.SKINS else self.rng.choice(names.SKINS)
         taken = {p.nickname for p in self.players.values()}
         raw = str(data.get("name") or "")
         if bot:
@@ -312,6 +313,7 @@ class Room:
             nickname=nickname,
             avatar=avatar,
             colour=colour,
+            skin=skin,
             is_bot=bot,
             approved=bot or not self.settings.waiting_room,
         )

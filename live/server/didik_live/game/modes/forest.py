@@ -171,6 +171,7 @@ class ForestMode(SelfPacedMode):
 
     async def tick_forever(self) -> None:
         last_send = 0.0
+        last_full = 0.0
         while not self.finished:
             await asyncio.sleep(TICK)
             if self.stage != "play" or self.paused:
@@ -179,7 +180,12 @@ class ForestMode(SelfPacedMode):
             now = time.monotonic()
             if now - last_send >= 0.1:
                 last_send = now
-                self.send_positions()
+                # Once a second everyone gets positions even if nobody moved, so a phone that just
+                # (re)connected draws the forest straight away.
+                full = now - last_full >= 1.0
+                if full:
+                    last_full = now
+                self.send_positions(force=full)
 
     def step(self, dt: float) -> None:
         for pid, (dx, dy) in list(self.inputs.items()):
@@ -192,10 +198,10 @@ class ForestMode(SelfPacedMode):
             if dx:
                 self.facing[pid] = 1 if dx > 0 else -1
 
-    def send_positions(self) -> None:
+    def send_positions(self, force: bool = False) -> None:
         data = [[pid, round(x, 2), round(y, 2), self.facing.get(pid, 1)] for pid, (x, y) in self.pos.items()]
         text = str(data)
-        if text == self._last_pos:
+        if text == self._last_pos and not force:
             return
         self._last_pos = text
         self.room.broadcast({"t": "pos", "p": data})

@@ -34,6 +34,7 @@ export interface Person {
 	name: string;
 	avatar: string;
 	colour: string;
+	skin?: string;
 	team: string | null;
 	online: boolean;
 	bot: boolean;

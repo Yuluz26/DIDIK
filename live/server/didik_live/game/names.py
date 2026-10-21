@@ -23,6 +23,8 @@ ANIMALS = {
 
 COLOURS = ["jingga", "kuning", "hijau", "biru", "ungu", "merah", "jambu", "teal"]
 
+SKINS = ["s1", "s2", "s3", "s4", "s5"]
+
 ADJECTIVES = [
     "Ceria", "Pantas", "Bijak", "Riang", "Berani", "Comel", "Lincah", "Gagah", "Tenang", "Ajaib",
     "Cergas", "Hebat", "Pelangi", "Kilat", "Mentari", "Lucu", "Rajin", "Bintang", "Sopan", "Tangkas",

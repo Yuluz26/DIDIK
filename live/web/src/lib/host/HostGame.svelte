@@ -2,7 +2,9 @@
 <script lang="ts">
 	import type { RoomClient } from '$lib/room.svelte';
 	import type { Person, View } from '$lib/types';
+	import ForestHost from '$lib/games/forest/ForestHost.svelte';
 	import JumpHost from '$lib/games/jump/JumpHost.svelte';
+	import TeamsWorld from '$lib/games/teams/TeamsWorld.svelte';
 	import RaceRiver from '$lib/games/race/RaceRiver.svelte';
 	import ScoreTowers from '$ui/ScoreTowers.svelte';
 	import SelfHost from './SelfHost.svelte';
@@ -27,6 +29,14 @@
 	<SelfHost {client} {game} {people} feed={view.feed} title={mode.title} unit="syiling" total={minutes} board={false}>
 		{#snippet world()}
 			<ScoreTowers rows={game.leaders} {people} />
+		{/snippet}
+	</SelfHost>
+{:else if mode.key === 'hutan'}
+	<ForestHost {client} {game} {people} feed={view.feed} />
+{:else if mode.key === 'pasukan'}
+	<SelfHost {client} {game} {people} feed={view.feed} title={mode.title} unit="petak" total={minutes}>
+		{#snippet world()}
+			{#if game.world?.cells}<TeamsWorld {client} world={game.world} step={null} big />{/if}
 		{/snippet}
 	</SelfHost>
 {:else}

@@ -22,6 +22,15 @@ export const COLOURS: Record<string, string> = {
 	teal: '#14958a'
 };
 
+// Skin tones for the chibi characters, chosen on the join screen.
+export const SKINS: Record<string, string> = {
+	s1: '#fde3d1',
+	s2: '#f3c9a4',
+	s3: '#dca57a',
+	s4: '#b77a4d',
+	s5: '#7e4e2c'
+};
+
 export const COLOUR_NAMES: Record<string, string> = {
 	jingga: 'Jingga',
 	kuning: 'Kuning',
