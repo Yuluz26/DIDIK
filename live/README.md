@@ -99,7 +99,7 @@ Satu bilik menerima 60 pemain secara lalai (hos boleh menaikkannya hingga 100). 
 belas permainan diuji dengan 50 telefon serentak melalui WebSocket sebenar, semuanya dari satu alamat
 seperti sekolah di belakang satu router. Semua 50 masuk dan tiada sambungan terputus; pada mesin
 pembangunan, pelayan menggunakan 3 hingga 9% satu teras CPU, hasil setiap jawapan muncul di skrin dalam
-110 ms (p95), dan seluruh kelas memerlukan 0.3 hingga 1.5 Mbit/s. Skrin hos pula diuji dengan 51 pemain:
+115 ms (p95), dan seluruh kelas memerlukan 0.3 hingga 1.5 Mbit/s. Skrin hos pula diuji dengan 51 pemain:
 nama, orang ramai dan senarai keputusan disusun supaya kekal kemas dan butang seterusnya sentiasa
 kelihatan.
 
