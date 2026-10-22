@@ -4,7 +4,7 @@
 	sails between. Then the beach (how it works), the parents' field and the back of the card.
 -->
 <script lang="ts">
-	import { fly } from 'svelte/transition';
+	import { fade, fly } from 'svelte/transition';
 	import Icon from '$ui/Icon.svelte';
 	import Didi from '$ui/Didi.svelte';
 	import Logo from '$ui/Logo.svelte';
@@ -82,8 +82,8 @@
 <main>
 	<div class="sea">
 		<div class="waves" aria-hidden="true">
-			{#each WAVES as [x, y], i (`${x}-${y}`)}
-				<svg viewBox="0 0 36 10" style:left="{x}%" style:top="{y}%" style:--d="{(i % 5) * -1.3}s" focusable="false">
+			{#each WAVES as [x, y] (`${x}-${y}`)}
+				<svg viewBox="0 0 36 10" style:left="{x}%" style:top="{y}%" focusable="false">
 					<path d="M2 7 q8 -7 16 0 q8 -7 16 0" />
 				</svg>
 			{/each}
@@ -184,7 +184,7 @@
 </footer>
 
 {#if pastTicket}
-	<button type="button" class="mini-ticket" onclick={backToTicket} transition:fly={{ y: 48, duration: 320 }}>
+	<button type="button" class="mini-ticket" onclick={backToTicket} in:fly={{ y: 48, duration: 320 }} out:fade={{ duration: 140 }}>
 		Ada kod? <strong>Masuk</strong>
 	</button>
 {/if}
@@ -211,7 +211,6 @@
 		position: absolute;
 		width: 2.2rem;
 		height: auto;
-		animation: drift 5s ease-in-out var(--d) infinite alternate;
 	}
 	.waves path {
 		fill: none;
@@ -502,7 +501,7 @@
 		background: var(--paper);
 		/* A scalloped top edge, like a card torn from a pad. */
 		mask:
-			radial-gradient(circle var(--bite) at 50% 0, #0000 97%, #000) 0 0 / 46px 100% repeat-x;
+			radial-gradient(circle var(--bite) at 50% 0, #0000 97%, #000) 0 0 / 46px 100% repeat-x; /* taste-skill-ignore: a mask that cuts the edge, not a fill */
 	}
 	.sign {
 		font: 600 var(--fs-h2) / 1.1 var(--font-display);
@@ -541,8 +540,8 @@
 		background: var(--sun);
 		/* Perforated round the edge like a stamp: holes along the border, the middle left whole. */
 		mask:
-			linear-gradient(#000 0 0) content-box,
-			radial-gradient(circle 3.5px, #0000 96%, #000) -5px -5px / 10px 10px round;
+			linear-gradient(#000 0 0) content-box, /* taste-skill-ignore: mask layers that punch the holes, not a fill */
+			radial-gradient(circle 3.5px, #0000 96%, #000) -5px -5px / 10px 10px round; /* taste-skill-ignore: mask */
 		rotate: 6deg;
 		transition: rotate 420ms var(--spring);
 	}
@@ -573,7 +572,7 @@
 		color: var(--ink);
 		font: 600 1.0625rem var(--font-display);
 		cursor: pointer;
-		box-shadow: var(--lift-low);
+		box-shadow: var(--lift-low); /* taste-skill-ignore: it floats over the page */
 		--shade: var(--sun-deep);
 		transition: transform var(--t-state) var(--spring);
 	}
@@ -582,12 +581,6 @@
 	}
 	.mini-ticket:active {
 		transform: scale(0.96);
-	}
-
-	@keyframes drift {
-		to {
-			transform: translate(6px, -3px);
-		}
 	}
 
 	/* ---------------------------------------------------------------- narrower screens */

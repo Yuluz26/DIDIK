@@ -121,7 +121,7 @@
 	const lands = $derived(LANDS[game] ?? LANDS.hutan);
 	const things = $derived(PROPS[game] ?? []);
 	const actors = $derived<WorldActor[]>(
-		(CAST[game] ?? []).map((a) => ({ ...a, name: '', mood: cheer, walking: game === 'hutan' && active }))
+		(CAST[game] ?? []).map((a) => ({ ...a, name: '', mood: cheer }))
 	);
 
 	// Team hexagons for Pasukan Warna, squashed for the 3/4 view.
@@ -227,13 +227,14 @@
 <style>
 	.island {
 		width: 100%;
+		aspect-ratio: 6 / 4.4;
 	}
 	/* An island sits straight on the sea: no frame, nothing clipped. */
 	.island :global(.viewport) {
 		overflow: visible;
 		border-radius: 0;
 		background: transparent;
-		box-shadow: none;
+		box-shadow: none; /* taste-skill-ignore: removes the world frame's shadow */
 	}
 	.flag .cloth {
 		transform-box: fill-box;

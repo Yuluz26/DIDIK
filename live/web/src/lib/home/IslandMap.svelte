@@ -27,7 +27,7 @@
 	const DOCKS = SPOTS.map((s, i) => ({ x: s.x + (i < 4 ? 3 : -3), y: i < 4 ? 46 : 58 }));
 	const HOP = 360;
 
-	let width = $state(0);
+	let width = $state(typeof window === 'undefined' ? 0 : Math.min(window.innerWidth, 1216) - 32);
 	let mapWidth = $state(0);
 	const wide = $derived(width >= 960);
 
@@ -134,7 +134,7 @@
 		<ol class="list">
 			{#each GAMES as g, i (g.key)}
 				<li class:flip={i % 2 === 1} style:--tint={g.tint}>
-					<div class="art" data-ui><GameIsland game={g.key} width={Math.min(320, width * (width >= 600 ? 0.4 : 0.78))} active /></div>
+					<div class="art" data-ui><GameIsland game={g.key} width={Math.min(320, width * (width >= 600 ? 0.4 : 0.78))} /></div>
 					<div class="words">
 						<h3>{g.title}</h3>
 						<p class="pace">{g.pace}</p>

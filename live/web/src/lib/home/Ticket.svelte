@@ -133,8 +133,8 @@
 		background: var(--paper);
 		/* Two half-moons bitten out where the stub tears off. */
 		mask:
-			radial-gradient(circle var(--notch) at calc(100% - var(--stub)) 0, #0000 97%, #000) top / 100% 51% no-repeat,
-			radial-gradient(circle var(--notch) at calc(100% - var(--stub)) 100%, #0000 97%, #000) bottom / 100% 51% no-repeat;
+			radial-gradient(circle var(--notch) at calc(100% - var(--stub)) 0, #0000 97%, #000) top / 100% 51% no-repeat, /* taste-skill-ignore: mask */
+			radial-gradient(circle var(--notch) at calc(100% - var(--stub)) 100%, #0000 97%, #000) bottom / 100% 51% no-repeat; /* taste-skill-ignore: mask */
 	}
 	.write {
 		display: grid;

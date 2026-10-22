@@ -255,9 +255,15 @@
 		font-size: 0.7rem;
 	}
 	.roster .tool {
+		position: relative;
 		width: 2rem;
 		height: 2rem;
 		border-radius: 50%;
+	}
+	.roster .tool::after {
+		content: '';
+		position: absolute;
+		inset: -0.4rem;
 	}
 	.pending {
 		display: grid;

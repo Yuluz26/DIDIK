@@ -85,7 +85,7 @@
 	let world = $state<ReturnType<typeof World>>();
 	let width = $state(0);
 	// The host's screen shows the whole square; a phone shows a closer view that follows the child.
-	const tile = $derived(me ? Math.max(34, width / W) : Math.min(84, width / W));
+	const tile = $derived(me ? Math.max(34, width / W) : width / W);
 	const follow = $derived(!!me && tile * W > width + 1);
 
 	interface Shown {
@@ -261,6 +261,7 @@
 	.plaza {
 		position: relative;
 		width: 100%;
+		aspect-ratio: 16 / 9;
 		border-radius: var(--r-lg);
 	}
 	.plaza :global(.viewport) {
@@ -268,6 +269,7 @@
 	}
 	/* A phone shows a window onto the square that follows the child. */
 	.follow {
+		aspect-ratio: auto;
 		height: min(var(--plaza-h), 60dvh);
 	}
 	.walkable {

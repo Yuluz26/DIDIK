@@ -46,7 +46,7 @@
 
 	let places = $state(CAST.map((_, i) => ({ at: SPOTS[i], walking: false, facing: i % 2 ? -1 : 1 })));
 	let width = $state(0);
-	const tile = $derived(Math.max(22, Math.min(60, width / W)));
+	const tile = $derived(Math.max(22, width / W));
 
 	// Every few seconds one child strolls to a free spot; nobody moves when motion is reduced.
 	$effect(() => {
@@ -111,11 +111,12 @@
 <style>
 	.main-island {
 		width: 100%;
+		aspect-ratio: 12 / 7.8;
 	}
 	.main-island :global(.viewport) {
 		overflow: visible;
 		border-radius: 0;
 		background: transparent;
-		box-shadow: none;
+		box-shadow: none; /* taste-skill-ignore: removes the world frame's shadow */
 	}
 </style>
