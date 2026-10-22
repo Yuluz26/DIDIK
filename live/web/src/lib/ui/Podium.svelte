@@ -22,6 +22,9 @@
 
 	const top = $derived(results.players.slice(0, 3));
 	const rest = $derived(results.players.slice(3));
+	// A full class: the ranking runs down several columns and the builders sit closer together, so the
+	// end of a game for fifty fits on a screen or two instead of a long scroll.
+	const many = $derived(results.players.length > 18);
 	const mine = $derived(results.players.find((r) => r.id === me));
 	// Podium order on screen: second, first, third.
 	const order = $derived([top[1], top[0], top[2]].filter(Boolean));
@@ -40,11 +43,11 @@
 			<h2>{results.headline}</h2>
 			{#if results.note}<p>{results.note}</p>{/if}
 		</div>
-		<ul class="helpers">
+		<ul class="helpers" class:many>
 			{#each results.players as row (row.id)}
 				{@const person = people.get(row.id)}
 				<li class:me={row.id === me}>
-					<Avatar animal={person?.avatar} colour={person?.colour} skin={person?.skin} size={52} mood="cheer" bob />
+					<Avatar animal={person?.avatar} colour={person?.colour} skin={person?.skin} size={many ? 36 : 52} mood="cheer" bob={!many} />
 					<span>{row.id === me ? 'Kamu' : person?.name}</span>
 					<small>{row.score.toLocaleString('ms-MY')} {unit}</small>
 				</li>
@@ -85,7 +88,7 @@
 		{/if}
 
 		{#if rest.length}
-			<ol class="rest">
+			<ol class="rest" class:columns={rest.length > 8}>
 				{#each rest as row (row.id)}
 					{@const person = people.get(row.id)}
 					<li class:me={row.id === me}>
@@ -225,6 +228,16 @@
 		padding: 0;
 		list-style: none;
 	}
+	/* Read down each column, then the next, like a results sheet. */
+	.rest.columns {
+		display: block;
+		columns: 14rem;
+		column-gap: 0.8rem;
+	}
+	.rest.columns li {
+		margin-bottom: 0.4rem;
+		break-inside: avoid;
+	}
 	.rest li {
 		display: flex;
 		align-items: center;
@@ -258,9 +271,15 @@
 		padding: 0;
 		list-style: none;
 	}
+	.helpers.many {
+		grid-template-columns: repeat(auto-fill, minmax(6.2rem, 1fr));
+		gap: 0.6rem 0.4rem;
+		font-size: 0.9rem;
+	}
 	.helpers li {
 		display: grid;
 		justify-items: center;
+		align-content: start;
 		gap: 0.2rem;
 		font-weight: 800;
 		text-align: center;

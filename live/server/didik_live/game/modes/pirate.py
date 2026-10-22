@@ -129,6 +129,8 @@ class PirateMode(SelfPacedMode):
         kind = seat.extra["pending"]
         victim = self.room.players.get(target) if isinstance(target, str) else None
         if victim is None or victim not in self.targets(player, kind):
+            # Another child got there first (the ship is shielded now, or has no gold left).
+            player.send({"t": "error", "message": "Kapal itu tidak boleh dipilih lagi. Pilih kapal lain."})
             return
         if kind == "curi":
             amount = max(1, victim.score // 4)

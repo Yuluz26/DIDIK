@@ -91,9 +91,9 @@
 		gap: 0.6rem;
 		min-height: 3.6rem;
 		padding: 0.35rem 0.8rem 0.35rem 0.45rem;
-		border: 2px dashed #e1d3b6;
+		border: 2px dashed color-mix(in srgb, var(--line) 70%, var(--ink-3));
 		border-radius: var(--r-md);
-		background: rgb(255 255 255 / 0.55);
+		background: color-mix(in srgb, var(--card) 55%, transparent);
 	}
 	.slot.filled {
 		border-style: solid;

@@ -62,7 +62,7 @@
 {:else if mode.key === 'kebun'}
 	<SelfHost {client} {game} {people} feed={view.feed} title={mode.title} unit={mode.unit} total={minutes}>
 		{#snippet world()}
-			{#if game.world?.top}<GardenHost world={game.world} {people} />{/if}
+			{#if game.world?.top}<GardenHost world={game.world} {people} unit={mode.unit} />{/if}
 		{/snippet}
 	</SelfHost>
 {:else if mode.key === 'litar'}

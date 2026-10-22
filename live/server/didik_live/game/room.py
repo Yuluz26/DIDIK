@@ -164,10 +164,10 @@ class Room:
         if conn.closed:
             return
         if roster is not None or not conn.last_view:
-            conn.send(roster if roster is not None else self._last_roster)
+            conn.send_latest("roster", roster if roster is not None else self._last_roster)
         if conn.last_view != view:
             conn.last_view = view
-            conn.send(f'{{"t":"view","now":{now},"view":{view}}}')
+            conn.send_latest("view", f'{{"t":"view","now":{now},"view":{view}}}')
 
     def resend(self, conn: Conn) -> None:
         """A fresh connection gets everything on the next flush."""
@@ -209,14 +209,13 @@ class Room:
             for conn in list(self.hosts):
                 conn.send(message)
 
-    def broadcast(self, message: dict[str, Any]) -> None:
-        """A raw message to every approved child and every host screen (forest positions)."""
+    def broadcast_latest(self, kind: str, message: dict[str, Any]) -> None:
+        """A snapshot to every approved child and every host screen (forest positions): a phone
+        that is behind gets only the newest."""
         text = dumps(message)
-        for player in self.players.values():
-            if player.approved:
-                player.send(text)
-        for conn in list(self.hosts):
-            conn.send(text)
+        conns = [c for p in self.players.values() if p.approved for c in p.conns] + list(self.hosts)
+        for conn in conns:
+            conn.send_latest(kind, text)
 
     def feed(self, text: str, kind: str = "info", player: Player | None = None) -> None:
         self._feed_id += 1
@@ -352,7 +351,7 @@ class Room:
             skin=skin,
             is_bot=bot,
             approved=bot or not self.settings.waiting_room,
-            spot=plaza.arrival(self.rng),
+            spot=plaza.arrival(self.rng, crowd=len(self.players)),
         )
         if bot:
             player.skill = self.rng.uniform(0.55, 0.85)

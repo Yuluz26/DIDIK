@@ -155,7 +155,7 @@ def test_pirate_steal_takes_a_quarter_and_a_robbed_ship_is_shielded() -> None:
     async def scenario() -> None:
         room, _, _, players = await started("lanun", kids=3)
         mode = room.mode
-        (thief, _), (rich, rich_socket), (other, _) = players
+        (thief, thief_socket), (rich, rich_socket), (other, _) = players
         rich.score, other.score = 200, 80
         seat = mode.seats[thief.id]
 
@@ -175,6 +175,8 @@ def test_pirate_steal_takes_a_quarter_and_a_robbed_ship_is_shielded() -> None:
         room.handle_player(thief, {"t": "open", "chest": 2})
         room.handle_player(thief, {"t": "target", "player": rich.id})  # still shielded
         assert seat.step == "target"
+        await settle(0.05)
+        assert "Pilih kapal lain" in thief_socket.of("error")[-1]["message"]
         room.handle_player(thief, {"t": "target", "player": other.id})
         assert (thief.score, other.score) == (80, 50)
         room.close()

@@ -13,11 +13,12 @@ from fastapi.testclient import TestClient
 from didik_live.app import create_app
 from didik_live.config import Settings
 from didik_live.game import plaza
+from didik_live.game.player import Conn
 from didik_live.game.room import JoinError
 from didik_live.seed import DEMO_EMAIL, DEMO_PASSWORD
 
 from .conftest import sample_id
-from .roomkit import connection, open_room, settle, until
+from .roomkit import FakeSocket, connection, open_room, settle, until
 
 
 def run(coro):
@@ -343,3 +344,66 @@ def test_room_links_use_the_public_address_when_one_is_set(settings: Settings) -
         room = client.post("/api/rooms", json={"quiz_id": quiz_id, "mode": "lumba"}).json()
         assert room["link"] == f"http://192.168.1.20:8080/m/{room['slug']}"
         assert client.get(f"/api/rooms/{room['code']}").json()["link"] == room["link"]
+
+
+def test_a_whole_class_behind_one_school_router_can_join(parent: TestClient) -> None:
+    # Fifty phones, one address (the school's router): every child gets in, and the join page's
+    # room lookup never runs out either.
+    quiz_id = sample_id(parent, "Matematik Ceria")
+    room = parent.post("/api/rooms", json={"quiz_id": quiz_id, "mode": "lumba"}).json()
+    for _ in range(50):
+        assert parent.get(f"/api/rooms/{room['slug']}").status_code == 200
+        with parent.websocket_connect(f"/ws/{room['slug']}") as kid:
+            kid.send_json({"t": "join", "avatar": "gajah"})
+            assert receive_until(kid, lambda m: m["t"] in ("welcome", "error"))["t"] == "welcome"
+    assert len(parent.app.state.rooms.find(room["code"]).players) == 50
+
+
+def test_guessing_room_codes_pauses_lookups_from_that_address(parent: TestClient) -> None:
+    quiz_id = sample_id(parent, "Matematik Ceria")
+    room = parent.post("/api/rooms", json={"quiz_id": quiz_id, "mode": "lumba"}).json()
+    wrong = [code for code in (f"{n:06d}" for n in range(1000)) if code != room["code"]]
+    for code in wrong[:120]:
+        assert parent.get(f"/api/rooms/{code}").status_code == 404
+    assert parent.get(f"/api/rooms/{wrong[120]}").status_code == 429
+    assert parent.get(f"/api/rooms/{room['code']}").status_code == 429  # paused, so a sweep learns nothing
+    with parent.websocket_connect(f"/ws/{room['code']}") as ws:
+        assert "Tunggu seminit" in receive(ws)["message"]
+
+
+def test_a_phone_that_falls_behind_gets_the_newest_view_not_every_old_one() -> None:
+    async def scenario() -> None:
+        gate = asyncio.Event()
+
+        class SlowSocket(FakeSocket):
+            async def send_text(self, text: str) -> None:
+                await gate.wait()  # a crowded classroom Wi-Fi
+                await super().send_text(text)
+
+        socket = SlowSocket()
+        conn = Conn(socket)  # type: ignore[arg-type]
+        conn.start()
+        conn.send_latest("view", json.dumps({"t": "view", "n": 0}))
+        await settle(0.02)  # already on its way
+        for n in range(1, 5):
+            conn.send_latest("view", json.dumps({"t": "view", "n": n}))
+        conn.send({"t": "fx", "kind": "joined"})
+        gate.set()
+        await settle(0.05)
+        assert [(m["t"], m.get("n")) for m in socket.sent] == [("view", 0), ("view", 4), ("fx", None)]
+        conn.close()
+
+    run(scenario())
+
+
+def test_a_full_class_spreads_over_the_whole_square() -> None:
+    async def scenario() -> None:
+        room = open_room("lumba")
+        kids = [room.join(connection()[0], {"avatar": "kancil"}) for _ in range(40)]
+        first, later = kids[: plaza.CROWD], kids[plaza.CROWD :]
+        assert all(k.spot[1] >= 6.3 for k in first)  # the first arrivals line up at the front
+        assert min(k.spot[1] for k in later) < 6.0  # a full class fills the square, not one row
+        assert all(plaza.clamp(*k.spot) == k.spot for k in kids)  # never in the fountain
+        room.close()
+
+    run(scenario())

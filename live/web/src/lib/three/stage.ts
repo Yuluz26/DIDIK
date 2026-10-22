@@ -95,11 +95,14 @@ export class Tags {
 		placed.sort((a, b) => b.y - a.y);
 		const taken: { x: number; y: number; w: number; h: number }[] = [];
 		for (const tag of placed) {
+			// A kart at the very edge of the picture keeps its whole label inside it.
+			tag.x = Math.min(Math.max(tag.x, tag.w / 2 + 4), width - tag.w / 2 - 4);
 			for (const other of taken) {
 				const across = Math.abs(tag.x - other.x) < (tag.w + other.w) / 2 + 2;
 				const overlap = tag.y > other.y - other.h - 2 && tag.y - tag.h < other.y;
 				if (across && overlap) tag.y = other.y - other.h - 3;
 			}
+			tag.y = Math.max(tag.y, tag.h + 4);
 			taken.push(tag);
 			tag.el.style.visibility = 'visible';
 			tag.el.style.transform = `translate3d(${tag.x.toFixed(1)}px, ${tag.y.toFixed(1)}px, 0) translate(-50%, -100%)`;

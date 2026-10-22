@@ -52,8 +52,10 @@
 	const onLand = $derived(everyone.filter((p) => (pond.hearts[p.id] ?? 3) > 0));
 	const fish = $derived(everyone.filter((p) => (pond.hearts[p.id] ?? 3) === 0));
 	const waiting = $derived(onLand.filter((p) => !pond.picks[p.id]));
-	const visible = $derived(big ? 10 : 6);
-	const size = $derived(big ? 46 : 32);
+	// One row of characters per island, so a full class never climbs over the answer's sign; a count
+	// stands for everyone else on that island.
+	const visible = $derived(big ? 5 : 4);
+	const size = $derived(big ? 42 : 30);
 
 	function standing(pad: string) {
 		// The child's own character stands at the front of the crowd.
@@ -294,17 +296,16 @@
 	}
 	.crowd {
 		position: absolute;
-		left: 12%;
-		right: 12%;
+		left: 6%;
+		right: 6%;
 		bottom: 40%;
 		display: flex;
-		flex-wrap: wrap-reverse;
 		justify-content: center;
 		align-items: flex-end;
 		line-height: 0;
 	}
 	.crowd .who + .who {
-		margin-left: -0.35rem;
+		margin-left: -0.5rem;
 	}
 	.who.me {
 		position: relative;

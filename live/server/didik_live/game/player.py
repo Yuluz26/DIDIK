@@ -20,19 +20,31 @@ def dumps(data: Any) -> str:
     return json.dumps(data, separators=(",", ":"), ensure_ascii=False)
 
 
+@dataclass(frozen=True)
+class Latest:
+    """A place in a connection's queue for the newest message of one kind."""
+
+    kind: str
+
+
 class Conn:
     """One open WebSocket. Messages go through a queue drained by its own task, so one slow
     phone never holds up the rest of the room; a phone that falls too far behind is dropped
-    and simply reconnects."""
+    and simply reconnects.
+
+    Views, the roster and forest positions are snapshots of the room: when the phone is behind
+    (a crowded classroom Wi-Fi), a newer snapshot replaces the one still waiting in the queue, so
+    the phone catches up at once instead of replaying the last few seconds."""
 
     QUEUE_LIMIT = 300
 
     def __init__(self, ws: WebSocket) -> None:
         self.ws = ws
-        self.queue: asyncio.Queue[str | None] = asyncio.Queue(self.QUEUE_LIMIT)
+        self.queue: asyncio.Queue[str | Latest | None] = asyncio.Queue(self.QUEUE_LIMIT)
         self.closed = False
         self.last_view = ""
         self.writer: asyncio.Task | None = None
+        self._latest: dict[str, str] = {}
         # Token bucket for incoming messages.
         self._tokens = 40.0
         self._refill_at = time.monotonic()
@@ -46,6 +58,19 @@ class Conn:
         text = message if isinstance(message, str) else dumps(message)
         try:
             self.queue.put_nowait(text)
+        except asyncio.QueueFull:
+            self.close()
+
+    def send_latest(self, kind: str, text: str) -> None:
+        """Queues a snapshot, or replaces the one of this kind not yet written."""
+        if self.closed:
+            return
+        waiting = kind in self._latest
+        self._latest[kind] = text
+        if waiting:
+            return
+        try:
+            self.queue.put_nowait(Latest(kind))
         except asyncio.QueueFull:
             self.close()
 
@@ -68,9 +93,10 @@ class Conn:
     async def _write(self) -> None:
         try:
             while True:
-                text = await self.queue.get()
-                if text is None:
+                item = await self.queue.get()
+                if item is None:
                     break
+                text = self._latest.pop(item.kind) if isinstance(item, Latest) else item
                 await self.ws.send_text(text)
         except Exception:  # noqa: BLE001 - a closed socket ends the writer quietly
             pass

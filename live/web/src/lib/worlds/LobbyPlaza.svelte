@@ -165,8 +165,6 @@
 			];
 		})
 	);
-	// On a phone, a crowd of name tags would hide the square; past ten friends only yours stays.
-	const names = $derived(!me || actors.length <= 10 ? true : 'me');
 
 	// ------------------------------------------------------------ walking (phones)
 
@@ -227,7 +225,7 @@
 {/snippet}
 
 {#snippet square()}
-	<World bind:this={world} width={W} height={H} {tile} {ground} props={PROPS} {actors} {me} {follow} {names} step={600} overlay={marker} />
+	<World bind:this={world} width={W} height={H} {tile} {ground} props={PROPS} {actors} {me} {follow} step={600} overlay={marker} />
 	{#if me && !walked}
 		<p class="hint" aria-hidden="true">Ketik di mana-mana untuk berjalan</p>
 	{/if}

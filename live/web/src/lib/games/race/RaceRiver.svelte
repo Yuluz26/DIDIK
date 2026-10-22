@@ -2,7 +2,7 @@
 	Lumba Sampan's river in the worlds' 3/4 view: a jetty at the start, a line of buoys and a banner at
 	the finish, trees along the far bank, and every child paddling their own boat in their own lane.
 	Distance is drawn to scale. On a phone the view follows the child's boat and shows the boats
-	nearest to it; on the big screen the whole river fits.
+	nearest to it; on the big screen the whole river fits, with ten lanes at most.
 -->
 <script lang="ts">
 	import type { Person } from '$lib/types';
@@ -27,6 +27,7 @@
 	const FINISH = 19.6;
 	const LANE = 1.45;
 	const TOP = 2.2; // where the water begins, below the far bank
+	const MAX_LANES = 10;
 
 	// Remember who moved, so their paddle swings for a moment.
 	let previous = new Map<string, number>();
@@ -45,15 +46,18 @@
 	});
 
 	// Lanes keep the order children joined in, so a boat never jumps lanes; on a phone, only the
-	// five lanes around the child's own boat.
+	// five lanes around the child's own boat. A class bigger than the big screen's ten lanes sees the
+	// ten boats in front instead, in order, changing lanes as they overtake.
+	const racing = $derived(race.boats.filter((b) => people.has(b.id)));
 	const lanes = $derived.by(() => {
-		const boats = race.boats.filter((b) => people.has(b.id));
-		if (!compact || !me) return boats;
+		const boats = racing;
+		if (!compact || !me) return boats.length <= MAX_LANES ? boats : [...boats].sort((a, b) => b.m - a.m).slice(0, MAX_LANES);
 		const at = boats.findIndex((b) => b.id === me);
 		if (at < 0) return boats.slice(0, 5);
 		const from = Math.max(0, Math.min(at - 2, boats.length - 5));
 		return boats.slice(from, from + 5);
 	});
+	const behind = $derived(compact ? 0 : racing.length - lanes.length);
 
 	const H = $derived(TOP + Math.max(lanes.length, 3) * LANE + 1.9);
 	const bottom = $derived(TOP + Math.max(lanes.length, 3) * LANE + 0.35);
@@ -137,6 +141,7 @@
 		</World>
 		{#if race.rapids}<p class="rapids-banner">Arus deras! Semua sampan meluncur ke depan</p>{/if}
 	</div>
+	{#if behind > 0}<figcaption class="behind">Sepuluh sampan terdepan. {behind} lagi sedang mengejar.</figcaption>{/if}
 </figure>
 
 <style>
@@ -190,6 +195,13 @@
 	}
 	.mine .name {
 		background: var(--sun);
+	}
+	.behind {
+		margin-top: 0.4rem;
+		color: var(--ink-2);
+		font-weight: 700;
+		font-size: 0.92rem;
+		text-align: center;
 	}
 	.rapids-banner {
 		position: absolute;

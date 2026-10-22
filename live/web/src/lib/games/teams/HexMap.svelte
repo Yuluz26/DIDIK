@@ -58,14 +58,16 @@
 	const fit = $derived(Math.min(width, maxHeight * (box.w / box.h)));
 	const px = (units: number) => (units / box.w) * fit;
 
-	// Each team's children gather beside their base, the child's own character at the front.
+	// Each team's children gather by their base, the child's own character at the front. The bases sit
+	// at the island's two ends, so each group lines up from its own edge of the map inwards and stays
+	// on the map however big the team; past five, a count stands for the rest.
 	const crowds = $derived(
 		cells
 			.filter((c) => c.base && c.owner)
 			.map((base) => {
 				const at = centre(base);
 				const members = people.filter((p) => p.team === base.owner).sort((a, b) => Number(b.id === me) - Number(a.id === me));
-				return { key: base.key, x: at.x, y: at.y, members: members.slice(0, 5) };
+				return { key: base.key, y: at.y, right: at.x > box.x + box.w / 2, members: members.slice(0, 5), more: Math.max(0, members.length - 5) };
 			})
 	);
 
@@ -118,12 +120,13 @@
 			{/each}
 		</svg>
 		{#each crowds as crowd (crowd.key)}
-			<div class="crowd" style:left="{px(crowd.x - box.x)}px" style:top="{px(crowd.y - box.y + 5)}px" aria-hidden="true">
+			<div class="crowd" class:right={crowd.right} style:top="{px(crowd.y - box.y + 5)}px" aria-hidden="true">
 				{#each crowd.members as person (person.id)}
 					<span class="member" class:me={person.id === me}>
 						<Chibi animal={person.avatar} colour={person.colour} skin={person.skin} size={Math.max(16, Math.round(px(11)))} />
 					</span>
 				{/each}
+				{#if crowd.more}<span class="more">+{crowd.more}</span>{/if}
 			</div>
 		{/each}
 	</div>
@@ -146,13 +149,35 @@
 	}
 	.crowd {
 		position: absolute;
+		left: 0.4rem;
 		display: flex;
-		translate: -50% -100%;
+		align-items: flex-end;
+		translate: 0 -100%;
 		line-height: 0;
 		pointer-events: none;
 	}
+	.crowd.right {
+		left: auto;
+		right: 0.4rem;
+		flex-direction: row-reverse;
+	}
+	.more {
+		align-self: center;
+		margin-inline: 0.2rem;
+		padding: 0 0.4rem;
+		border-radius: var(--r-pill);
+		background: #fff;
+		color: var(--ink);
+		font-weight: 800;
+		font-size: 0.8rem;
+		line-height: 1.6;
+	}
 	.member + .member {
 		margin-left: -0.3rem;
+	}
+	.right .member + .member {
+		margin-left: 0;
+		margin-right: -0.3rem;
 	}
 	.member.me {
 		position: relative;

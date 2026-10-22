@@ -55,7 +55,7 @@
 		{:else if view.phase === 'playing' && view.game}
 			<HostGame {client} {view} {people} />
 		{:else if view.phase === 'ended' && view.results}
-			<div class="ended">
+			<div class="ended" class:wide={view.results.players.length > 18}>
 				<h1>Tamat!</h1>
 				<Podium results={view.results} {people} {unit} />
 				<div class="again">
@@ -100,15 +100,24 @@
 		max-width: 48rem;
 		margin-inline: auto;
 	}
+	.ended.wide {
+		max-width: 64rem;
+	}
 	.ended h1 {
 		font-size: var(--fs-hero);
 		text-align: center;
 	}
+	/* However long the ranking, the next step stays in reach at the bottom of the screen. */
 	.again {
+		position: sticky;
+		bottom: 0;
+		z-index: 5;
 		display: flex;
 		justify-content: center;
 		gap: 0.8rem;
 		flex-wrap: wrap;
+		padding-block: 0.8rem max(0.8rem, env(safe-area-inset-bottom, 0px));
+		background: var(--paper);
 	}
 	.toast {
 		position: fixed;

@@ -11,7 +11,7 @@ from sqlalchemy import delete, select
 from sqlalchemy.orm import Session
 
 from .models import AuthSession, User
-from .security import new_token, token_hash
+from .security import RateLimiter, new_token, token_hash
 
 SESSION_COOKIE = "didik_sesi"
 
@@ -33,6 +33,29 @@ def limit(request: Request, bucket: str, count: int, per_seconds: float, key: st
     limiter = request.app.state.limiter
     if not limiter.hit(f"{bucket}:{key or client_ip(request)}", count, per_seconds):
         raise HTTPException(429, "Terlalu banyak cubaan. Tunggu sebentar dan cuba lagi.")
+
+
+# A whole class, often a whole school, reaches the site through one router and so from one address.
+# Limits on what children do are therefore per room and generous; what stops room codes being swept
+# is a limit on wrong codes only, which a class typing the right one never reaches.
+ROOM_MISSES_PER_MINUTE = 120
+JOINS_PER_ROOM_PER_MINUTE = 150
+JOINS_PER_MINUTE = 600
+
+
+def lookup_paused(limiter: RateLimiter, ip: str) -> bool:
+    """True after too many wrong room codes from this address in the last minute."""
+    return limiter.over(f"room-miss:{ip}", ROOM_MISSES_PER_MINUTE, 60)
+
+
+def note_wrong_code(limiter: RateLimiter, ip: str) -> None:
+    limiter.hit(f"room-miss:{ip}", ROOM_MISSES_PER_MINUTE, 60)
+
+
+def join_allowed(limiter: RateLimiter, ip: str, room_code: str) -> bool:
+    return limiter.hit(f"join:{ip}:{room_code}", JOINS_PER_ROOM_PER_MINUTE, 60) and limiter.hit(
+        f"join:{ip}", JOINS_PER_MINUTE, 60
+    )
 
 
 def start_session(request: Request, response: Response, db: Session, user: User) -> None:

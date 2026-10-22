@@ -90,7 +90,7 @@ def me(request: Request, user: User | None = Depends(current_user)) -> dict:
 
 @router.post("/register", status_code=201)
 def register(body: Register, request: Request, response: Response, db: Session = Depends(get_db)) -> dict:
-    limit(request, "register", 5, 600)
+    limit(request, "register", 20, 600)
     if db.scalar(select(User).where(func.lower(User.email) == body.email)):
         raise HTTPException(422, {"message": "Semak semula maklumat.", "errors": [
             {"loc": ["email"], "message": "Emel ini sudah didaftarkan. Cuba log masuk."}
@@ -105,7 +105,7 @@ def register(body: Register, request: Request, response: Response, db: Session =
 @router.post("/login")
 def login(body: Login, request: Request, response: Response, db: Session = Depends(get_db)) -> dict:
     email = body.email.lower()
-    limit(request, "login", 10, 60)
+    limit(request, "login", 30, 60)
     limit(request, "login-email", 8, 600, key=email)
     user = db.scalar(select(User).where(func.lower(User.email) == email))
     if not verify_password(body.password, user.password_hash if user else DUMMY_PASSWORD_HASH) or user is None:
@@ -124,7 +124,7 @@ def logout(request: Request, response: Response, db: Session = Depends(get_db)) 
 @router.post("/forgot", status_code=202)
 def forgot(body: Forgot, request: Request, background: BackgroundTasks, db: Session = Depends(get_db)) -> dict:
     """Sends a reset link. The answer is the same whether or not the email has an account."""
-    limit(request, "forgot", 5, 600)
+    limit(request, "forgot", 20, 600)
     limit(request, "forgot-email", 3, 3600, key=body.email)
     user = db.scalar(select(User).where(func.lower(User.email) == body.email))
     if user is None:

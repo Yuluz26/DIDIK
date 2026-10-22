@@ -8,10 +8,12 @@
 
 	let {
 		world,
-		people
+		people,
+		unit
 	}: {
 		world: { top: { id: string; plots: (Plot | null)[]; earned: number }[]; crops: Record<string, CropInfo>; maxPlots: number };
 		people: Map<string, Person>;
+		unit: string;
 	} = $props();
 
 	const gardens = $derived(world.top.filter((g) => people.has(g.id)));
@@ -25,7 +27,7 @@
 				{@const owner = people.get(garden.id)!}
 				<li class:first={i === 0}>
 					<GardenWorld plots={garden.plots} crops={world.crops} maxPlots={world.maxPlots} {owner} maxTile={40} />
-					<p><span class="place">{i + 1}</span> <strong>{owner.name}</strong> <span class="earned">{garden.earned} mata</span></p>
+					<p><span class="place">{i + 1}</span> <strong>{owner.name}</strong> <span class="earned">{garden.earned} {unit}</span></p>
 				</li>
 			{/each}
 		</ol>

@@ -8,7 +8,7 @@ from __future__ import annotations
 from typing import Any
 
 from ...questions import Outcome
-from .base import Seat, SelfPacedMode
+from .base import Seat, SelfPacedMode, dense_ranks
 from .teamplay import TEAMS, TeamPlay, team_name
 
 RADIUS = 3
@@ -84,6 +84,8 @@ class TeamsMode(TeamPlay, SelfPacedMode):
         key = str(data.get("cell"))
         cost = self.cost(key, player.team)
         if cost is None or cost > seat.extra["flags"]:
+            # In a big class two children often tap the same hexagon; the slower one hears why.
+            player.send({"t": "error", "message": "Petak itu baru ditawan. Pilih petak lain."})
             return
         previous = self.cells[key]
         self.cells[key] = player.team
@@ -133,12 +135,15 @@ class TeamsMode(TeamPlay, SelfPacedMode):
         )
         winner = teams[0]["key"] if teams[0]["score"] != teams[1]["score"] else None
         players = sorted(self.players(), key=lambda p: (-self.captures.get(p.id, 0), p.joined_at))
+        ranks = dense_ranks([(p.id, self.captures.get(p.id, 0)) for p in players])
         return {
             "kind": "teams",
             "teams": teams,
             "teamUnit": "petak",
             "winner": winner,
-            "players": [{"id": p.id, "score": self.captures.get(p.id, 0), "team": p.team, "rank": 1} for p in players],
+            "players": [
+                {"id": p.id, "score": self.captures.get(p.id, 0), "team": p.team, "rank": ranks[p.id]} for p in players
+            ],
         }
 
     def bot_step(self, bot: Any, seat: Seat) -> None:

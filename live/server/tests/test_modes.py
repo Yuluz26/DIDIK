@@ -179,16 +179,18 @@ def test_village_is_built_together_and_ends_when_complete() -> None:
 
 def test_teams_capture_only_next_to_their_land_and_pay_two_flags_to_take_from_the_other_team() -> None:
     async def scenario() -> None:
-        room, _, _, ((a, _), (b, _)) = await started("pasukan")
+        room, _, _, ((a, a_socket), (b, b_socket)) = await started("pasukan")
         mode = room.mode
         assert {a.team, b.team} == {"harimau", "penyu"}
-        tiger = a if a.team == "harimau" else b
+        tiger, tiger_socket = (a, a_socket) if a.team == "harimau" else (b, b_socket)
         seat = mode.seats[tiger.id]
         seat.extra["flags"] = 10
         seat.step = "capture"
 
         room.handle_player(tiger, {"t": "capture", "cell": "0,0"})  # far from home
         assert mode.cells["0,0"] is None
+        await settle(0.05)
+        assert "Pilih petak lain" in tiger_socket.of("error")[-1]["message"]  # told, not ignored
         room.handle_player(tiger, {"t": "capture", "cell": "-2,0"})
         assert mode.cells["-2,0"] == "harimau" and seat.extra["flags"] == 9
         room.handle_player(tiger, {"t": "capture", "cell": "3,0"})  # the other team's base
@@ -197,6 +199,10 @@ def test_teams_capture_only_next_to_their_land_and_pay_two_flags_to_take_from_th
         mode.cells["-1,0"] = "penyu"
         room.handle_player(tiger, {"t": "capture", "cell": "-1,0"})
         assert mode.cells["-1,0"] == "harimau" and seat.extra["flags"] == 7
+
+        # Each child still has a place by the hexagons they took, not a shared first place.
+        ranks = {row["id"]: row["rank"] for row in mode.results()["players"]}
+        assert ranks[tiger.id] == 1 and ranks[(b if tiger is a else a).id] == 2
         room.close()
 
     run(scenario())

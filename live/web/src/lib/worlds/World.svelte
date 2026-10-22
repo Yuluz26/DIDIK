@@ -69,13 +69,18 @@
 		follow?: boolean;
 		/** With `follow`, the point (in tiles) to keep in the middle instead of the child's character. */
 		focus?: { x: number; y: number } | null;
-		/** Name tags over the characters: everyone's, only the child's own ('me'), or none. */
+		/** Name tags over the characters: everyone's, only the child's own ('me'), or none. A crowd
+		 * keeps fewer (see `tags`). */
 		names?: boolean | 'me';
 		/** How long characters take to move to a new position, in milliseconds. */
 		step?: number;
 		art?: Snippet<[WorldProp, number]>;
 		overlay?: Snippet<[number]>;
 	} = $props();
+
+	// A crowd of name tags hides the world: past ten children a phone keeps only its own, and past
+	// sixteen the big screen shows none (its leaderboard or list names everyone).
+	const tags = $derived(names === true && actors.length > (me ? 10 : 16) ? (me ? 'me' : false) : names);
 
 	let vw = $state(0);
 	let vh = $state(0);
@@ -150,7 +155,7 @@
 
 		<!-- Name tags float above everything, so a tree or an easel never hides who is who. -->
 		{#each actors as actor (actor.id)}
-			{#if actor.id === me ? names : names === true && actor.name}
+			{#if actor.id === me ? tags : tags === true && actor.name}
 				<span
 					class="tag"
 					class:me={actor.id === me}

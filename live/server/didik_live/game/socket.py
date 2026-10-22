@@ -15,7 +15,7 @@ from urllib.parse import urlparse
 from fastapi import WebSocket, WebSocketDisconnect
 from fastapi.concurrency import run_in_threadpool
 
-from ..deps import SESSION_COOKIE, user_from_token
+from ..deps import SESSION_COOKIE, join_allowed, lookup_paused, note_wrong_code, user_from_token
 from .player import Conn, Player
 from .room import JoinError, Room
 
@@ -48,8 +48,15 @@ async def room_socket(ws: WebSocket, key: str) -> None:
         return
 
     await ws.accept()
+    limiter = ws.app.state.limiter
+    ip = ws.client.host if ws.client else "unknown"
+    if lookup_paused(limiter, ip):
+        await ws.send_text(json.dumps({"t": "error", "code": "no-room", "message": "Terlalu banyak kod yang salah. Tunggu seminit dan cuba lagi."}))
+        await ws.close(code=4429)
+        return
     room: Room | None = ws.app.state.rooms.find(key)
     if room is None:
+        note_wrong_code(limiter, ip)
         await ws.send_text(json.dumps({"t": "error", "code": "no-room", "message": "Bilik tidak dijumpai atau sudah tamat."}))
         await ws.close(code=4404)
         return
@@ -58,7 +65,6 @@ async def room_socket(ws: WebSocket, key: str) -> None:
     conn.start()
     role: str | None = None
     player: Player | None = None
-    ip = ws.client.host if ws.client else "unknown"
 
     try:
         while True:
@@ -92,7 +98,7 @@ async def room_socket(ws: WebSocket, key: str) -> None:
                         role = "player"
                         conn.send({"t": "welcome", "role": "player", "id": player.id, "token": token})
                 elif kind == "join":
-                    if not ws.app.state.limiter.hit(f"join:{ip}", 30, 60):
+                    if not join_allowed(limiter, ip, room.code):
                         conn.send({"t": "error", "code": "slow-down", "message": "Terlalu banyak cubaan. Tunggu sebentar."})
                         continue
                     try:

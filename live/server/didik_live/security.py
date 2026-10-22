@@ -67,15 +67,24 @@ class RateLimiter:
         """Records one attempt and returns False when the key is over its limit."""
         now = time.monotonic()
         with self._lock:
-            hits = self._hits.setdefault(key, deque())
-            while hits and now - hits[0] > per_seconds:
-                hits.popleft()
+            hits = self._recent(key, now, per_seconds)
             if len(hits) >= limit:
                 return False
             hits.append(now)
             if len(self._hits) > 50_000:
                 self._prune(now)
             return True
+
+    def over(self, key: str, limit: int, per_seconds: float) -> bool:
+        """Whether the key has used up its limit, without counting this look."""
+        with self._lock:
+            return len(self._recent(key, time.monotonic(), per_seconds)) >= limit
+
+    def _recent(self, key: str, now: float, per_seconds: float) -> deque[float]:
+        hits = self._hits.setdefault(key, deque())
+        while hits and now - hits[0] > per_seconds:
+            hits.popleft()
+        return hits
 
     def _prune(self, now: float) -> None:
         for key in [k for k, v in self._hits.items() if not v or now - v[-1] > 3600]:

@@ -38,9 +38,16 @@ def clamp(x: float, y: float) -> tuple[float, float]:
     return round(x, 2), round(y, 2)
 
 
-def arrival(rng: random.Random) -> tuple[float, float]:
-    """A spot on the front of the square for someone who has just come in."""
-    return clamp(rng.uniform(LEFT + 1.0, RIGHT - 1.0), rng.uniform(6.3, BOTTOM - 0.2))
+# Past this many children the newcomers spread over the whole square, so a full class is not one
+# long row along the front.
+CROWD = 16
+
+
+def arrival(rng: random.Random, crowd: int = 0) -> tuple[float, float]:
+    """A spot for someone who has just come in: the front of the square, or anywhere in it once
+    the square is busy."""
+    top = 6.3 if crowd < CROWD else TOP + 0.5
+    return clamp(rng.uniform(LEFT + 1.0, RIGHT - 1.0), rng.uniform(top, BOTTOM - 0.2))
 
 
 def stroll(rng: random.Random, x: float, y: float) -> tuple[float, float]:

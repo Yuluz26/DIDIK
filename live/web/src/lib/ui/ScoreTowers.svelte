@@ -87,8 +87,15 @@
 	.harvest .fill {
 		background: repeating-linear-gradient(#8fd05e 0 10px, #6cb33f 10px 14px);
 	}
+	/* Every name keeps room for two lines, so a long name never lifts its tower above the rest. */
 	.name {
+		display: -webkit-box;
 		max-width: 100%;
+		min-height: 2.3em;
+		overflow: hidden;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+		line-clamp: 2;
 		font-weight: 800;
 		font-size: 0.8rem;
 		text-align: center;

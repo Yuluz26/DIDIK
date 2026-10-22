@@ -209,7 +209,7 @@ class ForestMode(SelfPacedMode):
         if text == self._last_pos and not force:
             return
         self._last_pos = text
-        self.room.broadcast({"t": "pos", "p": data})
+        self.room.broadcast_latest("pos", {"t": "pos", "p": data})
 
     # ------------------------------------------------------------ actions
 

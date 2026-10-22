@@ -14,7 +14,7 @@ from fastapi.concurrency import run_in_threadpool
 from pydantic import BaseModel, ConfigDict, Field
 from sqlalchemy.orm import Session
 
-from ..deps import get_db, limit, require_user, site_url
+from ..deps import client_ip, get_db, limit, lookup_paused, note_wrong_code, require_user, site_url
 from ..game.modes import MODES
 from ..game.settings import RoomSettings
 from ..models import Quiz, User
@@ -90,8 +90,13 @@ async def my_rooms(request: Request, user: User = Depends(require_user)) -> dict
 
 @router.get("/rooms/{key}")
 async def room_info(key: str, request: Request) -> dict:
-    limit(request, "room-lookup", 60, 60)
-    room = _room_or_404(request, key)
+    limiter, ip = request.app.state.limiter, client_ip(request)
+    if lookup_paused(limiter, ip):
+        raise HTTPException(429, "Terlalu banyak kod yang salah. Tunggu seminit dan cuba lagi.")
+    room = request.app.state.rooms.find(key)
+    if room is None:
+        note_wrong_code(limiter, ip)
+        raise HTTPException(404, "Bilik tidak dijumpai. Semak kod atau minta pautan baharu.")
     return {**room.info(), "link": join_link(request, room.slug)}
 
 

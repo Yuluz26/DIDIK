@@ -93,6 +93,42 @@ Terminal akan menunjukkan alamat seperti `http://192.168.1.20:8080`. Pautan bili
 akan menggunakan alamat ini, jadi telefon boleh terus mengimbas kod QR walaupun skrin hos dibuka sebagai
 `localhost`. Jika Windows atau macOS bertanya tentang firewall, benarkan untuk rangkaian peribadi.
 
+## Satu kelas penuh
+
+Satu bilik menerima 60 pemain secara lalai (hos boleh menaikkannya hingga 100). Setiap satu daripada dua
+belas permainan diuji dengan 50 telefon serentak melalui WebSocket sebenar, semuanya dari satu alamat
+seperti sekolah di belakang satu router. Semua 50 masuk dan tiada sambungan terputus; pada mesin
+pembangunan, pelayan menggunakan 3 hingga 9% satu teras CPU, hasil setiap jawapan muncul di skrin dalam
+110 ms (p95), dan seluruh kelas memerlukan 0.3 hingga 1.5 Mbit/s. Skrin hos pula diuji dengan 51 pemain:
+nama, orang ramai dan senarai keputusan disusun supaya kekal kemas dan butang seterusnya sentiasa
+kelihatan.
+
+Telefon yang ketinggalan (Wi-Fi kelas yang sesak) terus menerima keadaan terkini, bukan setiap keadaan
+lama satu demi satu.
+
+Had permintaan dikira bagi setiap bilik, jadi satu kelas yang berkongsi router tidak tersekat. Yang
+dihadkan untuk satu alamat hanyalah kod bilik yang salah (120 seminit), supaya kod tidak boleh diteka.
+
+## Bila pelayan dimulakan semula
+
+Bilik yang sedang dibuka disimpan dalam pangkalan data setiap dua saat dan sekali lagi semasa pelayan
+berhenti, kemudian dibuka semula bila pelayan bermula. Telefon dan skrin hos menyambung semula sendiri.
+Permainan yang sedang berjalan menunggu, dijeda, sehingga pemain yang ada sebelum itu kembali (paling
+lama 20 saat), kemudian bersambung dengan masa yang masih berbaki. Jalankan satu proses pelayan sahaja,
+kerana bilik hidup dalam proses itu.
+
+## Lupa kata laluan
+
+**Ibu bapa → Lupa kata laluan?** menghantar pautan untuk memilih kata laluan baharu. Pautan itu sah selama
+satu jam dan sekali guna sahaja; menyimpan kata laluan baharu melog keluar peranti lain.
+
+Untuk menghantar emel, tetapkan SMTP dan `DIDIK_PUBLIC_URL` (jadual di bawah). Tanpa SMTP, emel itu ditulis
+dalam log pelayan, dan sesiapa yang menjalankan pelayan boleh mencetak pautan baharu:
+
+```sh
+didik-live --reset-link ibu@contoh.my
+```
+
 ## Mencuba seorang diri
 
 1. Log masuk akaun demo, pilih satu kuiz, tekan **Main bersama**, kemudian pilih permainan.
@@ -117,13 +153,19 @@ dan Pilihan tunggal dengan 2 hingga 4 jawapan. Halaman pilih permainan menerangk
 | --- | --- | --- |
 | `DIDIK_DATA_DIR` | `live/server/data` | Tempat pangkalan data dan gambar yang dimuat naik |
 | `DIDIK_DATABASE_URL` | SQLite dalam `DIDIK_DATA_DIR` | Contoh PostgreSQL: `postgresql+psycopg://...` (pasang `pip install -e ".[postgres]"`) |
-| `DIDIK_PUBLIC_URL` | kosong | Alamat untuk pautan bilik dan kod QR; `--lan` mengisinya sendiri |
+| `DIDIK_PUBLIC_URL` | kosong | Alamat laman untuk pautan bilik dan kod QR; `--lan` mengisinya sendiri. Wajib jika SMTP ditetapkan: pautan set semula dalam emel hanya dibina daripada alamat ini |
 | `DIDIK_SEED_DEMO` | `1` | Cipta akaun demo dan kuiz contoh. Tetapkan `0` pada pelayan sebenar |
 | `DIDIK_ALLOW_BOTS` | `1` | Benarkan bot latihan |
 | `DIDIK_SECURE_COOKIES` | `0` | Tetapkan `1` apabila laman dihidangkan melalui https |
 | `DIDIK_WEB_DIR` | `live/web/build` | Folder antara muka yang telah dibina |
+| `DIDIK_SMTP_HOST` | kosong | Pelayan SMTP untuk emel set semula kata laluan. Kosong: emel ditulis dalam log |
+| `DIDIK_SMTP_PORT` | `587` (`465` untuk `ssl`) | Port SMTP |
+| `DIDIK_SMTP_SECURITY` | `starttls` | `starttls`, `ssl` atau `none` |
+| `DIDIK_SMTP_USER`, `DIDIK_SMTP_PASSWORD` | kosong | Log masuk SMTP, jika perlu |
+| `DIDIK_MAIL_FROM` | `DIDIK_SMTP_USER` | Alamat pengirim |
 
-Pilihan arahan: `didik-live --port 8090`, `--host 0.0.0.0`, `--reload` (mula semula apabila kod Python berubah).
+Pilihan arahan: `didik-live --port 8090`, `--host 0.0.0.0`, `--reload` (mula semula apabila kod Python berubah),
+`--reset-link EMEL` (cetak pautan set semula kata laluan, kemudian keluar).
 
 ## Pembangunan
 
@@ -143,4 +185,9 @@ cd live/web && npm run check
   menghantar pelekat.
 - Jawapan betul tidak pernah dihantar ke peranti kanak-kanak sebelum disemak di pelayan.
 - Gambar yang dimuat naik dibaca semula dan disimpan sebagai WebP, jadi metadata seperti lokasi dibuang.
+- Bilik yang sedang dibuka, termasuk nama samaran dan markah kanak-kanak, disimpan dalam pangkalan data
+  supaya pelayan boleh dimulakan semula tanpa menamatkan permainan. Rekod itu dipadam sebaik bilik
+  ditutup, dan setiap bilik tamat selepas 8 jam paling lama.
+- Token peranti kanak-kanak, sesi log masuk dan pautan set semula kata laluan hanya disimpan sebagai
+  cincangan, jadi pangkalan data yang bocor tidak boleh digunakan untuk masuk.
 - Hos boleh mengunci bilik, menggunakan bilik menunggu, dan mengeluarkan pemain.
