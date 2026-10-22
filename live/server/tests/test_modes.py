@@ -52,8 +52,10 @@ def test_every_game_runs_with_practice_bots_and_ends_with_results(key: str) -> N
         end = loop.time() + 30
         while sum(p.score for p in room.players.values()) == 0 and loop.time() < end:
             await asyncio.sleep(1.0)
-            # In the games everyone answers together, scores land at the reveal: move it along.
-            if getattr(room.mode, "answers", None) and room.mode.stage == "question":
+            # In the games everyone answers together, scores land at the reveal: move it along once
+            # a bot has answered right (a game may give nothing for a wrong answer).
+            answers = getattr(room.mode, "answers", None) or {}
+            if room.mode.stage == "question" and any(r.outcome.correct for r in answers.values()):
                 room.handle_host(host, {"t": "skip"})
         assert room.phase == "playing"
         assert sum(p.score for p in room.players.values()) > 0, f"nobody scored in {key}"

@@ -1,7 +1,7 @@
 <!--
-	The front page at dusk: the four games for Tingkatan 1-5. The sun sets over the beach above, and
-	the older students' games are lit like their 3D worlds. Choosing a game in the list shows a real
-	frame from it on the screen beside the list.
+	The front page at dusk: the four 3D games. The sun sets over the beach above, and the section is lit
+	like their worlds. Choosing a game in the list shows a real frame from it on the screen beside the
+	list. Like the eight island games, any of them can be played with any quiz, by any class.
 -->
 <script lang="ts">
 	import { reveal } from './reveal';
@@ -40,12 +40,11 @@
 	let shown = $state('litar');
 </script>
 
-<section id="tingkatan" class="dusk" aria-labelledby="tingkatan-tajuk">
+<section id="dunia-3d" class="dusk" aria-labelledby="dunia-3d-tajuk">
 	<div class="wrap grid">
 		<div class="copy" {@attach reveal()}>
-			<p class="kind">Sekolah menengah</p>
-			<h2 id="tingkatan-tajuk">Untuk Tingkatan 1–5</h2>
-			<p class="lead">Kuiz yang sama, empat permainan 3D. Pelajar menjawab di telefon; dunianya bergerak di skrin besar kelas.</p>
+			<h2 id="dunia-3d-tajuk">Empat permainan dalam 3D</h2>
+			<p class="lead">Kuiz yang sama, dalam dunia 3D: litar kart, stadium, kapal lanun dan menara setinggi Merdeka 118. Pemain menjawab di telefon; dunianya bergerak di skrin besar.</p>
 			<ol class="games">
 				{#each GAMES as game, i (game.key)}
 					<li>
@@ -67,13 +66,13 @@
 					</li>
 				{/each}
 			</ol>
-			<p class="where">Permainan ini ada di bahagian Tingkatan 1–5 bila membuka bilik.</p>
+			<p class="where">Pilih mana-mana daripada dua belas permainan untuk kuiz apa pun.</p>
 		</div>
 		<figure class="screen" {@attach reveal(120)}>
 			<div class="frames">
 				{#each GAMES as game (game.key)}
 					<img
-						src="/tingkatan/{game.key}.webp"
+						src="/dunia-3d/{game.key}.webp"
 						alt={game.alt}
 						class:on={shown === game.key}
 						aria-hidden={shown !== game.key}

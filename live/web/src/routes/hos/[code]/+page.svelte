@@ -4,7 +4,7 @@
 	import { page } from '$app/state';
 	import { RoomClient } from '$lib/room.svelte';
 	import { play } from '$lib/sound';
-	import { applyLevel } from '$lib/level';
+	import { applyLook } from '$lib/look';
 	import Didi from '$ui/Didi.svelte';
 	import Icon from '$ui/Icon.svelte';
 	import Podium from '$ui/Podium.svelte';
@@ -18,7 +18,7 @@
 	const people = $derived(client.people);
 	const unit = $derived(view?.room.mode.unit ?? 'mata');
 
-	$effect(() => applyLevel(view?.room.mode.level));
+	$effect(() => applyLook(view?.room.mode.look));
 
 	onMount(() => {
 		client.connect();

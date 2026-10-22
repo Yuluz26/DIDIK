@@ -1,4 +1,4 @@
-// The 3D games (Tingkatan 1-5) draw with three.js. This module, and everything that imports
+// The 3D games draw with three.js. This module, and everything that imports
 // `three`, is only ever loaded with a dynamic import from those games, so the rest of the app does
 // not download it.
 //

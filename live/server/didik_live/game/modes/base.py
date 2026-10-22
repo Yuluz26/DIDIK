@@ -51,9 +51,9 @@ class BaseMode:
     style: ClassVar[str] = ""
     pace: ClassVar[str] = "sync"
     world: ClassVar[str] = ""
-    # Who the game is made for: "rendah" (Tahun 1-6) or "menengah" (Tingkatan 1-5). Any class can
-    # play any game; the picker groups them so a teacher finds the right ones first.
-    level: ClassVar[str] = "rendah"
+    # How the game is drawn: "2d" (the 3/4 worlds) or "3d" (three.js). Every game suits any class;
+    # the 3D ones play in a darker room that matches their dusk and night worlds.
+    look: ClassVar[str] = "2d"
     # What a score counts, shown beside every number (mata, m, syiling, petak...).
     unit: ClassVar[str] = "mata"
     min_questions: ClassVar[int] = 1
@@ -82,7 +82,7 @@ class BaseMode:
             "style": cls.style,
             "pace": cls.pace,
             "world": cls.world,
-            "level": cls.level,
+            "look": cls.look,
             "unit": cls.unit,
             "needs": cls.needs,
         }

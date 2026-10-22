@@ -398,7 +398,7 @@ export class StadiumWorld implements World3D {
 	private boards(): Object3D {
 		// Ten panels of 6.4 x 0.9 m. The texture is drawn ten times taller than the board's shape
 		// (sharp letters), so the words are squeezed sideways by the same factor.
-		const words = ['DIDIK', 'MAIN BERSAMA', 'TINGKATAN 1–5', 'PENALTI'];
+		const words = ['DIDIK', 'MAIN BERSAMA', 'KUIZ', 'PENALTI'];
 		const fills = ['#d0452f', '#12847a', '#1f2d27', '#2d78c4', '#ffb627'];
 		const texture = drawnTexture(2560, 360, (ctx) => {
 			for (let i = 0; i < 10; i++) {

@@ -26,7 +26,7 @@ class PenaltyMode(TeamPlay, SyncMode):
     how = "Setiap soalan, kedua-dua pasukan menyepak satu penalti. Pasukan yang lebih ramai menjawab betul (ikut peratus ahli) menjaringkan gol; jika sama, kedua-duanya gol."
     style = "Pasukan"
     world = "stadium"
-    level = "menengah"
+    look = "3d"
     reveal_seconds = 7.0
 
     def setup(self) -> None:

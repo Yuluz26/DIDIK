@@ -103,11 +103,11 @@
 }
 
 /*
- * The games for Tingkatan 1-5 run in a darker "arena": the same brand colours in a deeper register,
- * so a secondary-school room reads older at a glance and the dusk-lit 3D worlds sit inside it.
- * Set on <html> by lib/level.ts for the whole room, from joining to the podium.
+ * The 3D games run in a darker "arena": the same brand colours in a deeper register, so the dusk-lit
+ * and floodlit worlds sit inside it. Set on <html> by lib/look.ts for the whole room, from joining
+ * to the podium.
  */
-:root[data-level='menengah'] {
+:root[data-look='3d'] {
 	color-scheme: dark;
 	--paper: #0f1f24;
 	--paper-2: #1a333b;

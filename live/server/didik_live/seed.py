@@ -1,8 +1,8 @@
 """A demo parent and sample quizzes, so the app can be tried the moment it starts.
 
-The sample quizzes use every question type and suit every game; the last three are written for
-Tingkatan 1-5. Facts were checked; keep them checked when you change them, because children will
-believe them.
+The sample quizzes use every question type and suit every game; the last three are pitched at older
+students (Tingkatan 1-5 content). Facts were checked; keep them checked when you change them,
+because children will believe them.
 """
 
 from __future__ import annotations
@@ -143,7 +143,7 @@ SAMPLES = [
             _tf("Sungai Rajang terletak di Sarawak.", True),
         ],
     },
-    # Tingkatan 1-5: for the secondary-school games (Litar Kart, Sepakan Penalti, Peti Lanun, Menara 118).
+    # For older students (Tingkatan 1-5 content); like every sample, they can be played with any game.
     {
         "title": "Sains Tingkatan 1: Sel dan Jirim",
         "description": "Sel, organel, keadaan jirim dan gas adi.",

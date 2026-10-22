@@ -40,7 +40,7 @@ class PirateMode(SelfPacedMode):
     how = "Setiap jawapan betul membuka satu peti. Kebanyakannya berisi emas; ada yang menggandakan emas kamu, dan ada yang membolehkan kamu merampas atau bertukar emas dengan kapal lain."
     style = "Ikut kadar sendiri"
     world = "lanun"
-    level = "menengah"
+    look = "3d"
     unit = "emas"
 
     def setup(self) -> None:

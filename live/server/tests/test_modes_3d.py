@@ -1,4 +1,4 @@
-"""The games made for Tingkatan 1-5: Litar Kart, Sepakan Penalti, Peti Lanun and Menara 118."""
+"""The 3D games: Litar Kart, Sepakan Penalti, Peti Lanun and Menara 118."""
 
 from __future__ import annotations
 
@@ -21,10 +21,11 @@ def answer_now(room, player, correct: bool) -> None:
     room.handle_player(player, {"t": "answer", "a": room.mode.pres.sample_answer(correct, room.mode.rng)})
 
 
-def test_the_four_games_say_they_are_for_secondary_school() -> None:
-    levels = {key: cls.describe()["level"] for key, cls in MODES.items()}
-    assert [k for k, level in levels.items() if level == "menengah"] == ["litar", "penalti", "lanun", "menara"]
-    assert all(level in ("rendah", "menengah") for level in levels.values())
+def test_every_game_says_how_it_is_drawn_and_what_its_score_counts() -> None:
+    looks = {key: cls.describe()["look"] for key, cls in MODES.items()}
+    assert [k for k, look in looks.items() if look == "3d"] == ["litar", "penalti", "lanun", "menara"]
+    assert all(look in ("2d", "3d") for look in looks.values())
+    assert "level" not in MODES["litar"].describe()  # no game is tied to a school year
     assert MODES["litar"].describe()["unit"] == "m" and MODES["lanun"].describe()["unit"] == "emas"
 
 

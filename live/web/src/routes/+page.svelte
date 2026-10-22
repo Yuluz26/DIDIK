@@ -1,8 +1,8 @@
 <!--
 	The front door, drawn as one sea seen from above. A child writes the room code on a ticket by the
 	main island, where everyone gathers before a game; below, the eight games are islands a sampan
-	sails between. Then the beach (how it works), dusk over the beach (the four 3D games for
-	Tingkatan 1-5), the parents' field and the back of the card.
+	sails between. Then the beach (how it works), dusk over the beach (the four 3D games), the
+	parents' field and the back of the card.
 -->
 <script lang="ts">
 	import { fade, fly } from 'svelte/transition';
@@ -12,7 +12,7 @@
 	import IslandMap from '$lib/home/IslandMap.svelte';
 	import MainIsland from '$lib/home/MainIsland.svelte';
 	import Ticket from '$lib/home/Ticket.svelte';
-	import Tingkatan from '$lib/home/Tingkatan.svelte';
+	import Games3D from '$lib/home/Games3D.svelte';
 	import { reveal } from '$lib/home/reveal';
 
 	const PLAN: { when: string; rows: [string, string][] }[] = [
@@ -77,7 +77,7 @@
 	<nav aria-label="Laman utama">
 		<a class="far" href="#pulau">Lapan pulau</a>
 		<a class="far" href="#cara">Cara bermain</a>
-		<a class="far" href="#tingkatan">Tingkatan 1–5</a>
+		<a class="far" href="#dunia-3d">Permainan 3D</a>
 		<a class="parents" href="/ibu-bapa"><span class="long">Untuk ibu bapa</span><span class="short">Ibu bapa</span> <Icon name="next" size={18} /></a>
 	</nav>
 </header>
@@ -153,7 +153,7 @@
 	</div>
 </section>
 
-<Tingkatan />
+<Games3D />
 
 <section class="field" aria-labelledby="ibu-bapa-tajuk">
 	<div class="wrap cta">
@@ -179,7 +179,7 @@
 				<ul>
 					<li><a href="#tiket">Masuk bilik dengan kod</a></li>
 					<li><a href="#pulau">Lapan pulau permainan</a></li>
-					<li><a href="#tingkatan">Permainan Tingkatan 1–5</a></li>
+					<li><a href="#dunia-3d">Empat permainan 3D</a></li>
 					<li><a href="#cara">Cara bermain</a></li>
 					<li><a href="/ibu-bapa">Ruang ibu bapa</a></li>
 				</ul>

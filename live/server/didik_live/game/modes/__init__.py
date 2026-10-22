@@ -1,5 +1,5 @@
-"""Every game a room can play, in the order the host sees them: the primary-school games first,
-then the ones made for Tingkatan 1-5 (`level = "menengah"`)."""
+"""Every game a room can play, in the order the host sees them (the 3D games last). Any game suits
+any class; teachers and parents choose by taste."""
 
 from __future__ import annotations
 

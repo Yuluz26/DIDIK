@@ -1,4 +1,4 @@
-"""Litar Kart: a three-lap kart race for Tingkatan 1-5.
+"""Litar Kart: a three-lap kart race in 3D.
 
 Everyone answers the same question. A right answer drives your kart forward, further the faster it
 came; from the third right answer in a row the nitro adds a burst on top. A wrong answer still
@@ -24,7 +24,7 @@ class KartMode(SyncMode):
     how = "Semua jawab soalan yang sama. Betul dan laju, kart memecut jauh; tiga betul berturut-turut menyalakan nitro. Salah pun kart tetap bergerak sedikit."
     style = "Serentak"
     world = "litar"
-    level = "menengah"
+    look = "3d"
     unit = "m"
     reveal_seconds = 4.5
 

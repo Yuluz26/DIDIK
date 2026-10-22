@@ -36,7 +36,7 @@ class TowerMode(SelfPacedMode):
     how = "Jawab betul untuk dapat satu blok, kemudian tekan Letak bila blok berada di tengah menara. Lebih tepat di tengah, lebih tinggi menara naik."
     style = "Kerjasama"
     world = "menara"
-    level = "menengah"
+    look = "3d"
     unit = "m"
 
     def setup(self) -> None:

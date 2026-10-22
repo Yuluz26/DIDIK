@@ -11,7 +11,10 @@ nama samaran.
 
 ## Dua belas permainan
 
-Lapan untuk sekolah rendah (Tahun 1–6), dalam dunia 2D dari atas:
+Semua permainan boleh dimainkan dengan mana-mana kuiz, oleh mana-mana kelas; guru atau ibu bapa pilih
+ikut citarasa. Empat yang terakhir dalam 3D (three.js, dimuat hanya bila permainan itu dibuka; tanpa
+WebGL ia tetap boleh dimainkan sebagai kuiz), dan biliknya memakai warna yang lebih gelap, sepadan
+dengan dunianya pada waktu senja dan malam.
 
 | Permainan | Cara main |
 | --- | --- |
@@ -23,19 +26,10 @@ Lapan untuk sekolah rendah (Tahun 1–6), dalam dunia 2D dari atas:
 | Kampung Kita | Semua bina satu kampung bersama dan hias padangnya. Tiada yang kalah. |
 | Teka Gambar | Jawapan betul membuka petak gambar rahsia. Teka awal, mata lebih banyak. |
 | Kebun Ajaib | Jawapan betul memberi air. Tanam, siram dan tuai untuk dapat syiling. |
-
-Empat untuk sekolah menengah (Tingkatan 1–5), dalam 3D (three.js, dimuat hanya bila permainan ini
-dibuka; tanpa WebGL ia tetap boleh dimainkan sebagai kuiz):
-
-| Permainan | Cara main |
-| --- | --- |
-| Litar Kart | Lumba tiga pusingan. Betul dan laju, kart memecut; tiga betul berturut-turut menyalakan nitro. |
-| Sepakan Penalti | Harimau lawan Penyu, satu sepakan setiap pasukan bagi setiap soalan. Peratus jawapan betul yang lebih tinggi menjaringkan gol. |
-| Peti Lanun | Jawapan betul membuka satu daripada tiga peti: emas, ganda dua, rampas atau tukar emas dengan kapal lain. Kapal yang dirompak dapat perisai seketika. |
-| Menara 118 | Seisi kelas membina satu menara setinggi Merdeka 118 (679 m). Blok yang diletakkan tepat di tengah menaikkan menara lebih tinggi. |
-
-Bilik yang memainkan permainan Tingkatan memakai warna "arena" yang lebih gelap, dari skrin masuk
-hingga podium.
+| Litar Kart (3D) | Lumba tiga pusingan. Betul dan laju, kart memecut; tiga betul berturut-turut menyalakan nitro. |
+| Sepakan Penalti (3D) | Harimau lawan Penyu, satu sepakan setiap pasukan bagi setiap soalan. Peratus jawapan betul yang lebih tinggi menjaringkan gol. |
+| Peti Lanun (3D) | Jawapan betul membuka satu daripada tiga peti: emas, ganda dua, rampas atau tukar emas dengan kapal lain. Kapal yang dirompak dapat perisai seketika. |
+| Menara 118 (3D) | Seisi kelas membina satu menara setinggi Merdeka 118 (679 m). Blok yang diletakkan tepat di tengah menaikkan menara lebih tinggi. |
 
 Jenis soalan: pilihan tunggal, pilih semua yang betul, betul atau salah, taip jawapan, nombor, susun
 turutan, padankan, dan isi tempat kosong.
@@ -84,8 +78,9 @@ didik-live
 ```
 
 Buka <http://localhost:8080>, pilih **Ibu bapa**, kemudian **Guna akaun demo**
-(`demo@didik.test` / `main-bersama`). Akaun demo dan lapan kuiz contoh (tiga untuk Tingkatan) dicipta
-sendiri pada kali pertama; kuiz contoh baharu ditambah ke akaun demo yang sedia ada bila pelayan dimulakan.
+(`demo@didik.test` / `main-bersama`). Akaun demo dan lapan kuiz contoh (tiga daripadanya bertaraf
+Tingkatan) dicipta sendiri pada kali pertama; kuiz contoh baharu ditambah ke akaun demo yang sedia ada
+bila pelayan dimulakan.
 Akaun ini untuk mencuba di komputer sendiri sahaja.
 
 ## Main dengan telefon di Wi-Fi yang sama
