@@ -625,6 +625,22 @@
 			padding-inline: 1.3rem;
 		}
 	}
+	/* Small phones: a smaller wordmark, then on the smallest only the mark and "didik", so the parents'
+	   link keeps its gutter. */
+	@media (max-width: 420px) {
+		.top :global(.logo) {
+			font-size: 1.15rem;
+		}
+		.top :global(.logo svg) {
+			width: 2.1rem;
+			height: 2.1rem;
+		}
+	}
+	@media (max-width: 360px) {
+		.top :global(.word span) {
+			display: none;
+		}
+	}
 	@media (max-width: 440px) {
 		.parents .long {
 			display: none;

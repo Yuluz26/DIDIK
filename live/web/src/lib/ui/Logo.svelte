@@ -30,6 +30,7 @@
 		color: #fff;
 	}
 	svg {
+		flex: none;
 		width: 2.4rem;
 		height: 2.4rem;
 		transition: transform var(--t-state) var(--spring);
