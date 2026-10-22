@@ -3,6 +3,7 @@
 	screen they stand, so a child walking behind a tree is hidden by it and walks in front of it below.
 	With `follow`, the view keeps the child's own character in the middle. The `overlay` snippet is
 	drawn above everything, in the world's own coordinates (multiply tiles by the tile size).
+	`toTiles` turns a point on the screen (a tap) into a place in the world.
 -->
 <script lang="ts" module>
 	export interface WorldProp {
@@ -33,6 +34,8 @@
 		skin?: string;
 		name: string;
 		mood?: 'happy' | 'cheer' | 'oops' | 'sleep';
+		/** How long this character's current walk takes, when it differs from the world's `step`. */
+		ms?: number;
 	}
 </script>
 
@@ -76,6 +79,14 @@
 
 	let vw = $state(0);
 	let vh = $state(0);
+	let worldEl = $state<HTMLElement>();
+
+	/** The place in the world, in tiles, under a point on the screen. */
+	export function toTiles(clientX: number, clientY: number): { x: number; y: number } | null {
+		if (!worldEl) return null;
+		const box = worldEl.getBoundingClientRect();
+		return { x: (clientX - box.left) / tile, y: (clientY - box.top) / tile };
+	}
 	const chibi = $derived(Math.round(tile * 1.05));
 	const mine = $derived(me ? actors.find((a) => a.id === me) : undefined);
 
@@ -99,8 +110,8 @@
 	{/if}
 {/snippet}
 
-<div class="viewport" class:follow bind:clientWidth={vw} bind:clientHeight={vh} style:--step="{step}ms">
-	<div class="world" style:width="{W * tile}px" style:height="{H * tile}px" style:transform="translate3d({camera.x}px, {camera.y}px, 0)">
+<div class="viewport" class:follow bind:clientWidth={vw} bind:clientHeight={vh} style:--step="{step}ms" style:--tile="{tile}px">
+	<div class="world" bind:this={worldEl} style:width="{W * tile}px" style:height="{H * tile}px" style:transform="translate3d({camera.x}px, {camera.y}px, 0)">
 		<svg class="ground" viewBox="0 0 {W} {H}" width={W * tile} height={H * tile} aria-hidden="true" focusable="false">
 			{@render ground()}
 		</svg>
@@ -119,9 +130,11 @@
 		{#each actors as actor (actor.id)}
 			<div
 				class="place actor"
+				data-player={actor.id}
 				style:left="{actor.x * tile}px"
 				style:top="{actor.y * tile}px"
 				style:z-index={Math.round(actor.y * 10) + 1}
+				style:--step={actor.ms === undefined ? undefined : `${actor.ms}ms`}
 			>
 				<Chibi
 					animal={actor.animal}
@@ -142,7 +155,8 @@
 					class="tag"
 					class:me={actor.id === me}
 					style:left="{Math.min(W - 0.9, Math.max(0.9, actor.x)) * tile}px"
-					style:top="{actor.y * tile - chibi * 1.25}px">{actor.id === me ? 'Kamu' : actor.name}</span
+					style:top="{actor.y * tile - chibi * 1.25}px"
+					style:--step={actor.ms === undefined ? undefined : `${actor.ms}ms`}>{actor.id === me ? 'Kamu' : actor.name}</span
 				>
 			{/if}
 		{/each}
@@ -251,13 +265,14 @@
 		padding: 0 0.4rem;
 		border-radius: var(--r-pill);
 		background: rgb(255 255 255 / 0.92);
-		font-size: 0.68rem;
+		font-size: clamp(0.68rem, calc(var(--tile) * 0.24), 1.15rem);
 		font-weight: 800;
 		line-height: 1.5;
 		white-space: nowrap;
 		box-shadow: 0 1px 0 rgb(0 0 0 / 0.12);
 	}
 	.tag.me {
+		z-index: 901;
 		background: var(--sun);
 	}
 </style>

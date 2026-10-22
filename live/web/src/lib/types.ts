@@ -102,6 +102,8 @@ export interface View {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	game?: any;
 	results?: Results;
+	/** In the lobby: where everyone stands in the waiting room's square, as [id, x, y, facing]. */
+	plaza?: [string, number, number, number][];
 }
 
 // ------------------------------------------------------------ questions

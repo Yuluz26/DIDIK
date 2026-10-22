@@ -10,12 +10,13 @@ from __future__ import annotations
 import asyncio
 import contextlib
 import logging
+import math
 import random
 import time
 from collections import deque
 from typing import TYPE_CHECKING, Any
 
-from . import names
+from . import names, plaza
 from .modes import MODES
 from .modes.base import now_ms
 from .player import Conn, Player, dumps
@@ -162,6 +163,9 @@ class Room:
     async def _bot_loop(self) -> None:
         while not self._closing:
             await asyncio.sleep(0.25)
+            if self.phase == "lobby":
+                self.bots_stroll()
+                continue
             if self.phase != "playing" or self.mode is None:
                 continue
             now = time.monotonic()
@@ -170,6 +174,12 @@ class Room:
                     self.mode.bot_tick(bot, now)
                 except Exception:  # noqa: BLE001
                     log.exception("bot failed in room %s", self.code)
+
+    def bots_stroll(self, chance: float = plaza.BOT_STROLL_CHANCE) -> None:
+        """While everyone waits, practice bots wander the square now and then, like children do."""
+        for bot in [p for p in self.players.values() if p.is_bot]:
+            if self.rng.random() < chance:
+                self.move(bot, *plaza.stroll(self.rng, *bot.spot))
 
     # ------------------------------------------------------------ messages out
 
@@ -238,13 +248,19 @@ class Room:
             "feed": list(self._feed),
         }
 
+    def plaza_view(self) -> list[list[Any]]:
+        """Where everyone stands in the waiting room's square: [id, x, y, facing]."""
+        return [[p.id, p.spot[0], p.spot[1], p.facing] for p in self.players.values() if p.approved]
+
     def player_view(self, player: Player) -> dict[str, Any]:
         view = self.base_view()
         view["me"] = {**player.public(), "approved": player.approved}
         if not player.approved:
             view["phase"] = "waiting"
             return view
-        if self.phase == "playing" and self.mode is not None:
+        if self.phase == "lobby":
+            view["plaza"] = self.plaza_view()
+        elif self.phase == "playing" and self.mode is not None:
             view["game"] = self.mode.player_view(player)
         elif self.phase == "ended":
             view["results"] = self.results
@@ -256,7 +272,9 @@ class Room:
         view["settings"] = self.settings.model_dump()
         view["botsAllowed"] = self.allow_bots
         view["modes"] = [cls.describe(self.questions) for cls in MODES.values()]
-        if self.phase == "playing" and self.mode is not None:
+        if self.phase == "lobby":
+            view["plaza"] = self.plaza_view()
+        elif self.phase == "playing" and self.mode is not None:
             view["game"] = self.mode.host_view()
         elif self.phase == "ended":
             view["results"] = self.results
@@ -316,6 +334,7 @@ class Room:
             skin=skin,
             is_bot=bot,
             approved=bot or not self.settings.waiting_room,
+            spot=plaza.arrival(self.rng),
         )
         if bot:
             player.skill = self.rng.uniform(0.55, 0.85)
@@ -437,9 +456,34 @@ class Room:
         if kind == "sticker":
             self.sticker(player, str(msg.get("id")))
             return
+        if kind == "walk":
+            self.walk(player, msg.get("x"), msg.get("y"))
+            return
         if not player.approved or self.phase != "playing" or self.mode is None:
             return
         self.mode.handle(player, kind, msg)
+
+    def walk(self, player: Player, x: Any, y: Any) -> None:
+        """A child tapped a spot in the waiting room's square."""
+        now = time.monotonic()
+        if self.phase != "lobby" or not player.approved or now - player.last_walk < plaza.WALK_EVERY:
+            return
+        if not all(isinstance(v, (int, float)) and not isinstance(v, bool) for v in (x, y)):
+            return
+        try:
+            tx, ty = float(x), float(y)
+        except OverflowError:
+            return
+        if not (math.isfinite(tx) and math.isfinite(ty)):
+            return
+        player.last_walk = now
+        self.move(player, *plaza.clamp(tx, ty))
+
+    def move(self, player: Player, x: float, y: float) -> None:
+        if abs(x - player.spot[0]) > 0.05:
+            player.facing = 1 if x > player.spot[0] else -1
+        player.spot = (x, y)
+        self.mark_dirty()
 
     def sticker(self, player: Player, sticker: str) -> None:
         now = time.monotonic()

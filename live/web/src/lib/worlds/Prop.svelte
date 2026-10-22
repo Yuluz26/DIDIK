@@ -43,7 +43,8 @@
 		fountain: [2.4, 1.7],
 		pondok: [2.4, 2.4],
 		tempayan: [0.9, 0.95],
-		scarecrow: [1.1, 1.9]
+		scarecrow: [1.1, 1.9],
+		arch: [3.2, 3.0]
 	};
 
 	const size = $derived(SIZES[kind] ?? [1, 1]);
@@ -288,6 +289,23 @@
 		<path d="M48 54 l4 4 M52 54 l-4 4 M58 54 l4 4 M62 54 l-4 4 M49 64 q6 4 12 0" stroke="#8e5a2e" stroke-width="2.2" fill="none" stroke-linecap="round" />
 		<path d="M20 46 L55 20 L90 46z" fill="#e8c06a" />
 		<path d="M20 46 H90" stroke="#c9a24a" stroke-width="4" stroke-linecap="round" />
+	{:else if kind === 'arch'}
+		<!-- The waiting room's welcome arch, hung with bunting; children walk in under it. -->
+		<ellipse cx="160" cy="292" rx="146" ry="8" fill="#000" opacity=".14" />
+		<rect x="28" y="64" width="34" height="232" rx="8" fill="#8e5a2e" /><rect x="258" y="64" width="34" height="232" rx="8" fill="#8e5a2e" />
+		<rect x="28" y="64" width="12" height="232" rx="6" fill="#a46a37" /><rect x="258" y="64" width="12" height="232" rx="6" fill="#a46a37" />
+		<rect x="10" y="44" width="300" height="34" rx="12" fill="#a8432f" />
+		<rect x="10" y="64" width="300" height="14" rx="7" fill="#7a2f1f" />
+		<path d="M62 92 Q160 128 258 92" stroke="#fff4e6" stroke-width="2.5" fill="none" />
+		{#each [0, 1, 2, 3, 4, 5, 6, 7] as i (i)}
+			{@const x = 74 + i * 24.5}
+			{@const y = 96 + Math.sin(((i + 0.5) / 8) * Math.PI) * 16}
+			<path d="M{x} {y - 4} h18 l-9 20z" fill={['#e2483d', '#ffd34d', '#2f7fcf', '#6cb33f'][i % 4]} />
+		{/each}
+		<rect x="70" y="10" width="180" height="46" rx="10" fill="#fff4e6" stroke="#8e5a2e" stroke-width="5" />
+		<text x="160" y="40" text-anchor="middle" font-family="Fredoka Variable, sans-serif" font-size="21" font-weight="600" fill="#6b4220">{state || 'SELAMAT DATANG'}</text>
+		<circle cx="45" cy="288" r="22" fill="#4fa35b" /><circle cx="275" cy="288" r="22" fill="#4fa35b" />
+		<circle cx="36" cy="282" r="6" fill="#ff7aa2" /><circle cx="284" cy="280" r="6" fill="#ffd34d" />
 	{:else if kind === 'hen'}
 		<!-- Ayam kampung, pecking now and then. -->
 		<ellipse cx="37" cy="64" rx="24" ry="5" fill="#000" opacity=".15" />

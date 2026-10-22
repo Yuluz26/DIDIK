@@ -93,6 +93,11 @@ class Player:
     conns: set[Conn] = field(default_factory=set)
     last_sticker: float = 0.0
     skill: float = 0.75  # bots only: how often they answer correctly
+    # Where the child stands in the waiting room's square, which way they face, and when they last
+    # chose a spot (taps are limited).
+    spot: tuple[float, float] = (8.0, 6.5)
+    facing: int = 1
+    last_walk: float = 0.0
 
     @property
     def connected(self) -> bool:

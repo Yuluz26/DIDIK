@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import asyncio
 import json
+import math
+import random
 from dataclasses import replace
 
 import anyio
@@ -10,6 +12,7 @@ from fastapi.testclient import TestClient
 
 from didik_live.app import create_app
 from didik_live.config import Settings
+from didik_live.game import plaza
 from didik_live.game.room import JoinError
 from didik_live.seed import DEMO_EMAIL, DEMO_PASSWORD
 
@@ -186,6 +189,80 @@ def test_stickers_are_limited_to_the_set_and_rate() -> None:
             room.handle_player(kid, {"t": "sticker", "id": sticker})
         await settle(0.1)
         assert [m["sticker"] for m in socket.of("fx") if m.get("kind") == "sticker"] == ["hati"]
+        room.close()
+
+    run(scenario())
+
+
+def test_children_walk_around_the_waiting_room_square() -> None:
+    def outside_fountain(x: float, y: float) -> bool:
+        return math.hypot((x - plaza.FOUNTAIN_X) / plaza.FOUNTAIN_RX, (y - plaza.FOUNTAIN_Y) / plaza.FOUNTAIN_RY) >= 1
+
+    def in_square(x: float, y: float) -> bool:
+        return plaza.LEFT <= x <= plaza.RIGHT and plaza.TOP <= y <= plaza.BOTTOM and outside_fountain(x, y)
+
+    async def scenario() -> None:
+        room = open_room("lumba")
+        room.rng = random.Random(7)
+        host, host_socket = connection()
+        room.attach_host(host)
+        conn, socket = connection()
+        kid = room.join(conn, {"avatar": "kancil"})
+        await settle()
+        assert in_square(*kid.spot)
+        assert [kid.id, *kid.spot, 1] in host_socket.view()["plaza"]
+
+        # A tap on the fountain lands at its edge; one straight after is ignored.
+        room.handle_player(kid, {"t": "walk", "x": plaza.FOUNTAIN_X, "y": plaza.FOUNTAIN_Y})
+        assert in_square(*kid.spot)
+        here = kid.spot
+        room.handle_player(kid, {"t": "walk", "x": 2, "y": 7})
+        assert kid.spot == here
+
+        # Off the edge stops at the edge, facing the way the child walked.
+        kid.last_walk -= 1
+        room.handle_player(kid, {"t": "walk", "x": -50, "y": 99})
+        assert kid.spot == (plaza.LEFT, plaza.BOTTOM) and kid.facing == -1
+        for nonsense in ({"x": "1", "y": 1}, {"x": float("nan"), "y": 1}, {"x": True, "y": 1}, {"x": 10**400, "y": 1}, {}):
+            kid.last_walk -= 1
+            room.handle_player(kid, {"t": "walk", **nonsense})
+            assert kid.spot == (plaza.LEFT, plaza.BOTTOM)
+        await settle()
+        assert [kid.id, plaza.LEFT, plaza.BOTTOM, -1] in socket.view()["plaza"]
+
+        # Practice bots wander on their own, and stay in the square.
+        room.set_bots(3)
+        bots = [p for p in room.players.values() if p.is_bot]
+        before = [b.spot for b in bots]
+        room.bots_stroll(chance=1.0)
+        assert [b.spot for b in bots] != before
+        assert all(in_square(*b.spot) for b in bots)
+
+        # Once the game starts the square is gone and taps do nothing.
+        room.start_game()
+        kid.last_walk -= 1
+        room.handle_player(kid, {"t": "walk", "x": 3, "y": 4})
+        assert kid.spot == (plaza.LEFT, plaza.BOTTOM)
+        await settle()
+        assert "plaza" not in socket.view() and "plaza" not in host_socket.view()
+        room.close()
+
+    run(scenario())
+
+
+def test_a_child_waiting_for_approval_is_not_in_the_square() -> None:
+    async def scenario() -> None:
+        room = open_room("lumba", waiting_room=True)
+        conn, socket = connection()
+        kid = room.join(conn, {"avatar": "kancil"})
+        await settle()
+        spot = kid.spot
+        room.handle_player(kid, {"t": "walk", "x": 3, "y": 4})
+        assert kid.spot == spot
+        assert "plaza" not in socket.view()
+        assert room.plaza_view() == []
+        room.approve(kid.id, True)
+        assert [p[0] for p in room.plaza_view()] == [kid.id]
         room.close()
 
     run(scenario())

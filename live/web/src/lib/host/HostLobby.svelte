@@ -1,19 +1,19 @@
 <!--
-	The host's waiting room: how to join, who has joined, the game and its settings, practice bots,
-	and Mula. Settings and the game can change until the game starts.
+	The host's waiting room: how to join and Mula across the top, the town square where children
+	appear and walk about, and the game and its settings beside it. Settings and the game can change
+	until the game starts.
 -->
 <script lang="ts">
 	import type { RoomClient } from '$lib/room.svelte';
 	import type { Person, RoomSettings, View } from '$lib/types';
+	import Avatar from '$ui/Avatar.svelte';
 	import Icon from '$ui/Icon.svelte';
+	import LobbyPlaza from '$lib/worlds/LobbyPlaza.svelte';
 	import WorldBadge from '$lib/worlds/WorldBadge.svelte';
-	import PlayerWall from '$lib/play/PlayerWall.svelte';
-	import Stickers from '$lib/play/Stickers.svelte';
 	import JoinPanel from './JoinPanel.svelte';
 
 	let { client, view }: { client: RoomClient; view: View } = $props();
 
-	let wallEl = $state<HTMLElement>();
 	const players = $derived(client.roster.filter((p) => p.approved));
 	const pending = $derived(client.roster.filter((p) => !p.approved));
 	const bots = $derived(client.roster.filter((p) => p.bot).length);
@@ -32,9 +32,14 @@
 </script>
 
 <div class="lobby">
-	<div class="main">
+	<div class="strip">
 		<JoinPanel room={view.room} />
+		<button type="button" class="btn btn--sun btn--big start" class:btn--ready={players.length > 0} disabled={!players.length || !!blocked} onclick={() => client.send({ t: 'start' })}>
+			<Icon name="play" size={30} /> Mula
+		</button>
+	</div>
 
+	<div class="main">
 		{#if pending.length}
 			<section class="pending">
 				<h2>Menunggu kebenaran ({pending.length})</h2>
@@ -50,9 +55,9 @@
 			</section>
 		{/if}
 
-		<section class="room" bind:this={wallEl}>
-			<div class="room-head">
-				<h2><Icon name="users" /> {players.length} dalam bilik</h2>
+		<section class="square" aria-labelledby="square-title">
+			<div class="square-head">
+				<h2 id="square-title"><Icon name="users" /> {players.length} dalam bilik</h2>
 				{#if view.botsAllowed}
 					<div class="bots" role="group" aria-label="Pemain bot untuk uji">
 						<span><Icon name="bot" /> Bot</span>
@@ -62,12 +67,26 @@
 					</div>
 				{/if}
 			</div>
+
+			<div class="stage">
+				<LobbyPlaza people={players} spots={view.plaza ?? []} {client} />
+				{#if !players.length}
+					<p class="empty">Dataran masih kosong. Kanak-kanak akan muncul di bawah gerbang sebaik sahaja mereka masuk.{view.botsAllowed ? ' Untuk mencuba seorang diri, tambah beberapa bot.' : ''}</p>
+				{/if}
+			</div>
+
 			{#if players.length}
-				<PlayerWall people={players} size={72} onremove={remove} />
-			{:else}
-				<p class="empty">Belum ada sesiapa. Kongsi pautan atau tunjuk kod QR di atas. Untuk mencuba seorang diri, tambah beberapa bot.</p>
+				<ul class="roster" aria-label="Dalam bilik">
+					{#each players as person (person.id)}
+						<li class:away={!person.online}>
+							<Avatar animal={person.avatar} colour={person.colour} skin={person.skin} size={30} mood={person.online ? 'happy' : 'sleep'} />
+							<span class="name">{person.name}</span>
+							{#if person.bot}<span class="bot">bot</span>{/if}
+							<button type="button" class="tool" onclick={() => remove(person)} aria-label="Keluarkan {person.name}"><Icon name="close" size={16} /></button>
+						</li>
+					{/each}
+				</ul>
 			{/if}
-			<Stickers {client} within={wallEl} />
 		</section>
 	</div>
 
@@ -111,53 +130,62 @@
 					</select>
 				</label>
 			{/if}
-			<label class="toggle"><input type="checkbox" checked={settings.shuffle} onchange={(e) => set({ shuffle: (e.target as HTMLInputElement).checked })} /> Kocok soalan</label>
-			<label class="toggle"><input type="checkbox" checked={settings.custom_names} onchange={(e) => set({ custom_names: (e.target as HTMLInputElement).checked })} /> Benarkan nama sendiri (ditapis)</label>
-			<label class="toggle"><input type="checkbox" checked={settings.waiting_room} onchange={(e) => set({ waiting_room: (e.target as HTMLInputElement).checked })} /> Saya benarkan setiap pemain dahulu</label>
-			<label class="toggle"><input type="checkbox" checked={settings.late_join} onchange={(e) => set({ late_join: (e.target as HTMLInputElement).checked })} /> Boleh masuk selepas mula</label>
+			<label class="check-row"><input type="checkbox" checked={settings.shuffle} onchange={(e) => set({ shuffle: (e.target as HTMLInputElement).checked })} /> Kocok soalan</label>
+			<label class="check-row"><input type="checkbox" checked={settings.custom_names} onchange={(e) => set({ custom_names: (e.target as HTMLInputElement).checked })} /> Benarkan nama sendiri (ditapis)</label>
+			<label class="check-row"><input type="checkbox" checked={settings.waiting_room} onchange={(e) => set({ waiting_room: (e.target as HTMLInputElement).checked })} /> Saya benarkan setiap pemain dahulu</label>
+			<label class="check-row"><input type="checkbox" checked={settings.late_join} onchange={(e) => set({ late_join: (e.target as HTMLInputElement).checked })} /> Boleh masuk selepas mula</label>
 			{#if mode.key === 'harta'}
-				<label class="toggle"><input type="checkbox" checked={settings.naughty} onchange={(e) => set({ naughty: (e.target as HTMLInputElement).checked })} /> Kejutan nakal (burung kakak tua, ketam)</label>
+				<label class="check-row"><input type="checkbox" checked={settings.naughty} onchange={(e) => set({ naughty: (e.target as HTMLInputElement).checked })} /> Kejutan nakal (burung kakak tua, ketam)</label>
 			{/if}
 			<button type="button" class="btn btn--plain lock" onclick={() => client.send({ t: 'lock', on: !view.room.locked })}>
 				<Icon name={view.room.locked ? 'lock' : 'unlock'} /> {view.room.locked ? 'Bilik dikunci' : 'Kunci bilik'}
 			</button>
 		</section>
-
-		<button type="button" class="btn btn--sun btn--big start" class:btn--ready={players.length > 0} disabled={!players.length || !!blocked} onclick={() => client.send({ t: 'start' })}>
-			<Icon name="play" /> Mula
-		</button>
 	</aside>
 </div>
 
 <style>
 	.lobby {
 		display: grid;
-		grid-template-columns: minmax(0, 1fr) minmax(18rem, 24rem);
-		gap: 1.4rem;
+		grid-template-columns: minmax(0, 1fr) minmax(17rem, 21rem);
+		gap: 1.2rem 1.4rem;
 		align-items: start;
+	}
+	.strip {
+		grid-column: 1 / -1;
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		gap: 1.2rem;
+	}
+	/* Mula stands at the end of the join strip, as tall as it, so it is the first thing the host finds. */
+	.start {
+		align-self: stretch;
+		min-width: 11rem;
+		flex-direction: column;
+		gap: 0.2rem;
+		font-size: 1.9rem;
 	}
 	.main {
 		display: grid;
-		gap: 1.4rem;
+		gap: 1.2rem;
 		min-width: 0;
 	}
-	.room {
-		position: relative;
+	.square {
 		display: grid;
-		gap: 1rem;
+		gap: 0.6rem;
 	}
-	.room-head {
+	.square-head {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 		gap: 1rem;
 		flex-wrap: wrap;
 	}
-	.room-head h2 {
+	.square-head h2 {
 		display: inline-flex;
 		align-items: center;
 		gap: 0.45rem;
-		font-size: 1.5rem;
+		font-size: 1.35rem;
 	}
 	.bots {
 		display: inline-flex;
@@ -176,12 +204,60 @@
 		text-align: center;
 		font: 600 1.2rem var(--font-display);
 	}
+	.stage {
+		position: relative;
+	}
 	.empty {
-		padding: 1.4rem;
-		border: 2px dashed var(--line);
-		border-radius: var(--r-lg);
+		position: absolute;
+		left: 50%;
+		bottom: 1.2rem;
+		translate: -50% 0;
+		width: min(30rem, calc(100% - 2rem));
+		padding: 0.8rem 1.1rem;
+		border-radius: var(--r-md);
+		background: rgb(255 255 255 / 0.94);
 		color: var(--ink-2);
+		font-weight: 700;
 		text-align: center;
+		box-shadow: var(--lift-low);
+	}
+	.roster {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.45rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+	.roster li {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+		padding: 0.2rem 0.2rem 0.2rem 0.3rem;
+		border-radius: var(--r-pill);
+		background: var(--card);
+		box-shadow: 0 2px 0 var(--line);
+		animation: pop-in 420ms var(--spring) both;
+	}
+	.roster .away {
+		opacity: 0.55;
+	}
+	.roster .name {
+		font-weight: 800;
+		font-size: 0.92rem;
+		white-space: nowrap;
+	}
+	.roster .bot {
+		padding: 0 0.4rem;
+		border-radius: var(--r-pill);
+		background: var(--ink);
+		color: #fff;
+		font-size: 0.7rem;
+	}
+	.roster .tool {
+		width: 2rem;
+		height: 2rem;
+		border-radius: 50%;
 	}
 	.pending {
 		display: grid;
@@ -242,31 +318,32 @@
 		color: #9a4a00;
 		font-weight: 800;
 	}
-	.toggle {
-		display: flex;
+	.settings .check-row {
 		align-items: center;
-		gap: 0.6rem;
-		font-weight: 700;
-		cursor: pointer;
 	}
-	.toggle input {
+	.settings .check-row input {
 		width: 1.3rem;
 		height: 1.3rem;
-		accent-color: var(--brand);
+		margin: 0;
 	}
 	.lock {
 		justify-self: start;
 	}
-	.start {
-		width: 100%;
-		font-size: 1.6rem;
-	}
-	@media (max-width: 900px) {
+	@media (max-width: 1000px) {
 		.lobby {
 			grid-template-columns: minmax(0, 1fr);
 		}
 		.side {
 			position: static;
+		}
+	}
+	@media (max-width: 640px) {
+		.strip {
+			grid-template-columns: minmax(0, 1fr);
+		}
+		.start {
+			flex-direction: row;
+			min-height: 4.2rem;
 		}
 	}
 </style>

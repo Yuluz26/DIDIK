@@ -48,6 +48,12 @@
 		pointer-events: none;
 		animation: float-up 1.8s var(--ease-out) forwards;
 	}
+	/* Without motion the sticker simply shows above the animal until it is taken away. */
+	@media (prefers-reduced-motion: reduce) {
+		.float {
+			animation: none;
+		}
+	}
 	@keyframes float-up {
 		0% {
 			opacity: 0;

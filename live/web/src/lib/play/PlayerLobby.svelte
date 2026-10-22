@@ -1,18 +1,19 @@
-<!-- A child waiting for the host: their animal, the game's rules, friends arriving, stickers. -->
+<!--
+	A child waiting for the host: the town square with everyone who has joined, where they can walk
+	about and send stickers, and what the game will be.
+-->
 <script lang="ts">
 	import type { RoomClient } from '$lib/room.svelte';
 	import type { Me, Person, View } from '$lib/types';
-	import CharacterStage from '$ui/CharacterStage.svelte';
 	import StickerBar from '$ui/StickerBar.svelte';
 	import SoundToggle from '$ui/SoundToggle.svelte';
+	import LobbyPlaza from '$lib/worlds/LobbyPlaza.svelte';
 	import WorldBadge from '$lib/worlds/WorldBadge.svelte';
-	import PlayerWall from './PlayerWall.svelte';
-	import Stickers from './Stickers.svelte';
 
 	let { client, view, me, people }: { client: RoomClient; view: View; me: Me; people: Person[] } = $props();
 
-	let wallEl = $state<HTMLElement>();
 	const friends = $derived(people.filter((p) => p.approved));
+	const others = $derived(friends.length - 1);
 </script>
 
 <main class="lobby wrap">
@@ -22,10 +23,14 @@
 	</div>
 
 	<section class="hello">
-		<CharacterStage animal={me.avatar} colour={me.colour} skin={me.skin} size={84} />
 		<h1>Hai, {me.name}!</h1>
-		<p class="wait">Tunggu hos tekan <strong>Mula</strong><span class="dots" aria-hidden="true"><i>.</i><i>.</i><i>.</i></span></p>
+		<p class="wait">
+			Tunggu hos tekan <strong>Mula</strong><span class="dots" aria-hidden="true"><i>.</i><i>.</i><i>.</i></span>
+			<span class="count">{others > 0 ? `${others} kawan sudah sampai` : 'Kamu yang pertama sampai'}</span>
+		</p>
 	</section>
+
+	<LobbyPlaza people={friends} spots={view.plaza ?? []} {client} me={me.id} onwalk={(x, y) => client.send({ t: 'walk', x, y })} />
 
 	<section class="mode">
 		<WorldBadge world={view.room.mode.world} size={76} />
@@ -36,12 +41,6 @@
 		</div>
 	</section>
 
-	<section class="friends" bind:this={wallEl}>
-		<h2>Dalam bilik ({friends.length})</h2>
-		<PlayerWall people={friends} me={me.id} size={56} />
-		<Stickers {client} within={wallEl} />
-	</section>
-
 	<div class="stickers">
 		<StickerBar onsend={(id) => client.send({ t: 'sticker', id })} />
 	</div>
@@ -50,9 +49,10 @@
 <style>
 	.lobby {
 		display: grid;
-		gap: 1.4rem;
+		grid-template-columns: minmax(0, 1fr);
+		gap: 1.1rem;
 		padding-block: 1rem 7rem;
-		max-width: 46rem;
+		max-width: 52rem;
 	}
 	.top {
 		display: flex;
@@ -66,16 +66,23 @@
 	}
 	.hello {
 		display: grid;
-		justify-items: center;
-		gap: 0.5rem;
-		text-align: center;
+		gap: 0.3rem;
 	}
 	.hello h1 {
-		font-size: var(--fs-h1);
+		font-size: var(--fs-h2);
 	}
 	.wait {
-		font-size: 1.1rem;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: 0 0.9rem;
+		font-size: 1.05rem;
 		color: var(--ink-2);
+	}
+	.count {
+		font-size: 0.95rem;
+		font-weight: 800;
+		color: var(--brand);
 	}
 	.dots i {
 		font-style: normal;
@@ -119,14 +126,6 @@
 	.how {
 		margin-top: 0.25rem;
 		color: var(--ink-2);
-	}
-	.friends {
-		position: relative;
-		display: grid;
-		gap: 0.8rem;
-	}
-	.friends h2 {
-		font-size: 1.2rem;
 	}
 	.stickers {
 		position: fixed;
