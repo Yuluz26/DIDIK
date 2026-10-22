@@ -11,13 +11,18 @@ export interface Parent {
 class Session {
 	user = $state<Parent | null>(null);
 	demo = $state(false);
+	/** Whether this server emails reset links (otherwise they go to its log). */
+	mail = $state(true);
+	/** The email typed on the sign-in form, carried to the forgotten-password page. */
+	emailHint = '';
 	loaded = $state(false);
 
 	async load(): Promise<Parent | null> {
 		try {
-			const data = await api.get<{ user: Parent | null; demo: boolean }>('/api/auth/me');
+			const data = await api.get<{ user: Parent | null; demo: boolean; mail: boolean }>('/api/auth/me');
 			this.user = data.user;
 			this.demo = data.demo;
+			this.mail = data.mail;
 		} catch {
 			this.user = null;
 		}

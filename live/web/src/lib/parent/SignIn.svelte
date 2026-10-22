@@ -59,6 +59,9 @@
 			{#if failure?.at('password')}<span class="field-error">{failure.at('password')}</span>
 			{:else if mode === 'register'}<span class="help">Sekurang-kurangnya 8 aksara.</span>{/if}
 		</label>
+		{#if mode === 'login'}
+			<a class="forgot" href="/ibu-bapa/kata-laluan" onclick={() => (session.emailHint = email)}>Lupa kata laluan?</a>
+		{/if}
 
 		<button class="btn btn--big" disabled={busy}>
 			{busy ? 'Sebentar…' : mode === 'login' ? 'Log masuk' : 'Cipta akaun'} <Icon name="next" />
@@ -102,6 +105,14 @@
 	form {
 		display: grid;
 		gap: 1rem;
+	}
+	.forgot {
+		justify-self: end;
+		margin-top: -0.4rem;
+		color: var(--brand-ink);
+		font-weight: 800;
+		font-size: 0.92rem;
+		text-underline-offset: 3px;
 	}
 	.alert {
 		padding: 0.7rem 1rem;

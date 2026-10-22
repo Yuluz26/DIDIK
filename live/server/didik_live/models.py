@@ -1,5 +1,5 @@
-"""Stored data: parents, their sign-in sessions, their quizzes and their uploaded pictures, and the
-rooms that are open right now.
+"""Stored data: parents, their sign-in sessions and password reset links, their quizzes and their
+uploaded pictures, and the rooms that are open right now.
 
 Children have no accounts. A child in a room exists only for the life of that room: a running room is
 saved (nicknames and scores included) so that restarting the server does not end it, and its row is
@@ -84,3 +84,17 @@ class LiveRoom(Base):
     saved_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow, onupdate=utcnow)
     # The room's JSON (Room.save), zlib-compressed: rooms are saved often and compress about tenfold.
     state: Mapped[bytes] = mapped_column(LargeBinary)
+
+
+class PasswordReset(Base):
+    """A one-time link to choose a new password. Only a hash of its token is stored."""
+
+    __tablename__ = "password_resets"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), index=True)
+    token_hash: Mapped[str] = mapped_column(String(64), unique=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+    expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), index=True)
+
+    user: Mapped[User] = relationship()

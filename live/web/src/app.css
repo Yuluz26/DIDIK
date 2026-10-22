@@ -271,7 +271,8 @@ textarea {
 
 .btn--big {
 	min-height: 3.75rem;
-	padding: 0.8em 1.8em;
+	/* Less side padding on small phones, where big buttons are usually full width anyway. */
+	padding: 0.8em clamp(1em, 4.5vw, 1.8em);
 	font-size: 1.3rem;
 	border-radius: var(--r-lg);
 }

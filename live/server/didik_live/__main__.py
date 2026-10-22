@@ -1,7 +1,8 @@
 """`didik-live` (or `python -m didik_live`): runs the whole app on one port.
 
-    didik-live                  http://localhost:8080 on this computer only
-    didik-live --lan            also reachable from phones on the same Wi-Fi
+    didik-live                          http://localhost:8080 on this computer only
+    didik-live --lan                    also reachable from phones on the same Wi-Fi
+    didik-live --reset-link EMEL        prints a link to choose a new password, then exits
 """
 
 from __future__ import annotations
@@ -10,6 +11,7 @@ import argparse
 import logging
 import os
 import socket
+import sys
 
 import uvicorn
 
@@ -25,13 +27,39 @@ def lan_address() -> str | None:
         probe.close()
 
 
+def print_reset_link(email: str, port: int) -> int:
+    """For a server without email: whoever runs it can hand a parent a reset link."""
+    from sqlalchemy import func, select
+
+    from . import passwords
+    from .config import load_settings
+    from .db import Database
+    from .models import User
+
+    settings = load_settings()
+    database = Database(settings.database_url)
+    database.create_all()
+    with database.sessions() as db:
+        user = db.scalar(select(User).where(func.lower(User.email) == email.strip().lower()))
+        if user is None:
+            print(f"Tiada akaun dengan emel {email}.", file=sys.stderr)
+            return 1
+        base = settings.public_url or f"http://localhost:{port}"
+        print(f"Pautan untuk {user.email} (sah {passwords.RESET_MINUTES} minit, sekali guna):")
+        print(passwords.link(base, passwords.issue(db, user)))
+    return 0
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(prog="didik-live", description="DIDIK Main Bersama")
     parser.add_argument("--port", type=int, default=8080)
     parser.add_argument("--lan", action="store_true", help="dengar pada semua rangkaian (untuk telefon di Wi-Fi yang sama)")
     parser.add_argument("--host", default=None, help="alamat untuk didengar (lalai 127.0.0.1)")
     parser.add_argument("--reload", action="store_true", help="mulakan semula apabila kod Python berubah")
+    parser.add_argument("--reset-link", metavar="EMEL", help="cetak pautan untuk memilih kata laluan baharu, kemudian keluar")
     args = parser.parse_args()
+    if args.reset_link:
+        sys.exit(print_reset_link(args.reset_link, args.port))
 
     host = args.host or ("0.0.0.0" if args.lan else "127.0.0.1")
     logging.basicConfig(level=logging.INFO, format="%(message)s")

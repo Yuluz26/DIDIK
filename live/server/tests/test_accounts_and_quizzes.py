@@ -27,7 +27,7 @@ def register(client: TestClient, email: str = "ibu@contoh.my") -> None:
 
 
 def test_register_sign_in_and_out(client: TestClient) -> None:
-    assert client.get("/api/auth/me").json() == {"user": None, "demo": True}
+    assert client.get("/api/auth/me").json() == {"user": None, "demo": True, "mail": False}
     register(client)
     assert client.get("/api/auth/me").json()["user"]["email"] == "ibu@contoh.my"
 

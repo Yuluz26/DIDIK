@@ -24,6 +24,11 @@ def client_ip(request: Request) -> str:
     return request.client.host if request.client else "unknown"
 
 
+def site_url(request: Request) -> str:
+    """The site's address for links: DIDIK_PUBLIC_URL, else the address this browser used."""
+    return request.app.state.settings.public_url or str(request.base_url).rstrip("/")
+
+
 def limit(request: Request, bucket: str, count: int, per_seconds: float, key: str | None = None) -> None:
     limiter = request.app.state.limiter
     if not limiter.hit(f"{bucket}:{key or client_ip(request)}", count, per_seconds):

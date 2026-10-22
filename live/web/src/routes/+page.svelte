@@ -611,10 +611,13 @@
 			padding-bottom: 0;
 		}
 	}
-	@media (max-width: 720px) {
+	/* The three section links need about 860px beside the logo and the parents' link. */
+	@media (max-width: 900px) {
 		nav .far {
 			display: none;
 		}
+	}
+	@media (max-width: 720px) {
 		.postcard {
 			grid-template-columns: minmax(0, 1fr);
 			padding: 3rem 1.4rem 1.6rem;

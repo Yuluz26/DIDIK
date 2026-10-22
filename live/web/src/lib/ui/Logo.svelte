@@ -1,8 +1,9 @@
 <script lang="ts">
-	let { href = '/', light = false }: { href?: string; light?: boolean } = $props();
+	// `compact`: on narrow screens only the mark shows, leaving room for a header's links.
+	let { href = '/', light = false, compact = false }: { href?: string; light?: boolean; compact?: boolean } = $props();
 </script>
 
-<a class="logo" class:light {href} aria-label="DIDIK Main Bersama, laman utama">
+<a class="logo" class:light class:compact {href} aria-label="DIDIK Main Bersama, laman utama">
 	<svg viewBox="0 0 48 48" aria-hidden="true" focusable="false">
 		<rect width="48" height="48" rx="14" fill="#1c6b4a" />
 		<g transform="rotate(26 10 20)"><ellipse cx="10" cy="20" rx="7" ry="4" fill="#e7b98a" /></g>
@@ -47,5 +48,10 @@
 	}
 	.light .word span {
 		color: inherit;
+	}
+	@media (max-width: 560px) {
+		.compact .word {
+			display: none;
+		}
 	}
 </style>

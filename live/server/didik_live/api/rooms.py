@@ -14,7 +14,7 @@ from fastapi.concurrency import run_in_threadpool
 from pydantic import BaseModel, ConfigDict, Field
 from sqlalchemy.orm import Session
 
-from ..deps import get_db, limit, require_user
+from ..deps import get_db, limit, require_user, site_url
 from ..game.modes import MODES
 from ..game.settings import RoomSettings
 from ..models import Quiz, User
@@ -32,8 +32,7 @@ class OpenRoom(BaseModel):
 
 
 def join_link(request: Request, slug: str) -> str:
-    base = request.app.state.settings.public_url or str(request.base_url).rstrip("/")
-    return f"{base}/m/{slug}"
+    return f"{site_url(request)}/m/{slug}"
 
 
 def _quiz_for(db: Session, quiz_id: int, user: User) -> Quiz:

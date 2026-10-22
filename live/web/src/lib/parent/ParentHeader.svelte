@@ -11,7 +11,7 @@
 
 <header class="head">
 	<div class="wrap inner">
-		<Logo />
+		<Logo compact={!!session.user} />
 		{#if session.user}
 			<nav aria-label="Akaun">
 				<a href="/ibu-bapa">Kuiz saya</a>
@@ -39,6 +39,7 @@
 		align-items: center;
 		gap: 1rem;
 		font-weight: 800;
+		white-space: nowrap;
 	}
 	nav a {
 		color: var(--ink);

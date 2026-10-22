@@ -40,11 +40,14 @@ async function request<T>(method: string, url: string, body?: unknown, raw?: Blo
 	}
 	if (response.status === 204) return undefined as T;
 
-	const data = await response.json().catch(() => ({}));
+	// A body that cannot be read (cut off when the page is left mid-request) is an error, never an
+	// empty answer: callers would otherwise store `undefined` where they expect a list.
+	const data = await response.json().catch(() => undefined);
 	if (!response.ok) {
 		const message = typeof data?.message === 'string' ? data.message : 'Sesuatu tidak kena. Cuba lagi.';
 		throw new ApiError(response.status, message, Array.isArray(data?.errors) ? data.errors : []);
 	}
+	if (data === undefined) throw new ApiError(response.status, 'Jawapan pelayan tidak dapat dibaca. Cuba lagi.');
 	return data as T;
 }
 
