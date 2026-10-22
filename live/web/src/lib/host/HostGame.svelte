@@ -21,7 +21,7 @@
 </script>
 
 {#if mode.key === 'lumba'}
-	<SyncHost {client} {game} {people} title={mode.title} unit="m">
+	<SyncHost {client} {game} {people} title={mode.title} unit={mode.unit}>
 		{#snippet scene()}
 			{#if game.race}<RaceRiver race={game.race} {people} />{/if}
 		{/snippet}
@@ -29,7 +29,7 @@
 {:else if mode.key === 'lompat'}
 	<JumpHost {client} {game} {people} />
 {:else if mode.key === 'harta'}
-	<SelfHost {client} {game} {people} feed={view.feed} title={mode.title} unit="syiling" total={minutes} board={false}>
+	<SelfHost {client} {game} {people} feed={view.feed} title={mode.title} unit={mode.unit} total={minutes} board={false}>
 		{#snippet world()}
 			<ScoreTowers rows={game.leaders} {people} />
 		{/snippet}
@@ -37,13 +37,13 @@
 {:else if mode.key === 'hutan'}
 	<ForestHost {client} {game} {people} feed={view.feed} />
 {:else if mode.key === 'pasukan'}
-	<SelfHost {client} {game} {people} feed={view.feed} title={mode.title} unit="petak" total={minutes}>
+	<SelfHost {client} {game} {people} feed={view.feed} title={mode.title} unit={mode.unit} total={minutes}>
 		{#snippet world()}
 			{#if game.world?.cells}<TeamsWorld {client} world={game.world} step={null} people={[...people.values()]} big />{/if}
 		{/snippet}
 	</SelfHost>
 {:else if mode.key === 'kampung'}
-	<SelfHost {client} {game} {people} feed={view.feed} title={mode.title} unit="bahan" total={minutes} boardTitle="Paling banyak membantu">
+	<SelfHost {client} {game} {people} feed={view.feed} title={mode.title} unit={mode.unit} total={minutes} boardTitle="Paling banyak membantu">
 		{#snippet world()}
 			{#if game.world?.buildings}<VillageWorld {client} world={game.world} {people} big />{/if}
 		{/snippet}
@@ -55,7 +55,7 @@
 		{/snippet}
 	</SyncHost>
 {:else if mode.key === 'kebun'}
-	<SelfHost {client} {game} {people} feed={view.feed} title={mode.title} unit="mata" total={minutes}>
+	<SelfHost {client} {game} {people} feed={view.feed} title={mode.title} unit={mode.unit} total={minutes}>
 		{#snippet world()}
 			{#if game.world?.top}<GardenHost world={game.world} {people} />{/if}
 		{/snippet}

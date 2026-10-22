@@ -10,6 +10,10 @@ export interface ModeInfo {
 	style: string;
 	pace: Pace;
 	world: string;
+	/** Who the game is made for: Tahun 1-6 ("rendah") or Tingkatan 1-5 ("menengah"). */
+	level: 'rendah' | 'menengah';
+	/** What a score counts: mata, m, syiling, petak... */
+	unit: string;
 	needs: string;
 	eligible?: number;
 	reason?: string | null;
@@ -81,12 +85,14 @@ export interface ResultRow {
 export interface Results {
 	kind: 'solo' | 'teams' | 'coop';
 	players: ResultRow[];
-	teams?: { key: string; name: string; cells: number; players: number }[];
+	teams?: { key: string; name: string; score: number; players: number }[];
+	/** What a team's score counts (petak, gol). */
+	teamUnit?: string;
 	winner?: string | null;
-	built?: number;
-	total?: number;
+	/** Co-op games: what the room built, in words from the server. */
+	headline?: string;
+	note?: string | null;
 	complete?: boolean;
-	decorations?: number;
 }
 
 export interface View {

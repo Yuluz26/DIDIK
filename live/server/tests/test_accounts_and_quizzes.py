@@ -5,7 +5,9 @@ from io import BytesIO
 from fastapi.testclient import TestClient
 from PIL import Image
 
-from didik_live.seed import DEMO_EMAIL
+from didik_live.app import create_app
+from didik_live.config import Settings
+from didik_live.seed import DEMO_EMAIL, DEMO_PASSWORD, SAMPLES
 
 from .conftest import sample_id
 
@@ -91,7 +93,7 @@ def test_quiz_lifecycle(client: TestClient) -> None:
 
     listing = client.get("/api/quizzes").json()
     assert [q["title"] for q in listing["mine"]] == ["Kuiz Adik"]
-    assert len(listing["samples"]) == 5
+    assert len(listing["samples"]) == len(SAMPLES)
 
     assert client.delete(f"/api/quizzes/{quiz['id']}").status_code == 204
     assert client.get(f"/api/quizzes/{quiz['id']}").status_code == 404
@@ -161,3 +163,15 @@ def test_uploads_are_reencoded_and_reject_non_images(parent: TestClient) -> None
 
 def test_uploads_need_a_parent(client: TestClient) -> None:
     assert client.post("/api/uploads", content=b"x").status_code == 401
+
+
+def test_an_existing_demo_account_gets_sample_quizzes_added_later(parent: TestClient, settings: Settings) -> None:
+    newest = SAMPLES[-1]["title"]
+    assert parent.delete(f"/api/quizzes/{sample_id(parent, newest)}").status_code == 204
+    titles = [q["title"] for q in parent.get("/api/quizzes").json()["mine"]]
+    assert newest not in titles
+
+    with TestClient(create_app(settings)) as restarted:  # the same database, a new start
+        restarted.post("/api/auth/login", json={"email": DEMO_EMAIL, "password": DEMO_PASSWORD})
+        titles = [q["title"] for q in restarted.get("/api/quizzes").json()["mine"]]
+    assert newest in titles and len(titles) == len(SAMPLES)

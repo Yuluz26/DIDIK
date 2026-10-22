@@ -27,7 +27,7 @@
 	const view = $derived(client.view);
 	const me = $derived(view?.me);
 	const people = $derived(client.people);
-	const unit = $derived(view?.room.mode.key === 'lumba' ? 'm' : view?.room.mode.key === 'kebun' || view?.room.mode.key === 'harta' ? 'syiling' : 'mata');
+	const unit = $derived(view?.room.mode.unit ?? 'mata');
 
 	onMount(() => {
 		api

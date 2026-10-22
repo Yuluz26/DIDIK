@@ -15,7 +15,7 @@
 	const client = new RoomClient(code, 'host');
 	const view = $derived(client.view);
 	const people = $derived(client.people);
-	const unit = $derived(view?.room.mode.key === 'lumba' ? 'm' : view?.room.mode.key === 'kebun' || view?.room.mode.key === 'harta' ? 'syiling' : 'mata');
+	const unit = $derived(view?.room.mode.unit ?? 'mata');
 
 	onMount(() => {
 		client.connect();

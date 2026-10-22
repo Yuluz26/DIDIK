@@ -20,6 +20,7 @@ class RaceMode(SyncMode):
     how = "Semua jawab soalan yang sama. Betul dan laju = sampan maju jauh. Salah pun tetap maju sikit."
     style = "Serentak"
     world = "sungai"
+    unit = "m"
 
     def setup(self) -> None:
         count = len(self.questions)

@@ -9,8 +9,8 @@ from typing import Any
 
 from ...questions import Outcome
 from .base import Seat, SelfPacedMode
+from .teamplay import TEAMS, TeamPlay, team_name
 
-TEAMS = [("harimau", "Pasukan Harimau"), ("penyu", "Pasukan Penyu")]
 RADIUS = 3
 DIRECTIONS = [(1, 0), (1, -1), (0, -1), (-1, 0), (-1, 1), (0, 1)]
 BASES = {"harimau": (-RADIUS, 0), "penyu": (RADIUS, 0)}
@@ -20,13 +20,14 @@ def cell_key(q: int, r: int) -> str:
     return f"{q},{r}"
 
 
-class TeamsMode(SelfPacedMode):
+class TeamsMode(TeamPlay, SelfPacedMode):
     key = "pasukan"
     title = "Pasukan Warna"
     tagline = "Pasukan Harimau lawan Pasukan Penyu. Tawan petak pulau untuk pasukan kamu!"
     how = "Jawab betul untuk dapat bendera. Satu bendera menawan petak kosong di sebelah kawasan pasukanmu; dua bendera merampas petak lawan."
     style = "Pasukan"
     world = "peta"
+    unit = "petak"
 
     def setup(self) -> None:
         self.cells: dict[str, str | None] = {}
@@ -37,14 +38,10 @@ class TeamsMode(SelfPacedMode):
         for team, (q, r) in BASES.items():
             self.cells[cell_key(q, r)] = team
         self.captures: dict[str, int] = {}
-        players = self.players()
-        self.rng.shuffle(players)
-        for index, player in enumerate(players):
-            player.team = TEAMS[index % 2][0]
+        self.split_into_teams()
 
     def add_player(self, player: Any) -> None:
-        sizes = {team: sum(1 for p in self.players() if p.team == team) for team, _ in TEAMS}
-        player.team = min(sizes, key=lambda team: sizes[team])
+        self.join_smaller_team(player)
         super().add_player(player)
 
     def new_seat(self, player: Any, seat: Seat) -> None:
@@ -93,15 +90,11 @@ class TeamsMode(SelfPacedMode):
         self.captures[player.id] = self.captures.get(player.id, 0) + 1
         player.score = self.captures[player.id]
         if previous is not None:
-            self.room.feed(f"{player.nickname} merampas satu petak untuk {self.team_name(player.team)}!", "steal", player)
+            self.room.feed(f"{player.nickname} merampas satu petak untuk {team_name(player.team)}!", "steal", player)
         self.room.fx({"kind": "captured", "cell": key, "team": player.team, "player": player.id, "from": previous})
         if not self.targets(player.team, seat.extra["flags"]):
             seat.step = "result"
         self.room.mark_dirty()
-
-    @staticmethod
-    def team_name(team: str) -> str:
-        return dict(TEAMS)[team]
 
     def tally(self) -> list[dict[str, Any]]:
         return [
@@ -133,12 +126,16 @@ class TeamsMode(SelfPacedMode):
         return view
 
     def results(self) -> dict[str, Any]:
-        teams = sorted(self.tally(), key=lambda t: -t["cells"])
-        winner = teams[0]["key"] if teams[0]["cells"] != teams[1]["cells"] else None
+        teams = sorted(
+            ({"key": t["key"], "name": t["name"], "score": t["cells"], "players": t["players"]} for t in self.tally()),
+            key=lambda t: -t["score"],
+        )
+        winner = teams[0]["key"] if teams[0]["score"] != teams[1]["score"] else None
         players = sorted(self.players(), key=lambda p: (-self.captures.get(p.id, 0), p.joined_at))
         return {
             "kind": "teams",
             "teams": teams,
+            "teamUnit": "petak",
             "winner": winner,
             "players": [{"id": p.id, "score": self.captures.get(p.id, 0), "team": p.team, "rank": 1} for p in players],
         }

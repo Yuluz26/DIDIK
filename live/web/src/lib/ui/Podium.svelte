@@ -1,6 +1,7 @@
 <!--
-	The end of a game. Solo games get a podium; Pasukan Warna names the winning team; Kampung Kita
-	celebrates what the room built together, with no ranks at all.
+	The end of a game. Solo games get a podium; team games name the winning team; the games where the
+	room builds something together (Kampung Kita, Menara 118) celebrate it, with no ranks at all. The
+	server words the team and co-op endings, so this stays the same for every game.
 -->
 <script lang="ts">
 	import { onMount } from 'svelte';
@@ -36,8 +37,8 @@
 	{#if results.kind === 'coop'}
 		<div class="banner coop">
 			<Didi mood="cheer" size={130} />
-			<h2>{results.complete ? 'Kampung kita siap!' : `Kita bina ${results.built} daripada ${results.total} bangunan!`}</h2>
-			<p>{results.decorations ? `Dengan ${results.decorations} hiasan dari semua.` : 'Terima kasih semua pembina.'}</p>
+			<h2>{results.headline}</h2>
+			{#if results.note}<p>{results.note}</p>{/if}
 		</div>
 		<ul class="helpers">
 			{#each results.players as row (row.id)}
@@ -45,7 +46,7 @@
 				<li class:me={row.id === me}>
 					<Avatar animal={person?.avatar} colour={person?.colour} skin={person?.skin} size={52} mood="cheer" bob />
 					<span>{row.id === me ? 'Kamu' : person?.name}</span>
-					<small>{row.score} bahan</small>
+					<small>{row.score.toLocaleString('ms-MY')} {unit}</small>
 				</li>
 			{/each}
 		</ul>
@@ -55,8 +56,9 @@
 			<div class="banner" style:--team={winner?.colour ?? 'var(--sun)'}>
 				<h2>{winner ? `${winner.name} menang!` : 'Seri! Dua pasukan sama hebat.'}</h2>
 				<p>
-					{#each results.teams ?? [] as team, i (team.key)}{i ? ' · ' : ''}{team.name}: {team.cells} petak{/each}
+					{#each results.teams ?? [] as team, i (team.key)}{i ? ' · ' : ''}{team.name}: {team.score} {results.teamUnit}{/each}
 				</p>
+				{#if results.note}<p class="tiebreak">{results.note}</p>{/if}
 			</div>
 		{/if}
 
@@ -120,6 +122,10 @@
 	}
 	.banner p {
 		font-weight: 800;
+	}
+	.banner .tiebreak {
+		font-weight: 700;
+		opacity: 0.9;
 	}
 	.banner.coop {
 		background: var(--brand);

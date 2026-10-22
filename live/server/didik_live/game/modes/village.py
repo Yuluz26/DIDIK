@@ -35,6 +35,7 @@ class VillageMode(SelfPacedMode):
     how = "Setiap jawapan betul membawa bahan binaan. Setiap tiga jawapan betul, kamu boleh letak hiasan sendiri di kampung."
     style = "Kerjasama"
     world = "kampung"
+    unit = "bahan"
 
     def setup(self) -> None:
         children = max(1, len(self.players()))
@@ -135,12 +136,12 @@ class VillageMode(SelfPacedMode):
 
     def results(self) -> dict[str, Any]:
         helpers = sorted(self.players(), key=lambda p: (-self.contrib.get(p.id, 0), p.joined_at))
+        complete = self.built >= len(BUILDINGS)
         return {
             "kind": "coop",
-            "built": self.built,
-            "total": len(BUILDINGS),
-            "complete": self.built >= len(BUILDINGS),
-            "decorations": len(self.decor),
+            "headline": "Kampung kita siap!" if complete else f"Kita bina {self.built} daripada {len(BUILDINGS)} bangunan!",
+            "note": f"Dengan {len(self.decor)} hiasan dari semua." if self.decor else "Terima kasih semua pembina.",
+            "complete": complete,
             "players": [{"id": p.id, "score": self.contrib.get(p.id, 0), "rank": 1} for p in helpers],
         }
 

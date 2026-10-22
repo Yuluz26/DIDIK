@@ -22,7 +22,7 @@
 </script>
 
 {#if mode.key === 'lumba'}
-	<SyncPlayer {client} {game} {me} {people} title={mode.title} unit="m">
+	<SyncPlayer {client} {game} {me} {people} title={mode.title} unit={mode.unit}>
 		{#snippet scene()}
 			{#if game.race}<RaceRiver race={game.race} {people} me={me.id} compact />{/if}
 		{/snippet}
@@ -35,7 +35,7 @@
 		{game}
 		{me}
 		title={mode.title}
-		unit="syiling"
+		unit={mode.unit}
 		total={minutes}
 		rewardText={(r) => (r.kind === 'dug' ? lootLine(r) : r.kind === 'shovel' ? 'Kamu dapat penyodok!' : '')}
 	>
@@ -48,7 +48,7 @@
 {:else if mode.key === 'hutan'}
 	<ForestPlayer {client} {game} {me} {people} />
 {:else if mode.key === 'pasukan'}
-	<SelfPlayer {client} {game} {me} title={mode.title} unit="petak" total={minutes} rewardText={(r) => (r.flags ? `Dapat ${r.flags} bendera!` : '')}>
+	<SelfPlayer {client} {game} {me} title={mode.title} unit={mode.unit} total={minutes} rewardText={(r) => (r.flags ? `Dapat ${r.flags} bendera!` : '')}>
 		{#snippet world()}
 			{#if game.world?.cells}<TeamsWorld {client} world={game.world} step={game.seat?.step ?? null} people={[...people.values()]} me={me.id} />{/if}
 		{/snippet}
@@ -59,7 +59,7 @@
 		{game}
 		{me}
 		title={mode.title}
-		unit="bahan"
+		unit={mode.unit}
 		total={minutes}
 		ranked={false}
 		rewardText={(r) => (r.materials ? `+${r.materials} bahan binaan${r.decoration ? ', dan satu hiasan untuk padang!' : ''}` : '')}
@@ -74,7 +74,7 @@
 		{game}
 		{me}
 		title={mode.title}
-		unit="mata"
+		unit={mode.unit}
 		total={minutes}
 		rewardText={(r) => (r.water ? `+${r.water} titisan air untuk kebun!` : '')}
 	>

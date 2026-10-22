@@ -1,6 +1,7 @@
 <!--
-	"Main bersama": choose one of the eight games for this quiz and open a room. Games the quiz cannot
-	support (e.g. Lompat! needs Betul/Salah or 2-4 choices) say why instead of failing later.
+	"Main bersama": choose a game for this quiz and open a room. The games are grouped by who they are
+	made for, Tahun 1-6 and Tingkatan 1-5; any class can play any of them. Games the quiz cannot support
+	(e.g. Lompat! needs Betul/Salah or 2-4 choices) say why instead of failing later.
 -->
 <script lang="ts">
 	import { onMount } from 'svelte';
@@ -21,6 +22,11 @@
 	let modes = $state<ModeInfo[]>([]);
 	let opening = $state<string | null>(null);
 	let problem = $state<string | null>(null);
+
+	const LEVELS = [
+		{ key: 'rendah', school: 'Sekolah rendah', title: 'Tahun 1–6', note: 'Dunia 2D yang ceria, arahan ringkas.' },
+		{ key: 'menengah', school: 'Sekolah menengah', title: 'Tingkatan 1–5', note: 'Permainan 3D yang lebih mencabar: perlumbaan, pasukan, rampasan dan binaan bersama.' }
+	] as const;
 
 	onMount(async () => {
 		if (!(await session.load())) {
@@ -67,26 +73,38 @@
 		<div class="loading"><Didi mood="think" size={100} /></div>
 	{/if}
 
-	<ul class="games">
-		{#each modes as mode, i (mode.key)}
-			<li style:--i={i}>
-				<button type="button" class="game" class:off={!!mode.reason} disabled={!!mode.reason || !!opening} onclick={() => open(mode)}>
-					<WorldBadge world={mode.world} size={92} />
-					<span class="text">
-						<span class="kind">{mode.style}</span>
-						<span class="title">{mode.title}</span>
-						<span class="tagline">{mode.tagline}</span>
-						{#if mode.reason}
-							<span class="reason">{mode.reason}</span>
-						{:else if mode.needs}
-							<span class="fit">{mode.eligible} soalan sesuai</span>
-						{/if}
-					</span>
-					<span class="go" aria-hidden="true">{opening === mode.key ? '…' : ''}<Icon name="next" /></span>
-				</button>
-			</li>
-		{/each}
-	</ul>
+	{#each LEVELS as level (level.key)}
+		{@const group = modes.filter((m) => m.level === level.key)}
+		{#if group.length}
+			<section class="level" aria-labelledby="level-{level.key}">
+				<div class="level-head">
+					<p class="kind">{level.school}</p>
+					<h2 id="level-{level.key}">{level.title}</h2>
+					<p class="level-note">{level.note}</p>
+				</div>
+				<ul class="games">
+					{#each group as mode, i (mode.key)}
+						<li style:--i={i}>
+							<button type="button" class="game" class:off={!!mode.reason} disabled={!!mode.reason || !!opening} onclick={() => open(mode)}>
+								<WorldBadge world={mode.world} size={92} />
+								<span class="text">
+									<span class="kind">{mode.style}</span>
+									<span class="title">{mode.title}</span>
+									<span class="tagline">{mode.tagline}</span>
+									{#if mode.reason}
+										<span class="reason">{mode.reason}</span>
+									{:else if mode.needs}
+										<span class="fit">{mode.eligible} soalan sesuai</span>
+									{/if}
+								</span>
+								<span class="go" aria-hidden="true">{opening === mode.key ? '…' : ''}<Icon name="next" /></span>
+							</button>
+						</li>
+					{/each}
+				</ul>
+			</section>
+		{/if}
+	{/each}
 	<p class="after">Selepas memilih, anda akan dapat pautan, kod QR dan kod 6 digit untuk dikongsi. Tetapan boleh diubah di lobi.</p>
 </main>
 
@@ -111,6 +129,18 @@
 		margin-top: 0.3rem;
 		color: var(--ink-2);
 		font-size: 1.1rem;
+	}
+	.level {
+		display: grid;
+		gap: 0.9rem;
+		margin-top: 0.6rem;
+	}
+	.level-head h2 {
+		font-size: var(--fs-h2);
+	}
+	.level-note {
+		margin-top: 0.2rem;
+		color: var(--ink-2);
 	}
 	.games {
 		display: grid;

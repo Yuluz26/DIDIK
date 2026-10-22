@@ -33,6 +33,7 @@ class GardenMode(SelfPacedMode):
     how = "Setiap jawapan betul memberi titisan air. Tanam benih, siram sampai berbuah, kemudian tuai untuk dapat syiling."
     style = "Ikut kadar sendiri"
     world = "kebun"
+    unit = "syiling"
 
     def new_seat(self, player: Any, seat: Seat) -> None:
         seat.extra.update(coins=20, water=1, plots=[None] * START_PLOTS, earned=0, fert=0, harvests=0)

@@ -51,6 +51,11 @@ class BaseMode:
     style: ClassVar[str] = ""
     pace: ClassVar[str] = "sync"
     world: ClassVar[str] = ""
+    # Who the game is made for: "rendah" (Tahun 1-6) or "menengah" (Tingkatan 1-5). Any class can
+    # play any game; the picker groups them so a teacher finds the right ones first.
+    level: ClassVar[str] = "rendah"
+    # What a score counts, shown beside every number (mata, m, syiling, petak...).
+    unit: ClassVar[str] = "mata"
     min_questions: ClassVar[int] = 1
     needs: ClassVar[str] = ""
     intro_seconds: ClassVar[float] = 4.0
@@ -77,6 +82,8 @@ class BaseMode:
             "style": cls.style,
             "pace": cls.pace,
             "world": cls.world,
+            "level": cls.level,
+            "unit": cls.unit,
             "needs": cls.needs,
         }
         if questions is not None:

@@ -33,6 +33,7 @@ class TreasureMode(SelfPacedMode):
     how = "Jawab betul untuk dapat penyodok, kemudian pilih satu petak untuk digali. Hati-hati dengan burung kakak tua!"
     style = "Ikut kadar sendiri"
     world = "pulau"
+    unit = "syiling"
 
     def new_seat(self, player: Any, seat: Seat) -> None:
         seat.extra.update(island=1, dug={}, last=None)

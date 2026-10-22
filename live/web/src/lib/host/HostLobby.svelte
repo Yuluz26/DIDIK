@@ -103,8 +103,12 @@
 			<label class="field">
 				<span>Tukar permainan</span>
 				<select class="input" value={mode.key} onchange={(e) => client.send({ t: 'mode', key: (e.target as HTMLSelectElement).value })}>
-					{#each modes as m (m.key)}
-						<option value={m.key} disabled={!!m.reason}>{m.title}{m.reason ? ' (tidak sesuai)' : ''}</option>
+					{#each [['rendah', 'Tahun 1–6'], ['menengah', 'Tingkatan 1–5']] as [level, label] (level)}
+						<optgroup {label}>
+							{#each modes.filter((m) => m.level === level) as m (m.key)}
+								<option value={m.key} disabled={!!m.reason}>{m.title}{m.reason ? ' (tidak sesuai)' : ''}</option>
+							{/each}
+						</optgroup>
 					{/each}
 				</select>
 			</label>
