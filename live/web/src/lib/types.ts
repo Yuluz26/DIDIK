@@ -110,6 +110,8 @@ export interface View {
 	results?: Results;
 	/** In the lobby: where everyone stands in the waiting room's square, as [id, x, y, facing]. */
 	plaza?: [string, number, number, number][];
+	/** After a server restart: the game waits, paused, until the players are back. */
+	resuming?: true;
 }
 
 // ------------------------------------------------------------ questions

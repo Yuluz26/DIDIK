@@ -3,6 +3,9 @@
 State changes only ever happen in plain synchronous code on the event loop, so two messages can never
 interleave halfway through an update. Views are sent from one loop ten times a second at most, and only
 to connections whose view actually changed.
+
+A room can be saved as plain JSON (`save`) and brought back from it (`restore`), which is how a room
+survives a restart of the server: phones and the host screen reconnect on their own and find it there.
 """
 
 from __future__ import annotations
@@ -16,6 +19,7 @@ import time
 from collections import deque
 from typing import TYPE_CHECKING, Any
 
+from ..questions import parse_questions
 from . import names, plaza
 from .modes import MODES
 from .modes.base import now_ms
@@ -29,6 +33,11 @@ log = logging.getLogger("didik.room")
 
 STICKERS = {"hati", "bintang", "ketawa", "tepuk", "wah", "ok", "api", "pelangi"}
 MAX_BOTS = 12
+SAVE_VERSION = 1
+# After a restart, a running game waits (paused) for the children who were connected just before it,
+# but never longer than this.
+RESTART_GRACE = 20.0
+RECENTLY_SEEN = 30.0
 
 
 class JoinError(Exception):
@@ -76,6 +85,10 @@ class Room:
         self.touched = time.monotonic()
         self.rng = random.Random()
         self.dirty = True
+        # Bumped on every change; the manager saves the room when it differs from the saved one.
+        self.revision = 0
+        self.saved_revision = -1
+        self._comeback: asyncio.Task | None = None
         self._feed: deque[dict[str, Any]] = deque(maxlen=10)
         self._feed_id = 0
         self._tasks: set[asyncio.Task] = set()
@@ -114,6 +127,7 @@ class Room:
 
     def mark_dirty(self) -> None:
         self.dirty = True
+        self.revision += 1
         self.touched = time.monotonic()
 
     def has_people(self) -> bool:
@@ -241,12 +255,15 @@ class Room:
         ]
 
     def base_view(self) -> dict[str, Any]:
-        return {
+        view = {
             "room": self.info(),
             "phase": self.phase,
             "round": self.round,
             "feed": list(self._feed),
         }
+        if self._comeback is not None:
+            view["resuming"] = True  # paused after a restart until everyone is back
+        return view
 
     def plaza_view(self) -> list[list[Any]]:
         """Where everyone stands in the waiting room's square: [id, x, y, facing]."""
@@ -291,11 +308,12 @@ class Room:
         for player in self.players.values():
             if conn in player.conns:
                 player.conns.discard(conn)
+                player.seen = time.time()
                 self.mark_dirty()
 
     def rejoin(self, conn: Conn, token: str) -> Player | None:
         for player in self.players.values():
-            if not player.is_bot and player.token == token:
+            if player.owns(token):
                 # A second tab with the same token while the first is still open joins as a new child
                 # (handy for testing with tabs); a reconnecting phone takes its old place back.
                 if any(not c.closed for c in player.conns):
@@ -420,8 +438,10 @@ class Room:
         if kind == "start":
             error = self.start_game()
         elif kind == "pause" and self.mode is not None and self.phase == "playing":
+            self._stop_waiting()
             self.mode.pause()
         elif kind == "resume" and self.mode is not None and self.phase == "playing":
+            self._stop_waiting()
             self.mode.resume()
         elif kind == "skip" and self.mode is not None and self.phase == "playing":
             self.mode.skip()
@@ -558,3 +578,120 @@ class Room:
     def shutdown_quietly(self) -> None:
         with contextlib.suppress(Exception):
             self.close()
+
+    # ------------------------------------------------------------ saving and restarts
+
+    def save(self) -> dict[str, Any]:
+        """The whole room as plain JSON. The manager writes it to the database every few seconds and
+        when the server stops (see RoomManager)."""
+        playing = self.phase == "playing" and self.mode is not None
+        return {
+            "v": SAVE_VERSION,
+            "code": self.code,
+            "slug": self.slug,
+            "host": self.host_id,
+            "quiz": self.quiz_id,
+            "title": self.quiz_title,
+            "questions": [q.model_dump(mode="json") for q in self.questions],
+            "mode": self.mode_key,
+            "settings": self.settings.model_dump(),
+            "phase": self.phase,
+            "locked": self.locked,
+            "round": self.round,
+            "created": self.created,
+            "saved": time.time(),
+            "results": self.results,
+            "feed": list(self._feed),
+            "feedId": self._feed_id,
+            "seq": self._seq,
+            "players": [p.save() for p in self.players.values()],
+            "game": self.mode.save() if playing else None,
+        }
+
+    @classmethod
+    def restore(cls, manager: RoomManager, data: dict[str, Any]) -> Room:
+        """A room from `save`, not started yet (see `carry_on`). If its game cannot be brought back
+        (a newer version of the server changed it), the room comes back in the lobby, children and
+        all, so the host can simply start again."""
+        mode_key = data["mode"] if data["mode"] in MODES else next(iter(MODES))
+        room = cls(
+            manager,
+            code=data["code"],
+            slug=data["slug"],
+            host_id=data["host"],
+            quiz_id=data["quiz"],
+            quiz_title=data["title"],
+            questions=parse_questions(data["questions"]),
+            mode_key=mode_key,
+            settings=RoomSettings.model_validate(data["settings"]),
+            allow_bots=manager.allow_bots,
+        )
+        room.locked = bool(data["locked"])
+        room.round = int(data["round"])
+        room.created = float(data["created"])
+        room._feed.extend(data["feed"])
+        room._feed_id = int(data["feedId"])
+        room._seq = int(data["seq"])
+        for saved in data["players"]:
+            player = Player.restore(saved)
+            room.players[player.id] = player
+        room.phase = data["phase"]
+        room.results = data["results"]
+        if room.phase == "playing":
+            try:
+                if data["v"] != SAVE_VERSION or mode_key != data["mode"]:
+                    raise ValueError("saved by another version")
+                room.mode = room.mode_cls(room)
+                room.mode.load(data["game"])
+            except Exception:  # noqa: BLE001 - any saved game we cannot read goes back to the lobby
+                log.warning("game in room %s could not be restored; back to the lobby", room.code, exc_info=True)
+                room.mode = None
+                room.back_to_lobby()
+                room.feed("Permainan tadi tidak dapat disambung selepas pelayan dimulakan semula. Tekan Mula untuk bermain lagi.", "restart")
+        return room
+
+    def carry_on(self, saved_at: float, host_paused: bool) -> None:
+        """Starts a restored room. A game that was running stays paused until the children who were
+        connected just before the restart are back, so nobody loses time to it."""
+        self.start()
+        if self.phase != "playing" or self.mode is None:
+            return
+        self.mode_task = self.spawn(self._run(self.mode))
+        if host_paused:
+            return  # the host paused it before the restart and will resume it
+        recent = saved_at - RECENTLY_SEEN
+        expected = {p.id for p in self.players.values() if not p.is_bot and p.approved and p.seen >= recent}
+        self._comeback = self.spawn(self._resume_when_back(expected))
+
+    async def _resume_when_back(self, expected: set[str]) -> None:
+        end = time.monotonic() + RESTART_GRACE
+        while time.monotonic() < end:
+            if all(p.connected for pid in expected if (p := self.players.get(pid)) is not None):
+                break
+            await asyncio.sleep(0.25)
+        self._comeback = None
+        self.mark_dirty()
+        if self.mode is not None and self.phase == "playing":
+            self.mode.resume()
+
+    def _stop_waiting(self) -> None:
+        """The host paused or resumed by hand: that decides, not the wait after a restart."""
+        if self._comeback is not None:
+            self._comeback.cancel()
+            self._comeback = None
+            self.mark_dirty()
+
+    def suspend(self) -> None:
+        """Stops the room for a restart without ending it: no "closed" notice, so phones and the host
+        screen keep trying to reconnect and find the saved room when the server is back."""
+        self._closing = True
+        for task in list(self._tasks):
+            task.cancel()
+        for conn in list(self.hosts):
+            conn.close()
+        now = time.time()
+        for player in self.players.values():
+            if player.conns and player.connected:
+                player.seen = now
+            for conn in list(player.conns):
+                conn.close()

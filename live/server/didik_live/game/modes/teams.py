@@ -28,6 +28,7 @@ class TeamsMode(TeamPlay, SelfPacedMode):
     style = "Pasukan"
     world = "peta"
     unit = "petak"
+    saved = ("cells", "captures")
 
     def setup(self) -> None:
         self.cells: dict[str, str | None] = {}

@@ -9,7 +9,6 @@ while, so nobody is picked on again and again.
 
 from __future__ import annotations
 
-import time
 from typing import Any
 
 from ...questions import Outcome
@@ -42,9 +41,10 @@ class PirateMode(SelfPacedMode):
     world = "lanun"
     look = "3d"
     unit = "emas"
+    saved = ("shields",)
 
     def setup(self) -> None:
-        self.shields: dict[str, float] = {}  # player id -> when the shield drops (monotonic)
+        self.shields: dict[str, int] = {}  # player id -> when the shield drops (epoch ms)
 
     def new_seat(self, player: Any, seat: Seat) -> None:
         seat.extra.update(chests=None, opened=None, pending=None)
@@ -115,7 +115,7 @@ class PirateMode(SelfPacedMode):
     # ------------------------------------------------------------ other ships
 
     def shielded(self, player_id: str) -> bool:
-        return self.shields.get(player_id, 0.0) > time.monotonic()
+        return self.shields.get(player_id, 0) > now_ms()
 
     def targets(self, player: Any, kind: str) -> list[Any]:
         """Ships this child may rob (those with gold) or swap with, leaving out shielded ones."""
@@ -141,7 +141,7 @@ class PirateMode(SelfPacedMode):
             player.score, victim.score = victim.score, player.score
             found = {"kind": kind, "gain": gain, "other": victim.id}
             self.room.feed(f"{player.nickname} bertukar emas dengan {victim.nickname}!", "swap", player)
-        self.shields[victim.id] = time.monotonic() + SHIELD_SECONDS
+        self.shields[victim.id] = now_ms() + int(SHIELD_SECONDS * 1000)
         self.room.fx({"kind": "plunder", "by": player.id, "from": victim.id, "swap": kind == "tukar", "amount": abs(found["gain"])}, to=victim)
         self.finish(seat, found)
 
@@ -159,8 +159,7 @@ class PirateMode(SelfPacedMode):
     # ------------------------------------------------------------ views
 
     def shield_until(self, player_id: str) -> int | None:
-        left = self.shields.get(player_id, 0.0) - time.monotonic()
-        return now_ms() + int(left * 1000) if left > 0 else None
+        return self.shields[player_id] if self.shielded(player_id) else None
 
     def world_view(self, player: Any) -> dict[str, Any]:
         if player is None:

@@ -27,6 +27,7 @@ class KartMode(SyncMode):
     look = "3d"
     unit = "m"
     reveal_seconds = 4.5
+    saved = ("length", "boosted")
 
     def setup(self) -> None:
         self.length = max(1, len(self.questions)) * STEP

@@ -84,12 +84,13 @@ async def room_socket(ws: WebSocket, key: str) -> None:
                     else:
                         conn.send({"t": "error", "code": "not-host", "message": "Hanya ibu bapa yang membuka bilik ini boleh mengawalnya."})
                 elif kind == "hello":
-                    player = room.rejoin(conn, str(msg.get("token") or ""))
+                    token = str(msg.get("token") or "")
+                    player = room.rejoin(conn, token)
                     if player is None:
                         conn.send({"t": "rejoin-failed"})
                     else:
                         role = "player"
-                        conn.send({"t": "welcome", "role": "player", "id": player.id, "token": player.token})
+                        conn.send({"t": "welcome", "role": "player", "id": player.id, "token": token})
                 elif kind == "join":
                     if not ws.app.state.limiter.hit(f"join:{ip}", 30, 60):
                         conn.send({"t": "error", "code": "slow-down", "message": "Terlalu banyak cubaan. Tunggu sebentar."})

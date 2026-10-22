@@ -9,6 +9,9 @@ Two shapes cover all the games:
 
 A game only decides what answers *do*. Checking, timing, pausing, streaks and the practice bots
 live here, so every game is fair in the same way.
+
+A running game is saved with its room every few seconds (see `save`), so restarting the server does
+not end it: the room comes back with the game where it was, paused until the children are back.
 """
 
 from __future__ import annotations
@@ -59,6 +62,10 @@ class BaseMode:
     min_questions: ClassVar[int] = 1
     needs: ClassVar[str] = ""
     intro_seconds: ClassVar[float] = 4.0
+    # The game's own state, saved with the room: names of attributes that hold plain JSON (text keys,
+    # lists, numbers, text, None). Everything a game sets up in `setup` belongs here, except what can
+    # start afresh after a restart (live joystick input, cooldowns of a second or two).
+    saved: ClassVar[tuple[str, ...]] = ()
 
     @classmethod
     def accepts(cls, question: Any) -> bool:
@@ -102,6 +109,8 @@ class BaseMode:
         self.deadline = 0.0
         self.deadline_epoch = 0
         self.paused_left: float | None = None
+        # Set by `load`: the time the saved stage still had, used by the first wait after a restart.
+        self.carry_over: float | None = None
         self.finished = False
         self._skip = False
 
@@ -157,7 +166,12 @@ class BaseMode:
         self._skip = True
 
     async def wait(self, seconds: float, done: Any = None) -> None:
-        """Waits `seconds` of unpaused time, or until the host skips, or until `done()` is true."""
+        """Waits `seconds` of unpaused time, or until the host skips, or until `done()` is true.
+        A stage that starts while the game is paused keeps its whole time for after the pause."""
+        if self.carry_over is not None:
+            seconds, self.carry_over = self.carry_over, None
+        if self.paused:
+            self.paused_left = seconds
         self._set_deadline(seconds)
         self._skip = False
         self.room.mark_dirty()
@@ -179,6 +193,11 @@ class BaseMode:
             return {"paused": True, "left": int((self.paused_left or 0) * 1000)}
         return {"paused": False, "deadline": self.deadline_epoch}
 
+    def time_left(self) -> float:
+        if self.paused:
+            return self.paused_left or 0.0
+        return max(0.0, self.deadline - time.monotonic())
+
     # ------------------------------------------------------------ people
 
     def players(self) -> list[Player]:
@@ -190,6 +209,47 @@ class BaseMode:
     def name(self, player_id: str) -> str:
         player = self.room.players.get(player_id)
         return player.nickname if player else "Seseorang"
+
+    # ------------------------------------------------------------ saving
+
+    def save(self) -> dict[str, Any]:
+        """Everything needed to carry on after a restart, as plain JSON. Questions are kept as their
+        places in the room's quiz, so the saved game shows them in the same order."""
+        place = {id(q): i for i, q in enumerate(self.room.questions)}
+        return {
+            "questions": [place[id(q)] for q in self.questions],
+            "stage": self.stage,
+            "left": round(self.time_left(), 2),
+            "paused": self.paused,
+            "own": {name: getattr(self, name) for name in self.saved},
+        }
+
+    def load(self, state: dict[str, Any]) -> None:
+        """The other half of `save`, used instead of `setup`. The game comes back paused with the
+        time it had left; the room resumes it when the children are back."""
+        self.questions = [self.room.questions[i] for i in state["questions"]]
+        self.stage = state["stage"]
+        self.paused_left = self.carry_over = float(state["left"])
+        self._set_deadline(self.paused_left)
+        for name in self.saved:
+            setattr(self, name, state["own"][name])
+
+    def save_pres(self, pres: Presentation | None) -> dict[str, Any] | None:
+        if pres is None:
+            return None
+        place = next(i for i, q in enumerate(self.room.questions) if q is pres.question)
+        return {"q": place, "public": pres.public, "tokens": pres.token_to_id}
+
+    def load_pres(self, data: dict[str, Any] | None) -> Presentation | None:
+        if data is None:
+            return None
+        tokens = {str(k): str(v) for k, v in data["tokens"].items()}
+        return Presentation(
+            question=self.room.questions[data["q"]],
+            public=data["public"],
+            token_to_id=tokens,
+            id_to_token={v: k for k, v in tokens.items()},
+        )
 
     # ------------------------------------------------------------ results
 
@@ -238,7 +298,6 @@ class SyncMode(BaseMode):
         self.index = -1
         self.pres: Presentation | None = None
         self.answers: dict[str, Answered] = {}
-        self.opened = 0.0
         self.streaks: dict[str, int] = {}
         self.gained: dict[str, int] = {}
         self._bot_plan: dict[str, float] = {}
@@ -248,28 +307,50 @@ class SyncMode(BaseMode):
         return len(self.questions)
 
     async def run(self) -> None:
-        self.stage = "intro"
-        await self.wait(self.intro_seconds)
-        for index, question in enumerate(self.questions):
-            self.index = index
-            limit = self.scaled(question.time_limit)
-            self.pres = present(question, self.rng, limit)
-            self.answers = {}
-            self.gained = {}
-            self._bot_plan = {}
-            self.stage = "question"
-            self.opened = time.monotonic()
-            self.on_question()
-            await self.wait(limit, done=self.all_answered)
-            self.stage = "reveal"
-            self.score_question()
-            self.on_reveal()
-            self.room.mark_dirty()
-            await self.wait(self.reveal_seconds)
-            if self.standings_seconds and index < self.total - 1 and self.show_standings():
-                self.stage = "standings"
+        # Written as steps from the current stage, so a game restored after a restart carries on
+        # from the stage it was saved in (a restored clock starts paused at the time it had left).
+        if self.stage == "intro":
+            await self.wait(self.intro_seconds)
+            self.open_question(0)
+        while True:
+            if self.stage == "question":
+                await self.wait(self.limit, done=self.all_answered)
+                self.close_question()
+            if self.stage == "reveal":
+                await self.wait(self.reveal_seconds)
+                if self.standings_seconds and self.index < self.total - 1 and self.show_standings():
+                    self.stage = "standings"
+            if self.stage == "standings":
                 await self.wait(self.standings_seconds)
+            if self.index >= self.total - 1:
+                break
+            self.open_question(self.index + 1)
         self.room.finish_game()
+
+    @property
+    def limit(self) -> float:
+        return float(self.pres.public["timeLimit"]) if self.pres else 20.0
+
+    def open_question(self, index: int) -> None:
+        self.index = index
+        question = self.questions[index]
+        self.pres = present(question, self.rng, self.scaled(question.time_limit))
+        self.answers = {}
+        self.gained = {}
+        self._bot_plan = {}
+        self.stage = "question"
+        self.on_question()
+
+    def close_question(self) -> None:
+        self.stage = "reveal"
+        self.score_question()
+        self.on_reveal()
+        self.room.mark_dirty()
+
+    def elapsed(self) -> float:
+        """How much of the question's own clock has run: pauses and restarts do not count against a
+        child's speed."""
+        return max(0.0, self.limit - self.time_left())
 
     def show_standings(self) -> bool:
         return True
@@ -285,7 +366,7 @@ class SyncMode(BaseMode):
         if outcome is None:
             player.send({"t": "error", "message": "Jawapan tidak dapat dibaca. Cuba lagi."})
             return
-        self.answers[player.id] = Answered(outcome, time.monotonic() - self.opened, answer)
+        self.answers[player.id] = Answered(outcome, self.elapsed(), answer)
         self.room.mark_dirty()
 
     def points_for(self, player: Player, record: Answered | None, limit: float) -> int:
@@ -299,7 +380,7 @@ class SyncMode(BaseMode):
         return round(300 * record.outcome.fraction)
 
     def score_question(self) -> None:
-        limit = float(self.pres.public["timeLimit"]) if self.pres else 20.0
+        limit = self.limit
         for player in self.players():
             record = self.answers.get(player.id)
             if record and record.outcome.correct:
@@ -315,6 +396,30 @@ class SyncMode(BaseMode):
 
     def on_reveal(self) -> None:
         """Game hook: answers are scored; move boats, sink platforms, open tiles."""
+
+    def save(self) -> dict[str, Any]:
+        return {
+            **super().save(),
+            "index": self.index,
+            "pres": self.save_pres(self.pres),
+            "answers": {
+                pid: [r.outcome.correct, r.outcome.fraction, round(r.elapsed, 3), r.answer]
+                for pid, r in self.answers.items()
+            },
+            "streaks": self.streaks,
+            "gained": self.gained,
+        }
+
+    def load(self, state: dict[str, Any]) -> None:
+        super().load(state)
+        self.index = int(state["index"])
+        self.pres = self.load_pres(state["pres"])
+        self.answers = {
+            pid: Answered(Outcome(bool(correct), float(fraction)), float(elapsed), answer)
+            for pid, (correct, fraction, elapsed, answer) in state["answers"].items()
+        }
+        self.streaks = dict(state["streaks"])
+        self.gained = dict(state["gained"])
 
     def stats(self) -> dict[str, int]:
         """How many chose each option, for the host's reveal."""
@@ -381,8 +486,7 @@ class SyncMode(BaseMode):
             return
         plan = self._bot_plan.get(bot.id)
         if plan is None:
-            limit = float(self.pres.public["timeLimit"])
-            self._bot_plan[bot.id] = now + self.rng.uniform(1.5, max(2.0, limit * 0.55))
+            self._bot_plan[bot.id] = now + self.rng.uniform(1.5, max(2.0, self.limit * 0.55))
             return
         if now >= plan:
             self.act_answer(bot, self.pres.sample_answer(self.rng.random() < bot.skill, self.rng))
@@ -415,14 +519,47 @@ class SelfPacedMode(BaseMode):
         self.seats: dict[str, Seat] = {}
 
     async def run(self) -> None:
-        self.stage = "intro"
-        await self.wait(self.intro_seconds)
-        self.stage = "play"
-        for player in self.players():
-            self.seat(player)
-        self.on_play()
+        if self.stage == "intro":
+            await self.wait(self.intro_seconds)
+            self.stage = "play"
+            for player in self.players():
+                self.seat(player)
+            self.on_play()
         await self.wait(self.settings.minutes * 60, done=self.goal_reached)
         self.room.finish_game()
+
+    def save(self) -> dict[str, Any]:
+        return {**super().save(), "seats": {pid: self.save_seat(seat) for pid, seat in self.seats.items()}}
+
+    def load(self, state: dict[str, Any]) -> None:
+        super().load(state)
+        self.seats = {pid: self.load_seat(data) for pid, data in state["seats"].items()}
+
+    def save_seat(self, seat: Seat) -> dict[str, Any]:
+        return {
+            "deck": seat.deck,
+            "pres": self.save_pres(seat.pres),
+            "step": seat.step,
+            "result": seat.result,
+            "streak": seat.streak,
+            "answered": seat.answered,
+            "correct": seat.correct,
+            "last": seat.last_index,
+            "extra": seat.extra,
+        }
+
+    def load_seat(self, data: dict[str, Any]) -> Seat:
+        return Seat(
+            deck=list(data["deck"]),
+            pres=self.load_pres(data["pres"]),
+            step=data["step"],
+            result=data["result"],
+            streak=data["streak"],
+            answered=data["answered"],
+            correct=data["correct"],
+            last_index=data["last"],
+            extra=dict(data["extra"]),
+        )
 
     def on_play(self) -> None:
         """Game hook: the clock has started."""

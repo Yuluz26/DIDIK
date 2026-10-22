@@ -38,6 +38,7 @@ class TowerMode(SelfPacedMode):
     world = "menara"
     look = "3d"
     unit = "m"
+    saved = ("block", "height", "blocks", "contrib", "passed")
 
     def setup(self) -> None:
         children = max(1, len(self.players()))
@@ -45,7 +46,7 @@ class TowerMode(SelfPacedMode):
         expected = max(14.0, children * self.settings.minutes * 1.8)
         self.block = GOAL / expected
         self.height = 0.0
-        self.blocks: list[tuple[str, float, float]] = []  # (who, metres, offset)
+        self.blocks: list[list[Any]] = []  # [who, metres, offset]
         self.contrib: dict[str, float] = {}
         self.passed: list[str] = []
 
@@ -71,7 +72,7 @@ class TowerMode(SelfPacedMode):
             metres = self.block * 1.25
         else:
             metres = self.block * (0.6 + 0.4 * (1 - abs(offset) / MAX_OFFSET))
-        self.blocks.append((player.id, metres, offset))
+        self.blocks.append([player.id, metres, offset])
         self.height += metres
         self.contrib[player.id] = self.contrib.get(player.id, 0.0) + metres
         player.score = round(self.contrib[player.id])

@@ -106,6 +106,8 @@
 
 {#if client.status === 'reconnecting' && view}
 	<p class="offline" role="status">Sambungan terputus. Menyambung semula…</p>
+{:else if view?.resuming}
+	<p class="offline" role="status">Menunggu semua pemain kembali…</p>
 {/if}
 {#if client.error && view}
 	<p class="toast" role="alert">{client.error}</p>
@@ -170,8 +172,11 @@
 		bottom: max(1rem, env(safe-area-inset-bottom, 0px));
 		translate: -50% 0;
 		z-index: 50;
+		width: max-content;
+		max-width: calc(100vw - 2rem);
 		padding: 0.7rem 1.1rem;
-		border-radius: var(--r-pill);
+		border-radius: var(--r-lg);
+		text-align: center;
 		background: var(--ink);
 		color: #fff;
 		font-weight: 800;

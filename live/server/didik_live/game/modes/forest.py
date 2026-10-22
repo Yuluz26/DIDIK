@@ -15,7 +15,7 @@ from collections import deque
 from typing import Any
 
 from ...questions import Outcome
-from .base import Seat, SelfPacedMode
+from .base import Seat, SelfPacedMode, now_ms
 
 # 32 x 20 tiles.  # tree   ~ water   = bridge   R rock (blocked)
 #                 . grass  : path    f flowers  m mushroom   C chest   S start   G gate
@@ -118,14 +118,19 @@ class ForestMode(SelfPacedMode):
     pace = "roam"
     world = "hutan"
     min_questions = 5
+    saved = ("pos", "facing", "escaped")
+
+    def __init__(self, room: Any) -> None:
+        super().__init__(room)
+        # Live joystick input; after a restart everyone stands still until they push again.
+        self.inputs: dict[str, tuple[float, float]] = {}
+        self._last_pos = ""
+        self.ticker: asyncio.Task | None = None
 
     def setup(self) -> None:
         self.pos: dict[str, list[float]] = {}
-        self.inputs: dict[str, tuple[float, float]] = {}
         self.facing: dict[str, int] = {}
         self.escaped: list[str] = []
-        self._last_pos = ""
-        self.ticker: asyncio.Task | None = None
         for index, player in enumerate(self.players()):
             self.place(player, index)
 
@@ -239,7 +244,7 @@ class ForestMode(SelfPacedMode):
         chest = CHESTS[chest_id]
         if chest_id in seat.extra["opened"] or not self.near(player, chest["x"], chest["y"]):
             return
-        if time.monotonic() < seat.extra["locked"].get(str(chest_id), 0):
+        if now_ms() < seat.extra["locked"].get(str(chest_id), 0):
             return
         seat.extra["chest"] = chest_id
         self.inputs[player.id] = (0.0, 0.0)
@@ -254,7 +259,7 @@ class ForestMode(SelfPacedMode):
             seat.extra["opened"].append(chest_id)
             player.score += 100
             return {"key": True, "keys": seat.extra["keys"]}
-        seat.extra["locked"][str(chest_id)] = time.monotonic() + LOCK_SECONDS
+        seat.extra["locked"][str(chest_id)] = now_ms() + int(LOCK_SECONDS * 1000)
         return {"key": False, "lockedFor": LOCK_SECONDS}
 
     def act_next(self, player: Any) -> None:
@@ -299,7 +304,7 @@ class ForestMode(SelfPacedMode):
             view["chests"] = [{**chest, "opened": opened[chest["id"]]} for chest in CHESTS]
             return view
         seat = self.seats.get(player.id)
-        now = time.monotonic()
+        now = now_ms()
         opened_ids = seat.extra["opened"] if seat else []
         locked = seat.extra["locked"] if seat else {}
         view["chests"] = [
@@ -347,7 +352,7 @@ class ForestMode(SelfPacedMode):
         else:
             choices = [
                 c for c in CHESTS
-                if c["id"] not in seat.extra["opened"] and now >= seat.extra["locked"].get(str(c["id"]), 0)
+                if c["id"] not in seat.extra["opened"] and now_ms() >= seat.extra["locked"].get(str(c["id"]), 0)
             ]
             if not choices:
                 self.inputs[bot.id] = (0.0, 0.0)

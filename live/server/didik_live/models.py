@@ -1,6 +1,9 @@
-"""Stored data: parents, their sign-in sessions, their quizzes and their uploaded pictures.
+"""Stored data: parents, their sign-in sessions, their quizzes and their uploaded pictures, and the
+rooms that are open right now.
 
-Children have no rows here at all. A child in a room exists only in memory for the life of that room.
+Children have no accounts. A child in a room exists only for the life of that room: a running room is
+saved (nicknames and scores included) so that restarting the server does not end it, and its row is
+deleted as soon as the room closes.
 """
 
 from __future__ import annotations
@@ -8,7 +11,7 @@ from __future__ import annotations
 from datetime import UTC, datetime
 from typing import Any
 
-from sqlalchemy import JSON, DateTime, ForeignKey, Integer, String
+from sqlalchemy import JSON, DateTime, ForeignKey, Integer, LargeBinary, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .db import Base
@@ -69,3 +72,15 @@ class Upload(Base):
     width: Mapped[int] = mapped_column(Integer)
     height: Mapped[int] = mapped_column(Integer)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+
+class LiveRoom(Base):
+    """One open room, saved every few seconds while it changes and when the server stops."""
+
+    __tablename__ = "live_rooms"
+
+    code: Mapped[str] = mapped_column(String(12), primary_key=True)
+    host_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), index=True)
+    saved_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow, onupdate=utcnow)
+    # The room's JSON (Room.save), zlib-compressed: rooms are saved often and compress about tenfold.
+    state: Mapped[bytes] = mapped_column(LargeBinary)

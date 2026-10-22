@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import asyncio
 import contextlib
+import hmac
 import json
 import secrets
 import time
@@ -11,6 +12,8 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from fastapi import WebSocket
+
+from ..security import token_hash
 
 
 def dumps(data: Any) -> str:
@@ -84,7 +87,10 @@ class Player:
     avatar: str
     colour: str
     skin: str = "s2"
+    # The secret a child's device keeps to come back to the same place. Only its hash is kept for
+    # longer than the join (and saved with the room), the same way parents' sessions are stored.
     token: str = field(default_factory=lambda: secrets.token_urlsafe(24))
+    key: str = ""
     is_bot: bool = False
     approved: bool = True
     joined_at: float = field(default_factory=time.time)
@@ -98,10 +104,60 @@ class Player:
     spot: tuple[float, float] = (8.0, 6.5)
     facing: int = 1
     last_walk: float = 0.0
+    # When the child was last connected (epoch seconds): after a restart, a game waits for the
+    # children who were there a moment ago.
+    seen: float = field(default_factory=time.time)
+
+    def __post_init__(self) -> None:
+        if not self.key:
+            self.key = token_hash(self.token)
 
     @property
     def connected(self) -> bool:
         return self.is_bot or any(not c.closed for c in self.conns)
+
+    def owns(self, token: str) -> bool:
+        return not self.is_bot and hmac.compare_digest(self.key, token_hash(token))
+
+    def save(self) -> dict[str, Any]:
+        return {
+            "id": self.id,
+            "name": self.nickname,
+            "avatar": self.avatar,
+            "colour": self.colour,
+            "skin": self.skin,
+            "key": self.key,
+            "bot": self.is_bot,
+            "approved": self.approved,
+            "joined": self.joined_at,
+            "score": self.score,
+            "team": self.team,
+            "skill": self.skill,
+            "spot": list(self.spot),
+            "facing": self.facing,
+            "seen": time.time() if self.connected else self.seen,
+        }
+
+    @classmethod
+    def restore(cls, data: dict[str, Any]) -> Player:
+        return cls(
+            id=data["id"],
+            nickname=data["name"],
+            avatar=data["avatar"],
+            colour=data["colour"],
+            skin=data["skin"],
+            token="",
+            key=data["key"],
+            is_bot=data["bot"],
+            approved=data["approved"],
+            joined_at=data["joined"],
+            score=data["score"],
+            team=data["team"],
+            skill=data["skill"],
+            spot=(data["spot"][0], data["spot"][1]),
+            facing=data["facing"],
+            seen=data["seen"],
+        )
 
     def public(self) -> dict[str, Any]:
         return {

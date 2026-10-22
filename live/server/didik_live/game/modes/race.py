@@ -21,12 +21,13 @@ class RaceMode(SyncMode):
     style = "Serentak"
     world = "sungai"
     unit = "m"
+    saved = ("rapids_at", "rapids_now", "length")
 
     def setup(self) -> None:
         count = len(self.questions)
         candidates = list(range(1, count - 1))
         self.rng.shuffle(candidates)
-        self.rapids_at = set(candidates[: 1 if count < 8 else 2])
+        self.rapids_at = sorted(candidates[: 1 if count < 8 else 2])
         self.rapids_now = False
         self.length = count * STEP + len(self.rapids_at) * 25
 

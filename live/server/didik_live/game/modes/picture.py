@@ -46,9 +46,14 @@ class PictureMode(SyncMode):
     world = "galeri"
     min_questions = 4
     standings_seconds = 0.0
+    saved = ("deck", "picture_index", "solved", "token", "order", "shown", "guessed", "done")
+
+    def __init__(self, room: Any) -> None:
+        super().__init__(room)
+        self.cooldown: dict[str, float] = {}
 
     def setup(self) -> None:
-        self.deck = list(PICTURES)
+        self.deck = [list(picture) for picture in PICTURES]
         self.rng.shuffle(self.deck)
         self.picture_index = -1
         self.solved: list[str] = []
@@ -65,7 +70,8 @@ class PictureMode(SyncMode):
         self.done = False
 
     @property
-    def current(self) -> tuple[str, str, list[str]]:
+    def current(self) -> list[Any]:
+        """[key, name, accepted guesses]"""
         return self.deck[self.picture_index]
 
     def picture_bytes(self, token: str) -> bytes | None:

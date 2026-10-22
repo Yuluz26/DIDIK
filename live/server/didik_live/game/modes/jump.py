@@ -25,6 +25,7 @@ class JumpMode(SyncMode):
     needs = "Betul/Salah atau pilihan 2 hingga 4"
     min_questions = 3
     standings_seconds = 0.0
+    saved = ("hearts", "fish_run", "picks", "fell", "revived")
 
     @classmethod
     def accepts(cls, question: Any) -> bool:
@@ -69,7 +70,7 @@ class JumpMode(SyncMode):
         if outcome is None:
             return
         self.picks[player.id] = pad
-        self.answers[player.id] = Answered(outcome, time.monotonic() - self.opened, answer)
+        self.answers[player.id] = Answered(outcome, self.elapsed(), answer)
         online = self.online()
         if online and all(p.id in self.picks for p in online) and self.deadline - time.monotonic() > 3:
             self._set_deadline(3)  # everyone has landed: three more seconds to change their mind

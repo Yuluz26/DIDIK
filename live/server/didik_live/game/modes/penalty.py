@@ -28,6 +28,7 @@ class PenaltyMode(TeamPlay, SyncMode):
     world = "stadium"
     look = "3d"
     reveal_seconds = 7.0
+    saved = ("goals", "rights", "rounds")
 
     def setup(self) -> None:
         self.split_into_teams()

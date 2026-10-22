@@ -18,6 +18,7 @@ from .db import Database
 from .deps import malay_errors
 from .game.manager import RoomManager
 from .game.socket import room_socket
+from .game.store import RoomStore
 from .security import RateLimiter
 from .seed import seed
 from .web import mount_web
@@ -88,7 +89,9 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         if settings.seed_demo:
             with database.sessions() as db:
                 seed(db)
-        app.state.rooms.start_janitor()
+        # Rooms that were open when the server last stopped come back before the first connection.
+        await app.state.rooms.restore()
+        app.state.rooms.start()
         yield
         await app.state.rooms.shutdown()
 
@@ -96,7 +99,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.state.settings = settings
     app.state.db = database
     app.state.limiter = RateLimiter()
-    app.state.rooms = RoomManager(allow_bots=settings.allow_bots)
+    app.state.rooms = RoomManager(allow_bots=settings.allow_bots, store=RoomStore(database))
     app.add_middleware(Guard)
 
     @app.exception_handler(RequestValidationError)

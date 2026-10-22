@@ -36,6 +36,7 @@ class VillageMode(SelfPacedMode):
     style = "Kerjasama"
     world = "kampung"
     unit = "bahan"
+    saved = ("costs", "built", "progress", "decor", "contrib", "_decor_id")
 
     def setup(self) -> None:
         children = max(1, len(self.players()))
