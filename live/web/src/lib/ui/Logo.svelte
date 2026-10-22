@@ -45,6 +45,6 @@
 		font-weight: 500;
 	}
 	.light .word span {
-		color: var(--sun);
+		color: inherit;
 	}
 </style>

@@ -1,12 +1,21 @@
 <!--
 	Didi the mouse-deer, the same drawing as on the DIDIK site. Moods change eyes, mouth and arms only.
+	`look` (each part from -1 to 1) turns the eyes toward something, such as the pointer.
 -->
 <script lang="ts">
 	let {
 		mood = 'happy',
 		size = 140,
-		label = ''
-	}: { mood?: 'happy' | 'cheer' | 'think' | 'hint' | 'wave'; size?: number; label?: string } = $props();
+		label = '',
+		look = null
+	}: {
+		mood?: 'happy' | 'cheer' | 'think' | 'hint' | 'wave';
+		size?: number;
+		label?: string;
+		look?: { x: number; y: number } | null;
+	} = $props();
+
+	const gaze = $derived(look ? `translate(${(look.x * 5).toFixed(2)}px, ${(look.y * 4).toFixed(2)}px)` : undefined);
 </script>
 
 <svg
@@ -69,12 +78,14 @@
 			<path class="line" d="M62 82 L86 73M138 82 L114 73" />
 			<path class="line" d="M92 145 Q100 150 108 145" />
 		{:else}
-			<ellipse class="ink eye" cx="74" cy="96" rx="9.5" ry="11.5" />
-			<ellipse class="ink eye" cx="126" cy="96" rx="9.5" ry="11.5" />
-			<circle class="white" cx="77.5" cy="91" r="3.6" />
-			<circle class="white" cx="129.5" cy="91" r="3.6" />
-			<circle class="white" cx="71" cy="101" r="1.8" />
-			<circle class="white" cx="123" cy="101" r="1.8" />
+			<g class="gaze" style:transform={gaze}>
+				<ellipse class="ink eye" cx="74" cy="96" rx="9.5" ry="11.5" />
+				<ellipse class="ink eye" cx="126" cy="96" rx="9.5" ry="11.5" />
+				<circle class="white" cx="77.5" cy="91" r="3.6" />
+				<circle class="white" cx="129.5" cy="91" r="3.6" />
+				<circle class="white" cx="71" cy="101" r="1.8" />
+				<circle class="white" cx="123" cy="101" r="1.8" />
+			</g>
 			<path class="line" d="M91 143 Q100 152 109 143" />
 		{/if}
 	</g>
@@ -128,6 +139,9 @@
 	.didi--cheer .head {
 		transform-origin: 100px 130px;
 		animation: wiggle 0.9s ease-in-out 2;
+	}
+	.gaze {
+		transition: transform 160ms var(--ease-out);
 	}
 	.eye {
 		transform-box: fill-box;

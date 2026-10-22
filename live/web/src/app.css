@@ -24,16 +24,24 @@
 	--brand-soft: #d7eee1;
 	--sun: #ffb627;
 	--sun-deep: #c98400;
-	--coral: #e8553f;
+	--coral: #d0452f;
 	--coral-deep: #a8331f;
-	--sea: #14958a;
+	--sea: #12847a;
 	--sea-deep: #0b665e;
-	--sky: #2f7fcf;
+	--sky: #2d78c4;
 	--sky-deep: #1d5a99;
 	--leaf: #6cb33f;
 	--leaf-deep: #4a8424;
-	--berry: #d63e94;
+	--berry: #d3328d;
 	--berry-deep: #9c2468;
+
+	/* The front page's sea, and text set on it */
+	--sea-map: #1f78ab;
+	--sea-shallow: #3d97cc;
+	--on-sea: #ffffff;
+	--sand: #f3d28a;
+	--sand-soft: #f8e7bf;
+	--field: #1c6b4a;
 
 	/* Feedback: never a punishing red */
 	--good: #1f9d55;
@@ -466,6 +474,20 @@ textarea {
 		opacity: 0;
 		transform: translateY(-100%);
 	}
+}
+
+/* Lifted into place the first time it scrolls into view (see lib/home/reveal.ts). */
+.reveal {
+	opacity: 0;
+	transform: translateY(24px);
+	transition:
+		opacity 640ms var(--ease-out) var(--delay, 0ms),
+		transform 640ms var(--ease-out) var(--delay, 0ms);
+}
+
+.reveal.in {
+	opacity: 1;
+	transform: none;
 }
 
 @keyframes bob {
