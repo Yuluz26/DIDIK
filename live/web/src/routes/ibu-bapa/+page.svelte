@@ -98,7 +98,7 @@
 {:else if !session.user}
 	<main class="wrap welcome">
 		<section class="pitch">
-			<p class="eyebrow">Untuk ibu bapa dan guru</p>
+			<p class="kind">Untuk ibu bapa dan guru</p>
 			<h1>Tulis kuiz anda sendiri. Anak-anak main bersama.</h1>
 			<p class="lead">Lapan jenis soalan, lapan permainan, satu pautan untuk masuk. Tiada akaun untuk kanak-kanak, tiada iklan, percuma.</p>
 			<ul class="points">
@@ -214,13 +214,6 @@
 		gap: 3rem;
 		align-items: center;
 		padding-block: 3rem 4rem;
-	}
-	.eyebrow {
-		color: var(--brand);
-		font-weight: 800;
-		text-transform: uppercase;
-		letter-spacing: 0.08em;
-		font-size: 0.85rem;
 	}
 	.pitch h1 {
 		margin: 0.6rem 0 1rem;

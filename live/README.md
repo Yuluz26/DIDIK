@@ -87,7 +87,8 @@ akan menggunakan alamat ini, jadi telefon boleh terus mengimbas kod QR walaupun 
 1. Log masuk akaun demo, pilih satu kuiz, tekan **Main bersama**, kemudian pilih permainan.
 2. Pada skrin hos, tekan **Tambah bot** beberapa kali. Bot latihan menjawab dan bermain seperti kanak-kanak.
 3. Buka pautan bilik dalam tetingkap peribadi (incognito) atau di telefon untuk bermain sebagai seorang
-   kanak-kanak.
+   kanak-kanak. Sementara menunggu, semua berada di dataran: ketik dataran (atau tekan anak panah) untuk
+   berjalan, dan skrin hos menunjukkan semua orang bergerak. Bot pun berjalan sendiri.
 4. Tekan **Mula**.
 
 ## Menulis kuiz sendiri

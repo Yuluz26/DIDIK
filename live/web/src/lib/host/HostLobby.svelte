@@ -95,7 +95,7 @@
 			<div class="game-head">
 				<WorldBadge world={mode.world} size={64} />
 				<div>
-					<p class="style">{mode.style}</p>
+					<p class="kind">{mode.style}</p>
 					<h2>{mode.title}</h2>
 				</div>
 			</div>
@@ -303,13 +303,6 @@
 		display: flex;
 		align-items: center;
 		gap: 0.8rem;
-	}
-	.style {
-		color: var(--brand);
-		font-weight: 800;
-		font-size: 0.8rem;
-		text-transform: uppercase;
-		letter-spacing: 0.06em;
 	}
 	.how {
 		color: var(--ink-2);

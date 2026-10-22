@@ -73,7 +73,7 @@
 				<button type="button" class="game" class:off={!!mode.reason} disabled={!!mode.reason || !!opening} onclick={() => open(mode)}>
 					<WorldBadge world={mode.world} size={92} />
 					<span class="text">
-						<span class="style">{mode.style}</span>
+						<span class="kind">{mode.style}</span>
 						<span class="title">{mode.title}</span>
 						<span class="tagline">{mode.tagline}</span>
 						{#if mode.reason}
@@ -158,13 +158,6 @@
 		gap: 0.15rem;
 		flex: 1;
 		min-width: 0;
-	}
-	.style {
-		color: var(--brand);
-		font-weight: 800;
-		font-size: 0.78rem;
-		text-transform: uppercase;
-		letter-spacing: 0.06em;
 	}
 	.title {
 		font: 600 1.4rem/1.15 var(--font-display);

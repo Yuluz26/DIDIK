@@ -35,7 +35,7 @@
 	<section class="mode">
 		<WorldBadge world={view.room.mode.world} size={76} />
 		<div>
-			<p class="style">{view.room.mode.style}</p>
+			<p class="kind">{view.room.mode.style}</p>
 			<h2>{view.room.mode.title}</h2>
 			<p class="how">{view.room.mode.how}</p>
 		</div>
@@ -115,13 +115,6 @@
 	}
 	.mode h2 {
 		font-size: 1.5rem;
-	}
-	.style {
-		color: var(--brand);
-		font-weight: 800;
-		font-size: 0.85rem;
-		text-transform: uppercase;
-		letter-spacing: 0.06em;
 	}
 	.how {
 		margin-top: 0.25rem;
