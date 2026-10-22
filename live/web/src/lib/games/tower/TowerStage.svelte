@@ -44,21 +44,7 @@
 
 	let world = $state<SkylineWorld | null>(null);
 
-	$effect(() => {
-		const angle = view;
-		let made: SkylineWorld | null = null;
-		let cancelled = false;
-		void import('./skyline').then(({ SkylineWorld }) => {
-			if (cancelled) return;
-			made = new SkylineWorld(angle);
-			world = made;
-		});
-		return () => {
-			cancelled = true;
-			made?.dispose();
-			world = null;
-		};
-	});
+	const create = () => import('./skyline').then(({ SkylineWorld }) => new SkylineWorld(view));
 
 	// The big screen gets every block from the ground up; a phone gets the top few with their bases.
 	const blocks = $derived.by((): Block[] => {
@@ -89,9 +75,11 @@
 	});
 
 	function drop() {
-		if (!world || !client) return;
+		if (!client) return;
 		play('build');
-		client.send({ t: 'drop', x: Number(world.drop().toFixed(3)) });
+		// Without the 3D view there is nothing to aim, so the block lands a little off-centre.
+		const x = world ? world.drop() : (Math.random() - 0.5) * 0.3;
+		client.send({ t: 'drop', x: Number(x.toFixed(3)) });
 	}
 
 	const next = $derived(seen.landmarks.find((l) => !l.passed));
@@ -104,7 +92,7 @@
 
 <div class="tower tower--{view}">
 	<div class="stage">
-		<Stage3D {world} {label}>
+		<Stage3D {create} bind:world {label}>
 			{#snippet fallback()}
 				<p class="plain">{Math.round(seen.height)} m daripada {seen.goal} m</p>
 			{/snippet}

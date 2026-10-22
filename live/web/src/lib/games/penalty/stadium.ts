@@ -64,7 +64,6 @@ export class StadiumWorld implements World3D {
 	private readonly ballShadow: Mesh;
 	private readonly net: Group;
 	private readonly still = reducedMotion();
-	private kits: Record<string, Kit> = {};
 	private queue: Kick[] = [];
 	private round = 0;
 	private clock = 0;
@@ -78,7 +77,10 @@ export class StadiumWorld implements World3D {
 	private readonly bend = new Vector3();
 	private readonly after = new Vector3();
 
-	constructor(private readonly view: 'host' | 'phone') {
+	constructor(
+		private readonly view: 'host' | 'phone',
+		private kits: Record<string, Kit>
+	) {
 		this.scene.background = skyTexture([
 			[0, '#0b1d2c'],
 			[0.6, '#173a4f'],
@@ -109,12 +111,6 @@ export class StadiumWorld implements World3D {
 	}
 
 	// ------------------------------------------------------------------ state from the server
-
-	setKits(kits: Record<string, Kit>): void {
-		this.kits = kits;
-		this.dress();
-		this.wake?.();
-	}
 
 	/** Between rounds: who takes the next kick. Cuts a round short if the host moved on. */
 	idle(nextTeam: string): void {
@@ -402,7 +398,7 @@ export class StadiumWorld implements World3D {
 	private boards(): Object3D {
 		// Ten panels of 6.4 x 0.9 m. The texture is drawn ten times taller than the board's shape
 		// (sharp letters), so the words are squeezed sideways by the same factor.
-		const words = ['DIDIK', 'MAIN BERSAMA', 'TINGKATAN 1–5', 'SEPAKAN PENALTI'];
+		const words = ['DIDIK', 'MAIN BERSAMA', 'TINGKATAN 1–5', 'PENALTI'];
 		const fills = ['#d0452f', '#12847a', '#1f2d27', '#2d78c4', '#ffb627'];
 		const texture = drawnTexture(2560, 360, (ctx) => {
 			for (let i = 0; i < 10; i++) {
@@ -411,7 +407,7 @@ export class StadiumWorld implements World3D {
 			}
 			ctx.textAlign = 'center';
 			ctx.textBaseline = 'middle';
-			ctx.font = '700 150px sans-serif';
+			ctx.font = '700 112px sans-serif';
 			for (let i = 0; i < 10; i++) {
 				ctx.save();
 				ctx.translate(i * 256 + 128, 185);

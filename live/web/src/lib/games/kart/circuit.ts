@@ -510,39 +510,45 @@ export class CircuitWorld implements World3D {
 
 	// ------------------------------------------------------------------ the kart
 
-	/** Everything that stays the same colour: chassis, wheels, bumpers, seat, visor. */
+	/** Everything that stays the same colour: chassis, wheels, bumpers, seat, driver, engine. */
 	private kartFrame(): BufferGeometry {
 		const parts: Part[] = [];
 		const add = (g: BufferGeometry, x: number, y: number, z: number, color: number) => {
 			g.translate(x, y, z);
 			parts.push({ geometry: g, color });
 		};
-		add(new BoxGeometry(2.3, 0.28, 3.6), 0, 0.42, 0, 0x2b3035);
-		for (const [x, z] of [[-1.25, 1.15], [1.25, 1.15], [-1.3, -1.2], [1.3, -1.2]]) {
-			add(new CylinderGeometry(0.5, 0.5, x * x > 1.6 ? 0.55 : 0.45, 10).rotateZ(Math.PI / 2), x, 0.5, z, 0x1b1e21);
-			add(new CylinderGeometry(0.22, 0.22, 0.58, 8).rotateZ(Math.PI / 2), x, 0.5, z, 0x9aa3ab);
+		add(new BoxGeometry(1.9, 0.18, 3.4), 0, 0.38, 0, 0x24282c);
+		for (const [x, z, r, w] of [[-1.15, 1.2, 0.42, 0.38], [1.15, 1.2, 0.42, 0.38], [-1.2, -1.15, 0.48, 0.5], [1.2, -1.15, 0.48, 0.5]]) {
+			add(new CylinderGeometry(r, r, w, 12).rotateZ(Math.PI / 2), x, r, z, 0x17191b);
+			add(new CylinderGeometry(r * 0.45, r * 0.45, w + 0.04, 8).rotateZ(Math.PI / 2), x, r, z, 0xa0a8ae);
 		}
-		add(new BoxGeometry(2.6, 0.3, 0.35), 0, 0.42, 2.05, 0x3a4148);
-		add(new BoxGeometry(2.4, 0.5, 0.35), 0, 0.62, -2.0, 0x3a4148);
-		add(new BoxGeometry(0.95, 0.8, 0.9), 0, 0.85, -0.45, 0x23272b);
-		add(new BoxGeometry(0.7, 0.18, 0.12), 0, 1.92, 0.42, 0x1f2d27);
-		add(new BoxGeometry(1.1, 0.12, 0.5), 0, 0.62, 1.55, 0xf4f1ea);
+		add(new BoxGeometry(2.2, 0.16, 0.25), 0, 0.42, 2.05, 0x3a4148);
+		add(new BoxGeometry(2.4, 0.3, 0.3), 0, 0.55, -1.95, 0x3a4148);
+		add(new BoxGeometry(0.8, 0.7, 0.18), 0, 0.95, -0.8, 0x1b1e21);
+		add(new BoxGeometry(0.7, 0.62, 0.5), 0, 1.08, -0.42, 0x30363b);
+		add(new BoxGeometry(0.86, 0.14, 0.46), 0, 1.16, 0.02, 0x30363b);
+		add(new CylinderGeometry(0.2, 0.2, 0.06, 10).rotateX(Math.PI / 2.6), 0, 1.2, 0.32, 0x111315);
+		add(new BoxGeometry(0.52, 0.16, 0.1), 0, 1.66, 0.3, 0x1f2d27);
+		add(new BoxGeometry(0.7, 0.45, 0.5), 0, 0.75, -1.35, 0x5a6168);
+		add(new CylinderGeometry(0.08, 0.08, 0.6, 6).rotateX(Math.PI / 2), 0.38, 0.78, -1.75, 0x9aa3ab);
+		for (const x of [-0.8, 0.8]) add(new BoxGeometry(0.08, 0.5, 0.08), x, 1.0, -2.0, 0x3a4148);
+		add(new BoxGeometry(0.56, 0.3, 0.04), 0, 0.66, 2.01, 0xf4f1ea);
 		return merge(parts);
 	}
 
-	/** The player's colour: body panels, driver and helmet (white, tinted per kart). */
+	/** The player's colour: nose, side pods, rear wing and helmet (white, tinted per kart). */
 	private kartPaint(): BufferGeometry {
 		const parts: Part[] = [];
 		const add = (g: BufferGeometry, x: number, y: number, z: number) => {
 			g.translate(x, y, z);
 			parts.push({ geometry: g, color: 0xffffff });
 		};
-		add(new BoxGeometry(1.5, 0.42, 1.4), 0, 0.72, 1.25);
-		add(new BoxGeometry(0.42, 0.36, 2.2), -1.0, 0.65, -0.1);
-		add(new BoxGeometry(0.42, 0.36, 2.2), 1.0, 0.65, -0.1);
-		add(new BoxGeometry(0.85, 0.75, 0.6), 0, 1.25, -0.25);
-		add(new SphereGeometry(0.42, 10, 8), 0, 1.92, 0.12);
-		add(new BoxGeometry(2.0, 0.12, 0.5), 0, 1.3, -2.05);
+		add(new BoxGeometry(1.4, 0.3, 1.05), 0, 0.6, 1.45);
+		add(new BoxGeometry(0.9, 0.26, 0.85), 0, 0.82, 0.95);
+		add(new BoxGeometry(0.45, 0.38, 1.6), -0.95, 0.6, -0.25);
+		add(new BoxGeometry(0.45, 0.38, 1.6), 0.95, 0.6, -0.25);
+		add(new BoxGeometry(2.1, 0.08, 0.5), 0, 1.28, -2.0);
+		add(new SphereGeometry(0.36, 12, 10), 0, 1.62, 0.02);
 		return merge(parts);
 	}
 

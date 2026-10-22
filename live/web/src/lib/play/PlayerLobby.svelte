@@ -82,7 +82,7 @@
 	.count {
 		font-size: 0.95rem;
 		font-weight: 800;
-		color: var(--brand);
+		color: var(--brand-ink);
 	}
 	.dots i {
 		font-style: normal;

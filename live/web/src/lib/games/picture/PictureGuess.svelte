@@ -121,7 +121,7 @@
 		font-weight: 700;
 	}
 	input:focus-visible {
-		border-color: var(--brand);
+		border-color: var(--brand-ink);
 		outline: none;
 	}
 	.help {

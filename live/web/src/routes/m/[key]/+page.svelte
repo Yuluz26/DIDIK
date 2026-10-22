@@ -145,7 +145,7 @@
 		font-size: 1.5rem;
 	}
 	.mode {
-		color: var(--brand);
+		color: var(--brand-ink);
 		font-weight: 800;
 	}
 	.ended {

@@ -3,30 +3,53 @@
 	while something moves (the world says so from `tick`), when the size changes, or when the world
 	asks to be woken, and never while the stage is off screen or the tab is hidden.
 
+	The stage owns its world: `create` builds it (usually after a dynamic import, so three.js loads
+	only here), the stage disposes it when it goes, and `bind:world` hands it to the game to update.
+
 	`children` is an overlay above the canvas (name tags, chest buttons); `fallback` replaces the
-	canvas on a device without WebGL, so the game stays playable as a quiz.
+	canvas on a device without WebGL, or when the world could not be loaded, so the game stays
+	playable as a quiz.
 -->
-<script lang="ts">
-	import type { Snippet } from 'svelte';
+<script lang="ts" generics="W extends World3D">
+	import { untrack, type Snippet } from 'svelte';
 	import type { World3D } from './stage';
 
 	let {
-		world,
+		create,
+		world = $bindable(null),
 		label,
 		fallback,
 		children
-	}: { world: World3D | null; label: string; fallback?: Snippet; children?: Snippet } = $props();
+	}: { create: () => Promise<W>; world?: W | null; label: string; fallback?: Snippet; children?: Snippet } = $props();
 
 	let host = $state<HTMLDivElement>();
 	let canvas = $state<HTMLCanvasElement | null>(null);
+	let built = $state<W | null>(null);
 	let failed = $state(false);
 
 	// The picture is described on the canvas itself, so buttons in the overlay stay buttons.
 	$effect(() => canvas?.setAttribute('aria-label', label));
 
+	// Build the world once per mount; a world that arrives after the stage has gone is thrown away.
+	$effect(() => {
+		let made: W | null = null;
+		let cancelled = false;
+		untrack(() => create())
+			.then((next) => {
+				if (cancelled) return next.dispose();
+				made = built = world = next;
+			})
+			.catch(() => (failed = true));
+		return () => {
+			cancelled = true;
+			made?.dispose();
+			built = world = null;
+		};
+	});
+
 	$effect(() => {
 		const el = host;
-		const current = world;
+		const current = built;
 		if (!el || !current) return;
 		let stop = () => {};
 		let cancelled = false;
@@ -41,7 +64,7 @@
 		};
 	});
 
-	function run(el: HTMLDivElement, current: World3D, gl: import('three').WebGLRenderer): () => void {
+	function run(el: HTMLDivElement, current: W, gl: import('three').WebGLRenderer): () => void {
 		const surface = gl.domElement;
 		surface.classList.add('gl');
 		surface.setAttribute('role', 'img');

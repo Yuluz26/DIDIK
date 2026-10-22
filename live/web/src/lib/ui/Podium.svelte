@@ -201,7 +201,7 @@
 	.step--1 .block {
 		min-height: 9.5rem;
 		background: var(--sun);
-		color: var(--ink);
+		color: var(--on-bright);
 	}
 	.step--2 .block {
 		min-height: 7.5rem;

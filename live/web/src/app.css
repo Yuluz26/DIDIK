@@ -25,6 +25,8 @@
 	--brand-deep: #0f4a32;
 	--brand-soft: #d7eee1;
 	--on-brand-soft: var(--brand-deep);
+	/* The brand green as text on the page (a fill under white text is --brand). */
+	--brand-ink: var(--brand);
 	--sun: #ffb627;
 	--sun-deep: #c98400;
 	--coral: #d0452f;
@@ -114,7 +116,9 @@
 	--ink-2: #bccac7;
 	--ink-3: #8ea3a0;
 	--line: #284149;
-	--brand: #3fae7c;
+	--brand: #23805a;
+	--brand-deep: #155c40;
+	--brand-ink: #5cc795;
 	--brand-soft: #1b3a33;
 	--on-brand-soft: #a6e6c6;
 	--good: #4fd08a;
@@ -174,7 +178,7 @@ svg {
 }
 
 a {
-	color: var(--brand);
+	color: var(--brand-ink);
 	text-underline-offset: 3px;
 }
 
@@ -362,8 +366,8 @@ textarea {
 }
 
 .add-row:hover {
-	border-color: var(--brand);
-	color: var(--brand);
+	border-color: var(--brand-ink);
+	color: var(--brand-ink);
 }
 
 /* A happy bounce when a button becomes available (e.g. Mula once a child joins). */
@@ -448,7 +452,7 @@ textarea {
 	width: 1.2rem;
 	height: 1.2rem;
 	margin: 0.2rem 0 0;
-	accent-color: var(--brand);
+	accent-color: var(--brand-ink);
 }
 
 /* ---------------------------------------------------------------- surfaces */
@@ -461,7 +465,7 @@ textarea {
 
 /* A short line set above a title: the kind of game (Serentak, Ikut kadar sendiri) or who a page is for. */
 .kind {
-	color: var(--brand);
+	color: var(--brand-ink);
 	font-size: 0.95rem;
 	font-weight: 800;
 }

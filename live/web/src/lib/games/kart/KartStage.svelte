@@ -18,22 +18,7 @@
 
 	let world = $state<CircuitWorld | null>(null);
 
-	$effect(() => {
-		const angle = view;
-		const mine = me;
-		let made: CircuitWorld | null = null;
-		let cancelled = false;
-		void import('./circuit').then(({ CircuitWorld }) => {
-			if (cancelled) return;
-			made = new CircuitWorld(angle, mine);
-			world = made;
-		});
-		return () => {
-			cancelled = true;
-			made?.dispose();
-			world = null;
-		};
-	});
+	const create = () => import('./circuit').then(({ CircuitWorld }) => new CircuitWorld(view, me));
 
 	$effect(() => {
 		const colours = new Map([...people.values()].map((p) => [p.id, COLOURS[p.colour]]));
@@ -59,7 +44,7 @@
 </script>
 
 <div class="kart kart--{view}">
-	<Stage3D {world} {label}>
+	<Stage3D {create} bind:world {label}>
 		{#snippet fallback()}
 			<ol class="plain">
 				{#each order.slice(0, 5) as kart, i (kart.id)}
@@ -208,6 +193,6 @@
 		font-weight: 700;
 	}
 	.plain .mine {
-		color: var(--brand);
+		color: var(--brand-ink);
 	}
 </style>

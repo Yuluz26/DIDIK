@@ -41,3 +41,16 @@ def test_a_new_build_is_served_with_a_policy_that_matches_it_on_the_first_reques
         assert "start(2)" in rebuilt.text
         policy = rebuilt.headers["content-security-policy"]
         assert allowed("start(2)") in policy and allowed("start(1)") not in policy
+
+
+def test_a_missing_build_file_is_a_404_not_the_page(settings: Settings, tmp_path: Path) -> None:
+    web = tmp_path / "web"
+    (web / "_app" / "immutable" / "chunks").mkdir(parents=True)
+    (web / "200.html").write_text(page("start(1)"), encoding="utf-8")
+    (web / "_app" / "immutable" / "chunks" / "new.js").write_text("export {};", encoding="utf-8")
+    with TestClient(create_app(replace(settings, web_dir=web))) as client:
+        assert client.get("/_app/immutable/chunks/new.js").status_code == 200
+        # A chunk from an older build, asked for by a page left open across an update.
+        old = client.get("/_app/immutable/chunks/old.js")
+        assert old.status_code == 404 and "start(1)" not in old.text
+        assert "start(1)" in client.get("/m/482913").text  # app routes still get the page

@@ -115,7 +115,7 @@
 		height: 2.3rem;
 		border-radius: 50%;
 		background: var(--sun);
-		color: var(--ink);
+		color: var(--on-bright);
 		font: 600 1.15rem var(--font-display);
 	}
 	.piece {

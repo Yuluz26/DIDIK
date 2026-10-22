@@ -32,20 +32,7 @@
 	let now = $state(Date.now());
 	let raided = $state<string | null>(null);
 
-	$effect(() => {
-		let made: DeckWorld | null = null;
-		let cancelled = false;
-		void import('./deck').then(({ DeckWorld }) => {
-			if (cancelled) return;
-			made = new DeckWorld();
-			world = made;
-		});
-		return () => {
-			cancelled = true;
-			made?.dispose();
-			world = null;
-		};
-	});
+	const create = () => import('./deck').then(({ DeckWorld }) => new DeckWorld());
 
 	$effect(() => {
 		world?.set(seen.opened ?? null, seen.chests ?? null, step === 'chest');
@@ -94,7 +81,7 @@
 	{#if myShield}<p class="shield">Kapal kamu berperisai: {myShield} saat lagi</p>{/if}
 
 	<div class="stage">
-		<Stage3D {world} {label}>
+		<Stage3D {create} bind:world {label}>
 			{#snippet fallback()}
 				<p class="plain">{step === 'chest' ? 'Pilih satu peti.' : 'Jawab soalan untuk membuka peti.'}</p>
 			{/snippet}

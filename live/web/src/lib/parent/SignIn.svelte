@@ -118,7 +118,7 @@
 		border: 0;
 		padding: 0;
 		background: none;
-		color: var(--brand);
+		color: var(--brand-ink);
 		font-weight: 800;
 		text-decoration: underline;
 		text-underline-offset: 3px;

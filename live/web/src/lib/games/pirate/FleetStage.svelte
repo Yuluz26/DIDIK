@@ -14,20 +14,7 @@
 
 	let world = $state<BayWorld | null>(null);
 
-	$effect(() => {
-		let made: BayWorld | null = null;
-		let cancelled = false;
-		void import('./bay').then(({ BayWorld }) => {
-			if (cancelled) return;
-			made = new BayWorld();
-			world = made;
-		});
-		return () => {
-			cancelled = true;
-			made?.dispose();
-			world = null;
-		};
-	});
+	const create = () => import('./bay').then(({ BayWorld }) => new BayWorld());
 
 	$effect(() => {
 		world?.update(leaders.map((row) => ({ id: row.id, gold: row.score, colour: COLOURS[people.get(row.id)?.colour ?? ''] })));
@@ -46,7 +33,7 @@
 </script>
 
 <div class="fleet">
-	<Stage3D {world} {label}>
+	<Stage3D {create} bind:world {label}>
 		{#if world}
 			{#each top as row, i (row.id)}
 				<span class="tag" class:first={i === 0} {@attach world.tags.attach(row.id)}>

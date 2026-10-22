@@ -265,6 +265,7 @@
 		padding: 0 0.4rem;
 		border-radius: var(--r-pill);
 		background: rgb(255 255 255 / 0.92);
+		color: var(--on-bright);
 		font-size: clamp(0.68rem, calc(var(--tile) * 0.24), 1.15rem);
 		font-weight: 800;
 		line-height: 1.5;

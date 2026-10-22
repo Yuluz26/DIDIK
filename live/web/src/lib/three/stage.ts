@@ -27,6 +27,11 @@ let shared: WebGLRenderer | null = null;
 /** The page's renderer, created on first use. Throws when the device has no WebGL. */
 export function renderer(): WebGLRenderer {
 	if (shared) return shared;
+	// Ask quietly first: three.js reports a failed context as a console error.
+	const probe = document.createElement('canvas');
+	const context = probe.getContext('webgl2') ?? probe.getContext('webgl');
+	if (!context) throw new Error('WebGL is not available');
+	context.getExtension('WEBGL_lose_context')?.loseContext();
 	const created = new WebGLRenderer({
 		// Multisampling is costly on phones and barely visible on dense screens.
 		antialias: window.devicePixelRatio < 2,

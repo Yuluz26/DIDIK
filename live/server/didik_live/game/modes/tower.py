@@ -119,7 +119,7 @@ class TowerMode(SelfPacedMode):
                 name, height = passed[-1]
                 note = f"Lebih tinggi daripada {name} ({height} m)."
             else:
-                note = f"Sedikit lagi untuk melepasi Komtar ({LANDMARKS[0][2]} m)."
+                note = f"Lagi {LANDMARKS[0][2] - round(self.height)} m untuk melepasi Komtar ({LANDMARKS[0][2]} m)."
         return {
             "kind": "coop",
             "headline": headline,

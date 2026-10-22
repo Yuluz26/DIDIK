@@ -29,25 +29,11 @@
 	let call = $state<{ text: string; team: string; good: boolean } | null>(null);
 	let shown = '';
 
-	$effect(() => {
-		const angle = view;
-		let made: StadiumWorld | null = null;
-		let cancelled = false;
-		void import('./stadium').then(({ StadiumWorld }) => {
-			if (cancelled) return;
-			made = new StadiumWorld(angle);
-			made.setKits({
-				harimau: { shirt: TEAM_COLOURS.harimau.colour, keeper: TEAM_COLOURS.harimau.deep },
-				penyu: { shirt: TEAM_COLOURS.penyu.colour, keeper: TEAM_COLOURS.penyu.deep }
-			});
-			world = made;
-		});
-		return () => {
-			cancelled = true;
-			made?.dispose();
-			world = null;
-		};
-	});
+	const KITS = {
+		harimau: { shirt: TEAM_COLOURS.harimau.colour, keeper: TEAM_COLOURS.harimau.deep },
+		penyu: { shirt: TEAM_COLOURS.penyu.colour, keeper: TEAM_COLOURS.penyu.deep }
+	};
+	const create = () => import('./stadium').then(({ StadiumWorld }) => new StadiumWorld(view, KITS));
 
 	const round = $derived(stage === 'reveal' && match.rounds.length === index + 1 ? match.rounds[index] : null);
 	const nextTeam = $derived(match.rounds.length % 2 ? 'penyu' : 'harimau');
@@ -100,7 +86,7 @@
 </script>
 
 <div class="penalty penalty--{view}">
-	<Stage3D {world} {label}>
+	<Stage3D {create} bind:world {label}>
 		{#snippet fallback()}
 			<p class="plain">
 				{#if round}{#each round.kicks.slice(0, called) as kick (kick.team)}{teamOf(kick.team).name}: {CALLS[kick.result]} {/each}{:else}Sepakan seterusnya: {teamOf(nextTeam).name}{/if}

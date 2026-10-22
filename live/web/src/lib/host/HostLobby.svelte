@@ -220,7 +220,7 @@
 		padding: 0.8rem 1.1rem;
 		border-radius: var(--r-md);
 		background: rgb(255 255 255 / 0.94);
-		color: var(--ink-2);
+		color: var(--on-bright);
 		font-weight: 700;
 		text-align: center;
 		box-shadow: var(--lift-low);

@@ -78,7 +78,7 @@
 	.link {
 		max-width: 100%;
 		font: 600 clamp(1.25rem, 0.8rem + 1.3vw, 2.1rem) / 1.15 var(--font-display);
-		color: var(--brand);
+		color: var(--brand-ink);
 		overflow-wrap: anywhere;
 	}
 	.slug {
@@ -104,7 +104,7 @@
 			text-decoration-color var(--t-state);
 	}
 	.copy:hover {
-		color: var(--brand);
+		color: var(--brand-ink);
 		text-decoration-color: currentColor;
 	}
 	.code-way {

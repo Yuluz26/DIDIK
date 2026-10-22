@@ -86,8 +86,8 @@ export class BayWorld implements World3D {
 		this.ball.count = 0;
 		this.scene.add(this.ball);
 
-		this.camera.position.set(0, 14, 50);
-		this.camera.lookAt(0, 3, -8);
+		this.camera.position.set(0, 11, 36);
+		this.camera.lookAt(0, 2.5, -6);
 	}
 
 	/** The leaders, best first. A ship keeps its captain while they stay in the top eight. */
@@ -126,8 +126,8 @@ export class BayWorld implements World3D {
 
 	resize(width: number, height: number): void {
 		this.camera.aspect = width / height;
-		this.camera.position.set(0, 14, this.camera.aspect < 1.3 ? 62 : 50);
-		this.camera.lookAt(0, 3, -8);
+		this.camera.position.set(0, 11, this.camera.aspect < 1.3 ? 46 : 36);
+		this.camera.lookAt(0, 2.5, -6);
 		this.camera.updateProjectionMatrix();
 	}
 

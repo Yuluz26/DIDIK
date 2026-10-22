@@ -90,4 +90,8 @@ def mount_web(app: FastAPI, web_dir: Path) -> None:
                 immutable = path.startswith("_app/immutable/")
                 headers = {"Cache-Control": "public, max-age=31536000, immutable" if immutable else "no-cache"}
                 return FileResponse(candidate, headers=headers)
+            # A script or style from an older build (a page left open across an update) must fail
+            # as missing, not arrive as the HTML page, so the app can fall back instead of choking.
+            if path.startswith("_app/"):
+                raise HTTPException(404, "Tidak dijumpai.")
         return HTMLResponse(shell.html, headers={"Cache-Control": "no-cache"})

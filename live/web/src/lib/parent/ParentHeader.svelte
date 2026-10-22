@@ -45,7 +45,7 @@
 		text-decoration: none;
 	}
 	nav a:hover {
-		color: var(--brand);
+		color: var(--brand-ink);
 	}
 	.who {
 		color: var(--ink-2);

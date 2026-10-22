@@ -42,7 +42,7 @@
 		white-space: nowrap;
 	}
 	.word span {
-		color: var(--brand);
+		color: var(--brand-ink);
 		font-weight: 500;
 	}
 	.light .word span {

@@ -302,7 +302,7 @@
 		text-align: right;
 	}
 	.outline :global(.type-icon) {
-		color: var(--brand);
+		color: var(--brand-ink);
 	}
 	.outline .text {
 		overflow: hidden;
@@ -396,7 +396,7 @@
 			transform var(--t-press) var(--ease-out);
 	}
 	.type-card:hover {
-		border-color: var(--brand);
+		border-color: var(--brand-ink);
 		transform: translateY(-2px);
 	}
 	.type-card:active {
