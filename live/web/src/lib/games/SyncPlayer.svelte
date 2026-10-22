@@ -126,7 +126,7 @@
 		padding: 0.8rem 1rem;
 		border-radius: var(--r-md);
 		background: var(--brand-soft);
-		color: var(--brand-deep);
+		color: var(--on-brand-soft);
 		font-weight: 800;
 		text-align: center;
 		animation: rise-in var(--t-enter) var(--ease-out);

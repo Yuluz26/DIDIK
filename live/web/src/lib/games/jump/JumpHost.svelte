@@ -67,7 +67,7 @@
 		padding: 0.3rem 0.9rem;
 		border-radius: var(--r-pill);
 		background: var(--brand-soft);
-		color: var(--brand-deep);
+		color: var(--on-brand-soft);
 		font-weight: 800;
 		white-space: nowrap;
 	}

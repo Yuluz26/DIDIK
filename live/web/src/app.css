@@ -17,11 +17,14 @@
 	--ink-2: #4a5c52;
 	--ink-3: #77877e;
 	--line: #eadfc9;
+	/* Text on the bright fills (sun, leaf), dark in every theme. */
+	--on-bright: #1f2d27;
 
 	/* Brand */
 	--brand: #1c6b4a;
 	--brand-deep: #0f4a32;
 	--brand-soft: #d7eee1;
+	--on-brand-soft: var(--brand-deep);
 	--sun: #ffb627;
 	--sun-deep: #c98400;
 	--coral: #d0452f;
@@ -48,6 +51,10 @@
 	--good-soft: #d9f5e3;
 	--almost: #e07a1f;
 	--almost-soft: #ffead2;
+	--on-good-soft: #0f5a30;
+	--on-almost-soft: #7a3d00;
+	--feed-gold: #fff3cf;
+	--feed-steal: #ffe3d6;
 
 	/* Didi and the avatars */
 	--didi-fur: #e7b98a;
@@ -91,6 +98,36 @@
 	--t-press: 110ms;
 	--t-state: 220ms;
 	--t-enter: 420ms;
+}
+
+/*
+ * The games for Tingkatan 1-5 run in a darker "arena": the same brand colours in a deeper register,
+ * so a secondary-school room reads older at a glance and the dusk-lit 3D worlds sit inside it.
+ * Set on <html> by lib/level.ts for the whole room, from joining to the podium.
+ */
+:root[data-level='menengah'] {
+	color-scheme: dark;
+	--paper: #0f1f24;
+	--paper-2: #1a333b;
+	--card: #162b32;
+	--ink: #f3efe6;
+	--ink-2: #bccac7;
+	--ink-3: #8ea3a0;
+	--line: #284149;
+	--brand: #3fae7c;
+	--brand-soft: #1b3a33;
+	--on-brand-soft: #a6e6c6;
+	--good: #4fd08a;
+	--good-soft: #173a2a;
+	--almost: #f2a05a;
+	--almost-soft: #3d2b1a;
+	--on-good-soft: #a9ecc5;
+	--on-almost-soft: #ffcf9e;
+	--feed-gold: #3a321b;
+	--feed-steal: #43271f;
+	--card-shadow: 0 1px 0 #0a171b, 0 12px 28px rgb(0 0 0 / 0.32);
+	--lift: 0 6px 0 var(--shade, rgb(0 0 0 / 0.4)), 0 12px 22px rgb(0 0 0 / 0.3);
+	--lift-low: 0 3px 0 var(--shade, rgb(0 0 0 / 0.4)), 0 6px 12px rgb(0 0 0 / 0.25);
 }
 
 *,
@@ -157,7 +194,7 @@ textarea {
 
 ::selection {
 	background: var(--sun);
-	color: var(--ink);
+	color: var(--on-bright);
 }
 
 .visually-hidden {
@@ -238,7 +275,7 @@ textarea {
 .btn--sun {
 	--c: var(--sun);
 	--shade: var(--sun-deep);
-	--on: var(--ink);
+	--on: var(--on-bright);
 }
 .btn--coral {
 	--c: var(--coral);
@@ -635,9 +672,9 @@ textarea {
 
 .tile.t0 { --c: var(--coral); --shade: var(--coral-deep); }
 .tile.t1 { --c: var(--sea); --shade: var(--sea-deep); }
-.tile.t2 { --c: var(--sun); --shade: var(--sun-deep); --on: var(--ink); }
+.tile.t2 { --c: var(--sun); --shade: var(--sun-deep); --on: var(--on-bright); }
 .tile.t3 { --c: var(--sky); --shade: var(--sky-deep); }
-.tile.t4 { --c: var(--leaf); --shade: var(--leaf-deep); --on: var(--ink); }
+.tile.t4 { --c: var(--leaf); --shade: var(--leaf-deep); --on: var(--on-bright); }
 .tile.t5 { --c: var(--berry); --shade: var(--berry-deep); }
 
 .tile.picked {

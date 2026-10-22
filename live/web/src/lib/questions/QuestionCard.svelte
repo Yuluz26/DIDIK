@@ -53,7 +53,7 @@
 		border: 0;
 		border-radius: var(--r-pill);
 		background: var(--brand-soft);
-		color: var(--brand-deep);
+		color: var(--on-brand-soft);
 		font-weight: 800;
 		font-size: 0.9rem;
 		cursor: pointer;

@@ -119,6 +119,15 @@ const SOUNDS: Record<string, () => void> = {
 		tone(300, 0.02, 0.25, 'sine', 0.12, 120);
 	},
 	whoosh: () => noise(0, 0.4, 'highpass', 500, 0.18, 3200),
+	kick: () => {
+		tone(110, 0, 0.12, 'sine', 0.4, 60);
+		noise(0, 0.07, 'lowpass', 900, 0.3);
+	},
+	goal: () => {
+		noise(0, 1.1, 'bandpass', 900, 0.22, 1600);
+		[C5, E5, G5].forEach((f, i) => tone(f, 0.08 + i * 0.09, 0.3, 'triangle', 0.18));
+	},
+	engine: () => tone(90, 0, 0.6, 'sawtooth', 0.05, 220),
 	build: () => {
 		tone(196, 0, 0.09, 'triangle', 0.3);
 		tone(220, 0.14, 0.09, 'triangle', 0.3);

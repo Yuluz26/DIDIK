@@ -47,12 +47,12 @@
 		padding: 0.7rem 1.1rem 0.7rem 0.6rem;
 		border-radius: var(--r-lg);
 		background: var(--almost-soft);
-		color: #7a3d00;
+		color: var(--on-almost-soft);
 		animation: pop-in 460ms var(--spring);
 	}
 	.feedback.good {
 		background: var(--good-soft);
-		color: #0f5a30;
+		color: var(--on-good-soft);
 	}
 	.words {
 		flex: 1;

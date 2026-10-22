@@ -44,10 +44,13 @@
 	.kind-gem,
 	.kind-built,
 	.kind-escape,
-	.kind-durian {
-		background: #fff3cf;
+	.kind-durian,
+	.kind-goal,
+	.kind-landmark {
+		background: var(--feed-gold);
 	}
-	.kind-steal {
-		background: #ffe3d6;
+	.kind-steal,
+	.kind-swap {
+		background: var(--feed-steal);
 	}
 </style>
