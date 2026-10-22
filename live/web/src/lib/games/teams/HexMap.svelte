@@ -60,14 +60,15 @@
 
 	// Each team's children gather by their base, the child's own character at the front. The bases sit
 	// at the island's two ends, so each group lines up from its own edge of the map inwards and stays
-	// on the map however big the team; past five, a count stands for the rest.
+	// on the map however big the team; past four, a count stands for the rest, which keeps the two
+	// groups apart in the middle.
 	const crowds = $derived(
 		cells
 			.filter((c) => c.base && c.owner)
 			.map((base) => {
 				const at = centre(base);
 				const members = people.filter((p) => p.team === base.owner).sort((a, b) => Number(b.id === me) - Number(a.id === me));
-				return { key: base.key, y: at.y, right: at.x > box.x + box.w / 2, members: members.slice(0, 5), more: Math.max(0, members.length - 5) };
+				return { key: base.key, y: at.y, right: at.x > box.x + box.w / 2, members: members.slice(0, 4), more: Math.max(0, members.length - 4) };
 			})
 	);
 
