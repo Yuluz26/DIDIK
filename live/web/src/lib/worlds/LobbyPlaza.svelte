@@ -37,6 +37,8 @@
 	import { untrack } from 'svelte';
 	import type { RoomClient } from '$lib/room.svelte';
 	import type { Person } from '$lib/types';
+	import { fitTile, memo } from '$lib/pixel/cache';
+	import { landMap, paintGround } from '$lib/pixel/ground';
 	import Stickers from '$lib/play/Stickers.svelte';
 	import World, { type WorldActor, type WorldProp } from './World.svelte';
 
@@ -56,6 +58,24 @@
 	} = $props();
 
 	const { W, H } = PLAZA;
+
+	// Grass with a hedge row along the back, a dirt path in from the arch and out to each side, and a
+	// paved oval square in the middle, in pixels (a tile is 16).
+	const ground = memo('ground:plaza', () => {
+		const map = landMap(Array.from({ length: H }, () => 'g'.repeat(W)), { g: 'grass' });
+		const oval = (cx: number, cy: number, rx: number, ry: number) => (x: number, y: number) => ((x + 0.5 - cx) / rx) ** 2 + ((y + 0.5 - cy) / ry) ** 2 <= 1;
+		return paintGround(map, {
+			seed: 4,
+			meadow: 0.35,
+			shapes: [
+				{ land: 'moss', test: (x, y) => y < 40 + Math.sin(x / 8) * 3 },
+				{ land: 'dirt', test: (x, y) => x >= 113 && x < 143 && y >= 43 && y < 62 },
+				{ land: 'dirt', test: (x, y) => y >= 86 && y < 106 && (x < 54 || x >= 202) },
+				{ land: 'dirt', test: (x, y) => x >= 118 && x < 138 && y >= 130 },
+				{ land: 'stone', test: oval(128, 95, 102, 43) }
+			]
+		});
+	});
 	const SPEED = 3; // tiles a second, about a child's stroll
 
 	const PROPS: WorldProp[] = [
@@ -85,7 +105,7 @@
 	let world = $state<ReturnType<typeof World>>();
 	let width = $state(0);
 	// The host's screen shows the whole square; a phone shows a closer view that follows the child.
-	const tile = $derived(me ? Math.max(34, width / W) : width / W);
+	const tile = $derived(me ? fitTile(width, W, { min: 2 }) : fitTile(width, W));
 	const follow = $derived(!!me && tile * W > width + 1);
 
 	interface Shown {
@@ -107,7 +127,15 @@
 		const ms = still ? 0 : Math.round(Math.min(3200, Math.max(250, (Math.hypot(x - from.x, y - from.y) / SPEED) * 1000)));
 		shown[id] = { x, y, facing, ms, walking: ms > 0 };
 		clearTimeout(timers.get(id));
-		if (ms) timers.set(id, setTimeout(() => shown[id] && (shown[id] = { ...shown[id], walking: false }), ms));
+		if (ms) {
+			timers.set(
+				id,
+				setTimeout(() => {
+					const at = shown[id];
+					if (at) shown[id] = { ...at, walking: false };
+				}, ms)
+			);
+		}
 	}
 
 	function place(list: [string, number, number, number][]) {
@@ -201,21 +229,6 @@
 	}
 </script>
 
-{#snippet ground()}
-	<rect width={W} height={H} fill="#8fd05e" />
-	<path d="M0 0 H16 V2.75 C14 3.15 12.5 2.6 10.6 2.95 C9.4 3.2 6.6 3.2 5.4 2.95 C3.5 2.6 2 3.15 0 2.75z" fill="#78bf4f" />
-	<!-- Paths in from the arch and out to the sides, then the paved square itself. -->
-	<path d="M7.05 2.7 H8.95 L9.1 3.9 H6.9z" fill="#e9cf98" />
-	<path d="M-0.2 5.35 C1.5 5.15 2.5 5.5 3.2 5.45 V6.55 C2.5 6.5 1.5 6.85 -0.2 6.65z M16.2 5.35 C14.5 5.15 13.5 5.5 12.8 5.45 V6.55 C13.5 6.5 14.5 6.85 16.2 6.65z" fill="#e9cf98" />
-	<ellipse cx="8" cy="5.95" rx="6.3" ry="2.6" fill="#e9cf98" />
-	<ellipse cx="8" cy="5.95" rx="6.3" ry="2.6" fill="none" stroke="#d8b77a" stroke-width="0.07" />
-	<ellipse cx="8" cy="5.95" rx="4.6" ry="1.85" fill="none" stroke="#d8b77a" stroke-width="0.05" stroke-dasharray="0.3 0.2" />
-	<path d="M7.4 8.5 C7.5 8.8 7.4 9 7.5 9.2 H8.5 C8.6 9 8.5 8.8 8.6 8.5z" fill="#e9cf98" />
-	{#each [[1.3, 3.9], [14.6, 6.9], [2.9, 8.2], [12.8, 8.4], [10.2, 3.6], [0.6, 5.0], [15.4, 7.8]] as [x, y] (`${x}-${y}`)}
-		<path d="M{x} {y} l0.06 -0.16 l0.06 0.16 M{x + 0.3} {y - 0.2} l0.05 -0.13 l0.05 0.13" stroke="#6cb33f" stroke-width="0.05" fill="none" stroke-linecap="round" />
-	{/each}
-{/snippet}
-
 {#snippet marker(tile: number)}
 	{#if target}
 		{#key target.n}
@@ -225,7 +238,9 @@
 {/snippet}
 
 {#snippet square()}
-	<World bind:this={world} width={W} height={H} {tile} {ground} props={PROPS} {actors} {me} {follow} step={600} overlay={marker} />
+	<div class="stage" style:width={follow ? undefined : `${W * tile}px`} style:height={follow ? undefined : `${H * tile}px`}>
+		<World bind:this={world} width={W} height={H} {tile} {ground} props={PROPS} {actors} {me} {follow} step={600} overlay={marker} />
+	</div>
 	{#if me && !walked}
 		<p class="hint" aria-hidden="true">Ketik di mana-mana untuk berjalan</p>
 	{/if}
@@ -259,15 +274,13 @@
 	.plaza {
 		position: relative;
 		width: 100%;
-		aspect-ratio: 16 / 9;
-		border-radius: var(--r-lg);
 	}
-	.plaza :global(.viewport) {
-		background: #78bf4f;
+	/* The square is drawn at a whole step of the pixel size, so it can be a little narrower than its box. */
+	.stage {
+		margin-inline: auto;
 	}
 	/* A phone shows a window onto the square that follows the child. */
-	.follow {
-		aspect-ratio: auto;
+	.follow .stage {
 		height: min(var(--plaza-h), 60dvh);
 	}
 	.walkable {

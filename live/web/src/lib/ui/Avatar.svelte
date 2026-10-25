@@ -1,13 +1,14 @@
 <!--
 	A child's round picture for lists, the HUD and the podium: their character's head and shoulders
-	(the same face, skin tone and animal hood as in the worlds) on a disc tinted with their colour,
-	so a friend looks the same in a leaderboard as in the forest.
+	(the same face, skin tone and animal hood as in the worlds) on a pixel disc tinted with their
+	colour, so a friend looks the same in a leaderboard as in the forest.
 -->
 <script lang="ts">
-	import { ANIMALS, COLOURS } from '$lib/names';
-	import ChibiHead from './ChibiHead.svelte';
-
-	type Mood = 'happy' | 'cheer' | 'oops' | 'sleep';
+	import { ANIMALS } from '$lib/names';
+	import { snapScale } from '$lib/pixel/cache';
+	import { AH, AW, avatarSheet } from '$lib/pixel/chibi';
+	import type { Mood } from '$lib/pixel/chibi';
+	import Sprite from '$lib/pixel/Sprite.svelte';
 
 	let {
 		animal = 'kancil',
@@ -19,66 +20,43 @@
 		label = ''
 	}: { animal?: string; colour?: string; skin?: string; size?: number; mood?: Mood; bob?: boolean; label?: string } = $props();
 
-	const ring = $derived(COLOURS[colour] ?? COLOURS.hijau);
+	const s = $derived(snapScale(size / AW, 1));
+	const sheet = $derived(avatarSheet(animal, colour, skin, mood));
 	const delay = `${(Math.random() * 1.6).toFixed(2)}s`;
-	const clip = `avatar-${Math.random().toString(36).slice(2, 8)}`;
 </script>
 
 <span
 	class="avatar"
 	class:bob
-	style:--size="{size}px"
-	style:--ring={ring}
+	style:width="{size}px"
+	style:height="{size}px"
 	style:--delay={delay}
 	role={label ? 'img' : undefined}
 	aria-label={label || undefined}
 	aria-hidden={label ? undefined : 'true'}
 	title={label || undefined}
 >
-	<svg viewBox="0 0 100 100" focusable="false">
-		<defs>
-			<!-- The disc trims the shoulders; above it, ears and hoods may rise past the edge. -->
-			<clipPath id={clip}>
-				<circle cx="50" cy="54" r="45" />
-				<rect x="-20" y="-40" width="140" height="78" />
-			</clipPath>
-		</defs>
-		<circle class="disc" cx="50" cy="54" r="45" />
-		<g clip-path="url(#{clip})">
-			<g transform="translate(2 14) scale(1.2)">
-				<path class="hoodie" d="M10 70 Q10 55 30 53 H50 Q70 55 70 70 V100 H10 Z" />
-				<path d="M36 55 l4 7 4 -7" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" opacity=".7" />
-				<ChibiHead {animal} {skin} {mood} />
-			</g>
-		</g>
-	</svg>
+	<span class="pic" style:width="{Math.round(AW * s)}px" style:height="{Math.round(AH * s)}px">
+		<Sprite {sheet} {s} />
+	</span>
 	{#if label}<span class="visually-hidden">{ANIMALS[animal] ?? ''}</span>{/if}
 </span>
 
 <style>
 	.avatar {
+		position: relative;
 		display: inline-block;
-		width: var(--size);
-		height: var(--size);
 		flex: none;
 		line-height: 0;
 	}
-
-	svg {
-		width: 100%;
-		height: 100%;
-		overflow: visible;
+	/* The picture is centred in its box; ears may rise above it. */
+	.pic {
+		position: absolute;
+		left: 50%;
+		bottom: 0;
+		translate: -50% 4%;
 	}
-
-	.disc {
-		fill: color-mix(in srgb, var(--ring) 26%, #fff);
-	}
-
-	.hoodie {
-		fill: var(--ring);
-	}
-
-	.bob svg {
+	.bob .pic {
 		animation: bob 2.6s ease-in-out var(--delay) infinite;
 	}
 </style>

@@ -4,14 +4,25 @@ import { defineConfig } from 'vite';
 // In development the Python server runs on :8080; Vite proxies the API, sockets and uploads to it.
 const server = process.env.DIDIK_SERVER ?? 'http://127.0.0.1:8080';
 
+// The server only accepts changes and sockets whose Origin is its own, so through the proxy the page
+// is presented as coming from the server's address.
+const asSameOrigin = {
+	target: server,
+	changeOrigin: true,
+	configure: (proxy: { on: (event: string, handler: (req: { setHeader: (name: string, value: string) => void }) => void) => void }) => {
+		proxy.on('proxyReq', (req) => req.setHeader('origin', server));
+		proxy.on('proxyReqWs', (req) => req.setHeader('origin', server));
+	}
+};
+
 export default defineConfig({
 	plugins: [sveltekit()],
 	server: {
 		port: 5173,
 		proxy: {
-			'/api': server,
+			'/api': asSameOrigin,
 			'/uploads': server,
-			'/ws': { target: server.replace('http', 'ws'), ws: true }
+			'/ws': { ...asSameOrigin, target: server.replace('http', 'ws'), ws: true }
 		}
 	}
 });

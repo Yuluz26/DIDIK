@@ -40,7 +40,11 @@
 </script>
 
 <script lang="ts">
-	import type { Snippet } from 'svelte';
+	import { type Snippet, untrack } from 'svelte';
+	import { TILE } from '$lib/pixel/cache';
+	import { CH } from '$lib/pixel/chibi';
+	import GroundCanvas from '$lib/pixel/GroundCanvas.svelte';
+	import type { Pix } from '$lib/pixel/pix';
 	import Chibi from '$ui/Chibi.svelte';
 	import Prop from './Prop.svelte';
 
@@ -61,8 +65,10 @@
 	}: {
 		width: number;
 		height: number;
+		/** CSS pixels to a tile; a multiple of half a sprite pixel (see fitTile) keeps the art sharp. */
 		tile?: number;
-		ground: Snippet;
+		/** The painted ground (lib/pixel/ground.ts), or a drawing in tile units. */
+		ground: Pix | Snippet;
 		props?: WorldProp[];
 		actors?: WorldActor[];
 		me?: string | null;
@@ -92,8 +98,36 @@
 		const box = worldEl.getBoundingClientRect();
 		return { x: (clientX - box.left) / tile, y: (clientY - box.top) / tile };
 	}
-	const chibi = $derived(Math.round(tile * 1.05));
+	/** CSS pixels to a sprite pixel: every picture in the world is drawn at this one size. */
+	const s = $derived(tile / TILE);
 	const mine = $derived(me ? actors.find((a) => a.id === me) : undefined);
+
+	// Which way each character looks follows where it is walking: sideways, away from us, or at us.
+	type Look = { dir: 'front' | 'back' | 'side'; facing: number };
+	const looks = $state<Record<string, Look>>({});
+	const seen = new Map<string, { x: number; y: number }>();
+	$effect(() => {
+		const here = new Set<string>();
+		for (const a of actors) {
+			here.add(a.id);
+			const was = seen.get(a.id);
+			const now = untrack(() => looks[a.id]) ?? { dir: 'front', facing: a.facing ?? 1 };
+			let next = now;
+			if (was && (was.x !== a.x || was.y !== a.y)) {
+				const dx = a.x - was.x;
+				const dy = a.y - was.y;
+				next = Math.abs(dx) >= Math.abs(dy) * 0.9 ? { dir: 'side', facing: dx < 0 ? -1 : 1 } : { dir: dy < 0 ? 'back' : 'front', facing: now.facing };
+			}
+			seen.set(a.id, { x: a.x, y: a.y });
+			if (next.dir !== now.dir || next.facing !== now.facing || !untrack(() => looks[a.id])) looks[a.id] = next;
+		}
+		for (const id of seen.keys()) {
+			if (!here.has(id)) {
+				seen.delete(id);
+				delete looks[id];
+			}
+		}
+	});
 
 	const target = $derived(focus ?? (mine ? { x: mine.x, y: mine.y } : null));
 
@@ -115,14 +149,18 @@
 	{/if}
 {/snippet}
 
-<div class="viewport" class:follow bind:clientWidth={vw} bind:clientHeight={vh} style:--step="{step}ms" style:--tile="{tile}px">
-	<div class="world" bind:this={worldEl} style:width="{W * tile}px" style:height="{H * tile}px" style:transform="translate3d({camera.x}px, {camera.y}px, 0)">
-		<svg class="ground" viewBox="0 0 {W} {H}" width={W * tile} height={H * tile} aria-hidden="true" focusable="false">
-			{@render ground()}
-		</svg>
+<div class="viewport" class:follow bind:clientWidth={vw} bind:clientHeight={vh} style:--step="{step}ms" style:--tile="{tile}px" style:--s="{s}px">
+	<div class="world" bind:this={worldEl} style:width="{W * tile}px" style:height="{H * tile}px" style:transform="translate3d({Math.round(camera.x)}px, {Math.round(camera.y)}px, 0)">
+		{#if typeof ground === 'function'}
+			<svg class="ground" viewBox="0 0 {W} {H}" width={W * tile} height={H * tile} aria-hidden="true" focusable="false">
+				{@render ground()}
+			</svg>
+		{:else}
+			<div class="ground"><GroundCanvas pix={ground} {tile} /></div>
+		{/if}
 
 		{#each props as prop (prop.id)}
-			<div class="place" class:glide={prop.glide} style:left="{prop.x * tile}px" style:top="{prop.y * tile}px" style:z-index={Math.round(prop.y * 10)}>
+			<div class="place" class:glide={prop.glide} style:left="{Math.round(prop.x * tile)}px" style:top="{Math.round(prop.y * tile)}px" style:z-index={Math.round(prop.y * 10)}>
 				{#if prop.action}
 					<button type="button" class="hit" onclick={prop.action} aria-label={prop.label}>{@render drawing(prop)}</button>
 				{:else}
@@ -136,8 +174,8 @@
 			<div
 				class="place actor"
 				data-player={actor.id}
-				style:left="{actor.x * tile}px"
-				style:top="{actor.y * tile}px"
+				style:left="{Math.round(actor.x * tile)}px"
+				style:top="{Math.round(actor.y * tile)}px"
 				style:z-index={Math.round(actor.y * 10) + 1}
 				style:--step={actor.ms === undefined ? undefined : `${actor.ms}ms`}
 			>
@@ -145,9 +183,10 @@
 					animal={actor.animal}
 					colour={actor.colour}
 					skin={actor.skin}
-					size={chibi}
+					{s}
 					walking={actor.walking}
-					facing={actor.facing}
+					dir={looks[actor.id]?.dir ?? 'front'}
+					facing={looks[actor.id]?.facing ?? actor.facing ?? 1}
 					mood={actor.mood}
 				/>
 			</div>
@@ -159,8 +198,8 @@
 				<span
 					class="tag"
 					class:me={actor.id === me}
-					style:left="{Math.min(W - 0.9, Math.max(0.9, actor.x)) * tile}px"
-					style:top="{actor.y * tile - chibi * 1.25}px"
+					style:left="{Math.round(Math.min(W - 0.9, Math.max(0.9, actor.x)) * tile)}px"
+					style:top="{Math.round(actor.y * tile - (CH - 6) * s)}px"
 					style:--step={actor.ms === undefined ? undefined : `${actor.ms}ms`}>{actor.id === me ? 'Kamu' : actor.name}</span
 				>
 			{/if}
@@ -177,7 +216,7 @@
 		max-width: 100%;
 		overflow: hidden;
 		border-radius: var(--r-lg);
-		background: #2e6e43;
+		background: #3c7c3a;
 		box-shadow: var(--card-shadow);
 	}
 	.viewport.follow {
@@ -260,22 +299,21 @@
 			top var(--step) linear;
 		pointer-events: none;
 	}
+	/* The feet stand two sprite pixels above the bottom of the picture. */
 	.actor {
-		translate: -50% calc(-100% + 0.75rem);
+		translate: -50% calc(-100% + var(--s) * 2);
 	}
 	.tag {
 		position: absolute;
 		z-index: 900;
-		translate: -50% calc(-100% + 0.95rem);
+		translate: -50% -100%;
 		padding: 0 0.4rem;
-		border-radius: var(--r-pill);
-		background: rgb(255 255 255 / 0.92);
-		color: var(--on-bright);
-		font-size: clamp(0.68rem, calc(var(--tile) * 0.24), 1.15rem);
-		font-weight: 800;
-		line-height: 1.5;
+		border: 2px solid #2a1f2d;
+		border-radius: 4px;
+		background: #fff6e6;
+		color: #2a1f2d;
+		font: 600 clamp(0.68rem, calc(var(--tile) * 0.24), 1.1rem) / 1.35 var(--font-pixel);
 		white-space: nowrap;
-		box-shadow: 0 1px 0 rgb(0 0 0 / 0.12);
 	}
 	.tag.me {
 		z-index: 901;
