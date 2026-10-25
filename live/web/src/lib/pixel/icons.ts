@@ -3,7 +3,8 @@
  * hearts, keys, a crown, a coin, and the thumb stick. Each map says which colour a letter is.
  */
 import { memo, sheetOf } from './cache';
-import { Pix, pack, rgba } from './pix';
+import { M } from './palette';
+import { Pix, pack, ramp, rampFrom, rgba } from './pix';
 
 
 const make = Pix.sketch;
@@ -281,4 +282,32 @@ const TICK = [
 /** The mark on a chosen swatch: a white tick with a dark edge, so it reads on any colour. */
 export function tick() {
 	return memo('tick', () => sheetOf(make(TICK, { k: '#2a1f2d', w: '#ffffff' })));
+}
+
+
+/** Didi's head on a green tile: the mark in the corner of every page. */
+export function logoMark() {
+	return memo('logo', () => {
+		const p = new Pix(18, 18);
+		const tile = ramp(['#134a33', '#1c6b4a', '#2b8a62']);
+		const fur = rampFrom('#e7b98a');
+		const pink = rampFrom('#f2a199');
+		const ink = rgba('#17241d');
+		// the tile, with its corners cut, lit from the upper left
+		p.poly([[3, 1], [15, 1], [17, 3], [17, 15], [15, 17], [3, 17], [1, 15], [1, 3]], (x, y) => (y < 3 || x < 3 ? tile.c[2] : y > 14 || x > 14 ? tile.c[0] : tile.c[1]), tile.ink);
+		// the ears, turned outwards, then the head and the cream chin, all clear of the tile's edge
+		for (const [cx, sign] of [[4.8, 1], [13.2, -1]] as const) {
+			p.blob(cx, 6.6, 2.7, 2.2, fur, { rim: true, angle: sign * 0.6 });
+			p.blob(cx + sign * 0.2, 6.7, 1.4, 1.2, pink, { bias: 0.2, angle: sign * 0.6 });
+		}
+		p.blob(9, 10, 5, 4.2, fur, { rim: true });
+		p.blob(9, 12.6, 2.7, 1.6, M.cream, { bias: 0.8 });
+		// eyes with a glint, and the nose
+		for (const x of [6, 10]) {
+			p.rect(x, 8, 2, 3, ink);
+			p.set(x, 8, rgba('#ffffff'));
+		}
+		p.rect(8, 11, 2, 1, ink);
+		return sheetOf(p.outline(rgba('#0b1f16')));
+	});
 }

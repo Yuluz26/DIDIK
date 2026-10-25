@@ -3,7 +3,7 @@
 	cells of one row from `col` onwards in steps, the way an old game flips its sprites.
 -->
 <script lang="ts">
-	import { type Sheet, prescale, urlOf } from './cache';
+	import { type Sheet, prescale, rowUrl } from './cache';
 
 	let {
 		sheet,
@@ -28,14 +28,12 @@
 	} = $props();
 
 	const k = $derived(prescale(s));
-	const url = $derived(urlOf(sheet.pix, k));
+	const url = $derived(rowUrl(sheet, row, k));
 	// Cells are an even number of pixels wide, so a sprite centred on a point never sits on half a pixel.
 	const cw = $derived(2 * Math.round((sheet.cw * s) / 2));
 	const ch = $derived(Math.round(sheet.ch * s));
 	const full = $derived(cw * sheet.cols);
-	const tall = $derived(ch * sheet.rows);
 	const x0 = $derived(-col * cw);
-	const y0 = $derived(-row * ch);
 </script>
 
 <span class="cell" style:width="{cw}px" style:height="{ch}px" style:transform={flip ? 'scaleX(-1)' : undefined} aria-hidden="true">
@@ -46,16 +44,15 @@
 			alt=""
 			draggable="false"
 			style:width="{full}px"
-			style:height="{tall}px"
+			style:height="{ch}px"
 			style:--x0="{x0}px"
 			style:--x1="{x0 - frames * cw}px"
-			style:--y="{y0}px"
 			style:--ms="{ms}ms"
 			style:--n={frames}
 			style:--delay="{delay}ms"
 		/>
 	{:else}
-		<img class="sheet" src={url} alt="" draggable="false" style:width="{full}px" style:height="{tall}px" style:transform="translate({x0}px, {y0}px)" />
+		<img class="sheet" src={url} alt="" draggable="false" style:width="{full}px" style:height="{ch}px" style:transform="translateX({x0}px)" />
 	{/if}
 </span>
 
@@ -77,15 +74,15 @@
 		pointer-events: none;
 	}
 	.play {
-		transform: translate(var(--x0), var(--y));
+		transform: translateX(var(--x0));
 		animation: px-frames var(--ms) steps(var(--n)) var(--delay) infinite;
 	}
 	@keyframes px-frames {
 		from {
-			transform: translate(var(--x0), var(--y));
+			transform: translateX(var(--x0));
 		}
 		to {
-			transform: translate(var(--x1), var(--y));
+			transform: translateX(var(--x1));
 		}
 	}
 	@media (prefers-reduced-motion: reduce) {

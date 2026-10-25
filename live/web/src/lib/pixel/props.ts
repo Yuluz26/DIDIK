@@ -468,8 +468,6 @@ function fountain(frame: number): Pix {
 	p.cyl(17, 6, 4, 9, M.stone);
 	p.ellipse(19, 6, 5, 1.8, M.stone.c[4], M.stone.ink);
 	const spray = rgba('#c1efe8');
-	const jet = [[0, 0], [0, 1], [0, 2]];
-	void jet;
 	for (let i = 0; i < 7; i++) {
 		const f = (i + frame * 2) % 7;
 		p.set(19, 4 - f, spray, M.water.ink);

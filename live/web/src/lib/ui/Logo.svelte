@@ -1,20 +1,14 @@
+<!-- The mark is Didi's head on a green tile, in pixels (lib/pixel/icons.ts), at twice its size. -->
 <script lang="ts">
+	import { logoMark } from '$lib/pixel/icons';
+	import Sprite from '$lib/pixel/Sprite.svelte';
+
 	// `compact`: on narrow screens only the mark shows, leaving room for a header's links.
 	let { href = '/', light = false, compact = false }: { href?: string; light?: boolean; compact?: boolean } = $props();
 </script>
 
 <a class="logo" class:light class:compact {href} aria-label="DIDIK Main Bersama, laman utama">
-	<svg viewBox="0 0 48 48" aria-hidden="true" focusable="false">
-		<rect width="48" height="48" rx="14" fill="#1c6b4a" />
-		<g transform="rotate(26 10 20)"><ellipse cx="10" cy="20" rx="7" ry="4" fill="#e7b98a" /></g>
-		<g transform="rotate(-26 38 20)"><ellipse cx="38" cy="20" rx="7" ry="4" fill="#e7b98a" /></g>
-		<ellipse cx="24" cy="23" rx="12.5" ry="10" fill="#e7b98a" />
-		<ellipse cx="24" cy="31" rx="7" ry="7" fill="#e7b98a" />
-		<ellipse cx="24" cy="35" rx="4.8" ry="2.8" fill="#fff4e6" />
-		<ellipse cx="18.5" cy="22" rx="2.3" ry="2.8" fill="#17241d" />
-		<ellipse cx="29.5" cy="22" rx="2.3" ry="2.8" fill="#17241d" />
-		<ellipse cx="24" cy="32" rx="1.9" ry="1.4" fill="#17241d" />
-	</svg>
+	<span class="mark"><Sprite sheet={logoMark()} s={2} /></span>
 	<span class="word">didik <span>main bersama</span></span>
 </a>
 
@@ -30,14 +24,13 @@
 	.logo.light {
 		color: #fff;
 	}
-	svg {
+	.mark {
 		flex: none;
-		width: 2.4rem;
-		height: 2.4rem;
-		transition: transform var(--t-state) var(--spring);
+		line-height: 0;
+		transition: transform var(--t-press) steps(2);
 	}
-	.logo:hover svg {
-		transform: rotate(-8deg) scale(1.06);
+	.logo:hover .mark {
+		transform: translateY(-2px);
 	}
 	.word {
 		white-space: nowrap;

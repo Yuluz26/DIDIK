@@ -42,6 +42,20 @@ export function urlOf(pix: Pix, k: number): string {
 	return url;
 }
 
+const strips = new WeakMap<Pix, Pix[]>();
+
+/**
+ * The picture of one row of a sheet. Every row is its own image, so at the top and bottom edge of a
+ * cell a row beside it can never show through, whatever fraction of a pixel the page lays it on.
+ */
+export function rowUrl(sheet: Sheet, row: number, k: number): string {
+	if (sheet.rows === 1) return urlOf(sheet.pix, k);
+	let rows = strips.get(sheet.pix);
+	if (!rows) strips.set(sheet.pix, (rows = []));
+	rows[row] ??= sheet.pix.crop(0, row * sheet.ch, sheet.pix.w, sheet.ch);
+	return urlOf(rows[row], k);
+}
+
 export function pixelRatio(): number {
 	return typeof window === 'undefined' ? 1 : window.devicePixelRatio || 1;
 }

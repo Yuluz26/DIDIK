@@ -138,7 +138,8 @@
 		gap: 0.5rem;
 		padding: 0.35rem 0.8rem;
 		border-radius: var(--r-md);
-		background: rgb(11 25 31 / 0.86);
+		border: 2px solid #050f13;
+		background: #0b191f;
 		color: #fff;
 		pointer-events: none;
 	}
@@ -188,7 +189,7 @@
 	.dots i {
 		width: 9px;
 		height: 9px;
-		border-radius: 50%;
+		border-radius: 1px;
 		border: 2px solid #9fb3b4;
 	}
 	.dots i.scored {
@@ -204,10 +205,11 @@
 		justify-items: center;
 		padding: 0.5rem 1.4rem 0.6rem;
 		border-radius: var(--r-md);
-		background: rgb(11 25 31 / 0.88);
+		border: 2px solid #050f13;
+		background: #0b191f;
 		color: #fff;
 		text-align: center;
-		animation: pop-in 380ms var(--spring);
+		animation: pop-in 300ms steps(5);
 	}
 	.call strong {
 		font: 600 clamp(1.6rem, 1.2rem + 2vw, 3rem) / 1.05 var(--font-display);

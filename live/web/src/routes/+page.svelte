@@ -670,10 +670,6 @@
 		.top :global(.logo) {
 			font-size: 1.15rem;
 		}
-		.top :global(.logo svg) {
-			width: 2.1rem;
-			height: 2.1rem;
-		}
 	}
 	@media (max-width: 360px) {
 		.top :global(.word span) {

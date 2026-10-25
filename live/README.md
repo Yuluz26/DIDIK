@@ -34,6 +34,34 @@ dengan dunianya pada waktu senja dan malam.
 Jenis soalan: pilihan tunggal, pilih semua yang betul, betul atau salah, taip jawapan, nombor, susun
 turutan, padankan, dan isi tempat kosong.
 
+## Rupa pixel dan bunyi chiptune
+
+Semua gambar dalam permainan, di laman utama dan pada skrin hos dan telefon dilukis sebagai seni pixel
+**oleh kod**, bukan fail gambar: tiada aset untuk dimuat turun atau dilesenkan, dan warnanya mengikut satu
+palet. Watak, prop dan tanah dilukis sekali pada saiz asal (satu petak dunia ialah 16 piksel), kemudian
+dibesarkan dengan nombor bulat, jadi setiap piksel tetap segi empat sama pada skrin kecil atau besar.
+
+| Apa | Di mana |
+| --- | --- |
+| Pelukis piksel, palet, cache sprite dan skala | `web/src/lib/pixel/` (`pix.ts`, `palette.ts`, `cache.ts`) |
+| Watak berhud haiwan, avatar, Didi, ikon, lencana dunia | `pixel/chibi.ts`, `didi.ts`, `icons.ts`, `badges.ts`, `glyphs.ts` |
+| Tanah dunia dan pulau (rumput, air, buih, pasir, papan, batu) | `pixel/ground.ts`, `pixel/island.ts` |
+| Prop (pokok, bangku, air pancut, ...) dan bangunan | `pixel/props.ts`, `worlds/buildings.ts` |
+| Laut, pantai, langit senja di laman utama | `pixel/sea.ts`, `home/isles.ts` |
+| Lapan permainan 2D | `games/<nama>/sprites.ts` dan komponen di sebelahnya |
+| Empat permainan 3D | `three/` (dirender kecil melalui `PixelPass`, bahan `ToonMaterial`) |
+| Bunyi (gelombang segi empat dan segi tiga, hingar kasar) | `lib/sound.ts` |
+
+- Tajuk, HUD dan kaunter memakai fon piksel (Pixelify Sans); soalan dan jawapan kekal dalam fon yang
+  mudah dibaca. Ruang ibu bapa sengaja kekal bersih: borang dan editornya tanpa fon atau bingkai piksel,
+  hanya logo dan ikon yang sama.
+- Permainan 3D dirender pada resolusi rendah, dipaksa kepada palet kecil dengan *dither*, dan dibesarkan
+  tanpa pelicinan, jadi ia sepadan dengan permainan 2D.
+- Gerakan dikurangkan bila peranti meminta (`prefers-reduced-motion`): ombak, animasi sprite dan
+  konfeti berhenti.
+- Untuk menambah prop baharu: lukis fungsinya dalam `pixel/props.ts`, daftarkan dalam `MAKERS`, dan
+  panggil dengan `kind` itu dalam `World`.
+
 ## Keperluan
 
 - Python 3.11 atau lebih baharu

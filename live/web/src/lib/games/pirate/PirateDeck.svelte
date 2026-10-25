@@ -153,7 +153,8 @@
 	.found {
 		padding: 0.15rem 0.6rem;
 		border-radius: var(--r-pill);
-		background: rgb(15 31 36 / 0.78);
+		border: 2px solid #071418;
+		background: #0f1f24;
 		color: #fff;
 		font: 600 1rem var(--font-display);
 		opacity: 0.75;
@@ -204,7 +205,8 @@
 	.pick span {
 		padding: 0.1rem 0.6rem;
 		border-radius: var(--r-pill);
-		background: rgb(15 31 36 / 0.75);
+		border: 2px solid #071418;
+		background: #0f1f24;
 	}
 	.pick:hover {
 		background: rgb(255 214 120 / 0.18);

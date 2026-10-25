@@ -144,7 +144,8 @@
 		gap: 0.25rem;
 		padding: 0.45rem 0.75rem;
 		border-radius: var(--r-md);
-		background: rgb(15 31 36 / 0.84);
+		border: 2px solid #071418;
+		background: #0f1f24;
 		color: #fff;
 		font-weight: 700;
 		min-width: 11rem;
@@ -192,7 +193,8 @@
 		visibility: hidden;
 		padding: 0.15rem 0.55rem;
 		border-radius: var(--r-pill);
-		background: rgb(15 31 36 / 0.8);
+		border: 2px solid #071418;
+		background: #0f1f24;
 		color: #fff;
 		font: 600 0.9rem var(--font-display);
 		white-space: nowrap;

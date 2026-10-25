@@ -75,7 +75,7 @@ function look(animal: string, colour: string, tone: string): Look {
 
 // ------------------------------------------------------------------ parts that sit behind the head
 
-function earsBehind(p: Pix, l: Look, dy: number, view: 'front' | 'back') {
+function earsBehind(p: Pix, l: Look, dy: number) {
 	const { base, inner } = l.hood;
 	const ear = (cx: number, cy: number, rx: number, ry: number) => {
 		p.blob(cx, cy + dy, rx, ry, base, { rim: true });
@@ -107,7 +107,6 @@ function earsBehind(p: Pix, l: Look, dy: number, view: 'front' | 'back') {
 		default:
 			break;
 	}
-	void view;
 }
 
 // ------------------------------------------------------------------ the head
@@ -262,7 +261,6 @@ function bodyFront(p: Pix, l: Look, pose: Pose) {
 	p.hline(7, 25 + dy, 4, c.c[1]);
 	p.vline(8, 22 + dy, 2, WHITE);
 	p.vline(9, 22 + dy, 2, WHITE);
-	void pose;
 }
 
 function bodyBack(p: Pix, l: Look, pose: Pose) {
@@ -288,7 +286,7 @@ function frontCell(p: Pix, l: Look, pose: Pose, mood: Mood) {
 	p.shadow(9, 30.2, 6.5, 1.4);
 	legsFront(p, pose);
 	bodyFront(p, l, pose);
-	earsBehind(p, l, dy, 'front');
+	earsBehind(p, l, dy);
 	hood(p, l, dy);
 	overlays(p, l, dy, 'front');
 	face(p, l, mood, dy);
@@ -300,7 +298,7 @@ function backCell(p: Pix, l: Look, pose: Pose) {
 	p.shadow(9, 30.2, 6.5, 1.4);
 	legsFront(p, pose);
 	bodyBack(p, l, pose);
-	earsBehind(p, l, dy, 'back');
+	earsBehind(p, l, dy);
 	hood(p, l, dy);
 	overlays(p, l, dy, 'back');
 	// hair at the back of the neck, under the hood's edge

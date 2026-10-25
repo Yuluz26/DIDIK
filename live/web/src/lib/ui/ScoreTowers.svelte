@@ -5,6 +5,7 @@
 <script lang="ts">
 	import type { Person } from '$lib/types';
 	import { prescale, urlOf } from '$lib/pixel/cache';
+	import { daySky, towerGround } from '$lib/pixel/backdrop';
 	import { stackTile } from '$lib/pixel/icons';
 	import Avatar from './Avatar.svelte';
 
@@ -24,11 +25,13 @@
 
 	const S = 2;
 	const tile = $derived(urlOf(stackTile(kind), prescale(S)));
+	const sky = urlOf(daySky(), prescale(S));
+	const ground = $derived(urlOf(towerGround(kind), prescale(S)));
 	const shown = $derived(rows.slice(0, limit));
 	const top = $derived(Math.max(1, ...shown.map((r) => r.score)));
 </script>
 
-<ol class="towers {kind}" aria-label="Kedudukan" style:--tile="url({tile})" style:--s="{S}px">
+<ol class="towers {kind}" aria-label="Kedudukan" style:--tile="url({tile})" style:--sky="url({sky})" style:--ground="url({ground})" style:--s="{S}px">
 	{#each shown as row (row.id)}
 		{@const person = people.get(row.id)}
 		<li class="tower">
@@ -51,12 +54,17 @@
 		padding: 1rem;
 		border: 2px solid var(--edge, transparent);
 		border-radius: var(--r-lg);
-		background: linear-gradient(#bfe6f6 0 70%, #e9c78d 70%);
+		/* the ground along the foot, the sky above it, both repeating sideways */
+		background:
+			var(--ground) left bottom / calc(var(--s) * 64) calc(var(--s) * 48) repeat-x,
+			var(--sky) left top / calc(var(--s) * 96) calc(var(--s) * 96) repeat-x,
+			#e0f3fb;
+		image-rendering: pixelated;
 		list-style: none;
 		box-shadow: var(--card-shadow);
 	}
-	.harvest {
-		background: linear-gradient(#bfe6f6 0 70%, #9b6a43 70%);
+	.towers > * {
+		image-rendering: auto;
 	}
 	.tower {
 		display: grid;

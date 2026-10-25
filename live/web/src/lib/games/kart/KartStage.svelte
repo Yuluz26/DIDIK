@@ -99,7 +99,8 @@
 		visibility: hidden;
 		padding: 0.15rem 0.5rem;
 		border-radius: var(--r-pill);
-		background: rgb(15 31 36 / 0.82);
+		border: 2px solid #071418;
+		background: #0f1f24;
 		color: #fff;
 		font: 700 0.8rem/1.2 var(--font-body);
 		white-space: nowrap;
@@ -126,7 +127,8 @@
 	.pill {
 		padding: 0.2rem 0.65rem;
 		border-radius: var(--r-pill);
-		background: rgb(15 31 36 / 0.82);
+		border: 2px solid #071418;
+		background: #0f1f24;
 		color: #fff;
 		font: 600 0.95rem var(--font-display);
 	}
@@ -143,7 +145,8 @@
 		margin: 0;
 		padding: 0.7rem 0.8rem;
 		border-radius: var(--r-md);
-		background: rgb(15 31 36 / 0.84);
+		border: 2px solid #071418;
+		background: #0f1f24;
 		color: #fff;
 		list-style: none;
 		min-width: 15rem;

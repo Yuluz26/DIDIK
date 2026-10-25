@@ -61,7 +61,8 @@
 		visibility: hidden;
 		padding: 0.2rem 0.6rem;
 		border-radius: var(--r-md);
-		background: rgb(15 31 36 / 0.82);
+		border: 2px solid #071418;
+		background: #0f1f24;
 		color: #fff;
 		line-height: 1.2;
 		white-space: nowrap;

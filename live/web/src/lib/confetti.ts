@@ -1,5 +1,6 @@
-// A burst of paper confetti on a canvas above everything. One shared canvas, created on first use,
-// removed when the last piece has landed. Skipped entirely when the device asks for less motion.
+// A burst of confetti on a canvas above everything: pixel squares that snap to a grid as they fall, a
+// lit top and a shaded foot on each. One shared canvas, created on first use, removed when the last
+// piece has landed. Skipped entirely when the device asks for less motion.
 
 const COLOURS = ['#ffb627', '#e8553f', '#14958a', '#2f7fcf', '#6cb33f', '#d63e94', '#ffffff'];
 
@@ -8,12 +9,14 @@ interface Piece {
 	y: number;
 	vx: number;
 	vy: number;
-	spin: number;
-	angle: number;
-	size: number;
+	/** Side of the square, in pixels of the grid (2 or 3). */
+	cells: number;
 	colour: string;
 	life: number;
 }
+
+/** One pixel of the confetti, in CSS pixels. */
+const GRID = 4;
 
 let canvas: HTMLCanvasElement | null = null;
 let pieces: Piece[] = [];
@@ -37,9 +40,7 @@ export function confetti(options: { x?: number; y?: number; count?: number; spre
 			y,
 			vx: Math.cos(angle) * speed,
 			vy: Math.sin(angle) * speed,
-			spin: (Math.random() - 0.5) * 0.4,
-			angle: Math.random() * Math.PI,
-			size: 6 + Math.random() * 7,
+			cells: Math.random() < 0.55 ? 2 : 3,
 			colour: COLOURS[Math.floor(Math.random() * COLOURS.length)],
 			life: 0
 		});
@@ -73,14 +74,17 @@ function draw(): void {
 		p.vx *= 0.985;
 		p.x += p.vx;
 		p.y += p.vy;
-		p.angle += p.spin;
-		g.save();
-		g.translate(p.x, p.y);
-		g.rotate(p.angle);
-		g.scale(1, Math.cos(p.life * 0.18));
+		// drawn on the grid, so the pieces move in steps like everything else on the page
+		const x = Math.round(p.x / GRID) * GRID;
+		const y = Math.round(p.y / GRID) * GRID;
+		const size = p.cells * GRID;
 		g.fillStyle = p.colour;
-		g.fillRect(-p.size / 2, -p.size / 4, p.size, p.size / 2);
-		g.restore();
+		g.fillRect(x, y, size, size);
+		g.fillStyle = 'rgb(0 0 0 / 0.22)';
+		g.fillRect(x, y + size - GRID, size, GRID);
+		g.fillRect(x + size - GRID, y, GRID, size - GRID);
+		g.fillStyle = 'rgb(255 255 255 / 0.55)';
+		g.fillRect(x, y, GRID, GRID);
 	}
 	pieces = pieces.filter((p) => p.y < window.innerHeight + 40 && p.life < 400);
 	if (pieces.length) {
