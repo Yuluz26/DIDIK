@@ -50,9 +50,10 @@
 		min-width: 7rem;
 		height: 7rem;
 		padding: 0 1.2rem;
-		border-radius: 3.5rem;
+		border: 3px solid var(--edge, transparent);
+		border-radius: var(--r-lg);
 		background: var(--sun);
-		box-shadow: 0 8px 0 var(--sun-deep);
+		box-shadow: 0 8px 0 var(--edge, var(--sun-deep));
 		font: 600 3.6rem/1 var(--font-display);
 		animation: pop-in 520ms var(--spring);
 	}

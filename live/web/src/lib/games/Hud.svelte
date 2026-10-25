@@ -3,6 +3,7 @@
 	import type { Me } from '$lib/types';
 	import Avatar from '$ui/Avatar.svelte';
 	import SoundToggle from '$ui/SoundToggle.svelte';
+	import StickerArt from '$ui/StickerArt.svelte';
 
 	let {
 		me,
@@ -22,7 +23,7 @@
 	</div>
 	{#if streak >= 2}
 		<span class="streak" title="Betul berturut-turut">
-			<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22c-4 0-7-3-7-7 0-4 3.5-5.5 4-9.5 2 1.5 3 3.5 3 5 1-1 1.5-2 1.5-3.5 3 2 4.5 5 4.5 8 0 4-2.5 7-6 7z" fill="#e8553f" /><path d="M12 22c-2 0-3.5-1.5-3.5-3.5S10.5 15.5 11 13.5c1.5 1 2 2 2 3 .5-.5 1-1 1-2 1.5 1 1.5 2.5 1.5 4 0 2-1.5 3.5-3.5 3.5z" fill="#ffb627" /></svg>
+			<StickerArt name="api" size={20} />
 			{streak}
 		</span>
 	{/if}
@@ -41,7 +42,7 @@
 		gap: 0.6rem;
 		padding: 0.5rem var(--gutter-r) 0.5rem var(--gutter);
 		background: var(--paper);
-		border-bottom: 2px solid var(--line);
+		border-bottom: 2px solid var(--edge, var(--line));
 	}
 	.who {
 		display: grid;
@@ -78,20 +79,19 @@
 		gap: 0.15rem;
 		padding: 0.15rem 0.55rem 0.15rem 0.3rem;
 		border-radius: var(--r-pill);
+		border: 2px solid var(--edge, transparent);
 		background: #ffe3d6;
 		color: var(--coral-deep);
 		font: 600 1rem var(--font-display);
 		animation: pop-in 400ms var(--spring);
 	}
-	.streak svg {
-		width: 1.3rem;
-		height: 1.3rem;
-	}
+
 	.score {
 		padding: 0.3rem 0.75rem;
 		border-radius: var(--r-pill);
+		border: 2px solid var(--edge, transparent);
 		background: var(--card);
-		box-shadow: 0 2px 0 var(--line);
+		box-shadow: 0 2px 0 var(--edge, var(--line));
 		font-size: 0.85rem;
 		font-weight: 800;
 		color: var(--ink-2);

@@ -3,6 +3,9 @@
 	and WASD do the same on a keyboard (handled by the parent).
 -->
 <script lang="ts">
+	import { stickBase, stickKnob } from '$lib/pixel/icons';
+	import Sprite from '$lib/pixel/Sprite.svelte';
+
 	let { onmove }: { onmove: (dx: number, dy: number) => void } = $props();
 
 	let pad = $state<HTMLElement>();
@@ -53,7 +56,8 @@
 	onpointerup={stop}
 	onpointercancel={stop}
 >
-	<span class="knob" style:transform="translate({knob.x * 2.2}rem, {knob.y * 2.2}rem)"></span>
+	<span class="base"><Sprite sheet={stickBase()} s={3} /></span>
+	<span class="knob" style:transform="translate({Math.round(knob.x * 21)}px, {Math.round(knob.y * 21)}px)"><Sprite sheet={stickKnob()} s={3} /></span>
 </div>
 
 <style>
@@ -61,21 +65,17 @@
 		position: relative;
 		display: grid;
 		place-items: center;
-		width: 7.5rem;
-		height: 7.5rem;
-		border-radius: 50%;
-		background: rgb(255 255 255 / 0.55);
-		border: 3px solid rgb(255 255 255 / 0.9);
-		box-shadow: 0 6px 0 rgb(0 0 0 / 0.15);
+		width: 120px;
+		height: 120px;
 		touch-action: none;
 		user-select: none;
 	}
+	.base,
 	.knob {
-		width: 3rem;
-		height: 3rem;
-		border-radius: 50%;
-		background: var(--sun);
-		box-shadow: 0 4px 0 var(--sun-deep);
+		position: absolute;
+		line-height: 0;
+	}
+	.knob {
 		transition: transform 60ms linear;
 	}
 </style>

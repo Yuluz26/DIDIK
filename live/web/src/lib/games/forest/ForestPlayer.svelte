@@ -10,6 +10,8 @@
 	import Answer from '$lib/questions/Answer.svelte';
 	import Feedback from '$lib/questions/Feedback.svelte';
 	import QuestionCard from '$lib/questions/QuestionCard.svelte';
+	import { key } from '$lib/pixel/icons';
+	import Sprite from '$lib/pixel/Sprite.svelte';
 	import Countdown from '$ui/Countdown.svelte';
 	import Icon from '$ui/Icon.svelte';
 	import Timer from '$ui/Timer.svelte';
@@ -140,7 +142,7 @@
 <Hud {me} score={game.score} rank={game.rank}>
 	<span class="keys" aria-label="{keys} daripada {need} kunci">
 		{#each Array(need) as _, i (i)}
-			<svg viewBox="0 0 24 24" class:got={i < keys} aria-hidden="true"><path d="M8 15a4 4 0 1 1 3.5-6L20 9v3h-2v2h-2v-2h-4.5A4 4 0 0 1 8 15z" /></svg>
+			<Sprite sheet={key(i < keys)} s={1.5} />
 		{/each}
 	</span>
 </Hud>
@@ -225,17 +227,8 @@
 <style>
 	.keys {
 		display: inline-flex;
-		gap: 0.05rem;
-	}
-	.keys svg {
-		width: 1.25rem;
-		height: 1.25rem;
-		fill: #e1d6c3;
-		transition: transform var(--t-state) var(--spring);
-	}
-	.keys svg.got {
-		fill: var(--sun);
-		transform: scale(1.12) rotate(-12deg);
+		gap: 0.15rem;
+		line-height: 0;
 	}
 	.forest {
 		display: grid;

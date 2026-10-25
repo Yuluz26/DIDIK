@@ -6,6 +6,8 @@
 	import { confetti } from '$lib/confetti';
 	import Feedback from '$lib/questions/Feedback.svelte';
 	import QuestionCard from '$lib/questions/QuestionCard.svelte';
+	import { heart } from '$lib/pixel/icons';
+	import Sprite from '$lib/pixel/Sprite.svelte';
 	import Countdown from '$ui/Countdown.svelte';
 	import Timer from '$ui/Timer.svelte';
 	import Hud from '../Hud.svelte';
@@ -38,7 +40,7 @@
 	<span class="hearts" aria-label="{hearts} hati tinggal">
 		{#if hearts > 0}
 			{#each [0, 1, 2] as i (i)}
-				<svg viewBox="0 0 24 24" class:lost={i >= hearts} aria-hidden="true"><path d="M12 21s-8-5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 6-8 11-8 11z" /></svg>
+				<Sprite sheet={heart(i < hearts)} s={1.5} />
 			{/each}
 		{:else}
 			<span class="fish-tag">Ikan</span>
@@ -80,20 +82,12 @@
 	}
 	.hearts {
 		display: inline-flex;
-		gap: 0.1rem;
-	}
-	.hearts svg {
-		width: 1.4rem;
-		height: 1.4rem;
-		fill: var(--coral);
-		transition: transform var(--t-state) var(--spring), opacity var(--t-state);
-	}
-	.hearts svg.lost {
-		fill: #d9cfc0;
-		transform: scale(0.8);
+		gap: 0.2rem;
+		line-height: 0;
 	}
 	.fish-tag {
 		padding: 0.1rem 0.6rem;
+		border: 2px solid var(--edge, transparent);
 		border-radius: var(--r-pill);
 		background: #c9eef5;
 		color: #0b5866;

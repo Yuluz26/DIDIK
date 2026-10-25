@@ -9,6 +9,8 @@
 	import { TEAM_COLOURS } from '$lib/names';
 	import { confetti } from '$lib/confetti';
 	import { play } from '$lib/sound';
+	import { crown } from '$lib/pixel/icons';
+	import Sprite from '$lib/pixel/Sprite.svelte';
 	import Avatar from './Avatar.svelte';
 	import Chibi from './Chibi.svelte';
 	import Didi from './Didi.svelte';
@@ -71,7 +73,7 @@
 				<li class="step step--{row.rank}" class:me={row.id === me}>
 					<span class="who">
 						{#if row.id === me}<span class="tag">Kamu</span>{/if}
-						{#if row.rank === 1}<svg class="crown" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17l2-10 5 5 2-7 2 7 5-5 2 10z" fill="#ffb627" stroke="#c98400" stroke-width="1.5" stroke-linejoin="round" /></svg>{/if}
+						{#if row.rank === 1}<span class="crown"><Sprite sheet={crown()} s={2.5} /></span>{/if}
 						<Chibi animal={person?.avatar} colour={person?.colour} skin={person?.skin} size={row.rank === 1 ? 78 : 64} mood="cheer" />
 					</span>
 					<span class="block">
@@ -164,9 +166,9 @@
 		margin-bottom: -1rem;
 	}
 	.crown {
-		width: 2.4rem;
-		margin-bottom: -0.5rem;
-		animation: wiggle 1.2s ease-in-out 3;
+		margin-bottom: -0.2rem;
+		line-height: 0;
+		animation: bob 1.2s steps(2) 3;
 	}
 	.tag {
 		padding: 0 0.5rem;
@@ -182,10 +184,14 @@
 		gap: 0.1rem;
 		width: 100%;
 		padding: 1.25rem 0.4rem 0.8rem;
+		border: 2px solid var(--edge, transparent);
+		border-bottom: 0;
 		border-radius: var(--r-md) var(--r-md) 0 0;
 		color: #fff;
 		text-align: center;
-		box-shadow: inset 0 0.9rem 0 rgb(255 255 255 / 0.22);
+		box-shadow:
+			inset 0 0.9rem 0 rgb(255 255 255 / 0.22),
+			inset 0 -0.4rem 0 rgb(0 0 0 / 0.14);
 	}
 	.rank {
 		font: 600 2rem/1 var(--font-display);
@@ -243,9 +249,10 @@
 		align-items: center;
 		gap: 0.6rem;
 		padding: 0.35rem 0.8rem 0.35rem 0.5rem;
+		border: 2px solid var(--edge, transparent);
 		border-radius: var(--r-md);
 		background: var(--card);
-		box-shadow: 0 2px 0 var(--line);
+		box-shadow: 0 2px 0 var(--edge, var(--line));
 	}
 	.rest li.me {
 		background: #fff3cf;

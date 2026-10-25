@@ -57,32 +57,35 @@
 	}
 	.track {
 		flex: 1;
-		height: 0.8rem;
+		height: 1rem;
+		border: 2px solid var(--edge, rgb(31 45 39 / 0.2));
 		border-radius: var(--r-pill);
-		background: rgb(31 45 39 / 0.1);
+		background: var(--card);
 		overflow: hidden;
 	}
 	.compact .track {
-		height: 0.55rem;
+		height: 0.8rem;
 	}
+	/* The bar drains in chunky segments, like a health bar in a game. */
 	.fill {
 		height: 100%;
 		border-radius: inherit;
-		background: var(--sun);
+		background: repeating-linear-gradient(90deg, var(--bar, var(--sun)) 0 10px, color-mix(in srgb, var(--bar, var(--sun)) 70%, #fff) 10px 12px);
 		transform-origin: left center;
 		transition:
 			transform 0.1s linear,
 			background-color var(--t-state);
 	}
-	.urgent .fill {
-		background: var(--coral);
+	.urgent {
+		--bar: var(--coral);
 	}
 	.secs {
 		min-width: 2.6rem;
 		padding: 0.15rem 0.6rem;
+		border: 2px solid var(--edge, transparent);
 		border-radius: var(--r-pill);
 		background: var(--card);
-		box-shadow: 0 2px 0 var(--line);
+		box-shadow: 0 2px 0 var(--edge, var(--line));
 		font: 600 1.1rem/1.3 var(--font-display);
 		text-align: center;
 		font-variant-numeric: tabular-nums;

@@ -106,6 +106,8 @@ export interface BlobOptions {
 	rim?: boolean;
 	/** Nudges the tone at a pixel, in tones: leaves, speckle. */
 	grain?: (x: number, y: number) => number;
+	/** Turns the ellipse, in radians, about its centre. */
+	angle?: number;
 }
 
 type Fill = Colour | ((x: number, y: number) => Colour);
@@ -120,6 +122,13 @@ export class Pix {
 	) {
 		this.c = new Uint32Array(w * h);
 		this.ink = new Uint32Array(w * h);
+	}
+
+	/** A picture drawn as rows of characters: `legend` says which colour each one is; others are clear. */
+	static fromMap(rows: readonly string[], legend: Readonly<Record<string, Colour>>): Pix {
+		const p = new Pix(Math.max(...rows.map((r) => r.length)), rows.length);
+		rows.forEach((row, y) => [...row].forEach((ch, x) => legend[ch] && p.set(x, y, legend[ch])));
+		return p;
 	}
 
 	get(x: number, y: number): Colour {
@@ -244,18 +253,27 @@ export class Pix {
 	blob(cx: number, cy: number, rx: number, ry: number, r: Ramp, o: BlobOptions = {}): this {
 		const [lx, ly, lz] = o.light ?? LIGHT;
 		const n = r.c.length;
+		const cos = Math.cos(o.angle ?? 0);
+		const sin = Math.sin(o.angle ?? 0);
+		const local = (x: number, y: number): [number, number] => {
+			const dx = x + 0.5 - cx;
+			const dy = y + 0.5 - cy;
+			return [(dx * cos + dy * sin) / rx, (-dx * sin + dy * cos) / ry];
+		};
 		const edge = (x: number, y: number) => {
-			const nx = (x + 0.5 - cx) / rx;
-			const ny = (y + 0.5 - cy) / ry;
+			const [nx, ny] = local(x, y);
 			return nx * nx + ny * ny > 1;
 		};
-		for (let y = Math.floor(cy - ry); y <= Math.ceil(cy + ry); y++) {
-			for (let x = Math.floor(cx - rx); x <= Math.ceil(cx + rx); x++) {
-				const nx = (x + 0.5 - cx) / rx;
-				const ny = (y + 0.5 - cy) / ry;
+		const reach = Math.max(rx, ry) + 1;
+		for (let y = Math.floor(cy - reach); y <= Math.ceil(cy + reach); y++) {
+			for (let x = Math.floor(cx - reach); x <= Math.ceil(cx + reach); x++) {
+				const [nx, ny] = local(x, y);
 				const d = nx * nx + ny * ny;
 				if (d > 1) continue;
-				const lit = Math.max(0, nx * lx + ny * ly + Math.sqrt(1 - d) * lz);
+				// the light is fixed to the picture, so a turned ellipse keeps its highlight up and left
+				const wx = nx * cos - ny * sin;
+				const wy = nx * sin + ny * cos;
+				const lit = Math.max(0, wx * lx + wy * ly + Math.sqrt(1 - d) * lz);
 				let t = lit * n * 0.98 + (o.bias ?? 0) + (o.grain ? o.grain(x, y) : 0);
 				if (o.dither) t += (BAYER[(y & 3) * 4 + (x & 3)] / 16 - 0.5) * o.dither * 1.6;
 				let i = Math.floor(t);

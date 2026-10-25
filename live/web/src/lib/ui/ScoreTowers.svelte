@@ -4,6 +4,8 @@
 -->
 <script lang="ts">
 	import type { Person } from '$lib/types';
+	import { prescale, urlOf } from '$lib/pixel/cache';
+	import { stackTile } from '$lib/pixel/icons';
 	import Avatar from './Avatar.svelte';
 
 	interface Row {
@@ -20,16 +22,18 @@
 		limit = 8
 	}: { rows: Row[]; people: Map<string, Person>; unit?: string; kind?: 'coins' | 'harvest'; limit?: number } = $props();
 
+	const S = 2;
+	const tile = $derived(urlOf(stackTile(kind), prescale(S)));
 	const shown = $derived(rows.slice(0, limit));
 	const top = $derived(Math.max(1, ...shown.map((r) => r.score)));
 </script>
 
-<ol class="towers {kind}" aria-label="Kedudukan">
+<ol class="towers {kind}" aria-label="Kedudukan" style:--tile="url({tile})" style:--s="{S}px">
 	{#each shown as row (row.id)}
 		{@const person = people.get(row.id)}
 		<li class="tower">
 			<span class="amount">{row.score.toLocaleString('ms-MY')}<small>{unit}</small></span>
-			<span class="track"><span class="fill" style:transform="scaleY({Math.max(0.04, row.score / top)})"></span></span>
+			<span class="track"><span class="fill" style:height="{Math.max(1, Math.round(((row.score / top) * 88) / 4) * 4)}px"></span></span>
 			<Avatar animal={person?.avatar} colour={person?.colour} skin={person?.skin} size={46} mood={row.rank === 1 ? 'cheer' : 'happy'} />
 			<span class="name">{person?.name ?? ''}</span>
 		</li>
@@ -45,13 +49,14 @@
 		min-height: 18rem;
 		margin: 0;
 		padding: 1rem;
+		border: 2px solid var(--edge, transparent);
 		border-radius: var(--r-lg);
-		background: linear-gradient(#cdebff 0 70%, #f6d58e 70%);
+		background: linear-gradient(#bfe6f6 0 70%, #e9c78d 70%);
 		list-style: none;
 		box-shadow: var(--card-shadow);
 	}
 	.harvest {
-		background: linear-gradient(#cdebff 0 70%, #9b6a43 70%);
+		background: linear-gradient(#bfe6f6 0 70%, #9b6a43 70%);
 	}
 	.tower {
 		display: grid;
@@ -72,20 +77,19 @@
 	.track {
 		display: flex;
 		align-items: flex-end;
-		width: 70%;
+		justify-content: center;
+		width: 100%;
 		height: 11rem;
 	}
+	/* A stack of coins: the picture of one repeats upwards, so the tower grows a coin at a time. */
 	.fill {
-		width: 100%;
-		height: 100%;
-		border-radius: 0.6rem 0.6rem 0.2rem 0.2rem;
-		transform-origin: bottom;
-		transition: transform 900ms var(--spring);
-		background: repeating-linear-gradient(#ffd34d 0 8px, #e9a800 8px 11px);
-		box-shadow: inset -6px 0 0 rgb(0 0 0 / 0.08);
-	}
-	.harvest .fill {
-		background: repeating-linear-gradient(#8fd05e 0 10px, #6cb33f 10px 14px);
+		display: block;
+		width: calc(var(--s) * 14);
+		background-image: var(--tile);
+		background-size: calc(var(--s) * 14) calc(var(--s) * 4);
+		background-position: bottom;
+		background-repeat: repeat-y;
+		transition: height 900ms steps(12);
 	}
 	/* Every name keeps room for two lines, so a long name never lifts its tower above the rest. */
 	.name {

@@ -730,3 +730,84 @@ textarea {
 		grid-template-columns: minmax(0, 1fr);
 	}
 }
+
+/* ---------------------------------------------------------------- the pixel look of a game's screens */
+
+/*
+ * Set on <html> for the screens of a game (the join form, the host's screen, a child's phone) and the
+ * front page: hard corners, a dark one-pixel-grid outline, a shadow with no blur, and the pixel font for
+ * headings, so the controls around a world match the world. The parents' pages keep the soft look.
+ */
+:root[data-ui='pixel'] {
+	--edge: #2a1f2d;
+	--r-sm: 3px;
+	--r-md: 4px;
+	--r-lg: 6px;
+	--r-pill: 4px;
+	--font-display: var(--font-pixel);
+	--lift: 0 4px 0 var(--edge);
+	--lift-low: 0 3px 0 var(--edge);
+	--card-shadow: 0 3px 0 var(--edge);
+}
+
+:root[data-ui='pixel'][data-look='3d'] {
+	--edge: #071418;
+}
+
+:root[data-ui='pixel'] :is(.btn, .tile, .card, .chip, .input) {
+	border: 2px solid var(--edge);
+}
+
+:root[data-ui='pixel'] .btn {
+	box-shadow: 0 3px 0 var(--edge);
+}
+
+:root[data-ui='pixel'] .btn:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 5px 0 var(--edge);
+}
+
+:root[data-ui='pixel'] .btn:active {
+	transform: translateY(3px);
+	box-shadow: 0 0 0 var(--edge);
+}
+
+:root[data-ui='pixel'] .btn--ghost {
+	border-color: transparent;
+	box-shadow: none;
+}
+
+:root[data-ui='pixel'] .tile {
+	box-shadow: 0 4px 0 var(--edge);
+}
+
+:root[data-ui='pixel'] .tile:not(:disabled):hover {
+	transform: translateY(-3px);
+	box-shadow: 0 7px 0 var(--edge);
+}
+
+:root[data-ui='pixel'] .tile:not(:disabled):active {
+	transform: translateY(4px);
+	box-shadow: 0 0 0 var(--edge);
+}
+
+:root[data-ui='pixel'] .tile .letter {
+	border-radius: 2px;
+}
+
+:root[data-ui='pixel'] .tile .mark {
+	border: 2px solid var(--edge);
+	border-radius: 3px;
+	box-shadow: none;
+}
+
+:root[data-ui='pixel'] .tile.picked {
+	outline-width: 3px;
+	outline-style: solid;
+	outline-offset: 2px;
+	border-radius: var(--r-md);
+}
+
+:root[data-ui='pixel'] .input:focus {
+	box-shadow: 0 0 0 3px var(--sky);
+}
