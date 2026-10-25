@@ -9,7 +9,7 @@ import { TILE } from './cache';
 import { M } from './palette';
 import { type Colour, Pix, type Ramp, mix, noise, rgba } from './pix';
 
-export type Land = 'grass' | 'lawn' | 'dirt' | 'sand' | 'water' | 'deep' | 'plank' | 'stone' | 'moss' | 'soil';
+export type Land = 'grass' | 'lawn' | 'dirt' | 'sand' | 'water' | 'deep' | 'plank' | 'floor' | 'stone' | 'moss' | 'soil';
 
 /** The map: land for each tile, row by row; `land('x')` characters are mapped by the caller. */
 export type LandMap = readonly (readonly Land[])[];
@@ -181,6 +181,23 @@ const DEFS: Record<Land, Def> = {
 			if ((x + board * 5) % 13 === 0) c = p[1];
 			else if (noise(x, y, seed + 13) < 0.07) c = p[1];
 			else if (row === 1 && noise(x >> 1, board, seed + 14) < 0.3 && x % 3 === 0) c = p[3];
+			return c;
+		}
+	},
+	floor: {
+		layer: 5,
+		ramp: M.plank,
+		round: false,
+		tex(x, y, seed) {
+			const p = M.plank.c;
+			const board = Math.floor(y / 5);
+			const row = y % 5;
+			const seam = (x + board * 11) % 29 === 0;
+			if (row === 4 || seam) return p[2];
+			const tone = noise(Math.floor((x + board * 11) / 29), board, seed + 17);
+			let c = tone > 0.66 ? p[4] : tone < 0.3 ? mix(p[3], p[2], 0.5) : p[3];
+			if (row === 0) c = mix(c, p[4], 0.5);
+			else if (noise(x, y, seed + 18) < 0.045) c = p[2];
 			return c;
 		}
 	},

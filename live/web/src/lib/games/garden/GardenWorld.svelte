@@ -25,8 +25,10 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 	import type { Person } from '$lib/types';
+	import { fitTile } from '$lib/pixel/cache';
 	import GardenBed from '$lib/worlds/GardenBed.svelte';
 	import World, { type WorldActor, type WorldProp } from '$lib/worlds/World.svelte';
+	import { gardenGround } from './sprites';
 
 	let {
 		plots,
@@ -68,7 +70,8 @@
 	];
 
 	let width = $state(0);
-	const tile = $derived(Math.max(12, Math.min(maxTile, width / W)));
+	const tile = $derived(fitTile(width, W, { max: maxTile }));
+	const ground = gardenGround(W, H);
 
 	const items = $derived<WorldProp[]>([
 		...SCENERY,
@@ -114,19 +117,7 @@
 
 <div class="garden" bind:clientWidth={width}>
 	<div class="fit" style:max-width="{W * tile}px">
-		<World width={W} height={H} {tile} props={items} {actors} me={onbed ? (owner?.id ?? null) : null} names={onbed ? 'me' : true} step={520} {art} {overlay}>
-			{#snippet ground()}
-				<rect width={W} height={H} fill="#8fd05e" />
-				<!-- Paths between the beds and over to the hut. -->
-				{#each [3.8, 7.4] as x (x)}<rect x={x - 0.32} y="2.0" width="0.64" height="8.6" rx="0.3" fill="#e9cf98" />{/each}
-				{#each [4.75, 7.45] as y (y)}<rect x="0.4" y={y - 0.3} width="10.6" height="0.6" rx="0.3" fill="#e9cf98" />{/each}
-				<rect x="10.7" y="2.0" width="0.7" height="8.6" rx="0.3" fill="#e9cf98" />
-				<rect x="10.7" y="6.4" width="2.6" height="0.7" rx="0.3" fill="#e9cf98" />
-				{#each [[1.2, 3.0], [6.6, 2.4], [9.9, 8.5], [2.9, 10.4], [13.2, 6.0], [0.5, 8.1]] as [x, y] (`${x}-${y}`)}
-					<path d="M{x} {y} l0.06 -0.16 l0.06 0.16 M{x + 0.3} {y - 0.2} l0.05 -0.13 l0.05 0.13" stroke="#6cb33f" stroke-width="0.05" fill="none" stroke-linecap="round" />
-				{/each}
-			{/snippet}
-		</World>
+		<World width={W} height={H} {tile} {ground} props={items} {actors} me={onbed ? (owner?.id ?? null) : null} names={onbed ? 'me' : true} step={520} {art} {overlay} />
 	</div>
 </div>
 

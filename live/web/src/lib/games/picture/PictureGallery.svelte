@@ -20,7 +20,10 @@
 
 <script lang="ts">
 	import type { Person } from '$lib/types';
+	import { TILE, fitTile } from '$lib/pixel/cache';
+	import Sprite from '$lib/pixel/Sprite.svelte';
 	import World, { type WorldActor, type WorldProp } from '$lib/worlds/World.svelte';
+	import { EASEL, easel, galleryGround } from './sprites';
 
 	let {
 		frame,
@@ -50,7 +53,8 @@
 	];
 
 	let width = $state(0);
-	const tile = $derived(Math.max(26, Math.min(56, width / W)));
+	const tile = $derived(fitTile(width, W, { min: 2, max: 64 }));
+	const ground = galleryGround(W, H);
 	// A child who has guessed sees the whole picture straight away; everyone else waits for the tiles.
 	const open = $derived(new Set(frame.guessed ? Array.from({ length: frame.tiles }, (_, i) => i) : frame.opened));
 	const closed = $derived(frame.tiles - frame.opened.length);
@@ -79,11 +83,9 @@
 </script>
 
 {#snippet art(_prop: WorldProp, tile: number)}
-	<div class="easel" style:--t="{tile}px">
-		<svg class="legs" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-			<path d="M22 100 L42 8 M78 100 L58 8 M50 100 V40" stroke="#8e5a2e" stroke-width="5" stroke-linecap="round" />
-		</svg>
-		<div class="canvas">
+	{@const s = tile / TILE}
+	<div class="easel" style:--s="{s}px" style:width="{EASEL.w * s}px" style:height="{EASEL.h * s}px">
+		<div class="canvas" style:left="{EASEL.pic.x * s}px" style:top="{EASEL.pic.y * s}px" style:width="{EASEL.pic.size * s}px" style:height="{EASEL.pic.size * s}px">
 			<img src={frame.url} alt={frame.name ? `Gambar ${frame.name}` : 'Gambar rahsia, sebahagiannya tertutup'} />
 			<div class="cover" aria-hidden="true">
 				{#each Array.from({ length: frame.tiles }, (_, i) => i) as i (i)}
@@ -91,7 +93,7 @@
 				{/each}
 			</div>
 		</div>
-		<span class="ledge"></span>
+		<span class="frame"><Sprite sheet={easel()} {s} /></span>
 	</div>
 {/snippet}
 
@@ -105,22 +107,7 @@
 		{#if frame.guessedCount}<span class="count">{frame.guessedCount} sudah meneka</span>{/if}
 	</figcaption>
 	<div class="fit" style:max-width="{W * tile}px">
-		<World width={W} height={H} {tile} props={PROPS} {actors} {me} names={me ? 'me' : true} {art}>
-			{#snippet ground()}
-				<!-- The back wall with its wainscot, then the wooden floor. -->
-				<rect width={W} height="2.3" fill="#fbe9c9" />
-				<rect y="1.75" width={W} height="0.55" fill="#efd3a2" />
-				<rect y="2.22" width={W} height="0.1" fill="#c98a54" />
-				<rect x="0.9" y="0.45" width="1.1" height="0.85" rx="0.06" fill="#8e5a2e" /><rect x="1.0" y="0.55" width="0.9" height="0.65" fill="#bde7f5" />
-				<path d="M1.0 1.2 l0.3 -0.32 l0.22 0.2 l0.18 -0.14 l0.2 0.26z" fill="#4fa35b" />
-				<rect x="6.0" y="0.5" width="1.0" height="0.8" rx="0.06" fill="#8e5a2e" /><rect x="6.1" y="0.6" width="0.8" height="0.6" fill="#ffe7a3" />
-				<circle cx="6.5" cy="0.9" r="0.16" fill="#e8553f" />
-				<rect y="2.32" width={W} height={H - 2.32} fill="#d9a066" />
-				{#each [2.95, 3.6, 4.25, 4.9, 5.55] as y (y)}<rect y={y} width={W} height="0.04" fill="#c48a52" />{/each}
-				<ellipse cx="4" cy="5.25" rx="2.6" ry="0.55" fill="#2bb0a6" opacity=".85" />
-				<ellipse cx="4" cy="5.25" rx="2.2" ry="0.4" fill="none" stroke="#fff" stroke-width="0.05" stroke-dasharray="0.15 0.1" />
-			{/snippet}
-		</World>
+		<World width={W} height={H} {tile} {ground} props={PROPS} {actors} {me} names={me ? 'me' : true} {art} />
 	</div>
 </figure>
 
@@ -142,15 +129,15 @@
 		font-weight: 700;
 	}
 	figcaption strong {
-		font: 600 1.2rem var(--font-display);
+		font: 600 1.2rem var(--font-pixel);
 	}
 	.count {
 		margin-left: auto;
 		padding: 0.05rem 0.6rem;
-		border-radius: var(--r-pill);
+		border: 2px solid #2a1f2d;
+		border-radius: 4px;
 		background: var(--sun);
-		font-weight: 800;
-		font-size: 0.85rem;
+		font: 700 0.85rem var(--font-pixel);
 	}
 	.fit {
 		width: 100%;
@@ -158,33 +145,23 @@
 	}
 	.easel {
 		position: relative;
-		width: calc(var(--t) * 4.6);
-		height: calc(var(--t) * 5.2);
-	}
-	.legs {
-		position: absolute;
-		inset: calc(var(--t) * 0.6) 0 0;
-		width: 100%;
-		height: calc(100% - var(--t) * 0.6);
 	}
 	.canvas {
 		position: absolute;
-		top: 0;
-		left: 50%;
-		width: calc(var(--t) * 4.1);
-		aspect-ratio: 1;
-		translate: -50% 0;
 		overflow: hidden;
-		border: calc(var(--t) * 0.14) solid #8e5a2e;
-		border-radius: 6px;
 		background: #fff;
-		box-shadow: 0 4px 0 #6b4220;
-		perspective: 600px;
 	}
 	.canvas img {
 		display: block;
 		width: 100%;
 		height: 100%;
+		object-fit: cover;
+	}
+	.frame {
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		line-height: 0;
 	}
 	.cover {
 		position: absolute;
@@ -198,10 +175,10 @@
 		display: grid;
 		place-items: center;
 		background: #2bb0a6;
-		box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.22);
-		transition:
-			transform 480ms var(--spring),
-			opacity 380ms var(--ease-out);
+		box-shadow:
+			inset var(--s) var(--s) 0 rgb(255 255 255 / 0.28),
+			inset calc(var(--s) * -1) calc(var(--s) * -1) 0 rgb(0 0 0 / 0.2);
+		transition: opacity 380ms steps(4);
 		transition-delay: calc(var(--n) * 70ms);
 	}
 	.shutter.alt {
@@ -209,21 +186,10 @@
 	}
 	.shutter::after {
 		content: '?';
-		color: rgb(255 255 255 / 0.45);
-		font: 600 calc(var(--t) * 0.45) var(--font-display);
+		color: rgb(255 255 255 / 0.5);
+		font: 700 calc(var(--s) * 9) var(--font-pixel);
 	}
 	.shutter.open {
 		opacity: 0;
-		transform: rotateY(90deg) scale(0.7);
-	}
-	.ledge {
-		position: absolute;
-		top: calc(var(--t) * 4.05);
-		left: 50%;
-		width: calc(var(--t) * 4.5);
-		height: calc(var(--t) * 0.22);
-		translate: -50% 0;
-		border-radius: 4px;
-		background: #a46a37;
 	}
 </style>

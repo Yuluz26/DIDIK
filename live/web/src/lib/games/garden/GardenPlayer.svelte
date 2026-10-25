@@ -8,7 +8,9 @@
 	import type { Person } from '$lib/types';
 	import { confetti } from '$lib/confetti';
 	import { play } from '$lib/sound';
+	import Sprite from '$lib/pixel/Sprite.svelte';
 	import Crop from '$lib/worlds/Crop.svelte';
+	import { shopSheet } from '$lib/worlds/garden';
 	import Icon from '$ui/Icon.svelte';
 	import GardenWorld, { bedAt, type CropInfo, type Plot } from './GardenWorld.svelte';
 
@@ -166,7 +168,7 @@
 			<div class="list">
 				{#each Object.entries(world.crops) as [key, crop] (key)}
 					<button type="button" class="seed" disabled={world.coins < crop.cost} onclick={() => plant(key)}>
-						<svg class="art" viewBox="-66 -142 132 150" aria-hidden="true"><Crop crop={key} ready /></svg>
+						<span class="art"><Crop crop={key} ready s={2} /></span>
 						<strong>{crop.name}</strong>
 						<span class="price">{crop.cost ? `${crop.cost} syiling` : 'Percuma'}</span>
 						<small>{crop.water} siraman, tuai {crop.value}</small>
@@ -179,19 +181,7 @@
 			{#each Object.entries(world.shop) as [key, item] (key)}
 				{@const full = key === 'tanah' && world.plots.length >= world.maxPlots}
 				<button type="button" class="buy" disabled={world.coins < item.cost || full} onclick={() => buy(key)}>
-					<svg class="art" viewBox="0 0 40 40" aria-hidden="true">
-						{#if key === 'baja'}
-							<path d="M10 12 q10 -6 20 0 l3 22 q-13 5 -26 0z" fill="#d9a066" />
-							<path d="M12 12 q8 4 16 0" stroke="#a46a37" stroke-width="2" fill="none" />
-							<path d="M20 18 q-8 5 -2 12 q8 -3 2 -12z" fill="#4fa35b" />
-							<path d="M29 6 l1.5 3.5 3.5 1.5 -3.5 1.5 -1.5 3.5 -1.5 -3.5 -3.5 -1.5 3.5 -1.5z" fill="#ffb627" />
-						{:else}
-							<rect x="3" y="17" width="30" height="16" rx="5" fill="#8e5a36" />
-							<path d="M7 23 H29 M7 28 H29" stroke="#6f4326" stroke-width="2" stroke-linecap="round" />
-							<circle cx="31" cy="12" r="7.5" fill="#1f9d55" />
-							<path d="M31 8.5 v7 M27.5 12 h7" stroke="#fff" stroke-width="2.4" stroke-linecap="round" />
-						{/if}
-					</svg>
+					<span class="art"><Sprite sheet={shopSheet(key)} s={2} /></span>
 					<span class="text"><strong>{item.name}</strong><small>{full ? 'Kebun kamu sudah penuh.' : item.note}</small></span>
 					<span class="price"><Icon name="coin" size={16} />{item.cost}</span>
 				</button>
@@ -322,8 +312,10 @@
 		text-align: center;
 	}
 	.seed .art {
-		width: 100%;
-		height: 4.2rem;
+		display: grid;
+		place-items: end center;
+		height: 4.4rem;
+		line-height: 0;
 	}
 	.seed strong {
 		font-size: 0.95rem;
@@ -352,8 +344,9 @@
 		text-align: left;
 	}
 	.buy .art {
-		width: 2.4rem;
-		height: 2.4rem;
+		display: grid;
+		place-items: center;
+		line-height: 0;
 	}
 	.text {
 		display: grid;
