@@ -120,7 +120,7 @@
 		color: #fff;
 		text-align: center;
 		box-shadow: var(--lift-low);
-		animation: pop-in 600ms var(--spring);
+		animation: pop-in 480ms steps(8);
 	}
 	.banner h2 {
 		font-size: var(--fs-h1);
@@ -149,7 +149,7 @@
 		display: grid;
 		justify-items: center;
 		width: min(11rem, 31%);
-		animation: rise-in 700ms var(--spring) both;
+		animation: rise-in 600ms steps(10) both;
 	}
 	.step--1 {
 		animation-delay: 0.5s;

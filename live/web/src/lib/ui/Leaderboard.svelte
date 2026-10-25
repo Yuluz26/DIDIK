@@ -69,7 +69,7 @@
 		place-items: center;
 		width: 1.9rem;
 		height: 1.9rem;
-		border-radius: 50%;
+		border-radius: var(--r-sm);
 		background: var(--paper-2);
 		font: 600 1rem/1 var(--font-display);
 		flex: none;

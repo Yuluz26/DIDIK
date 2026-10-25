@@ -126,11 +126,18 @@ export function sunset(scene: Scene): Group {
 		across.addColorStop(1, 'rgba(255,200,130,0)');
 		ctx.fillStyle = across;
 		ctx.fillRect(0, 0, 64, 256);
-		// Broken into ripples, and fading toward the viewer.
+		// Broken into short glints, and more broken the nearer the viewer.
 		ctx.globalCompositeOperation = 'destination-out';
-		for (let y = 0; y < 256; y += 3) {
-			ctx.fillStyle = `rgba(0,0,0,${0.35 + 0.5 * (y / 256)})`;
-			ctx.fillRect(0, y, 64, 1 + ((y * 7) % 3));
+		let seed = 7;
+		const rand = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+		ctx.fillStyle = '#000';
+		for (let y = 0; y < 256; y += 2) {
+			const broken = 0.3 + 0.5 * (y / 256);
+			for (let x = 0; x < 64; ) {
+				const run = 2 + Math.floor(rand() * 7);
+				if (rand() < broken) ctx.fillRect(x, y, run, 2);
+				x += run;
+			}
 		}
 	});
 	const path = new Mesh(new PlaneGeometry(70, 380), new MeshBasicMaterial({ map: shine, transparent: true, blending: AdditiveBlending, depthWrite: false }));

@@ -84,7 +84,7 @@
 		place-items: center;
 		width: 1.8rem;
 		height: 1.8rem;
-		border-radius: 50%;
+		border-radius: var(--r-sm);
 		background: var(--sun);
 		font: 600 1rem var(--font-display);
 	}

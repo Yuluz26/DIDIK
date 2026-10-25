@@ -1,7 +1,18 @@
-<!-- Art sheet: every character and prop on one page, for reviewing the look. Not linked from the app. -->
+<!-- Art sheet: every character, prop, badge, sticker and icon on one page, for reviewing the look. Not linked from the app. -->
 <script lang="ts">
 	import { ANIMALS, COLOURS, SKINS } from '$lib/names';
+	import { GLYPH_NAMES } from '$lib/pixel/glyphs';
+	import { PROP_KINDS } from '$lib/pixel/props';
+	import Prop from '$lib/worlds/Prop.svelte';
+	import WorldBadge from '$lib/worlds/WorldBadge.svelte';
 	import Chibi from '$ui/Chibi.svelte';
+	import Didi from '$ui/Didi.svelte';
+	import Icon from '$ui/Icon.svelte';
+	import StickerArt from '$ui/StickerArt.svelte';
+
+	const WORLDS = ['sungai', 'kolam', 'pulau', 'hutan', 'peta', 'kampung', 'galeri', 'kebun', 'litar', 'stadium', 'lanun', 'menara'];
+	const MOODS = ['happy', 'cheer', 'think', 'hint', 'wave'] as const;
+	const STICKERS = ['hati', 'bintang', 'ketawa', 'tepuk', 'wah', 'ok', 'api', 'pelangi'];
 
 	const animals = Object.keys(ANIMALS);
 	const colours = Object.keys(COLOURS);
@@ -31,6 +42,36 @@
 			<figure><Chibi animal="kancil" colour="hijau" {skin} size={90} /><figcaption>{skin}</figcaption></figure>
 		{/each}
 	</div>
+	<h2>Didi</h2>
+	<div class="row">
+		{#each MOODS as mood (mood)}
+			<figure><Didi {mood} size={110} /><figcaption>{mood}</figcaption></figure>
+		{/each}
+	</div>
+	<h2>Prop</h2>
+	<div class="row">
+		{#each PROP_KINDS as kind (kind)}
+			<figure><Prop {kind} tile={32} /><figcaption>{kind}</figcaption></figure>
+		{/each}
+	</div>
+	<h2>Lencana dunia</h2>
+	<div class="row">
+		{#each WORLDS as world (world)}
+			<figure><WorldBadge {world} size={80} /><figcaption>{world}</figcaption></figure>
+		{/each}
+	</div>
+	<h2>Pelekat</h2>
+	<div class="row">
+		{#each STICKERS as sticker (sticker)}
+			<figure><StickerArt name={sticker} size={64} /><figcaption>{sticker}</figcaption></figure>
+		{/each}
+	</div>
+	<h2>Ikon</h2>
+	<div class="row ink">
+		{#each GLYPH_NAMES as name (name)}
+			<figure><Icon {name} size={33} /><figcaption>{name}</figcaption></figure>
+		{/each}
+	</div>
 </main>
 
 <style>
@@ -46,6 +87,10 @@
 		padding: 1.2rem;
 		border-radius: var(--r-lg);
 		background: #8fd05e;
+	}
+	.ink {
+		background: var(--paper-2);
+		color: var(--ink);
 	}
 	figure {
 		display: grid;

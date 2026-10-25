@@ -300,7 +300,7 @@
 		translate: -50% -50%;
 		border: 3px solid #fff;
 		border-radius: 50%;
-		animation: ring 900ms var(--ease-out) forwards;
+		animation: ring 900ms steps(6) forwards;
 	}
 	@keyframes ring {
 		from {

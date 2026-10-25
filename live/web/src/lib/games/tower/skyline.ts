@@ -19,6 +19,7 @@ import {
 	LineSegments,
 	Matrix4,
 	Mesh,
+	NearestFilter,
 	Object3D,
 	PerspectiveCamera,
 	PlaneGeometry,
@@ -367,6 +368,9 @@ export class SkylineWorld implements World3D {
 				}
 		});
 		windows.wrapS = windows.wrapT = RepeatWrapping;
+		// Seen from far away a window must still cover a few pixels of the small picture, so one cell of
+		// the texture is about twelve metres: bigger windows, fewer of them, and no speckle.
+		windows.magFilter = NearestFilter;
 		const boxes: BufferGeometry[] = [];
 		let seed = 21;
 		const rand = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
@@ -379,7 +383,7 @@ export class SkylineWorld implements World3D {
 			const h = 25 + Math.pow(rand(), 2) * 170;
 			const box = new BoxGeometry(w, h, w * (0.7 + rand() * 0.6));
 			const uv = box.getAttribute('uv');
-			for (let k = 0; k < uv.count; k++) uv.setXY(k, uv.getX(k) * (w / 16), uv.getY(k) * (h / 16));
+			for (let k = 0; k < uv.count; k++) uv.setXY(k, uv.getX(k) * (w / 96), uv.getY(k) * (h / 96));
 			box.translate(x, h / 2, z);
 			boxes.push(box);
 		}

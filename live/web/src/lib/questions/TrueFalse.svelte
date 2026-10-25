@@ -65,7 +65,7 @@
 		place-items: center;
 		width: 3.4rem;
 		height: 3.4rem;
-		border-radius: 50%;
+		border-radius: var(--r-md);
 		background: rgb(255 255 255 / 0.25);
 	}
 	.tf .count {

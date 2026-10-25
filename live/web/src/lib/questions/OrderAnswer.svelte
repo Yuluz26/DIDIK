@@ -113,7 +113,7 @@
 		flex: none;
 		width: 2.3rem;
 		height: 2.3rem;
-		border-radius: 50%;
+		border-radius: var(--r-sm);
 		background: var(--sun);
 		color: var(--on-bright);
 		font: 600 1.15rem var(--font-display);

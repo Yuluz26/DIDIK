@@ -258,7 +258,7 @@
 		position: relative;
 		width: 2rem;
 		height: 2rem;
-		border-radius: 50%;
+		border-radius: var(--r-sm);
 	}
 	.roster .tool::after {
 		content: '';

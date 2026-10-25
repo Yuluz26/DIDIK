@@ -167,7 +167,7 @@
 		flex: none;
 		width: 1.7rem;
 		height: 1.7rem;
-		border-radius: 50%;
+		border-radius: var(--r-sm);
 		background: var(--pair);
 		color: #fff;
 		font-size: 0.95rem;
