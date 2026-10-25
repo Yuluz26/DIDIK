@@ -7,9 +7,12 @@
 	import type { Person } from '$lib/types';
 	import { play } from '$lib/sound';
 	import { confetti } from '$lib/confetti';
+	import { TILE, fitTile } from '$lib/pixel/cache';
+	import Sprite from '$lib/pixel/Sprite.svelte';
 	import World, { type WorldActor, type WorldProp } from '$lib/worlds/World.svelte';
 	import Loot from './Loot.svelte';
 	import { LOOT_NAMES } from './loot';
+	import { islandGround, spotHole, spotMark } from './sprites';
 
 	interface Found {
 		found: string;
@@ -47,7 +50,8 @@
 	];
 
 	let width = $state(0);
-	const tile = $derived(Math.max(20, Math.min(52, width / W)));
+	const tile = $derived(fitTile(width, W, { min: 1.5, max: 64 }));
+	const ground = islandGround(W, H);
 
 	let digging = $state<number | null>(null);
 	let fresh = $state<number | null>(null);
@@ -115,21 +119,14 @@
 {#snippet art(prop: WorldProp, tile: number)}
 	{@const i = Number(prop.id.slice(5))}
 	{@const found = world.tiles.find((t) => t.i === i)?.dug ?? null}
-	<span class="spot" class:dug={!!found} class:ready={!found && world.canDig} class:digging={digging === i} class:fresh={fresh === i} style:--t="{tile}px" style:--n={i}>
+	{@const s = tile / TILE}
+	<span class="spot" class:dug={!!found} class:ready={!found && world.canDig} class:digging={digging === i} class:fresh={fresh === i} style:--t="{tile}px" style:--s="{s}px" style:--n={i}>
 		{#if found}
-			<svg class="hole" viewBox="0 0 60 30" aria-hidden="true">
-				<ellipse cx="30" cy="20" rx="27" ry="9" fill="#e0b871" />
-				<ellipse cx="30" cy="18" rx="19" ry="6" fill="#8e5a2e" />
-			</svg>
-			<span class="loot"><Loot kind={found.found} size={Math.round(tile * 0.95)} /></span>
+			<span class="hole"><Sprite sheet={spotHole()} {s} /></span>
+			<span class="loot"><Loot kind={found.found} size={Math.round(tile * 1.1)} /></span>
 			{#if found.amount}<span class="amount" class:minus={found.amount < 0}>{found.amount > 0 ? '+' : ''}{found.amount}</span>{/if}
 		{:else}
-			<svg class="mound" viewBox="0 0 60 36" aria-hidden="true">
-				<ellipse cx="30" cy="28" rx="27" ry="8" fill="#000" opacity=".1" />
-				<ellipse cx="30" cy="26" rx="26" ry="9" fill="#e0b871" />
-				<ellipse cx="30" cy="22" rx="18" ry="9" fill="#f2d49b" />
-				<path d="M24 14l12 10M36 14l-12 10" stroke="#c0503a" stroke-width="3.5" stroke-linecap="round" opacity=".85" />
-			</svg>
+			<span class="mound"><Sprite sheet={spotMark()} {s} /></span>
 		{/if}
 	</span>
 {/snippet}
@@ -137,21 +134,7 @@
 <figure class="treasure" class:dig-now={world.canDig}>
 	<div class="map" bind:clientWidth={width}>
 		<div class="fit" style:max-width="{W * tile}px">
-			<World width={W} height={H} {tile} props={items} {actors} me={me?.id ?? null} names="me" step={480} {art}>
-				{#snippet ground()}
-					<rect width={W} height={H} fill="#3ba7d9" />
-					{#each [[1.0, 1.2], [11.5, 0.9], [0.8, 9.2], [12.6, 9.4], [6.5, 0.6]] as [x, y] (`${x}-${y}`)}
-						<path d="M{x} {y} q0.3 -0.15 0.6 0 t0.6 0" stroke="#9fd8f0" stroke-width="0.08" fill="none" stroke-linecap="round" />
-					{/each}
-					<path d="M1.6 5.6 C1.4 2.8 4.4 1.7 7.1 1.8 C10.2 1.7 13.1 2.6 13.3 5.6 C13.5 8.6 11.1 9.8 7.2 9.7 C3.4 9.8 1.8 8.4 1.6 5.6z" fill="#bfe6f6" />
-					<path d="M1.95 5.6 C1.8 3.1 4.5 2.1 7.1 2.2 C10.0 2.1 12.8 2.9 12.95 5.6 C13.1 8.3 10.9 9.4 7.2 9.35 C3.6 9.4 2.1 8.1 1.95 5.6z" fill="#e0b871" />
-					<path d="M2.25 5.5 C2.1 3.3 4.6 2.45 7.1 2.5 C9.9 2.45 12.5 3.2 12.6 5.5 C12.75 8.0 10.7 9.0 7.2 8.95 C3.8 9.0 2.4 7.8 2.25 5.5z" fill="#f2d49b" />
-					<ellipse cx="7.4" cy="3.2" rx="4.4" ry="0.85" fill="#8fd05e" />
-					{#each [[4.6, 5.6], [9.5, 7.3], [5.2, 8.6], [11.4, 6.9], [7.0, 5.2]] as [x, y] (`s${x}`)}
-						<circle cx={x} cy={y} r="0.06" fill="#d6aa62" /><circle cx={x + 0.25} cy={y + 0.1} r="0.05" fill="#d6aa62" />
-					{/each}
-				{/snippet}
-			</World>
+			<World width={W} height={H} {tile} {ground} props={items} {actors} me={me?.id ?? null} names="me" step={480} {art} />
 		</div>
 	</div>
 	<figcaption class="tip">
@@ -177,27 +160,27 @@
 	}
 	.spot {
 		position: relative;
-		display: grid;
-		place-items: end center;
-		width: calc(var(--t) * 1.55);
-		height: calc(var(--t) * 1.25);
+		display: block;
+		width: calc(var(--s) * 28);
+		height: calc(var(--s) * 16);
+		line-height: 0;
 	}
 	.mound,
 	.hole {
-		width: 100%;
-		height: auto;
+		position: absolute;
+		inset: 0;
 	}
 	.ready .mound {
-		animation: bob 1.4s ease-in-out infinite;
+		animation: bob 1.4s steps(2) infinite;
 		animation-delay: calc(var(--n) * 90ms);
 	}
 	.digging {
-		animation: wiggle 0.3s ease-in-out infinite;
+		animation: wiggle 0.3s steps(3) infinite;
 	}
 	.loot {
 		position: absolute;
 		left: 50%;
-		bottom: calc(var(--t) * 0.22);
+		bottom: calc(var(--s) * 4);
 		translate: -50% 0;
 		line-height: 0;
 	}
@@ -206,14 +189,14 @@
 	}
 	.amount {
 		position: absolute;
-		top: calc(var(--t) * -0.35);
-		right: calc(var(--t) * -0.2);
+		top: calc(var(--s) * -14);
+		right: calc(var(--s) * -3);
 		padding: 0 0.35rem;
-		border-radius: var(--r-pill);
-		background: #fff;
+		border: 2px solid #2a1f2d;
+		border-radius: 4px;
+		background: #fff6e6;
 		color: var(--good);
-		font: 600 0.8rem/1.5 var(--font-display);
-		box-shadow: 0 2px 0 rgb(0 0 0 / 0.12);
+		font: 700 0.8rem/1.4 var(--font-pixel);
 	}
 	.amount.minus {
 		color: var(--almost);
@@ -225,11 +208,12 @@
 		justify-self: center;
 		max-width: 100%;
 		padding: 0.4rem 1rem;
-		border-radius: var(--r-pill);
-		background: var(--card);
+		border: 2px solid #2a1f2d;
+		border-radius: 4px;
+		background: #fff6e6;
 		font-weight: 700;
 		text-align: center;
-		box-shadow: 0 2px 0 var(--line);
+		box-shadow: 0 3px 0 #2a1f2d;
 	}
 	.dig-now .tip {
 		background: var(--sun);

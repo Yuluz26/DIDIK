@@ -7,6 +7,7 @@
 	import Feed from '$ui/Feed.svelte';
 	import Leaderboard from '$ui/Leaderboard.svelte';
 	import Timer from '$ui/Timer.svelte';
+	import { fitTile } from '$lib/pixel/cache';
 	import ForestMap from './ForestMap.svelte';
 	import { livePositions } from './positions.svelte';
 
@@ -28,7 +29,7 @@
 	// svelte-ignore state_referenced_locally
 	const positions = livePositions(client);
 	let width = $state(900);
-	const tile = $derived(Math.max(14, Math.floor(width / (world?.map?.[0]?.length ?? 32))));
+	const tile = $derived(fitTile(width, world?.map?.[0]?.length ?? 32, { min: 1 }));
 </script>
 
 {#if game.stage === 'intro'}

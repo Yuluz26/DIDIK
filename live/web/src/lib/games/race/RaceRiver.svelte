@@ -1,10 +1,12 @@
 <!--
-	Lumba Sampan's river in the worlds' 3/4 view: a jetty at the start, a line of buoys and a banner at
-	the finish, trees along the far bank, and every child paddling their own boat in their own lane.
-	Distance is drawn to scale. On a phone the view follows the child's boat and shows the boats
-	nearest to it; on the big screen the whole river fits, with ten lanes at most.
+	Lumba Sampan's river in pixel art: a jetty at the start, a chain of floats and a banner at the
+	finish, trees along the far bank, lane ropes between the lanes, and every child paddling their own
+	boat in their own lane. Distance is drawn to scale. On a phone the view follows the child's boat and
+	shows the boats nearest to it; on the big screen the whole river fits, with ten lanes at most.
 -->
 <script lang="ts">
+	import { RIPPLE, riverGround, ripples } from '$lib/games/race/sprites';
+	import { TILE, fitTile, prescale, urlOf } from '$lib/pixel/cache';
 	import type { Person } from '$lib/types';
 	import Sampan from '$lib/worlds/Sampan.svelte';
 	import World, { type WorldProp } from '$lib/worlds/World.svelte';
@@ -25,8 +27,7 @@
 	const W = 22;
 	const START = 2.6;
 	const FINISH = 19.6;
-	const LANE = 1.45;
-	const TOP = 2.2; // where the water begins, below the far bank
+	const TOP = 2.4; // where the water begins, below the far bank
 	const MAX_LANES = 10;
 
 	// Remember who moved, so their paddle swings for a moment.
@@ -51,7 +52,7 @@
 	const racing = $derived(race.boats.filter((b) => people.has(b.id)));
 	const lanes = $derived.by(() => {
 		const boats = racing;
-		if (!compact || !me) return boats.length <= MAX_LANES ? boats : [...boats].sort((a, b) => b.m - a.m).slice(0, MAX_LANES);
+		if (!compact || !me) return boats.length <= room ? boats : [...boats].sort((a, b) => b.m - a.m).slice(0, room);
 		const at = boats.findIndex((b) => b.id === me);
 		if (at < 0) return boats.slice(0, 5);
 		const from = Math.max(0, Math.min(at - 2, boats.length - 5));
@@ -59,38 +60,51 @@
 	});
 	const behind = $derived(compact ? 0 : racing.length - lanes.length);
 
-	const H = $derived(TOP + Math.max(lanes.length, 3) * LANE + 1.9);
-	const bottom = $derived(TOP + Math.max(lanes.length, 3) * LANE + 0.35);
+	let width = $state(0);
+	let innerHeight = $state(800);
+
+	// The big screen gives the river about half its height, below the question. The pixels are drawn
+	// at least one and a half times their size, so the river holds as many lanes as fit that way (ten
+	// at most); a bigger class sees the boats in front.
+	const avail = $derived(innerHeight * 0.46);
+	const room = $derived(compact ? 5 : Math.max(3, Math.min(MAX_LANES, Math.floor((avail / (TILE * 1.5) - TOP - 1.9) / 1.45))));
+
+	// A boat and its child are taller than a lane is wide when many share the screen; fewer boats get
+	// roomier lanes.
+	const count = $derived(Math.max(lanes.length, 3));
+	const LANE = $derived(compact ? 2.1 : count > 6 ? 1.45 : count > 4 ? 1.8 : 2.1);
+	const H = $derived(TOP + count * LANE + 1.9);
+	const bottom = $derived(TOP + count * LANE + 0.35);
 	const laneY = (i: number) => TOP + 0.95 + i * LANE;
 	const boatX = (m: number) => START + Math.min(1, m / Math.max(1, race.length)) * (FINISH - START + 0.6);
 
-	let width = $state(0);
-	let innerHeight = $state(800);
-	// A phone shows ten tiles of river around the child's boat; the big screen fits the whole river
-	// into about a third of its height, so the question above stays in view.
-	const tile = $derived(
-		compact ? Math.max(28, Math.min(40, width / 10)) : Math.max(16, Math.min(width / W, (innerHeight * 0.36) / H, 52))
-	);
+	// A phone shows ten tiles of river around the child's boat.
+	const tile = $derived(compact ? fitTile(width, 10, { min: 2, max: 48 }) : fitTile(width, W, { availH: avail, rows: H, min: 1.5, max: 64 }));
+	const s = $derived(tile / TILE);
+
+	const ground = $derived(riverGround({ W, TOP, LANE, lanes: count, finish: FINISH }));
+	const ripple = $derived(urlOf(ripples(), prescale(s)));
 
 	const scenery = $derived<WorldProp[]>([
 		...[1.2, 4.6, 7.4, 10.9, 13.6, 16.8, 21.2].map((x, i) => ({
 			id: `far${i}`,
 			kind: i % 3 === 1 ? 'palm' : 'tree',
 			x,
-			y: 1.25 + (i % 2) * 0.15,
+			y: 1.6 + (i % 2) * 0.15,
 			variant: i % 3
 		})),
-		{ id: 'pondok', kind: 'pondok', x: 6.0, y: 1.9 },
-		...[3.2, 9.2, 15.0].map((x, i) => ({ id: `reeds${i}`, kind: 'reeds', x, y: TOP + 0.25 })),
-		{ id: 'start', kind: 'banner', x: 1.3, y: 2.05, state: 'MULA', variant: 1 },
-		{ id: 'finish', kind: 'banner', x: FINISH + 0.7, y: 2.05, state: 'PENAMAT', variant: 0 },
-		...[2.0, 8.0, 12.5, 18.0].map((x, i) => ({ id: `near${i}`, kind: i % 2 ? 'flowers' : 'reeds', x, y: bottom + 0.55, variant: i % 2 })),
-		{ id: 'bench', kind: 'bench', x: 14.6, y: bottom + 1.25 },
-		{ id: 'near-bush', kind: 'bush', x: 5.4, y: bottom + 1.35, variant: 0 }
+		{ id: 'pondok', kind: 'pondok', x: 6.0, y: 2.1 },
+		...[3.2, 9.2, 15.0].map((x, i) => ({ id: `reeds${i}`, kind: 'reeds', x, y: TOP + 0.3 })),
+		{ id: 'start', kind: 'banner', x: 1.3, y: 2.3, state: 'MULA', variant: 1 },
+		{ id: 'finish', kind: 'banner', x: FINISH + 0.7, y: 2.3, state: 'PENAMAT', variant: 0 },
+		...[2.0, 8.0, 12.5, 18.0].map((x, i) => ({ id: `near${i}`, kind: i % 2 ? 'flowers' : 'reeds', x, y: bottom + 0.75, variant: i % 2 })),
+		{ id: 'bench', kind: 'bench', x: 14.6, y: bottom + 1.45 },
+		{ id: 'near-bush', kind: 'bush', x: 5.4, y: bottom + 1.5, variant: 0 }
 	]);
 
+	// A boat's foot is the waterline at the middle of its lane.
 	const boats = $derived<WorldProp[]>(
-		lanes.map((boat, i) => ({ id: boat.id, kind: 'boat', custom: true, glide: true, x: boatX(boat.m), y: laneY(i) + 0.32 }))
+		lanes.map((boat, i) => ({ id: boat.id, kind: 'boat', custom: true, glide: true, x: boatX(boat.m), y: laneY(i) + 0.55 }))
 	);
 
 	const mine = $derived(boats.find((b) => b.id === me));
@@ -112,36 +126,18 @@
 	{/if}
 {/snippet}
 
+{#snippet under(t: number)}
+	<div class="water" style:top="{TOP * t}px" style:height="{(bottom - TOP) * t}px">
+		<span class="drift" style:--period="{RIPPLE.w * s}px" style:background-image="url({ripple})" style:background-size="{RIPPLE.w * s}px {RIPPLE.h * s}px"></span>
+	</div>
+{/snippet}
+
 <figure class="river" class:compact class:rapids={race.rapids} bind:clientWidth={width}>
 	<div class="frame" style:height={compact ? `${H * tile}px` : undefined} style:max-width={compact ? undefined : `${W * tile}px`}>
-		<World width={W} height={H} {tile} props={[...scenery, ...boats]} actors={[]} {me} follow={compact} {focus} {art}>
-			{#snippet ground()}
-				<rect width={W} height={H} fill="#8fd05e" />
-				<!-- The river, its sandy near bank and the jetty at the start. -->
-				<rect y={TOP} width={W} height={bottom - TOP} fill="#3ba7d9" />
-				<rect y={TOP} width={W} height="0.14" fill="#bfe6f6" />
-				<rect y={bottom} width={W} height="0.5" fill="#e9cf98" />
-				<!-- Ripples every 3.7 tiles in each band, so moving them by 3.7 loops without a seam. -->
-				<g class="flow">
-					{#each Array.from({ length: Math.max(lanes.length, 3) + 1 }, (_, row) => row) as row (row)}
-						{#each Array.from({ length: 8 }, (_, k) => k) as k (k)}
-							<path d="M{k * 3.7 - 3.7 + (row % 2) * 1.85} {TOP + 0.45 + row * LANE} q0.5 -0.22 1 0 t1 0" stroke="#9fd8f0" stroke-width="0.07" fill="none" stroke-linecap="round" />
-						{/each}
-					{/each}
-				</g>
-				<rect x="-0.1" y={TOP - 0.15} width="1.9" height={bottom - TOP + 0.3} fill="#c98a54" />
-				{#each Array.from({ length: Math.ceil((bottom - TOP) / 0.5) }, (_, i) => i) as i (i)}
-					<path d="M-0.1 {TOP + i * 0.5} H1.8" stroke="#a46a37" stroke-width="0.05" />
-				{/each}
-				<!-- The finish: a line of red and white buoys across the river. -->
-				{#each Array.from({ length: Math.ceil((bottom - TOP) / 0.45) }, (_, i) => i) as i (i)}
-					<circle cx={FINISH + 0.5} cy={TOP + 0.3 + i * 0.45} r="0.16" fill={i % 2 ? '#fff' : '#e2483d'} />
-				{/each}
-			{/snippet}
-		</World>
+		<World width={W} height={H} {tile} {ground} {under} props={[...scenery, ...boats]} actors={[]} {me} follow={compact} {focus} {art} />
 		{#if race.rapids}<p class="rapids-banner">Arus deras! Semua sampan meluncur ke depan</p>{/if}
 	</div>
-	{#if behind > 0}<figcaption class="behind">Sepuluh sampan terdepan. {behind} lagi sedang mengejar.</figcaption>{/if}
+	{#if behind > 0}<figcaption class="behind">{lanes.length} sampan terdepan. {behind} lagi sedang mengejar.</figcaption>{/if}
 </figure>
 
 <style>
@@ -163,16 +159,30 @@
 		transition-duration: 1.1s;
 		transition-timing-function: var(--ease-out);
 	}
-	.flow {
-		animation: flow 7s linear infinite;
+	/* The water drifts to the right, one sprite pixel at a time. */
+	.water {
+		position: absolute;
+		left: 0;
+		width: 100%;
+		overflow: hidden;
 	}
-	.rapids .flow {
-		animation-duration: 1.4s;
+	.drift {
+		position: absolute;
+		inset: 0 0 0 calc(var(--period) * -1);
+		background-repeat: repeat;
+		animation: drift 8s steps(64) infinite;
 	}
-	/* In the ground drawing one px is one tile. */
-	@keyframes flow {
+	.rapids .drift {
+		animation-duration: 1.6s;
+	}
+	@keyframes drift {
 		to {
-			transform: translateX(3.7px);
+			transform: translateX(var(--period));
+		}
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.drift {
+			animation: none;
 		}
 	}
 	/* Name tags trail behind a boat once it is past halfway, and lead it before that, so a tag never
@@ -181,12 +191,12 @@
 		position: absolute;
 		left: calc(100% - var(--t) * 0.1);
 		bottom: calc(var(--t) * 0.35);
-		padding: 0 0.45rem;
-		border-radius: var(--r-pill);
-		background: rgb(255 255 255 / 0.9);
-		font-size: 0.72rem;
-		font-weight: 800;
-		line-height: 1.6;
+		padding: 0 0.4rem;
+		border: 2px solid #2a1f2d;
+		border-radius: 4px;
+		background: #fff6e6;
+		color: #2a1f2d;
+		font: 600 0.72rem/1.35 var(--font-pixel);
 		white-space: nowrap;
 	}
 	.ahead .name {
@@ -210,12 +220,12 @@
 		z-index: 1001;
 		translate: -50% 0;
 		padding: 0.35rem 1rem;
-		border-radius: var(--r-pill);
-		background: #fff;
+		border: 2px solid #2a1f2d;
+		border-radius: 4px;
+		background: #fff6e6;
 		color: var(--sky-deep);
-		font: 600 1.05rem var(--font-display);
+		font: 600 1.05rem var(--font-pixel);
 		white-space: nowrap;
-		box-shadow: var(--lift-low);
 		animation: pop-in 500ms var(--spring);
 	}
 </style>

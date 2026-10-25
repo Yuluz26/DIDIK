@@ -1,15 +1,15 @@
 import { sveltekit } from '@sveltejs/kit/vite';
-import { defineConfig } from 'vite';
+import { defineConfig, type ProxyOptions } from 'vite';
 
 // In development the Python server runs on :8080; Vite proxies the API, sockets and uploads to it.
 const server = process.env.DIDIK_SERVER ?? 'http://127.0.0.1:8080';
 
 // The server only accepts changes and sockets whose Origin is its own, so through the proxy the page
 // is presented as coming from the server's address.
-const asSameOrigin = {
+const asSameOrigin: ProxyOptions = {
 	target: server,
 	changeOrigin: true,
-	configure: (proxy: { on: (event: string, handler: (req: { setHeader: (name: string, value: string) => void }) => void) => void }) => {
+	configure: (proxy) => {
 		proxy.on('proxyReq', (req) => req.setHeader('origin', server));
 		proxy.on('proxyReqWs', (req) => req.setHeader('origin', server));
 	}

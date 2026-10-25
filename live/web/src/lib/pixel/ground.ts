@@ -9,7 +9,7 @@ import { TILE } from './cache';
 import { M } from './palette';
 import { type Colour, Pix, type Ramp, mix, noise, rgba } from './pix';
 
-export type Land = 'grass' | 'dirt' | 'sand' | 'water' | 'deep' | 'plank' | 'stone' | 'moss' | 'soil';
+export type Land = 'grass' | 'lawn' | 'dirt' | 'sand' | 'water' | 'deep' | 'plank' | 'stone' | 'moss' | 'soil';
 
 /** The map: land for each tile, row by row; `land('x')` characters are mapped by the caller. */
 export type LandMap = readonly (readonly Land[])[];
@@ -66,6 +66,20 @@ const DEFS: Record<Land, Def> = {
 				else if (lx === 1 && ly === 2) c = g[0];
 				else if (lx === 1 && ly === 1) c = g[3];
 			}
+			return c;
+		}
+	},
+	lawn: {
+		layer: 3,
+		ramp: M.grass,
+		round: true,
+		tex(x, y, seed) {
+			const g = M.grass.c;
+			// mown in stripes
+			let c = Math.floor(x / 24) % 2 ? mix(g[2], g[3], 0.55) : mix(g[2], g[1], 0.2);
+			const n = noise(x, y, seed + 31);
+			if (n < 0.025) c = g[1];
+			else if (n > 0.985) c = g[4];
 			return c;
 		}
 	},

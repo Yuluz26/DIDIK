@@ -1,12 +1,14 @@
 <!--
-	A sampan with a child paddling it, drawn in the worlds' 3/4 view: the back of the hull, the child,
-	then the front of the hull, so the child sits inside the boat. The flag is the child's colour.
-	`rowing` swings the paddle and leaves a little wake. Anything passed as children (a name tag) is
-	placed by the caller inside the boat's box.
+	A sampan with a child paddling it, in pixels: the far side of the hull, the child, then the near
+	side, so the child sits inside the boat. A pennant in the child's colour flies from the mast.
+	`rowing` plays the paddle and leaves a little wake. Anything passed as children (a name tag) is
+	placed by the caller inside the boat's box, whose size in CSS pixels is `--t` times the tile.
 -->
 <script lang="ts">
 	import type { Snippet } from 'svelte';
-	import { COLOURS } from '$lib/names';
+	import { TILE } from '$lib/pixel/cache';
+	import { BOAT_H, BOAT_W, RIDER, paddle, pennant, sampanBack, sampanFront, wake } from '$lib/games/race/sprites';
+	import Sprite from '$lib/pixel/Sprite.svelte';
 	import Chibi from '$ui/Chibi.svelte';
 
 	let {
@@ -28,99 +30,55 @@
 		facing?: number;
 		children?: Snippet;
 	} = $props();
+
+	const s = $derived(tile / TILE);
 </script>
 
-<div class="boat" class:rowing class:back={facing < 0} style:--t="{tile}px" style:--flag={COLOURS[colour] ?? COLOURS.hijau}>
+<div class="boat" class:back={facing < 0} style:--t="{tile}px" style:--s="{s}px" style:width="{BOAT_W * s}px" style:height="{BOAT_H * s}px">
 	{@render children?.()}
-	<svg class="hull" viewBox="0 0 120 50" aria-hidden="true" focusable="false">
-		<ellipse cx="60" cy="46" rx="56" ry="5" fill="#bfe6f6" opacity=".8" />
-		<path class="wake" d="M-6 40 q8 -6 16 0 M-20 44 q8 -6 16 0" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" />
-		<rect x="11" y="-16" width="3" height="32" fill="#8e5a2e" />
-		<path d="M14 -16 l18 6 -18 6z" fill="var(--flag)" />
-		<ellipse cx="60" cy="16" rx="57" ry="12" fill="#c9572e" />
-		<ellipse cx="60" cy="16.5" rx="51" ry="8.5" fill="#6b3a20" />
-	</svg>
-	<span class="rider">
-		<Chibi {animal} {colour} {skin} size={Math.round(tile * 0.95)} {mood} walking={false} facing={facing < 0 ? -1 : 1} />
-	</span>
-	<svg class="hull" viewBox="0 0 120 50" aria-hidden="true" focusable="false">
-		<path class="paddle" d="M78 2 L96 44" stroke="#8e5a2e" stroke-width="4" stroke-linecap="round" />
-		<ellipse class="paddle blade" cx="97" cy="45" rx="5" ry="8" fill="#a46a37" transform="rotate(-24 97 45)" />
-		<path d="M3 16 Q8 44 60 46 Q112 44 117 16 Q60 31 3 16z" fill="#c9572e" />
-		<path d="M12 27 Q60 41 108 27" stroke="#f7c948" stroke-width="3.5" fill="none" stroke-linecap="round" />
-		<path d="M3 16 Q60 31 117 16" stroke="#e8774c" stroke-width="3" fill="none" />
-	</svg>
+	<div class="hull">
+		<span class="at" style:left="0" style:top="0"><Sprite sheet={sampanBack()} {s} /></span>
+		<span class="at" style:left="{-1 * s}px" style:top="{8 * s}px"><Sprite sheet={pennant(colour)} {s} frames={2} ms={700} /></span>
+		<span class="at" style:left="{RIDER.x * s}px" style:top="{RIDER.y * s}px">
+			<Chibi {animal} {colour} {skin} {s} {mood} dir={mood === 'happy' ? 'side' : 'front'} facing={1} walking={rowing} />
+		</span>
+		<span class="at" style:left="0" style:top="0"><Sprite sheet={sampanFront()} {s} /></span>
+		{#if rowing}
+			<span class="at" style:left="{28 * s}px" style:top="{19 * s}px"><Sprite sheet={paddle()} {s} frames={3} ms={450} /></span>
+			<span class="at" style:left="{-10 * s}px" style:top="{31 * s}px"><Sprite sheet={wake()} {s} frames={2} ms={500} /></span>
+		{/if}
+	</div>
 </div>
 
 <style>
 	.boat {
 		position: relative;
-		width: calc(var(--t) * 2.4);
-		height: calc(var(--t) * 1.75);
-		animation: bob-boat 2.8s ease-in-out infinite;
+	}
+	.hull {
+		position: absolute;
+		inset: 0;
+		animation: bob-boat 1.6s steps(1) infinite;
 	}
 	/* Sailing left: the whole boat turns round, the child with it. */
 	.back .hull {
 		scale: -1 1;
 	}
-	.hull {
+	.at {
 		position: absolute;
-		left: 0;
-		bottom: 0;
-		width: 100%;
-		height: calc(var(--t) * 1);
-		overflow: visible;
-	}
-	.rider {
-		position: absolute;
-		left: 50%;
-		bottom: calc(var(--t) * 0.45);
-		translate: -46% 0;
 		line-height: 0;
 	}
-	.wake {
-		opacity: 0;
-	}
-	.rowing .wake {
-		animation: wake 0.7s ease-out 2;
-	}
-	.paddle {
-		transform-box: view-box;
-		transform-origin: 78px 2px;
-	}
-	.rowing .paddle {
-		animation: row 0.45s ease-in-out 3;
-	}
-	/* At rest the paddle lies in the boat; its blade only shows in the water while rowing. */
-	.blade {
-		opacity: 0;
-		transition: opacity var(--t-state);
-	}
-	.rowing .blade {
-		opacity: 1;
-	}
+	/* The boat rises and settles one sprite pixel at a time. */
 	@keyframes bob-boat {
-		0%,
-		100% {
-			transform: translateY(0) rotate(-1deg);
+		0% {
+			transform: translateY(0);
 		}
 		50% {
-			transform: translateY(-2px) rotate(1deg);
+			transform: translateY(calc(var(--s) * -1));
 		}
 	}
-	@keyframes row {
-		50% {
-			transform: rotate(28deg);
-		}
-	}
-	@keyframes wake {
-		from {
-			opacity: 1;
-			transform: translateX(0);
-		}
-		to {
-			opacity: 0;
-			transform: translateX(-10px);
+	@media (prefers-reduced-motion: reduce) {
+		.hull {
+			animation: none;
 		}
 	}
 </style>

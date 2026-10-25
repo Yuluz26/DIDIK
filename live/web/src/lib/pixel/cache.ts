@@ -52,11 +52,13 @@ export function prescale(s: number, max = 8): number {
 }
 
 /**
- * Snaps a size in CSS pixels per base pixel to whole or half steps, so a base pixel always covers a
- * whole number of device pixels (on a 1x screen at least every other size is exact).
+ * Snaps a size in CSS pixels per base pixel to whole, half or quarter steps, so a base pixel covers
+ * a steady number of device pixels (whole numbers of them on most screens at the sizes children use).
  */
 export function snapScale(raw: number, min = 1): number {
-	return Math.max(min, Math.floor(raw * 2 + 1e-6) / 2);
+	// Large pixels move in half steps; below two, where a half step is a big jump, in quarter steps.
+	const steps = raw < 2 ? 4 : 2;
+	return Math.max(min, Math.floor(raw * steps + 1e-6) / steps);
 }
 
 /**

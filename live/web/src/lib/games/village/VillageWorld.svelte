@@ -9,8 +9,11 @@
 	import type { Person } from '$lib/types';
 	import { confetti } from '$lib/confetti';
 	import { play } from '$lib/sound';
+	import { TILE, fitTile } from '$lib/pixel/cache';
+	import Sprite from '$lib/pixel/Sprite.svelte';
 	import Prop from '$lib/worlds/Prop.svelte';
 	import World, { type WorldActor, type WorldProp } from '$lib/worlds/World.svelte';
+	import { arrowDown, villageGround } from './sprites';
 
 	interface Building {
 		key: string;
@@ -77,9 +80,7 @@
 		{ id: 'edge-bush', kind: 'bush', x: 0.7, y: 8.9, variant: 2 },
 		{ id: 'edge-palm', kind: 'palm', x: 15.3, y: 8.95 }
 	];
-	const hash = (x: number, y: number) => ((x * 73856093) ^ (y * 19349663)) >>> 0;
-	const TUFTS: [number, number][] = [];
-	for (let y = 0; y < 9; y++) for (let x = 0; x < W; x++) if (hash(x, y) % 5 === 0 && (y < 4 || y > 5)) TUFTS.push([x, y]);
+	const ground = villageGround(W, H);
 	// Where helpers stand around the building going up, relative to its lot: rows far enough apart
 	// that name tags do not run into each other.
 	const SPOTS: [number, number][] = [
@@ -92,7 +93,7 @@
 	let width = $state(0);
 	let innerHeight = $state(800);
 	// The whole village always fits: by width on a phone, by width and height on the big screen.
-	const tile = $derived(Math.max(14, Math.min(width / W, big ? (innerHeight * 0.66) / H : 64)));
+	const tile = $derived(fitTile(width, W, { availH: big ? innerHeight * 0.66 : undefined, rows: H, max: 64 }));
 
 	const current = $derived(world.buildings.find((b) => !b.done) ?? null);
 	const tokens = $derived(world.tokens ?? 0);
@@ -206,7 +207,7 @@
 {#snippet overlay(tile: number)}
 	{#if current}
 		{@const [lx, ly] = LOTS[current.key]}
-		<span class="marker" style:left="{lx * tile}px" style:top="{(ly - 3.3) * tile}px" style:--s="{tile}px"></span>
+		<span class="marker" style:left="{Math.round(lx * tile)}px" style:top="{Math.round((ly - 3.4) * tile)}px" style:--s="{tile / TILE}px"><Sprite sheet={arrowDown()} s={tile / TILE} /></span>
 	{/if}
 	{#each actors as actor (actor.id)}
 		{#if carried[actor.id]}
@@ -254,24 +255,7 @@
 		</header>
 
 		<div class="map">
-			<World width={W} height={H} {tile} props={items} {actors} {me} names={big ? true : 'me'} {overlay}>
-				{#snippet ground()}
-					<rect width={W} height={H} fill="#8fd05e" />
-					{#each TUFTS as [x, y] (`${x}-${y}`)}
-						<path d="M{x + 0.3} {y + 0.6} l0.06 -0.16 l0.06 0.16 M{x + 0.62} {y + 0.36} l0.05 -0.13 l0.05 0.13" stroke="#6cb33f" stroke-width="0.05" fill="none" stroke-linecap="round" />
-					{/each}
-					<!-- The padang, mown in stripes. -->
-					<rect x="0.3" y="9.35" width={W - 0.6} height="3" rx="0.5" fill="#a3dc6f" />
-					{#each [0, 1, 2, 3] as i (i)}<rect x={0.3 + (i * 2 + 1) * 1.925} y="9.35" width="1.925" height="3" fill="#98d564" />{/each}
-					<rect x="0.3" y="9.35" width={W - 0.6} height="0.08" fill="#c4ea9a" />
-					<!-- The road, and the lane down to the padang. -->
-					<rect x="-0.1" y="4.7" width={W + 0.2} height="1.2" fill="#e9cf98" />
-					<rect x="-0.1" y="4.7" width={W + 0.2} height="0.08" fill="#d8b77a" />
-					<rect x="-0.1" y="5.82" width={W + 0.2} height="0.08" fill="#d8b77a" />
-					<rect x="10.1" y="5.85" width="0.8" height="3.6" rx="0.2" fill="#e9cf98" />
-					{#each [1.2, 3.4, 7.1, 9.6, 12.4, 14.8] as x, i (x)}<circle cx={x} cy={i % 2 ? 5.05 : 5.5} r="0.05" fill="#cfae6c" />{/each}
-				{/snippet}
-			</World>
+			<World width={W} height={H} {tile} {ground} props={items} {actors} {me} names={big ? true : 'me'} {overlay} />
 		</div>
 
 		{#if !big}
@@ -284,7 +268,7 @@
 					<div class="choices" role="group" aria-label="Pilih hiasan">
 						{#each DECOR as d (d.key)}
 							<button type="button" class="choice" aria-pressed={picked === d.key} onclick={() => (picked = picked === d.key ? null : d.key)}>
-								<span class="art"><Prop kind={d.prop} tile={30} /></span>
+								<span class="art"><Prop kind={d.prop} tile={32} /></span>
 								<span>{d.name}</span>
 							</button>
 						{/each}
@@ -366,21 +350,19 @@
 	}
 	.marker {
 		position: absolute;
-		width: calc(var(--s) * 0.5);
-		height: calc(var(--s) * 0.42);
 		translate: -50% -100%;
-		background: var(--sun);
-		clip-path: polygon(0 0, 100% 0, 50% 100%);
-		filter: drop-shadow(0 2px 0 var(--sun-deep));
-		animation: hover-down 1s ease-in-out infinite alternate;
+		line-height: 0;
+		animation: hover-down 1s steps(3) infinite alternate;
 	}
 	.carried {
 		position: absolute;
 		translate: -50% 0;
 		padding: 0 0.4rem;
-		border-radius: var(--r-pill);
+		border: 2px solid #2a1f2d;
+		border-radius: 4px;
 		background: var(--sun);
-		font: 600 0.8rem/1.5 var(--font-display);
+		color: #2a1f2d;
+		font: 700 0.8rem/1.4 var(--font-pixel);
 		animation: gain 1.3s var(--ease-out) forwards;
 	}
 	.padang {
@@ -389,7 +371,7 @@
 		place-items: center;
 		padding: 0;
 		border: 3px dashed #fff;
-		border-radius: 14px;
+		border-radius: 4px;
 		background: rgb(255 255 255 / 0.22);
 		cursor: copy;
 		pointer-events: auto;
@@ -397,10 +379,11 @@
 	}
 	.padang span {
 		padding: 0.15rem 0.7rem;
-		border-radius: var(--r-pill);
-		background: #fff;
-		font-weight: 800;
-		font-size: 0.85rem;
+		border: 2px solid #2a1f2d;
+		border-radius: 4px;
+		background: #fff6e6;
+		color: #2a1f2d;
+		font: 700 0.85rem var(--font-pixel);
 	}
 	.tray {
 		display: grid;
@@ -453,11 +436,7 @@
 		display: grid;
 		place-items: end center;
 	}
-	.art :global(svg) {
-		width: auto;
-		height: 3.2rem;
-		max-width: 100%;
-	}
+
 	.big .status {
 		padding: 0.9rem 1.2rem;
 	}
@@ -474,7 +453,7 @@
 	}
 	@keyframes hover-down {
 		to {
-			transform: translateY(30%);
+			transform: translateY(calc(var(--s) * 3));
 		}
 	}
 	@keyframes glow {

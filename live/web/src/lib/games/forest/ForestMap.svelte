@@ -6,6 +6,7 @@
 <script lang="ts">
 	import type { Person } from '$lib/types';
 	import World, { type WorldActor, type WorldProp } from '$lib/worlds/World.svelte';
+	import { forestGround } from './sprites';
 
 	interface Chest {
 		id: number;
@@ -26,7 +27,7 @@
 		escaped = [],
 		gateOpen = false,
 		follow = false,
-		tile = 44,
+		tile = 48,
 		onchest
 	}: {
 		map: string[];
@@ -47,17 +48,6 @@
 	const H = $derived(map.length);
 	const hash = (x: number, y: number) => ((x * 73856093) ^ (y * 19349663)) >>> 0;
 	const at = (x: number, y: number) => map[y]?.[x] ?? '#';
-
-	function cells(kinds: string): [number, number][] {
-		const out: [number, number][] = [];
-		map.forEach((row, y) => [...row].forEach((ch, x) => kinds.includes(ch) && out.push([x, y])));
-		return out;
-	}
-
-	const paths = $derived(cells(':SG'));
-	const water = $derived(cells('~'));
-	const bridges = $derived(cells('='));
-	const tufts = $derived(cells('.f m').filter(([x, y]) => hash(x, y) % 4 === 0));
 
 	// Everything that stands up from the ground and so must be depth-sorted with the children.
 	const scenery = $derived.by(() => {
@@ -112,34 +102,4 @@
 	);
 </script>
 
-<World width={W} height={H} {tile} props={items} {actors} {me} {follow}>
-	{#snippet ground()}
-		<rect width={W} height={H} fill="#8fd05e" />
-		{#each tufts as [x, y] (`g${x}-${y}`)}
-			<path d="M{x + 0.3} {y + 0.6} l0.06 -0.16 l0.06 0.16 M{x + 0.62} {y + 0.36} l0.05 -0.13 l0.05 0.13" stroke="#6cb33f" stroke-width="0.05" fill="none" stroke-linecap="round" />
-		{/each}
-		{#each paths as [x, y] (`p${x}-${y}`)}<rect x={x - 0.04} y={y - 0.04} width="1.08" height="1.08" rx="0.22" fill="#e9cf98" />{/each}
-		{#each paths as [x, y] (`ps${x}-${y}`)}
-			{#if hash(x, y) % 3 === 0}<circle cx={x + 0.3} cy={y + 0.6} r="0.05" fill="#cfae6c" /><circle cx={x + 0.7} cy={y + 0.3} r="0.04" fill="#cfae6c" />{/if}
-		{/each}
-		{#each water as [x, y] (`w${x}-${y}`)}
-			<rect x={x - 0.01} y={y - 0.01} width="1.02" height="1.02" fill="#3ba7d9" />
-			{#if at(x, y - 1) !== '~' && at(x, y - 1) !== '='}<rect x={x} y={y} width="1" height="0.14" fill="#bfe6f6" />{/if}
-			{#if (x * 3 + y) % 4 === 0}<path d="M{x + 0.2} {y + 0.55} q0.15 -0.12 0.3 0 t0.3 0" stroke="#9fd8f0" stroke-width="0.06" fill="none" stroke-linecap="round" />{/if}
-		{/each}
-		{#each bridges as [x, y] (`b${x}-${y}`)}
-			{@const across = at(x, y - 1) === '~' || at(x, y + 1) === '~'}
-			<rect x={x - 0.02} y={y - 0.02} width="1.04" height="1.04" fill="#c98a54" />
-			{#if across}
-				<!-- Walked left to right: planks run up and down, rails along the top and bottom. -->
-				<path d="M{x + 0.25} {y} v1 M{x + 0.5} {y} v1 M{x + 0.75} {y} v1" stroke="#a46a37" stroke-width="0.05" />
-				<rect x={x - 0.02} y={y - 0.06} width="1.04" height="0.12" fill="#8e5a2e" />
-				<rect x={x - 0.02} y={y + 0.94} width="1.04" height="0.12" fill="#8e5a2e" />
-			{:else}
-				<path d="M{x} {y + 0.25} h1 M{x} {y + 0.5} h1 M{x} {y + 0.75} h1" stroke="#a46a37" stroke-width="0.05" />
-				<rect x={x - 0.06} y={y - 0.02} width="0.12" height="1.04" fill="#8e5a2e" />
-				<rect x={x + 0.94} y={y - 0.02} width="0.12" height="1.04" fill="#8e5a2e" />
-			{/if}
-		{/each}
-	{/snippet}
-</World>
+<World width={W} height={H} {tile} ground={forestGround(map)} props={items} {actors} {me} {follow} />

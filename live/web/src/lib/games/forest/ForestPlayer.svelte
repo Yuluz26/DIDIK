@@ -167,7 +167,7 @@
 				escaped={world.escaped}
 				gateOpen={keys >= need}
 				follow
-				tile={46}
+				tile={48}
 				onchest={open}
 			/>
 

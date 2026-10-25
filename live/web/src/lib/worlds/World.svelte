@@ -61,6 +61,7 @@
 		names = true,
 		step = 110,
 		art,
+		under,
 		overlay
 	}: {
 		width: number;
@@ -81,6 +82,8 @@
 		/** How long characters take to move to a new position, in milliseconds. */
 		step?: number;
 		art?: Snippet<[WorldProp, number]>;
+		/** Drawn on the ground, under every prop and character (moving water). */
+		under?: Snippet<[number]>;
 		overlay?: Snippet<[number]>;
 	} = $props();
 
@@ -149,7 +152,16 @@
 	{/if}
 {/snippet}
 
-<div class="viewport" class:follow bind:clientWidth={vw} bind:clientHeight={vh} style:--step="{step}ms" style:--tile="{tile}px" style:--s="{s}px">
+<div
+	class="viewport"
+	class:follow
+	bind:clientWidth={vw}
+	bind:clientHeight={vh}
+	style:--step="{step}ms"
+	style:--tile="{tile}px"
+	style:--s="{s}px"
+	style:max-width={follow ? undefined : `${W * tile}px`}
+>
 	<div class="world" bind:this={worldEl} style:width="{W * tile}px" style:height="{H * tile}px" style:transform="translate3d({Math.round(camera.x)}px, {Math.round(camera.y)}px, 0)">
 		{#if typeof ground === 'function'}
 			<svg class="ground" viewBox="0 0 {W} {H}" width={W * tile} height={H * tile} aria-hidden="true" focusable="false">
@@ -158,6 +170,8 @@
 		{:else}
 			<div class="ground"><GroundCanvas pix={ground} {tile} /></div>
 		{/if}
+
+		{#if under}<div class="under">{@render under(tile)}</div>{/if}
 
 		{#each props as prop (prop.id)}
 			<div class="place" class:glide={prop.glide} style:left="{Math.round(prop.x * tile)}px" style:top="{Math.round(prop.y * tile)}px" style:z-index={Math.round(prop.y * 10)}>
@@ -214,6 +228,7 @@
 		position: relative;
 		width: 100%;
 		max-width: 100%;
+		margin-inline: auto;
 		overflow: hidden;
 		border-radius: var(--r-lg);
 		background: #3c7c3a;
@@ -231,6 +246,12 @@
 		position: absolute;
 		inset: 0;
 		display: block;
+	}
+	.under {
+		position: absolute;
+		inset: 0;
+		overflow: hidden;
+		pointer-events: none;
 	}
 	/* Overlay content ignores the pointer unless it asks for it (a control sets pointer-events: auto). */
 	.overlay {
