@@ -9,7 +9,11 @@ import { TILE } from './cache';
 import { M } from './palette';
 import { type Colour, Pix, type Ramp, mix, noise, rgba } from './pix';
 
-export type Land = 'grass' | 'lawn' | 'dirt' | 'sand' | 'water' | 'deep' | 'plank' | 'floor' | 'stone' | 'moss' | 'soil';
+/**
+ * `none` is no ground at all (transparent): an island floats on whatever lies behind the picture,
+ * and `foam` and `cliff` are the surf and the earth bank under an island's beach.
+ */
+export type Land = 'grass' | 'lawn' | 'dirt' | 'sand' | 'water' | 'deep' | 'plank' | 'floor' | 'stone' | 'moss' | 'soil' | 'none' | 'foam' | 'cliff';
 
 /** The map: land for each tile, row by row; `land('x')` characters are mapped by the caller. */
 export type LandMap = readonly (readonly Land[])[];
@@ -36,6 +40,8 @@ interface Def {
 	layer: number;
 	ramp: Ramp;
 	round: boolean;
+	/** Water and surf have no dark rim where they meet nothing: they fade out in a dither instead. */
+	soft?: boolean;
 	tex: (x: number, y: number, seed: number) => Colour;
 }
 
@@ -137,10 +143,35 @@ const DEFS: Record<Land, Def> = {
 			return c;
 		}
 	},
+	none: { layer: -1, ramp: M.water, round: false, tex: () => 0 },
+	foam: {
+		layer: 1,
+		ramp: M.water,
+		round: false,
+		soft: true,
+		tex(x, y) {
+			// surf: a chequer of white and pale water
+			return (x + y) % 2 ? M.water.c[4] : M.water.c[3];
+		}
+	},
+	cliff: {
+		layer: 1.5,
+		ramp: M.dirt,
+		round: false,
+		tex(x, y, seed) {
+			// the bank under a beach: earth in layers
+			const d = M.dirt.c;
+			const n = noise(x, y, seed + 19);
+			if (n < 0.08) return d[1];
+			if (n > 0.94) return d[3];
+			return y % 3 === 0 ? d[1] : d[2];
+		}
+	},
 	water: {
 		layer: 1,
 		ramp: M.water,
 		round: true,
+		soft: true,
 		tex(x, y, seed) {
 			const w = M.water.c;
 			let c = w[2];
@@ -158,6 +189,7 @@ const DEFS: Record<Land, Def> = {
 		layer: 0,
 		ramp: M.deep,
 		round: true,
+		soft: true,
 		tex(x, y, seed) {
 			const w = M.deep.c;
 			let c = w[2];
@@ -302,6 +334,7 @@ export function paintGround(map: LandMap, o: GroundOptions = {}): Pix {
 	for (let y = 0; y < p.h; y++) {
 		for (let x = 0; x < p.w; x++) {
 			const me = ids[y * p.w + x];
+			if (me === 'none') continue;
 			const mine = DEFS[me];
 			for (const [dx, dy] of around) {
 				const n = land(x + dx, y + dy);
@@ -309,7 +342,7 @@ export function paintGround(map: LandMap, o: GroundOptions = {}): Pix {
 				const other = DEFS[n];
 				if (mine.layer > other.layer) {
 					// the higher land: a dark rim at its edge, then a lit lip on the sides facing the light
-					paint.push([x, y, mine.ramp.c[0]]);
+					if (!(other.layer < 0 && mine.soft)) paint.push([x, y, mine.ramp.c[0]]);
 					break;
 				}
 				if (mine.layer < other.layer) {
@@ -341,12 +374,30 @@ export function paintGround(map: LandMap, o: GroundOptions = {}): Pix {
 	}
 	for (const [x, y, c] of lips) p.set(x, y, c, p.ink[y * p.w + x]);
 
+	// 3b. where water or surf meets nothing, it fades out in a dither two pixels deep
+	const bare = (x: number, y: number) => x < 0 || y < 0 || x >= p.w || y >= p.h || ids[y * p.w + x] === 'none';
+	const fade: [number, number, number][] = [];
+	for (let y = 0; y < p.h; y++) {
+		for (let x = 0; x < p.w; x++) {
+			if (!DEFS[ids[y * p.w + x]].soft) continue;
+			let reach = 3;
+			for (let dy = -2; dy <= 2 && reach > 1; dy++) {
+				for (let dx = -2; dx <= 2; dx++) {
+					if (bare(x + dx, y + dy)) reach = Math.min(reach, Math.max(Math.abs(dx), Math.abs(dy)));
+				}
+			}
+			if (reach === 1 && (x + y) % 2 === 0) fade.push([x, y, 0]);
+			else if (reach === 2 && x % 2 === 0 && y % 2 === 0) fade.push([x, y, 0]);
+		}
+	}
+	for (const [x, y] of fade) p.set(x, y, 0);
+
 	// 4. a meadow: flowers and little stones on open grass, kept off the edges
 	const meadow = o.meadow ?? 0.5;
 	if (meadow > 0) {
 		for (let ty = 0; ty < rows; ty++) {
 			for (let tx = 0; tx < cols; tx++) {
-				if (map[ty][tx] !== 'grass') continue;
+				if (ids[(ty * TILE + TILE / 2) * p.w + tx * TILE + TILE / 2] !== 'grass') continue;
 				const n = noise(tx, ty, seed + 21);
 				if (n > meadow * 0.16) continue;
 				const x = tx * TILE + 3 + Math.floor(noise(tx, ty, seed + 22) * 10);

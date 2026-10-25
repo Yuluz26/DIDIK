@@ -6,6 +6,7 @@
 -->
 <script lang="ts">
 	import type { Snippet } from 'svelte';
+	import { TILE, snapScale } from '$lib/pixel/cache';
 	import { GAMES } from './islands';
 	import GameIsland from './GameIsland.svelte';
 	import Sampan from '$lib/worlds/Sampan.svelte';
@@ -86,6 +87,8 @@
 	})();
 
 	const game = $derived(GAMES[selected]);
+	// The boat is drawn at the same whole or half step of pixel size as the islands it sails between.
+	const boatTile = $derived(TILE * snapScale((mapWidth * 0.215) / 6 / TILE, 1));
 </script>
 
 <div class="islands-map" class:wide bind:clientWidth={width}>
@@ -127,7 +130,7 @@
 			{/each}
 
 			<div class="boat" class:moving style:left="{DOCKS[at].x}%" style:top="{DOCKS[at].y}%" style:--hop="{HOP}ms" aria-hidden="true">
-				<Sampan tile={mapWidth * 0.03} animal="kancil" colour="hijau" skin="s2" {facing} rowing={moving} />
+				<Sampan tile={boatTile} animal="kancil" colour="hijau" skin="s2" {facing} rowing={moving} />
 			</div>
 		</div>
 	{:else}
@@ -167,8 +170,10 @@
 		min-height: 13rem;
 		align-content: start;
 		padding: 1.4rem 1.5rem 1.5rem;
+		border: 2px solid var(--edge);
 		border-radius: var(--r-lg);
 		background: var(--paper);
+		box-shadow: 0 4px 0 var(--edge);
 		color: var(--ink);
 	}
 	.info h3 {
@@ -189,14 +194,15 @@
 		height: 100%;
 		overflow: visible;
 	}
+	/* The sampan's channel is marked with small squares on the water. */
 	.route path {
 		fill: none;
 		stroke: #8fd3f0;
 		stroke-width: 5;
-		stroke-dasharray: 0 15;
-		stroke-linecap: round;
+		stroke-dasharray: 5 14;
+		stroke-linecap: butt;
 		vector-effect: non-scaling-stroke;
-		opacity: 0.7;
+		opacity: 0.75;
 	}
 	.isle {
 		position: absolute;
@@ -212,33 +218,18 @@
 		cursor: pointer;
 		translate: -50% -55%;
 	}
+	/* The island you point at (or pick) rises a few pixels off the water. */
 	.isle .art {
 		display: block;
 		width: 100%;
-		transition: transform 420ms var(--spring);
-	}
-	/* A ring spreads on the water under the island you point at. */
-	.isle::before {
-		content: '';
-		position: absolute;
-		left: 10%;
-		right: 10%;
-		top: 36%;
-		height: 44%;
-		border-radius: 50%;
-		border: 3px solid rgb(232 246 252 / 0.85);
-		opacity: 0;
-		pointer-events: none;
-	}
-	.isle:hover::before {
-		animation: ripple 1.1s var(--ease-out);
+		transition: transform var(--t-press) steps(2);
 	}
 	.isle:hover .art,
 	.isle.picked .art {
 		transform: translateY(-8px);
 	}
 	.isle:active .art {
-		transform: translateY(-2px) scale(0.97);
+		transform: translateY(-2px);
 	}
 	.isle:focus-visible {
 		outline: none;
@@ -250,18 +241,17 @@
 	.name {
 		position: relative;
 		z-index: 1;
-		padding: 0.12rem 0.7rem;
-		border-radius: var(--r-pill);
+		padding: 0.1rem 0.7rem;
+		border: 2px solid var(--edge);
+		border-radius: var(--r-sm);
 		background: var(--paper);
+		box-shadow: 0 3px 0 var(--edge);
 		font: 600 1.0625rem / 1.35 var(--font-display);
 		white-space: nowrap;
-		transition:
-			background-color var(--t-state),
-			color var(--t-state),
-			transform 420ms var(--spring);
+		transition: transform var(--t-press) steps(2);
 	}
 	.isle:hover .name {
-		transform: translateY(-3px) rotate(-2deg);
+		transform: translateY(-3px);
 	}
 	.picked .name {
 		background: var(--tint);
@@ -311,16 +301,6 @@
 		.list .flip .art {
 			justify-self: center;
 			width: 82%;
-		}
-	}
-	@keyframes ripple {
-		from {
-			opacity: 1;
-			transform: scale(0.7);
-		}
-		to {
-			opacity: 0;
-			transform: scale(1.25);
 		}
 	}
 </style>

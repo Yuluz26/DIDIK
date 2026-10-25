@@ -131,6 +131,13 @@ export class Pix {
 		return p;
 	}
 
+	/** Like fromMap, with the legend in hex colours: `Pix.sketch(rows, { k: '#2a1f2d' })`. */
+	static sketch(rows: readonly string[], legend: Readonly<Record<string, string>>): Pix {
+		const colours: Record<string, Colour> = {};
+		for (const [ch, hex] of Object.entries(legend)) colours[ch] = rgba(hex);
+		return Pix.fromMap(rows, colours);
+	}
+
 	get(x: number, y: number): Colour {
 		return x < 0 || y < 0 || x >= this.w || y >= this.h ? 0 : this.c[y * this.w + x];
 	}

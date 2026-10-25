@@ -14,6 +14,12 @@
 	import Ticket from '$lib/home/Ticket.svelte';
 	import Games3D from '$lib/home/Games3D.svelte';
 	import { reveal } from '$lib/home/reveal';
+	import { beachTile, grassFringe, seaTile, shoreStrip } from '$lib/pixel/sea';
+
+	// The backdrops are small pixel pictures the page repeats (see lib/pixel/sea.ts).
+	const sea = { a: `url(${seaTile(0).toURL(1)})`, b: `url(${seaTile(1).toURL(1)})`, shore: `url(${shoreStrip().toURL(1)})` };
+	const beach = `url(${beachTile().toURL(1)})`;
+	const fringe = `url(${grassFringe().toURL(1)})`;
 
 	const PLAN: { when: string; rows: [string, string][] }[] = [
 		{
@@ -41,14 +47,14 @@
 		}
 	];
 
-	// The slip is torn off along the bottom: a row of small teeth.
-	const TEETH = 28;
-	const zigzag = `polygon(0 0, 100% 0, ${Array.from({ length: TEETH * 2 + 1 }, (_, i) => `${(100 - (i * 100) / (TEETH * 2)).toFixed(2)}% ${i % 2 ? '100%' : 'calc(100% - 12px)'}`).join(', ')})`;
-
-	// Small wave marks on the sea, in % of the sea's size.
-	const WAVES = [
-		[47, 6], [95, 9], [2, 30], [46, 33], [96, 41], [1.5, 58], [97, 70], [2, 88], [49, 93], [95, 96]
-	];
+	// The slip is cut along the bottom in square teeth, each as wide as a few sprite pixels.
+	const TEETH = 24;
+	const teeth = `polygon(0 0, 100% 0, ${Array.from({ length: TEETH }, (_, i) => {
+		const right = (100 - (i * 100) / TEETH).toFixed(2);
+		const left = (100 - ((i + 1) * 100) / TEETH).toFixed(2);
+		const edge = i % 2 ? 'calc(100% - 8px)' : '100%';
+		return `${right}% ${edge}, ${left}% ${edge}`;
+	}).join(', ')})`;
 
 	let ticket = $state<ReturnType<typeof Ticket>>();
 	let ticketArea = $state<HTMLElement>();
@@ -83,14 +89,8 @@
 </header>
 
 <main>
-	<div class="sea">
-		<div class="waves" aria-hidden="true">
-			{#each WAVES as [x, y] (`${x}-${y}`)}
-				<svg viewBox="0 0 36 10" style:left="{x}%" style:top="{y}%" focusable="false">
-					<path d="M2 7 q8 -7 16 0 q8 -7 16 0" />
-				</svg>
-			{/each}
-		</div>
+	<div class="sea" style:--sea-a={sea.a} style:--sea-b={sea.b} style:--shore={sea.shore}>
+		<div class="swell" aria-hidden="true"></div>
 
 		<section class="hero wrap" aria-labelledby="hero-title">
 			<div class="copy">
@@ -112,13 +112,10 @@
 			</IslandMap>
 		</section>
 
-		<svg class="shore" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-			<path d="M0 34 C140 14 260 52 400 34 C540 16 660 50 800 32 C940 14 1060 48 1200 30 C1300 18 1380 30 1440 26 V80 H0z" fill="#e8f6fc" opacity=".7" />
-			<path d="M0 46 C140 28 260 64 400 46 C540 28 660 62 800 44 C940 26 1060 60 1200 42 C1300 30 1380 42 1440 38 V80 H0z" fill="var(--sand-soft)" />
-		</svg>
+		<div class="shore" aria-hidden="true"></div>
 	</div>
 
-<section id="cara" class="beach" aria-labelledby="cara-tajuk">
+<section id="cara" class="beach" style:--beach={beach} aria-labelledby="cara-tajuk">
 	<div class="wrap how">
 		<div class="how-head" {@attach reveal()}>
 			<h2 id="cara-tajuk">Ibu bapa tulis, anak-anak main</h2>
@@ -138,24 +135,26 @@
 				<figcaption>Satu soalan daripada kuiz contoh <cite>Haiwan di Malaysia</cite>, seperti yang dilihat di telefon.</figcaption>
 			</figure>
 		</div>
-		<div class="slip" style:clip-path={zigzag} {@attach reveal(120)}>
-			<p class="slip-title">Jadual bermain</p>
-			{#each PLAN as part (part.when)}
-				<h3>{part.when}</h3>
-				<ul>
-					{#each part.rows as [what, note] (what)}
-						<li><span>{what}</span><span class="leader" aria-hidden="true"></span><span class="value">{note}</span></li>
-					{/each}
-				</ul>
-			{/each}
-			<p class="total"><span>Jumlah bayaran</span><span>Percuma</span></p>
+		<div class="slip-shadow" {@attach reveal(120)}>
+			<div class="slip" style:clip-path={teeth}>
+				<p class="slip-title">Jadual bermain</p>
+				{#each PLAN as part (part.when)}
+					<h3>{part.when}</h3>
+					<ul>
+						{#each part.rows as [what, note] (what)}
+							<li><span>{what}</span><span class="leader" aria-hidden="true"></span><span class="value">{note}</span></li>
+						{/each}
+					</ul>
+				{/each}
+				<p class="total"><span>Jumlah bayaran</span><span>Percuma</span></p>
+			</div>
 		</div>
 	</div>
 </section>
 
 <Games3D />
 
-<section class="field" aria-labelledby="ibu-bapa-tajuk">
+<section class="field" style:--fringe={fringe} aria-labelledby="ibu-bapa-tajuk">
 	<div class="wrap cta">
 		<p class="why" {@attach reveal()}>Soalan di sini ditulis oleh orang yang kenal anak-anak itu: ibu bapa, guru, abang dan kakak. Tiada AI yang mengarangnya.</p>
 		<div class="reply" {@attach reveal(120)}>
@@ -203,26 +202,27 @@
 		background: var(--sea-map);
 		color: var(--on-sea);
 	}
-	.waves {
+	/* The sea is a small picture repeated, with two frames of wave marks that take turns. */
+	.swell {
 		position: absolute;
 		inset: 0;
+		background: var(--sea-a) 0 0 / calc(var(--px) * 64) calc(var(--px) * 64);
+		image-rendering: pixelated;
 		pointer-events: none;
+		animation: swell 3s step-end infinite;
 	}
-	@media (max-width: 1000px) {
-		.waves {
-			display: none;
+	@keyframes swell {
+		0% {
+			background-image: var(--sea-a);
+		}
+		50% {
+			background-image: var(--sea-b);
 		}
 	}
-	.waves svg {
-		position: absolute;
-		width: 2.2rem;
-		height: auto;
-	}
-	.waves path {
-		fill: none;
-		stroke: #3f93c6;
-		stroke-width: 2.4;
-		stroke-linecap: round;
+	@media (prefers-reduced-motion: reduce) {
+		.swell {
+			animation: none;
+		}
 	}
 	.top {
 		position: absolute;
@@ -248,23 +248,30 @@
 		text-decoration: none;
 		white-space: nowrap;
 	}
-	/* A wavy underline, like a line of water, on the links you point at. */
+	/* A dashed underline, like a row of stepping stones, on the links you point at. */
 	nav a:hover,
 	.address a:hover {
-		text-decoration: underline wavy;
-		text-decoration-thickness: 2px;
+		text-decoration: underline dashed;
+		text-decoration-thickness: 3px;
 		text-underline-offset: 6px;
 	}
 	nav .parents {
-		padding: 0.45rem 0.9rem;
-		border-radius: var(--r-pill);
+		padding: 0.4rem 0.85rem;
+		border: 2px solid var(--edge);
+		border-radius: var(--r-md);
 		background: var(--paper);
+		box-shadow: 0 3px 0 var(--edge);
 		color: var(--ink);
-		transition: transform var(--t-state) var(--spring);
+		transition: transform var(--t-press) steps(2);
 	}
 	nav .parents:hover {
-		transform: rotate(-3deg) scale(1.04);
+		transform: translateY(-2px);
+		box-shadow: 0 5px 0 var(--edge);
 		text-decoration: none;
+	}
+	nav .parents:active {
+		transform: translateY(3px);
+		box-shadow: none;
 	}
 	.parents .short {
 		display: none;
@@ -307,17 +314,24 @@
 	.islands-head p {
 		font-size: var(--fs-lead);
 	}
+	/* Surf over the shallows, then wet sand: the sea's last edge before the beach. */
 	.shore {
 		position: absolute;
 		left: 0;
 		bottom: -1px;
 		width: 100%;
-		height: 4.5rem;
+		height: calc(var(--px) * 16);
+		background: var(--shore) 0 100% / calc(var(--px) * 48) calc(var(--px) * 16) repeat-x;
+		image-rendering: pixelated;
 	}
 
 	/* ---------------------------------------------------------------- the beach: how it works */
 	.beach {
-		background: var(--sand-soft);
+		background: var(--beach) 0 0 / calc(var(--px) * 64) calc(var(--px) * 64);
+		image-rendering: pixelated;
+	}
+	.beach > * {
+		image-rendering: auto;
 	}
 	.how {
 		display: grid;
@@ -346,13 +360,10 @@
 	}
 	.sample-card {
 		padding: 1.1rem;
+		border: 2px solid var(--edge);
 		border-radius: var(--r-lg);
 		background: var(--card);
-		rotate: -2deg;
-		transition: rotate 420ms var(--spring);
-	}
-	.sample:hover .sample-card {
-		rotate: 0deg;
+		box-shadow: 0 4px 0 var(--edge);
 	}
 	.sample-q {
 		margin-bottom: 0.9rem;
@@ -373,13 +384,17 @@
 		font-style: normal;
 		font-weight: 800;
 	}
+	/* The slip is cut along its foot, so its hard shadow is drawn around the cut. */
+	.slip-shadow {
+		filter: drop-shadow(0 4px 0 #c9ae74);
+		transition: transform var(--t-press) steps(2);
+	}
+	.slip-shadow:hover {
+		transform: translateY(-2px);
+	}
 	.slip {
 		padding: 1.8rem 1.9rem 3rem;
 		background: var(--paper);
-		transition: transform 420ms var(--spring);
-	}
-	.slip:hover {
-		transform: rotate(0.8deg) translateY(-3px);
 	}
 	.slip-title {
 		font: 600 2rem/1.1 var(--font-display);
@@ -408,7 +423,7 @@
 	}
 	.leader {
 		flex: 1 0 1rem;
-		border-bottom: 4px dotted #dccfb4;
+		border-bottom: 4px dashed #dccfb4;
 		translate: 0 -0.25rem;
 	}
 	.value {
@@ -427,17 +442,27 @@
 	}
 
 	/* ---------------------------------------------------------------- the field: for parents */
+	/* Blades of grass along the top, rising into the dusk above. */
 	.field {
+		position: relative;
 		overflow: hidden;
 		background: var(--field);
 		color: #fff;
+	}
+	.field::before {
+		content: '';
+		position: absolute;
+		inset: 0 0 auto;
+		height: calc(var(--px) * 14);
+		background: var(--fringe) 0 0 / calc(var(--px) * 32) calc(var(--px) * 14) repeat-x;
+		image-rendering: pixelated;
 	}
 	.cta {
 		display: grid;
 		grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
 		gap: 2rem 4rem;
 		align-items: end;
-		padding-top: 5rem;
+		padding-top: calc(5rem + var(--px) * 14);
 	}
 	.why {
 		max-width: 26rem;
@@ -450,14 +475,12 @@
 		gap: 0.9rem;
 		margin-bottom: -3.5rem;
 		padding: 2.6rem 2.6rem 5.5rem;
+		border: 2px solid var(--edge);
+		border-radius: var(--r-lg);
 		background: var(--paper);
+		box-shadow: 0 4px 0 var(--edge);
 		color: var(--ink);
 		text-align: center;
-		rotate: 2deg;
-		transition: rotate 420ms var(--spring);
-	}
-	.reply:hover {
-		rotate: 0.5deg;
 	}
 	.reply h2 {
 		font-size: var(--fs-h2);
@@ -474,15 +497,22 @@
 		width: 100%;
 		min-height: 3.5rem;
 		margin-top: 0.6rem;
+		border: 2px solid var(--edge);
 		border-radius: var(--r-md);
 		background: var(--ink);
+		box-shadow: 0 3px 0 #000;
 		color: var(--paper);
 		font: 600 1.3rem var(--font-display);
 		text-decoration: none;
-		transition: transform var(--t-press) var(--ease-out);
+		transition: transform var(--t-press) steps(2);
+	}
+	.bar:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 5px 0 #000;
 	}
 	.bar:active {
-		transform: scale(0.98, 0.95);
+		transform: translateY(3px);
+		box-shadow: none;
 	}
 	.arrow {
 		display: inline-flex;
@@ -499,15 +529,16 @@
 		padding-bottom: 2.5rem;
 	}
 	.postcard {
-		--bite: 18px;
+		--tooth: 24px;
 		display: grid;
 		grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
 		gap: 2rem 3rem;
 		padding: 3.6rem 3rem 2rem;
 		background: var(--paper);
-		/* A scalloped top edge, like a card torn from a pad. */
+		/* A battlement top edge, like a card cut from a pad: square teeth, as wide as they are deep. */
 		mask:
-			radial-gradient(circle var(--bite) at 50% 0, #0000 97%, #000) 0 0 / 46px 100% repeat-x; /* taste-skill-ignore: a mask that cuts the edge, not a fill */
+			linear-gradient(#000 0 0) 0 var(--tooth) / 100% calc(100% - var(--tooth)) no-repeat, /* taste-skill-ignore: a mask that cuts the edge, not a fill */
+			linear-gradient(90deg, #000 var(--tooth), #0000 0) 0 0 / calc(var(--tooth) * 2) var(--tooth) repeat-x; /* taste-skill-ignore: mask */
 	}
 	.sign {
 		font: 600 var(--fs-h2) / 1.1 var(--font-display);
@@ -544,15 +575,14 @@
 		height: 5.6rem;
 		padding: 5px;
 		background: var(--sun);
-		/* Perforated round the edge like a stamp: holes along the border, the middle left whole. */
+		/* Perforated round the edge like a stamp: square holes along the border, the middle left whole. */
 		mask:
 			linear-gradient(#000 0 0) content-box, /* taste-skill-ignore: mask layers that punch the holes, not a fill */
-			radial-gradient(circle 3.5px, #0000 96%, #000) -5px -5px / 10px 10px round; /* taste-skill-ignore: mask */
-		rotate: 6deg;
-		transition: rotate 420ms var(--spring);
+			conic-gradient(from 90deg at 6px 6px, #0000 25%, #000 0) -3px -3px / 10px 10px round; /* taste-skill-ignore: mask */
+		transition: transform var(--t-press) steps(2);
 	}
 	.postcard:hover .stamp {
-		rotate: -4deg;
+		transform: translateY(-3px);
 	}
 	.imprint {
 		grid-column: 1 / -1;
@@ -571,22 +601,23 @@
 		align-items: center;
 		gap: 0.4rem;
 		padding: 0.75rem 1.1rem 0.75rem 1rem;
-		border: 0;
-		border-left: 4px dotted var(--sun-deep);
+		border: 2px solid var(--edge);
+		border-left: 4px dashed var(--edge);
 		border-radius: var(--r-md);
 		background: var(--sun);
 		color: var(--ink);
 		font: 600 1.0625rem var(--font-display);
 		cursor: pointer;
-		box-shadow: var(--lift-low); /* taste-skill-ignore: it floats over the page */
-		--shade: var(--sun-deep);
-		transition: transform var(--t-state) var(--spring);
+		box-shadow: 0 3px 0 var(--edge); /* taste-skill-ignore: it floats over the page */
+		transition: transform var(--t-press) steps(2);
 	}
 	.mini-ticket:hover {
-		transform: rotate(-4deg) scale(1.05);
+		transform: translateY(-2px);
+		box-shadow: 0 5px 0 var(--edge);
 	}
 	.mini-ticket:active {
-		transform: scale(0.96);
+		transform: translateY(3px);
+		box-shadow: none;
 	}
 
 	/* ---------------------------------------------------------------- narrower screens */
@@ -624,7 +655,6 @@
 		}
 		.reply {
 			padding: 2rem 1.4rem 4.5rem;
-			rotate: 1deg;
 		}
 		.slip {
 			padding-inline: 1.3rem;

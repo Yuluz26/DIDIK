@@ -7,6 +7,8 @@
 	import type { JoinData } from '$lib/room.svelte';
 	import type { RoomInfo } from '$lib/types';
 	import { ANIMALS, COLOURS, COLOUR_NAMES, SKINS, SKIN_NAMES, randomOf, suggestName } from '$lib/names';
+	import { tick } from '$lib/pixel/icons';
+	import Sprite from '$lib/pixel/Sprite.svelte';
 	import { play, unlock } from '$lib/sound';
 	import Avatar from '$ui/Avatar.svelte';
 	import CharacterStage from '$ui/CharacterStage.svelte';
@@ -93,7 +95,9 @@
 						}}
 						aria-pressed={colour === key}
 						aria-label={COLOUR_NAMES[key]}
-					></button>
+					>
+						{#if colour === key}<Sprite sheet={tick()} s={2} />{/if}
+					</button>
 				{/each}
 			</div>
 		</fieldset>
@@ -113,7 +117,9 @@
 						}}
 						aria-pressed={skin === key}
 						aria-label={SKIN_NAMES[key]}
-					></button>
+					>
+						{#if skin === key}<Sprite sheet={tick()} s={2} />{/if}
+					</button>
 				{/each}
 			</div>
 		</fieldset>
@@ -165,30 +171,35 @@
 		grid-template-columns: repeat(4, minmax(0, 1fr));
 		gap: 0.5rem;
 	}
+	/* Chosen things lift off the page on a hard underside, the way every control in the pixel theme does. */
 	.animal {
 		display: grid;
 		justify-items: center;
 		gap: 0.2rem;
 		padding: 0.55rem 0.2rem 0.45rem;
-		border: 3px solid transparent;
+		border: 2px solid var(--edge);
 		border-radius: var(--r-md);
 		background: var(--card);
-		box-shadow: 0 3px 0 var(--line);
+		box-shadow: 0 3px 0 var(--edge);
 		font-weight: 800;
 		font-size: 0.85rem;
 		cursor: pointer;
-		transition: transform var(--t-state) var(--spring), border-color var(--t-state);
+		transition: transform var(--t-press) steps(2), box-shadow var(--t-press) steps(2);
 	}
 	.animal:hover {
-		transform: translateY(-3px) rotate(-2deg);
+		transform: translateY(-2px);
+		box-shadow: 0 5px 0 var(--edge);
 	}
-	.animal:hover :global(svg) {
-		animation: wiggle 0.5s ease-in-out;
+	.animal:active {
+		transform: translateY(3px);
+		box-shadow: 0 0 0 var(--edge);
 	}
 	.animal.on {
-		border-color: var(--ink);
-		background: #fff3cf;
-		transform: scale(1.04);
+		background: var(--feed-gold);
+		outline: 3px solid var(--sun);
+		outline-offset: 1px;
+		transform: translateY(-2px);
+		box-shadow: 0 5px 0 var(--edge);
 	}
 	.colours {
 		display: flex;
@@ -196,22 +207,32 @@
 		gap: 0.55rem;
 	}
 	.swatch {
-		width: 2.9rem;
-		height: 2.9rem;
-		border: 4px solid #fff;
-		border-radius: 50%;
+		display: grid;
+		place-items: center;
+		width: 2.75rem;
+		height: 2.75rem;
+		padding: 0;
+		border: 2px solid var(--edge);
+		border-radius: 3px;
 		background: var(--swatch);
-		box-shadow: 0 3px 0 var(--line);
+		/* A lit top-left and a shaded bottom-right edge, then the hard underside. */
+		box-shadow:
+			inset 3px 3px 0 rgb(255 255 255 / 0.36),
+			inset -3px -3px 0 rgb(0 0 0 / 0.16),
+			0 3px 0 var(--edge);
 		cursor: pointer;
-		transition: transform var(--t-state) var(--spring);
+		transition: transform var(--t-press) steps(2), box-shadow var(--t-press) steps(2);
 	}
 	.swatch:hover {
-		transform: scale(1.12);
+		transform: translateY(-2px);
+	}
+	.swatch:active {
+		transform: translateY(2px);
 	}
 	.swatch.on {
 		outline: 3px solid var(--ink);
 		outline-offset: 2px;
-		transform: scale(1.1);
+		transform: translateY(-2px);
 	}
 	.looks {
 		display: grid;

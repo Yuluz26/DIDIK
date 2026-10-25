@@ -4,7 +4,10 @@
 	list. Like the eight island games, any of them can be played with any quiz, by any class.
 -->
 <script lang="ts">
+	import { duskSky } from '$lib/pixel/sea';
 	import { reveal } from './reveal';
+
+	const sky = `url(${duskSky().toURL(1)})`;
 
 	const GAMES = [
 		{
@@ -40,7 +43,7 @@
 	let shown = $state('litar');
 </script>
 
-<section id="dunia-3d" class="dusk" aria-labelledby="dunia-3d-tajuk">
+<section id="dunia-3d" class="dusk" style:--sky={sky} aria-labelledby="dunia-3d-tajuk">
 	<div class="wrap grid">
 		<div class="copy" {@attach reveal()}>
 			<h2 id="dunia-3d-tajuk">Empat permainan dalam 3D</h2>
@@ -89,13 +92,18 @@
 </section>
 
 <style>
-	/* The beach's sand turning to sunset, then to the evening the 3D worlds are lit by. */
+	/* The beach's sand turning to sunset, then to the evening the 3D worlds are lit by: bands of
+	   colour whose edges are dithered, with a few stars, painted in lib/pixel/sea.ts. */
 	.dusk {
 		--ink: #f3efe6;
 		--ink-2: #bccac7;
 		--brand-ink: #5cc795;
 		color: var(--ink);
-		background: linear-gradient(180deg, var(--sand-soft) 0, #f2b077 5rem, #8c6176 10rem, #2f3d5c 15rem, #0f1f24 22rem);
+		background: #0f1f24 var(--sky) 0 0 / calc(var(--px) * 96) calc(var(--px) * 88) repeat-x;
+		image-rendering: pixelated;
+	}
+	.dusk > * {
+		image-rendering: auto;
 	}
 	.grid {
 		display: grid;
@@ -188,10 +196,11 @@
 	.frames {
 		position: relative;
 		aspect-ratio: 4 / 3;
+		border: 2px solid #071418;
 		border-radius: var(--r-md);
 		overflow: hidden;
 		background: #13303d;
-		outline: 1px solid rgb(255 255 255 / 0.12);
+		box-shadow: 0 4px 0 #071418;
 	}
 	.frames img {
 		position: absolute;
@@ -200,14 +209,10 @@
 		height: 100%;
 		object-fit: cover;
 		opacity: 0;
-		transform: scale(1.025);
-		transition:
-			opacity 420ms var(--ease-out),
-			transform 900ms var(--ease-out);
+		transition: opacity 240ms steps(4);
 	}
 	.frames img.on {
 		opacity: 1;
-		transform: none;
 	}
 	figcaption {
 		color: var(--ink-2);
@@ -219,7 +224,7 @@
 		.grid {
 			grid-template-columns: minmax(0, 1fr);
 			gap: 1rem;
-			padding-block: 12rem 4rem;
+			padding-block: 16rem 4rem;
 		}
 		.copy {
 			display: contents;
@@ -232,6 +237,12 @@
 		.games,
 		.where {
 			order: 2;
+		}
+	}
+	/* On a phone the sky is a third smaller, and so is the room it needs. */
+	@media (max-width: 700px) {
+		.grid {
+			padding-block: 14rem 4rem;
 		}
 	}
 </style>

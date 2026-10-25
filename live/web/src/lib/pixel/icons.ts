@@ -6,11 +6,7 @@ import { memo, sheetOf } from './cache';
 import { Pix, pack, rgba } from './pix';
 
 
-function make(rows: readonly string[], legend: Record<string, string>) {
-	const colours: Record<string, number> = {};
-	for (const [ch, hex] of Object.entries(legend)) colours[ch] = rgba(hex);
-	return Pix.fromMap(rows, colours);
-}
+const make = Pix.sketch;
 
 const HEART = [
 	'..kkk...kkk..',
@@ -269,4 +265,20 @@ export function stackTile(kind: 'coins' | 'harvest') {
 				: ['kkkkkkkkkkkkkk', 'kwggggggggggok', 'kgggglgggggggk', 'kooooooooooook'];
 		return sheetOf(make(rows, kind === 'coins' ? { k: '#7a5410', w: '#fff3a8', y: '#ffd34d', o: '#d49a22' } : { k: '#2b5a34', w: '#b4d86c', g: '#6cb33f', l: '#82ba54', o: '#3d7a3c' })).pix;
 	});
+}
+
+const TICK = [
+	'........kk',
+	'.......kwk',
+	'......kwk.',
+	'kk...kwk..',
+	'kwk.kwk...',
+	'.kwkwk....',
+	'..kwk.....',
+	'...k......'
+];
+
+/** The mark on a chosen swatch: a white tick with a dark edge, so it reads on any colour. */
+export function tick() {
+	return memo('tick', () => sheetOf(make(TICK, { k: '#2a1f2d', w: '#ffffff' })));
 }

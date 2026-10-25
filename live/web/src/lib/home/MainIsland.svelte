@@ -4,14 +4,12 @@
 	where a sampan waits to take them to the game islands.
 -->
 <script lang="ts">
+	import { TILE, snapScale } from '$lib/pixel/cache';
 	import World, { type WorldActor, type WorldProp } from '$lib/worlds/World.svelte';
 	import Sampan from '$lib/worlds/Sampan.svelte';
-	import { blob } from './islands';
+	import { MAIN, townGround } from './isles';
 
-	const W = 12;
-	const H = 7.8;
-	const LAND = { cx: 6, cy: 4.15, rx: 5.65, ry: 3.05, reach: [1, 0.95, 1.04, 0.97, 1.02, 0.94, 1.05, 0.98, 1, 0.96] };
-	const land = (k: number, dy = 0) => blob(LAND.cx, LAND.cy + dy, LAND.rx * k, LAND.ry * k, LAND.reach, 0.3);
+	const { w: W, h: H } = MAIN;
 
 	const PROPS: WorldProp[] = [
 		{ id: 'arch', kind: 'arch', x: 6.1, y: 2.55 },
@@ -46,7 +44,8 @@
 
 	let places = $state(CAST.map((_, i) => ({ at: SPOTS[i], walking: false, facing: i % 2 ? -1 : 1 })));
 	let width = $state(0);
-	const tile = $derived(Math.max(22, width / W));
+	// A whole or half step of the sprite size, so every pixel on the island is the same size.
+	const tile = $derived(TILE * snapScale(width / W / TILE, 1));
 
 	// Every few seconds one child strolls to a free spot; nobody moves when motion is reduced.
 	$effect(() => {
@@ -59,7 +58,9 @@
 			if (!to) return;
 			const from = places[who].at;
 			places[who] = { at: to, walking: true, facing: to[0] < from[0] ? -1 : 1 };
-			setTimeout(() => (places[who] = { ...places[who], walking: false }), 1600);
+			setTimeout(() => {
+				places[who] = { ...places[who], walking: false };
+			}, 1600);
 		}, 2400);
 		return () => clearInterval(timer);
 	});
@@ -80,32 +81,12 @@
 	);
 </script>
 
-{#snippet ground()}
-	<path d={land(1.08, 0.08)} fill="#3d97cc" />
-	<path d={land(1.025, 0.04)} fill="#e8f6fc" opacity=".75" />
-	<path d={land(1, 0.2)} fill="#d9a94f" />
-	<path d={land(1)} fill="#f3d28a" />
-	<path d={land(0.93, -0.02)} fill="#6cb33f" />
-	<path d={land(0.93, -0.1)} fill="#8fd05e" />
-	<!-- The square, a path in from the arch, and one down to the jetty. -->
-	<path d="M5.45 2.3 H6.75 L6.95 3.5 H5.25z" fill="#e9cf98" />
-	<path d="M7.7 5.6 C8.3 6.2 8.6 6.6 8.75 7.1 L9.45 7.0 C9.2 6.4 8.8 5.9 8.2 5.4z" fill="#e9cf98" />
-	<ellipse cx="6.1" cy="4.75" rx="3.1" ry="1.55" fill="#e9cf98" />
-	<ellipse cx="6.1" cy="4.75" rx="2.8" ry="1.32" fill="none" stroke="#d8b77a" stroke-width="0.06" stroke-dasharray="0.25 0.18" />
-	<!-- The jetty, out over the water to the sampan. -->
-	<path d="M8.6 6.95 L9.65 6.8 L10.0 7.55 L8.85 7.75z" fill="#c98a54" />
-	<path d="M8.95 6.95 L9.2 7.68 M9.3 6.9 L9.55 7.62" stroke="#a46a37" stroke-width="0.05" />
-	{#each [[1.7, 3.0], [9.9, 3.3], [3.2, 6.0], [10.2, 6.2], [7.6, 2.7], [1.2, 5.0]] as [x, y] (`${x}-${y}`)}
-		<path d="M{x} {y} l0.06 -0.16 l0.06 0.16 M{x + 0.3} {y - 0.2} l0.05 -0.13 l0.05 0.13" stroke="#6cb33f" stroke-width="0.05" fill="none" stroke-linecap="round" />
-	{/each}
-{/snippet}
-
 {#snippet art(_prop: WorldProp, t: number)}
 	<Sampan tile={t} animal="kancil" colour="hijau" skin="s2" />
 {/snippet}
 
 <div class="main-island" bind:clientWidth={width} aria-hidden="true">
-	<World width={W} height={H} {tile} {ground} props={PROPS} {actors} names={false} step={1600} {art} />
+	<World width={W} height={H} {tile} ground={townGround()} props={PROPS} {actors} names={false} step={1600} {art} />
 </div>
 
 <style>

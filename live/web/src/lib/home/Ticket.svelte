@@ -13,6 +13,7 @@
 	let problem = $state('');
 	let shaking = $state(false);
 	let near = $state(false);
+	let screen = $state(1024);
 	let look = $state<{ x: number; y: number } | null>(null);
 	let didiEl = $state<HTMLElement>();
 	let input = $state<HTMLInputElement>();
@@ -53,39 +54,41 @@
 	}
 </script>
 
-<svelte:window onpointermove={watch} />
+<svelte:window onpointermove={watch} bind:innerWidth={screen} />
 
 <div class="ticket-wrap" class:shaking>
-	<span class="didi" bind:this={didiEl} aria-hidden="true"><Didi {mood} size={92} {look} /></span>
-	<form
-		id="tiket"
-		class="ticket"
-		onsubmit={enter}
-		novalidate
-		onpointerenter={() => (near = true)}
-		onpointerleave={() => (near = false)}
-		onfocusin={() => (near = true)}
-		onfocusout={() => (near = false)}
-	>
-		<div class="write">
-			<label for="code">Kod bilik</label>
-			<input
-				bind:this={input}
-				id="code"
-				bind:value={code}
-				inputmode="numeric"
-				autocomplete="off"
-				maxlength="40"
-				placeholder="000 000"
-				aria-describedby={problem ? 'code-problem' : 'code-help'}
-				aria-invalid={!!problem}
-				oninput={() => (problem = '')}
-			/>
-		</div>
-		<div class="stub">
-			<button class="btn btn--sun btn--big go">Masuk <span class="arrow"><Icon name="next" /></span></button>
-		</div>
-	</form>
+	<span class="didi" bind:this={didiEl} aria-hidden="true"><Didi {mood} size={screen < 420 ? 66 : 88} {look} /></span>
+	<div class="cut">
+		<form
+			id="tiket"
+			class="ticket"
+			onsubmit={enter}
+			novalidate
+			onpointerenter={() => (near = true)}
+			onpointerleave={() => (near = false)}
+			onfocusin={() => (near = true)}
+			onfocusout={() => (near = false)}
+		>
+			<div class="write">
+				<label for="code">Kod bilik</label>
+				<input
+					bind:this={input}
+					id="code"
+					bind:value={code}
+					inputmode="numeric"
+					autocomplete="off"
+					maxlength="40"
+					placeholder="000 000"
+					aria-describedby={problem ? 'code-problem' : 'code-help'}
+					aria-invalid={!!problem}
+					oninput={() => (problem = '')}
+				/>
+			</div>
+			<div class="stub">
+				<button class="btn btn--sun btn--big go">Masuk <span class="arrow"><Icon name="next" /></span></button>
+			</div>
+		</form>
+	</div>
 </div>
 {#if problem}
 	<p id="code-problem" class="field-error problem">{problem}</p>
@@ -94,47 +97,48 @@
 {/if}
 
 <style>
+	/* The ticket is cut where its stub tears off, so the outline and the hard shadow are drawn
+	   round the cut shape with a filter, one step at a time. */
 	.ticket-wrap {
 		position: relative;
 		max-width: 31rem;
 		margin-top: 4.2rem;
-		transition: transform 420ms var(--spring);
+		transition: transform var(--t-press) steps(2);
+	}
+	.cut {
+		position: relative;
+		z-index: 1;
+		filter: drop-shadow(2px 0 0 var(--edge)) drop-shadow(-2px 0 0 var(--edge)) drop-shadow(0 2px 0 var(--edge)) drop-shadow(0 -2px 0 var(--edge)) drop-shadow(0 4px 0 var(--edge));
 	}
 	.ticket-wrap:hover,
 	.ticket-wrap:focus-within {
-		transform: rotate(-1.2deg) translateY(-2px);
+		transform: translateY(-2px);
 	}
 	.shaking {
-		animation: shake 420ms ease-in-out;
+		animation: shake 420ms steps(8);
 	}
 	/* Didi stands behind the ticket, so only the head and a waving paw show over its edge. */
 	.didi {
 		position: absolute;
 		z-index: 0;
 		right: 7.5rem;
-		bottom: calc(100% - 2.6rem);
+		bottom: calc(100% - 2.4rem);
 		line-height: 0;
-		transition: transform 420ms var(--spring);
-	}
-	.ticket-wrap:hover .didi,
-	.ticket-wrap:focus-within .didi {
-		transform: translateY(-6px);
 	}
 	.ticket {
-		--notch: 13px;
+		--notch: 12px;
 		--stub: 9.6rem;
-		position: relative;
-		z-index: 1;
 		display: grid;
 		grid-template-columns: minmax(0, 1fr) var(--stub);
 		align-items: center;
 		min-height: 6.4rem;
-		border-radius: var(--r-md);
+		border-radius: 2px;
 		background: var(--paper);
-		/* Two half-moons bitten out where the stub tears off. */
+		/* A square bitten out of the top and the bottom where the stub tears off. */
 		mask:
-			radial-gradient(circle var(--notch) at calc(100% - var(--stub)) 0, #0000 97%, #000) top / 100% 51% no-repeat, /* taste-skill-ignore: mask */
-			radial-gradient(circle var(--notch) at calc(100% - var(--stub)) 100%, #0000 97%, #000) bottom / 100% 51% no-repeat; /* taste-skill-ignore: mask */
+			linear-gradient(#000 0 0) left top / calc(100% - var(--stub) - var(--notch)) 100% no-repeat, /* taste-skill-ignore: mask */
+			linear-gradient(#000 0 0) right top / calc(var(--stub) - var(--notch)) 100% no-repeat, /* taste-skill-ignore: mask */
+			linear-gradient(#000 0 0) right calc(var(--stub) - var(--notch)) top var(--notch) / calc(var(--notch) * 2) calc(100% - var(--notch) * 2) no-repeat; /* taste-skill-ignore: mask */
 	}
 	.write {
 		display: grid;
@@ -150,13 +154,13 @@
 		min-width: 0;
 		padding: 0.1rem 0 0.2rem;
 		border: 0;
-		border-bottom: 3px solid var(--line);
+		border-bottom: 4px solid var(--line);
+		border-radius: 0;
 		background: transparent;
 		color: var(--ink);
 		font: 600 clamp(1.6rem, 1.2rem + 1.2vw, 2.1rem) / 1.2 var(--font-display);
 		letter-spacing: 0.08em;
 		font-variant-numeric: tabular-nums;
-		transition: border-color var(--t-state);
 	}
 	input::placeholder {
 		color: #cbbd9f;
@@ -174,7 +178,7 @@
 		place-items: center;
 		align-self: stretch;
 		padding: 0 0.8rem;
-		border-left: 4px dotted #d9cbb0;
+		border-left: 4px dashed #d9cbb0;
 	}
 	.go {
 		width: 100%;
@@ -183,7 +187,7 @@
 	}
 	.arrow {
 		display: inline-flex;
-		transition: transform var(--t-state) var(--spring);
+		transition: transform var(--t-press) steps(2);
 	}
 	.go:hover .arrow {
 		transform: translateX(4px);
@@ -200,6 +204,7 @@
 	.problem {
 		display: inline-block;
 		padding: 0.25rem 0.7rem;
+		border: 2px solid var(--edge);
 		border-radius: var(--r-sm);
 		background: var(--paper);
 	}
@@ -212,9 +217,6 @@
 		}
 		.didi {
 			right: 5.8rem;
-		}
-		.didi :global(svg) {
-			--didi-w: 80px;
 		}
 	}
 </style>
