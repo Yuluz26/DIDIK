@@ -54,8 +54,15 @@
 		let stop = () => {};
 		let cancelled = false;
 		import('./stage')
-			.then(({ renderer }) => {
-				if (!cancelled) stop = run(el, current, renderer());
+			.then(({ PixelPass, pixelSize, renderer }) => {
+				if (cancelled) return;
+				const gl = renderer();
+				const pass = new PixelPass(gl);
+				const end = run(el, current, gl, pass, pixelSize);
+				stop = () => {
+					end();
+					pass.dispose();
+				};
 			})
 			.catch(() => (failed = true));
 		return () => {
@@ -64,7 +71,7 @@
 		};
 	});
 
-	function run(el: HTMLDivElement, current: W, gl: import('three').WebGLRenderer): () => void {
+	function run(el: HTMLDivElement, current: W, gl: import('three').WebGLRenderer, pass: import('./stage').PixelPass, pixel: (width: number) => number): () => void {
 		const surface = gl.domElement;
 		surface.classList.add('gl');
 		surface.setAttribute('role', 'img');
@@ -82,8 +89,13 @@
 			const box = el.getBoundingClientRect();
 			width = Math.max(1, Math.round(box.width));
 			height = Math.max(1, Math.round(box.height));
-			gl.setPixelRatio(Math.min(window.devicePixelRatio, width < 700 ? 1.5 : 2));
-			gl.setSize(width, height, false);
+			// The picture is drawn small and magnified without smoothing, so every pixel is a block.
+			const p = pixel(width);
+			const w = Math.max(1, Math.ceil(width / p));
+			const h = Math.max(1, Math.ceil(height / p));
+			gl.setPixelRatio(1);
+			gl.setSize(w, h, false);
+			pass.setSize(w, h);
 			current.resize(width, height);
 			dirty = true;
 			wake();
@@ -95,7 +107,7 @@
 			last = now;
 			const moving = current.tick(dt, now / 1000);
 			if (moving || dirty) {
-				gl.render(current.scene, current.camera);
+				pass.render(current.scene, current.camera);
 				current.afterRender?.(width, height);
 				dirty = false;
 			}
@@ -156,6 +168,7 @@
 		display: block;
 		width: 100%;
 		height: 100%;
+		image-rendering: pixelated;
 	}
 	.overlay {
 		position: absolute;

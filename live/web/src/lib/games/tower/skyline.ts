@@ -19,7 +19,6 @@ import {
 	LineSegments,
 	Matrix4,
 	Mesh,
-	MeshLambertMaterial,
 	Object3D,
 	PerspectiveCamera,
 	PlaneGeometry,
@@ -32,7 +31,7 @@ import {
 } from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { Tags, reducedMotion, type World3D } from '$lib/three/stage';
-import { clamp01, damp, disposeTree, drawnTexture, ease, hex, light, merge, skyTexture, type Part } from '$lib/three/kit';
+import { ToonMaterial, clamp01, damp, disposeTree, drawnTexture, ease, hex, light, merge, skyTexture, type Part } from '$lib/three/kit';
 
 export const GOAL = 679;
 const BODY = 600; // where Merdeka 118's spire begins
@@ -76,7 +75,7 @@ export class SkylineWorld implements World3D {
 	private capacity = 0;
 	private readonly lower: Mesh; // the part of the tower below the blocks a phone is sent
 	private readonly slider: Group;
-	private readonly sliderBand: MeshLambertMaterial;
+	private readonly sliderBand: ToonMaterial;
 	private readonly flash: LineSegments;
 	private readonly target: LineSegments; // where a block lands whole: the middle of the top
 	private readonly landmarks = new Map<string, Group>();
@@ -119,15 +118,15 @@ export class SkylineWorld implements World3D {
 		this.bands = this.instanced(512, 0xffffff);
 		this.capacity = 512;
 
-		this.lower = new Mesh(new CylinderGeometry(1, 1, 1, 8).rotateY(Math.PI / 8).translate(0, 0.5, 0), new MeshLambertMaterial({ color: 0x6fb6b7, flatShading: true }));
+		this.lower = new Mesh(new CylinderGeometry(1, 1, 1, 8).rotateY(Math.PI / 8).translate(0, 0.5, 0), new ToonMaterial({ color: 0x6fb6b7, flatShading: true }));
 		this.lower.visible = false;
 		this.scene.add(this.lower);
 
-		this.sliderBand = new MeshLambertMaterial({ color: 0xffb627, flatShading: true });
+		this.sliderBand = new ToonMaterial({ color: 0xffb627, flatShading: true });
 		this.slider = new Group();
 		const slab = new Mesh(
 			new CylinderGeometry(1, 1, 1, 8).rotateY(Math.PI / 8).translate(0, 0.5, 0),
-			new MeshLambertMaterial({ color: 0xbff3ee, emissive: 0x2a6b68, flatShading: true })
+			new ToonMaterial({ color: 0xbff3ee, emissive: 0x2a6b68, flatShading: true })
 		);
 		const band = new Mesh(new CylinderGeometry(1.03, 1.03, 0.22, 8).rotateY(Math.PI / 8).translate(0, 0.11, 0), this.sliderBand);
 		this.slider.add(slab, band);
@@ -194,7 +193,7 @@ export class SkylineWorld implements World3D {
 
 	private instanced(capacity: number, color: number): InstancedMesh {
 		const geometry = new CylinderGeometry(1, 1, 1, 8).rotateY(Math.PI / 8).translate(0, 0.5, 0);
-		const mesh = new InstancedMesh(geometry, new MeshLambertMaterial({ color, flatShading: true }), capacity);
+		const mesh = new InstancedMesh(geometry, new ToonMaterial({ color, flatShading: true }), capacity);
 		mesh.instanceMatrix.setUsage(DynamicDrawUsage);
 		mesh.count = 0;
 		mesh.frustumCulled = false;
@@ -208,7 +207,7 @@ export class SkylineWorld implements World3D {
 		for (const old of [this.glass, this.bands]) {
 			this.scene.remove(old);
 			old.geometry.dispose();
-			(old.material as MeshLambertMaterial).dispose();
+			(old.material as ToonMaterial).dispose();
 			old.dispose();
 		}
 		this.glass = this.instanced(this.capacity, 0xffffff);
@@ -262,7 +261,7 @@ export class SkylineWorld implements World3D {
 			const glow = (group.userData.glow ?? 0) as number;
 			const next = damp(glow, target, 3, dt);
 			group.userData.glow = next;
-			const material = (group.children[0] as Mesh).material as MeshLambertMaterial;
+			const material = (group.children[0] as Mesh).material as ToonMaterial;
 			material.emissive.setRGB(0.55 * next, 0.33 * next, 0.08 * next);
 			if (Math.abs(next - target) > 0.01) moving = true;
 		}
@@ -339,7 +338,7 @@ export class SkylineWorld implements World3D {
 	// ------------------------------------------------------------------ the city
 
 	private ground(): Mesh {
-		const mesh = new Mesh(new PlaneGeometry(9000, 9000), new MeshLambertMaterial({ color: 0x24333d }));
+		const mesh = new Mesh(new PlaneGeometry(9000, 9000), new ToonMaterial({ color: 0x24333d }));
 		mesh.rotation.x = -Math.PI / 2;
 		return mesh;
 	}
@@ -386,7 +385,7 @@ export class SkylineWorld implements World3D {
 		}
 		const merged = mergeGeometries(boxes, false)!;
 		boxes.forEach((b) => b.dispose());
-		return new Mesh(merged, new MeshLambertMaterial({ map: windows, emissive: 0xffffff, emissiveMap: windows, emissiveIntensity: 0.55 }));
+		return new Mesh(merged, new ToonMaterial({ map: windows, emissive: 0xffffff, emissiveMap: windows, emissiveIntensity: 0.55 }));
 	}
 
 	/** Komtar, Menara Kuala Lumpur and the Petronas Twin Towers, simplified, at their real heights. */
@@ -421,7 +420,7 @@ export class SkylineWorld implements World3D {
 			}
 			add(new BoxGeometry(40, 6, 6), 32, 172, 0, 0x8d98a1);
 		}
-		group.add(new Mesh(merge(parts), new MeshLambertMaterial({ vertexColors: true, flatShading: true, emissive: 0x000000 })));
+		group.add(new Mesh(merge(parts), new ToonMaterial({ vertexColors: true, flatShading: true, emissive: 0x000000 })));
 		const spot = LANDMARKS[key];
 		group.position.set(spot.x, 0, spot.z);
 		return group;

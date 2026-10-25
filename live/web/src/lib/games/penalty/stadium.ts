@@ -13,7 +13,6 @@ import {
 	IcosahedronGeometry,
 	Mesh,
 	MeshBasicMaterial,
-	MeshLambertMaterial,
 	PerspectiveCamera,
 	PlaneGeometry,
 	RepeatWrapping,
@@ -23,7 +22,7 @@ import {
 	type Object3D
 } from 'three';
 import { reducedMotion, type World3D } from '$lib/three/stage';
-import { blobShadow, clamp01, disposeTree, drawnTexture, ease, hex, light, merge, painted, skyTexture, type Part } from '$lib/three/kit';
+import { ToonMaterial, blobShadow, clamp01, disposeTree, drawnTexture, ease, hex, light, merge, painted, skyTexture, type Part } from '$lib/three/kit';
 
 export interface Kick {
 	team: string;
@@ -47,7 +46,7 @@ const SPOT = new Vector3(0, 0.11, 0);
 
 interface Figure {
 	root: Group;
-	kit: MeshLambertMaterial;
+	kit: ToonMaterial;
 	leg: Group;
 }
 
@@ -272,10 +271,10 @@ export class StadiumWorld implements World3D {
 			ctx.arc(u(0), v(0), 0.16 * px, 0, Math.PI * 2);
 			ctx.fill();
 		});
-		const field = new Mesh(new PlaneGeometry(W, D), new MeshLambertMaterial({ map: grass }));
+		const field = new Mesh(new PlaneGeometry(W, D), new ToonMaterial({ map: grass }));
 		field.rotation.x = -Math.PI / 2;
 		field.position.set(0, 0, Z0 + D / 2);
-		const outer = new Mesh(new PlaneGeometry(400, 400), new MeshLambertMaterial({ color: 0x1f5f3a }));
+		const outer = new Mesh(new PlaneGeometry(400, 400), new ToonMaterial({ color: 0x1f5f3a }));
 		outer.rotation.x = -Math.PI / 2;
 		outer.position.y = -0.02;
 		group.add(outer, field);
@@ -357,12 +356,12 @@ export class StadiumWorld implements World3D {
 		});
 		const stand = (width: number, x: number, z: number, turn: number) => {
 			const block = new Group();
-			const rows = new Mesh(new PlaneGeometry(width, 16), new MeshLambertMaterial({ map: crowd }));
+			const rows = new Mesh(new PlaneGeometry(width, 16), new ToonMaterial({ map: crowd }));
 			rows.rotation.x = -0.62;
 			rows.position.set(0, 6.5, 0);
-			const roof = new Mesh(new BoxGeometry(width + 2, 0.6, 8), new MeshLambertMaterial({ color: 0x24394a }));
+			const roof = new Mesh(new BoxGeometry(width + 2, 0.6, 8), new ToonMaterial({ color: 0x24394a }));
 			roof.position.set(0, 15.5, -4);
-			const wall = new Mesh(new BoxGeometry(width, 1.4, 0.4), new MeshLambertMaterial({ color: 0x2a4152 }));
+			const wall = new Mesh(new BoxGeometry(width, 1.4, 0.4), new ToonMaterial({ color: 0x2a4152 }));
 			wall.position.set(0, 0.7, 6.3);
 			block.add(rows, roof, wall);
 			block.position.set(x, 0, z);
@@ -449,7 +448,7 @@ export class StadiumWorld implements World3D {
 			add(new BoxGeometry(0.13, 0.56, 0.14), -0.32, 1.32, 0, 0xffffff, kitParts);
 			add(new BoxGeometry(0.13, 0.56, 0.14), 0.32, 1.32, 0, 0xffffff, kitParts);
 		}
-		const kit = new MeshLambertMaterial({ vertexColors: true, flatShading: true });
+		const kit = new ToonMaterial({ vertexColors: true, flatShading: true });
 		root.add(new Mesh(merge(fixed), painted()), new Mesh(merge(kitParts), kit));
 
 		// The right leg turns at the hip, for the kick.

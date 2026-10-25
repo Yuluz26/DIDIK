@@ -8,14 +8,13 @@ import {
 	InstancedMesh,
 	Matrix4,
 	Mesh,
-	MeshLambertMaterial,
 	PerspectiveCamera,
 	Scene,
 	SphereGeometry,
 	Vector3
 } from 'three';
 import { Tags, reducedMotion, type World3D } from '$lib/three/stage';
-import { blobShadow, clamp01, damp, disposeTree, hex, light } from '$lib/three/kit';
+import { ToonMaterial, blobShadow, clamp01, damp, disposeTree, hex, light } from '$lib/three/kit';
 import { heap, ship, sunset } from './models';
 
 export interface Captain {
@@ -39,7 +38,7 @@ const SLOTS: [number, number][] = [
 
 interface Berth {
 	group: Group;
-	sail: MeshLambertMaterial;
+	sail: ToonMaterial;
 	pile: Mesh;
 	id: string | null;
 	x: number;
@@ -68,9 +67,9 @@ export class BayWorld implements World3D {
 
 		const pile = heap();
 		for (let i = 0; i < SHIPS; i++) {
-			const sail = new MeshLambertMaterial({ color: 0xffffff, side: 2 });
+			const sail = new ToonMaterial({ color: 0xffffff, side: 2 });
 			const group = ship(sail);
-			const gold = new Mesh(pile, new MeshLambertMaterial({ color: 0xffffff, vertexColors: true, flatShading: true }));
+			const gold = new Mesh(pile, new ToonMaterial({ color: 0xffffff, vertexColors: true, flatShading: true }));
 			gold.position.set(0, 1.1, 0.9);
 			group.add(gold);
 			const shadow = blobShadow(4, 7, 0.25);
@@ -82,7 +81,7 @@ export class BayWorld implements World3D {
 			this.berths.push({ group, sail, pile: gold, id: null, x: SLOTS[i][0], z: SLOTS[i][1], height: 0.05, target: 0.05 });
 		}
 
-		this.ball = new InstancedMesh(new SphereGeometry(0.35, 8, 6), new MeshLambertMaterial({ color: 0x22262a }), 1);
+		this.ball = new InstancedMesh(new SphereGeometry(0.35, 8, 6), new ToonMaterial({ color: 0x22262a }), 1);
 		this.ball.count = 0;
 		this.scene.add(this.ball);
 

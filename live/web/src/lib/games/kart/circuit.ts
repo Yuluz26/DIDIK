@@ -21,7 +21,6 @@ import {
 	Matrix4,
 	Mesh,
 	MeshBasicMaterial,
-	MeshLambertMaterial,
 	Object3D,
 	PerspectiveCamera,
 	PlaneGeometry,
@@ -32,7 +31,7 @@ import {
 	Vector3
 } from 'three';
 import { Tags, reducedMotion, type World3D } from '$lib/three/stage';
-import { C, blobShadow, clamp01, damp, disposeTree, drawnTexture, ease, hex, light, merge, painted, skyTexture, type Part } from '$lib/three/kit';
+import { C, ToonMaterial, blobShadow, clamp01, damp, disposeTree, drawnTexture, ease, hex, light, merge, painted, skyTexture, type Part } from '$lib/three/kit';
 
 export interface Kart {
 	id: string;
@@ -322,7 +321,7 @@ export class CircuitWorld implements World3D {
 		});
 		stripes.wrapS = stripes.wrapT = RepeatWrapping;
 		stripes.repeat.set(1, 36);
-		const mesh = new Mesh(new PlaneGeometry(900, 900), new MeshLambertMaterial({ map: stripes }));
+		const mesh = new Mesh(new PlaneGeometry(900, 900), new ToonMaterial({ map: stripes }));
 		mesh.rotation.x = -Math.PI / 2;
 		mesh.rotation.z = 0.32;
 		mesh.position.y = -0.05;
@@ -357,7 +356,7 @@ export class CircuitWorld implements World3D {
 	}
 
 	private track(): Mesh {
-		return new Mesh(this.ribbon(TRACK_WIDTH, 0, 0.02, () => 0x4b5359), new MeshLambertMaterial({ vertexColors: true, side: DoubleSide }));
+		return new Mesh(this.ribbon(TRACK_WIDTH, 0, 0.02, () => 0x4b5359), new ToonMaterial({ vertexColors: true, side: DoubleSide }));
 	}
 
 	/** Red and white kerbs where the circuit bends, a white edge line along the rest. */
@@ -370,7 +369,7 @@ export class CircuitWorld implements World3D {
 			this.ribbon(0.3, -TRACK_WIDTH / 2 + 0.45, 0.08, () => 0xe9e5da),
 			this.ribbon(0.3, TRACK_WIDTH / 2 - 0.45, 0.08, () => 0xe9e5da)
 		]);
-		return new Mesh(geometry, new MeshLambertMaterial({ vertexColors: true, side: DoubleSide }));
+		return new Mesh(geometry, new ToonMaterial({ vertexColors: true, side: DoubleSide }));
 	}
 
 	private startLine(): Object3D {
@@ -501,7 +500,7 @@ export class CircuitWorld implements World3D {
 				ctx.fillRect(Math.floor(r() * 128) * 4, Math.floor(r() * 16) * 4, 3, 3);
 			}
 		});
-		const stand = new Mesh(new PlaneGeometry(62, 11), new MeshLambertMaterial({ map: crowd }));
+		const stand = new Mesh(new PlaneGeometry(62, 11), new ToonMaterial({ map: crowd }));
 		stand.rotation.x = -Math.PI / 2 + 0.42;
 		stand.position.set(-10, 3.4, 50.2);
 		group.add(stand);

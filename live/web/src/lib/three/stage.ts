@@ -6,7 +6,22 @@
 // and browsers cap (and leak on churn) live WebGL contexts, so the canvas moves between
 // containers instead of being rebuilt.
 
-import { NeutralToneMapping, SRGBColorSpace, Vector3, WebGLRenderer, type PerspectiveCamera, type Scene } from 'three';
+import {
+	Mesh,
+	NearestFilter,
+	NeutralToneMapping,
+	OrthographicCamera,
+	PlaneGeometry,
+	SRGBColorSpace,
+	Scene as ThreeScene,
+	ShaderMaterial,
+	Vector2,
+	Vector3,
+	WebGLRenderTarget,
+	WebGLRenderer,
+	type PerspectiveCamera,
+	type Scene
+} from 'three';
 
 /** A game's 3D world, drawn by `Stage3D`. */
 export interface World3D {
@@ -33,8 +48,8 @@ export function renderer(): WebGLRenderer {
 	if (!context) throw new Error('WebGL is not available');
 	context.getExtension('WEBGL_lose_context')?.loseContext();
 	const created = new WebGLRenderer({
-		// Multisampling is costly on phones and barely visible on dense screens.
-		antialias: window.devicePixelRatio < 2,
+		// Pixels are meant to be hard edged: no smoothing between them.
+		antialias: false,
 		powerPreference: 'high-performance'
 	});
 	created.outputColorSpace = SRGBColorSpace;
@@ -108,4 +123,84 @@ export class Tags {
 			tag.el.style.transform = `translate3d(${tag.x.toFixed(1)}px, ${tag.y.toFixed(1)}px, 0) translate(-50%, -100%)`;
 		}
 	}
+}
+
+/**
+ * The pixel look for every 3D world: the scene is drawn small (see `pixelSize`), then a last pass
+ * lays dark one-pixel edges where one thing ends and another begins, and rounds every colour to a
+ * limited set, dithered in a fixed pattern, as an old console would. The browser then magnifies the
+ * small picture without smoothing it.
+ */
+export class PixelPass {
+	private readonly target = new WebGLRenderTarget(1, 1, { minFilter: NearestFilter, magFilter: NearestFilter });
+	private readonly quad = new ThreeScene();
+	private readonly camera = new OrthographicCamera(-1, 1, 1, -1, 0, 1);
+	private readonly material: ShaderMaterial;
+	private readonly size = new Vector2(1, 1);
+
+	constructor(private readonly gl: WebGLRenderer) {
+		this.material = new ShaderMaterial({
+			uniforms: { tDiffuse: { value: this.target.texture }, texel: { value: new Vector2(1, 1) }, levels: { value: 22 } },
+			vertexShader: `varying vec2 vUv; void main() { vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }`,
+			fragmentShader: `
+				uniform sampler2D tDiffuse;
+				uniform vec2 texel;
+				uniform float levels;
+				varying vec2 vUv;
+				float luma(vec3 c) { return dot(c, vec3(0.299, 0.587, 0.114)); }
+				float bayer(vec2 p) {
+					vec2 q = mod(floor(p), 4.0);
+					float i = q.x + q.y * 4.0;
+					// 4x4 ordered dither, 0..15
+					float m = i < 8.0
+						? (i < 4.0 ? (i < 1.0 ? 0.0 : i < 2.0 ? 8.0 : i < 3.0 ? 2.0 : 10.0) : (i < 5.0 ? 12.0 : i < 6.0 ? 4.0 : i < 7.0 ? 14.0 : 6.0))
+						: (i < 12.0 ? (i < 9.0 ? 3.0 : i < 10.0 ? 11.0 : i < 11.0 ? 1.0 : 9.0) : (i < 13.0 ? 15.0 : i < 14.0 ? 7.0 : i < 15.0 ? 13.0 : 5.0));
+					return m / 16.0;
+				}
+				void main() {
+					vec3 c = texture2D(tDiffuse, vUv).rgb;
+					float l = luma(c);
+					float up = luma(texture2D(tDiffuse, vUv + vec2(0.0, texel.y)).rgb);
+					float left = luma(texture2D(tDiffuse, vUv - vec2(texel.x, 0.0)).rgb);
+					float down = luma(texture2D(tDiffuse, vUv - vec2(0.0, texel.y)).rgb);
+					float right = luma(texture2D(tDiffuse, vUv + vec2(texel.x, 0.0)).rgb);
+					// a pixel that is darker than a neighbour by a clear step is the edge of its object
+					float step_ = max(max(up - l, left - l), max(down - l, right - l));
+					float edge = smoothstep(0.045, 0.09, step_ / max(0.08, l + 0.12));
+					c *= 1.0 - 0.42 * edge;
+					gl_FragColor = vec4(c, 1.0);
+					#include <tonemapping_fragment>
+					#include <colorspace_fragment>
+					float d = bayer(gl_FragCoord.xy) - 0.5;
+					vec3 q = floor(gl_FragColor.rgb * levels + 0.5 + d * 0.55) / levels;
+					gl_FragColor = vec4(clamp(q, 0.0, 1.0), 1.0);
+				}`,
+			depthTest: false,
+			depthWrite: false
+		});
+		this.quad.add(new Mesh(new PlaneGeometry(2, 2), this.material));
+	}
+
+	setSize(width: number, height: number): void {
+		this.size.set(width, height);
+		this.target.setSize(width, height);
+		(this.material.uniforms.texel.value as Vector2).set(1 / width, 1 / height);
+	}
+
+	render(scene: Scene, camera: PerspectiveCamera): void {
+		this.gl.setRenderTarget(this.target);
+		this.gl.render(scene, camera);
+		this.gl.setRenderTarget(null);
+		this.gl.render(this.quad, this.camera);
+	}
+
+	dispose(): void {
+		this.target.dispose();
+		this.material.dispose();
+	}
+}
+
+/** CSS pixels to a pixel of the 3D picture: the same chunky size the 2D worlds are drawn at. */
+export function pixelSize(cssWidth: number): number {
+	return Math.min(4, Math.max(2, Math.round(cssWidth / 280)));
 }

@@ -7,12 +7,15 @@ import {
 	BufferGeometry,
 	CanvasTexture,
 	Color,
+	DataTexture,
 	DirectionalLight,
 	HemisphereLight,
 	Mesh,
 	MeshBasicMaterial,
-	MeshLambertMaterial,
+	MeshToonMaterial,
+	NearestFilter,
 	PlaneGeometry,
+	RedFormat,
 	SRGBColorSpace,
 	type Material,
 	type Object3D,
@@ -70,13 +73,35 @@ export function merge(parts: Part[]): BufferGeometry {
 	return merged;
 }
 
-/** The one material most low-poly objects share: flat shading, colours from the vertices. */
-export function painted(): MeshLambertMaterial {
-	return new MeshLambertMaterial({ vertexColors: true, flatShading: true });
+let steps: DataTexture | null = null;
+
+/** Light falls in four hard steps, like the shading in a drawing, not in a smooth gradient. */
+function toonSteps(): DataTexture {
+	if (!steps) {
+		steps = new DataTexture(new Uint8Array([88, 150, 210, 255]), 4, 1, RedFormat);
+		steps.minFilter = NearestFilter;
+		steps.magFilter = NearestFilter;
+		steps.needsUpdate = true;
+	}
+	return steps;
 }
 
-export function solid(color: number): MeshLambertMaterial {
-	return new MeshLambertMaterial({ color, flatShading: true });
+/** A toon material that takes the options a Lambert one did (flat shading is how every part is cut). */
+export class ToonMaterial extends MeshToonMaterial {
+	constructor(params: ConstructorParameters<typeof MeshToonMaterial>[0] & { flatShading?: boolean } = {}) {
+		const { flatShading: _flat, ...rest } = params;
+		void _flat;
+		super({ gradientMap: toonSteps(), ...rest });
+	}
+}
+
+/** The one material most low-poly objects share: stepped shading, colours from the vertices. */
+export function painted(): MeshToonMaterial {
+	return new MeshToonMaterial({ vertexColors: true, gradientMap: toonSteps() });
+}
+
+export function solid(color: number): MeshToonMaterial {
+	return new MeshToonMaterial({ color, gradientMap: toonSteps() });
 }
 
 /** A vertical gradient for `scene.background`: cheap, and it never shows a seam. */

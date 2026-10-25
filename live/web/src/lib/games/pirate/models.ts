@@ -9,13 +9,12 @@ import {
 	Group,
 	Mesh,
 	MeshBasicMaterial,
-	MeshLambertMaterial,
 	PlaneGeometry,
 	Scene,
 	SphereGeometry,
 	type BufferGeometry
 } from 'three';
-import { drawnTexture, merge, painted, skyTexture, type Part } from '$lib/three/kit';
+import { ToonMaterial, drawnTexture, merge, painted, skyTexture, type Part } from '$lib/three/kit';
 
 export const GOLD = 0xffb627;
 const WOOD = 0x8a5229;
@@ -60,7 +59,7 @@ export function chest(): Chest {
 }
 
 /** A small ship, bow toward +z, about 6 m long; the sail and pennant take `colour`. */
-export function ship(colour: MeshLambertMaterial): Group {
+export function ship(colour: ToonMaterial): Group {
 	const root = new Group();
 	const parts: Part[] = [];
 	const add = (g: BufferGeometry, x: number, y: number, z: number, color: number) => {
@@ -87,7 +86,7 @@ export function ship(colour: MeshLambertMaterial): Group {
 		position.setZ(i, 0.45 * Math.cos((x / 2.4) * Math.PI));
 	}
 	sail.computeVertexNormals();
-	const cloth = new Mesh(sail, new MeshLambertMaterial({ color: 0xf3e9d2, side: 2 }));
+	const cloth = new Mesh(sail, new ToonMaterial({ color: 0xf3e9d2, side: 2 }));
 	cloth.position.set(0, 3.55, 0.32);
 	const pennant = new Mesh(new ConeGeometry(0.3, 1.2, 3).rotateZ(-Math.PI / 2), colour);
 	pennant.position.set(0.6, 6.0, 0.2);
@@ -118,7 +117,7 @@ export function sunset(scene: Scene): Group {
 		[1, '#ffc46e']
 	]);
 	const group = new Group();
-	const sea = new Mesh(new PlaneGeometry(900, 900), new MeshLambertMaterial({ color: 0x1f5577 }));
+	const sea = new Mesh(new PlaneGeometry(900, 900), new ToonMaterial({ color: 0x1f5577 }));
 	sea.rotation.x = -Math.PI / 2;
 	const shine = drawnTexture(64, 256, (ctx) => {
 		const across = ctx.createLinearGradient(0, 0, 64, 0);

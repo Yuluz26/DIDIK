@@ -11,7 +11,6 @@ import {
 	Matrix4,
 	Mesh,
 	MeshBasicMaterial,
-	MeshLambertMaterial,
 	Object3D,
 	PerspectiveCamera,
 	PlaneGeometry,
@@ -22,7 +21,7 @@ import {
 	type BufferGeometry
 } from 'three';
 import { reducedMotion, type World3D } from '$lib/three/stage';
-import { blobShadow, clamp01, disposeTree, drawnTexture, ease, light, merge, painted, type Part } from '$lib/three/kit';
+import { ToonMaterial, blobShadow, clamp01, disposeTree, drawnTexture, ease, light, merge, painted, type Part } from '$lib/three/kit';
 import { GOLD, chest, sunset, type Chest } from './models';
 
 export interface Found {
@@ -79,7 +78,7 @@ export class DeckWorld implements World3D {
 			this.scene.add(shadow, c.root, glow);
 		});
 
-		this.coins = new InstancedMesh(new CylinderGeometry(0.075, 0.075, 0.025, 10), new MeshLambertMaterial({ color: GOLD }), COINS);
+		this.coins = new InstancedMesh(new CylinderGeometry(0.075, 0.075, 0.025, 10), new ToonMaterial({ color: GOLD }), COINS);
 		this.coins.instanceMatrix.setUsage(DynamicDrawUsage);
 		this.coins.count = 0;
 		this.coins.frustumCulled = false;
@@ -199,12 +198,12 @@ export class DeckWorld implements World3D {
 			}
 		});
 		const floor = new Mesh(new BoxGeometry(12, 0.24, 9), [
-			new MeshLambertMaterial({ color: 0x6e4122 }),
-			new MeshLambertMaterial({ color: 0x6e4122 }),
-			new MeshLambertMaterial({ map: planks }),
-			new MeshLambertMaterial({ color: 0x6e4122 }),
-			new MeshLambertMaterial({ color: 0x6e4122 }),
-			new MeshLambertMaterial({ color: 0x6e4122 })
+			new ToonMaterial({ color: 0x6e4122 }),
+			new ToonMaterial({ color: 0x6e4122 }),
+			new ToonMaterial({ map: planks }),
+			new ToonMaterial({ color: 0x6e4122 }),
+			new ToonMaterial({ color: 0x6e4122 }),
+			new ToonMaterial({ color: 0x6e4122 })
 		]);
 		floor.position.set(0, 0, -1.6);
 		const parts: Part[] = [];
