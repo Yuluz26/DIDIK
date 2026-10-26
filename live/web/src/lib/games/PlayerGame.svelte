@@ -13,12 +13,8 @@
 	import VillageWorld from './village/VillageWorld.svelte';
 	import GardenPlayer from './garden/GardenPlayer.svelte';
 	import PictureGuess from './picture/PictureGuess.svelte';
-	import KartStage from './kart/KartStage.svelte';
-	import PenaltyStage from './penalty/PenaltyStage.svelte';
-	import PirateDeck from './pirate/PirateDeck.svelte';
-	import { rewardLine } from './pirate/lines';
-	import TowerStage from './tower/TowerStage.svelte';
-
+import StoryPlayer from './story/StoryPlayer.svelte';
+					
 	let { client, view, me, people }: { client: RoomClient; view: View; me: Me; people: Map<string, Person> } = $props();
 
 	const game = $derived(view.game);
@@ -93,42 +89,8 @@
 			{#if game.picture}<PictureGuess {client} frame={game.picture} {me} {people} />{/if}
 		{/snippet}
 	</SyncPlayer>
-{:else if mode.key === 'litar'}
-	<SyncPlayer {client} {game} {me} {people} title={mode.title} unit={mode.unit}>
-		{#snippet scene()}
-			{#if game.circuit}<KartStage circuit={game.circuit} {people} me={me.id} view="phone" />{/if}
-		{/snippet}
-	</SyncPlayer>
-{:else if mode.key === 'penalti'}
-	<SyncPlayer {client} {game} {me} {people} title={mode.title} unit={mode.unit}>
-		{#snippet scene()}
-			{#if game.match}<PenaltyStage match={game.match} stage={game.stage} index={game.index} view="phone" />{/if}
-		{/snippet}
-	</SyncPlayer>
-{:else if mode.key === 'lanun'}
-	<SelfPlayer {client} {game} {me} title={mode.title} unit={mode.unit} total={minutes} rewardText={(r) => rewardLine(r, people)}>
-		{#snippet world()}
-			<PirateDeck {client} world={game.world ?? {}} step={game.seat?.step ?? 'question'} {people} />
-		{/snippet}
-	</SelfPlayer>
-{:else if mode.key === 'menara'}
-	<SelfPlayer
-		{client}
-		{game}
-		{me}
-		title={mode.title}
-		unit={mode.unit}
-		total={minutes}
-		ranked={false}
-		rewardText={(r) =>
-			r.kind === 'dropped' ? (r.perfect ? `Tepat di tengah! Menara naik ${r.metres} m.` : `Menara naik ${r.metres} m.`) : r.kind === 'block' ? 'Kamu dapat satu blok!' : ''}
-	>
-		{#snippet world()}
-			{#if game.world?.landmarks}
-				<TowerStage {client} world={game.world} {people} view="phone" step={game.seat?.step ?? null} me={{ id: me.id, colour: me.colour }} reward={game.seat?.result?.reward ?? null} />
-			{/if}
-		{/snippet}
-	</SelfPlayer>
+{:else if mode.key === 'legenda'}
+	<StoryPlayer {client} {game} {me} {people} />
 {:else}
 	<p class="wrap">Permainan ini sedang disiapkan.</p>
 {/if}
