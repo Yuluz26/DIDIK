@@ -68,8 +68,8 @@
 		height: number;
 		/** CSS pixels to a tile; a multiple of half a sprite pixel (see fitTile) keeps the art sharp. */
 		tile?: number;
-		/** The painted ground (lib/pixel/ground.ts), or a drawing in tile units. */
-		ground: Pix | Snippet;
+		/** The painted ground (lib/pixel/ground.ts). */
+		ground: Pix;
 		props?: WorldProp[];
 		actors?: WorldActor[];
 		me?: string | null;
@@ -163,13 +163,7 @@
 	style:max-width={follow ? undefined : `${W * tile}px`}
 >
 	<div class="world" bind:this={worldEl} style:width="{W * tile}px" style:height="{H * tile}px" style:transform="translate3d({Math.round(camera.x)}px, {Math.round(camera.y)}px, 0)">
-		{#if typeof ground === 'function'}
-			<svg class="ground" viewBox="0 0 {W} {H}" width={W * tile} height={H * tile} aria-hidden="true" focusable="false">
-				{@render ground()}
-			</svg>
-		{:else}
-			<div class="ground"><GroundCanvas pix={ground} {tile} /></div>
-		{/if}
+		<div class="ground"><GroundCanvas pix={ground} {tile} /></div>
 
 		{#if under}<div class="under">{@render under(tile)}</div>{/if}
 
@@ -270,10 +264,6 @@
 		transition:
 			left 1.1s var(--ease-out),
 			top 1.1s var(--ease-out);
-	}
-	/* Near the right edge an absolutely placed box would shrink; drawings keep their own size. */
-	.place :global(svg) {
-		max-width: none;
 	}
 	.hit {
 		position: relative;

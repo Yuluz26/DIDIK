@@ -68,19 +68,3 @@ export const GAMES: GameIslandInfo[] = [
 		tint: '#956641'
 	}
 ];
-
-/** A smooth closed outline through points around (cx, cy), each pushed out by its own amount. */
-export function blob(cx: number, cy: number, rx: number, ry: number, reach: number[], turn = 0): string {
-	const n = reach.length;
-	const pts = reach.map((r, i) => {
-		const a = (i / n) * Math.PI * 2 + turn;
-		return [cx + Math.cos(a) * rx * r, cy + Math.sin(a) * ry * r];
-	});
-	const f = (v: number) => v.toFixed(3);
-	let d = `M${f(pts[0][0])} ${f(pts[0][1])}`;
-	for (let i = 0; i < n; i++) {
-		const [p0, p1, p2, p3] = [pts[(i - 1 + n) % n], pts[i], pts[(i + 1) % n], pts[(i + 2) % n]];
-		d += ` C${f(p1[0] + (p2[0] - p0[0]) / 6)} ${f(p1[1] + (p2[1] - p0[1]) / 6)} ${f(p2[0] - (p3[0] - p1[0]) / 6)} ${f(p2[1] - (p3[1] - p1[1]) / 6)} ${f(p2[0])} ${f(p2[1])}`;
-	}
-	return `${d}Z`;
-}
