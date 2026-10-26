@@ -47,3 +47,36 @@ jobs:
         run: npm run check --prefix live/web
       - name: Build frontend
         run: npm run build --prefix live/web
+
+
+  screenshots:
+    name: Five world screenshots (Chromium)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install web and Chromium
+        run: |
+          npm ci --prefix live/web
+          npm install --prefix live/web --no-save playwright@1.56.1
+          cd live/web
+          npx playwright install --with-deps chromium
+      - name: Start real DIDIK frontend
+        run: |
+          npm run dev --prefix live/web -- --host 127.0.0.1 --port 5173 > /tmp/didik-vite.log 2>&1 &
+          for n in $(seq 1 90); do
+            if curl -fsS http://127.0.0.1:5173/ >/dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/didik-vite.log
+          exit 1
+      - name: Capture 5 worlds in real Chromium
+        run: cd live/web && node scripts/screenshots.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: didik-story-world-screenshots
+          path: screenshots/story-mode/*.png
+          if-no-files-found: warn
