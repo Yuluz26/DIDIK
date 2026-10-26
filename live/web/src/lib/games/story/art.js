@@ -5,19 +5,19 @@
  * The five locales share a consistent palette and genuinely different scenery.
  */
 export const REALMS = [
-  { key:'chini', name:'Tasik Chini', boss:'Naga Chini', weakness:'petir',
+  { key:'chini', name:'Tasik Chini', boss:'Naga Chini', subtitle:'Di bawah kabus tasik, naga menjaga rahsia lama.', weakness:'petir',
     sky:['#132e47','#245a70','#3d8d95','#9fc2a0'], ground:['#182d37','#294a43','#3a5940'],
     mist:'#c2d9be', highlight:'#f2d492', shadow:'#0c202e'},
-  { key:'lupar', name:'Batang Lupar', boss:'Bujang Senang', weakness:'api',
+  { key:'lupar', name:'Batang Lupar', boss:'Bujang Senang', subtitle:'Di tebing sungai, jelmaan legenda sedang menunggu.', weakness:'api',
     sky:['#1d263b','#504655','#93586a','#ec9474'], ground:['#233837','#385044','#5b6551'],
     mist:'#d6aa8d', highlight:'#f8c07b', shadow:'#161e31'},
-  { key:'larut', name:'Hutan Larut', boss:'Gajah Rimba', weakness:'angin',
+  { key:'larut', name:'Hutan Larut', boss:'Gajah Rimba', subtitle:'Deruman gajah penjaga rimba memecah denai.', weakness:'angin',
     sky:['#0f242b','#26483e','#527e5a','#8bb27b'], ground:['#19352d','#315340','#53704a'],
     mist:'#bed7a9', highlight:'#c9dfa3', shadow:'#0c2425'},
-  { key:'kancil', name:'Rimba Bayangan', boss:'Sang Kancil Bayangan', weakness:'tanah',
+  { key:'kancil', name:'Rimba Bayangan', boss:'Sang Kancil Bayangan', subtitle:'Sang Kancil berdepan jelmaan bayangannya.', weakness:'tanah',
     sky:['#121c38','#292b54','#4f4175','#9070a6'], ground:['#22243c','#3a3552','#594864'],
     mist:'#bdb4e4', highlight:'#dda5eb', shadow:'#11162b'},
-  { key:'ledang', name:'Gunung Ledang', boss:'Penunggu Kabus', weakness:'air',
+  { key:'ledang', name:'Gunung Ledang', boss:'Penunggu Kabus', subtitle:'Kabut di puncak menyimpan ujian terakhir.', weakness:'air',
     sky:['#17273b','#394f62','#879294','#dbb7a0'], ground:['#303b49','#546071','#7e8182'],
     mist:'#eee3ce', highlight:'#ffe1a7', shadow:'#152435'},
 ];
