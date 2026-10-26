@@ -360,7 +360,7 @@ function imp(c,x,y,i,t,p){
 function dragon(c,x,y,t,p){
  // Serpentine Malaysian lake Naga: side-profile silhouette, jade scales,
  // long sinuous neck, antler crown, ivory belly and luminous amber eyes.
- c.save();c.translate(Math.round(x-7),Math.round(y+Math.sin(t*1.6)*3));
+ c.save();c.translate(Math.round(x-22),Math.round(y+Math.sin(t*1.6)*3));
  glow(c,0,-38,'#2ffff178',115);
  oval(c,3,25,104,24,'#0c4957');
  for(let i=0;i<4;i++)oval(c,4,25,79+i*6,14+i*3,'#58b7b533');
@@ -487,7 +487,7 @@ function fx(c,x,y,elem,t){
  glow(c,x,y-55,color+'99',70);
  for(let i=0;i<12;i++){const a=i*6.283/12+t*2;const px=x+Math.cos(a)*rad,py=y-55+Math.sin(a)*rad*.6;rect(c,px,py,3+i%3,4,color)}
 }
-function miniMap(c,p,ox,px=544,py=26){
+function miniMap(c,p,ox,px=20,py=22){
  rect(c,px-7,py-8,91,54,'#102f3acb');rect(c,px-5,py-6,87,50,'#e4c994');
  rect(c,px-2,py-3,81,43,p.sky[1]);
  for(let i=0;i<5;i++){let a=px+i*15;rect(c,a+2,py+13,13,9,p.ground[1]);rect(c,a+5,py+10,9,12,p.ground[2])}
