@@ -1,7 +1,7 @@
 <!--
 	The front door, drawn as one sea seen from above. A child writes the room code on a ticket by the
 	main island, where everyone gathers before a game; below, the eight games are islands a sampan
-	sails between. Then the beach (how it works), dusk over the beach (the four 3D games), the
+	sails between. Then the beach (how it works), five story realms, the
 	parents' field and the back of the card.
 -->
 <script lang="ts">
@@ -12,7 +12,7 @@
 	import IslandMap from '$lib/home/IslandMap.svelte';
 	import MainIsland from '$lib/home/MainIsland.svelte';
 	import Ticket from '$lib/home/Ticket.svelte';
-	import Games3D from '$lib/home/Games3D.svelte';
+	import StorySpotlight from '$lib/home/StorySpotlight.svelte';
 	import { reveal } from '$lib/home/reveal';
 	import { beachTile, grassFringe, seaTile, shoreStrip } from '$lib/pixel/sea';
 
@@ -33,7 +33,7 @@
 		{
 			when: 'Bila mahu bermain',
 			rows: [
-				['Pilih satu permainan', '12 pilihan'],
+				['Pilih satu permainan', '9 pilihan'],
 				['Kongsi pautan, kod QR atau kod', '6 digit']
 			]
 		},
@@ -83,7 +83,7 @@
 	<nav aria-label="Laman utama">
 		<a class="far" href="#pulau">Lapan pulau</a>
 		<a class="far" href="#cara">Cara bermain</a>
-		<a class="far" href="#dunia-3d">Permainan 3D</a>
+		<a class="far" href="#legenda">Story Mode</a>
 		<a class="parents" href="/ibu-bapa"><span class="long">Untuk ibu bapa</span><span class="short">Ibu bapa</span> <Icon name="next" size={18} /></a>
 	</nav>
 </header>
@@ -152,7 +152,7 @@
 	</div>
 </section>
 
-<Games3D />
+<StorySpotlight />
 
 <section class="field" style:--fringe={fringe} aria-labelledby="ibu-bapa-tajuk">
 	<div class="wrap cta">
