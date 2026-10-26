@@ -13,7 +13,7 @@
    <p>Masuki dunia mitos Melayu dalam pengembaraan pixel-art moden. Tulis sepuluh soalan, pilih Story Mode, dan berjuang solo atau bersama kawan.</p>
   </header>
   <div class="preview">
-   <div class="frame"><StoryScene {world} hero={null} phase="boss" /></div>
+   <div class="frame"><StoryScene {world} hero="tuah" x={17.8} y={10} phase="boss" element="petir" /></div>
    <aside>
     <span class="overline">PILIH DUNIA</span>
     <div class="realms">
