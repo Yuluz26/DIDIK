@@ -165,7 +165,7 @@ class StoryMode(SelfPacedMode):
             realm, hero = extra["realm"], extra["hero"]
             # A checkpoint retry never rewinds teammates' shared boss damage.
             self.new_seat(player, seat)
-            extra.update(realm=realm, hero=hero, cleared=list(range(realm)))
+            seat.extra.update(realm=realm, hero=hero, cleared=list(range(realm)))
             self.inputs.pop(player.id, None)
         elif kind == "engage" and seat.step == "explore" and not extra["finished"]:
             target = BOSS_X if extra["phase"] == "boss" else FOES[min(4, extra["obstacle"])]
