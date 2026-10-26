@@ -9,13 +9,9 @@
 	import VillageWorld from '$lib/games/village/VillageWorld.svelte';
 	import GardenHost from '$lib/games/garden/GardenHost.svelte';
 	import PictureHost from '$lib/games/picture/PictureHost.svelte';
+import StoryHost from '$lib/games/story/StoryHost.svelte';
 	import ScoreTowers from '$ui/ScoreTowers.svelte';
-	import KartStage from '$lib/games/kart/KartStage.svelte';
-	import PenaltyStage from '$lib/games/penalty/PenaltyStage.svelte';
-	import FleetStage from '$lib/games/pirate/FleetStage.svelte';
-	import TowerStage from '$lib/games/tower/TowerStage.svelte';
-	import ArenaHost from './ArenaHost.svelte';
-	import SelfHost from './SelfHost.svelte';
+						import SelfHost from './SelfHost.svelte';
 	import SyncHost from './SyncHost.svelte';
 
 	let { client, view, people }: { client: RoomClient; view: View; people: Map<string, Person> } = $props();
@@ -65,30 +61,8 @@
 			{#if game.world?.top}<GardenHost world={game.world} {people} unit={mode.unit} />{/if}
 		{/snippet}
 	</SelfHost>
-{:else if mode.key === 'litar'}
-	<ArenaHost {client} {game} title={mode.title}>
-		{#snippet scene()}
-			{#if game.circuit}<KartStage circuit={game.circuit} {people} view="host" />{/if}
-		{/snippet}
-	</ArenaHost>
-{:else if mode.key === 'penalti'}
-	<ArenaHost {client} {game} title={mode.title}>
-		{#snippet scene()}
-			{#if game.match}<PenaltyStage match={game.match} stage={game.stage} index={game.index} view="host" />{/if}
-		{/snippet}
-	</ArenaHost>
-{:else if mode.key === 'lanun'}
-	<SelfHost {client} {game} {people} feed={view.feed} title={mode.title} unit={mode.unit} total={minutes}>
-		{#snippet world()}
-			<FleetStage {client} leaders={game.leaders ?? []} {people} />
-		{/snippet}
-	</SelfHost>
-{:else if mode.key === 'menara'}
-	<SelfHost {client} {game} {people} feed={view.feed} title={mode.title} unit={mode.unit} total={minutes} boardTitle="Paling banyak membina">
-		{#snippet world()}
-			{#if game.world?.landmarks}<TowerStage world={game.world} {people} view="host" />{/if}
-		{/snippet}
-	</SelfHost>
+{:else if mode.key === 'legenda'}
+	<StoryHost {client} {game} {people} />
 {:else}
 	<SelfHost {client} {game} {people} feed={view.feed} title={mode.title} total={minutes} />
 {/if}
