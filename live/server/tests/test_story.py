@@ -121,10 +121,11 @@ def test_story_coop_players_share_boss_but_not_hearts(monkeypatch) -> None:
             answer_and_next(room, player)
         assert mode.boss_hp["0"] == 0
         # A player who did not land the final hit can enter the next world.
-        if mode.seat(a).extra["realm"] == 0:
-            engage(room, a)
-        if mode.seat(b).extra["realm"] == 0:
-            engage(room, b)
+        for player in (a, b):
+            if mode.seat(player).extra["realm"] == 0:
+                # The defeated boss unlocks the exit: engaging it no longer asks a question.
+                mode.positions[player.id] = [20.7, 10.0]
+                room.handle_player(player, {"t": "engage"})
         assert mode.seat(a).extra["realm"] == 1
         assert mode.seat(b).extra["realm"] == 1
         room.close()
