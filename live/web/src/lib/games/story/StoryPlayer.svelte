@@ -41,32 +41,55 @@
     w:[0,-1],s:[0,1],a:[-1,0],d:[1,0]
   };
   const held = new Set<string>();
-  let speed = {dx:0,dy:0};
-  let notice = $state('');
+  let thumb = {dx:0,dy:0};
+  let lastSent = {dx:0,dy:0};
   function move(dx:number,dy:number){
-    if(choosing || seat.step !== 'explore'){dx=0;dy=0;}
-    if(Math.abs(speed.dx-dx)<.02 && Math.abs(speed.dy-dy)<.02)return;
-    speed={dx,dy};
-    client.send({t:'move',dx,dy});
+    thumb = {dx,dy};
+    sendInput();
   }
-  // Hold a key to walk; input refresh is needed because the server expires old input.
-  onMount(()=>{
-    const down=(e:KeyboardEvent)=>{if((e.target as HTMLElement).closest('input,textarea,select'))return;
-      const k=e.key.length===1?e.key.toLowerCase():e.key;
-      if(keys[k]){held.add(k);e.preventDefault();}
-      if(k===' '||k==='Enter'){if(seat.step==='explore'){client.send({t:'engage'});e.preventDefault();}}
-    };
-    const up=(e:KeyboardEvent)=>held.delete(e.key.length===1?e.key.toLowerCase():e.key);
-    const blur=()=>{held.clear();move(0,0)};
-    window.addEventListener('keydown',down);window.addEventListener('keyup',up);window.addEventListener('blur',blur);
-    const pump=setInterval(()=>{
-      if(!held.size){if(speed.dx||speed.dy)move(0,0);return;}
-      let dx=0,dy=0;
-      for(const key of held){const direction=keys[key];if(direction){dx+=direction[0];dy+=direction[1];}}
+  function sendInput(){
+    let dx=thumb.dx, dy=thumb.dy;
+    if(held.size){
+      dx=0;dy=0;
+      for(const key of held){
+        const direction=keys[key]; if(direction){dx+=direction[0];dy+=direction[1];}
+      }
       const size=Math.max(1,Math.hypot(dx,dy));
-      client.send({t:'move',dx:dx/size,dy:dy/size});
-    },90);
-    return()=>{clearInterval(pump);window.removeEventListener('keydown',down);window.removeEventListener('keyup',up);window.removeEventListener('blur',blur);client.send({t:'move',dx:0,dy:0});};
+      dx/=size;dy/=size;
+    }
+    if(choosing || seat.step !== 'explore'){dx=0;dy=0;}
+    // Keep joystick and keyboard alive during a continuous hold; server expires input
+    // after 240ms so a one-off pointer event would leave the hero standing still.
+    if(dx || dy || lastSent.dx || lastSent.dy){
+      client.send({t:'move',dx,dy});
+      lastSent={dx,dy};
+    }
+  }
+  onMount(()=>{
+    const down=(e:KeyboardEvent)=>{
+      if((e.target as HTMLElement)?.closest('input,textarea,select'))return;
+      const k=e.key.length===1?e.key.toLowerCase():e.key;
+      if(keys[k]){held.add(k);e.preventDefault();sendInput();}
+      if((k===' '||k==='Enter') && seat.step==='explore'){
+        client.send({t:'engage'});e.preventDefault();
+      }
+    };
+    const up=(e:KeyboardEvent)=>{
+      held.delete(e.key.length===1?e.key.toLowerCase():e.key);
+      sendInput();
+    };
+    const blur=()=>{held.clear();thumb={dx:0,dy:0};sendInput();};
+    window.addEventListener('keydown',down);
+    window.addEventListener('keyup',up);
+    window.addEventListener('blur',blur);
+    const pump=setInterval(sendInput,90);
+    return()=>{
+      clearInterval(pump);
+      window.removeEventListener('keydown',down);
+      window.removeEventListener('keyup',up);
+      window.removeEventListener('blur',blur);
+      client.send({t:'move',dx:0,dy:0});
+    };
   });
   function engage(){client.send({t:'engage'});}
 </script>
