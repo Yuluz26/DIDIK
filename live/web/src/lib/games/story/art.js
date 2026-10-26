@@ -271,43 +271,84 @@ function imp(c,x,y,i,t,p){
  c.restore();
 }
 function dragon(c,x,y,t,p){
- // High-readability original Naga Chini in a 2D top-down arena.
- c.save();c.translate(Math.round(x),Math.round(y+Math.sin(t*1.6)*2));
- glow(c,0,-19,'#27e7d46f',97);
- oval(c,0,31,89,21,'#134c5b');
- for(let i=0;i<4;i++)oval(c,0,20,70+i*8,21+i*2,'#7ddad070','#60e5dc40',2);
- // Coiled jade serpent segments, gold-shaded scales and ivory belly
- for(let i=0;i<14;i++){
-  const ang=(i/14)*Math.PI*1.8+.6,rr=57-(i/13)*24;
-  const xx=Math.cos(ang)*rr,yy=Math.sin(ang)*rr*.55-5;
-  oval(c,xx+2,yy+4,24,18,'#123c48');
-  oval(c,xx,yy,22,17,i%2?'#137a70':'#279e88','#0c565b',3);
-  oval(c,xx-5,yy-4,9,5,i%2?'#58d3a8':'#4dbf9e');
-  if(i%2===0){rect(c,xx+6,yy-3,5,4,'#b1e9bd');rect(c,xx+3,yy+2,4,3,'#edd597');}
+ // Serpentine Malaysian lake Naga: side-profile silhouette, jade scales,
+ // long sinuous neck, antler crown, ivory belly and luminous amber eyes.
+ c.save();c.translate(Math.round(x-7),Math.round(y+Math.sin(t*1.6)*3));
+ glow(c,0,-38,'#2ffff178',115);
+ oval(c,3,25,104,24,'#0c4957');
+ for(let i=0;i<4;i++)oval(c,4,25,79+i*6,14+i*3,'#58b7b533');
+ // Thick winding body. Ink -> shadow -> scales -> jade-green ridge.
+ const strokeBody=(color,size)=>{
+   c.beginPath();c.moveTo(-81,14);
+   c.bezierCurveTo(-116,-38,-40,-41,-17,-13);
+   c.bezierCurveTo(5,10,-41,45,18,30);
+   c.bezierCurveTo(92,17,39,-43,36,-72);
+   c.strokeStyle=color;c.lineWidth=size;c.lineCap='round';c.lineJoin='round';c.stroke();
+ };
+ strokeBody('#0c4651',48);strokeBody('#197c78',41);strokeBody('#289a8c',32);strokeBody('#48b5a0',15);
+ // Lower creamy belly, catching sunlight on the scales.
+ c.beginPath();c.moveTo(-73,26);c.bezierCurveTo(-30,43,12,48,39,19);
+ c.bezierCurveTo(56,-5,40,-33,41,-68);
+ c.strokeStyle='#e8d5ab';c.lineWidth=13;c.stroke();
+ c.beginPath();c.moveTo(-70,29);c.bezierCurveTo(-30,44,12,51,39,20);
+ c.bezierCurveTo(58,-5,40,-33,41,-68);
+ c.strokeStyle='#ac9a79';c.lineWidth=2;c.stroke();
+ // Reticulated scales along the back: irregular highlights not an oval pile.
+ for(let i=0;i<20;i++){
+   const a=i/19*Math.PI*1.75;
+   const px=-67+i*6.5,py=-6+Math.sin(a*2)*15;
+   if(i<10){rect(c,px,py-12,5,3,i%3?'#61cbaa':'#bae4b5');rect(c,px+3,py-3,4,3,'#0d776f');}
  }
- // Neck and muscular chest emerge from lake
- path(c,[[-18,0],[-28,-53],[-16,-80],[15,-82],[30,-57],[22,6]],'#177f76','#0a4b59',4);
- path(c,[[-6,4],[-12,-50],[-7,-76],[10,-76],[12,-48],[11,6]],'#e7d6a2','#b48b68',2);
- for(let yy=-65;yy<-1;yy+=10)line(c,-7,yy,10,yy+1,'#bfaa84',2);
- // Horns, antlers and jewel-encrusted gold crest
- for(const side of [-1,1]){
-   path(c,[[side*13,-77],[side*23,-106],[side*35,-122],[side*31,-101],[side*40,-110],[side*35,-87]],
-    '#dbb76e','#795934',3);
-   path(c,[[side*19,-85],[side*27,-103],[side*31,-99],[side*24,-81]],'#fff0b9');
+ // Dorsal golden fins rise behind the neck, carefully spaced.
+ for(const [xx,yy,rot] of [[-45,-23,-1],[-13,-25,-1],[20,-18,1],[35,-43,1]]){
+    path(c,[[xx-9,yy+9],[xx-5,yy-7],[xx+2,yy-20],[xx+7,yy-5],[xx+11,yy+9]],
+      '#a88c5c','#523d36',2);
+    line(c,xx-1,yy-10,xx+1,yy+3,'#fbe3a3',2);
  }
- // Large mask-like snout and cheeks, pointed ears, eyebrow ridges
- path(c,[[-30,-80],[-37,-66],[-32,-48],[-18,-39],[17,-39],[32,-48],[38,-66],[29,-81],[15,-95],[-14,-95]],
-  '#239b89','#0b4c5a',4);
- path(c,[[-37,-72],[-52,-90],[-50,-64],[-38,-51]],'#d59c7d','#f6d49f',3);
- path(c,[[37,-72],[52,-90],[50,-64],[38,-51]],'#d59c7d','#f6d49f',3);
- path(c,[[-20,-66],[-13,-60],[-5,-62],[-14,-69]],'#ffe7ab');
- path(c,[[20,-66],[13,-60],[5,-62],[14,-69]],'#ffe7ab');
- rect(c,-17,-64,5,5,'#ffcd69');rect(c,12,-64,5,5,'#ffcd69');
- rect(c,-15,-63,3,3,'#292944');rect(c,14,-63,3,3,'#292944');
- path(c,[[-13,-49],[0,-38],[14,-49],[9,-32],[-8,-32]],'#a9d8a0','#17525c',2);
- rect(c,-8,-35,6,2,'#f3e6bd');rect(c,3,-35,6,2,'#f3e6bd');
- oval(c,0,-86,11,9,'#d4a654','#6b5938',2);oval(c,0,-88,6,5,'#58ddef','#e5ffff',1);
- for(const side of [-1,1])polyline(c,[[side*14,-46],[side*41,-43],[side*54,-57]],'#f5e5af',2);
+ // Upright neck casting a shadow; ivory segmented breast.
+ path(c,[[19,-27],[10,-69],[23,-102],[46,-110],[66,-95],[58,-54],[46,-22]],
+  '#176e72','#0b454e',4);
+ path(c,[[31,-21],[26,-70],[34,-101],[51,-99],[48,-63],[46,-26]],
+  '#eddaa7','#a07f6a',3);
+ for(let i=0;i<5;i++)line(c,31+i*1.5,-64+i*8,48,-62+i*8,'#bdab85',2);
+ // Opposite horn and crest behind the face.
+ path(c,[[30,-100],[23,-129],[10,-144],[18,-116],[11,-122],[14,-103]],
+  '#ba894c','#755338',3);
+ path(c,[[47,-105],[58,-144],[72,-151],[61,-122],[75,-132],[60,-105]],
+  '#d7a65a','#805538',3);
+ line(c,46,-127,62,-145,'#ffe3a0',3);
+ // Elegant side-profile dragon skull, not a human or rounded monster face.
+ path(c,[[22,-106],[37,-119],[59,-110],[74,-96],[69,-82],
+          [84,-76],[96,-62],[91,-48],[63,-45],[46,-52],[28,-68],[14,-83]],
+    '#217d7c','#0d4654',5);
+ path(c,[[28,-105],[46,-115],[67,-96],[62,-91],[47,-94],[38,-89],[23,-89]],
+    '#57b9a0');
+ // Elaborate gilded eyebrow mask, exposed cheek and turquoise crown jewel.
+ path(c,[[48,-91],[61,-98],[74,-84],[65,-83],[57,-87]],'#e9be6f','#815f3d',2);
+ path(c,[[51,-83],[67,-81],[79,-71],[71,-61],[51,-69]],
+   '#1a636b','#0a4452',2);
+ oval(c,61,-83,7,6,'#ffc567','#7e552c',2);
+ oval(c,63,-83,3,4,'#1b2f40');
+ rect(c,63,-85,2,2,'#fff0b6');
+ // Long plated snout and smile, separate upper/lower jaw.
+ path(c,[[63,-66],[91,-66],[110,-56],[109,-49],[91,-46],[71,-51]],
+   '#299e91','#0b4c5a',3);
+ path(c,[[74,-46],[92,-43],[103,-46],[89,-39],[72,-43]],
+   '#c2d3a1','#0b4c5a',2);
+ rect(c,99,-56,5,3,'#1a5253');
+ rect(c,83,-43,5,3,'#fff3d0');rect(c,94,-43,5,3,'#fff3d0');
+ // Pink ear/fan fins and white tendril whiskers.
+ path(c,[[30,-89],[18,-104],[14,-87],[23,-74]],'#e39e91','#8a6570',2);
+ path(c,[[31,-86],[22,-94],[24,-82]],'#ffe0b2');
+ polyline(c,[[74,-50],[92,-33],[113,-25]],'#fae8b2',2);
+ polyline(c,[[78,-55],[106,-68],[117,-81]],'#edf2c7',2);
+ // Crest gem and tiny water droplets animated near the boss.
+ oval(c,43,-108,9,8,'#e7bf69','#7a5738',2);
+ oval(c,44,-110,5,5,'#78dff1','#e8ffff',1);
+ for(let i=0;i<7;i++){
+   const a=t*.8+i*1.2,px=Math.cos(a)*84,py=13+Math.sin(a)*29;
+   rect(c,px,py,2+(i%3),2,'#a2f6ed');
+ }
  c.restore();
 }
 function bossOther(c,x,y,p,t){
