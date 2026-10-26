@@ -20,6 +20,7 @@
   const seat = $derived(game.seat ?? {});
   const story = $derived(seat.story ?? {});
   const realm = $derived(REALMS[Math.min(story.realm ?? 0, 4)]);
+  // svelte-ignore state_referenced_locally
   const positions = livePositions(client);
   const mine = $derived.by(() => {
     const fromSocket = positions.all[me.id];
