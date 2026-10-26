@@ -29,8 +29,8 @@
   });
 </script>
 
-<div class="pixel-stage" aria-label="Dunia pengembaraan 2D dalam gaya pixel-art 8-bit">
-  <canvas bind:this={canvas} width="512" height="288" role="img" aria-label="Pemandangan {world?.scene?.title ?? 'Legenda Melayu'}" />
+<div class="pixel-stage" role="img" aria-label="Dunia pengembaraan 2D dalam gaya pixel-art 8-bit">
+  <canvas bind:this={canvas} width="512" height="288" aria-label="Pemandangan {world?.scene?.title ?? 'Legenda Melayu'}"></canvas>
   <div class="corner tl" aria-hidden="true"></div>
   <div class="corner tr" aria-hidden="true"></div>
   <div class="corner bl" aria-hidden="true"></div>
