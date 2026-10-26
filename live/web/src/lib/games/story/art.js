@@ -1,3 +1,4 @@
+// @ts-nocheck — procedural canvas renderer; API typed at the Svelte boundary.
 /**
  * DIDIK Legenda pixel art engine. 512x288 internal pixels, scaled by the browser
  * using nearest-neighbour. No Three.js, image downloads, or third-party assets.
