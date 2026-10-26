@@ -145,6 +145,10 @@
 		gap: 0.1rem;
 		padding: 0.8rem 1.1rem 0.9rem 1.3rem;
 	}
+	/* The field the cursor is in is boxed in the dark edge, so it shows from across a room. */
+	.write:focus-within {
+		box-shadow: inset 0 0 0 3px var(--edge);
+	}
 	label {
 		font-weight: 800;
 		color: var(--ink-2);

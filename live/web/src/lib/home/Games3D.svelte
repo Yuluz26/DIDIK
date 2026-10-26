@@ -146,6 +146,10 @@
 		text-align: left;
 		cursor: pointer;
 	}
+	.game:focus-visible {
+		outline: 3px solid var(--sun);
+		outline-offset: 2px;
+	}
 	.num {
 		padding-top: 0.2rem;
 		color: var(--ink-2);
