@@ -21,9 +21,12 @@
   const story = $derived(seat.story ?? {});
   const realm = $derived(REALMS[Math.min(story.realm ?? 0, 4)]);
   const positions = livePositions(client);
-  const mine = $derived(positions.all[me.id] ?? world.players?.find((p: any) => p.id === me.id)?.pos
-    ? positions.all[me.id] ?? (() => {const v=world.players?.find((p: any) => p.id===me.id)?.pos;return v?{x:v[0],y:v[1],f:1}:undefined})()
-    : undefined);
+  const mine = $derived.by(() => {
+    const fromSocket = positions.all[me.id];
+    if (fromSocket) return fromSocket;
+    const peer = world.players?.find((p: any) => p.id === me.id);
+    return peer ? {x: peer.pos[0], y: peer.pos[1], f: 1} : undefined;
+  });
   const x = $derived(mine?.x ?? 2.5);
   const approaching = $derived(story.phase === 'boss' ? 21.5 : (world.foes?.[story.obstacle ?? 0] ?? 5));
   const near = $derived(Math.abs(x - approaching) <= 1.6);
