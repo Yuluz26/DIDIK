@@ -29,6 +29,7 @@
     return peer ? {x: peer.pos[0], y: peer.pos[1], f: 1} : undefined;
   });
   const x = $derived(mine?.x ?? 2.5);
+  const y = $derived(mine?.y ?? 10);
   const approaching = $derived(story.phase === 'boss' ? 21.5 : (world.foes?.[story.obstacle ?? 0] ?? 5));
   const near = $derived(Math.abs(x - approaching) <= 1.6);
   const choosing = $derived(seat.step === 'question' || seat.step === 'result');
@@ -42,6 +43,18 @@
   };
   const held = new Set<string>();
   let thumb = {dx:0,dy:0};
+  let impact = $state<{kind:string;element?:string}|null>(null);
+  onMount(() => {
+    let pending: ReturnType<typeof setTimeout>|null = null;
+    const unsubscribe = client.onFx((effect) => {
+      if ((effect.kind === 'story-hit' || effect.kind === 'story-hurt') && effect.realm === story.realm) {
+        impact = {kind:effect.kind,element:effect.element};
+        if (pending) clearTimeout(pending);
+        pending = setTimeout(() => (impact = null), 750);
+      }
+    });
+    return () => {unsubscribe();if(pending)clearTimeout(pending)};
+  });
   let lastSent = {dx:0,dy:0};
   function move(dx:number,dy:number){
     thumb = {dx,dy};
@@ -131,7 +144,7 @@
         <span class="chapter-label">{story.phase==='boss'?'PERTARUNGAN':'HALANGAN '+Math.min(5,(story.obstacle??0)+1)+'/5'}</span>
       </div>
       <StoryScene {world} hero={story.hero??'tuah'} element={story.weapon??'api'}
-        phase={story.phase??'obstacles'} cleared={story.obstacle??0} {x} meId={me.id}
+        phase={story.phase??'obstacles'} cleared={story.obstacle??0} {x} {y} {impact} meId={me.id}
         walking={!!positions.moving[me.id]} />
       {#if story.phase==='boss'}
         <div class="bossline">
