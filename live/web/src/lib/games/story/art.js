@@ -234,6 +234,93 @@ function mapDecor(c,p,t,ox){
   }
  }
 }
+function regionalArt(c,p,t,ox){
+ // Environmental identity goes well beyond a palette swap.
+ if(p.key==='lupar'){
+   // Batang Lupar: mangrove silhouettes, river boats and sunset embers.
+   for(const wx of [120,352,621,908]){
+     const x=wx-ox;if(x<-60||x>W+60)continue;
+     rect(c,x-3,58,7,99,'#624d42');
+     for(let i=0;i<4;i++)polyline(c,[[x,128],[x+(i-2)*12,146],[x+(i-2)*15,166]],'#644f40',3);
+     for(let j=0;j<6;j++){const a=j*1.02;oval(c,x+Math.cos(a)*24,64+Math.sin(a)*14,23,11,'#325c48','#254838',2);}
+   }
+   for(const wx of [255,745]){
+     const x=wx-ox;if(x<-60||x>W+60)continue;
+     path(c,[[x-34,116],[x+33,116],[x+23,125],[x-24,125]],'#825539','#382d31',3);
+     rect(c,x-3,95,5,21,'#5d4b3d');
+     path(c,[[x+2,97],[x+22,108],[x+2,110]],'#e6cba4','#9f9675',2);
+   }
+   for(let i=0;i<23;i++){
+     const x=(hash(i,91)%1060-ox*.3+1080)%660-10,y=40+hash(i,13)%130;
+     glow(c,x,y,'#ffa8683b',7);
+   }
+ }else if(p.key==='larut'){
+   // Larut: old rain forest, oversized fern leaves and persistent tropical drizzle.
+   for(const wx of [60,260,473,830]){
+     const x=wx-ox;if(x<-60||x>W+60)continue;
+     for(let i=0;i<8;i++){
+       const a=(i/8)*Math.PI*2;
+       polyline(c,[[x,147],[x+Math.cos(a)*18,125+Math.sin(a)*17],[x+Math.cos(a)*31,123+Math.sin(a)*26]],'#6dba82',5);
+     }
+   }
+   for(let i=0;i<85;i++){
+     const x=(hash(i,51)%1120-ox*.38+1200)%680-20;
+     const y=((hash(i,31)+Math.floor(t*72))%410)-30;
+     line(c,x,y,x-3,y+12,'#ccebd25a',1.2);
+   }
+   for(const wx of [120,555,940]){
+     const x=wx-ox;if(x<-70||x>W+70)continue;
+     oval(c,x,92,33,20,'#2d5f51','#8cae83',2);
+     oval(c,x+10,89,17,9,'#99bb7b');
+   }
+ }else if(p.key==='kancil'){
+   // Ghostly violet clearing: fluorescent fungus, carved spirit stones.
+   for(const wx of [90,275,488,710,925]){
+     const x=wx-ox;if(x<-50||x>W+50)continue;
+     glow(c,x,160,'#ab82fa32',46);
+     oval(c,x,165,26,6,'#332f51');
+     for(let j=-2;j<=2;j++){
+       rect(c,x+j*7,148-Math.abs(j)*4,3,15,'#b0a1c9');
+       oval(c,x+j*7,146-Math.abs(j)*4,6,4,j%2?'#b78dd6':'#e2b9e5');
+     }
+   }
+   for(const wx of [390,840]){
+     const x=wx-ox;if(x<-50||x>W+50)continue;
+     path(c,[[x-16,156],[x-18,94],[x+18,89],[x+23,157]],'#4d5674','#b9a7c8',3);
+     oval(c,x,115,10,11,'#998ac4');
+     line(c,x-8,130,x+10,130,'#c9b4d0',3);
+   }
+ }else if(p.key==='ledang'){
+   // High mountain: slate slopes, cataracts and rolling ground mist.
+   for(const wx of [122,388,753,933]){
+     const x=wx-ox;if(x<-90||x>W+90)continue;
+     path(c,[[x-46,160],[x-15,58],[x+12,46],[x+48,160]],'#687d82','#b3c5bd',3);
+     path(c,[[x-15,58],[x+12,46],[x+24,83],[x,77]],'#e8e6d3');
+     for(let i=0;i<9;i++){const py=85+i*8;line(c,x+3,py,x+9,py+7,'#dbead1',2);}
+   }
+   for(const wx of [555]){
+     const x=wx-ox;
+     if(x>-90&&x<W+90){
+       path(c,[[x-25,18],[x+17,18],[x+18,169],[x-21,169]],'#82b9ba');
+       for(let i=0;i<30;i++)rect(c,x-20+(hash(i,11)%34),17+(i*6+Math.floor(t*55))%148,3,8,'#d7eee0');
+       glow(c,x,165,'#ffffff5b',43);
+     }
+   }
+   for(let i=0;i<7;i++){
+     const x=((hash(i,94)%850-ox*.31+860)%720)-30;
+     c.globalAlpha=.12+Math.sin(t*.4+i)*.035;oval(c,x,92+i*35,65,12,'#ecf0e3');
+   }
+   c.globalAlpha=1;
+ }else{
+   // Tasik Chini's distinctive lotus islands, blue waterfalls and submerged ruins.
+   for(const wx of [220,585]){
+     const x=wx-ox;if(x<-50||x>W+50)continue;
+     const sy=64+Math.sin(t*.7)*3;
+     for(let i=0;i<6;i++)rect(c,x+i*6,sy+i%2*2,4,32,'#b5e9eb9c');
+     oval(c,x+14,sy+33,30,5,'#a6f5e666');
+   }
+ }
+}
 function hero(c,x,y,key='tuah',element='api',t=0,walking=false){
  const q=HEROES.find(x=>x.key===key)||HEROES[0];
  const bounce=walking?Math.sin(t*16)*1.8:Math.sin(t*2)*.45;
@@ -420,7 +507,7 @@ export function renderStory(canvas,opts={}){
  if(!cam){cam={x:target,last:t};cameraState.set(canvas,cam)}
  cam.x+=(target-cam.x)*Math.min(1,.3+Math.max(0,t-cam.last)*6);cam.last=t;
  const ox=Math.round(cam.x);
- terrain(c,p,t,ox);mapDecor(c,p,t,ox);
+ terrain(c,p,t,ox);regionalArt(c,p,t,ox);mapDecor(c,p,t,ox);
  // Five guardians line the winding footpath; each is replaced by a seal when solved.
  const encounters=[5,8.5,12,15.5,19];
  for(let i=0;i<5;i++){
