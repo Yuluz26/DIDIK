@@ -4,10 +4,10 @@
   import { renderStory } from './art.js';
   let {
     world, hero = 'tuah', element = 'api', phase = 'obstacles', cleared = 0,
-    x = 2.5, meId = '', walking = false
+    x = 2.5, y = 10, meId = '', walking = false, impact = null
   }: {
     world: any; hero?: string | null; element?: string; phase?: string;
-    cleared?: number; x?: number; meId?: string; walking?: boolean;
+    cleared?: number; x?: number; y?: number; meId?: string; walking?: boolean; impact?: {kind:string;element?:string}|null;
   } = $props();
   let canvas: HTMLCanvasElement;
   onMount(() => {
@@ -17,7 +17,7 @@
       if (t - last >= 85) {
         last = t;
         renderStory(canvas, {
-          realm: world?.realm ?? 0, hero, element, phase, cleared, x, walking,
+          realm: world?.realm ?? 0, hero, element, phase, cleared, x, y, walking, impact,
           peers: (world?.players ?? []).filter((p: any) => p.id !== meId),
           bossHp: world?.bossHearts ?? 5, time: t / 1000
         });
@@ -30,7 +30,7 @@
 </script>
 
 <div class="pixel-stage" role="img" aria-label="Dunia pengembaraan 2D dalam gaya pixel-art 8-bit">
-  <canvas bind:this={canvas} width="512" height="288" aria-label="Pemandangan {world?.scene?.title ?? 'Legenda Melayu'}"></canvas>
+  <canvas bind:this={canvas} width="640" height="360" aria-label="Pemandangan {world?.scene?.title ?? 'Legenda Melayu'}"></canvas>
   <div class="corner tl" aria-hidden="true"></div>
   <div class="corner tr" aria-hidden="true"></div>
   <div class="corner bl" aria-hidden="true"></div>
@@ -38,7 +38,7 @@
 </div>
 
 <style>
-  .pixel-stage{position:relative;width:100%;overflow:hidden;border-radius:16px;
+  .pixel-stage{position:relative;width:100%;overflow:hidden;border-radius:12px;
     padding:5px;background:#15202c;box-shadow:0 20px 52px rgba(10,20,32,.3),inset 0 0 0 1px rgba(255,232,167,.4)}
   canvas{display:block;width:100%;height:auto;aspect-ratio:16/9;image-rendering:pixelated;background:#142735}
   .corner{position:absolute;width:10px;height:10px;border-color:#f8dca1;border-style:solid;pointer-events:none}
