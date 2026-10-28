@@ -383,7 +383,7 @@ class Room:
             skin=skin,
             is_bot=bot,
             approved=bot or not self.settings.waiting_room,
-            spot=plaza.apart(*plaza.arrival(self.rng, crowd=len(self.players)), [p.spot for p in self.players.values()]),
+            spot=plaza.free_arrival(self.rng, [p.spot for p in self.players.values()]),
         )
         if bot:
             player.skill = self.rng.uniform(0.55, 0.85)

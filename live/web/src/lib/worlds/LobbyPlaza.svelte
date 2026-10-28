@@ -12,7 +12,7 @@
 		top: 3.4,
 		right: 15.2,
 		bottom: 8.6,
-		fountain: { x: 8, y: 5.35, rx: 1.75, ry: 0.9 },
+		fountain: { x: 8, y: 5.6, rx: 1.8, ry: 1.35 },
 		arch: { x: 8, y: 3.5 }
 	};
 
