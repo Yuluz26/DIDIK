@@ -75,6 +75,8 @@ export const field = (world: number): Field => FIELDS[world];
 /** The battlefield painting with the boss, the small characters and the live HUD parts taken out. */
 export const battleBg = (world: number) => storyArt(`worlds/${WORLD_ART[world].key}/field.webp`);
 export const bossArt = (world: number) => storyArt(`worlds/${WORLD_ART[world].key}/boss.webp`);
+/** The boss's introduction portrait, shown when the boss first appears (the battle uses bossArt). */
+export const introArt = (world: number) => storyArt(`worlds/${WORLD_ART[world].key}/intro.webp`);
 export const minionArt = (world: number, which: 'a' | 'b') => storyArt(`worlds/${WORLD_ART[world].key}/minion_${which}.webp`);
 export const symbol = (world: number) => storyArt(`ui/symbol_${WORLD_ART[world].key}.webp`);
 export const elementIcon = (el: string) => storyArt(`ui/element_${el}.webp`);
@@ -120,7 +122,7 @@ export function preload(urls: string[]): Promise<void> {
 /** Everything a world's battles need: the battlefield, its boss and minions, the hero's poses and the effects. */
 export function worldUrls(world: number, hero: string | null): string[] {
 	const art = WORLD_ART[world];
-	const urls = [battleBg(world), bossArt(world), minionArt(world, 'a'), minionArt(world, 'b'), symbol(world)];
+	const urls = [battleBg(world), bossArt(world), introArt(world), minionArt(world, 'a'), minionArt(world, 'b'), symbol(world)];
 	if (hero) urls.push(...(['idle', 'ready', 'attack', 'cast', 'hurt', 'victory'] as Pose[]).map((p) => heroArt(hero, p)));
 	urls.push(fxStill(art.strikes), fxSlash(art.strikes));
 	return urls;

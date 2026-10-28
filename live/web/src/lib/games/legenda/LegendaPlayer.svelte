@@ -41,6 +41,7 @@
 		symbol,
 		worldUrls,
 		battleBg,
+		introArt,
 		bossArt,
 		field,
 		type Element,
@@ -415,7 +416,16 @@
 			{:else if step === 'reveal'}
 				<div class="overlay boss-reveal" role="status">
 					<img class="reveal-bg" src={battleBg(worldIndex)} alt="" />
-					<img class="reveal-boss" src={bossArt(worldIndex)} alt="" />
+					<!-- the boss's introduction portrait; the battle sprite if it cannot be loaded -->
+					<img
+						class="reveal-boss"
+						src={introArt(worldIndex)}
+						alt=""
+						onerror={(e) => {
+							const img = e.currentTarget as HTMLImageElement;
+							if (!img.src.includes('/boss.webp')) img.src = bossArt(worldIndex);
+						}}
+					/>
 					<div class="nameplate">
 						<p class="kicker">Penjaga {scene.title}</p>
 						<h2>{scene.boss}</h2>
@@ -934,11 +944,13 @@
 		overflow: hidden;
 		animation: card-in 500ms ease-out both;
 	}
+	/* larger than the frame, so the painting's own title plate and minimap in its corners stay out of view */
 	.reveal-bg {
 		position: absolute;
-		inset: 0;
-		width: 100%;
-		height: 100%;
+		left: -22%;
+		top: -22%;
+		width: 144%;
+		height: 144%;
 		object-fit: fill;
 		filter: brightness(0.35) saturate(1.1) blur(2px);
 		animation: closeup 4.2s ease-out both;

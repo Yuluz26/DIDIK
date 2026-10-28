@@ -1044,6 +1044,22 @@
    "bytes": 422294
   },
   {
+   "file": "worlds/chini/intro.webp",
+   "source": [
+    "BossIntro/boss_intro_sheet.png",
+    "BossIntro/boss_intro_sheet_white.webp"
+   ],
+   "status": "production boss introduction portrait (supplied sheet, cut out; about 500 px)",
+   "use": "boss reveal before the fight",
+   "size": [
+    488,
+    389
+   ],
+   "alpha": true,
+   "bytes": 80486,
+   "anchor": "bottom-center"
+  },
+  {
    "file": "worlds/chini/minion_a.webp",
    "source": "Battlefields/tasik_chini_battlefield.jpg",
    "status": "small enemy cut out of the supplied painting with SAM (native painting detail, small)",
@@ -1093,6 +1109,22 @@
    ],
    "alpha": false,
    "bytes": 564720
+  },
+  {
+   "file": "worlds/kancil/intro.webp",
+   "source": [
+    "BossIntro/boss_intro_sheet.png",
+    "BossIntro/boss_intro_sheet_white.webp"
+   ],
+   "status": "production boss introduction portrait (supplied sheet, cut out; about 500 px)",
+   "use": "boss reveal before the fight",
+   "size": [
+    642,
+    400
+   ],
+   "alpha": true,
+   "bytes": 54202,
+   "anchor": "bottom-center"
   },
   {
    "file": "worlds/kancil/minion_a.webp",
@@ -1146,6 +1178,22 @@
    "bytes": 555840
   },
   {
+   "file": "worlds/larut/intro.webp",
+   "source": [
+    "BossIntro/boss_intro_sheet.png",
+    "BossIntro/boss_intro_sheet_white.webp"
+   ],
+   "status": "production boss introduction portrait (supplied sheet, cut out; about 500 px)",
+   "use": "boss reveal before the fight",
+   "size": [
+    498,
+    398
+   ],
+   "alpha": true,
+   "bytes": 63780,
+   "anchor": "bottom-center"
+  },
+  {
    "file": "worlds/larut/minion_a.webp",
    "source": "Battlefields/hutan_larut_battlefield.png",
    "status": "small enemy cut out of the supplied painting with SAM (native painting detail, small)",
@@ -1197,6 +1245,22 @@
    "bytes": 596798
   },
   {
+   "file": "worlds/ledang/intro.webp",
+   "source": [
+    "BossIntro/boss_intro_sheet.png",
+    "BossIntro/boss_intro_sheet_white.webp"
+   ],
+   "status": "production boss introduction portrait (supplied sheet, cut out; about 500 px)",
+   "use": "boss reveal before the fight",
+   "size": [
+    651,
+    433
+   ],
+   "alpha": true,
+   "bytes": 84644,
+   "anchor": "bottom-center"
+  },
+  {
    "file": "worlds/ledang/minion_a.webp",
    "source": "Battlefields/gunung_ledang_battlefield.png",
    "status": "small enemy cut out of the supplied painting with SAM (native painting detail, small)",
@@ -1246,6 +1310,22 @@
    ],
    "alpha": false,
    "bytes": 605652
+  },
+  {
+   "file": "worlds/lupar/intro.webp",
+   "source": [
+    "BossIntro/boss_intro_sheet.png",
+    "BossIntro/boss_intro_sheet_white.webp"
+   ],
+   "status": "production boss introduction portrait (supplied sheet, cut out; about 500 px)",
+   "use": "boss reveal before the fight",
+   "size": [
+    494,
+    358
+   ],
+   "alpha": true,
+   "bytes": 57068,
+   "anchor": "bottom-center"
   },
   {
    "file": "worlds/lupar/minion_a.webp",

@@ -533,6 +533,46 @@ def clean_weapon(im: Image.Image) -> Image.Image:
     return Image.fromarray(np.clip(a, 0, 255).astype(np.uint8))
 
 
+def boss_intros() -> None:
+    """The five bosses' introduction portraits (BossIntro: one sheet of five on a transparent ground with
+    a messy matte, and the same sheet on white). The outline comes from the white copy, how far each
+    pixel is from white; the colours from the larger sheet. The names and labels under each are left out."""
+    sheet_path, white_path = SRC / "BossIntro" / "boss_intro_sheet.png", SRC / "BossIntro" / "boss_intro_sheet_white.webp"
+    if not sheet_path.exists() or not white_path.exists():
+        print("BossIntro not found: keeping the introduction portraits already in static/story/worlds/")
+        return
+    hd = Image.open(sheet_path).convert("RGB")
+    white = Image.open(white_path).convert("RGBA")
+    ground = Image.new("RGBA", white.size, (255, 255, 255, 255))
+    ground.alpha_composite(white)
+    width, height = hd.size
+    away = (255 - np.array(ground.convert("RGB").resize((width, height), Image.LANCZOS)).astype(np.float32)).max(axis=2)
+    colours = np.array(hd).astype(np.float32)
+    # each boss's cell, above its name (in pixels of the 1536 x 1024 sheet)
+    cells = {"chini": (0, 0, 512, 470), "lupar": (512, 0, 1020, 470), "larut": (1020, 0, 1536, 470),
+             "kancil": (0, 470, 776, 1024), "ledang": (776, 470, 1536, 1024)}
+    for key, (x0, y0, x1, y1) in cells.items():
+        cell = away[y0:y1, x0:x1]
+        solid = cell > 30
+        labels, count = ndimage.label(ndimage.binary_closing(solid, iterations=2))
+        sizes = ndimage.sum(solid, labels, range(1, count + 1))
+        main = int(np.argmax(sizes)) + 1
+        bottom = np.nonzero(labels == main)[0].max()
+        near = ndimage.binary_dilation(labels == main, iterations=14)
+        keep = np.zeros_like(solid)
+        for i in range(1, count + 1):
+            part = labels == i
+            # the boss and the wisps around it, never the name underneath
+            if i == main or ((part & near).any() and np.nonzero(part)[0].max() <= bottom + 4):
+                keep |= part
+        alpha = np.clip((cell - 14) / 46, 0, 1) * ndimage.binary_dilation(keep, iterations=2)
+        im = Image.fromarray(np.dstack([colours[y0:y1, x0:x1], alpha * 255]).astype(np.uint8), "RGBA")
+        im = im.crop(im.getchannel("A").point(lambda v: 255 if v > 20 else 0).getbbox())
+        out = save_webp(im, OUT / "worlds" / key / "intro.webp", 88)
+        note(out, [rel(sheet_path), rel(white_path)], "production boss introduction portrait (supplied sheet, cut out; about 500 px)",
+             "boss reveal before the fight", anchor="bottom-center")
+
+
 def hero_weapons() -> None:
     """Each hero holding each element's weapon (the weapon pack, concept art). The five of a hero are cut to
     one shared box, so the figure stays where it is when the element changes."""
@@ -604,12 +644,12 @@ def sound() -> None:
 def main() -> None:
     if not SRC.exists():
         sys.exit("_asset_input/ not found")
-    steps = {"heroes": heroes, "battlefields": battlefields, "ui": ui, "fx": fx, "banners": banners, "weapons": hero_weapons, "sound": sound}
+    steps = {"heroes": heroes, "battlefields": battlefields, "ui": ui, "fx": fx, "banners": banners, "weapons": hero_weapons, "intros": boss_intros, "sound": sound}
     only = sys.argv[sys.argv.index("--only") + 1:] if "--only" in sys.argv else []
     old = OUT / "manifest.json"
     if only and old.exists():
         # a partial run keeps the rows of the steps it does not run
-        prefixes = {"heroes": "heroes/", "battlefields": "worlds/", "ui": "ui/", "fx": "fx/", "banners": "banners/", "weapons": ("heroes/tuah/weapon/", "heroes/mahsuri/weapon/"), "sound": "audio/"}
+        prefixes = {"heroes": "heroes/", "battlefields": tuple(f"worlds/{k}/{n}" for k in FIELD_ORDER for n in ("field", "boss", "minion_")), "ui": ("ui/", "fx/transition"), "fx": tuple(f"fx/{el}" for el in ELEMENTS), "banners": "banners/", "weapons": ("heroes/tuah/weapon/", "heroes/mahsuri/weapon/"), "intros": tuple(f"worlds/{k}/intro" for k in FIELD_ORDER), "sound": "audio/"}
         dropped = tuple(p for name in only for p in ((prefixes[name],) if isinstance(prefixes[name], str) else prefixes[name]))
         manifest.extend(r for r in json.loads(old.read_text(encoding="utf-8"))["assets"] if not r["file"].startswith(dropped))
     for name, step in steps.items():
