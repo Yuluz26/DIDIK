@@ -129,11 +129,10 @@ export const FRINGE = { w: 32, h: 14 };
 export function grassFringe(): Pix {
 	return memo('sea:fringe', () => {
 		const p = new Pix(FRINGE.w, FRINGE.h);
-		const night = rgba('#0f1f24');
 		const field = rgba('#1c6b4a');
 		const lit = rgba('#2f8a5c');
 		const tip = rgba('#58b27a');
-		p.rect(0, 0, FRINGE.w, FRINGE.h, night);
+		// clear between the blades: the sand of the beach above shows through
 		for (let x = 0; x < FRINGE.w; x++) {
 			// blades of different heights, always a pixel wider at the foot
 			const height = 3 + Math.floor(noise(x >> 1, 0, 61) * 8) + (x % 4 === 1 ? 1 : 0);

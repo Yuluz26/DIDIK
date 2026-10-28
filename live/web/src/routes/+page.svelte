@@ -155,7 +155,7 @@
 </section>
 
 
-<section class="field" style:--fringe={fringe} aria-labelledby="ibu-bapa-tajuk">
+<section class="field" style:--fringe={fringe} style:--beach={beach} aria-labelledby="ibu-bapa-tajuk">
 	<div class="wrap cta">
 		<p class="why" {@attach reveal()}>Soalan di sini ditulis oleh orang yang kenal anak-anak itu: ibu bapa, guru, abang dan kakak. Tiada AI yang mengarangnya.</p>
 		<div class="reply" {@attach reveal(120)}>
@@ -454,7 +454,10 @@
 		position: absolute;
 		inset: 0 0 auto;
 		height: calc(var(--px) * 14);
-		background: var(--fringe) 0 0 / calc(var(--px) * 32) calc(var(--px) * 14) repeat-x;
+		/* grass blades over the beach's sand, so the sand runs into the grass with no seam */
+		background:
+			var(--fringe) 0 0 / calc(var(--px) * 32) calc(var(--px) * 14) repeat-x,
+			var(--beach) 0 100% / calc(var(--px) * 64) calc(var(--px) * 64);
 		image-rendering: pixelated;
 	}
 	.cta {
