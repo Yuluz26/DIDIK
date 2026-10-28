@@ -1,0 +1,31 @@
+{
+  "mode": "automatic_journey",
+  "chapter": 0,
+  "nodes": [
+    {
+      "id": "world_opening",
+      "visual": "02_STORY_FRAMES/01_world_opening_FHD.png",
+      "next_event": "encounter"
+    },
+    {
+      "id": "journey_transition",
+      "visual": "02_STORY_FRAMES/02_journey_transition_FHD.png",
+      "next_event": "question"
+    },
+    {
+      "id": "enemy_encounter",
+      "visual": "02_STORY_FRAMES/03_enemy_encounter_FHD.png",
+      "next_event": "boss"
+    },
+    {
+      "id": "boss_reveal",
+      "visual": "02_STORY_FRAMES/04_boss_reveal_FHD.png",
+      "next_event": "unlock"
+    },
+    {
+      "id": "world_clear",
+      "visual": "02_STORY_FRAMES/05_world_clear_FHD.png",
+      "next_event": "next_world"
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+Category,Subcategory,World/Scope,Asset Name,Required Variations,Priority,Notes
+Global,Branding,All,DIDIK Story Mode logo,1,High,Main identity
+Global,Branding,All,Legenda key visual,1,High,Hero image for mode
+Global,Hero,All,Hang Tuah battle asset set,8+,High,Selection + battle poses
+Global,Hero,All,Mahsuri battle asset set,8+,High,Selection + battle poses
+Global,Hero,All,Hang Jebat battle asset set,8+,High,Selection + battle poses
+Global,Hero,All,Tun Teja battle asset set,8+,Medium,Selection + battle poses
+Global,Hero,All,Bendahara battle asset set,8+,Medium,Selection + battle poses
+Global,Hero,All,Puteri Saadong battle asset set,8+,Medium,Selection + battle poses
+Global,Element,All,Api asset set,Icons + FX,High,Core weapon element
+Global,Element,All,Angin asset set,Icons + FX,High,Core weapon element
+Global,Element,All,Petir asset set,Icons + FX,High,Core weapon element
+Global,Element,All,Tanah asset set,Icons + FX,High,Core weapon element
+Global,Element,All,Air asset set,Icons + FX,High,Core weapon element
+Global,UI,All,Battle HUD set,Multiple,High,HP/Boss HP/menu/question
+Global,UI,All,Question card set,Multiple,High,Core learning UX
+World,Key Art,Tasik Chini,World poster,1,High,Chapter visual
+World,Battle BG,Tasik Chini,Standard encounter BG,1,High,Core gameplay
+World,Battle BG,Tasik Chini,Elite encounter BG,1,Medium,Optional variation
+World,Battle BG,Tasik Chini,Boss battle BG,1,High,Naga Chini arena
+World,Enemy,Tasik Chini,Lake spirit set,5,Medium,Encounter enemy
+World,Enemy,Tasik Chini,Ruin watcher set,5,Medium,Encounter enemy
+World,Enemy,Tasik Chini,Water serpent scout set,5,Medium,Encounter enemy
+World,Boss,Tasik Chini,Naga Chini asset set,10+,High,Main boss
+World,FX,Tasik Chini,Water + mist FX set,Multiple,High,World-specific FX
+World,Key Art,Batang Lupar,World poster,1,High,Chapter visual
+World,Battle BG,Batang Lupar,Standard encounter BG,1,High,Core gameplay
+World,Battle BG,Batang Lupar,Boss battle BG,1,High,Bujang Senang arena
+World,Enemy,Batang Lupar,River bandit spirit set,5,Medium,Encounter enemy
+World,Enemy,Batang Lupar,Crocodile scout set,5,Medium,Encounter enemy
+World,Enemy,Batang Lupar,Mangrove guardian set,5,Medium,Encounter enemy
+World,Boss,Batang Lupar,Bujang Senang asset set,10+,High,Main boss
+World,FX,Batang Lupar,Water + mud FX set,Multiple,High,World-specific FX
+World,Key Art,Hutan Larut,World poster,1,High,Chapter visual
+World,Battle BG,Hutan Larut,Standard encounter BG,1,High,Core gameplay
+World,Battle BG,Hutan Larut,Boss battle BG,1,High,Gajah Rimba arena
+World,Enemy,Hutan Larut,Jungle sentinel set,5,Medium,Encounter enemy
+World,Enemy,Hutan Larut,Vine crawler set,5,Medium,Encounter enemy
+World,Enemy,Hutan Larut,Shrine guardian set,5,Medium,Encounter enemy
+World,Boss,Hutan Larut,Gajah Rimba asset set,10+,High,Main boss
+World,FX,Hutan Larut,Leaf + dust FX set,Multiple,High,World-specific FX
+World,Key Art,Rimba Bayangan,World poster,1,High,Chapter visual
+World,Battle BG,Rimba Bayangan,Standard encounter BG,1,High,Core gameplay
+World,Battle BG,Rimba Bayangan,Boss battle BG,1,High,Sang Kancil arena
+World,Enemy,Rimba Bayangan,Shadow sprite set,5,Medium,Encounter enemy
+World,Enemy,Rimba Bayangan,Spirit stalker set,5,Medium,Encounter enemy
+World,Enemy,Rimba Bayangan,Illusion guardian set,5,Medium,Encounter enemy
+World,Boss,Rimba Bayangan,Sang Kancil Bayangan asset set,10+,High,Main boss
+World,FX,Rimba Bayangan,Shadow + purple magic FX set,Multiple,High,World-specific FX
+World,Key Art,Gunung Ledang,World poster,1,High,Chapter visual
+World,Battle BG,Gunung Ledang,Standard encounter BG,1,High,Core gameplay
+World,Battle BG,Gunung Ledang,Boss battle BG,1,High,Penunggu Kabus arena
+World,Enemy,Gunung Ledang,Mist sentinel set,5,Medium,Encounter enemy
+World,Enemy,Gunung Ledang,Temple watcher set,5,Medium,Encounter enemy
+World,Enemy,Gunung Ledang,Cloud spirit set,5,Medium,Encounter enemy
+World,Boss,Gunung Ledang,Penunggu Kabus asset set,10+,High,Main boss
+World,FX,Gunung Ledang,Mist + sacred light FX set,Multiple,High,World-specific FX
+Promo,Poster,All,Master Story Mode poster,1,Medium,Marketing
+Promo,Poster,All,5 world posters,5,Medium,Marketing
+Promo,Poster,All,5 boss posters,5,Medium,Marketing
+Promo,Storyboard,All,Trailer frame set,14+,Medium,Promo planning
+System,Cleanup,All,Remove 3D game references,N/A,High,Litar/Penalti/Lanun/Menara 118

@@ -1,0 +1,1891 @@
+{
+  "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE.zip",
+  "source_sha256": "022a2d4e578f5e8d1be5386714b97c123810fd0d9536d0a1f39e7bb0b06f8913",
+  "file_count": 269,
+  "total_bytes": 259028931,
+  "files": [
+    {
+      "path": "00_BATCHES_06_TO_12_INDEX.md",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE.zip",
+      "source_entry": "00_BATCHES_06_TO_12_INDEX.md",
+      "bytes": 1285,
+      "sha256": "cbaad21a389ff6c6d0195521bac54feb30f9c1dbb8158deeca2c4a1780cc7c78"
+    },
+    {
+      "path": "00_SHARED_HANDOFF_CODEX_CLAUDE.md",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE.zip",
+      "source_entry": "00_SHARED_HANDOFF_CODEX_CLAUDE.md",
+      "bytes": 2729,
+      "sha256": "2391047a38ffb8738824e4029785f2b207f69c559f48b3d828c47c34e6fce69c"
+    },
+    {
+      "path": "Batch01/DIDIK_JRPG_Production_Batch_01/01_PROMPTS/CLAUDE_CODE_START_HERE.md",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Codex_Claude_Assets_Batch01.zip",
+      "source_entry": "DIDIK_JRPG_Production_Batch_01/01_PROMPTS/CLAUDE_CODE_START_HERE.md",
+      "bytes": 1984,
+      "sha256": "695b78fe1d399550695f421280bba79c4c0c4d9cdf7dc01c0addb35ef915d03e"
+    },
+    {
+      "path": "Batch01/DIDIK_JRPG_Production_Batch_01/01_PROMPTS/CODEX_CLOUD_START_HERE.md",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Codex_Claude_Assets_Batch01.zip",
+      "source_entry": "DIDIK_JRPG_Production_Batch_01/01_PROMPTS/CODEX_CLOUD_START_HERE.md",
+      "bytes": 1712,
+      "sha256": "dd8034f352ef8e26d7eb8ba364008da74f021a0cda2a47a346332c36c48f5268"
+    },
+    {
+      "path": "Batch01/DIDIK_JRPG_Production_Batch_01/01_PROMPTS/SHARED_MASTER_SPEC.md",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Codex_Claude_Assets_Batch01.zip",
+      "source_entry": "DIDIK_JRPG_Production_Batch_01/01_PROMPTS/SHARED_MASTER_SPEC.md",
+      "bytes": 17359,
+      "sha256": "469085b9387aa7c604f6a10e2a03731184fd54fbc000e977ed5f9285f661f53a"
+    },
+    {
+      "path": "Batch01/DIDIK_JRPG_Production_Batch_01/02_ASSET_SPEC/ASSET_MANIFEST.csv",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Codex_Claude_Assets_Batch01.zip",
+      "source_entry": "DIDIK_JRPG_Production_Batch_01/02_ASSET_SPEC/ASSET_MANIFEST.csv",
+      "bytes": 14750,
+      "sha256": "ee9842586a08900330c18c27fa98614731ab6c14dc89313e03b5262f153fdd8e"
+    },
+    {
+      "path": "Batch01/DIDIK_JRPG_Production_Batch_01/02_ASSET_SPEC/PRODUCTION_REQUIREMENTS.md",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Codex_Claude_Assets_Batch01.zip",
+      "source_entry": "DIDIK_JRPG_Production_Batch_01/02_ASSET_SPEC/PRODUCTION_REQUIREMENTS.md",
+      "bytes": 2652,
+      "sha256": "40aec139d2230313ab14d8da7d787ffea205f3762d442b00c732f0511a19b243"
+    },
+    {
+      "path": "Batch01/DIDIK_JRPG_Production_Batch_01/03_VISUAL_REFERENCE/INDIVIDUAL_WORLD_REFERENCES/world_01_tasik_chini_key_reference.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Codex_Claude_Assets_Batch01.zip",
+      "source_entry": "DIDIK_JRPG_Production_Batch_01/03_VISUAL_REFERENCE/INDIVIDUAL_WORLD_REFERENCES/world_01_tasik_chini_key_reference.png",
+      "bytes": 3330679,
+      "sha256": "08248864228898cbb8575265959b666eb168ad2fc2eaacd7fbe846f53ebe8ea8"
+    },
+    {
+      "path": "Batch01/DIDIK_JRPG_Production_Batch_01/03_VISUAL_REFERENCE/INDIVIDUAL_WORLD_REFERENCES/world_02_batang_lupar_key_reference.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Codex_Claude_Assets_Batch01.zip",
+      "source_entry": "DIDIK_JRPG_Production_Batch_01/03_VISUAL_REFERENCE/INDIVIDUAL_WORLD_REFERENCES/world_02_batang_lupar_key_reference.png",
+      "bytes": 3628400,
+      "sha256": "c480b01790061055f08ae6bc0fb331f1f31cce03e8e8564bf027e998e2288fbd"
+    },
+    {
+      "path": "Batch01/DIDIK_JRPG_Production_Batch_01/03_VISUAL_REFERENCE/INDIVIDUAL_WORLD_REFERENCES/world_03_hutan_larut_key_reference.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Codex_Claude_Assets_Batch01.zip",
+      "source_entry": "DIDIK_JRPG_Production_Batch_01/03_VISUAL_REFERENCE/INDIVIDUAL_WORLD_REFERENCES/world_03_hutan_larut_key_reference.png",
+      "bytes": 3468914,
+      "sha256": "0e1fc9a1df0e0a6eea28835d53f8a68d17c5bf0b35e7f1469fb84ebcee3d03f4"
+    },
+    {
+      "path": "Batch01/DIDIK_JRPG_Production_Batch_01/03_VISUAL_REFERENCE/INDIVIDUAL_WORLD_REFERENCES/world_04_rimba_bayangan_key_reference.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Codex_Claude_Assets_Batch01.zip",
+      "source_entry": "DIDIK_JRPG_Production_Batch_01/03_VISUAL_REFERENCE/INDIVIDUAL_WORLD_REFERENCES/world_04_rimba_bayangan_key_reference.png",
+      "bytes": 3490769,
+      "sha256": "1a4887a2a3569eaef9ac3e62cda70690eda1912352076e1965dfc9541e457b58"
+    },
+    {
+      "path": "Batch01/DIDIK_JRPG_Production_Batch_01/03_VISUAL_REFERENCE/INDIVIDUAL_WORLD_REFERENCES/world_05_gunung_ledang_key_reference.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Codex_Claude_Assets_Batch01.zip",
+      "source_entry": "DIDIK_JRPG_Production_Batch_01/03_VISUAL_REFERENCE/INDIVIDUAL_WORLD_REFERENCES/world_05_gunung_ledang_key_reference.png",
+      "bytes": 3620413,
+      "sha256": "78afd32336e08761cff6166ee28bd8c0c801b4d35708c95205a7eae6beec82e2"
+    },
+    {
+      "path": "Batch01/DIDIK_JRPG_Production_Batch_01/03_VISUAL_REFERENCE/MOODBOARDS/01_jrpg_story_visual_system.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Codex_Claude_Assets_Batch01.zip",
+      "source_entry": "DIDIK_JRPG_Production_Batch_01/03_VISUAL_REFERENCE/MOODBOARDS/01_jrpg_story_visual_system.png",
+      "bytes": 3279757,
+      "sha256": "dbe3c0d1d6ee7295d3ace2193746a69b38b265a7777068f1324f116510cf0d13"
+    },
+    {
+      "path": "Batch01/DIDIK_JRPG_Production_Batch_01/03_VISUAL_REFERENCE/MOODBOARDS/02_character_boss_ui_concepts.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Codex_Claude_Assets_Batch01.zip",
+      "source_entry": "DIDIK_JRPG_Production_Batch_01/03_VISUAL_REFERENCE/MOODBOARDS/02_character_boss_ui_concepts.png",
+      "bytes": 3273523,
+      "sha256": "a6d2bd5353ea419249f4ae51fb05585939b5ca774fdf9574b4a6ed6fff6ccf64"
+    },
+    {
+      "path": "Batch01/DIDIK_JRPG_Production_Batch_01/03_VISUAL_REFERENCE/MOODBOARDS/03_worlds_battles_icons_storyboards.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Codex_Claude_Assets_Batch01.zip",
+      "source_entry": "DIDIK_JRPG_Production_Batch_01/03_VISUAL_REFERENCE/MOODBOARDS/03_worlds_battles_icons_storyboards.png",
+      "bytes": 3594521,
+      "sha256": "810c630be064c72ba8fde49652fd40ddc9424338e54cea56c393ebcc821d25e4"
+    },
+    {
+      "path": "Batch01/DIDIK_JRPG_Production_Batch_01/03_VISUAL_REFERENCE/MOODBOARDS/04_hero_boss_story_combat_scenes.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Codex_Claude_Assets_Batch01.zip",
+      "source_entry": "DIDIK_JRPG_Production_Batch_01/03_VISUAL_REFERENCE/MOODBOARDS/04_hero_boss_story_combat_scenes.png",
+      "bytes": 3553654,
+      "sha256": "ef8428a266cd3af8e628c70daeab500636d180ad86da8e7a1d460d4ec0ff56f5"
+    },
+    {
+      "path": "Batch01/DIDIK_JRPG_Production_Batch_01/03_VISUAL_REFERENCE/MOODBOARDS/05_world_map_ui_progression.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Codex_Claude_Assets_Batch01.zip",
+      "source_entry": "DIDIK_JRPG_Production_Batch_01/03_VISUAL_REFERENCE/MOODBOARDS/05_world_map_ui_progression.png",
+      "bytes": 3416585,
+      "sha256": "fc2f573623643d32b672b0ca92c733b5cca6288a899e79137bb2c35e49daeeca"
+    },
+    {
+      "path": "Batch01/DIDIK_JRPG_Production_Batch_01/04_BATCH_01_CHARACTER_REFERENCE/bendahara_portrait_REFERENCE.jpg",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Codex_Claude_Assets_Batch01.zip",
+      "source_entry": "DIDIK_JRPG_Production_Batch_01/04_BATCH_01_CHARACTER_REFERENCE/bendahara_portrait_REFERENCE.jpg",
+      "bytes": 11836,
+      "sha256": "0dbf88d60c66206909c568ed9560b55042acd060e93f0f83366cbc47e7ad869c"
+    },
+    {
+      "path": "Batch01/DIDIK_JRPG_Production_Batch_01/04_BATCH_01_CHARACTER_REFERENCE/hang_jebat_portrait_REFERENCE.jpg",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Codex_Claude_Assets_Batch01.zip",
+      "source_entry": "DIDIK_JRPG_Production_Batch_01/04_BATCH_01_CHARACTER_REFERENCE/hang_jebat_portrait_REFERENCE.jpg",
+      "bytes": 12665,
+      "sha256": "0f6b8bdbcb319abb5ef2e643deb0b08c48ef52fcaa2ccc2fd6436f3843b91493"
+    },
+    {
+      "path": "Batch01/DIDIK_JRPG_Production_Batch_01/04_BATCH_01_CHARACTER_REFERENCE/hang_tuah_portrait_REFERENCE.jpg",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Codex_Claude_Assets_Batch01.zip",
+      "source_entry": "DIDIK_JRPG_Production_Batch_01/04_BATCH_01_CHARACTER_REFERENCE/hang_tuah_portrait_REFERENCE.jpg",
+      "bytes": 13528,
+      "sha256": "7a4fa6085798e72788a42cb724609fb46c38c2aeed3f60797540105d8cc1ae70"
+    },
+    {
+      "path": "Batch01/DIDIK_JRPG_Production_Batch_01/04_BATCH_01_CHARACTER_REFERENCE/mahsuri_portrait_REFERENCE.jpg",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Codex_Claude_Assets_Batch01.zip",
+      "source_entry": "DIDIK_JRPG_Production_Batch_01/04_BATCH_01_CHARACTER_REFERENCE/mahsuri_portrait_REFERENCE.jpg",
+      "bytes": 12224,
+      "sha256": "7222b4c8a976596b3a4c5f4032f35451c2be347c3853e3f8604d6159ee507f1c"
+    },
+    {
+      "path": "Batch01/DIDIK_JRPG_Production_Batch_01/04_BATCH_01_CHARACTER_REFERENCE/puteri_saadong_portrait_REFERENCE.jpg",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Codex_Claude_Assets_Batch01.zip",
+      "source_entry": "DIDIK_JRPG_Production_Batch_01/04_BATCH_01_CHARACTER_REFERENCE/puteri_saadong_portrait_REFERENCE.jpg",
+      "bytes": 13442,
+      "sha256": "e48cab7303f5d0b4d7febf27c7160fd3d8d3000320545dd566ac6f8692af596e"
+    },
+    {
+      "path": "Batch01/DIDIK_JRPG_Production_Batch_01/04_BATCH_01_CHARACTER_REFERENCE/tun_teja_portrait_REFERENCE.jpg",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Codex_Claude_Assets_Batch01.zip",
+      "source_entry": "DIDIK_JRPG_Production_Batch_01/04_BATCH_01_CHARACTER_REFERENCE/tun_teja_portrait_REFERENCE.jpg",
+      "bytes": 12578,
+      "sha256": "faeb072305242c1ba3b6556b07d9e521932bab2c39e594b75efe59e5c6a1ee1e"
+    },
+    {
+      "path": "Batch01/DIDIK_JRPG_Production_Batch_01/05_ORIGINAL_MASTER_LIST/00_README.md",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Codex_Claude_Assets_Batch01.zip",
+      "source_entry": "DIDIK_JRPG_Production_Batch_01/05_ORIGINAL_MASTER_LIST/00_README.md",
+      "bytes": 1344,
+      "sha256": "6c308aae57f6b588d7112b6933bacb5947325570c6afef14df354ab077ec9caf"
+    },
+    {
+      "path": "Batch01/DIDIK_JRPG_Production_Batch_01/05_ORIGINAL_MASTER_LIST/01_MASTER_ASSET_LIST.md",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Codex_Claude_Assets_Batch01.zip",
+      "source_entry": "DIDIK_JRPG_Production_Batch_01/05_ORIGINAL_MASTER_LIST/01_MASTER_ASSET_LIST.md",
+      "bytes": 3107,
+      "sha256": "dadbe068d28c7992ceb48a4274191b56787203d6b352061c8c0184aa8a30e2ab"
+    },
+    {
+      "path": "Batch01/DIDIK_JRPG_Production_Batch_01/05_ORIGINAL_MASTER_LIST/02_GLOBAL_CORE_ASSETS.md",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Codex_Claude_Assets_Batch01.zip",
+      "source_entry": "DIDIK_JRPG_Production_Batch_01/05_ORIGINAL_MASTER_LIST/02_GLOBAL_CORE_ASSETS.md",
+      "bytes": 1701,
+      "sha256": "42ad828bd093519253d6f0ef641faa542ec5488c1bed158d7d0c468077d57fe1"
+    },
+    {
+      "path": "Batch01/DIDIK_JRPG_Production_Batch_01/05_ORIGINAL_MASTER_LIST/03_WORLD_1_TASIK_CHINI.md",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Codex_Claude_Assets_Batch01.zip",
+      "source_entry": "DIDIK_JRPG_Production_Batch_01/05_ORIGINAL_MASTER_LIST/03_WORLD_1_TASIK_CHINI.md",
+      "bytes": 1547,
+      "sha256": "cd3e76d7c152fb0d1c12b89786a7bb919bf5badf7cd615fbbff0d8b201678e18"
+    },
+    {
+      "path": "Batch01/DIDIK_JRPG_Production_Batch_01/05_ORIGINAL_MASTER_LIST/04_WORLD_2_BATANG_LUPAR.md",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Codex_Claude_Assets_Batch01.zip",
+      "source_entry": "DIDIK_JRPG_Production_Batch_01/05_ORIGINAL_MASTER_LIST/04_WORLD_2_BATANG_LUPAR.md",
+      "bytes": 1538,
+      "sha256": "f6b5751c82d0b5c9653b2d014d658a4b58768c8c6f7e9d2f0d1d01b072c68a3e"
+    },
+    {
+      "path": "Batch01/DIDIK_JRPG_Production_Batch_01/05_ORIGINAL_MASTER_LIST/05_WORLD_3_HUTAN_LARUT.md",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Codex_Claude_Assets_Batch01.zip",
+      "source_entry": "DIDIK_JRPG_Production_Batch_01/05_ORIGINAL_MASTER_LIST/05_WORLD_3_HUTAN_LARUT.md",
+      "bytes": 1472,
+      "sha256": "e3a603424ad559ce3a7880e542681f2c2640291141fad629202fe90062ddfa99"
+    },
+    {
+      "path": "Batch01/DIDIK_JRPG_Production_Batch_01/05_ORIGINAL_MASTER_LIST/06_WORLD_4_RIMBA_BAYANGAN.md",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Codex_Claude_Assets_Batch01.zip",
+      "source_entry": "DIDIK_JRPG_Production_Batch_01/05_ORIGINAL_MASTER_LIST/06_WORLD_4_RIMBA_BAYANGAN.md",
+      "bytes": 1535,
+      "sha256": "fde2fac061e5489a94c7e95494b9e3de482de11d0ecffa272a991939eaef9ed9"
+    },
+    {
+      "path": "Batch01/DIDIK_JRPG_Production_Batch_01/05_ORIGINAL_MASTER_LIST/07_WORLD_5_GUNUNG_LEDANG.md",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Codex_Claude_Assets_Batch01.zip",
+      "source_entry": "DIDIK_JRPG_Production_Batch_01/05_ORIGINAL_MASTER_LIST/07_WORLD_5_GUNUNG_LEDANG.md",
+      "bytes": 1630,
+      "sha256": "fb38409cb0c7f7b4911e2bb49b74b6336db96b58f3bb2373df513e017f1a46fc"
+    },
+    {
+      "path": "Batch01/DIDIK_JRPG_Production_Batch_01/05_ORIGINAL_MASTER_LIST/08_UI_BATTLE_UX.md",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Codex_Claude_Assets_Batch01.zip",
+      "source_entry": "DIDIK_JRPG_Production_Batch_01/05_ORIGINAL_MASTER_LIST/08_UI_BATTLE_UX.md",
+      "bytes": 1424,
+      "sha256": "ef5bd897d614b7589f973dd6f393c13e83ad83b0c3c310a80d789f7ff8711cad"
+    },
+    {
+      "path": "Batch01/DIDIK_JRPG_Production_Batch_01/05_ORIGINAL_MASTER_LIST/09_VIDEO_PROMO_ASSETS.md",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Codex_Claude_Assets_Batch01.zip",
+      "source_entry": "DIDIK_JRPG_Production_Batch_01/05_ORIGINAL_MASTER_LIST/09_VIDEO_PROMO_ASSETS.md",
+      "bytes": 928,
+      "sha256": "f5b6aa7c8eb24f1018c91b342d6e2a41739c255b6e6781ebeaa022ec369c08dc"
+    },
+    {
+      "path": "Batch01/DIDIK_JRPG_Production_Batch_01/05_ORIGINAL_MASTER_LIST/10_PRODUCTION_PRIORITY.md",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Codex_Claude_Assets_Batch01.zip",
+      "source_entry": "DIDIK_JRPG_Production_Batch_01/05_ORIGINAL_MASTER_LIST/10_PRODUCTION_PRIORITY.md",
+      "bytes": 1318,
+      "sha256": "faf7e70102533607b947c362cb964a12c98d32b2844f62c8430ea7e325874f6b"
+    },
+    {
+      "path": "Batch01/DIDIK_JRPG_Production_Batch_01/05_ORIGINAL_MASTER_LIST/DIDIK_asset_inventory.csv",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Codex_Claude_Assets_Batch01.zip",
+      "source_entry": "DIDIK_JRPG_Production_Batch_01/05_ORIGINAL_MASTER_LIST/DIDIK_asset_inventory.csv",
+      "bytes": 4336,
+      "sha256": "2013ee27ebebcde4dc35335491c58ab04251a91842371bfcbb8686db59a3923f"
+    },
+    {
+      "path": "Batch01/DIDIK_JRPG_Production_Batch_01/README_FIRST.md",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Codex_Claude_Assets_Batch01.zip",
+      "source_entry": "DIDIK_JRPG_Production_Batch_01/README_FIRST.md",
+      "bytes": 2282,
+      "sha256": "164e2cc50a7aeb3c1e93bc5d86f22603ffaf051be99b8601ecf554a2d0116a4c"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/01_VISUAL_CONCEPT_BOARDS/01_HD2D_art_direction_atlas_REFERENCE.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/01_VISUAL_CONCEPT_BOARDS/01_HD2D_art_direction_atlas_REFERENCE.png",
+      "bytes": 3804031,
+      "sha256": "9c3901411cd6e405238b5a3ed4913fef6168c5d5cb34b0879bd7c6f97ace5054"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/01_VISUAL_CONCEPT_BOARDS/02_environment_boss_hud_REFERENCE.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/01_VISUAL_CONCEPT_BOARDS/02_environment_boss_hud_REFERENCE.png",
+      "bytes": 3396757,
+      "sha256": "e43045f2febd593e6650c9b372972f2258115820cdec14071c415898d820e2a9"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/02_WORLD_ART_REFERENCES/01_tasik_chini_scenery_REFERENCE.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/02_WORLD_ART_REFERENCES/01_tasik_chini_scenery_REFERENCE.png",
+      "bytes": 99992,
+      "sha256": "ca7b30373a37c83eb6a8a8e752a6f7ef026f084b376e0b65f4c75a501069a45b"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/02_WORLD_ART_REFERENCES/02_batang_lupar_scenery_REFERENCE.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/02_WORLD_ART_REFERENCES/02_batang_lupar_scenery_REFERENCE.png",
+      "bytes": 92273,
+      "sha256": "e0c4d6639fc07121d911b1b66183265c9dc15570b082540087629bb5c050d124"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/02_WORLD_ART_REFERENCES/03_hutan_larut_scenery_REFERENCE.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/02_WORLD_ART_REFERENCES/03_hutan_larut_scenery_REFERENCE.png",
+      "bytes": 86020,
+      "sha256": "dd95016570c913761b6071d4b8f922b4aaa4aeb5e8e27a5c7ea180c3ad8c77dc"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/02_WORLD_ART_REFERENCES/04_rimba_bayangan_scenery_REFERENCE.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/02_WORLD_ART_REFERENCES/04_rimba_bayangan_scenery_REFERENCE.png",
+      "bytes": 83041,
+      "sha256": "89f1bb88fa333736186ca9b15c784cb6d7d061af3494bc3d29fb1ddd123b0142"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/02_WORLD_ART_REFERENCES/05_gunung_ledang_scenery_REFERENCE.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/02_WORLD_ART_REFERENCES/05_gunung_ledang_scenery_REFERENCE.png",
+      "bytes": 89666,
+      "sha256": "a436e872ab5a078847b1eafd56df44c162687fda8414efe4b94f845772f86953"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/03_BOSS_ART_REFERENCES/01_naga_chini_boss_REFERENCE.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/03_BOSS_ART_REFERENCES/01_naga_chini_boss_REFERENCE.png",
+      "bytes": 122970,
+      "sha256": "df60c1add65303fc47c626c656a6fc8d7e65722931189ecaef6ea0673fbdc165"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/03_BOSS_ART_REFERENCES/02_bujang_senang_boss_REFERENCE.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/03_BOSS_ART_REFERENCES/02_bujang_senang_boss_REFERENCE.png",
+      "bytes": 119428,
+      "sha256": "5cbf72047a7a69240918bde59d9b14beba67a8519fcdab822f85d25968155fcc"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/03_BOSS_ART_REFERENCES/03_gajah_rimba_boss_REFERENCE.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/03_BOSS_ART_REFERENCES/03_gajah_rimba_boss_REFERENCE.png",
+      "bytes": 116514,
+      "sha256": "b1d44ecf8543253b12d5c94e746f1cdf95554d2f53b7c825470a37077b09e763"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/03_BOSS_ART_REFERENCES/04_sang_kancil_bayangan_boss_REFERENCE.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/03_BOSS_ART_REFERENCES/04_sang_kancil_bayangan_boss_REFERENCE.png",
+      "bytes": 105203,
+      "sha256": "334c2a8c7f41d79e0599202170a1cd1a62edb83f081cb07d73665ad72a440401"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/03_BOSS_ART_REFERENCES/05_penunggu_kabus_boss_REFERENCE.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/03_BOSS_ART_REFERENCES/05_penunggu_kabus_boss_REFERENCE.png",
+      "bytes": 114271,
+      "sha256": "0049f01fd83f68445ea4bfbbc33eac6674f7d7e78b88a62cc5d8d9828bbbea5c"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/04_HERO_ART_REFERENCES/01_hang_tuah_portrait_REFERENCE.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/04_HERO_ART_REFERENCES/01_hang_tuah_portrait_REFERENCE.png",
+      "bytes": 25696,
+      "sha256": "efd520a354f5c97dba0b64694c5b102ce4465554bbeb21640d9a0ec08fbb263c"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/04_HERO_ART_REFERENCES/02_hang_jebat_portrait_REFERENCE.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/04_HERO_ART_REFERENCES/02_hang_jebat_portrait_REFERENCE.png",
+      "bytes": 27908,
+      "sha256": "8d21ed82db13a6f7a7494251916f4a0343fa9090a3893330427a3b1fa33fe1f4"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/04_HERO_ART_REFERENCES/03_bendahara_portrait_REFERENCE.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/04_HERO_ART_REFERENCES/03_bendahara_portrait_REFERENCE.png",
+      "bytes": 27579,
+      "sha256": "ed22dfe2f45f6381d17f3f8e39d93c3516c70977526b5a124876414f773f8558"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/04_HERO_ART_REFERENCES/04_mahsuri_portrait_REFERENCE.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/04_HERO_ART_REFERENCES/04_mahsuri_portrait_REFERENCE.png",
+      "bytes": 25812,
+      "sha256": "af07b5b8f440025d95ec09cd2153b71e1881b5c32fec497bd637436b2d999a44"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/04_HERO_ART_REFERENCES/05_tun_teja_portrait_REFERENCE.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/04_HERO_ART_REFERENCES/05_tun_teja_portrait_REFERENCE.png",
+      "bytes": 25584,
+      "sha256": "9f6fb60bdf759abc9973cad8e6790b8e686b1e98e713c889fbfa840b3458aef6"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/04_HERO_ART_REFERENCES/06_puteri_saadong_portrait_REFERENCE.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/04_HERO_ART_REFERENCES/06_puteri_saadong_portrait_REFERENCE.png",
+      "bytes": 27214,
+      "sha256": "fdcc37cb2008b80a9f5132e26bfe98c7235d9658c83702cdec4dedda511af604"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/05_ELEMENT_FX_REFERENCES/01_air_fx_REFERENCE.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/05_ELEMENT_FX_REFERENCES/01_air_fx_REFERENCE.png",
+      "bytes": 14103,
+      "sha256": "06893fb2f75f0d2ab7f91def05665ae1c607806fd8cb8b35d397dad9529ca49a"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/05_ELEMENT_FX_REFERENCES/02_angin_fx_REFERENCE.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/05_ELEMENT_FX_REFERENCES/02_angin_fx_REFERENCE.png",
+      "bytes": 12692,
+      "sha256": "18dbd2e0d34dde31f4219522e51dadc0e88ba404243c720a1b1bdd534ce4635b"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/05_ELEMENT_FX_REFERENCES/03_petir_fx_REFERENCE.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/05_ELEMENT_FX_REFERENCES/03_petir_fx_REFERENCE.png",
+      "bytes": 13242,
+      "sha256": "38d2927b99c1c5642d07c33ebb31352e681952d5df377cdf157083d4fe3941a1"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/05_ELEMENT_FX_REFERENCES/04_bayangan_fx_REFERENCE.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/05_ELEMENT_FX_REFERENCES/04_bayangan_fx_REFERENCE.png",
+      "bytes": 13100,
+      "sha256": "6be6fd53c41b9d099b3cb5242e4406024e1777bf2e5591a2fc16422b3e72e1f8"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/05_ELEMENT_FX_REFERENCES/05_api_fx_REFERENCE.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/05_ELEMENT_FX_REFERENCES/05_api_fx_REFERENCE.png",
+      "bytes": 13527,
+      "sha256": "f6833eb86786181c6999d164a55bd517f6e24d665a87d1f641cb6bb0652803cd"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_attack_spritesheets/fx_air_12frames_4x3.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_attack_spritesheets/fx_air_12frames_4x3.png",
+      "bytes": 182366,
+      "sha256": "89383956d7c26800dbe26cb70ca883fdad7b336bf59ae6d149cb5e19e6b1817f"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_attack_spritesheets/fx_air_preview.gif",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_attack_spritesheets/fx_air_preview.gif",
+      "bytes": 54544,
+      "sha256": "2e3d0307d191dcec9b31a6a95dc48d1aea2fd1199adeed5bea90db21b3889594"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_attack_spritesheets/fx_angin_12frames_4x3.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_attack_spritesheets/fx_angin_12frames_4x3.png",
+      "bytes": 172906,
+      "sha256": "d8d218d03761840d92f13192a3f63b48db9fb9bf6456ff73bbd8f349e9551521"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_attack_spritesheets/fx_angin_preview.gif",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_attack_spritesheets/fx_angin_preview.gif",
+      "bytes": 61723,
+      "sha256": "7c4b521d4455c95e75a7ccfb56115660fa939a349e011684d3f1395ea9b147cb"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_attack_spritesheets/fx_api_12frames_4x3.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_attack_spritesheets/fx_api_12frames_4x3.png",
+      "bytes": 262451,
+      "sha256": "b384556cbb3531ee2ea79ac28f30ace14c3d7bdc2cf5ba148c572fdf2a2c6001"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_attack_spritesheets/fx_api_preview.gif",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_attack_spritesheets/fx_api_preview.gif",
+      "bytes": 97123,
+      "sha256": "dbbe33e7e8550f732d0a94d0a44085718ffc5f8229193c6f2603df4be0c99f59"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_attack_spritesheets/fx_petir_12frames_4x3.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_attack_spritesheets/fx_petir_12frames_4x3.png",
+      "bytes": 257574,
+      "sha256": "a96d5b633fb9778a5c08a4661d126c9574d8f624f3625b917f1a9f532ebf3b9b"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_attack_spritesheets/fx_petir_preview.gif",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_attack_spritesheets/fx_petir_preview.gif",
+      "bytes": 92610,
+      "sha256": "7cac2c4d4b21e36bad0569bd63a5045907887e88158d7abf426faab55d29f60f"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_attack_spritesheets/fx_tanah_12frames_4x3.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_attack_spritesheets/fx_tanah_12frames_4x3.png",
+      "bytes": 161753,
+      "sha256": "916a71e720c6680c3b6a30a755115994a5bfd3523a2a8f0ed464d02c3c3ce7b1"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_attack_spritesheets/fx_tanah_preview.gif",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_attack_spritesheets/fx_tanah_preview.gif",
+      "bytes": 50878,
+      "sha256": "189a8663dcfc39a997303c5dfb77200fbb2c8876462a39df26161ddd2fd441c0"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_icons/element_air.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_icons/element_air.png",
+      "bytes": 104659,
+      "sha256": "7b6c0a4cea730c0c24a857129c7d7a3f6577711cf9a01ae35ea09658df7a5172"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_icons/element_air.svg",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_icons/element_air.svg",
+      "bytes": 1740,
+      "sha256": "101d74ad6f118c4d528fd804b247670236e1b905f0e89d0bae75155b7375f0a3"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_icons/element_angin.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_icons/element_angin.png",
+      "bytes": 106219,
+      "sha256": "84c6fb061ce15f1d127df4700569a7d9463d037c7e7b016503ef54ce41ed284a"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_icons/element_angin.svg",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_icons/element_angin.svg",
+      "bytes": 1755,
+      "sha256": "1c71ab70631bce9790ef89a1654d584a552dcf4e3e9afdfaaf343fab07f01b3a"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_icons/element_api.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_icons/element_api.png",
+      "bytes": 93438,
+      "sha256": "3698e7ee8194a34113c8b8313f041eff9edab1453b60748ef6eb7bbbb71a072f"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_icons/element_api.svg",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_icons/element_api.svg",
+      "bytes": 1754,
+      "sha256": "2f414e78f257f53c214705935748f7c935fc542c1e7c8e443e94591d3d5352c1"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_icons/element_petir.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_icons/element_petir.png",
+      "bytes": 98842,
+      "sha256": "964b19b121487db46cc33419a9c054dcb6cfb2923ec2c479c0a296fb25d1b699"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_icons/element_petir.svg",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_icons/element_petir.svg",
+      "bytes": 1586,
+      "sha256": "ca33c698b31967e4ecf2b6d183b512c2e94adccf1a35d530bb4c71cd3a210f4c"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_icons/element_tanah.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_icons/element_tanah.png",
+      "bytes": 84753,
+      "sha256": "341039cce3e2aa37e5dff48c4c53b8cc0235d8fc137301156f53978cad9e76ee"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_icons/element_tanah.svg",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_icons/element_tanah.svg",
+      "bytes": 1771,
+      "sha256": "a48aa040242cdfc535aa22a25732adbff8f2c51d3cd1a566b4e1aa6be988b895"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/heart_icons/heart_empty.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/heart_icons/heart_empty.png",
+      "bytes": 5857,
+      "sha256": "54fa8c0ca9c6ef31d2512175d54d9d4445a8aa3ed362bae7d61688c000ad60d0"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/heart_icons/heart_empty.svg",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/heart_icons/heart_empty.svg",
+      "bytes": 412,
+      "sha256": "2e17fb5631bb5beeea646ff4a6fbeec375cea33010940fad269693969a6e95f8"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/heart_icons/heart_full.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/heart_icons/heart_full.png",
+      "bytes": 4401,
+      "sha256": "ffe5740b71fdf4552776f615d2b7295f63ebd0f5f547fce78d4657c494c89f6e"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/heart_icons/heart_full.svg",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/heart_icons/heart_full.svg",
+      "bytes": 370,
+      "sha256": "5c7b6136e8a2f46050c6113d9cd5c1b70fcba8caefbf06163058f8b0b46a9b3d"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/heart_icons/heart_half.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/heart_icons/heart_half.png",
+      "bytes": 6089,
+      "sha256": "795dc6f4aef66da7e5b90e4b77fb7c6bce73241770766ba477f65784f0de4627"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/heart_icons/heart_half.svg",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/heart_icons/heart_half.svg",
+      "bytes": 627,
+      "sha256": "191892d70ee3ebd6e127263e7cb9fa102cbf82987241288d5b44d91b4ffd939f"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/panels/answer_button_disabled.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/panels/answer_button_disabled.png",
+      "bytes": 2264,
+      "sha256": "48a6c0087fc37ebd504aa7fcb9220905f39f922425eb546289b2d9b84424e3d1"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/panels/answer_button_disabled.svg",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/panels/answer_button_disabled.svg",
+      "bytes": 420,
+      "sha256": "3dbbad3ad4b1824aad28ef1ac583bf43fe27c1226b4cd19ff5ae2feb6bed3e77"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/panels/answer_button_normal.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/panels/answer_button_normal.png",
+      "bytes": 2297,
+      "sha256": "c73803b2c7d554df0ca3a2819948c6ff848f72cff88910264bb73edbb68b8df0"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/panels/answer_button_normal.svg",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/panels/answer_button_normal.svg",
+      "bytes": 420,
+      "sha256": "f451a2fa72481b46c467c9fb0d6e4f7a4dc65cb19b4e77b6d578a5db831772bb"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/panels/answer_button_selected.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/panels/answer_button_selected.png",
+      "bytes": 2258,
+      "sha256": "e9706356911724a8203ce5b21d06464fbf2c12f24cb75995e8216c0e64236c42"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/panels/answer_button_selected.svg",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/panels/answer_button_selected.svg",
+      "bytes": 420,
+      "sha256": "eb087f12b4d90213aa9ae28772c780d3df53b8dbf6a2169906245fe068b891a7"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/panels/battle_question_panel_blank.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/panels/battle_question_panel_blank.png",
+      "bytes": 22145,
+      "sha256": "ad42af0c56648d3820fd046bad9c1b2de303e9a491b1649dc983f5d54404e365"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/panels/battle_question_panel_blank.svg",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/panels/battle_question_panel_blank.svg",
+      "bytes": 1205,
+      "sha256": "7db682e7a03bf456a3f635330fe084e200a7e2ca981f68afa9dd5934c99137e1"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/panels/boss_five_bar_empty.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/panels/boss_five_bar_empty.png",
+      "bytes": 2490,
+      "sha256": "cf2dde2bd093d3a7307444ba4460f75d107072cbaea9327b2fce4bd944a34666"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/panels/boss_five_bar_empty.svg",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/panels/boss_five_bar_empty.svg",
+      "bytes": 700,
+      "sha256": "e7520e3f483b76ef833427212c2002e04ac53ade81252061b668a024a59ad0ab"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/panels/boss_five_bar_full.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/panels/boss_five_bar_full.png",
+      "bytes": 2643,
+      "sha256": "7266b4dbc2b05edf7b396a0401a34fbad32eae8cfad09907e1c852b018832e99"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/panels/boss_five_bar_full.svg",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/panels/boss_five_bar_full.svg",
+      "bytes": 1099,
+      "sha256": "eb6638f13fc410051e644632ca06723a9d9aa66a22f3662a312d632db8cf3e13"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/08_CODEX_CLAUDE_PROMPTS/CLAUDE_CODE_BATCH02.md",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/08_CODEX_CLAUDE_PROMPTS/CLAUDE_CODE_BATCH02.md",
+      "bytes": 1274,
+      "sha256": "0e981f5d273144434e7e9791602d1ffb1fdf2703e677af6777201c5114c19f24"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/08_CODEX_CLAUDE_PROMPTS/CODEX_BATCH02.md",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/08_CODEX_CLAUDE_PROMPTS/CODEX_BATCH02.md",
+      "bytes": 3299,
+      "sha256": "53b59ce829b39ec44c772be2ee0335b8a0c89f2d6ceaa664c3d1ef0cd37b5e2f"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/09_PREVIEWS/00_worlds_bosses_contact_sheet.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/09_PREVIEWS/00_worlds_bosses_contact_sheet.png",
+      "bytes": 1566588,
+      "sha256": "0d2ace6a25055a911b8537bce184a36bf3fecdf2edd267284be5031301b0d3a9"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/09_PREVIEWS/01_game_ready_ui_contact_sheet.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/09_PREVIEWS/01_game_ready_ui_contact_sheet.png",
+      "bytes": 163019,
+      "sha256": "d036d7298dba3c82a9b2a7ffb11f29e8c7195cdd5343979e7cf89857bb30886a"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/ASSET_MANIFEST.json",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/ASSET_MANIFEST.json",
+      "bytes": 25488,
+      "sha256": "f5c9372983c83334082ecf1fbfd342942962792e5ce43c45a2ad059faf7db99b"
+    },
+    {
+      "path": "Batch02/DIDIK_JRPG_Batch02_TasikChini/README_FIRST.md",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Assets_Batch02.zip",
+      "source_entry": "DIDIK_JRPG_Batch02_TasikChini/README_FIRST.md",
+      "bytes": 3897,
+      "sha256": "8e0b44f7a893e1c7521062cf0dd4b4697828b76f0b2f2bcb85afed576fec0299"
+    },
+    {
+      "path": "Batch03/DIDIK_JRPG_Batch03_HD_TasikChini/01_BATTLE_BACKGROUND/01_tasik_chini_battle_background_original_1672x941.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch03_TasikChini.zip",
+      "source_entry": "DIDIK_JRPG_Batch03_HD_TasikChini/01_BATTLE_BACKGROUND/01_tasik_chini_battle_background_original_1672x941.png",
+      "bytes": 3705384,
+      "sha256": "4251b2777a4e11df16e7c321da34b2bfdc62cdf5f60573831ec2217643546ac2"
+    },
+    {
+      "path": "Batch03/DIDIK_JRPG_Batch03_HD_TasikChini/01_BATTLE_BACKGROUND/02_tasik_chini_battle_background_FHD_1920x1080.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch03_TasikChini.zip",
+      "source_entry": "DIDIK_JRPG_Batch03_HD_TasikChini/01_BATTLE_BACKGROUND/02_tasik_chini_battle_background_FHD_1920x1080.png",
+      "bytes": 4297930,
+      "sha256": "8a1f5f3ca50ce0ad50b200dfc94ebeeb5b1e365007312c5b0dcc32c547ba95e4"
+    },
+    {
+      "path": "Batch03/DIDIK_JRPG_Batch03_HD_TasikChini/01_BATTLE_BACKGROUND/03_tasik_chini_battle_background_web_1920x1080.webp",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch03_TasikChini.zip",
+      "source_entry": "DIDIK_JRPG_Batch03_HD_TasikChini/01_BATTLE_BACKGROUND/03_tasik_chini_battle_background_web_1920x1080.webp",
+      "bytes": 839404,
+      "sha256": "00c82364e21ca1d4aa5d6043d925318065dfc53fb262dc46c07d5600aabea7f4"
+    },
+    {
+      "path": "Batch03/DIDIK_JRPG_Batch03_HD_TasikChini/02_HERO_CHARACTERS/01_hang_tuah_battle_pose_transparent_1086x1448.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch03_TasikChini.zip",
+      "source_entry": "DIDIK_JRPG_Batch03_HD_TasikChini/02_HERO_CHARACTERS/01_hang_tuah_battle_pose_transparent_1086x1448.png",
+      "bytes": 1405473,
+      "sha256": "f6a87a41a1fbbddc812bcb1c6e05408e2e40b6e6eaba0d2b73d02dc69a038d64"
+    },
+    {
+      "path": "Batch03/DIDIK_JRPG_Batch03_HD_TasikChini/02_HERO_CHARACTERS/02_mahsuri_battle_pose_transparent_1086x1448.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch03_TasikChini.zip",
+      "source_entry": "DIDIK_JRPG_Batch03_HD_TasikChini/02_HERO_CHARACTERS/02_mahsuri_battle_pose_transparent_1086x1448.png",
+      "bytes": 1838257,
+      "sha256": "4edef86ad24e53d28ef87a764cc6ecee85a7b996e779fae9b9950d955b337a97"
+    },
+    {
+      "path": "Batch03/DIDIK_JRPG_Batch03_HD_TasikChini/02_HERO_CHARACTERS/03_hang_tuah_battle_web_720h.webp",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch03_TasikChini.zip",
+      "source_entry": "DIDIK_JRPG_Batch03_HD_TasikChini/02_HERO_CHARACTERS/03_hang_tuah_battle_web_720h.webp",
+      "bytes": 110356,
+      "sha256": "ab764a9ba5d4bf642dff10dd933b8186826ef787e206294699daaf72ce15f4c5"
+    },
+    {
+      "path": "Batch03/DIDIK_JRPG_Batch03_HD_TasikChini/02_HERO_CHARACTERS/04_mahsuri_battle_web_720h.webp",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch03_TasikChini.zip",
+      "source_entry": "DIDIK_JRPG_Batch03_HD_TasikChini/02_HERO_CHARACTERS/04_mahsuri_battle_web_720h.webp",
+      "bytes": 146230,
+      "sha256": "805bc1417801bace00c6a9e5d1f42d170941c39ae260f7b7c8863f8a0c8ac73e"
+    },
+    {
+      "path": "Batch03/DIDIK_JRPG_Batch03_HD_TasikChini/03_BOSS_NAGA_CHINI/01_naga_chini_battle_pose_transparent_1122x1402.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch03_TasikChini.zip",
+      "source_entry": "DIDIK_JRPG_Batch03_HD_TasikChini/03_BOSS_NAGA_CHINI/01_naga_chini_battle_pose_transparent_1122x1402.png",
+      "bytes": 3178200,
+      "sha256": "0c580abdc8e871639fd0437fe61b7c74f578588a9b40b6b2ea8a58b0bc8a1721"
+    },
+    {
+      "path": "Batch03/DIDIK_JRPG_Batch03_HD_TasikChini/03_BOSS_NAGA_CHINI/02_naga_chini_battle_web_850h.webp",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch03_TasikChini.zip",
+      "source_entry": "DIDIK_JRPG_Batch03_HD_TasikChini/03_BOSS_NAGA_CHINI/02_naga_chini_battle_web_850h.webp",
+      "bytes": 389978,
+      "sha256": "59e058d5982bc8ba45437aa3e59ede55753dfe22d4bf24085eb1f18e74874a03"
+    },
+    {
+      "path": "Batch03/DIDIK_JRPG_Batch03_HD_TasikChini/04_UI_REFERENCE/01_quiz_battle_hud_concept_1672x941.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch03_TasikChini.zip",
+      "source_entry": "DIDIK_JRPG_Batch03_HD_TasikChini/04_UI_REFERENCE/01_quiz_battle_hud_concept_1672x941.png",
+      "bytes": 2299389,
+      "sha256": "e544c2c0bea89b6d6cd2b91ab3bb88d40507507292426456a864e6806c19c40d"
+    },
+    {
+      "path": "Batch03/DIDIK_JRPG_Batch03_HD_TasikChini/04_UI_REFERENCE/02_jrpg_battle_concept_composition_1672x941.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch03_TasikChini.zip",
+      "source_entry": "DIDIK_JRPG_Batch03_HD_TasikChini/04_UI_REFERENCE/02_jrpg_battle_concept_composition_1672x941.png",
+      "bytes": 3436204,
+      "sha256": "e035c6aa7aca9b0628ca766d341b511308a89e8e97b2f3e355d169acffd516ba"
+    },
+    {
+      "path": "Batch03/DIDIK_JRPG_Batch03_HD_TasikChini/05_COMPOSITE_PREVIEWS/00_Batch03_Contact_Sheet.jpg",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch03_TasikChini.zip",
+      "source_entry": "DIDIK_JRPG_Batch03_HD_TasikChini/05_COMPOSITE_PREVIEWS/00_Batch03_Contact_Sheet.jpg",
+      "bytes": 455250,
+      "sha256": "c4388feb006c1caae8e6606a8497848d365de8406513ce2fa45abc86adb99f80"
+    },
+    {
+      "path": "Batch03/DIDIK_JRPG_Batch03_HD_TasikChini/05_COMPOSITE_PREVIEWS/01_hang_tuah_vs_naga_chini_concept_FHD.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch03_TasikChini.zip",
+      "source_entry": "DIDIK_JRPG_Batch03_HD_TasikChini/05_COMPOSITE_PREVIEWS/01_hang_tuah_vs_naga_chini_concept_FHD.png",
+      "bytes": 4209884,
+      "sha256": "f230d12a80f6e073546cacfde4cc08a74cb6ebf94678c7121872a4231ea50c22"
+    },
+    {
+      "path": "Batch03/DIDIK_JRPG_Batch03_HD_TasikChini/05_COMPOSITE_PREVIEWS/02_mahsuri_vs_naga_chini_concept_FHD.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch03_TasikChini.zip",
+      "source_entry": "DIDIK_JRPG_Batch03_HD_TasikChini/05_COMPOSITE_PREVIEWS/02_mahsuri_vs_naga_chini_concept_FHD.png",
+      "bytes": 4233732,
+      "sha256": "41cb9823918863270bd48721c41557017654929a9a1e4c15344e7314d76c3ef6"
+    },
+    {
+      "path": "Batch03/DIDIK_JRPG_Batch03_HD_TasikChini/06_DOCUMENTATION/ASSET_MANIFEST.json",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch03_TasikChini.zip",
+      "source_entry": "DIDIK_JRPG_Batch03_HD_TasikChini/06_DOCUMENTATION/ASSET_MANIFEST.json",
+      "bytes": 2714,
+      "sha256": "88429f582d5735904e4778256b863db7a5d722fd023c2642fb0d247269446ee7"
+    },
+    {
+      "path": "Batch03/DIDIK_JRPG_Batch03_HD_TasikChini/06_DOCUMENTATION/CODEX_CLAUDE_BATCH03_INTEGRATION.md",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch03_TasikChini.zip",
+      "source_entry": "DIDIK_JRPG_Batch03_HD_TasikChini/06_DOCUMENTATION/CODEX_CLAUDE_BATCH03_INTEGRATION.md",
+      "bytes": 2210,
+      "sha256": "9183016288447faf7567a51cf08bec445629328796726451f319fbdb24708f40"
+    },
+    {
+      "path": "Batch03/DIDIK_JRPG_Batch03_HD_TasikChini/07_PRIOR_REFERENCE/01_approved_visual_direction_concept.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch03_TasikChini.zip",
+      "source_entry": "DIDIK_JRPG_Batch03_HD_TasikChini/07_PRIOR_REFERENCE/01_approved_visual_direction_concept.png",
+      "bytes": 3330679,
+      "sha256": "08248864228898cbb8575265959b666eb168ad2fc2eaacd7fbe846f53ebe8ea8"
+    },
+    {
+      "path": "Batch03/DIDIK_JRPG_Batch03_HD_TasikChini/README_FIRST.md",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch03_TasikChini.zip",
+      "source_entry": "DIDIK_JRPG_Batch03_HD_TasikChini/README_FIRST.md",
+      "bytes": 2070,
+      "sha256": "d084f744030d36dae1f7e2651310af2e6eb774765c40b054cf174b608a493e40"
+    },
+    {
+      "path": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/01_ORIGINAL_HD_POSE_SHEETS/Hang_Tuah_Six_Poses.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch04_AnimationPoses.zip",
+      "source_entry": "DIDIK_JRPG_Assets_Batch04_HD_Animation/01_ORIGINAL_HD_POSE_SHEETS/Hang_Tuah_Six_Poses.png",
+      "bytes": 2816400,
+      "sha256": "5935f0a5e0215957398a66e38efb77533c776a780ce59ab65e3f0ff4b548c623"
+    },
+    {
+      "path": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/01_ORIGINAL_HD_POSE_SHEETS/Mahsuri_Six_Poses.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch04_AnimationPoses.zip",
+      "source_entry": "DIDIK_JRPG_Assets_Batch04_HD_Animation/01_ORIGINAL_HD_POSE_SHEETS/Mahsuri_Six_Poses.png",
+      "bytes": 2820895,
+      "sha256": "3a2e057cb95326769a8b8edc173da49d483cf9bf6c679defff9aa4ddbd1b41f4"
+    },
+    {
+      "path": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/01_ORIGINAL_HD_POSE_SHEETS/Naga_Chini_Five_Poses.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch04_AnimationPoses.zip",
+      "source_entry": "DIDIK_JRPG_Assets_Batch04_HD_Animation/01_ORIGINAL_HD_POSE_SHEETS/Naga_Chini_Five_Poses.png",
+      "bytes": 3168493,
+      "sha256": "177daec14d06aee19a76020fac9d90e0c86dc68efc2ffed4357e323adceafa88"
+    },
+    {
+      "path": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/HANG_TUAH/hang_tuah_attack.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch04_AnimationPoses.zip",
+      "source_entry": "DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/HANG_TUAH/hang_tuah_attack.png",
+      "bytes": 453301,
+      "sha256": "99bb462b8737b7c8428f95fc50f18f36ab5ff131a5a714f919ac8e29c4ff800f"
+    },
+    {
+      "path": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/HANG_TUAH/hang_tuah_cast.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch04_AnimationPoses.zip",
+      "source_entry": "DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/HANG_TUAH/hang_tuah_cast.png",
+      "bytes": 490513,
+      "sha256": "957b55dddb4c1d15a39215bed7de5581d6b9ceba5835ef96050e9e2305636b91"
+    },
+    {
+      "path": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/HANG_TUAH/hang_tuah_hurt.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch04_AnimationPoses.zip",
+      "source_entry": "DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/HANG_TUAH/hang_tuah_hurt.png",
+      "bytes": 321511,
+      "sha256": "5163fa22ac8d2c8747e8c9433eeebb3e37aa4688e5bab0efb3ea5c1f329a9e6d"
+    },
+    {
+      "path": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/HANG_TUAH/hang_tuah_idle.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch04_AnimationPoses.zip",
+      "source_entry": "DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/HANG_TUAH/hang_tuah_idle.png",
+      "bytes": 316459,
+      "sha256": "6d895b7c3964f7a6ba3f90583b177f929faf720857d5300b3a47ed7f23651748"
+    },
+    {
+      "path": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/HANG_TUAH/hang_tuah_ready.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch04_AnimationPoses.zip",
+      "source_entry": "DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/HANG_TUAH/hang_tuah_ready.png",
+      "bytes": 378739,
+      "sha256": "59a945d550c39d94c066fcdce5657e4015483d5e413ad491ac86d5620f05349e"
+    },
+    {
+      "path": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/HANG_TUAH/hang_tuah_victory.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch04_AnimationPoses.zip",
+      "source_entry": "DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/HANG_TUAH/hang_tuah_victory.png",
+      "bytes": 413592,
+      "sha256": "3b452010d171a0bd2c4bdc88dba96699df09abc80fba3ae4fde3d97646c9fc84"
+    },
+    {
+      "path": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/MAHSURI/mahsuri_attack.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch04_AnimationPoses.zip",
+      "source_entry": "DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/MAHSURI/mahsuri_attack.png",
+      "bytes": 469753,
+      "sha256": "178b7dc9486f3a5d96f3152129fa171d2d76f322e851a8e23638116ab0349edd"
+    },
+    {
+      "path": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/MAHSURI/mahsuri_cast.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch04_AnimationPoses.zip",
+      "source_entry": "DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/MAHSURI/mahsuri_cast.png",
+      "bytes": 480526,
+      "sha256": "da7c7090852dc8688f45d4f5dbe02976e822acbdeb7ab1d51c9cc1074d7406f8"
+    },
+    {
+      "path": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/MAHSURI/mahsuri_hurt.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch04_AnimationPoses.zip",
+      "source_entry": "DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/MAHSURI/mahsuri_hurt.png",
+      "bytes": 310701,
+      "sha256": "4af005bdf7638bb54ff84e01e97cf1d15c2029c304a12e4154d444ae12beae7f"
+    },
+    {
+      "path": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/MAHSURI/mahsuri_idle.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch04_AnimationPoses.zip",
+      "source_entry": "DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/MAHSURI/mahsuri_idle.png",
+      "bytes": 354503,
+      "sha256": "8f65f6a3db89c300f6a4c3a313c0ddb392433c31a855e89668908c06751ec913"
+    },
+    {
+      "path": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/MAHSURI/mahsuri_ready.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch04_AnimationPoses.zip",
+      "source_entry": "DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/MAHSURI/mahsuri_ready.png",
+      "bytes": 397881,
+      "sha256": "b6c2e895a09fafb248685deca87cb521a510ff17d1c910868e5824a29266ff58"
+    },
+    {
+      "path": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/MAHSURI/mahsuri_victory.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch04_AnimationPoses.zip",
+      "source_entry": "DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/MAHSURI/mahsuri_victory.png",
+      "bytes": 420903,
+      "sha256": "8ed0cccd9e54edfe8de54d384644a9abb7f431080250dd24eef647a190d4a07d"
+    },
+    {
+      "path": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/NAGA_CHINI/naga_chini_attack.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch04_AnimationPoses.zip",
+      "source_entry": "DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/NAGA_CHINI/naga_chini_attack.png",
+      "bytes": 821441,
+      "sha256": "2beaa59d6dfdf0dc13b1e325f10b8846299c5d24b6bf5d54986adca492de40c6"
+    },
+    {
+      "path": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/NAGA_CHINI/naga_chini_defeat.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch04_AnimationPoses.zip",
+      "source_entry": "DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/NAGA_CHINI/naga_chini_defeat.png",
+      "bytes": 253758,
+      "sha256": "bdbb51e50a28f033f9c6694f5a3f3862c34c67e40047befcdf2d1e58271a8100"
+    },
+    {
+      "path": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/NAGA_CHINI/naga_chini_hurt.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch04_AnimationPoses.zip",
+      "source_entry": "DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/NAGA_CHINI/naga_chini_hurt.png",
+      "bytes": 396414,
+      "sha256": "d7ae580b670b999899506003d62c3219504286119cace845bec6d923c53861d2"
+    },
+    {
+      "path": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/NAGA_CHINI/naga_chini_idle.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch04_AnimationPoses.zip",
+      "source_entry": "DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/NAGA_CHINI/naga_chini_idle.png",
+      "bytes": 738934,
+      "sha256": "0e4ccbab7c7a11f4b45f8834f1b15fcc25ebe14df43b63b212930f794e87a9e7"
+    },
+    {
+      "path": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/NAGA_CHINI/naga_chini_special.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch04_AnimationPoses.zip",
+      "source_entry": "DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/NAGA_CHINI/naga_chini_special.png",
+      "bytes": 485580,
+      "sha256": "9570dba0f3aab3873f396f7ee25f129bad7da0f587fe0ee693b01927626e1561"
+    },
+    {
+      "path": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/03_BATTLE_COMPOSITION_REFERENCE/Tasik_Chini_Quiz_Battle_Concept.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch04_AnimationPoses.zip",
+      "source_entry": "DIDIK_JRPG_Assets_Batch04_HD_Animation/03_BATTLE_COMPOSITION_REFERENCE/Tasik_Chini_Quiz_Battle_Concept.png",
+      "bytes": 3666633,
+      "sha256": "395e42740ccf686f84ec389a6192a25aac695ce2cf72473ed1f57a3b7c5645cb"
+    },
+    {
+      "path": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/04_PREVIEW/Batch04_Contact_Sheet.jpg",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch04_AnimationPoses.zip",
+      "source_entry": "DIDIK_JRPG_Assets_Batch04_HD_Animation/04_PREVIEW/Batch04_Contact_Sheet.jpg",
+      "bytes": 504028,
+      "sha256": "d5c5e53d47e45258b5f5f8de80ed3b95aa1a3faa8dc5a6874c6428fe5892f813"
+    },
+    {
+      "path": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/05_DEVELOPER_GUIDE/CODEX_CLAUDE_INTEGRATION.md",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch04_AnimationPoses.zip",
+      "source_entry": "DIDIK_JRPG_Assets_Batch04_HD_Animation/05_DEVELOPER_GUIDE/CODEX_CLAUDE_INTEGRATION.md",
+      "bytes": 2226,
+      "sha256": "214d246ca1c71b2f8e343a8d3d8efac51796f98405852f4e7292e4e9004d5428"
+    },
+    {
+      "path": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/05_DEVELOPER_GUIDE/poses_inventory.csv",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch04_AnimationPoses.zip",
+      "source_entry": "DIDIK_JRPG_Assets_Batch04_HD_Animation/05_DEVELOPER_GUIDE/poses_inventory.csv",
+      "bytes": 3576,
+      "sha256": "e5b7af2196b22eceede2a0f89ded2cb5bb4a6616564ca18ca8b74979e4c4de82"
+    },
+    {
+      "path": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/05_DEVELOPER_GUIDE/poses_manifest.json",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch04_AnimationPoses.zip",
+      "source_entry": "DIDIK_JRPG_Assets_Batch04_HD_Animation/05_DEVELOPER_GUIDE/poses_manifest.json",
+      "bytes": 7107,
+      "sha256": "2d1818d71799798261ed14ab029760442e7740e8991c9b110fbbc6e2fb66cc80"
+    },
+    {
+      "path": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/README_FIRST.md",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch04_AnimationPoses.zip",
+      "source_entry": "DIDIK_JRPG_Assets_Batch04_HD_Animation/README_FIRST.md",
+      "bytes": 2513,
+      "sha256": "36a529116cc9da5e984742d763852ad79e467ab0567d3d2c08fb1f8333cf206b"
+    },
+    {
+      "path": "Batch05/DIDIK_JRPG_Batch05_HD_ElementalCombat/01_ELEMENTAL_FX_TRANSPARENT/FX_EARTHSHATTER_HD.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch05_ElementalCombat.zip",
+      "source_entry": "DIDIK_JRPG_Batch05_HD_ElementalCombat/01_ELEMENTAL_FX_TRANSPARENT/FX_EARTHSHATTER_HD.png",
+      "bytes": 2461942,
+      "sha256": "2252d2ef5cc0ff874830c6aea22207de34a1cfb96ce6fa47da58271552b8f6af"
+    },
+    {
+      "path": "Batch05/DIDIK_JRPG_Batch05_HD_ElementalCombat/01_ELEMENTAL_FX_TRANSPARENT/FX_FIRE_CRESCENT_SLASH_HD.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch05_ElementalCombat.zip",
+      "source_entry": "DIDIK_JRPG_Batch05_HD_ElementalCombat/01_ELEMENTAL_FX_TRANSPARENT/FX_FIRE_CRESCENT_SLASH_HD.png",
+      "bytes": 2209214,
+      "sha256": "631f8df21042a8d1eed9141fa3f20ae97f894d7d9ce7c145987b07627d9e3b10"
+    },
+    {
+      "path": "Batch05/DIDIK_JRPG_Batch05_HD_ElementalCombat/01_ELEMENTAL_FX_TRANSPARENT/FX_LIGHTNING_THUNDERBURST_HD.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch05_ElementalCombat.zip",
+      "source_entry": "DIDIK_JRPG_Batch05_HD_ElementalCombat/01_ELEMENTAL_FX_TRANSPARENT/FX_LIGHTNING_THUNDERBURST_HD.png",
+      "bytes": 2262949,
+      "sha256": "3b93b4d01acc15be91484db4a3961d5c8fb6d04ea82aa6180137b6b80f674ed9"
+    },
+    {
+      "path": "Batch05/DIDIK_JRPG_Batch05_HD_ElementalCombat/01_ELEMENTAL_FX_TRANSPARENT/FX_WATER_CRESCENT_TIDE_HD.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch05_ElementalCombat.zip",
+      "source_entry": "DIDIK_JRPG_Batch05_HD_ElementalCombat/01_ELEMENTAL_FX_TRANSPARENT/FX_WATER_CRESCENT_TIDE_HD.png",
+      "bytes": 2125081,
+      "sha256": "49a0906444a00cce18a6e4462fee9cb9cb2913dbcafcd742edf2b7a42d0a6462"
+    },
+    {
+      "path": "Batch05/DIDIK_JRPG_Batch05_HD_ElementalCombat/01_ELEMENTAL_FX_TRANSPARENT/FX_WIND_VORTEX_HD.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch05_ElementalCombat.zip",
+      "source_entry": "DIDIK_JRPG_Batch05_HD_ElementalCombat/01_ELEMENTAL_FX_TRANSPARENT/FX_WIND_VORTEX_HD.png",
+      "bytes": 2170114,
+      "sha256": "21bbc54905828e0b2969732c20ef62e21333da615dbf9117ff01f30be9cf02af"
+    },
+    {
+      "path": "Batch05/DIDIK_JRPG_Batch05_HD_ElementalCombat/02_BATTLE_SCENE_REFERENCES/PREVIEW_HANG_TUAH_VS_NAGA_CHINI_HD.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch05_ElementalCombat.zip",
+      "source_entry": "DIDIK_JRPG_Batch05_HD_ElementalCombat/02_BATTLE_SCENE_REFERENCES/PREVIEW_HANG_TUAH_VS_NAGA_CHINI_HD.png",
+      "bytes": 3400373,
+      "sha256": "7280cd6596d2bf96de672705c2d08d105cfe7db0bbb536b696519dad74e636c3"
+    },
+    {
+      "path": "Batch05/DIDIK_JRPG_Batch05_HD_ElementalCombat/02_BATTLE_SCENE_REFERENCES/PREVIEW_MAHSURI_VS_NAGA_CHINI_HD.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch05_ElementalCombat.zip",
+      "source_entry": "DIDIK_JRPG_Batch05_HD_ElementalCombat/02_BATTLE_SCENE_REFERENCES/PREVIEW_MAHSURI_VS_NAGA_CHINI_HD.png",
+      "bytes": 3506293,
+      "sha256": "45512445ef8e811023503bde0997b1719a67e536fedfffbc257ea5c36fdd5d3e"
+    },
+    {
+      "path": "Batch05/DIDIK_JRPG_Batch05_HD_ElementalCombat/03_PREVIEWS/contact_sheet.jpg",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch05_ElementalCombat.zip",
+      "source_entry": "DIDIK_JRPG_Batch05_HD_ElementalCombat/03_PREVIEWS/contact_sheet.jpg",
+      "bytes": 1154673,
+      "sha256": "06c46774ed76557f04f0a8f55a259c033857cac3638cdc362eaffc825c5774c6"
+    },
+    {
+      "path": "Batch05/DIDIK_JRPG_Batch05_HD_ElementalCombat/04_DOCS/CODEX_CLAUDE_INTEGRATION.md",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch05_ElementalCombat.zip",
+      "source_entry": "DIDIK_JRPG_Batch05_HD_ElementalCombat/04_DOCS/CODEX_CLAUDE_INTEGRATION.md",
+      "bytes": 1944,
+      "sha256": "820e2de09897d926bda42e648a0960ead88d334f5ae90facb94e27a54bb725cd"
+    },
+    {
+      "path": "Batch05/DIDIK_JRPG_Batch05_HD_ElementalCombat/04_DOCS/asset_manifest.csv",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch05_ElementalCombat.zip",
+      "source_entry": "DIDIK_JRPG_Batch05_HD_ElementalCombat/04_DOCS/asset_manifest.csv",
+      "bytes": 2087,
+      "sha256": "f86ef50e37a2d4682be0de27238ec3f875363188c9af94fcc9da70f7227f934f"
+    },
+    {
+      "path": "Batch05/DIDIK_JRPG_Batch05_HD_ElementalCombat/04_DOCS/asset_manifest.json",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch05_ElementalCombat.zip",
+      "source_entry": "DIDIK_JRPG_Batch05_HD_ElementalCombat/04_DOCS/asset_manifest.json",
+      "bytes": 3680,
+      "sha256": "9566f167441b05cd68187186f47a413645b16d518c33f90934d5a2f7227dddda"
+    },
+    {
+      "path": "Batch05/DIDIK_JRPG_Batch05_HD_ElementalCombat/README_FIRST.md",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_HD_Assets_Batch05_ElementalCombat.zip",
+      "source_entry": "DIDIK_JRPG_Batch05_HD_ElementalCombat/README_FIRST.md",
+      "bytes": 2844,
+      "sha256": "0e4f57354fb601dc8dd36ed4ecc9b1c012bc215cb1a80b6ba63f86e4dcf16591"
+    },
+    {
+      "path": "Batch06/Batch06_NagaChini_Counterattack_HD/01_SOURCE_POSES_FX/FX_WATER_CRESCENT_TIDE_HD.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch06_HD.zip",
+      "source_entry": "Batch06_NagaChini_Counterattack_HD/01_SOURCE_POSES_FX/FX_WATER_CRESCENT_TIDE_HD.png",
+      "bytes": 2125081,
+      "sha256": "49a0906444a00cce18a6e4462fee9cb9cb2913dbcafcd742edf2b7a42d0a6462"
+    },
+    {
+      "path": "Batch06/Batch06_NagaChini_Counterattack_HD/01_SOURCE_POSES_FX/hang_tuah_hurt.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch06_HD.zip",
+      "source_entry": "Batch06_NagaChini_Counterattack_HD/01_SOURCE_POSES_FX/hang_tuah_hurt.png",
+      "bytes": 321511,
+      "sha256": "5163fa22ac8d2c8747e8c9433eeebb3e37aa4688e5bab0efb3ea5c1f329a9e6d"
+    },
+    {
+      "path": "Batch06/Batch06_NagaChini_Counterattack_HD/01_SOURCE_POSES_FX/naga_chini_attack.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch06_HD.zip",
+      "source_entry": "Batch06_NagaChini_Counterattack_HD/01_SOURCE_POSES_FX/naga_chini_attack.png",
+      "bytes": 821441,
+      "sha256": "2beaa59d6dfdf0dc13b1e325f10b8846299c5d24b6bf5d54986adca492de40c6"
+    },
+    {
+      "path": "Batch06/Batch06_NagaChini_Counterattack_HD/01_SOURCE_POSES_FX/naga_chini_defeat.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch06_HD.zip",
+      "source_entry": "Batch06_NagaChini_Counterattack_HD/01_SOURCE_POSES_FX/naga_chini_defeat.png",
+      "bytes": 253758,
+      "sha256": "bdbb51e50a28f033f9c6694f5a3f3862c34c67e40047befcdf2d1e58271a8100"
+    },
+    {
+      "path": "Batch06/Batch06_NagaChini_Counterattack_HD/01_SOURCE_POSES_FX/naga_chini_hurt.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch06_HD.zip",
+      "source_entry": "Batch06_NagaChini_Counterattack_HD/01_SOURCE_POSES_FX/naga_chini_hurt.png",
+      "bytes": 396414,
+      "sha256": "d7ae580b670b999899506003d62c3219504286119cace845bec6d923c53861d2"
+    },
+    {
+      "path": "Batch06/Batch06_NagaChini_Counterattack_HD/01_SOURCE_POSES_FX/naga_chini_idle.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch06_HD.zip",
+      "source_entry": "Batch06_NagaChini_Counterattack_HD/01_SOURCE_POSES_FX/naga_chini_idle.png",
+      "bytes": 738934,
+      "sha256": "0e4ccbab7c7a11f4b45f8834f1b15fcc25ebe14df43b63b212930f794e87a9e7"
+    },
+    {
+      "path": "Batch06/Batch06_NagaChini_Counterattack_HD/01_SOURCE_POSES_FX/naga_chini_special.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch06_HD.zip",
+      "source_entry": "Batch06_NagaChini_Counterattack_HD/01_SOURCE_POSES_FX/naga_chini_special.png",
+      "bytes": 485580,
+      "sha256": "9570dba0f3aab3873f396f7ee25f129bad7da0f587fe0ee693b01927626e1561"
+    },
+    {
+      "path": "Batch06/Batch06_NagaChini_Counterattack_HD/02_BATTLE_BACKGROUNDS/tasik_chini_battle_scene_background_FHD.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch06_HD.zip",
+      "source_entry": "Batch06_NagaChini_Counterattack_HD/02_BATTLE_BACKGROUNDS/tasik_chini_battle_scene_background_FHD.png",
+      "bytes": 4739473,
+      "sha256": "b660744851f9eac3b295916cc1125d2403bc4ef7b47df18c3b5ca558878310d2"
+    },
+    {
+      "path": "Batch06/Batch06_NagaChini_Counterattack_HD/03_CONCEPT_COMPOSITIONS/boss_defeat_state_FHD_upscaled.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch06_HD.zip",
+      "source_entry": "Batch06_NagaChini_Counterattack_HD/03_CONCEPT_COMPOSITIONS/boss_defeat_state_FHD_upscaled.png",
+      "bytes": 4192190,
+      "sha256": "dee307fda57dd3168d0894dc51d24f046b4de2f26157ec5435b9470ca9071b43"
+    },
+    {
+      "path": "Batch06/Batch06_NagaChini_Counterattack_HD/03_CONCEPT_COMPOSITIONS/boss_hurt_state_FHD_upscaled.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch06_HD.zip",
+      "source_entry": "Batch06_NagaChini_Counterattack_HD/03_CONCEPT_COMPOSITIONS/boss_hurt_state_FHD_upscaled.png",
+      "bytes": 4173341,
+      "sha256": "e2e7a29ea40e24e7543924d5853eaedb5e135bcc93d7e9fc74fde12990d4aed1"
+    },
+    {
+      "path": "Batch06/Batch06_NagaChini_Counterattack_HD/03_CONCEPT_COMPOSITIONS/boss_water_counterattack_FHD_upscaled.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch06_HD.zip",
+      "source_entry": "Batch06_NagaChini_Counterattack_HD/03_CONCEPT_COMPOSITIONS/boss_water_counterattack_FHD_upscaled.png",
+      "bytes": 4228106,
+      "sha256": "841c71df0012f57fa54561857ef7099f6216be805252907c28c8b59c6378e328"
+    },
+    {
+      "path": "Batch06/Batch06_NagaChini_Counterattack_HD/03_CONCEPT_COMPOSITIONS/boss_water_special_FHD_upscaled.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch06_HD.zip",
+      "source_entry": "Batch06_NagaChini_Counterattack_HD/03_CONCEPT_COMPOSITIONS/boss_water_special_FHD_upscaled.png",
+      "bytes": 4175432,
+      "sha256": "528d2cdd27514199c5cb7246b5025892076370995330adb87b920572171bfc7a"
+    },
+    {
+      "path": "Batch06/Batch06_NagaChini_Counterattack_HD/04_REUSABLE_UI/quiz_battle_frame_TRANSPARENT_1920x1080.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch06_HD.zip",
+      "source_entry": "Batch06_NagaChini_Counterattack_HD/04_REUSABLE_UI/quiz_battle_frame_TRANSPARENT_1920x1080.png",
+      "bytes": 10488,
+      "sha256": "1377a3be4318fbc1c3fbba68602c374aa8cc056d5ce7e6641b10a958086f0e18"
+    },
+    {
+      "path": "Batch06/Batch06_NagaChini_Counterattack_HD/05_PREVIEW_VIDEO/naga_chini_counterattack_animatic_960x540.mp4",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch06_HD.zip",
+      "source_entry": "Batch06_NagaChini_Counterattack_HD/05_PREVIEW_VIDEO/naga_chini_counterattack_animatic_960x540.mp4",
+      "bytes": 699677,
+      "sha256": "2cb81f80f80e2c64d19a19321e2847bbb908816a3e4037a0671dec80647dabac"
+    },
+    {
+      "path": "Batch06/Batch06_NagaChini_Counterattack_HD/06_CONTACT_SHEET/batch06_contact_sheet.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch06_HD.zip",
+      "source_entry": "Batch06_NagaChini_Counterattack_HD/06_CONTACT_SHEET/batch06_contact_sheet.png",
+      "bytes": 1066912,
+      "sha256": "35811458f17ab8e1713622f6e00d94f9544c71e93d64a02249547c27aeaf3fcc"
+    },
+    {
+      "path": "Batch06/Batch06_NagaChini_Counterattack_HD/README_FIRST.md",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch06_HD.zip",
+      "source_entry": "Batch06_NagaChini_Counterattack_HD/README_FIRST.md",
+      "bytes": 1326,
+      "sha256": "f01db84b1dfd13a7ca2576bf072c9af81e1f581b14b2a7e217d694974140870f"
+    },
+    {
+      "path": "Batch06/Batch06_NagaChini_Counterattack_HD/asset_manifest.json",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch06_HD.zip",
+      "source_entry": "Batch06_NagaChini_Counterattack_HD/asset_manifest.json",
+      "bytes": 3296,
+      "sha256": "2e75eac305a0537074bf975cba1c426456b70359b9ef9145abba10483aa9052a"
+    },
+    {
+      "path": "Batch07/Batch07_TasikChini_Story_Cutscenes_HD/01_SOURCE_ART/02_tasik_chini_battle_background_FHD_1920x1080.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch07_HD.zip",
+      "source_entry": "Batch07_TasikChini_Story_Cutscenes_HD/01_SOURCE_ART/02_tasik_chini_battle_background_FHD_1920x1080.png",
+      "bytes": 4297930,
+      "sha256": "8a1f5f3ca50ce0ad50b200dfc94ebeeb5b1e365007312c5b0dcc32c547ba95e4"
+    },
+    {
+      "path": "Batch07/Batch07_TasikChini_Story_Cutscenes_HD/01_SOURCE_ART/hang_tuah_idle.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch07_HD.zip",
+      "source_entry": "Batch07_TasikChini_Story_Cutscenes_HD/01_SOURCE_ART/hang_tuah_idle.png",
+      "bytes": 316459,
+      "sha256": "6d895b7c3964f7a6ba3f90583b177f929faf720857d5300b3a47ed7f23651748"
+    },
+    {
+      "path": "Batch07/Batch07_TasikChini_Story_Cutscenes_HD/01_SOURCE_ART/mahsuri_idle.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch07_HD.zip",
+      "source_entry": "Batch07_TasikChini_Story_Cutscenes_HD/01_SOURCE_ART/mahsuri_idle.png",
+      "bytes": 354503,
+      "sha256": "8f65f6a3db89c300f6a4c3a313c0ddb392433c31a855e89668908c06751ec913"
+    },
+    {
+      "path": "Batch07/Batch07_TasikChini_Story_Cutscenes_HD/01_SOURCE_ART/naga_chini_idle.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch07_HD.zip",
+      "source_entry": "Batch07_TasikChini_Story_Cutscenes_HD/01_SOURCE_ART/naga_chini_idle.png",
+      "bytes": 738934,
+      "sha256": "0e4ccbab7c7a11f4b45f8834f1b15fcc25ebe14df43b63b212930f794e87a9e7"
+    },
+    {
+      "path": "Batch07/Batch07_TasikChini_Story_Cutscenes_HD/02_STORY_FRAMES/01_world_opening_FHD.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch07_HD.zip",
+      "source_entry": "Batch07_TasikChini_Story_Cutscenes_HD/02_STORY_FRAMES/01_world_opening_FHD.png",
+      "bytes": 4324933,
+      "sha256": "41b9079c02dbddfbe2054a82816484bd2138a6bd3eb2fa62354714d2103c5e06"
+    },
+    {
+      "path": "Batch07/Batch07_TasikChini_Story_Cutscenes_HD/02_STORY_FRAMES/02_journey_transition_FHD.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch07_HD.zip",
+      "source_entry": "Batch07_TasikChini_Story_Cutscenes_HD/02_STORY_FRAMES/02_journey_transition_FHD.png",
+      "bytes": 4327688,
+      "sha256": "a4e63e25809f8954632bb59b2bf616ee55aa697c3193885474bb2d1ba75049c3"
+    },
+    {
+      "path": "Batch07/Batch07_TasikChini_Story_Cutscenes_HD/02_STORY_FRAMES/03_enemy_encounter_FHD.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch07_HD.zip",
+      "source_entry": "Batch07_TasikChini_Story_Cutscenes_HD/02_STORY_FRAMES/03_enemy_encounter_FHD.png",
+      "bytes": 4324034,
+      "sha256": "e99a9ca8cae57953fdc8454d6ceb8d9ba051c8489527f9e2faa7d9bd314458bb"
+    },
+    {
+      "path": "Batch07/Batch07_TasikChini_Story_Cutscenes_HD/02_STORY_FRAMES/04_boss_reveal_FHD.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch07_HD.zip",
+      "source_entry": "Batch07_TasikChini_Story_Cutscenes_HD/02_STORY_FRAMES/04_boss_reveal_FHD.png",
+      "bytes": 4376512,
+      "sha256": "db3ac8e92ce7e7fecef071c621b10e0e056efe8fcdc3bdddc127db78f058995a"
+    },
+    {
+      "path": "Batch07/Batch07_TasikChini_Story_Cutscenes_HD/02_STORY_FRAMES/05_world_clear_FHD.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch07_HD.zip",
+      "source_entry": "Batch07_TasikChini_Story_Cutscenes_HD/02_STORY_FRAMES/05_world_clear_FHD.png",
+      "bytes": 4364597,
+      "sha256": "18d417def39c413a50c6c2929e13eb2984678787bcce9445d80185d205f4eb08"
+    },
+    {
+      "path": "Batch07/Batch07_TasikChini_Story_Cutscenes_HD/03_PREVIEW_VIDEO/tasik_chini_cutscene_animatic.mp4",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch07_HD.zip",
+      "source_entry": "Batch07_TasikChini_Story_Cutscenes_HD/03_PREVIEW_VIDEO/tasik_chini_cutscene_animatic.mp4",
+      "bytes": 1381466,
+      "sha256": "ef2633af2e508b3d19f4d6e03706f0dc58e2641efb6da02f5c59135e731c3186"
+    },
+    {
+      "path": "Batch07/Batch07_TasikChini_Story_Cutscenes_HD/04_STORY_DATA/tasik_chini_story_nodes.json",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch07_HD.zip",
+      "source_entry": "Batch07_TasikChini_Story_Cutscenes_HD/04_STORY_DATA/tasik_chini_story_nodes.json",
+      "bytes": 734,
+      "sha256": "c4bba69c2eee24e65eff50576c1726f0965d072f201d15966948e5705eae6699"
+    },
+    {
+      "path": "Batch07/Batch07_TasikChini_Story_Cutscenes_HD/05_CONTACT_SHEET/batch07_contact_sheet.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch07_HD.zip",
+      "source_entry": "Batch07_TasikChini_Story_Cutscenes_HD/05_CONTACT_SHEET/batch07_contact_sheet.png",
+      "bytes": 775652,
+      "sha256": "d36478040a36588a20beb3c3f8ac0779a4e23b29c278c10c396dc370c23bb20f"
+    },
+    {
+      "path": "Batch07/Batch07_TasikChini_Story_Cutscenes_HD/README_FIRST.md",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch07_HD.zip",
+      "source_entry": "Batch07_TasikChini_Story_Cutscenes_HD/README_FIRST.md",
+      "bytes": 1353,
+      "sha256": "08cdc0f232b22770c418801c0003f4bc3e2e555cac8dea7a673d9b9a23962a1a"
+    },
+    {
+      "path": "Batch07/Batch07_TasikChini_Story_Cutscenes_HD/asset_manifest.json",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch07_HD.zip",
+      "source_entry": "Batch07_TasikChini_Story_Cutscenes_HD/asset_manifest.json",
+      "bytes": 2548,
+      "sha256": "51a032b04dfa2081a84b06668de54bbd82ce3f729909dd4728c9d266b68580b8"
+    },
+    {
+      "path": "Batch08/Batch08_BatangLupar_World_HD/01_REFERENCE_ART/batang_lupar_boss_closeup_REFERENCE_NOT_SPRITE.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch08_HD.zip",
+      "source_entry": "Batch08_BatangLupar_World_HD/01_REFERENCE_ART/batang_lupar_boss_closeup_REFERENCE_NOT_SPRITE.png",
+      "bytes": 967417,
+      "sha256": "260419ca3e79410412d6101b6ac6e50ca0e2ccdadb4b3ae7913bd99ab1e5cac0"
+    },
+    {
+      "path": "Batch08/Batch08_BatangLupar_World_HD/01_REFERENCE_ART/batang_lupar_source_concept_1536x1024.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch08_HD.zip",
+      "source_entry": "Batch08_BatangLupar_World_HD/01_REFERENCE_ART/batang_lupar_source_concept_1536x1024.png",
+      "bytes": 3628400,
+      "sha256": "c480b01790061055f08ae6bc0fb331f1f31cce03e8e8564bf027e998e2288fbd"
+    },
+    {
+      "path": "Batch08/Batch08_BatangLupar_World_HD/02_STORY_COMPOSITIONS/batang_lupar_boss_reveal_FHD.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch08_HD.zip",
+      "source_entry": "Batch08_BatangLupar_World_HD/02_STORY_COMPOSITIONS/batang_lupar_boss_reveal_FHD.png",
+      "bytes": 4220599,
+      "sha256": "065257a05650ecf0ddc8f0757d4e4d60e2fb702245c29653d1a32ebc42b19045"
+    },
+    {
+      "path": "Batch08/Batch08_BatangLupar_World_HD/02_STORY_COMPOSITIONS/batang_lupar_chapter_intro_FHD.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch08_HD.zip",
+      "source_entry": "Batch08_BatangLupar_World_HD/02_STORY_COMPOSITIONS/batang_lupar_chapter_intro_FHD.png",
+      "bytes": 4219809,
+      "sha256": "17fb2de373aa9b8c2908bea6228e19071890b5d13f22ab307b19d351013f4339"
+    },
+    {
+      "path": "Batch08/Batch08_BatangLupar_World_HD/02_STORY_COMPOSITIONS/batang_lupar_world_scene_FHD_resized.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch08_HD.zip",
+      "source_entry": "Batch08_BatangLupar_World_HD/02_STORY_COMPOSITIONS/batang_lupar_world_scene_FHD_resized.png",
+      "bytes": 4712058,
+      "sha256": "279d27e2e064b595a9a19c5d9f28efcbc858d66f5daabf230f9303f006a99288"
+    },
+    {
+      "path": "Batch08/Batch08_BatangLupar_World_HD/03_REUSABLE_UI/transparent_JRPG_HUD_1920x1080.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch08_HD.zip",
+      "source_entry": "Batch08_BatangLupar_World_HD/03_REUSABLE_UI/transparent_JRPG_HUD_1920x1080.png",
+      "bytes": 10488,
+      "sha256": "1377a3be4318fbc1c3fbba68602c374aa8cc056d5ce7e6641b10a958086f0e18"
+    },
+    {
+      "path": "Batch08/Batch08_BatangLupar_World_HD/03_REUSABLE_UI/world_2_emblem_512.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch08_HD.zip",
+      "source_entry": "Batch08_BatangLupar_World_HD/03_REUSABLE_UI/world_2_emblem_512.png",
+      "bytes": 6443,
+      "sha256": "917d183bc4022f9881d4d041032ec8f79835154e8525fdd399adf39a2748f16b"
+    },
+    {
+      "path": "Batch08/Batch08_BatangLupar_World_HD/04_PREVIEW_VIDEO/batang_lupar_world_reveal_animatic.mp4",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch08_HD.zip",
+      "source_entry": "Batch08_BatangLupar_World_HD/04_PREVIEW_VIDEO/batang_lupar_world_reveal_animatic.mp4",
+      "bytes": 468049,
+      "sha256": "97943f6b97193d37f3c9b2baed86ee35b5bde207f4aed8b78edb4bae9c194ba8"
+    },
+    {
+      "path": "Batch08/Batch08_BatangLupar_World_HD/05_GAME_METADATA/world_design.json",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch08_HD.zip",
+      "source_entry": "Batch08_BatangLupar_World_HD/05_GAME_METADATA/world_design.json",
+      "bytes": 585,
+      "sha256": "2db5b0a41fcc6562c1e410eba2e9dcdaac26da7a3af68629c13b179feb6b1994"
+    },
+    {
+      "path": "Batch08/Batch08_BatangLupar_World_HD/06_CONTACT_SHEET/batch8_contact_sheet.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch08_HD.zip",
+      "source_entry": "Batch08_BatangLupar_World_HD/06_CONTACT_SHEET/batch8_contact_sheet.png",
+      "bytes": 1001076,
+      "sha256": "da06292bec5d1148f48a82bfd894da9a2d846adf64ae893d744e3f747e4ec625"
+    },
+    {
+      "path": "Batch08/Batch08_BatangLupar_World_HD/README_FIRST.md",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch08_HD.zip",
+      "source_entry": "Batch08_BatangLupar_World_HD/README_FIRST.md",
+      "bytes": 1447,
+      "sha256": "d30a8f61084b55b394152e2d91c4521c4af71aab17a77626ab9d9e5481849889"
+    },
+    {
+      "path": "Batch08/Batch08_BatangLupar_World_HD/asset_manifest.json",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch08_HD.zip",
+      "source_entry": "Batch08_BatangLupar_World_HD/asset_manifest.json",
+      "bytes": 2347,
+      "sha256": "0a25bc07d98f396b20442cf573a574b309b6ac559a2213f1cd138a5675a8737b"
+    },
+    {
+      "path": "Batch09/Batch09_HutanLarut_World_HD/01_REFERENCE_ART/hutan_larut_boss_closeup_REFERENCE_NOT_SPRITE.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch09_HD.zip",
+      "source_entry": "Batch09_HutanLarut_World_HD/01_REFERENCE_ART/hutan_larut_boss_closeup_REFERENCE_NOT_SPRITE.png",
+      "bytes": 942680,
+      "sha256": "dc58b11cf36d05ca9a73c9435e385f3e8d41619f4440a4b396c004de5b88bd18"
+    },
+    {
+      "path": "Batch09/Batch09_HutanLarut_World_HD/01_REFERENCE_ART/hutan_larut_source_concept_1536x1024.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch09_HD.zip",
+      "source_entry": "Batch09_HutanLarut_World_HD/01_REFERENCE_ART/hutan_larut_source_concept_1536x1024.png",
+      "bytes": 3468914,
+      "sha256": "0e1fc9a1df0e0a6eea28835d53f8a68d17c5bf0b35e7f1469fb84ebcee3d03f4"
+    },
+    {
+      "path": "Batch09/Batch09_HutanLarut_World_HD/02_STORY_COMPOSITIONS/hutan_larut_boss_reveal_FHD.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch09_HD.zip",
+      "source_entry": "Batch09_HutanLarut_World_HD/02_STORY_COMPOSITIONS/hutan_larut_boss_reveal_FHD.png",
+      "bytes": 4100632,
+      "sha256": "a8d9f38817a75bae95b381eb9a7a91888805fbf327327221c8a9ae8389e420cb"
+    },
+    {
+      "path": "Batch09/Batch09_HutanLarut_World_HD/02_STORY_COMPOSITIONS/hutan_larut_chapter_intro_FHD.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch09_HD.zip",
+      "source_entry": "Batch09_HutanLarut_World_HD/02_STORY_COMPOSITIONS/hutan_larut_chapter_intro_FHD.png",
+      "bytes": 4097385,
+      "sha256": "490a65618f42ef48cb55c0a3f9e6d06ce72f76697a31a49a97587894b58010f9"
+    },
+    {
+      "path": "Batch09/Batch09_HutanLarut_World_HD/02_STORY_COMPOSITIONS/hutan_larut_world_scene_FHD_resized.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch09_HD.zip",
+      "source_entry": "Batch09_HutanLarut_World_HD/02_STORY_COMPOSITIONS/hutan_larut_world_scene_FHD_resized.png",
+      "bytes": 4565033,
+      "sha256": "88d9ad1f43d49048baa0573f4a227c61680c52e20e3eeb70d2120702d606f8d7"
+    },
+    {
+      "path": "Batch09/Batch09_HutanLarut_World_HD/03_REUSABLE_UI/transparent_JRPG_HUD_1920x1080.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch09_HD.zip",
+      "source_entry": "Batch09_HutanLarut_World_HD/03_REUSABLE_UI/transparent_JRPG_HUD_1920x1080.png",
+      "bytes": 10488,
+      "sha256": "1377a3be4318fbc1c3fbba68602c374aa8cc056d5ce7e6641b10a958086f0e18"
+    },
+    {
+      "path": "Batch09/Batch09_HutanLarut_World_HD/03_REUSABLE_UI/world_3_emblem_512.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch09_HD.zip",
+      "source_entry": "Batch09_HutanLarut_World_HD/03_REUSABLE_UI/world_3_emblem_512.png",
+      "bytes": 6415,
+      "sha256": "e8a5773f47d2ab439f870c91bb1dc2d70ef10389716b9ac7c0c995bf4e5a7351"
+    },
+    {
+      "path": "Batch09/Batch09_HutanLarut_World_HD/04_PREVIEW_VIDEO/hutan_larut_world_reveal_animatic.mp4",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch09_HD.zip",
+      "source_entry": "Batch09_HutanLarut_World_HD/04_PREVIEW_VIDEO/hutan_larut_world_reveal_animatic.mp4",
+      "bytes": 395740,
+      "sha256": "3a68212e3624700831d85512e51a2b04b27161274dd8417d451809250c060a9a"
+    },
+    {
+      "path": "Batch09/Batch09_HutanLarut_World_HD/05_GAME_METADATA/world_design.json",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch09_HD.zip",
+      "source_entry": "Batch09_HutanLarut_World_HD/05_GAME_METADATA/world_design.json",
+      "bytes": 568,
+      "sha256": "6b5cec1b49fcdd9df09dda4df81ef248cc12c1ffa301acd1990f86e590c0dfd7"
+    },
+    {
+      "path": "Batch09/Batch09_HutanLarut_World_HD/06_CONTACT_SHEET/batch9_contact_sheet.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch09_HD.zip",
+      "source_entry": "Batch09_HutanLarut_World_HD/06_CONTACT_SHEET/batch9_contact_sheet.png",
+      "bytes": 971703,
+      "sha256": "65b944dccb33b16e4de9ac5c3693ab00b06016358c9e007c2e9f9b5ad233a2d8"
+    },
+    {
+      "path": "Batch09/Batch09_HutanLarut_World_HD/README_FIRST.md",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch09_HD.zip",
+      "source_entry": "Batch09_HutanLarut_World_HD/README_FIRST.md",
+      "bytes": 1426,
+      "sha256": "655cf73d8af283813ee25bb2056c37a51533efdb9903ade3fd787823a25196cd"
+    },
+    {
+      "path": "Batch09/Batch09_HutanLarut_World_HD/asset_manifest.json",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch09_HD.zip",
+      "source_entry": "Batch09_HutanLarut_World_HD/asset_manifest.json",
+      "bytes": 2319,
+      "sha256": "45e82487344400d1b76ef341199dfe8525eb688bf858865e6f8a874e0d04699f"
+    },
+    {
+      "path": "Batch10/Batch10_RimbaBayangan_World_HD/01_REFERENCE_ART/rimba_bayangan_boss_closeup_REFERENCE_NOT_SPRITE.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch10_HD.zip",
+      "source_entry": "Batch10_RimbaBayangan_World_HD/01_REFERENCE_ART/rimba_bayangan_boss_closeup_REFERENCE_NOT_SPRITE.png",
+      "bytes": 928790,
+      "sha256": "b0129b8d4a767c5148186893acaeaf5df00c6c72a7ed0ae468d62c7052bd6b65"
+    },
+    {
+      "path": "Batch10/Batch10_RimbaBayangan_World_HD/01_REFERENCE_ART/rimba_bayangan_source_concept_1536x1024.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch10_HD.zip",
+      "source_entry": "Batch10_RimbaBayangan_World_HD/01_REFERENCE_ART/rimba_bayangan_source_concept_1536x1024.png",
+      "bytes": 3490769,
+      "sha256": "1a4887a2a3569eaef9ac3e62cda70690eda1912352076e1965dfc9541e457b58"
+    },
+    {
+      "path": "Batch10/Batch10_RimbaBayangan_World_HD/02_STORY_COMPOSITIONS/rimba_bayangan_boss_reveal_FHD.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch10_HD.zip",
+      "source_entry": "Batch10_RimbaBayangan_World_HD/02_STORY_COMPOSITIONS/rimba_bayangan_boss_reveal_FHD.png",
+      "bytes": 4089919,
+      "sha256": "e78dbd4a374d4bf7e52eea0f639bee93b909b31629ef92d74ab8d3a851604faa"
+    },
+    {
+      "path": "Batch10/Batch10_RimbaBayangan_World_HD/02_STORY_COMPOSITIONS/rimba_bayangan_chapter_intro_FHD.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch10_HD.zip",
+      "source_entry": "Batch10_RimbaBayangan_World_HD/02_STORY_COMPOSITIONS/rimba_bayangan_chapter_intro_FHD.png",
+      "bytes": 4093335,
+      "sha256": "163bbbdc558ebb918317593a8c4b3aa19943bc6fad08f625168e5ed2590efc3f"
+    },
+    {
+      "path": "Batch10/Batch10_RimbaBayangan_World_HD/02_STORY_COMPOSITIONS/rimba_bayangan_world_scene_FHD_resized.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch10_HD.zip",
+      "source_entry": "Batch10_RimbaBayangan_World_HD/02_STORY_COMPOSITIONS/rimba_bayangan_world_scene_FHD_resized.png",
+      "bytes": 4576188,
+      "sha256": "73c7f808272a367507f876ac2848349a814ffb83f4d6ae9c80ff812d043d40f4"
+    },
+    {
+      "path": "Batch10/Batch10_RimbaBayangan_World_HD/03_REUSABLE_UI/transparent_JRPG_HUD_1920x1080.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch10_HD.zip",
+      "source_entry": "Batch10_RimbaBayangan_World_HD/03_REUSABLE_UI/transparent_JRPG_HUD_1920x1080.png",
+      "bytes": 10488,
+      "sha256": "1377a3be4318fbc1c3fbba68602c374aa8cc056d5ce7e6641b10a958086f0e18"
+    },
+    {
+      "path": "Batch10/Batch10_RimbaBayangan_World_HD/03_REUSABLE_UI/world_4_emblem_512.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch10_HD.zip",
+      "source_entry": "Batch10_RimbaBayangan_World_HD/03_REUSABLE_UI/world_4_emblem_512.png",
+      "bytes": 6490,
+      "sha256": "367493129a6232bead34a9145ae951874c1a1c80eedbb5637a9956b2b4c78dfc"
+    },
+    {
+      "path": "Batch10/Batch10_RimbaBayangan_World_HD/04_PREVIEW_VIDEO/rimba_bayangan_world_reveal_animatic.mp4",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch10_HD.zip",
+      "source_entry": "Batch10_RimbaBayangan_World_HD/04_PREVIEW_VIDEO/rimba_bayangan_world_reveal_animatic.mp4",
+      "bytes": 377695,
+      "sha256": "db6dc6d93620a91bdaa053999d39e13b28a2bbfd24f6b49d8f99236edb6ddfc3"
+    },
+    {
+      "path": "Batch10/Batch10_RimbaBayangan_World_HD/05_GAME_METADATA/world_design.json",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch10_HD.zip",
+      "source_entry": "Batch10_RimbaBayangan_World_HD/05_GAME_METADATA/world_design.json",
+      "bytes": 584,
+      "sha256": "5f4c35dbf3df4962356e9b5945f7b792a1337363dee47c5901a62745946cfd9f"
+    },
+    {
+      "path": "Batch10/Batch10_RimbaBayangan_World_HD/06_CONTACT_SHEET/batch10_contact_sheet.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch10_HD.zip",
+      "source_entry": "Batch10_RimbaBayangan_World_HD/06_CONTACT_SHEET/batch10_contact_sheet.png",
+      "bytes": 979536,
+      "sha256": "d76837b4fde714ceb65cfa2b289c0b0206adb8b6ea97d13704b9d02aa1694bc7"
+    },
+    {
+      "path": "Batch10/Batch10_RimbaBayangan_World_HD/README_FIRST.md",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch10_HD.zip",
+      "source_entry": "Batch10_RimbaBayangan_World_HD/README_FIRST.md",
+      "bytes": 1443,
+      "sha256": "c490b49e17c119231517d34495f6e85267d77c05ae6348d8c710d0edcfae1801"
+    },
+    {
+      "path": "Batch10/Batch10_RimbaBayangan_World_HD/asset_manifest.json",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch10_HD.zip",
+      "source_entry": "Batch10_RimbaBayangan_World_HD/asset_manifest.json",
+      "bytes": 2355,
+      "sha256": "9c057570c89b4d874a1ca8ee151c8e2ed30e60dbe75b5717d9c05bee1ffe610d"
+    },
+    {
+      "path": "Batch11/Batch11_GunungLedang_World_HD/01_REFERENCE_ART/gunung_ledang_boss_closeup_REFERENCE_NOT_SPRITE.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch11_HD.zip",
+      "source_entry": "Batch11_GunungLedang_World_HD/01_REFERENCE_ART/gunung_ledang_boss_closeup_REFERENCE_NOT_SPRITE.png",
+      "bytes": 920729,
+      "sha256": "831f2e05b835d5a84ee4f5d145d1633634deb63ddc3c45c1f87eb1a3795204a3"
+    },
+    {
+      "path": "Batch11/Batch11_GunungLedang_World_HD/01_REFERENCE_ART/gunung_ledang_source_concept_1536x1024.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch11_HD.zip",
+      "source_entry": "Batch11_GunungLedang_World_HD/01_REFERENCE_ART/gunung_ledang_source_concept_1536x1024.png",
+      "bytes": 3620413,
+      "sha256": "78afd32336e08761cff6166ee28bd8c0c801b4d35708c95205a7eae6beec82e2"
+    },
+    {
+      "path": "Batch11/Batch11_GunungLedang_World_HD/02_STORY_COMPOSITIONS/gunung_ledang_boss_reveal_FHD.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch11_HD.zip",
+      "source_entry": "Batch11_GunungLedang_World_HD/02_STORY_COMPOSITIONS/gunung_ledang_boss_reveal_FHD.png",
+      "bytes": 4166451,
+      "sha256": "c1966c5e4ff26aecc67f32055563ef8c7c66bfd4572c747b48d94b41c48a14bd"
+    },
+    {
+      "path": "Batch11/Batch11_GunungLedang_World_HD/02_STORY_COMPOSITIONS/gunung_ledang_chapter_intro_FHD.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch11_HD.zip",
+      "source_entry": "Batch11_GunungLedang_World_HD/02_STORY_COMPOSITIONS/gunung_ledang_chapter_intro_FHD.png",
+      "bytes": 4163057,
+      "sha256": "dd971d676253c0deb8f9af45831a924b94584383e93af07d7e3e4d1adbaa0062"
+    },
+    {
+      "path": "Batch11/Batch11_GunungLedang_World_HD/02_STORY_COMPOSITIONS/gunung_ledang_world_scene_FHD_resized.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch11_HD.zip",
+      "source_entry": "Batch11_GunungLedang_World_HD/02_STORY_COMPOSITIONS/gunung_ledang_world_scene_FHD_resized.png",
+      "bytes": 4673131,
+      "sha256": "94cf155b2421ffc60349a444237396502dc254d306e6100067f85520f44ff01e"
+    },
+    {
+      "path": "Batch11/Batch11_GunungLedang_World_HD/03_REUSABLE_UI/transparent_JRPG_HUD_1920x1080.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch11_HD.zip",
+      "source_entry": "Batch11_GunungLedang_World_HD/03_REUSABLE_UI/transparent_JRPG_HUD_1920x1080.png",
+      "bytes": 10488,
+      "sha256": "1377a3be4318fbc1c3fbba68602c374aa8cc056d5ce7e6641b10a958086f0e18"
+    },
+    {
+      "path": "Batch11/Batch11_GunungLedang_World_HD/03_REUSABLE_UI/world_5_emblem_512.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch11_HD.zip",
+      "source_entry": "Batch11_GunungLedang_World_HD/03_REUSABLE_UI/world_5_emblem_512.png",
+      "bytes": 6430,
+      "sha256": "18766205fead78f90635331a7713cda2c3118d59aa3bd4185e421e3d0ff956d4"
+    },
+    {
+      "path": "Batch11/Batch11_GunungLedang_World_HD/04_PREVIEW_VIDEO/gunung_ledang_world_reveal_animatic.mp4",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch11_HD.zip",
+      "source_entry": "Batch11_GunungLedang_World_HD/04_PREVIEW_VIDEO/gunung_ledang_world_reveal_animatic.mp4",
+      "bytes": 380365,
+      "sha256": "913e14435a32530b28cddb746b6be14c9903674a24f3cd5c7be2b7f77c4c5607"
+    },
+    {
+      "path": "Batch11/Batch11_GunungLedang_World_HD/05_GAME_METADATA/world_design.json",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch11_HD.zip",
+      "source_entry": "Batch11_GunungLedang_World_HD/05_GAME_METADATA/world_design.json",
+      "bytes": 583,
+      "sha256": "1b538814fd94902ad837a84ebab24ca0944659b1e0d9a49e1c1f713b4fbb5c43"
+    },
+    {
+      "path": "Batch11/Batch11_GunungLedang_World_HD/06_CONTACT_SHEET/batch11_contact_sheet.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch11_HD.zip",
+      "source_entry": "Batch11_GunungLedang_World_HD/06_CONTACT_SHEET/batch11_contact_sheet.png",
+      "bytes": 975905,
+      "sha256": "a1b3ebf78395d0e0637d6db0022b34c9f8464e28ef4429a0b7a87ae52c786d07"
+    },
+    {
+      "path": "Batch11/Batch11_GunungLedang_World_HD/README_FIRST.md",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch11_HD.zip",
+      "source_entry": "Batch11_GunungLedang_World_HD/README_FIRST.md",
+      "bytes": 1443,
+      "sha256": "8b5baf0b2eff491592c2f39a24c054ad3e67ece672ad8856b6cffda4d68893eb"
+    },
+    {
+      "path": "Batch11/Batch11_GunungLedang_World_HD/asset_manifest.json",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch11_HD.zip",
+      "source_entry": "Batch11_GunungLedang_World_HD/asset_manifest.json",
+      "bytes": 2349,
+      "sha256": "93ca208757611d707203f8d19ff6ab225e62625f8120a3080c2d7f211ada9d95"
+    },
+    {
+      "path": "Batch12/Batch12_Final_UI_Transitions_SFX_HD/01_UI_GAME_READY/didik_story_mode_title_card.svg",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch12_HD.zip",
+      "source_entry": "Batch12_Final_UI_Transitions_SFX_HD/01_UI_GAME_READY/didik_story_mode_title_card.svg",
+      "bytes": 438,
+      "sha256": "ef2539eb541a5d3ff3e0b36339acda81410b9b200014ffe52a7325c0b956ca54"
+    },
+    {
+      "path": "Batch12/Batch12_Final_UI_Transitions_SFX_HD/01_UI_GAME_READY/transparent_battle_hud_FHD.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch12_HD.zip",
+      "source_entry": "Batch12_Final_UI_Transitions_SFX_HD/01_UI_GAME_READY/transparent_battle_hud_FHD.png",
+      "bytes": 10488,
+      "sha256": "1377a3be4318fbc1c3fbba68602c374aa8cc056d5ce7e6641b10a958086f0e18"
+    },
+    {
+      "path": "Batch12/Batch12_Final_UI_Transitions_SFX_HD/01_UI_GAME_READY/world_01_batang_lupar_symbol.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch12_HD.zip",
+      "source_entry": "Batch12_Final_UI_Transitions_SFX_HD/01_UI_GAME_READY/world_01_batang_lupar_symbol.png",
+      "bytes": 6443,
+      "sha256": "917d183bc4022f9881d4d041032ec8f79835154e8525fdd399adf39a2748f16b"
+    },
+    {
+      "path": "Batch12/Batch12_Final_UI_Transitions_SFX_HD/01_UI_GAME_READY/world_01_tasik_chini_symbol.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch12_HD.zip",
+      "source_entry": "Batch12_Final_UI_Transitions_SFX_HD/01_UI_GAME_READY/world_01_tasik_chini_symbol.png",
+      "bytes": 6440,
+      "sha256": "8decd87332ce55683b2e90448e7078882be5da5b89afdd461530c3689d34cb02"
+    },
+    {
+      "path": "Batch12/Batch12_Final_UI_Transitions_SFX_HD/01_UI_GAME_READY/world_02_hutan_larut_symbol.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch12_HD.zip",
+      "source_entry": "Batch12_Final_UI_Transitions_SFX_HD/01_UI_GAME_READY/world_02_hutan_larut_symbol.png",
+      "bytes": 6415,
+      "sha256": "e8a5773f47d2ab439f870c91bb1dc2d70ef10389716b9ac7c0c995bf4e5a7351"
+    },
+    {
+      "path": "Batch12/Batch12_Final_UI_Transitions_SFX_HD/01_UI_GAME_READY/world_03_rimba_bayangan_symbol.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch12_HD.zip",
+      "source_entry": "Batch12_Final_UI_Transitions_SFX_HD/01_UI_GAME_READY/world_03_rimba_bayangan_symbol.png",
+      "bytes": 6490,
+      "sha256": "367493129a6232bead34a9145ae951874c1a1c80eedbb5637a9956b2b4c78dfc"
+    },
+    {
+      "path": "Batch12/Batch12_Final_UI_Transitions_SFX_HD/01_UI_GAME_READY/world_04_gunung_ledang_symbol.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch12_HD.zip",
+      "source_entry": "Batch12_Final_UI_Transitions_SFX_HD/01_UI_GAME_READY/world_04_gunung_ledang_symbol.png",
+      "bytes": 6430,
+      "sha256": "18766205fead78f90635331a7713cda2c3118d59aa3bd4185e421e3d0ff956d4"
+    },
+    {
+      "path": "Batch12/Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_00.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch12_HD.zip",
+      "source_entry": "Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_00.png",
+      "bytes": 982,
+      "sha256": "28d87bc84ebba03475f151d2a637968429ea10489cd69ba33f45ef9262ce2abb"
+    },
+    {
+      "path": "Batch12/Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_01.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch12_HD.zip",
+      "source_entry": "Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_01.png",
+      "bytes": 1551,
+      "sha256": "530b460c86f137f4212acdee61d3be9a3ac54680ead79e2d53cd8b9c41ae08c1"
+    },
+    {
+      "path": "Batch12/Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_02.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch12_HD.zip",
+      "source_entry": "Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_02.png",
+      "bytes": 2001,
+      "sha256": "e0bf3f1e02f797bcdf574e844f512182f09ba1535fb2d1660696fd3100460e0e"
+    },
+    {
+      "path": "Batch12/Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_03.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch12_HD.zip",
+      "source_entry": "Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_03.png",
+      "bytes": 2428,
+      "sha256": "d245127ed37043442d91de8712cf080b2282aa004d4e7d18fb982c811a932163"
+    },
+    {
+      "path": "Batch12/Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_04.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch12_HD.zip",
+      "source_entry": "Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_04.png",
+      "bytes": 2909,
+      "sha256": "553238cacdd922bea7e2e7d941208e909cfdd6942fca76950825b8be93b7b7f5"
+    },
+    {
+      "path": "Batch12/Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_05.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch12_HD.zip",
+      "source_entry": "Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_05.png",
+      "bytes": 3436,
+      "sha256": "65ce0d89f1730c374c1797c4b6dfdfad847341c4d7ecd66b8ac2bb5c195d5a85"
+    },
+    {
+      "path": "Batch12/Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_06.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch12_HD.zip",
+      "source_entry": "Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_06.png",
+      "bytes": 3909,
+      "sha256": "d61b52eedec6e93dd24a3175a3e2615fed9d198591ae89598126a4964f55b72a"
+    },
+    {
+      "path": "Batch12/Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_07.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch12_HD.zip",
+      "source_entry": "Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_07.png",
+      "bytes": 4315,
+      "sha256": "912885e85ab4e4ae64d71cea90f67cc378cdcb5574ecdc32a63c406220240539"
+    },
+    {
+      "path": "Batch12/Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_08.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch12_HD.zip",
+      "source_entry": "Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_08.png",
+      "bytes": 3658,
+      "sha256": "5cc309241cbc38794efda4d22cb5aad1685f276a58138e0f7ddc103d5ec85706"
+    },
+    {
+      "path": "Batch12/Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_09.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch12_HD.zip",
+      "source_entry": "Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_09.png",
+      "bytes": 3385,
+      "sha256": "176a3ca53a956f6491a7793430bd564805428d4644a6d3b64e2605feafddac88"
+    },
+    {
+      "path": "Batch12/Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_10.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch12_HD.zip",
+      "source_entry": "Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_10.png",
+      "bytes": 3320,
+      "sha256": "b7065fe810289c7515fa56ca6fcc831dc48589b5fac782908eb686ced1899b5a"
+    },
+    {
+      "path": "Batch12/Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_11.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch12_HD.zip",
+      "source_entry": "Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_11.png",
+      "bytes": 2683,
+      "sha256": "ce551fdbaeff92892247e562cb4f5a3007a30f7d0f7c47eeb2c79321e0c8bb30"
+    },
+    {
+      "path": "Batch12/Batch12_Final_UI_Transitions_SFX_HD/03_SYNTH_SFX_DEMOS/boss_hit.wav",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch12_HD.zip",
+      "source_entry": "Batch12_Final_UI_Transitions_SFX_HD/03_SYNTH_SFX_DEMOS/boss_hit.wav",
+      "bytes": 37970,
+      "sha256": "cfe68ef825eb14dd2fb8f706fa1dc22db9e19a5bc53c9b3e0c5c79a271876a00"
+    },
+    {
+      "path": "Batch12/Batch12_Final_UI_Transitions_SFX_HD/03_SYNTH_SFX_DEMOS/correct.wav",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch12_HD.zip",
+      "source_entry": "Batch12_Final_UI_Transitions_SFX_HD/03_SYNTH_SFX_DEMOS/correct.wav",
+      "bytes": 45908,
+      "sha256": "645207ce492c8c3c79e49614b96c62de1c4e5f58ca6da95e3de5d4f9a83025ec"
+    },
+    {
+      "path": "Batch12/Batch12_Final_UI_Transitions_SFX_HD/03_SYNTH_SFX_DEMOS/heal.wav",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch12_HD.zip",
+      "source_entry": "Batch12_Final_UI_Transitions_SFX_HD/03_SYNTH_SFX_DEMOS/heal.wav",
+      "bytes": 45908,
+      "sha256": "82ccc81e159e6fb16e198a880709a05e58abca1cd12206bde5d1a125a0477048"
+    },
+    {
+      "path": "Batch12/Batch12_Final_UI_Transitions_SFX_HD/03_SYNTH_SFX_DEMOS/menu_click.wav",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch12_HD.zip",
+      "source_entry": "Batch12_Final_UI_Transitions_SFX_HD/03_SYNTH_SFX_DEMOS/menu_click.wav",
+      "bytes": 17684,
+      "sha256": "05dec668fa5b92c5816d8b02d2bfaf5ecf00ee6dfd38cea5ea6af3ac840dd3ba"
+    },
+    {
+      "path": "Batch12/Batch12_Final_UI_Transitions_SFX_HD/03_SYNTH_SFX_DEMOS/world_unlock.wav",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch12_HD.zip",
+      "source_entry": "Batch12_Final_UI_Transitions_SFX_HD/03_SYNTH_SFX_DEMOS/world_unlock.wav",
+      "bytes": 110294,
+      "sha256": "70220d2f1b4c7175c676d95f00608cb939607706598001090eaa196f5dd788ff"
+    },
+    {
+      "path": "Batch12/Batch12_Final_UI_Transitions_SFX_HD/03_SYNTH_SFX_DEMOS/wrong.wav",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch12_HD.zip",
+      "source_entry": "Batch12_Final_UI_Transitions_SFX_HD/03_SYNTH_SFX_DEMOS/wrong.wav",
+      "bytes": 58256,
+      "sha256": "3e89fe21ac970981679f9b524c96a62ed365adf0dc5645768f54042ded258189"
+    },
+    {
+      "path": "Batch12/Batch12_Final_UI_Transitions_SFX_HD/04_MASTER_VISUAL/five_worlds_progression_FHD.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch12_HD.zip",
+      "source_entry": "Batch12_Final_UI_Transitions_SFX_HD/04_MASTER_VISUAL/five_worlds_progression_FHD.png",
+      "bytes": 2858140,
+      "sha256": "e6be6ad4d96b19d777ec9ec48e23914d7acd98a24d620e25e2dfffb0b919e174"
+    },
+    {
+      "path": "Batch12/Batch12_Final_UI_Transitions_SFX_HD/05_PREVIEW_VIDEO/five_world_story_mode_reveal.mp4",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch12_HD.zip",
+      "source_entry": "Batch12_Final_UI_Transitions_SFX_HD/05_PREVIEW_VIDEO/five_world_story_mode_reveal.mp4",
+      "bytes": 1510208,
+      "sha256": "f0793234239f99c7a00d63f1328874b616dea62c7a0c5adc35577eedfde3c075"
+    },
+    {
+      "path": "Batch12/Batch12_Final_UI_Transitions_SFX_HD/06_CONTACT_SHEET/batch12_contact_sheet.png",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch12_HD.zip",
+      "source_entry": "Batch12_Final_UI_Transitions_SFX_HD/06_CONTACT_SHEET/batch12_contact_sheet.png",
+      "bytes": 310218,
+      "sha256": "45d18bb36e9d8a20f01a25798d8dc0fda19b428c169d731605d60c157cf39d0e"
+    },
+    {
+      "path": "Batch12/Batch12_Final_UI_Transitions_SFX_HD/07_CODEX_CLAUDE_HANDOFF/asset_entrypoints.json",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch12_HD.zip",
+      "source_entry": "Batch12_Final_UI_Transitions_SFX_HD/07_CODEX_CLAUDE_HANDOFF/asset_entrypoints.json",
+      "bytes": 584,
+      "sha256": "9ce13b1f67bbe17e3e3bb8f56c4caf6ad6634f8c71b5b8ce4ae23d0b6ad08a60"
+    },
+    {
+      "path": "Batch12/Batch12_Final_UI_Transitions_SFX_HD/README_FIRST.md",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch12_HD.zip",
+      "source_entry": "Batch12_Final_UI_Transitions_SFX_HD/README_FIRST.md",
+      "bytes": 1425,
+      "sha256": "9d57a25d66f267db0e3090bf3263e636d9feebb0e0c7575597a8b633cb06c49f"
+    },
+    {
+      "path": "Batch12/Batch12_Final_UI_Transitions_SFX_HD/asset_manifest.json",
+      "source_archive": "DIDIK_JRPG_Batches_1_to_12_ALL_IN_ONE/DIDIK_JRPG_Batch12_HD.zip",
+      "source_entry": "Batch12_Final_UI_Transitions_SFX_HD/asset_manifest.json",
+      "bytes": 5566,
+      "sha256": "e2f4e04dfa88100ca28117f9edb6b3cbf84faa8b24c80f9f23e582c6b21ddc69"
+    }
+  ]
+}

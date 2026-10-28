@@ -1,0 +1,27 @@
+{
+  "visuals": "01_UI_GAME_READY",
+  "sprite_sequence": "02_TRANSITION_ALPHA_FRAMES/world_transition_00.png to world_transition_11.png",
+  "audio": "03_SYNTH_SFX_DEMOS",
+  "video_animatic": "05_PREVIEW_VIDEO/five_world_story_mode_reveal.mp4",
+  "shouldRemove3D": [
+    "litar",
+    "penalti",
+    "lanun",
+    "menara"
+  ],
+  "retain2DCount": 8,
+  "storyCombat": {
+    "manualMovement": false,
+    "maxPlayerHearts": 6,
+    "wrongDamage": 1.5,
+    "correctHeal": 0.5,
+    "bossHP": 5,
+    "elements": [
+      "api",
+      "angin",
+      "petir",
+      "tanah",
+      "air"
+    ]
+  }
+}

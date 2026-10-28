@@ -1,0 +1,82 @@
+{
+  "pack": "Batch 08",
+  "title": "Batang Lupar — Bujang Senang",
+  "status": "ART_AND_IMPLEMENTATION_HANDOFF_NOT_FULL_GAME",
+  "items": [
+    {
+      "path": "04_PREVIEW_VIDEO/batang_lupar_world_reveal_animatic.mp4",
+      "type": "cinematic_animatic_video",
+      "size_bytes": 468049
+    },
+    {
+      "path": "03_REUSABLE_UI/transparent_JRPG_HUD_1920x1080.png",
+      "type": "art_reference",
+      "size_bytes": 10488,
+      "width": 1920,
+      "height": 1080,
+      "mode": "RGBA"
+    },
+    {
+      "path": "03_REUSABLE_UI/world_2_emblem_512.png",
+      "type": "art_reference",
+      "size_bytes": 6443,
+      "width": 512,
+      "height": 512,
+      "mode": "RGBA"
+    },
+    {
+      "path": "05_GAME_METADATA/world_design.json",
+      "type": "art_reference",
+      "size_bytes": 585
+    },
+    {
+      "path": "06_CONTACT_SHEET/batch8_contact_sheet.png",
+      "type": "art_reference",
+      "size_bytes": 1001076,
+      "width": 1500,
+      "height": 910,
+      "mode": "RGB"
+    },
+    {
+      "path": "02_STORY_COMPOSITIONS/batang_lupar_world_scene_FHD_resized.png",
+      "type": "art_reference",
+      "size_bytes": 4712058,
+      "width": 1920,
+      "height": 1080,
+      "mode": "RGBA"
+    },
+    {
+      "path": "02_STORY_COMPOSITIONS/batang_lupar_chapter_intro_FHD.png",
+      "type": "art_reference",
+      "size_bytes": 4219809,
+      "width": 1920,
+      "height": 1080,
+      "mode": "RGBA"
+    },
+    {
+      "path": "02_STORY_COMPOSITIONS/batang_lupar_boss_reveal_FHD.png",
+      "type": "art_reference",
+      "size_bytes": 4220599,
+      "width": 1920,
+      "height": 1080,
+      "mode": "RGBA"
+    },
+    {
+      "path": "01_REFERENCE_ART/batang_lupar_boss_closeup_REFERENCE_NOT_SPRITE.png",
+      "type": "art_reference",
+      "size_bytes": 967417,
+      "width": 640,
+      "height": 680,
+      "mode": "RGB"
+    },
+    {
+      "path": "01_REFERENCE_ART/batang_lupar_source_concept_1536x1024.png",
+      "type": "art_reference",
+      "size_bytes": 3628400,
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGB"
+    }
+  ],
+  "tech_notes": "World visual reference and concept/story compositions: Stilt homes, mangrove roots, warm river-sunset light; legendary crocodile. No independent boss sprite or clean boss-free background is provided; Codex must produce separate artwork for real battle use."
+}

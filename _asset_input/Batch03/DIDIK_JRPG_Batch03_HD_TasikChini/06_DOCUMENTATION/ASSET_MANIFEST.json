@@ -1,0 +1,75 @@
+{
+  "batch": "03",
+  "title": "Tasik Chini JRPG HD Assets",
+  "generated_art_count": 6,
+  "items": [
+    {
+      "file": "01_BATTLE_BACKGROUND/01_tasik_chini_battle_background_original_1672x941.png",
+      "category": "background",
+      "width": 1672,
+      "height": 941,
+      "mode": "RGB",
+      "source": "lotus_falls_battle_arena.png",
+      "description": "HD concept background, no people or UI; original 1672x941 RGB",
+      "status": "BACKGROUND_STATIC"
+    },
+    {
+      "file": "02_HERO_CHARACTERS/01_hang_tuah_battle_pose_transparent_1086x1448.png",
+      "category": "character",
+      "width": 1086,
+      "height": 1448,
+      "mode": "RGBA",
+      "source": "royal_blue_krisblade_swordsman.png",
+      "description": "Transparent full body illustrated battle pose; not an animation sprite sheet",
+      "status": "STATIC_ALPHA_ART"
+    },
+    {
+      "file": "02_HERO_CHARACTERS/02_mahsuri_battle_pose_transparent_1086x1448.png",
+      "category": "character",
+      "width": 1086,
+      "height": 1448,
+      "mode": "RGBA",
+      "source": "regal_blueblade_chibi_warrior.png",
+      "description": "Transparent full body illustrated battle pose; not an animation sprite sheet",
+      "status": "STATIC_ALPHA_ART"
+    },
+    {
+      "file": "03_BOSS_NAGA_CHINI/01_naga_chini_battle_pose_transparent_1122x1402.png",
+      "category": "boss",
+      "width": 1122,
+      "height": 1402,
+      "mode": "RGBA",
+      "source": "majestic_teal_water_dragon_boss.png",
+      "description": "Transparent battle illustration with splashes, not an animated sprite",
+      "status": "STATIC_ALPHA_ART"
+    },
+    {
+      "file": "04_UI_REFERENCE/01_quiz_battle_hud_concept_1672x941.png",
+      "category": "ui_reference",
+      "width": 1672,
+      "height": 941,
+      "mode": "RGBA",
+      "source": "ornate_anime_quiz_battle_hud_overlay.png",
+      "description": "Composite HUD concept art, NOT separated UI elements or final code",
+      "status": "REFERENCE"
+    },
+    {
+      "file": "04_UI_REFERENCE/02_jrpg_battle_concept_composition_1672x941.png",
+      "category": "reference",
+      "width": 1672,
+      "height": 941,
+      "mode": "RGB",
+      "source": "hero_faces_the_water_dragon.png",
+      "description": "Concept composition, NOT screenshot of gameplay",
+      "status": "REFERENCE"
+    }
+  ],
+  "additional_outputs": [
+    "01_BATTLE_BACKGROUND/02_tasik_chini_battle_background_FHD_1920x1080.png",
+    "01_BATTLE_BACKGROUND/03_tasik_chini_battle_background_web_1920x1080.webp",
+    "05_COMPOSITE_PREVIEWS/01_hang_tuah_vs_naga_chini_concept_FHD.png",
+    "05_COMPOSITE_PREVIEWS/02_mahsuri_vs_naga_chini_concept_FHD.png"
+  ],
+  "video_created": false,
+  "sprite_sheets_created": false
+}

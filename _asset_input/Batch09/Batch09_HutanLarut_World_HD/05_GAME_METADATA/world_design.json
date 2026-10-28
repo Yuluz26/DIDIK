@@ -1,0 +1,17 @@
+{
+  "worldIndex": 2,
+  "worldKey": "hutan_larut",
+  "displayName": "Hutan Larut",
+  "bossName": "Gajah Rimba",
+  "weaknessElement": "angin",
+  "regionMood": "Malaysian rainforest",
+  "direction": "Ancient jungle trees, moss ruins, rain, spirit elephant",
+  "playerMovement": "automatic_cinematic_only",
+  "encounterQuestions": 5,
+  "bossHitPoints": 5,
+  "maxHealthHalfHearts": 12,
+  "wrongAnswerDamageHalfHearts": 3,
+  "correctAnswerHealHalfHearts": 1,
+  "bossSpriteStatus": "not_available_in_this_pack",
+  "battleBackgroundCleanStatus": "not_available_in_this_pack"
+}
