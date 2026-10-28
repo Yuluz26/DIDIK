@@ -40,6 +40,9 @@ B05 = SRC / "Batch05/DIDIK_JRPG_Batch05_HD_ElementalCombat/01_ELEMENTAL_FX_TRANS
 B12 = SRC / "Batch12/Batch12_Final_UI_Transitions_SFX_HD"
 FX60 = SRC / "Effects60/04_ATTACK_FRAMES"
 B14 = SRC / "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD"
+HW = SRC / "HeroElements/didik_element_weapons_pack/assets/heroes"
+# The weapon pack names the elements in English; the server and the game use these ids.
+HW_IDS = {"fire": "api", "wind": "angin", "lightning": "petir", "earth": "tanah", "water": "air"}
 # The supplied battlefield paintings (_asset_input/Battlefields/) and, in 1536-wide pixels: where the painting
 # has its own hearts, boss panel and element row (replaced by the live HUD), the points that pick the boss out
 # for SAM, and the body centres of the two small enemies and the hero.
@@ -464,6 +467,48 @@ def attack_frames() -> None:
              "attack and counterattack effect, played frame by frame", frames=12, frame=[314, 418], columns=4)
 
 
+def clean_weapon(im: Image.Image) -> Image.Image:
+    """A hero from the weapon pack, cleaned: the magenta key colour left inside the picture (between the arm and
+    the body, inside swirls) made transparent, pink fringes pulled back, and the shards of the neighbouring
+    cell or other stray pieces far from the figure removed."""
+    a = np.array(im.convert("RGBA")).astype(np.float32)
+    r, g, b, al = a[..., 0], a[..., 1], a[..., 2], a[..., 3]
+    al = np.where((r > 190) & (b > 190) & (g < 120) & (np.abs(r - b) < 70), 0, al)
+    solid = al > 24
+    edge = ndimage.binary_dilation(~solid, iterations=3) & solid
+    fringe = edge & (np.minimum(r, b) - g > 35) & (np.abs(r - b) < 90)
+    a[..., 0] = np.where(fringe, g + 0.35 * (r - g), r)
+    a[..., 2] = np.where(fringe, g + 0.35 * (b - g), b)
+    near = ndimage.binary_dilation(solid, iterations=18)
+    labels, count = ndimage.label(near)
+    if count > 1:
+        sizes = ndimage.sum(solid, labels, range(1, count + 1))
+        al = np.where(labels == (int(np.argmax(sizes)) + 1), al, 0)
+    a[..., 3] = al
+    return Image.fromarray(np.clip(a, 0, 255).astype(np.uint8))
+
+
+def hero_weapons() -> None:
+    """Each hero holding each element's weapon (the weapon pack, concept art). The five of a hero are cut to
+    one shared box, so the figure stays where it is when the element changes."""
+    if not HW.exists():
+        print("HeroElements not found: keeping the weapon sprites already in static/story/heroes/")
+        return
+    for hero in ("tuah", "mahsuri"):
+        cleaned = {}
+        for english, el in HW_IDS.items():
+            cleaned[el] = (HW / hero / english / "equipped_ready.png", clean_weapon(Image.open(HW / hero / english / "equipped_ready.png")))
+        boxes = [im.getchannel("A").point(lambda v: 255 if v > 24 else 0).getbbox() for _, im in cleaned.values()]
+        box = (min(b[0] for b in boxes), min(b[1] for b in boxes), max(b[2] for b in boxes), max(b[3] for b in boxes))
+        for el, (src, im) in cleaned.items():
+            im = im.crop(box)
+            im.thumbnail((900, 700), Image.LANCZOS)
+            out = save_webp(im, OUT / "heroes" / hero / "weapon" / f"{el}.webp", 88)
+            note(out, rel(src), "CONCEPT hero holding the element's weapon (AI-generated, magenta key cleaned); a taller, "
+                 "more realistic style than the base chibi poses, one pose only", "hero while the element is active",
+                 anchor="bottom-center")
+
+
 def banners() -> None:
     """The transition text banners (Batch 14): the 22 static banners at 1280x320, and the six that are
     animated as 12-frame sheets (4 by 3 frames of 960x240). Also writes lib/games/legenda/banners.ts with
@@ -513,13 +558,13 @@ def sound() -> None:
 def main() -> None:
     if not SRC.exists():
         sys.exit("_asset_input/ not found")
-    steps = {"heroes": heroes, "battlefields": battlefields, "ui": ui, "fx": fx, "banners": banners, "sound": sound}
+    steps = {"heroes": heroes, "battlefields": battlefields, "ui": ui, "fx": fx, "banners": banners, "weapons": hero_weapons, "sound": sound}
     only = sys.argv[sys.argv.index("--only") + 1:] if "--only" in sys.argv else []
     old = OUT / "manifest.json"
     if only and old.exists():
         # a partial run keeps the rows of the steps it does not run
-        prefixes = {"heroes": "heroes/", "battlefields": "worlds/", "ui": "ui/", "fx": "fx/", "banners": "banners/", "sound": "audio/"}
-        dropped = tuple(prefixes[name] for name in only)
+        prefixes = {"heroes": "heroes/", "battlefields": "worlds/", "ui": "ui/", "fx": "fx/", "banners": "banners/", "weapons": ("heroes/tuah/weapon/", "heroes/mahsuri/weapon/"), "sound": "audio/"}
+        dropped = tuple(p for name in only for p in ((prefixes[name],) if isinstance(prefixes[name], str) else prefixes[name]))
         manifest.extend(r for r in json.loads(old.read_text(encoding="utf-8"))["assets"] if not r["file"].startswith(dropped))
     for name, step in steps.items():
         if not only or name in only:

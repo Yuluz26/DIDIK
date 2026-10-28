@@ -109,7 +109,7 @@
 		return () => clearTimeout(fallback);
 	});
 	$effect(() => {
-		if (elementsNear) void preload(elementUrls());
+		if (elementsNear) void preload(elementUrls(hero));
 	});
 	// The banners the story uses load once the world has (the other supplied ones are not used).
 	const USED = [
@@ -344,6 +344,7 @@
 				foe={!boss ? { name: scene.foe ?? 'Musuh', index: foeIndex, total: encounters } : null}
 				boss={boss && raid ? { name: scene.boss, hp: raid.hp, max: raid.max, subtitle: scene.title } : null}
 				elements={story.hero && !asking ? { unlocked: !!story.elements, selected: story.element ?? 'api', disabled: true, onpick: chooseElement } : null}
+				weapon={story.elements ? ((story.element ?? 'api') as Element) : null}
 				enemy={showEnemy ? enemyState : 'none'}
 				friends={friends.filter((f) => f.step !== 'select')}
 				mode={stageMode}

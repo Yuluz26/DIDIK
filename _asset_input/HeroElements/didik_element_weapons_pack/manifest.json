@@ -1,0 +1,121 @@
+{
+  "pack": "DIDIK Legenda - Equipped Elemental Heroes",
+  "version": "concept-v1",
+  "created": "2026-10-28",
+  "source_asset": "source/concept_atlas_magenta.png",
+  "asset_origin": "AI-generated concept sprites",
+  "notes": "Ten single equipped/ready pose variants; not animated sprite sheets. Must be approved for compatibility with current hero design before game replacement.",
+  "elements": [
+    "fire",
+    "water",
+    "wind",
+    "earth",
+    "lightning"
+  ],
+  "heroes": [
+    "tuah",
+    "mahsuri"
+  ],
+  "sprites": [
+    {
+      "hero": "tuah",
+      "element": "fire",
+      "element_label_ms": "Api",
+      "pose": "equipped_ready",
+      "file": "assets/heroes/tuah/fire/equipped_ready.png",
+      "width": 768,
+      "height": 960,
+      "status": "concept_generated"
+    },
+    {
+      "hero": "tuah",
+      "element": "water",
+      "element_label_ms": "Air",
+      "pose": "equipped_ready",
+      "file": "assets/heroes/tuah/water/equipped_ready.png",
+      "width": 768,
+      "height": 960,
+      "status": "concept_generated"
+    },
+    {
+      "hero": "tuah",
+      "element": "wind",
+      "element_label_ms": "Angin",
+      "pose": "equipped_ready",
+      "file": "assets/heroes/tuah/wind/equipped_ready.png",
+      "width": 768,
+      "height": 960,
+      "status": "concept_generated"
+    },
+    {
+      "hero": "tuah",
+      "element": "earth",
+      "element_label_ms": "Tanah",
+      "pose": "equipped_ready",
+      "file": "assets/heroes/tuah/earth/equipped_ready.png",
+      "width": 768,
+      "height": 960,
+      "status": "concept_generated"
+    },
+    {
+      "hero": "tuah",
+      "element": "lightning",
+      "element_label_ms": "Petir",
+      "pose": "equipped_ready",
+      "file": "assets/heroes/tuah/lightning/equipped_ready.png",
+      "width": 768,
+      "height": 960,
+      "status": "concept_generated"
+    },
+    {
+      "hero": "mahsuri",
+      "element": "fire",
+      "element_label_ms": "Api",
+      "pose": "equipped_ready",
+      "file": "assets/heroes/mahsuri/fire/equipped_ready.png",
+      "width": 768,
+      "height": 960,
+      "status": "concept_generated"
+    },
+    {
+      "hero": "mahsuri",
+      "element": "water",
+      "element_label_ms": "Air",
+      "pose": "equipped_ready",
+      "file": "assets/heroes/mahsuri/water/equipped_ready.png",
+      "width": 768,
+      "height": 960,
+      "status": "concept_generated"
+    },
+    {
+      "hero": "mahsuri",
+      "element": "wind",
+      "element_label_ms": "Angin",
+      "pose": "equipped_ready",
+      "file": "assets/heroes/mahsuri/wind/equipped_ready.png",
+      "width": 768,
+      "height": 960,
+      "status": "concept_generated"
+    },
+    {
+      "hero": "mahsuri",
+      "element": "earth",
+      "element_label_ms": "Tanah",
+      "pose": "equipped_ready",
+      "file": "assets/heroes/mahsuri/earth/equipped_ready.png",
+      "width": 768,
+      "height": 960,
+      "status": "concept_generated"
+    },
+    {
+      "hero": "mahsuri",
+      "element": "lightning",
+      "element_label_ms": "Petir",
+      "pose": "equipped_ready",
+      "file": "assets/heroes/mahsuri/lightning/equipped_ready.png",
+      "width": 768,
+      "height": 960,
+      "status": "concept_generated"
+    }
+  ]
+}

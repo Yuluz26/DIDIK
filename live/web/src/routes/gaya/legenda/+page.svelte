@@ -23,6 +23,7 @@
 	let world = $state(Number(page.url.searchParams.get('world') ?? 0));
 	let step = $state(page.url.searchParams.get('step') ?? 'boss');
 	let hero = $state(page.url.searchParams.get('hero') ?? 'tuah');
+	let element = $state(page.url.searchParams.get('element') ?? 'petir');
 	let stage = $state<Stage>();
 
 	const client = { send: () => undefined, onFx: () => () => undefined, offset: 0 } as unknown as RoomClient;
@@ -52,7 +53,7 @@
 				step: real,
 				answered: 0,
 				question: real === 'question' ? question : undefined,
-				story: { hero, world, phase: boss ? 'boss' : 'road', cleared: boss ? 5 : 2, hearts: step === 'fallen' ? 0 : 9, elements: boss, element: 'petir', ev: STEPS.indexOf(step), worlds: [], hits: 12 },
+				story: { hero, world, phase: boss ? 'boss' : 'road', cleared: boss ? 5 : 2, hearts: step === 'fallen' ? 0 : 9, elements: boss, element, ev: STEPS.indexOf(step), worlds: [], hits: 12 },
 				raid: boss ? { id: 'r1', hp: 3, max: 5, round: 2, members: ['p1', 'p2'], answered: step === 'wait' ? ['p1'] : [], log: [] } : null,
 				gather: step === 'gather' ? { behind: 2, ends: Date.now() + 40000 } : undefined
 			},
@@ -69,14 +70,14 @@
 	<label>Wira <select bind:value={hero}><option value="tuah">Hang Tuah</option><option value="mahsuri">Mahsuri</option></select></label>
 </nav>
 
-{#key `${world}:${step}:${hero}`}
+{#key `${world}:${step}:${hero}:${element}`}
 	<LegendaPlayer {client} {game} {me} {people} />
 {/key}
 
 <section class="wrap moves">
 	<h2>Gerak pertarungan</h2>
 	<div class="stage-box">
-		<Stage bind:this={stage} {world} {hero} heroName="Hang Tuah" hearts={9} boss={{ name: WORLDS[world].boss, hp: 3, max: 5 }} enemy="idle" />
+		<Stage bind:this={stage} {world} {hero} weapon={element as Element} heroName="Hang Tuah" hearts={9} boss={{ name: WORLDS[world].boss, hp: 3, max: 5 }} enemy="idle" />
 	</div>
 	<div class="row">
 		{#each ELEMENTS as el (el)}<button type="button" class="btn" onclick={() => stage?.attack(el as Element, { weak: el === 'petir', healed: true })}>Serang: {el}</button>{/each}

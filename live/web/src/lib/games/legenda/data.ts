@@ -40,6 +40,12 @@ export const HEROES: Hero[] = [
 
 export const heroArt = (hero: string, pose: Pose | 'portrait') => `/story/heroes/${hero}/${pose}.webp`;
 
+/** The hero holding the weapon of an element (a single ready stance; concept art, taller than the base poses). */
+export const heroWeaponArt = (hero: string, element: Element) => `/story/heroes/${hero}/weapon/${element}.webp`;
+
+/** The poses that show the weapon; hurt and victory stay the base sprite, which has no weapon. */
+export const ARMED_POSES: readonly Pose[] = ['idle', 'ready', 'attack', 'cast'];
+
 export interface WorldArt {
 	key: string;
 	/** The element the boss attacks with (its counterattack effect) and a filter for it. */
@@ -116,8 +122,8 @@ export function worldUrls(world: number, hero: string | null): string[] {
 	return urls;
 }
 
-export function elementUrls(): string[] {
-	return ELEMENTS.flatMap((el) => [fxStill(el), fxSlash(el), elementIcon(el)]);
+export function elementUrls(hero: string | null = null): string[] {
+	return ELEMENTS.flatMap((el) => [fxStill(el), fxSlash(el), elementIcon(el), ...(hero ? [heroWeaponArt(hero, el)] : [])]);
 }
 
 export function reducedMotion(): boolean {

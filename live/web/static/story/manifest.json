@@ -850,6 +850,71 @@
    "anchor": "bottom-center"
   },
   {
+   "file": "heroes/mahsuri/weapon/air.webp",
+   "source": "HeroElements/didik_element_weapons_pack/assets/heroes/mahsuri/water/equipped_ready.png",
+   "status": "CONCEPT hero holding the element's weapon (AI-generated, magenta key cleaned); a taller, more realistic style than the base chibi poses, one pose only",
+   "use": "hero while the element is active",
+   "size": [
+    559,
+    700
+   ],
+   "alpha": true,
+   "bytes": 158362,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "heroes/mahsuri/weapon/angin.webp",
+   "source": "HeroElements/didik_element_weapons_pack/assets/heroes/mahsuri/wind/equipped_ready.png",
+   "status": "CONCEPT hero holding the element's weapon (AI-generated, magenta key cleaned); a taller, more realistic style than the base chibi poses, one pose only",
+   "use": "hero while the element is active",
+   "size": [
+    559,
+    700
+   ],
+   "alpha": true,
+   "bytes": 127398,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "heroes/mahsuri/weapon/api.webp",
+   "source": "HeroElements/didik_element_weapons_pack/assets/heroes/mahsuri/fire/equipped_ready.png",
+   "status": "CONCEPT hero holding the element's weapon (AI-generated, magenta key cleaned); a taller, more realistic style than the base chibi poses, one pose only",
+   "use": "hero while the element is active",
+   "size": [
+    559,
+    700
+   ],
+   "alpha": true,
+   "bytes": 125500,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "heroes/mahsuri/weapon/petir.webp",
+   "source": "HeroElements/didik_element_weapons_pack/assets/heroes/mahsuri/lightning/equipped_ready.png",
+   "status": "CONCEPT hero holding the element's weapon (AI-generated, magenta key cleaned); a taller, more realistic style than the base chibi poses, one pose only",
+   "use": "hero while the element is active",
+   "size": [
+    559,
+    700
+   ],
+   "alpha": true,
+   "bytes": 138710,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "heroes/mahsuri/weapon/tanah.webp",
+   "source": "HeroElements/didik_element_weapons_pack/assets/heroes/mahsuri/earth/equipped_ready.png",
+   "status": "CONCEPT hero holding the element's weapon (AI-generated, magenta key cleaned); a taller, more realistic style than the base chibi poses, one pose only",
+   "use": "hero while the element is active",
+   "size": [
+    559,
+    700
+   ],
+   "alpha": true,
+   "bytes": 117772,
+   "anchor": "bottom-center"
+  },
+  {
    "file": "heroes/tuah/attack.webp",
    "source": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/HANG_TUAH/hang_tuah_attack.png",
    "status": "production pose still (Batch 04), stray edges removed",
@@ -937,6 +1002,71 @@
    ],
    "alpha": true,
    "bytes": 100920,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "heroes/tuah/weapon/air.webp",
+   "source": "HeroElements/didik_element_weapons_pack/assets/heroes/tuah/water/equipped_ready.png",
+   "status": "CONCEPT hero holding the element's weapon (AI-generated, magenta key cleaned); a taller, more realistic style than the base chibi poses, one pose only",
+   "use": "hero while the element is active",
+   "size": [
+    562,
+    700
+   ],
+   "alpha": true,
+   "bytes": 142284,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "heroes/tuah/weapon/angin.webp",
+   "source": "HeroElements/didik_element_weapons_pack/assets/heroes/tuah/wind/equipped_ready.png",
+   "status": "CONCEPT hero holding the element's weapon (AI-generated, magenta key cleaned); a taller, more realistic style than the base chibi poses, one pose only",
+   "use": "hero while the element is active",
+   "size": [
+    562,
+    700
+   ],
+   "alpha": true,
+   "bytes": 115564,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "heroes/tuah/weapon/api.webp",
+   "source": "HeroElements/didik_element_weapons_pack/assets/heroes/tuah/fire/equipped_ready.png",
+   "status": "CONCEPT hero holding the element's weapon (AI-generated, magenta key cleaned); a taller, more realistic style than the base chibi poses, one pose only",
+   "use": "hero while the element is active",
+   "size": [
+    562,
+    700
+   ],
+   "alpha": true,
+   "bytes": 116942,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "heroes/tuah/weapon/petir.webp",
+   "source": "HeroElements/didik_element_weapons_pack/assets/heroes/tuah/lightning/equipped_ready.png",
+   "status": "CONCEPT hero holding the element's weapon (AI-generated, magenta key cleaned); a taller, more realistic style than the base chibi poses, one pose only",
+   "use": "hero while the element is active",
+   "size": [
+    562,
+    700
+   ],
+   "alpha": true,
+   "bytes": 131894,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "heroes/tuah/weapon/tanah.webp",
+   "source": "HeroElements/didik_element_weapons_pack/assets/heroes/tuah/earth/equipped_ready.png",
+   "status": "CONCEPT hero holding the element's weapon (AI-generated, magenta key cleaned); a taller, more realistic style than the base chibi poses, one pose only",
+   "use": "hero while the element is active",
+   "size": [
+    562,
+    700
+   ],
+   "alpha": true,
+   "bytes": 111188,
    "anchor": "bottom-center"
   },
   {

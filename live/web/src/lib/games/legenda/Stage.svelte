@@ -26,6 +26,8 @@
 		fxStill,
 		heartIcons,
 		heroArt,
+		heroWeaponArt,
+		ARMED_POSES,
 		minionArt,
 		reducedMotion,
 		sleep,
@@ -52,7 +54,8 @@
 		friends = [],
 		mode = 'battle',
 		dim = false,
-		elements = null
+		elements = null,
+		weapon = null
 	}: {
 		world: number;
 		hero: string;
@@ -71,6 +74,8 @@
 		dim?: boolean;
 		/** The element dock: unlocked at the boss, which is selected, and what a tap does. */
 		elements?: { unlocked: boolean; selected: string; disabled: boolean; onpick: (el: Element) => void } | null;
+		/** The element whose weapon the hero holds (the one the server has confirmed); null before the elements unlock. */
+		weapon?: Element | null;
 	} = $props();
 
 	const art = $derived(WORLD_ART[world]);
@@ -85,6 +90,10 @@
 	let still = $state(false);
 	let busy = $state(false);
 	let heroPose = $state<Pose>('idle');
+	// The weapon sprite when the pose shows one; a missing file falls back to the base sprite.
+	let weaponFailed = $state<string | null>(null);
+	const armed = $derived(!!weapon && ARMED_POSES.includes(heroPose) && weaponFailed !== `${hero}/${weapon}`);
+	const heroSrc = $derived(armed && weapon ? heroWeaponArt(hero, weapon) : heroArt(hero, heroPose));
 	let shownHearts = $state(12);
 	let shownBoss = $state(5);
 	let fallen = $state(false);
@@ -363,13 +372,22 @@
 		class="actor hero"
 		class:fallen
 		class:cheering
+		class:has-weapon={armed}
 		bind:this={heroEl}
 		style:left={pct(lay.hero.x)}
 		style:bottom={pct(1 - lay.hero.y)}
 		style:height={pct(HERO_H)}
 	>
 		<span class="shadow"></span>
-		<img src={heroArt(hero, heroPose)} alt={heroName} draggable="false" />
+		<img
+			class:armed
+			src={heroSrc}
+			alt={heroName}
+			draggable="false"
+			onerror={() => {
+				if (armed && weapon) weaponFailed = `${hero}/${weapon}`;
+			}}
+		/>
 	</div>
 
 	<div class="fx" bind:this={fxEl} aria-hidden="true"></div>
@@ -460,6 +478,16 @@
 		z-index: 4;
 		transform: translateX(-50%);
 		transform-origin: 50% 100%;
+	}
+	.hero.has-weapon {
+		display: flex;
+		align-items: flex-end;
+		justify-content: center;
+	}
+	/* The weapon sprites are taller and carry the blade's flames, so they are drawn larger, standing on the same ground. */
+	.hero img.armed {
+		height: 128%;
+		flex: none;
 	}
 	.hero img {
 		height: 100%;
