@@ -613,6 +613,9 @@ class Room:
         (a newer version of the server changed it), the room comes back in the lobby, children and
         all, so the host can simply start again."""
         mode_key = data["mode"] if data["mode"] in MODES else next(iter(MODES))
+        settings = dict(data["settings"])
+        if mode_key != data["mode"] and settings.get("max_players") == 1:
+            settings["max_players"] = 2
         room = cls(
             manager,
             code=data["code"],
@@ -622,7 +625,7 @@ class Room:
             quiz_title=data["title"],
             questions=parse_questions(data["questions"]),
             mode_key=mode_key,
-            settings=RoomSettings.model_validate(data["settings"]),
+            settings=RoomSettings.model_validate(settings),
             allow_bots=manager.allow_bots,
         )
         room.locked = bool(data["locked"])
@@ -636,6 +639,10 @@ class Room:
             room.players[player.id] = player
         room.phase = data["phase"]
         room.results = data["results"]
+        if mode_key != data["mode"]:
+            # Keep the quiz and rejoin tokens, but discard the retired game's state.
+            room.back_to_lobby()
+            room.feed("Permainan lama ini telah ditamatkan. Pilih permainan baharu di lobi untuk meneruskan kuiz yang sama.", "restart")
         if room.phase == "playing":
             try:
                 if data["v"] != SAVE_VERSION or mode_key != data["mode"]:

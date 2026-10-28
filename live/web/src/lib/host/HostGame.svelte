@@ -9,7 +9,6 @@
 	import VillageWorld from '$lib/games/village/VillageWorld.svelte';
 	import GardenHost from '$lib/games/garden/GardenHost.svelte';
 	import PictureHost from '$lib/games/picture/PictureHost.svelte';
-import StoryHost from '$lib/games/story/StoryHost.svelte';
 	import ScoreTowers from '$ui/ScoreTowers.svelte';
 						import SelfHost from './SelfHost.svelte';
 	import SyncHost from './SyncHost.svelte';
@@ -61,8 +60,6 @@ import StoryHost from '$lib/games/story/StoryHost.svelte';
 			{#if game.world?.top}<GardenHost world={game.world} {people} unit={mode.unit} />{/if}
 		{/snippet}
 	</SelfHost>
-{:else if mode.key === 'legenda'}
-	<StoryHost {client} {game} {people} />
 {:else}
 	<SelfHost {client} {game} {people} feed={view.feed} title={mode.title} total={minutes} />
 {/if}

@@ -104,7 +104,7 @@
 				<span>Tukar permainan</span>
 				<select class="input" value={mode.key} onchange={(e) => client.send({ t: 'mode', key: (e.target as HTMLSelectElement).value })}>
 					{#each modes as m (m.key)}
-						<option value={m.key} disabled={!!m.reason}>{m.title}{m.look === '3d' ? ' (3D)' : ''}{m.reason ? ' (tidak sesuai)' : ''}</option>
+						<option value={m.key} disabled={!!m.reason}>{m.title}{m.reason ? ' (tidak sesuai)' : ''}</option>
 					{/each}
 				</select>
 			</label>

@@ -12,7 +12,6 @@
 	import IslandMap from '$lib/home/IslandMap.svelte';
 	import MainIsland from '$lib/home/MainIsland.svelte';
 	import Ticket from '$lib/home/Ticket.svelte';
-	import StorySpotlight from '$lib/home/StorySpotlight.svelte';
 	import { reveal } from '$lib/home/reveal';
 	import { beachTile, grassFringe, seaTile, shoreStrip } from '$lib/pixel/sea';
 
@@ -83,7 +82,6 @@
 	<nav aria-label="Laman utama">
 		<a class="far" href="#pulau">Lapan pulau</a>
 		<a class="far" href="#cara">Cara bermain</a>
-		<a class="far" href="#legenda">Story Mode</a>
 		<a class="parents" href="/ibu-bapa"><span class="long">Untuk ibu bapa</span><span class="short">Ibu bapa</span> <Icon name="next" size={18} /></a>
 	</nav>
 </header>
@@ -152,7 +150,6 @@
 	</div>
 </section>
 
-<StorySpotlight />
 
 <section class="field" style:--fringe={fringe} aria-labelledby="ibu-bapa-tajuk">
 	<div class="wrap cta">
@@ -178,7 +175,6 @@
 				<ul>
 					<li><a href="#tiket">Masuk bilik dengan kod</a></li>
 					<li><a href="#pulau">Lapan pulau permainan</a></li>
-					<li><a href="#dunia-3d">Empat permainan 3D</a></li>
 					<li><a href="#cara">Cara bermain</a></li>
 					<li><a href="/ibu-bapa">Ruang ibu bapa</a></li>
 				</ul>

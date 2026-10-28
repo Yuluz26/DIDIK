@@ -1,6 +1,6 @@
 <!--
 	The end of a game. Solo games get a podium; team games name the winning team; the games where the
-	room builds something together (Kampung Kita, Menara 118) celebrate it, with no ranks at all. The
+	room builds something together (Kampung Kita, Legenda) celebrate it, with no ranks at all. The
 	server words the team and co-op endings, so this stays the same for every game.
 -->
 <script lang="ts">

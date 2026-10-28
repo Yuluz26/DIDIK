@@ -54,8 +54,7 @@ class BaseMode:
     style: ClassVar[str] = ""
     pace: ClassVar[str] = "sync"
     world: ClassVar[str] = ""
-    # How the game is drawn: "2d" (the 3/4 worlds) or "3d" (three.js). Every game suits any class;
-    # the 3D ones play in a darker room that matches their dusk and night worlds.
+    # Presentation metadata retained for API compatibility; all supported modes are 2D.
     look: ClassVar[str] = "2d"
     # What a score counts, shown beside every number (mata, m, syiling, petak...).
     unit: ClassVar[str] = "mata"

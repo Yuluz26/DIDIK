@@ -4,17 +4,14 @@ Permainan kuiz secara langsung untuk kanak-kanak. Ibu bapa atau guru menulis soa
 bilik, dan kanak-kanak masuk dengan pautan, kod QR atau kod 6 digit. Tiada akaun untuk kanak-kanak, hanya
 nama samaran.
 
-- **`server/`**: Python (FastAPI). API, bilik masa nyata melalui WebSocket, dua belas permainan,
+- **`server/`**: Python (FastAPI). API, bilik masa nyata melalui WebSocket, lapan permainan,
   pangkalan data SQLite.
 - **`web/`**: SvelteKit (TypeScript). Skrin ibu bapa, skrin hos dan skrin kanak-kanak. Selepas dibina,
   pelayan Python yang menghidangkannya, jadi semuanya berjalan pada satu port.
 
-## Dua belas permainan
+## Lapan permainan
 
-Semua permainan boleh dimainkan dengan mana-mana kuiz, oleh mana-mana kelas; guru atau ibu bapa pilih
-ikut citarasa. Empat yang terakhir dalam 3D (three.js, dimuat hanya bila permainan itu dibuka; tanpa
-WebGL ia tetap boleh dimainkan sebagai kuiz), dan biliknya memakai warna yang lebih gelap, sepadan
-dengan dunianya pada waktu senja dan malam.
+Lapan permainan 2D tersedia. Halaman pilih permainan menyatakan syarat soalan sebelum bilik dibuka.
 
 | Permainan | Cara main |
 | --- | --- |
@@ -26,19 +23,13 @@ dengan dunianya pada waktu senja dan malam.
 | Kampung Kita | Semua bina satu kampung bersama dan hias padangnya. Tiada yang kalah. |
 | Teka Gambar | Jawapan betul membuka petak gambar rahsia. Teka awal, mata lebih banyak. |
 | Kebun Ajaib | Jawapan betul memberi air. Tanam, siram dan tuai untuk dapat syiling. |
-| Litar Kart (3D) | Lumba tiga pusingan. Betul dan laju, kart memecut; tiga betul berturut-turut menyalakan nitro. |
-| Sepakan Penalti (3D) | Harimau lawan Penyu, satu sepakan setiap pasukan bagi setiap soalan. Peratus jawapan betul yang lebih tinggi menjaringkan gol. |
-| Peti Lanun (3D) | Jawapan betul membuka satu daripada tiga peti: emas, ganda dua, rampas atau tukar emas dengan kapal lain. Kapal yang dirompak dapat perisai seketika. |
-| Menara 118 (3D) | Seisi kelas membina satu menara setinggi Merdeka 118 (679 m). Blok yang diletakkan tepat di tengah menaikkan menara lebih tinggi. |
 
 Jenis soalan: pilihan tunggal, pilih semua yang betul, betul atau salah, taip jawapan, nombor, susun
 turutan, padankan, dan isi tempat kosong.
 
 ## Rupa pixel dan bunyi chiptune
 
-Semua gambar dalam permainan, di laman utama dan pada skrin hos dan telefon dilukis sebagai seni pixel
-**oleh kod**, bukan fail gambar: tiada aset untuk dimuat turun atau dilesenkan, dan warnanya mengikut satu
-palet. Watak, prop dan tanah dilukis sekali pada saiz asal (satu petak dunia ialah 16 piksel), kemudian
+Permainan melukis seni pixel asal melalui kod. Watak, prop dan tanah dilukis pada skala piksel, kemudian
 dibesarkan dengan nombor bulat, jadi setiap piksel tetap segi empat sama pada skrin kecil atau besar.
 
 | Apa | Di mana |
@@ -49,14 +40,11 @@ dibesarkan dengan nombor bulat, jadi setiap piksel tetap segi empat sama pada sk
 | Prop (pokok, bangku, air pancut, ...) dan bangunan | `pixel/props.ts`, `worlds/buildings.ts` |
 | Laut, pantai, langit senja di laman utama | `pixel/sea.ts`, `home/isles.ts` |
 | Lapan permainan 2D | `games/<nama>/sprites.ts` dan komponen di sebelahnya |
-| Empat permainan 3D | `three/` (dirender kecil melalui `PixelPass`, bahan `ToonMaterial`) |
 | Bunyi (gelombang segi empat dan segi tiga, hingar kasar) | `lib/sound.ts` |
 
 - Tajuk, HUD dan kaunter memakai fon piksel (Pixelify Sans); soalan dan jawapan kekal dalam fon yang
   mudah dibaca. Ruang ibu bapa sengaja kekal bersih: borang dan editornya tanpa fon atau bingkai piksel,
   hanya logo dan ikon yang sama.
-- Permainan 3D dirender pada resolusi rendah, dipaksa kepada palet kecil dengan *dither*, dan dibesarkan
-  tanpa pelicinan, jadi ia sepadan dengan permainan 2D.
 - Gerakan dikurangkan bila peranti meminta (`prefers-reduced-motion`): ombak, animasi sprite dan
   konfeti berhenti.
 - Untuk menambah prop baharu: lukis fungsinya dalam `pixel/props.ts`, daftarkan dalam `MAKERS`, dan
@@ -123,13 +111,9 @@ akan menggunakan alamat ini, jadi telefon boleh terus mengimbas kod QR walaupun 
 
 ## Satu kelas penuh
 
-Satu bilik menerima 60 pemain secara lalai (hos boleh menaikkannya hingga 100). Setiap satu daripada dua
-belas permainan diuji dengan 50 telefon serentak melalui WebSocket sebenar, semuanya dari satu alamat
-seperti sekolah di belakang satu router. Semua 50 masuk dan tiada sambungan terputus; pada mesin
-pembangunan, pelayan menggunakan 3 hingga 9% satu teras CPU, hasil setiap jawapan muncul di skrin dalam
-115 ms (p95), dan seluruh kelas memerlukan 0.3 hingga 1.5 Mbit/s. Skrin hos pula diuji dengan 51 pemain:
-nama, orang ramai dan senarai keputusan disusun supaya kekal kemas dan butang seterusnya sentiasa
-kelihatan.
+Bilik Party menerima 60 pemain secara lalai, dengan had konfigurasi hingga 100. Solo Legenda
+menerima seorang anak sahaja. Had kapasiti bukan bukti prestasi: ukur semula pada peranti dan
+rangkaian sasaran sebelum digunakan untuk kelas besar, khususnya pengembaraan Legenda.
 
 Telefon yang ketinggalan (Wi-Fi kelas yang sesak) terus menerima keadaan terkini, bukan setiap keadaan
 lama satu demi satu.
@@ -142,7 +126,9 @@ dihadkan untuk satu alamat hanyalah kod bilik yang salah (120 seminit), supaya k
 Bilik yang sedang dibuka disimpan dalam pangkalan data setiap dua saat dan sekali lagi semasa pelayan
 berhenti, kemudian dibuka semula bila pelayan bermula. Telefon dan skrin hos menyambung semula sendiri.
 Permainan yang sedang berjalan menunggu, dijeda, sehingga pemain yang ada sebelum itu kembali (paling
-lama 20 saat), kemudian bersambung dengan masa yang masih berbaki. Jalankan satu proses pelayan sahaja,
+lama 20 saat), kemudian bersambung dengan masa yang masih berbaki. Bilik tersimpan yang menggunakan
+permainan yang telah ditamatkan kembali ke lobi dengan kuiz, kod bilik dan pemain yang sama; hos
+memilih permainan yang disokong. Skor dan keadaan permainan lama dibersihkan. Jalankan satu proses pelayan sahaja,
 kerana bilik hidup dalam proses itu.
 
 ## Lupa kata laluan

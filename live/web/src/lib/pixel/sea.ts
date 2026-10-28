@@ -1,7 +1,7 @@
 /*
  * The front page's backdrops as repeating pixel pictures: the sea with its little waves (two frames
- * that take turns), the foam line where the sea meets the beach, grains of sand, the dusk sky in
- * dithered bands with a few stars, and the blades of grass along the top of the parents' field.
+ * that take turns), the foam line where the sea meets the beach, grains of sand,
+ * and the blades of grass along the top of the parents' field.
  * Each is a small picture the page repeats and magnifies by a whole number.
  */
 import { memo } from './cache';
@@ -118,41 +118,6 @@ export function beachTile(): Pix {
 			p.set(x, y, rgba('#cdb88c'));
 			p.set(x + 1, y, rgba('#cdb88c'));
 			p.set(x + 1, y + 1, rgba('#b39a6c'));
-		}
-		return p;
-	});
-}
-
-export const DUSK = { w: 96, h: 88 };
-const SKY = ['#f8e7bf', '#f6cd9a', '#f2b077', '#d38a6f', '#8c6176', '#5a4f6b', '#2f3d5c', '#1b2d3f'].map((h) => rgba(h));
-
-/** The sand turning to sunset and then night, in bands whose edges are dithered, with stars. */
-export function duskSky(): Pix {
-	return memo('sea:dusk', () => {
-		const p = new Pix(DUSK.w, DUSK.h);
-		const band = DUSK.h / SKY.length;
-		for (let y = 0; y < DUSK.h; y++) {
-			const k = Math.floor(y / band);
-			const into = y - k * band;
-			for (let x = 0; x < DUSK.w; x++) {
-				let c = SKY[k];
-				// the last rows of a band dither into the next, the first rows of the next dither back
-				if (k < SKY.length - 1 && into >= band - 3) c = (into - (band - 3) + 1) / 7 + 0.14 > bayer(x, y) ? SKY[k + 1] : SKY[k];
-				else if (k > 0 && into < 3) c = 1 - (into + 1) / 7 - 0.14 > bayer(x, y) ? SKY[k - 1] : SKY[k];
-				p.set(x, y, c);
-			}
-		}
-		const star = rgba('#f3efe6');
-		for (let i = 0; i < 16; i++) {
-			const x = Math.floor(noise(i, 1, 90) * DUSK.w);
-			const y = 38 + Math.floor(noise(i, 2, 90) * 24);
-			p.set(x, y, star);
-			if (i % 4 === 0) {
-				p.set(x - 1, y, star);
-				p.set(x + 1, y, star);
-				p.set(x, y - 1, star);
-				p.set(x, y + 1, star);
-			}
 		}
 		return p;
 	});

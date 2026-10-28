@@ -1,6 +1,6 @@
 <!--
-	"Main bersama": choose one of the twelve games for this quiz and open a room. Every game suits any
-	class; the teacher or parent picks by taste, and the 3D ones say so. Games the quiz cannot support
+	"Main bersama": choose one of the eight games for this quiz and open a room. Every game suits any
+	class; the teacher or parent picks by taste. Games the quiz cannot support
 	(e.g. Lompat! needs Betul/Salah or 2-4 choices) say why instead of failing later.
 -->
 <script lang="ts">
@@ -74,7 +74,7 @@
 				<button type="button" class="game" class:off={!!mode.reason} disabled={!!mode.reason || !!opening} onclick={() => open(mode)}>
 					<WorldBadge world={mode.world} size={92} />
 					<span class="text">
-						<span class="kind">{mode.style}{mode.look === '3d' ? ' · 3D' : ''}</span>
+						<span class="kind">{mode.style}</span>
 						<span class="title">{mode.title}</span>
 						<span class="tagline">{mode.tagline}</span>
 						{#if mode.reason}
