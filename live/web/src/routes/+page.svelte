@@ -11,6 +11,7 @@
 	import Logo from '$ui/Logo.svelte';
 	import IslandMap from '$lib/home/IslandMap.svelte';
 	import MainIsland from '$lib/home/MainIsland.svelte';
+	import StorySection from '$lib/home/StorySection.svelte';
 	import Ticket from '$lib/home/Ticket.svelte';
 	import { reveal } from '$lib/home/reveal';
 	import { beachTile, grassFringe, seaTile, shoreStrip } from '$lib/pixel/sea';
@@ -81,6 +82,7 @@
 	<Logo light />
 	<nav aria-label="Laman utama">
 		<a class="far" href="#pulau">Lapan pulau</a>
+		<a class="far" href="#legenda">Story Mode</a>
 		<a class="far" href="#cara">Cara bermain</a>
 		<a class="parents" href="/ibu-bapa"><span class="long">Untuk ibu bapa</span><span class="short">Ibu bapa</span> <Icon name="next" size={18} /></a>
 	</nav>
@@ -109,6 +111,8 @@
 				{/snippet}
 			</IslandMap>
 		</section>
+
+		<StorySection />
 
 		<div class="shore" aria-hidden="true"></div>
 	</div>
