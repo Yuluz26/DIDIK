@@ -383,7 +383,7 @@ class Room:
             skin=skin,
             is_bot=bot,
             approved=bot or not self.settings.waiting_room,
-            spot=plaza.arrival(self.rng, crowd=len(self.players)),
+            spot=plaza.apart(*plaza.arrival(self.rng, crowd=len(self.players)), [p.spot for p in self.players.values()]),
         )
         if bot:
             player.skill = self.rng.uniform(0.55, 0.85)
@@ -531,6 +531,7 @@ class Room:
         self.move(player, *plaza.clamp(tx, ty))
 
     def move(self, player: Player, x: float, y: float) -> None:
+        x, y = plaza.apart(x, y, [p.spot for p in self.players.values() if p is not player and p.approved])
         if abs(x - player.spot[0]) > 0.05:
             player.facing = 1 if x > player.spot[0] else -1
         player.spot = (x, y)
