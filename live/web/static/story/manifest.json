@@ -44,6 +44,378 @@
    "use": "battle feedback"
   },
   {
+   "file": "banners/bersedia.webp",
+   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/01_STATIC_BANNERS_PNG/bersedia.png",
+   "status": "production banner text (Batch 14: vector-authored, Malay spelling fixed)",
+   "use": "Prepare for next encounter",
+   "size": [
+    1280,
+    320
+   ],
+   "alpha": true,
+   "bytes": 66448
+  },
+  {
+   "file": "banners/boss_akan_menyerang.webp",
+   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/01_STATIC_BANNERS_PNG/boss_akan_menyerang.png",
+   "status": "production banner text (Batch 14: vector-authored, Malay spelling fixed)",
+   "use": "Boss counterattack immediately before damaging player",
+   "size": [
+    1280,
+    320
+   ],
+   "alpha": true,
+   "bytes": 88806
+  },
+  {
+   "file": "banners/boss_akan_menyerang_sheet.webp",
+   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/06_SPRITESHEETS/boss_akan_menyerang_12frames_4x3.png",
+   "status": "production animated banner (Batch 14, 12 frames)",
+   "use": "Boss counterattack immediately before damaging player",
+   "size": [
+    3840,
+    720
+   ],
+   "alpha": true,
+   "bytes": 609932,
+   "frames": 12,
+   "frame": [
+    960,
+    240
+   ],
+   "columns": 4
+  },
+  {
+   "file": "banners/boss_dikalahkan.webp",
+   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/01_STATIC_BANNERS_PNG/boss_dikalahkan.png",
+   "status": "production banner text (Batch 14: vector-authored, Malay spelling fixed)",
+   "use": "Boss HP reaches zero after 5 successful hits",
+   "size": [
+    1280,
+    320
+   ],
+   "alpha": true,
+   "bytes": 81926
+  },
+  {
+   "file": "banners/boss_muncul.webp",
+   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/01_STATIC_BANNERS_PNG/boss_muncul.png",
+   "status": "production banner text (Batch 14: vector-authored, Malay spelling fixed)",
+   "use": "Boss reveal after world encounters",
+   "size": [
+    1280,
+    320
+   ],
+   "alpha": true,
+   "bytes": 78616
+  },
+  {
+   "file": "banners/boss_muncul_sheet.webp",
+   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/06_SPRITESHEETS/boss_muncul_12frames_4x3.png",
+   "status": "production animated banner (Batch 14, 12 frames)",
+   "use": "Boss reveal after world encounters",
+   "size": [
+    3840,
+    720
+   ],
+   "alpha": true,
+   "bytes": 545710,
+   "frames": 12,
+   "frame": [
+    960,
+    240
+   ],
+   "columns": 4
+  },
+  {
+   "file": "banners/cuba_lagi.webp",
+   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/01_STATIC_BANNERS_PNG/cuba_lagi.png",
+   "status": "production banner text (Batch 14: vector-authored, Malay spelling fixed)",
+   "use": "Retry from current world checkpoint on zero HP",
+   "size": [
+    1280,
+    320
+   ],
+   "alpha": true,
+   "bytes": 76490
+  },
+  {
+   "file": "banners/dunia_seterusnya.webp",
+   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/01_STATIC_BANNERS_PNG/dunia_seterusnya.png",
+   "status": "production banner text (Batch 14: vector-authored, Malay spelling fixed)",
+   "use": "New world opened",
+   "size": [
+    1280,
+    320
+   ],
+   "alpha": true,
+   "bytes": 81940
+  },
+  {
+   "file": "banners/elemen_dibuka.webp",
+   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/01_STATIC_BANNERS_PNG/elemen_dibuka.png",
+   "status": "production banner text (Batch 14: vector-authored, Malay spelling fixed)",
+   "use": "New elemental power unlock",
+   "size": [
+    1280,
+    320
+   ],
+   "alpha": true,
+   "bytes": 73264
+  },
+  {
+   "file": "banners/giliran_awak.webp",
+   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/01_STATIC_BANNERS_PNG/giliran_awak.png",
+   "status": "production banner text (Batch 14: vector-authored, Malay spelling fixed)",
+   "use": "Player turn begins",
+   "size": [
+    1280,
+    320
+   ],
+   "alpha": true,
+   "bytes": 73948
+  },
+  {
+   "file": "banners/jawapan_betul.webp",
+   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/01_STATIC_BANNERS_PNG/jawapan_betul.png",
+   "status": "production banner text (Batch 14: vector-authored, Malay spelling fixed)",
+   "use": "Correct quiz answer",
+   "size": [
+    1280,
+    320
+   ],
+   "alpha": true,
+   "bytes": 74896
+  },
+  {
+   "file": "banners/jawapan_betul_sheet.webp",
+   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/06_SPRITESHEETS/jawapan_betul_12frames_4x3.png",
+   "status": "production animated banner (Batch 14, 12 frames)",
+   "use": "Correct quiz answer",
+   "size": [
+    3840,
+    720
+   ],
+   "alpha": true,
+   "bytes": 526326,
+   "frames": 12,
+   "frame": [
+    960,
+    240
+   ],
+   "columns": 4
+  },
+  {
+   "file": "banners/jawapan_salah.webp",
+   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/01_STATIC_BANNERS_PNG/jawapan_salah.png",
+   "status": "production banner text (Batch 14: vector-authored, Malay spelling fixed)",
+   "use": "Incorrect quiz answer",
+   "size": [
+    1280,
+    320
+   ],
+   "alpha": true,
+   "bytes": 83712
+  },
+  {
+   "file": "banners/jawapan_salah_sheet.webp",
+   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/06_SPRITESHEETS/jawapan_salah_12frames_4x3.png",
+   "status": "production animated banner (Batch 14, 12 frames)",
+   "use": "Incorrect quiz answer",
+   "size": [
+    3840,
+    720
+   ],
+   "alpha": true,
+   "bytes": 577924,
+   "frames": 12,
+   "frame": [
+    960,
+    240
+   ],
+   "columns": 4
+  },
+  {
+   "file": "banners/kemenangan.webp",
+   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/01_STATIC_BANNERS_PNG/kemenangan.png",
+   "status": "production banner text (Batch 14: vector-authored, Malay spelling fixed)",
+   "use": "Winning a battle or chapter",
+   "size": [
+    1280,
+    320
+   ],
+   "alpha": true,
+   "bytes": 74778
+  },
+  {
+   "file": "banners/kemenangan_sheet.webp",
+   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/06_SPRITESHEETS/kemenangan_12frames_4x3.png",
+   "status": "production animated banner (Batch 14, 12 frames)",
+   "use": "Winning a battle or chapter",
+   "size": [
+    3840,
+    720
+   ],
+   "alpha": true,
+   "bytes": 524240,
+   "frames": 12,
+   "frame": [
+    960,
+    240
+   ],
+   "columns": 4
+  },
+  {
+   "file": "banners/misi_selesai.webp",
+   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/01_STATIC_BANNERS_PNG/misi_selesai.png",
+   "status": "production banner text (Batch 14: vector-authored, Malay spelling fixed)",
+   "use": "End of a successful story stage",
+   "size": [
+    1280,
+    320
+   ],
+   "alpha": true,
+   "bytes": 71814
+  },
+  {
+   "file": "banners/nyawa_berkurang.webp",
+   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/01_STATIC_BANNERS_PNG/nyawa_berkurang.png",
+   "status": "production banner text (Batch 14: vector-authored, Malay spelling fixed)",
+   "use": "Show after server confirms -1.5 hearts",
+   "size": [
+    1280,
+    320
+   ],
+   "alpha": true,
+   "bytes": 86688
+  },
+  {
+   "file": "banners/nyawa_bertambah.webp",
+   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/01_STATIC_BANNERS_PNG/nyawa_bertambah.png",
+   "status": "production banner text (Batch 14: vector-authored, Malay spelling fixed)",
+   "use": "Show after server confirms +0.5 heart",
+   "size": [
+    1280,
+    320
+   ],
+   "alpha": true,
+   "bytes": 76100
+  },
+  {
+   "file": "banners/pertarungan_bermula.webp",
+   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/01_STATIC_BANNERS_PNG/pertarungan_bermula.png",
+   "status": "production banner text (Batch 14: vector-authored, Malay spelling fixed)",
+   "use": "Start of JRPG battle",
+   "size": [
+    1280,
+    320
+   ],
+   "alpha": true,
+   "bytes": 82668
+  },
+  {
+   "file": "banners/pertarungan_bermula_sheet.webp",
+   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/06_SPRITESHEETS/pertarungan_bermula_12frames_4x3.png",
+   "status": "production animated banner (Batch 14, 12 frames)",
+   "use": "Start of JRPG battle",
+   "size": [
+    3840,
+    720
+   ],
+   "alpha": true,
+   "bytes": 576106,
+   "frames": 12,
+   "frame": [
+    960,
+    240
+   ],
+   "columns": 4
+  },
+  {
+   "file": "banners/pilih_elemen.webp",
+   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/01_STATIC_BANNERS_PNG/pilih_elemen.png",
+   "status": "production banner text (Batch 14: vector-authored, Malay spelling fixed)",
+   "use": "Element weapon selection",
+   "size": [
+    1280,
+    320
+   ],
+   "alpha": true,
+   "bytes": 68330
+  },
+  {
+   "file": "banners/senjata_diperoleh.webp",
+   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/01_STATIC_BANNERS_PNG/senjata_diperoleh.png",
+   "status": "production banner text (Batch 14: vector-authored, Malay spelling fixed)",
+   "use": "New elemental weapon unlocked",
+   "size": [
+    1280,
+    320
+   ],
+   "alpha": true,
+   "bytes": 83214
+  },
+  {
+   "file": "banners/serangan_balas.webp",
+   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/01_STATIC_BANNERS_PNG/serangan_balas.png",
+   "status": "production banner text (Batch 14: vector-authored, Malay spelling fixed)",
+   "use": "Boss counterattack triggered by wrong answer",
+   "size": [
+    1280,
+    320
+   ],
+   "alpha": true,
+   "bytes": 86076
+  },
+  {
+   "file": "banners/serangan_berjaya.webp",
+   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/01_STATIC_BANNERS_PNG/serangan_berjaya.png",
+   "status": "production banner text (Batch 14: vector-authored, Malay spelling fixed)",
+   "use": "Successful hit on boss",
+   "size": [
+    1280,
+    320
+   ],
+   "alpha": true,
+   "bytes": 80284
+  },
+  {
+   "file": "banners/serangan_dihalang.webp",
+   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/01_STATIC_BANNERS_PNG/serangan_dihalang.png",
+   "status": "production banner text (Batch 14: vector-authored, Malay spelling fixed)",
+   "use": "Blocked or invalid strike (if supported by mechanics)",
+   "size": [
+    1280,
+    320
+   ],
+   "alpha": true,
+   "bytes": 88126
+  },
+  {
+   "file": "banners/serangan_kritikal.webp",
+   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/01_STATIC_BANNERS_PNG/serangan_kritikal.png",
+   "status": "production banner text (Batch 14: vector-authored, Malay spelling fixed)",
+   "use": "Optional cinematic emphasis; do not introduce bonus damage",
+   "size": [
+    1280,
+    320
+   ],
+   "alpha": true,
+   "bytes": 83166
+  },
+  {
+   "file": "banners/soalan_seterusnya.webp",
+   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/01_STATIC_BANNERS_PNG/soalan_seterusnya.png",
+   "status": "production banner text (Batch 14: vector-authored, Malay spelling fixed)",
+   "use": "Proceed to next quiz question",
+   "size": [
+    1280,
+    320
+   ],
+   "alpha": true,
+   "bytes": 81164
+  },
+  {
    "file": "bosses/chini/attack.webp",
    "source": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/NAGA_CHINI/naga_chini_attack.png",
    "status": "production pose still (Batch 04/06), stray edges removed",

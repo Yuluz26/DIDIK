@@ -23,6 +23,7 @@ in behind it. *missing* = not in any pack.
 | hero_portraits | heroes/{tuah,mahsuri}/portrait.webp | select / HUD portrait | Batch03 full-body poses | production | hero select | no |
 | fx_elements | fx/{api,angin,petir,tanah,air}.webp | burst per element | Batch05 | production (single stills, tweened) | attack burst, projectile | no |
 | fx_slash | fx/{el}_slash.webp | attack effect, 12 frames | Effects60 pack (`_asset_input/Effects60/04_ATTACK_FRAMES`) | production art, AI-generated frames cut from contact sheets (neighbour bleed removed, native 314 x 418 per frame; some frames are cut flush with their cell, so the edges are feathered in code) | attack on the boss or enemy, counterattack on the hero | no |
+| banners | banners/{id}.webp, banners/{id}_sheet.webp | transition text | Batch14 (vector-authored, spelling fixed) | production; 13 of the 22 are used, 6 of them as 12-frame animations | story transitions | no |
 | fx_transition | fx/transition_4x3.webp | world wipe | Batch12 12 alpha frames | production | world intro | no |
 | ui_elements | ui/element_{el}.webp | icons | Batch02 | production | element dock, unlock | no |
 | ui_hearts | ui/heart_{full,half,empty}.webp | half-heart states | Batch02 | production | HUD | no |

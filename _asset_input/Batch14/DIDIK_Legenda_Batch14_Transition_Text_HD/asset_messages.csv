@@ -1,0 +1,23 @@
+﻿id,ms_text,theme,usage,banner_png,text_only_png,vector_svg
+boss_akan_menyerang,Boss Akan Menyerang!,boss,Boss counterattack immediately before damaging player,01_STATIC_BANNERS_PNG/boss_akan_menyerang.png,02_TEXT_ONLY_TRANSPARENT_PNG/boss_akan_menyerang.png,03_VECTOR_SVG/banners/boss_akan_menyerang.svg
+boss_muncul,Boss Muncul!,boss,Boss reveal after world encounters,01_STATIC_BANNERS_PNG/boss_muncul.png,02_TEXT_ONLY_TRANSPARENT_PNG/boss_muncul.png,03_VECTOR_SVG/banners/boss_muncul.svg
+serangan_balas,Serangan Balas!,danger,Boss counterattack triggered by wrong answer,01_STATIC_BANNERS_PNG/serangan_balas.png,02_TEXT_ONLY_TRANSPARENT_PNG/serangan_balas.png,03_VECTOR_SVG/banners/serangan_balas.svg
+pertarungan_bermula,Pertarungan Bermula!,battle,Start of JRPG battle,01_STATIC_BANNERS_PNG/pertarungan_bermula.png,02_TEXT_ONLY_TRANSPARENT_PNG/pertarungan_bermula.png,03_VECTOR_SVG/banners/pertarungan_bermula.svg
+giliran_awak,Giliran Awak!,battle,Player turn begins,01_STATIC_BANNERS_PNG/giliran_awak.png,02_TEXT_ONLY_TRANSPARENT_PNG/giliran_awak.png,03_VECTOR_SVG/banners/giliran_awak.svg
+pilih_elemen,Pilih Elemen!,magic,Element weapon selection,01_STATIC_BANNERS_PNG/pilih_elemen.png,02_TEXT_ONLY_TRANSPARENT_PNG/pilih_elemen.png,03_VECTOR_SVG/banners/pilih_elemen.svg
+jawapan_betul,Jawapan Betul!,good,Correct quiz answer,01_STATIC_BANNERS_PNG/jawapan_betul.png,02_TEXT_ONLY_TRANSPARENT_PNG/jawapan_betul.png,03_VECTOR_SVG/banners/jawapan_betul.svg
+jawapan_salah,Jawapan Salah!,bad,Incorrect quiz answer,01_STATIC_BANNERS_PNG/jawapan_salah.png,02_TEXT_ONLY_TRANSPARENT_PNG/jawapan_salah.png,03_VECTOR_SVG/banners/jawapan_salah.svg
+serangan_berjaya,Serangan Berjaya!,good,Successful hit on boss,01_STATIC_BANNERS_PNG/serangan_berjaya.png,02_TEXT_ONLY_TRANSPARENT_PNG/serangan_berjaya.png,03_VECTOR_SVG/banners/serangan_berjaya.svg
+serangan_dihalang,Serangan Dihalang!,bad,Blocked or invalid strike (if supported by mechanics),01_STATIC_BANNERS_PNG/serangan_dihalang.png,02_TEXT_ONLY_TRANSPARENT_PNG/serangan_dihalang.png,03_VECTOR_SVG/banners/serangan_dihalang.svg
+serangan_kritikal,Serangan Kritikal!,gold,Optional cinematic emphasis; do not introduce bonus damage,01_STATIC_BANNERS_PNG/serangan_kritikal.png,02_TEXT_ONLY_TRANSPARENT_PNG/serangan_kritikal.png,03_VECTOR_SVG/banners/serangan_kritikal.svg
+nyawa_berkurang,Nyawa Berkurang!,bad,Show after server confirms -1.5 hearts,01_STATIC_BANNERS_PNG/nyawa_berkurang.png,02_TEXT_ONLY_TRANSPARENT_PNG/nyawa_berkurang.png,03_VECTOR_SVG/banners/nyawa_berkurang.svg
+nyawa_bertambah,Nyawa Bertambah!,heal,Show after server confirms +0.5 heart,01_STATIC_BANNERS_PNG/nyawa_bertambah.png,02_TEXT_ONLY_TRANSPARENT_PNG/nyawa_bertambah.png,03_VECTOR_SVG/banners/nyawa_bertambah.svg
+boss_dikalahkan,Boss Dikalahkan!,gold,Boss HP reaches zero after 5 successful hits,01_STATIC_BANNERS_PNG/boss_dikalahkan.png,02_TEXT_ONLY_TRANSPARENT_PNG/boss_dikalahkan.png,03_VECTOR_SVG/banners/boss_dikalahkan.svg
+kemenangan,Kemenangan!,gold,Winning a battle or chapter,01_STATIC_BANNERS_PNG/kemenangan.png,02_TEXT_ONLY_TRANSPARENT_PNG/kemenangan.png,03_VECTOR_SVG/banners/kemenangan.svg
+cuba_lagi,Cuba Lagi!,danger,Retry from current world checkpoint on zero HP,01_STATIC_BANNERS_PNG/cuba_lagi.png,02_TEXT_ONLY_TRANSPARENT_PNG/cuba_lagi.png,03_VECTOR_SVG/banners/cuba_lagi.svg
+senjata_diperoleh,Senjata Diperoleh!,gold,New elemental weapon unlocked,01_STATIC_BANNERS_PNG/senjata_diperoleh.png,02_TEXT_ONLY_TRANSPARENT_PNG/senjata_diperoleh.png,03_VECTOR_SVG/banners/senjata_diperoleh.svg
+elemen_dibuka,Elemen Dibuka!,magic,New elemental power unlock,01_STATIC_BANNERS_PNG/elemen_dibuka.png,02_TEXT_ONLY_TRANSPARENT_PNG/elemen_dibuka.png,03_VECTOR_SVG/banners/elemen_dibuka.svg
+dunia_seterusnya,Dunia Seterusnya!,gold,New world opened,01_STATIC_BANNERS_PNG/dunia_seterusnya.png,02_TEXT_ONLY_TRANSPARENT_PNG/dunia_seterusnya.png,03_VECTOR_SVG/banners/dunia_seterusnya.svg
+soalan_seterusnya,Soalan Seterusnya!,battle,Proceed to next quiz question,01_STATIC_BANNERS_PNG/soalan_seterusnya.png,02_TEXT_ONLY_TRANSPARENT_PNG/soalan_seterusnya.png,03_VECTOR_SVG/banners/soalan_seterusnya.svg
+misi_selesai,Misi Selesai!,good,End of a successful story stage,01_STATIC_BANNERS_PNG/misi_selesai.png,02_TEXT_ONLY_TRANSPARENT_PNG/misi_selesai.png,03_VECTOR_SVG/banners/misi_selesai.svg
+bersedia,Bersedia!,battle,Prepare for next encounter,01_STATIC_BANNERS_PNG/bersedia.png,02_TEXT_ONLY_TRANSPARENT_PNG/bersedia.png,03_VECTOR_SVG/banners/bersedia.svg

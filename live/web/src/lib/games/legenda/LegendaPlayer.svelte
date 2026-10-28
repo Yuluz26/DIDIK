@@ -12,7 +12,7 @@
 	a wrong answer brings it back with the right answer shown.
 -->
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { onMount, tick } from 'svelte';
 	import type { RoomClient } from '$lib/room.svelte';
 	import type { Me, Person } from '$lib/types';
 	import { confetti } from '$lib/confetti';
@@ -22,6 +22,8 @@
 	import Hud from '../Hud.svelte';
 	import Icon from '$ui/Icon.svelte';
 	import SoundToggle from '$ui/SoundToggle.svelte';
+	import Banner from './Banner.svelte';
+	import { BANNERS } from './banners';
 	import HeroSelect from './HeroSelect.svelte';
 	import Stage from './Stage.svelte';
 	import {
@@ -34,6 +36,7 @@
 		heartsText,
 		heroArt,
 		preload,
+		sleep,
 		reducedMotion,
 		symbol,
 		worldUrls,
@@ -50,6 +53,11 @@
 	// The seat's answer count the attack or counterattack has finished playing for.
 	let doneFor = $state(-1);
 	let popup = $state<HTMLElement>();
+	let scrim = $state<HTMLElement>();
+	// The banner on screen now, if any (`n` tells one showing from the next).
+	let banner = $state<{ id: string; ms: number; n: number } | null>(null);
+	let bannerN = 0;
+	const picked = new Set<number>();
 
 	const seat = $derived(game.seat ?? {});
 	const step = $derived((seat.step as string) ?? 'wait');
@@ -103,6 +111,23 @@
 	$effect(() => {
 		if (elementsNear) void preload(elementUrls());
 	});
+	// The banners the story uses load once the world has (the other supplied ones are not used).
+	const USED = [
+		'pertarungan_bermula', 'jawapan_betul', 'jawapan_salah', 'boss_akan_menyerang', 'serangan_balas', 'nyawa_berkurang',
+		'pilih_elemen', 'elemen_dibuka', 'boss_muncul', 'boss_dikalahkan', 'dunia_seterusnya', 'cuba_lagi', 'kemenangan'
+	];
+	$effect(() => {
+		if (!ready) return;
+		void preload(USED.map((id) => (BANNERS[id]?.animated ? `/story/banners/${id}_sheet.webp` : `/story/banners/${id}.webp`)));
+	});
+
+	/** Shows a transition banner for `ms`; resolves when it has gone. */
+	async function show(id: string, ms = 1100): Promise<void> {
+		const n = ++bannerN;
+		banner = { id, ms, n };
+		await sleep(ms);
+		if (bannerN === n) banner = null;
+	}
 
 	function next() {
 		if (timer) clearTimeout(timer);
@@ -126,32 +151,44 @@
 			stage?.reset();
 			sfx('unlock', 0.5);
 			void playWipe();
+			if (worldIndex > 0) void show('dunia_seterusnya', 1800);
 			later(4600);
 		} else if (step === 'travel') later(2800);
 		else if (step === 'encounter') {
 			void stage?.enter();
+			void show('pertarungan_bermula', 1500);
 			later(1700);
 		} else if (step === 'clear') {
 			sfx('correct', 0.5);
 			later(1800);
 		} else if (step === 'unlock') {
 			sfx('unlock');
+			void show('elemen_dibuka', 1800);
 			later(4200);
 		} else if (step === 'reveal') {
 			stage?.reset();
+			void show('boss_muncul', 1700);
 			later(4000);
 		} else if (step === 'worldclear') {
 			stage?.celebrate();
 			sfx('unlock');
 			confetti({ count: 90 });
+			void show('boss_dikalahkan', 1800);
 			later(6500);
 		} else if (step === 'fallen') {
 			stage?.fall();
+			void show('cuba_lagi', 1500);
 		} else if (step === 'victory') {
 			stage?.celebrate();
 			confetti({ count: 160, spread: 1.3 });
+			void show('kemenangan', 2600);
 		} else if (step === 'question') {
 			stage?.reset();
+			// The first boss question of a world: remind the child to choose an element.
+			if (boss && story.elements && !picked.has(worldIndex)) {
+				picked.add(worldIndex);
+				void show('pilih_elemen', 1300);
+			}
 		}
 	});
 
@@ -164,11 +201,15 @@
 		const run = async () => {
 			if (result.correct) {
 				sfx(boss ? 'hit' : 'correct');
+				void show('jawapan_betul', 1000);
 				await stage?.attack(boss ? (reward.element as Element) : null, { weak: reward.weak, finishing: reward.bossHp === 0, healed: reward.change > 0 });
 				if (reward.change > 0) sfx('heal', 0.4);
 			} else {
 				sfx('wrong');
+				await show('jawapan_salah', 950);
+				void show(boss ? 'boss_akan_menyerang' : 'serangan_balas', 1100);
 				await stage?.counter();
+				void show('nyawa_berkurang', 900);
 			}
 			doneFor = mine;
 			// A right answer moves on by itself; a wrong one stays, with the right answer shown, until the child taps on.
@@ -189,6 +230,29 @@
 		const was = document.body.style.overflow;
 		document.body.style.overflow = 'hidden';
 		return () => (document.body.style.overflow = was);
+	});
+
+	/**
+	 * Shrinks the popup to fit the viewport, so the whole question shows without scrolling (the scroll bar
+	 * is hidden; a very small screen can still scroll). It measures the popup at full size first.
+	 */
+	function fit() {
+		if (!popup || !scrim) return;
+		popup.style.zoom = '1';
+		const box = getComputedStyle(scrim);
+		const room = {
+			h: scrim.clientHeight - parseFloat(box.paddingTop) - parseFloat(box.paddingBottom),
+			w: scrim.clientWidth - parseFloat(box.paddingLeft) - parseFloat(box.paddingRight)
+		};
+		const k = Math.min(1, room.h / popup.scrollHeight, room.w / popup.offsetWidth);
+		popup.style.zoom = k < 1 ? String(Math.max(0.5, k)) : '';
+	}
+	const refit = () => requestAnimationFrame(() => requestAnimationFrame(fit));
+
+	$effect(() => {
+		// Whenever what the popup holds changes, fit it again once it has been drawn.
+		void [step, question?.id, story.element, story.hearts, animating, result?.correct, popup];
+		if (popup) void tick().then(refit);
 	});
 
 	/** Asks the browser for full screen (and, on a phone, landscape). It must come from a tap; if the
@@ -252,7 +316,7 @@
 	const fighting = $derived(raid ? raid.members.length : 1);
 </script>
 
-<svelte:window onkeydown={onkey} />
+<svelte:window onkeydown={onkey} onresize={refit} />
 
 {#if step === 'select'}
 	<Hud {me} score={game.score ?? 0} />
@@ -298,8 +362,6 @@
 				<div class="overlay caption" role="status">
 					<p>{heroInfo.name} meneruskan perjalanan… <span>Musuh {foeIndex} / {encounters}</span></p>
 				</div>
-			{:else if step === 'encounter'}
-				<div class="overlay banner warn" role="status"><p>Musuh muncul!</p></div>
 			{:else if step === 'clear'}
 				<div class="overlay banner good" role="status"><p>Musuh tewas! {story.cleared} / {encounters}</p></div>
 			{:else if step === 'unlock'}
@@ -367,14 +429,16 @@
 				</div>
 			{/if}
 
+			{#if banner}{#key banner.n}<Banner id={banner.id} ms={banner.ms} />{/key}{/if}
+
 			<div class="wipe" bind:this={wipe} aria-hidden="true"></div>
 			{#if !ready}<p class="loader" aria-live="polite">Memuat dunia…</p>{/if}
 		</div>
 
 		<!-- the question, as a popup over the scene -->
 		{#if asking && question}
-			<div class="scrim" class:away={popupAway}>
-				<div class="popup" role="dialog" aria-modal="true" aria-label="Soalan pertarungan" tabindex="-1" bind:this={popup}>
+			<div class="scrim" class:away={popupAway} bind:this={scrim}>
+				<div class="popup" role="dialog" aria-modal="true" aria-label="Soalan pertarungan" tabindex="-1" bind:this={popup} oninput={refit} onclick={refit} onkeyup={refit}>
 					<header class="p-head">
 						<p class="who"><img src={symbol(worldIndex)} alt="" /> {boss ? scene.boss : (scene.foe ?? 'Musuh')}</p>
 						<p class="hearts" aria-label="Hati: {heartsText(story.hearts ?? 0)} daripada 6">
@@ -523,6 +587,8 @@
 		max-height: 100%;
 		padding: 0.8rem;
 		overflow: auto;
+		scrollbar-width: none;
+		-ms-overflow-style: none;
 		border-radius: 22px;
 		background: linear-gradient(180deg, #13284f, #0a1530);
 		box-shadow:
@@ -531,6 +597,29 @@
 			0 24px 60px rgb(0 0 0 / 0.55);
 		animation: pop-up 340ms var(--spring, cubic-bezier(0.34, 1.56, 0.64, 1)) both;
 		outline: none;
+	}
+	.popup::-webkit-scrollbar {
+		display: none;
+	}
+	@media (max-height: 700px) {
+		.scrim {
+			padding-top: 0.5rem;
+		}
+		.popup {
+			gap: 0.45rem;
+			padding: 0.55rem;
+		}
+		.paper {
+			gap: 0.6rem;
+			padding: 0.7rem 0.85rem;
+		}
+		.elements img {
+			width: min(2.3rem, 100%);
+		}
+		.elements button {
+			padding: 0.25rem 0.2rem 0.3rem;
+			font-size: 0.75rem;
+		}
 	}
 	@keyframes pop-up {
 		from {
