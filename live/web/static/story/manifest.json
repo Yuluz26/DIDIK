@@ -65,7 +65,7 @@
     720
    ],
    "alpha": true,
-   "bytes": 558212,
+   "bytes": 494538,
    "frames": 12,
    "frame": [
     960,
@@ -107,7 +107,7 @@
     720
    ],
    "alpha": true,
-   "bytes": 496912,
+   "bytes": 439940,
    "frames": 12,
    "frame": [
     960,
@@ -173,7 +173,7 @@
     720
    ],
    "alpha": true,
-   "bytes": 478182,
+   "bytes": 416848,
    "frames": 12,
    "frame": [
     960,
@@ -203,7 +203,7 @@
     720
    ],
    "alpha": true,
-   "bytes": 525860,
+   "bytes": 468184,
    "frames": 12,
    "frame": [
     960,
@@ -233,7 +233,7 @@
     720
    ],
    "alpha": true,
-   "bytes": 474954,
+   "bytes": 416908,
    "frames": 12,
    "frame": [
     960,
@@ -275,7 +275,7 @@
     720
    ],
    "alpha": true,
-   "bytes": 529262,
+   "bytes": 466212,
    "frames": 12,
    "frame": [
     960,
@@ -313,11 +313,11 @@
    "status": "production transparent VFX still (Batch 05)",
    "use": "attack burst, tweened in code",
    "size": [
-    720,
-    719
+    360,
+    360
    ],
    "alpha": true,
-   "bytes": 260200
+   "bytes": 78358
   },
   {
    "file": "fx/air_slash.webp",
@@ -342,7 +342,7 @@
     1254
    ],
    "alpha": true,
-   "bytes": 615480,
+   "bytes": 515144,
    "frames": 12,
    "frame": [
     314,
@@ -356,11 +356,11 @@
    "status": "production transparent VFX still (Batch 05)",
    "use": "attack burst, tweened in code",
    "size": [
-    720,
-    719
+    360,
+    359
    ],
    "alpha": true,
-   "bytes": 225408
+   "bytes": 72218
   },
   {
    "file": "fx/angin_slash.webp",
@@ -385,7 +385,7 @@
     1254
    ],
    "alpha": true,
-   "bytes": 526076,
+   "bytes": 440410,
    "frames": 12,
    "frame": [
     314,
@@ -399,11 +399,11 @@
    "status": "production transparent VFX still (Batch 05)",
    "use": "attack burst, tweened in code",
    "size": [
-    720,
-    710
+    360,
+    355
    ],
    "alpha": true,
-   "bytes": 245022
+   "bytes": 73656
   },
   {
    "file": "fx/api_slash.webp",
@@ -428,7 +428,7 @@
     1254
    ],
    "alpha": true,
-   "bytes": 577334,
+   "bytes": 480130,
    "frames": 12,
    "frame": [
     314,
@@ -442,11 +442,11 @@
    "status": "production transparent VFX still (Batch 05)",
    "use": "attack burst, tweened in code",
    "size": [
-    720,
-    720
+    360,
+    360
    ],
    "alpha": true,
-   "bytes": 246136
+   "bytes": 74182
   },
   {
    "file": "fx/petir_slash.webp",
@@ -471,7 +471,7 @@
     1254
    ],
    "alpha": true,
-   "bytes": 614572,
+   "bytes": 513004,
    "frames": 12,
    "frame": [
     314,
@@ -485,11 +485,11 @@
    "status": "production transparent VFX still (Batch 05)",
    "use": "attack burst, tweened in code",
    "size": [
-    720,
-    698
+    360,
+    349
    ],
    "alpha": true,
-   "bytes": 237140
+   "bytes": 70104
   },
   {
    "file": "fx/tanah_slash.webp",
@@ -514,7 +514,7 @@
     1254
    ],
    "alpha": true,
-   "bytes": 632556,
+   "bytes": 521436,
    "frames": 12,
    "frame": [
     314,

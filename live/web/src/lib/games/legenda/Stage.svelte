@@ -729,6 +729,34 @@
 	}
 
 	/* ---- the live HUD, in the places the painting had its own */
+	/* On a narrow screen the painting's HUD places are too small to read: the live HUD grows over the
+	   painting (whose own HUD was painted out), from the corner it belongs to. */
+	@container (max-width: 560px) {
+		.hud.hearts {
+			scale: 1.4;
+			transform-origin: 0 0;
+		}
+		.hud.panel {
+			scale: 1.4;
+			transform-origin: 100% 0;
+		}
+		.hud.dock {
+			scale: 1.2;
+			transform-origin: 100% 100%;
+		}
+	}
+	@container (min-width: 561px) and (max-width: 860px) {
+		.hud.hearts,
+		.hud.panel {
+			scale: 1.15;
+		}
+		.hud.hearts {
+			transform-origin: 0 0;
+		}
+		.hud.panel {
+			transform-origin: 100% 0;
+		}
+	}
 	.plate {
 		display: grid;
 		align-content: center;

@@ -127,7 +127,8 @@ export function worldUrls(world: number, hero: string | null): string[] {
 }
 
 export function elementUrls(hero: string | null = null): string[] {
-	return ELEMENTS.flatMap((el) => [fxStill(el), fxSlash(el), elementIcon(el), ...(hero ? [heroWeaponArt(hero, el)] : [])]);
+	// the hero's attacks (the frames) and the weapons; the only still that flies is the enemy's, loaded with the world
+	return ELEMENTS.flatMap((el) => [fxSlash(el), elementIcon(el), ...(hero ? [heroWeaponArt(hero, el)] : [])]);
 }
 
 export function reducedMotion(): boolean {

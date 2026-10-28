@@ -333,7 +333,7 @@
 	<Hud {me} score={game.score ?? 0} />
 	<main class="wrap story"><p class="loading">Membuka kitab legenda…</p></main>
 {:else}
-	<div class="arena step-{step}">
+	<div class="arena step-{step}" style:--backdrop="url({battleBg(worldIndex)})">
 		<div class="frame" style:--ar={field(worldIndex).ar}>
 			<Stage
 				bind:this={stage}
@@ -571,11 +571,37 @@
 		display: grid;
 		place-items: center;
 		padding: 0.75rem 0.75rem 3.8rem;
-		background: radial-gradient(ellipse at 50% 45%, rgb(8 14 32 / 0.5), rgb(8 14 32 / 0.74));
-		backdrop-filter: blur(2px);
+		background: radial-gradient(ellipse at 50% 45%, rgb(8 14 32 / 0.55), rgb(8 14 32 / 0.8));
 		transition:
 			opacity 260ms ease,
 			visibility 0s 260ms;
+	}
+	/* Upright phones and tablets: the battlefield across the top, the question under it (so the fight
+	   stays in view), and a soft, dark copy of the painting in the rest of the screen. */
+	@media (max-aspect-ratio: 10/9) {
+		.arena {
+			place-items: start center;
+			padding-top: env(safe-area-inset-top, 0px);
+		}
+		.arena::before {
+			content: '';
+			position: absolute;
+			inset: -6%;
+			background: var(--backdrop) center / cover;
+			filter: blur(18px) brightness(0.35) saturate(1.15);
+			/* its own layer: the blur is drawn once, not again whenever the game above it changes */
+			transform: translateZ(0);
+		}
+		.frame {
+			z-index: 1;
+			box-shadow: 0 1rem 2.4rem rgb(0 0 0 / 0.55);
+		}
+		.scrim {
+			top: calc(env(safe-area-inset-top, 0px) + 100vw / var(--ar, 1.7778));
+			place-items: start center;
+			padding-top: 0.8rem;
+			background: none;
+		}
 	}
 	.scrim.away {
 		opacity: 0;

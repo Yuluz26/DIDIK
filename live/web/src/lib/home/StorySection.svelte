@@ -10,12 +10,12 @@
 	import Icon from '$ui/Icon.svelte';
 	import { ELEMENTS, ELEMENT_NAME, battleBg, bossArt, elementIcon, heroWeaponArt, symbol, type Element } from '$lib/games/legenda/data';
 
-	const WORLDS: { name: string; boss: string; intro: string; weak: Element; hero: 'tuah' | 'mahsuri'; weapon: Element }[] = [
-		{ name: 'Tasik Chini', boss: 'Naga Chini', intro: 'Kabus pagi menyelubungi tasik teratai. Di dasarnya, Naga Chini menjaga rahsia lama.', weak: 'petir', hero: 'tuah', weapon: 'air' },
-		{ name: 'Batang Lupar', boss: 'Bujang Senang', intro: 'Senja di sungai Sarawak. Rumah panjang terdiam; sang buaya legenda sedang menunggu.', weak: 'api', hero: 'mahsuri', weapon: 'api' },
-		{ name: 'Hutan Larut', boss: 'Gajah Rimba', intro: 'Hutan hujan yang tua dan tebal. Langkah Gajah Rimba menggegarkan denai.', weak: 'angin', hero: 'tuah', weapon: 'angin' },
-		{ name: 'Rimba Bayangan', boss: 'Sang Kancil Bayangan', intro: 'Bulan ungu di atas rimba. Sang Kancil Bayangan menguji akal sesiapa yang lalu.', weak: 'tanah', hero: 'mahsuri', weapon: 'tanah' },
-		{ name: 'Gunung Ledang', boss: 'Penunggu Kabus', intro: 'Jambatan batu di puncak berkabus. Penunggu Kabus menanti ujian terakhir.', weak: 'air', hero: 'tuah', weapon: 'petir' }
+	const WORLDS: { key: string; name: string; boss: string; intro: string; weak: Element; hero: 'tuah' | 'mahsuri'; weapon: Element }[] = [
+		{ key: 'chini', name: 'Tasik Chini', boss: 'Naga Chini', intro: 'Kabus pagi menyelubungi tasik teratai. Di dasarnya, Naga Chini menjaga rahsia lama.', weak: 'petir', hero: 'tuah', weapon: 'air' },
+		{ key: 'lupar', name: 'Batang Lupar', boss: 'Bujang Senang', intro: 'Senja di sungai Sarawak. Rumah panjang terdiam; sang buaya legenda sedang menunggu.', weak: 'api', hero: 'mahsuri', weapon: 'api' },
+		{ key: 'larut', name: 'Hutan Larut', boss: 'Gajah Rimba', intro: 'Hutan hujan yang tua dan tebal. Langkah Gajah Rimba menggegarkan denai.', weak: 'angin', hero: 'tuah', weapon: 'angin' },
+		{ key: 'kancil', name: 'Rimba Bayangan', boss: 'Sang Kancil Bayangan', intro: 'Bulan ungu di atas rimba. Sang Kancil Bayangan menguji akal sesiapa yang lalu.', weak: 'tanah', hero: 'mahsuri', weapon: 'tanah' },
+		{ key: 'ledang', name: 'Gunung Ledang', boss: 'Penunggu Kabus', intro: 'Jambatan batu di puncak berkabus. Penunggu Kabus menanti ujian terakhir.', weak: 'air', hero: 'tuah', weapon: 'petir' }
 	];
 	const N = WORLDS.length;
 	const EVERY = 3500;
@@ -125,7 +125,7 @@
 			{#key shown}
 				<div class="slide" role="group" aria-roledescription="slaid" aria-label="Dunia {shown + 1} daripada {N}: {world.name}" style:--from="{way * 1.2}rem">
 					<p class="count">Dunia {shown + 1} / {N}</p>
-					<h3 class="world-name"><img src={symbol(shown)} alt="" width="38" height="38" /> {world.name}</h3>
+					<h3 class="world-name"><img class="emblem e-{world.key}" src={symbol(shown)} alt="" width="38" height="38" /> {world.name}</h3>
 					<p class="intro">{world.intro}</p>
 					<p class="boss-line">
 						<span>Boss: <strong>{world.boss}</strong></span>
@@ -140,7 +140,7 @@
 					{#each WORLDS as w, i (w.name)}
 						<li>
 							<button type="button" class:on={i === shown} aria-current={i === shown ? 'true' : undefined} onclick={() => go(i)} aria-label={w.name}>
-								<img src={symbol(i)} alt="" width="34" height="34" />
+								<img class="emblem e-{w.key}" src={symbol(i)} alt="" width="34" height="34" />
 								{#if i === shown}
 									{#key turn}<span class="bar" class:run={playing} style:--every="{EVERY}ms"></span>{/key}
 								{/if}
@@ -378,6 +378,100 @@
 	.bar.run {
 		animation: fill var(--every) linear forwards;
 	}
+	/* Each world's emblem moves its own way: on the slide's title, on the chosen chip, and on a chip
+	   under the pointer. Tasik Chini ripples like water, Batang Lupar floats on the river, Hutan Larut
+	   stomps, Rimba Bayangan flickers like a shadow, Gunung Ledang drifts in the mist. */
+	.emblem {
+		transform-origin: 50% 60%;
+	}
+	.world-name .emblem,
+	.worlds button.on .emblem,
+	.worlds button:hover .emblem {
+		animation: var(--emblem) infinite;
+	}
+	.e-chini {
+		--emblem: ripple 2.4s ease-in-out;
+	}
+	.e-lupar {
+		--emblem: drift 2.8s ease-in-out;
+	}
+	.e-larut {
+		--emblem: stomp 1.6s cubic-bezier(0.3, 0, 0.4, 1);
+	}
+	.e-kancil {
+		--emblem: flicker 2.2s steps(1, end);
+	}
+	.e-ledang {
+		--emblem: mist 4s ease-in-out;
+	}
+	@keyframes ripple {
+		0%,
+		100% {
+			transform: rotate(0deg) scale(1);
+			filter: drop-shadow(0 0 0 #38d6c8);
+		}
+		30% {
+			transform: rotate(-8deg) scale(1.06);
+		}
+		55% {
+			transform: rotate(6deg) scale(1.03);
+			filter: drop-shadow(0 0 6px #38d6c8);
+		}
+	}
+	@keyframes drift {
+		0%,
+		100% {
+			transform: translateY(0) rotate(-4deg);
+		}
+		50% {
+			transform: translateY(-4px) rotate(4deg);
+		}
+	}
+	@keyframes stomp {
+		0%,
+		55%,
+		100% {
+			transform: translateY(0) scale(1, 1);
+		}
+		20% {
+			transform: translateY(-6px) scale(0.94, 1.06);
+		}
+		40% {
+			transform: translateY(0) scale(1.12, 0.86);
+		}
+	}
+	@keyframes flicker {
+		0%,
+		100% {
+			opacity: 1;
+			transform: translateX(0);
+			filter: drop-shadow(0 0 5px #b07cff);
+		}
+		40% {
+			opacity: 0.35;
+			transform: translateX(-2px);
+		}
+		46% {
+			opacity: 1;
+			transform: translateX(2px);
+		}
+		70% {
+			opacity: 0.6;
+			transform: translateX(0);
+			filter: drop-shadow(0 0 10px #b07cff);
+		}
+	}
+	@keyframes mist {
+		0%,
+		100% {
+			transform: translateY(0) rotate(0deg);
+			filter: drop-shadow(0 0 2px #ffffff) brightness(1);
+		}
+		50% {
+			transform: translateY(-3px) rotate(180deg);
+			filter: drop-shadow(0 0 9px #e8f4ff) brightness(1.15);
+		}
+	}
 	.round:focus-visible,
 	.worlds button:focus-visible {
 		outline: 3px solid #ffcf5a;
@@ -480,6 +574,9 @@
 			padding: 1.2rem 1.2rem 1.6rem;
 			background: #0d1630;
 		}
+	}
+	.still .emblem {
+		animation: none !important;
 	}
 	.still .field,
 	.still .boss,
