@@ -4,14 +4,16 @@ Permainan kuiz secara langsung untuk kanak-kanak. Ibu bapa atau guru menulis soa
 bilik, dan kanak-kanak masuk dengan pautan, kod QR atau kod 6 digit. Tiada akaun untuk kanak-kanak, hanya
 nama samaran.
 
-- **`server/`**: Python (FastAPI). API, bilik masa nyata melalui WebSocket, lapan permainan,
-  pangkalan data SQLite.
+- **`server/`**: Python (FastAPI). API, bilik masa nyata melalui WebSocket, lapan permainan dan
+  Legenda Story Mode, pangkalan data SQLite.
 - **`web/`**: SvelteKit (TypeScript). Skrin ibu bapa, skrin hos dan skrin kanak-kanak. Selepas dibina,
   pelayan Python yang menghidangkannya, jadi semuanya berjalan pada satu port.
 
-## Lapan permainan
+## Permainan
 
-Lapan permainan 2D tersedia. Halaman pilih permainan menyatakan syarat soalan sebelum bilik dibuka.
+Lapan permainan 2D dan Legenda Story Mode tersedia. Halaman pilih permainan menyatakan syarat soalan
+sebelum bilik dibuka. Setiap skrin permainan (kanak-kanak dan hos) ada butang skrin penuh di sebelah
+butang bunyi, kecuali pada pelayar yang tidak menyokongnya (Safari iPhone).
 
 | Permainan | Cara main |
 | --- | --- |
@@ -23,6 +25,7 @@ Lapan permainan 2D tersedia. Halaman pilih permainan menyatakan syarat soalan se
 | Kampung Kita | Semua bina satu kampung bersama dan hias padangnya. Tiada yang kalah. |
 | Teka Gambar | Jawapan betul membuka petak gambar rahsia. Teka awal, mata lebih banyak. |
 | Kebun Ajaib | Jawapan betul memberi air. Tanam, siram dan tuai untuk dapat syiling. |
+| Legenda: Story Mode | JRPG lima dunia legenda Melayu, Solo atau Party. Wira berjalan sendiri; setiap musuh membuka pertarungan dan jawapan menentukan serangan. Perlukan sekurang-kurangnya 10 soalan. Lihat [`docs/LEGENDA-STORY-MODE.md`](../docs/LEGENDA-STORY-MODE.md). |
 
 Jenis soalan: pilihan tunggal, pilih semua yang betul, betul atau salah, taip jawapan, nombor, susun
 turutan, padankan, dan isi tempat kosong.
@@ -40,6 +43,7 @@ dibesarkan dengan nombor bulat, jadi setiap piksel tetap segi empat sama pada sk
 | Prop (pokok, bangku, air pancut, ...) dan bangunan | `pixel/props.ts`, `worlds/buildings.ts` |
 | Laut, pantai, langit senja di laman utama | `pixel/sea.ts`, `home/isles.ts` |
 | Lapan permainan 2D | `games/<nama>/sprites.ts` dan komponen di sebelahnya |
+| Legenda Story Mode (seni HD, bukan pixel kod) | `games/legenda/`, gambar dalam `web/static/story/` (senarai sumber: `static/story/manifest.json`, dibina oleh `web/scripts/story_assets.py`) |
 | Bunyi (gelombang segi empat dan segi tiga, hingar kasar) | `lib/sound.ts` |
 
 - Tajuk, HUD dan kaunter memakai fon piksel (Pixelify Sans); soalan dan jawapan kekal dalam fon yang

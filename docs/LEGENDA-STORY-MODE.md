@@ -1,0 +1,94 @@
+# Legenda: Story Mode (JRPG)
+
+Five Malaysian folklore worlds as a turn-based JRPG, played with any parent quiz of 10 or more
+questions. Parents only write the quiz and choose **Legenda → Solo** (one child) or **Party** (a room
+for friends) on the game picker. There is nothing else to set up: no maps, bosses or HP to configure.
+
+Children never walk, steer or dodge. The hero travels on their own; every enemy on the road opens a
+battle; the child answers questions, chooses an element at the boss, and watches the attack (right
+answer) or the counterattack (wrong answer) the server has decided.
+
+## Flow (one child, `Seat.step` on the server)
+
+```
+select → intro → travel → encounter → question → result → clear → travel …   (5 enemies)
+       → unlock → gather → reveal → question → result → (wait) → …            (5 boss hits)
+       → worldclear → intro (next world) … → victory
+fallen (hearts at 0) → Cuba lagi → back to the same checkpoint
+```
+
+| World | Boss | Weak to |
+| --- | --- | --- |
+| 1. Tasik Chini | Naga Chini | Petir |
+| 2. Batang Lupar | Bujang Senang (a crocodile) | Api |
+| 3. Hutan Larut | Gajah Rimba | Angin |
+| 4. Rimba Bayangan | Sang Kancil Bayangan | Tanah |
+| 5. Gunung Ledang | Penunggu Kabus | Air |
+
+The worlds and bosses are fantasy inspired by regional folklore, not claims about the legends.
+
+## Rules (all decided in `live/server/didik_live/game/modes/legenda.py`)
+
+- **Hearts**: six, counted in halves (12). Right answer +½ (never above six). Wrong answer: an
+  unavoidable attack, −1½.
+- **Road**: five enemies per world. A wrong answer does **not** clear the enemy: it attacks, and the
+  child gets a different question for the same enemy.
+- **Elements**: after the fifth enemy, Api, Angin, Petir, Tanah and Air unlock. The child picks one
+  before each boss answer. The element only changes the animation and gives +50 bonus points on the
+  boss's weakness; it never changes correctness or damage.
+- **Boss**: five bars. Each right answer removes exactly one bar; a wrong answer never does.
+- **Falling** keeps the checkpoint: cleared enemies, unlocked elements and the damage the boss has
+  already taken. Hearts refill to six.
+- **Questions**: each child has their own shuffled deck of the whole quiz, reshuffled when it runs out.
+  A question never returns within three turns of itself, and options are reshuffled each time, so ten
+  questions carry all fifty battles.
+- **Party**: every child keeps their own hearts, hero and element. At the boss gate they wait (up to
+  60 s) for friends still on the road in the same world, then fight one shared boss. The fight runs in
+  rounds: one question per child per round, and the next round opens when everyone online in the fight
+  has answered (or after 45 s). A fast child cannot finish the boss alone. Friends who arrive later join
+  the fight in progress; if the boss already fell, they get a fight of their own.
+- **Safety**: answer keys never reach the browser before checking. Every step bumps the seat's `ev`; a
+  `next`/`answer` naming an older `ev` (double taps, stale messages after a reconnect) is ignored. The
+  game is saved with the room and survives a server restart.
+
+Scores: road win 100, boss hit 150 (+50 on the weakness), world cleared 300. The ending is a co-op
+celebration (no podium ranks).
+
+## Front end
+
+`live/web/src/lib/games/legenda/`
+
+| File | Role |
+| --- | --- |
+| `LegendaPlayer.svelte` | Child's screen: chooses the scene for the step, plays cinematics, auto-advances (with Teruskan/skip), question panel with element picker. |
+| `Stage.svelte` | The 16:9 battle stage: backdrop, hero, enemy, HUD (half hearts, five boss bars), attack/counterattack timelines (Web Animations API), element bursts and 12-frame impact sheets, flash, shake, pop-ups. The HUD keeps the old number until the hit lands. |
+| `Particles.svelte` | Canvas motes per world (petals, embers, leaves, wisps, mist) and hit sparks. |
+| `HeroSelect.svelte`, `LegendaHost.svelte` | Hero choice; host big screen (five worlds, every child's place and hearts, live boss bars). |
+| `data.ts`, `sfx.ts` | Art paths and per-world tuning; supplied battle sounds (same mute switch). |
+
+Reduced motion: no particles, shake or looping sprite motion; cinematics are shortened. Every screen
+has the full-screen button (beside the sound button) where the browser supports it.
+
+Art review without a room: open `/gaya/legenda?world=0..4&step=…` (any step, either hero, plus
+buttons that play every element's attack and the counterattack).
+
+## Art pipeline
+
+All art comes from the supplied packs in `_asset_input/` and is built into `live/web/static/story/`
+by `live/web/scripts/story_assets.py` (Pillow, numpy, scipy, OpenCV; rembg's SAM model for the
+interim cut-outs). `static/story/manifest.json` lists every file with its source, size, alpha and
+status. What is production-ready and what is interim: see [`jrpg-asset-gap.md`](jrpg-asset-gap.md).
+
+## Tests
+
+```sh
+cd live/server && .venv/Scripts/python -m pytest tests/test_legenda.py   # or: pytest
+cd live/web && npm run check && npm run build
+```
+
+`tests/test_legenda.py` covers: 10-question minimum and all eight question types; a full solo world
+from hero choice to world clear; heart arithmetic and the cap; wrong boss answers never hurting the
+boss; falling and the checkpoint; a full five-world campaign on ten questions with the anti-repeat
+rule; no answer keys in the phone's view; double-tap protection; the party gate, shared rounds and a
+friend disconnecting; late friends joining a fight; save/restore mid-boss; practice bots; solo rooms
+holding one child.
