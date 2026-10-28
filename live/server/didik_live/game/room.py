@@ -94,6 +94,8 @@ class Room:
         self._tasks: set[asyncio.Task] = set()
         self._closing = False
         self._last_roster = ""
+        # what every view of one flush shares (see flush)
+        self._memo: dict[str, Any] | None = None
         self._seq = 0
 
     # ------------------------------------------------------------ plumbing
@@ -144,6 +146,19 @@ class Room:
                     log.exception("view failed in room %s", self.code)
 
     def flush(self) -> None:
+        # Nothing in a flush waits, so the room cannot change during it: what every view shares is
+        # made once (the room's info here, the ranking and shared world in the mode).
+        self._memo = {}
+        if self.mode is not None:
+            self.mode.view_memo = {}
+        try:
+            self._flush()
+        finally:
+            self._memo = None
+            if self.mode is not None:
+                self.mode.view_memo = None
+
+    def _flush(self) -> None:
         now = now_ms()
         roster = dumps({"t": "roster", "players": self.roster()})
         roster_changed = roster != self._last_roster
@@ -225,6 +240,15 @@ class Room:
     # ------------------------------------------------------------ views
 
     def info(self) -> dict[str, Any]:
+        memo = self._memo
+        if memo is not None:
+            if "info" not in memo:
+                memo["info"] = self._info()
+            return memo["info"]
+        return self._info()
+
+    def _info(self) -> dict[str, Any]:
+        reason = self.accepting_reason()
         return {
             "code": self.code,
             "slug": self.slug,
@@ -234,8 +258,8 @@ class Room:
             "locked": self.locked,
             "customNames": self.settings.custom_names,
             "waitingRoom": self.settings.waiting_room,
-            "accepting": self.accepting_reason() is None,
-            "reason": self.accepting_reason(),
+            "accepting": reason is None,
+            "reason": reason,
         }
 
     def accepting_reason(self) -> str | None:
@@ -248,6 +272,14 @@ class Room:
         return None
 
     def roster(self) -> list[dict[str, Any]]:
+        memo = self._memo
+        if memo is not None:
+            if "roster" not in memo:
+                memo["roster"] = self._roster()
+            return memo["roster"]
+        return self._roster()
+
+    def _roster(self) -> list[dict[str, Any]]:
         people = sorted(self.players.values(), key=lambda p: p.joined_at)
         return [
             {k: v for k, v in p.public().items() if k != "score"} | {"approved": p.approved} for p in people

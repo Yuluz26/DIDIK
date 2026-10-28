@@ -289,12 +289,13 @@ class ForestMode(SelfPacedMode):
     # ------------------------------------------------------------ views
 
     def forest(self, player: Any | None) -> dict[str, Any]:
+        # Positions are not here: they are streamed on their own (send_positions), so the view only
+        # changes on events.
         view: dict[str, Any] = {
             "map": FOREST,
             "gate": {"x": GATE[0], "y": GATE[1]},
             "need": self.keys_needed(),
             "escaped": self.escaped,
-            "positions": [[pid, round(x, 2), round(y, 2), self.facing.get(pid, 1)] for pid, (x, y) in self.pos.items()],
         }
         if player is None:
             opened = [0] * len(CHESTS)
@@ -319,17 +320,6 @@ class ForestMode(SelfPacedMode):
 
     def world_view(self, player: Any) -> dict[str, Any]:
         return self.forest(player)
-
-    def player_view(self, player: Any) -> dict[str, Any]:
-        view = super().player_view(player)
-        # Positions are streamed separately; keep them out of the view so it only changes on events.
-        view["world"].pop("positions", None)
-        return view
-
-    def host_view(self) -> dict[str, Any]:
-        view = super().host_view()
-        view["world"].pop("positions", None)
-        return view
 
     # ------------------------------------------------------------ bots
 

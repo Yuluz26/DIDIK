@@ -12,9 +12,10 @@ from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from .. import passwords
-from ..deps import current_user, end_session, get_db, limit, site_url, start_session
+from ..deps import current_user, demo_allowed, end_session, get_db, limit, site_url, start_session
 from ..models import User
 from ..security import DUMMY_PASSWORD_HASH, hash_password, verify_password
+from ..seed import DEMO_EMAIL
 
 router = APIRouter(prefix="/api/auth", tags=["auth"])
 log = logging.getLogger("didik.auth")
@@ -85,7 +86,7 @@ def user_out(user: User | None) -> dict | None:
 def me(request: Request, user: User | None = Depends(current_user)) -> dict:
     # `demo` tells the sign-in page to show the local demo account (only when it was seeded); `mail`
     # whether reset links are emailed or only written to the server log.
-    return {"user": user_out(user), "demo": request.app.state.settings.seed_demo, "mail": request.app.state.mailer.ready}
+    return {"user": user_out(user), "demo": demo_allowed(request), "mail": request.app.state.mailer.ready}
 
 
 @router.post("/register", status_code=201)
@@ -109,6 +110,9 @@ def login(body: Login, request: Request, response: Response, db: Session = Depen
     limit(request, "login-email", 8, 600, key=email)
     user = db.scalar(select(User).where(func.lower(User.email) == email))
     if not verify_password(body.password, user.password_hash if user else DUMMY_PASSWORD_HASH) or user is None:
+        raise HTTPException(422, {"message": "Emel atau kata laluan tidak betul.", "errors": []})
+    if user.email == DEMO_EMAIL and not demo_allowed(request):
+        # the same answer as a wrong password: the demo account does not exist for the internet
         raise HTTPException(422, {"message": "Emel atau kata laluan tidak betul.", "errors": []})
     start_session(request, response, db, user)
     return {"user": user_out(user)}

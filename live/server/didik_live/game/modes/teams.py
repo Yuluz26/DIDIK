@@ -113,11 +113,11 @@ class TeamsMode(TeamPlay, SelfPacedMode):
     def world_view(self, player: Any) -> dict[str, Any]:
         bases = {cell_key(*b) for b in BASES.values()}
         view: dict[str, Any] = {
-            "cells": [
+            "cells": self.shared("cells", lambda: [
                 {"key": key, "q": int(key.split(",")[0]), "r": int(key.split(",")[1]), "owner": owner, "base": key in bases}
                 for key, owner in self.cells.items()
-            ],
-            "teams": self.tally(),
+            ]),
+            "teams": self.shared("tally", self.tally),
         }
         if player is not None:
             seat = self.seats.get(player.id)

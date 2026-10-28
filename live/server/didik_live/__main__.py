@@ -50,6 +50,22 @@ def print_reset_link(email: str, port: int) -> int:
     return 0
 
 
+def raise_open_files(want: int = 65536) -> None:
+    """Every child's phone is one open socket. Many Linux servers allow a process 1024 open files by
+    default, which a school of a thousand children would use up; raise it as far as the system lets."""
+    try:
+        import resource
+    except ImportError:  # Windows has no such limit
+        return
+    soft, hard = resource.getrlimit(resource.RLIMIT_NOFILE)
+    target = want if hard == resource.RLIM_INFINITY else min(want, hard)
+    if soft < target:
+        try:
+            resource.setrlimit(resource.RLIMIT_NOFILE, (target, hard))
+        except (ValueError, OSError):
+            pass
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(prog="didik-live", description="DIDIK Main Bersama")
     parser.add_argument("--port", type=int, default=8080)
@@ -62,6 +78,7 @@ def main() -> None:
         sys.exit(print_reset_link(args.reset_link, args.port))
 
     host = args.host or ("0.0.0.0" if args.lan else "127.0.0.1")
+    raise_open_files()
     logging.basicConfig(level=logging.INFO, format="%(message)s")
     print(f"\n  DIDIK Main Bersama\n  Buka:  http://localhost:{args.port}")
     if args.lan and (address := lan_address()):

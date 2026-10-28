@@ -19,6 +19,7 @@ from __future__ import annotations
 import asyncio
 import random
 import time
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Any, ClassVar
 
@@ -98,6 +99,8 @@ class BaseMode:
         return info
 
     def __init__(self, room: Room) -> None:
+        # set by the room around a flush, so what all views share is made once (see `shared`)
+        self.view_memo: dict[Any, Any] | None = None
         self.room = room
         self.settings = room.settings
         self.rng = random.Random()
@@ -253,13 +256,28 @@ class BaseMode:
     # ------------------------------------------------------------ results
 
     def leaders(self, limit: int = 10) -> list[dict[str, Any]]:
+        return self.shared(("leaders", limit), lambda: self._leaders(limit))
+
+    def _leaders(self, limit: int) -> list[dict[str, Any]]:
         players = sorted(self.players(), key=lambda p: (-p.score, p.joined_at))
         ranks = dense_ranks([(p.id, p.score) for p in players])
         return [{"id": p.id, "score": p.score, "rank": ranks[p.id]} for p in players[:limit]]
 
     def rank_of(self, player: Player) -> int:
-        ranks = dense_ranks([(p.id, p.score) for p in sorted(self.players(), key=lambda p: (-p.score, p.joined_at))])
+        ranks = self.shared(
+            "ranks", lambda: dense_ranks([(p.id, p.score) for p in sorted(self.players(), key=lambda p: (-p.score, p.joined_at))])
+        )
         return ranks.get(player.id, len(ranks) + 1)
+
+    def shared(self, key: Any, make: Callable[[], Any]) -> Any:
+        """What every child's view has in common (the ranking, the shared world), made once per flush
+        of the room instead of once per child. Outside a flush it is simply made."""
+        memo = self.view_memo
+        if memo is None:
+            return make()
+        if key not in memo:
+            memo[key] = make()
+        return memo[key]
 
     def results(self) -> dict[str, Any]:
         players = sorted(self.players(), key=lambda p: (-p.score, p.joined_at))
@@ -447,12 +465,13 @@ class SyncMode(BaseMode):
         if self.stage in ("question", "reveal") and self.pres is not None:
             block["question"] = self.pres.public
         if self.stage == "reveal" and self.pres is not None:
-            block["reveal"] = self.pres.reveal()
-            block["stats"] = self.stats()
-            block["correctCount"] = sum(1 for r in self.answers.values() if r.outcome.correct)
+            pres = self.pres
+            block["reveal"] = self.shared("reveal", pres.reveal)
+            block["stats"] = self.shared("stats", self.stats)
+            block["correctCount"] = self.shared("correct", lambda: sum(1 for r in self.answers.values() if r.outcome.correct))
         if self.stage in ("question", "reveal"):
             block["answeredCount"] = len(self.answers)
-            block["playerCount"] = len(self.online())
+            block["playerCount"] = self.shared("online", lambda: len(self.online()))
         if player is not None:
             record = self.answers.get(player.id)
             block["answered"] = record is not None

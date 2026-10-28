@@ -13,7 +13,7 @@ import mimetypes
 import re
 from pathlib import Path
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse, HTMLResponse, Response
 
 # Windows takes file types from the registry, which may not know these; with `nosniff` an image sent
@@ -79,12 +79,43 @@ class Shell:
         self.app.state.csp = policy(hashes)
 
 
+# Files whose name carries a hash of their content, and the story art asked for with the build's
+# version (?v=), never change. Everything else may be replaced by a new build: the browser keeps it but
+# asks each time, and gets a bodiless 304 while it is unchanged.
+IMMUTABLE = "public, max-age=31536000, immutable"
+CHECK = "no-cache"
+# The build writes these beside every text file (svelte.config.js, precompress).
+ENCODINGS = (("br", ".br"), ("gzip", ".gz"))
+
+
+def etag_of(path: Path) -> str:
+    stat = path.stat()
+    return '"' + hashlib.md5(f"{stat.st_mtime_ns}-{stat.st_size}".encode(), usedforsecurity=False).hexdigest() + '"'
+
+
+def file_response(request: Request, path: Path, cache: str) -> Response:
+    """A file from the build: 304 when the browser already has it, the precompressed copy when the
+    browser takes one."""
+    tag = etag_of(path)
+    if tag in (t.strip() for t in request.headers.get("if-none-match", "").split(",")):
+        return Response(status_code=304, headers={"ETag": tag, "Cache-Control": cache})
+    headers = {"Cache-Control": cache, "ETag": tag, "Vary": "Accept-Encoding"}
+    accepted = request.headers.get("accept-encoding", "")
+    media_type = mimetypes.guess_type(path.name)[0]
+    for encoding, suffix in ENCODINGS:
+        packed = path.with_name(path.name + suffix)
+        if encoding in accepted and packed.is_file():
+            headers["Content-Encoding"] = encoding
+            return FileResponse(packed, headers=headers, media_type=media_type)
+    return FileResponse(path, headers=headers, media_type=media_type)
+
+
 def mount_web(app: FastAPI, web_dir: Path) -> None:
     shell = Shell(web_dir, app)
     root = web_dir.resolve()
 
     @app.get("/{path:path}", include_in_schema=False)
-    def web(path: str) -> Response:
+    def web(path: str, request: Request) -> Response:
         if path.startswith(("api/", "ws/", "uploads/")):
             raise HTTPException(404, "Tidak dijumpai.")
         shell.refresh()
@@ -93,9 +124,8 @@ def mount_web(app: FastAPI, web_dir: Path) -> None:
         if path:
             candidate = (root / path).resolve()
             if candidate.is_file() and candidate.is_relative_to(root):
-                immutable = path.startswith("_app/immutable/")
-                headers = {"Cache-Control": "public, max-age=31536000, immutable" if immutable else "no-cache"}
-                return FileResponse(candidate, headers=headers)
+                fixed = path.startswith("_app/immutable/") or (path.startswith("story/") and "v" in request.query_params)
+                return file_response(request, candidate, IMMUTABLE if fixed else CHECK)
             # A script or style from an older build (a page left open across an update) must fail
             # as missing, not arrive as the HTML page, so the app can fall back instead of choking.
             if path.startswith("_app/"):

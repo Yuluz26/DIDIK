@@ -135,6 +135,24 @@ permainan yang telah ditamatkan kembali ke lobi dengan kuiz, kod bilik dan pemai
 memilih permainan yang disokong. Skor dan keadaan permainan lama dibersihkan. Jalankan satu proses pelayan sahaja,
 kerana bilik hidup dalam proses itu.
 
+## Kapasiti (1000 pemain serentak)
+
+Diuji dengan 20 bilik × 50 kanak-kanak (1000 WebSocket) yang benar-benar bermain lapan permainan
+dan Legenda: satu proses pelayan menggunakan kira-kira 60% satu teras CPU dan ~240 MB semasa semua
+masuk, ~10% semasa bermain; jawapan ke keputusan median ~80 ms (p95 ~150 ms). Untuk pelayan sebenar:
+
+- Jalankan di **Linux** dengan `uvicorn[standard]` (uvloop). Di Windows, gelung asyncio menerima
+  satu sambungan baharu setiap pusingan, jadi ratusan telefon yang masuk dalam beberapa saat boleh
+  ditolak buat seketika (telefon menyambung semula sendiri, dengan masa menunggu yang rawak).
+- Pelayan menaikkan sendiri had fail terbuka (`ulimit -n`) apabila sistem membenarkan; pastikan had
+  keras sekurang-kurangnya 4096.
+- Di belakang nginx atau Caddy pada mesin yang sama, alamat sebenar pemain dibaca daripada
+  `X-Forwarded-For`. Untuk proksi di mesin lain, tetapkan `FORWARDED_ALLOW_IPS` kepada alamatnya.
+- Fail binaan dimampatkan (`.br`, `.gz`) dan dicache: skrip berhash dan seni cerita bersama versi
+  binaan selama setahun, yang lain disemak semula dengan ETag (304).
+- Akaun demo hanya boleh log masuk dari komputer pelayan itu sendiri. Tetap tetapkan
+  `DIDIK_SEED_DEMO=0` pada pelayan sebenar.
+
 ## Lupa kata laluan
 
 **Ibu bapa → Lupa kata laluan?** menghantar pautan untuk memilih kata laluan baharu. Pautan itu sah selama
