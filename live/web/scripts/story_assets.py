@@ -160,6 +160,31 @@ def soft_fill(arr: np.ndarray, mask: np.ndarray, sigma: float) -> np.ndarray:
     return result
 
 
+def shift_fill(img: np.ndarray, hole: np.ndarray, protect: np.ndarray | None = None, scale: float = 0.5) -> np.ndarray:
+    """Fills `hole` with new scenery built from the rest of the painting (OpenCV's shift-map inpainting,
+    run at `scale`), so what shows through a gap around a cut-out is water, stone and leaves, not a flat
+    smear. The new scenery is blended in with Poisson cloning, so its colours meet the painting without a
+    seam. `protect` marks painted parts that stay (the title plate, the minimap): the scenery is not
+    allowed to copy from them. Falls back to the blur when OpenCV has no xphoto."""
+    if not hasattr(cv2, "xphoto"):
+        return soft_fill(img.astype(np.float32), hole.astype(np.uint8) * 255, 40)
+    h, w = hole.shape
+    banned = hole if protect is None else (hole | protect)
+    small = cv2.resize(img, None, fx=scale, fy=scale, interpolation=cv2.INTER_AREA)
+    holes = cv2.resize(banned.astype(np.uint8) * 255, (small.shape[1], small.shape[0]), interpolation=cv2.INTER_NEAREST)
+    filled = np.zeros_like(small)
+    cv2.xphoto.inpaint(small, (holes == 0).astype(np.uint8) * 255, filled, cv2.xphoto.INPAINT_SHIFTMAP)
+    big = cv2.resize(filled, (w, h), interpolation=cv2.INTER_CUBIC)
+    pad = 16
+    dst = cv2.copyMakeBorder(img, pad, pad, pad, pad, cv2.BORDER_REFLECT)
+    src = cv2.copyMakeBorder(big, pad, pad, pad, pad, cv2.BORDER_REFLECT)
+    mask = np.zeros(dst.shape[:2], np.uint8)
+    mask[pad:pad + h, pad:pad + w] = hole.astype(np.uint8) * 255
+    x, y, bw, bh = cv2.boundingRect(mask)
+    merged = cv2.seamlessClone(src, dst, mask, (x + bw // 2, y + bh // 2), cv2.NORMAL_CLONE)
+    return merged[pad:pad + h, pad:pad + w]
+
+
 def sam_session():
     try:
         from rembg import new_session, remove
@@ -270,6 +295,19 @@ def battlefields() -> None:
         masks = field_masks(key, im)
         if "clip_below" in spec:  # the segmentation leaked into the stone arena under the boss
             masks["boss"][spec["clip_below"]:, :] = False
+        # a boss with holes in it shows the backdrop through them: close the small ones
+        masks["boss"] = ndimage.binary_fill_holes(ndimage.binary_closing(masks["boss"], iterations=3))
+        # pieces of the painted boss name and bar, the compass and the title plate that SAM took along: small
+        # pieces whose middle lies in one of those places are not the boss
+        labels, count = ndimage.label(masks["boss"])
+        if count > 1:
+            sizes = ndimage.sum(masks["boss"], labels, range(1, count + 1))
+            ui_places = [spec["panel"], spec["hearts"], (1320, 0, labels.shape[1], 222), (0, 0, 252, 104)]
+            for i, centre in enumerate(ndimage.center_of_mass(masks["boss"], labels, range(1, count + 1))):
+                cy, cx = centre
+                if sizes[i] < sizes.max() * 0.05 and any(x0 <= cx <= x1 and y0 <= cy <= y1 for x0, y0, x1, y1 in ui_places):
+                    masks["boss"][labels == i + 1] = False
+
 
         # the small enemies' painted health bars are not part of the enemy
         for who in ("minA", "minB"):
@@ -291,11 +329,6 @@ def battlefields() -> None:
         # the field: everything that moves or is live is filled with the colours around it
         out = arr.copy()
 
-        def fill(region: np.ndarray, sigma: float, soften: float) -> None:
-            nonlocal out
-            blend = cv2.GaussianBlur(region.astype(np.uint8) * 255, (0, 0), soften)[:, :, None] / 255.0
-            out = out * (1 - blend) + soft_fill(out, region.astype(np.uint8) * 255, sigma) * blend
-
         # SAM misses parts of the small characters (red clothes, the sword tip) and their health bars have
         # outlines: take out a generous box around each instead of only the mask, and cover it with a patch
         # of the same painting
@@ -312,12 +345,17 @@ def battlefields() -> None:
             hx0, hy0, hx1, hy1 = spec[name]
             keep_away[hy0:hy1, hx0:hx1] = True
         out = patch_fill(np.clip(out, 0, 255).astype(np.uint8), boxes, keep_away).astype(np.float32)
-        fill(ndimage.binary_dilation(masks["boss"], iterations=3), 40, 3)
-        rects = np.zeros(masks["boss"].shape, bool)
+        # the boss's place and the parts drawn live (hearts, boss panel, element row) become new scenery
+        # built from the rest of the painting, so nothing flat shows if the boss moves or has a gap
+        gone = ndimage.binary_dilation(masks["boss"], iterations=8)
         for name in ("hearts", "panel", "dock"):
             x0, y0, x1, y1 = spec[name]
-            rects[y0:y1, x0:x1] = True
-        fill(rects, 14, 6)
+            gone[y0:y1, x0:x1] = True
+        painted = np.zeros_like(gone)  # the title plate and the minimap stay as painted
+        painted[0:104, 0:252] = True
+        painted[0:222, 1320:] = True
+        painted &= ~gone
+        out = shift_fill(np.clip(out, 0, 255).astype(np.uint8), gone, painted).astype(np.float32)
         field = Image.fromarray(np.clip(out, 0, 255).astype(np.uint8))
         field_out = save_webp(field, OUT / "worlds" / key / "field.webp", 88)
         note(field_out, rel(src), "supplied battlefield painting with its boss, small characters, hearts, boss "

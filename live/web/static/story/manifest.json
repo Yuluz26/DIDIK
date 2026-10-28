@@ -1232,10 +1232,10 @@
    "use": "boss, drawn over the field where it stands",
    "size": [
     452,
-    457
+    422
    ],
    "alpha": true,
-   "bytes": 68724,
+   "bytes": 68666,
    "anchor": "bottom-center"
   },
   {
@@ -1248,7 +1248,7 @@
     864
    ],
    "alpha": false,
-   "bytes": 360234
+   "bytes": 433048
   },
   {
    "file": "worlds/chini/minion_a.webp",
@@ -1260,7 +1260,7 @@
     85
    ],
    "alpha": true,
-   "bytes": 5978,
+   "bytes": 6048,
    "anchor": "bottom-center"
   },
   {
@@ -1273,7 +1273,7 @@
     91
    ],
    "alpha": true,
-   "bytes": 5012,
+   "bytes": 5098,
    "anchor": "bottom-center"
   },
   {
@@ -1283,10 +1283,10 @@
    "use": "boss, drawn over the field where it stands",
    "size": [
     530,
-    578
+    484
    ],
    "alpha": true,
-   "bytes": 97914,
+   "bytes": 86438,
    "anchor": "bottom-center"
   },
   {
@@ -1299,7 +1299,7 @@
     1024
    ],
    "alpha": false,
-   "bytes": 488400
+   "bytes": 583446
   },
   {
    "file": "worlds/kancil/minion_a.webp",
@@ -1311,7 +1311,7 @@
     99
    ],
    "alpha": true,
-   "bytes": 7092,
+   "bytes": 7216,
    "anchor": "bottom-center"
   },
   {
@@ -1324,7 +1324,7 @@
     100
    ],
    "alpha": true,
-   "bytes": 6950,
+   "bytes": 7034,
    "anchor": "bottom-center"
   },
   {
@@ -1334,10 +1334,10 @@
    "use": "boss, drawn over the field where it stands",
    "size": [
     545,
-    579
+    542
    ],
    "alpha": true,
-   "bytes": 111634,
+   "bytes": 106466,
    "anchor": "bottom-center"
   },
   {
@@ -1350,7 +1350,7 @@
     1024
    ],
    "alpha": false,
-   "bytes": 477064
+   "bytes": 570434
   },
   {
    "file": "worlds/larut/minion_a.webp",
@@ -1362,7 +1362,7 @@
     101
    ],
    "alpha": true,
-   "bytes": 7086,
+   "bytes": 7160,
    "anchor": "bottom-center"
   },
   {
@@ -1375,7 +1375,7 @@
     92
    ],
    "alpha": true,
-   "bytes": 6828,
+   "bytes": 6930,
    "anchor": "bottom-center"
   },
   {
@@ -1384,11 +1384,11 @@
    "status": "boss cut out of the supplied painting with SAM (native painting detail)",
    "use": "boss, drawn over the field where it stands",
    "size": [
-    624,
-    565
+    623,
+    448
    ],
    "alpha": true,
-   "bytes": 109172,
+   "bytes": 94874,
    "anchor": "bottom-center"
   },
   {
@@ -1401,7 +1401,7 @@
     1024
    ],
    "alpha": false,
-   "bytes": 514856
+   "bytes": 614324
   },
   {
    "file": "worlds/ledang/minion_a.webp",
@@ -1413,7 +1413,7 @@
     93
    ],
    "alpha": true,
-   "bytes": 5598,
+   "bytes": 5688,
    "anchor": "bottom-center"
   },
   {
@@ -1426,7 +1426,7 @@
     92
    ],
    "alpha": true,
-   "bytes": 6220,
+   "bytes": 6330,
    "anchor": "bottom-center"
   },
   {
@@ -1435,11 +1435,11 @@
    "status": "boss cut out of the supplied painting with SAM (native painting detail)",
    "use": "boss, drawn over the field where it stands",
    "size": [
-    547,
+    546,
     450
    ],
    "alpha": true,
-   "bytes": 106688,
+   "bytes": 106382,
    "anchor": "bottom-center"
   },
   {
@@ -1452,7 +1452,7 @@
     1024
    ],
    "alpha": false,
-   "bytes": 510752
+   "bytes": 622952
   },
   {
    "file": "worlds/lupar/minion_a.webp",
@@ -1464,7 +1464,7 @@
     84
    ],
    "alpha": true,
-   "bytes": 5962,
+   "bytes": 6032,
    "anchor": "bottom-center"
   },
   {
@@ -1477,7 +1477,7 @@
     92
    ],
    "alpha": true,
-   "bytes": 6874,
+   "bytes": 6966,
    "anchor": "bottom-center"
   }
  ]
