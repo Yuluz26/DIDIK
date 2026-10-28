@@ -7,7 +7,7 @@
 	import { onMount } from 'svelte';
 	import { reducedMotion } from './data';
 
-	let { motes = 'petals', calm = false }: { motes?: 'petals' | 'embers' | 'leaves' | 'wisps' | 'mist'; calm?: boolean } = $props();
+	let { motes = 'petals', calm = false, disabled = false }: { motes?: 'petals' | 'embers' | 'leaves' | 'wisps' | 'mist'; calm?: boolean; disabled?: boolean } = $props();
 
 	interface Bit {
 		x: number;
@@ -35,7 +35,7 @@
 	};
 
 	export function burst(x: number, y: number, colours: string[], count = 46, ring = true): void {
-		if (still || !canvas) return;
+		if (still || disabled || !canvas) return;
 		const w = canvas.width;
 		for (let i = 0; i < count; i++) {
 			const angle = Math.random() * Math.PI * 2;
@@ -55,6 +55,8 @@
 		}
 		if (ring) bits.push({ x: x * w, y: y * canvas.height, vx: 0, vy: 0, life: 26, age: 0, size: 0.02 * w, colour: colours[0], spin: 0, kind: 'ring' });
 	}
+
+	export function clear() { bits.length = 0; }
 
 	function mote(spec: (typeof MOTE)[string], fresh: boolean): Bit {
 		const w = canvas.width;
@@ -93,6 +95,7 @@
 		const draw = () => {
 			frame = requestAnimationFrame(draw);
 			if (document.hidden) return;
+			if (disabled) { ctx.clearRect(0, 0, canvas.width, canvas.height); bits.length = 0; return; }
 			const s = spec();
 			const w = canvas.width;
 			const h = canvas.height;

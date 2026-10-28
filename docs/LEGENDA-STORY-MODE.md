@@ -96,3 +96,38 @@ boss; falling and the checkpoint; a full five-world campaign on ten questions wi
 rule; no answer keys in the phone's view; double-tap protection; the party gate, shared rounds and a
 friend disconnecting; late friends joining a fight; save/restore mid-boss; practice bots; solo rooms
 holding one child.
+
+
+## Naga Chini cinematic polish (World 1 only)
+
+Naga Chini retains the official painting, cut-out, framing and HUD. Its reveal runs within the
+existing 1.7-second `boss_muncul` banner: lake ripples, a shadow-to-colour reveal and a 3.5% camera
+push. Idle breathing is slower and grounded. A wrong answer gathers water for 760 ms before the
+Air strike; `Boss Akan Menyerang!` gives way to `Serangan Balas` at launch. The hearts still update
+at impact from the server's confirmed value. Hits have a short held recoil, turquoise/gold spray,
+and gold Petir weakness feedback; the last bar has a stronger recoil without extra damage.
+Defeat gently dissolves the guardian into the lake over 1.8 seconds under the existing victory flow.
+
+`ChiniLake.svelte` adds only three CSS ripples and a bounded mist layer; existing particles and
+artwork are reused. New motion supports reduced motion and pauses idle effects when hidden or
+outside the viewport. Chini visual waits, projectiles, WAAPI effects and banner waits are cancelled
+on skip, scene/hero change or teardown; stale continuations cannot advance the next question.
+Party hits during a local attack use a separate particle burst instead of replacing its effect sheet.
+No server rules, other boss animations, hero artwork or dependencies changed.
+
+Review at `/gaya/legenda?world=0&step=boss`: replay **Kemunculan Naga**, **Tenang / mula semula**,
+five element hits, **Serangan balas**, and **Boss dikalahkan**. Five sample hits demonstrate the
+final bar. **Lihat skrin permainan** opens the actual player component with illustrative local
+correct/wrong results (Gajah is correct); **Kembali ke gerak pertarungan** returns to the controls.
+These controls and sample outcomes exist only on the art-review route.
+
+Art gap remains: no separate attack, hurt or defeat drawing exists for Naga Chini. Small transforms
+preserve the existing cut-out rather than inventing new poses. Real-device GPU performance and
+live multi-client reconnect behaviour still require device/session testing.
+
+Validation: `npm run check` (0 errors/warnings), `npm run build`, and
+`python -m pytest tests/test_legenda.py` (12 passed). Headless Edge/Playwright exercised both heroes
+with all five weapons, Petir, final-bar defeat, counterattack HUD timing, rapid cancellation,
+667x375 landscape and 1440x1000 desktop, reduced motion, and the actual player component's sample
+correct/wrong flow. World 2 was checked for absence of Chini effects. These are local browser tests,
+not real-device or live network multiplayer certification.

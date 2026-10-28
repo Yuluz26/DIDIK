@@ -12,7 +12,7 @@
 	a wrong answer brings it back with the right answer shown.
 -->
 <script lang="ts">
-	import { onMount, tick } from 'svelte';
+	import { onMount, tick, onDestroy } from 'svelte';
 	import type { RoomClient } from '$lib/room.svelte';
 	import type { Me, Person } from '$lib/types';
 	import { confetti } from '$lib/confetti';
@@ -57,6 +57,12 @@
 	// The banner on screen now, if any (`n` tells one showing from the next).
 	let banner = $state<{ id: string; ms: number; n: number } | null>(null);
 	let bannerN = 0;
+	const bannerWaits = new Map<ReturnType<typeof setTimeout>, () => void>();
+	function clearChiniBanner() {
+		bannerN++; banner = null;
+		for (const [timer, resolve] of bannerWaits) { clearTimeout(timer); resolve(); }
+		bannerWaits.clear();
+	}
 	const picked = new Set<number>();
 
 	const seat = $derived(game.seat ?? {});
@@ -80,6 +86,9 @@
 	let wipe = $state<HTMLDivElement>();
 	let still = $state(false);
 	let ready = $state(false);
+	let resultRun = 0;
+	let disposed = false;
+	onDestroy(() => { disposed = true; resultRun++; clearChiniBanner(); });
 	let lastAnswered = -1;
 	let lastStepKey = '';
 	let timer: ReturnType<typeof setTimeout> | null = null;
@@ -125,11 +134,16 @@
 	async function show(id: string, ms = 1100): Promise<void> {
 		const n = ++bannerN;
 		banner = { id, ms, n };
-		await sleep(ms);
-		if (bannerN === n) banner = null;
+		if (worldIndex === 0) await new Promise<void>(resolve => {
+			const timer = setTimeout(() => { bannerWaits.delete(timer); resolve(); }, ms);
+			bannerWaits.set(timer, resolve);
+		});
+		else await sleep(ms);
+		if (!disposed && bannerN === n) banner = null;
 	}
 
 	function next() {
+		if (worldIndex === 0) { resultRun++; stage?.cancel(); clearChiniBanner(); }
 		if (timer) clearTimeout(timer);
 		timer = null;
 		client.send({ t: 'next', ev: story.ev });
@@ -145,6 +159,7 @@
 		const key = `${step}:${story.ev}`;
 		if (key === lastStepKey) return;
 		lastStepKey = key;
+		if (worldIndex === 0) { stage?.cancel(); clearChiniBanner(); }
 		if (timer) clearTimeout(timer);
 		timer = null;
 		if (step === 'intro') {
@@ -167,6 +182,7 @@
 			later(4200);
 		} else if (step === 'reveal') {
 			stage?.reset();
+			if (worldIndex === 0) void stage?.enter();
 			void show('boss_muncul', 1700);
 			later(4000);
 		} else if (step === 'worldclear') {
@@ -196,6 +212,10 @@
 	$effect(() => {
 		if (step !== 'result' || !result || seat.answered === lastAnswered) return;
 		const mine = seat.answered;
+		const runId = ++resultRun;
+		const event = story.ev;
+		const guarded = worldIndex === 0;
+		const current = () => !disposed && (!guarded || (runId === resultRun && worldIndex === 0 && story.ev === event && step === 'result' && seat.answered === mine));
 		lastAnswered = mine;
 		const reward = result.reward ?? {};
 		const run = async () => {
@@ -203,12 +223,15 @@
 				sfx(boss ? 'hit' : 'correct');
 				void show('jawapan_betul', 1000);
 				await stage?.attack(boss ? (reward.element as Element) : null, { weak: reward.weak, finishing: reward.bossHp === 0, healed: reward.change > 0 });
+				if (!current()) return;
 				if (reward.change > 0) sfx('heal', 0.4);
 			} else {
 				sfx('wrong');
 				await show('jawapan_salah', 950);
+				if (!current()) return;
 				void show(boss ? 'boss_akan_menyerang' : 'serangan_balas', 1100);
-				await stage?.counter();
+				await stage?.counter(guarded && boss ? () => { if (current()) void show('serangan_balas', 850); } : undefined);
+				if (!current()) return;
 				void show('nyawa_berkurang', 900);
 			}
 			doneFor = mine;
@@ -337,6 +360,7 @@
 			<Stage
 				bind:this={stage}
 				world={worldIndex}
+				hold={worldIndex === 0 && boss && animating}
 				{hero}
 				heroName={me.name}
 				hearts={story.hearts ?? 12}
