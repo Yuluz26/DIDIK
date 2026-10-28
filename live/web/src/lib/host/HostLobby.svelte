@@ -190,6 +190,8 @@
 	.square {
 		display: grid;
 		gap: 0.6rem;
+		/* a grid item would grow to its drawing's width, and the drawing then never shrinks to fit a phone */
+		min-width: 0;
 	}
 	.square-head {
 		display: flex;
@@ -223,6 +225,7 @@
 	}
 	.stage {
 		position: relative;
+		min-width: 0;
 	}
 	.empty {
 		position: absolute;

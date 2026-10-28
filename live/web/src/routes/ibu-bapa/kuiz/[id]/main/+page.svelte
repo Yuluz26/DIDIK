@@ -169,6 +169,20 @@
 		flex-wrap: wrap;
 		background: linear-gradient(145deg, #f1ecff, #e5ddff);
 	}
+	/* The words keep room to read; where the card is narrow (a phone), Solo and Party drop to their
+	   own row under them instead of squeezing them. */
+	.game.legend .text {
+		flex: 1 1 14rem;
+	}
+	.game.legend .pair {
+		flex: 1 1 12rem;
+		justify-content: flex-end;
+	}
+	.game.legend .pair :global(.btn) {
+		flex: 1 1 0;
+		max-width: 11rem;
+		min-height: 3rem;
+	}
 	.game.off {
 		cursor: not-allowed;
 		opacity: 0.6;

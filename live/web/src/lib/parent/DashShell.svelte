@@ -240,10 +240,18 @@
 	.brand {
 		display: flex;
 		align-items: center;
+		min-height: 2.75rem;
 		gap: 0.6rem;
 		padding: 0.2rem 0.5rem 0.8rem;
 		color: var(--ink);
 		text-decoration: none;
+	}
+	/* the "Kuiz saya" link back from a quiz's pages: a full-size target on a touch screen */
+	.nm :global(a.back) {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+		min-height: 2.75rem;
 	}
 	.mascot {
 		display: grid;
@@ -322,6 +330,7 @@
 	.home {
 		display: flex;
 		align-items: center;
+		min-height: 2.75rem;
 		gap: 0.6rem;
 		margin-top: auto;
 		padding: 0.5rem 0.9rem;
