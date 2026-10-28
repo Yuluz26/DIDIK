@@ -366,7 +366,7 @@ class Room:
         raw = str(data.get("name") or "")
         if bot:
             nickname = names.suggest(avatar, self.rng, taken)
-        elif self.settings.custom_names:
+        elif self.settings.custom_names and raw.strip():
             cleaned = names.clean_nickname(raw)
             if cleaned is None:
                 raise JoinError("name", "Nama ini tidak boleh digunakan. Pilih nama lain.")

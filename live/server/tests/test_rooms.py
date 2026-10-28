@@ -25,9 +25,10 @@ def run(coro):
     return asyncio.run(coro)
 
 
-def test_children_get_a_suggested_name_unless_the_host_allows_typing() -> None:
+def test_children_get_a_suggested_name_when_the_host_turns_typing_off() -> None:
     async def scenario() -> None:
         room = open_room("lumba")
+        room.settings.custom_names = False
         conn, _ = connection()
         typed = room.join(conn, {"name": "Aminah binti Ali", "avatar": "penyu"})
         assert typed.nickname.startswith("Penyu ")  # replaced by a suggestion
