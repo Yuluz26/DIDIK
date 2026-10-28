@@ -86,6 +86,9 @@
 	const minion = $derived(foe && foe.index % 2 === 0 ? lay.minB : lay.minA);
 	const target = $derived(boss ? lay.boss : minion);
 	const enemyAt = $derived({ x: target.x + target.w / 2, y: target.y + target.h * (boss ? 0.42 : 0.5) });
+	// Which side of the hero the enemy stands on: -1 left, 1 right. The boss is on the right; a small enemy
+	// may be on either side, and the two face each other (the sprites are drawn facing right).
+	const side = $derived(foe && !boss ? (enemyAt.x < heroAt.x ? -1 : 1) : 1);
 
 	let still = $state(false);
 	let busy = $state(false);
@@ -109,6 +112,7 @@
 	let minionEl = $state<HTMLDivElement>();
 	// Whichever of the two is fighting now: the boss at the boss, a small enemy on the road.
 	const enemyEl = $derived(boss ? bossEl : minionEl);
+	let camEl = $state<HTMLDivElement>();
 	let flashEl: HTMLDivElement;
 	let fxEl: HTMLDivElement;
 	let air: Particles;
@@ -133,6 +137,21 @@
 	function move(el: HTMLElement | undefined, frames: Keyframe[], ms: number, easing = 'ease-out'): Promise<void> {
 		if (!el || still) return sleep(still ? Math.min(ms, 120) : ms);
 		return el.animate(frames, { duration: ms, easing, fill: 'forwards' }).finished.then(() => undefined, () => undefined);
+	}
+
+	// The camera: the world layers (not the HUD) lean in toward a point and back out.
+	let zoomed = 1;
+	async function zoomIn(at: { x: number; y: number }, k: number, ms: number) {
+		if (!camEl || still) return;
+		camEl.style.transformOrigin = `${at.x * 100}% ${at.y * 100}%`;
+		zoomed = k;
+		await camEl.animate([{ transform: 'scale(1)' }, { transform: `scale(${k})` }], { duration: ms, easing: 'cubic-bezier(.3,.7,.3,1)', fill: 'forwards' }).finished.then(() => undefined, () => undefined);
+	}
+	async function zoomOut(ms: number) {
+		if (!camEl || still) return;
+		await camEl.animate([{ transform: `scale(${zoomed})` }, { transform: 'scale(1)' }], { duration: ms, easing: 'ease-in-out', fill: 'forwards' }).finished.then(() => undefined, () => undefined);
+		for (const a of camEl.getAnimations()) a.cancel();
+		zoomed = 1;
 	}
 
 	function shake(strength = 1) {
@@ -199,7 +218,7 @@
 		img.className = 'bolt';
 		img.style.filter = filter;
 		img.style.width = `${size}cqw`;
-		stageEl.appendChild(img);
+		(camEl ?? stageEl).appendChild(img);
 		return img
 			.animate(
 				[
@@ -224,14 +243,14 @@
 		const blade = !element || element === 'api' || element === 'angin' || element === 'air';
 		heroPose = 'ready';
 		if (element) flash(ELEMENT_TINT[el][1], 0.22);
-		await move(heroEl, [{ transform: 'translateX(-50%)' }, { transform: 'translateX(calc(-50% - 1.2cqw))' }], 140);
+		await move(heroEl, [{ transform: 'translateX(-50%)' }, { transform: `translateX(calc(-50% - ${1.2 * side}cqw))` }], 140);
 		heroPose = blade ? 'attack' : 'cast';
 		// How far the hero slides toward the target: a share of the gap, never more than a fifth of the scene.
-		const gap = Math.max(0, (enemyAt.x - heroAt.x) * 100);
-		const slide = blade ? Math.min(gap * 0.4, 20) : 0;
-		await move(heroEl, [{ transform: 'translateX(calc(-50% - 1.2cqw))' }, { transform: `translateX(calc(-50% + ${slide}cqw))` }], 180, 'cubic-bezier(.5,0,.9,.4)');
+		const gap = Math.abs(enemyAt.x - heroAt.x) * 100;
+		const slide = blade ? Math.min(gap * 0.4, 20) * side : 0;
+		await move(heroEl, [{ transform: `translateX(calc(-50% - ${1.2 * side}cqw))` }, { transform: `translateX(calc(-50% + ${slide}cqw))` }], 180, 'cubic-bezier(.5,0,.9,.4)');
 		hit = true;
-		const done = impact(el, enemyAt, boss ? 34 : 26);
+		const done = impact(el, enemyAt, boss ? 34 : 26, '', side < 0);
 		// The target reacts a few frames in, as the effect reaches it.
 		await sleep(still ? 80 : 330);
 		flash('#ffffff', 0.6);
@@ -264,6 +283,8 @@
 		busy = true;
 		const el = art.strikes;
 		const filter = art.strikeFilter ?? '';
+		// the camera leans in toward the two of them (a little less when the boss is far across the scene)
+		void zoomIn({ x: (enemyAt.x + heroAt.x) / 2, y: (enemyAt.y + heroAt.y) / 2 }, boss ? 1.1 : 1.2, 560);
 		await move(
 			enemyEl,
 			[
@@ -273,19 +294,20 @@
 			360
 		);
 		lunge = 1;
-		const from = { x: enemyAt.x - target.w * 0.25, y: enemyAt.y };
+		const from = { x: enemyAt.x - side * target.w * 0.25, y: enemyAt.y };
 		await fly(el, from, heroAt, filter, boss ? 16 : 11);
 		heroPose = 'hurt';
 		flash('#ff4a4a', 0.5);
 		shake(1.5);
-		void move(heroEl, [{ transform: 'translateX(-50%)' }, { transform: 'translateX(calc(-50% - 3cqw))', offset: 0.3 }, { transform: 'translateX(-50%)' }], 620);
-		const done = impact(el, heroAt, 22, filter, true);
+		void move(heroEl, [{ transform: 'translateX(-50%)' }, { transform: `translateX(calc(-50% - ${3 * side}cqw))`, offset: 0.3 }, { transform: 'translateX(-50%)' }], 620);
+		const done = impact(el, heroAt, 22, filter, side > 0);
 		shownHearts = hearts;
 		pop('−1½ ♥', { x: heroAt.x, y: heroAt.y - 0.14 }, 'hurt');
 		await done;
 		await sleep(380);
 		lunge = 0;
 		heroPose = hearts > 0 ? 'idle' : 'hurt';
+		await zoomOut(420);
 		busy = false;
 	}
 
@@ -296,7 +318,7 @@
 	}
 
 	export async function enter() {
-		await move(enemyEl, [{ opacity: 0, transform: 'translateX(8cqw)' }, { opacity: 1, transform: 'translateX(0)' }], 620, 'cubic-bezier(.2,.9,.3,1.2)');
+		await move(enemyEl, [{ opacity: 0, transform: `translateX(${-8 * side}cqw)` }, { opacity: 1, transform: 'translateX(0)' }], 620, 'cubic-bezier(.2,.9,.3,1.2)');
 	}
 
 	export function celebrate() {
@@ -330,73 +352,76 @@
 	style:aspect-ratio={lay.ar}
 	style:--aura={art.aura}
 >
-	<img class="field" src={battleBg(world)} alt="" draggable="false" />
+	<div class="world" bind:this={camEl}>
+		<img class="field" src={battleBg(world)} alt="" draggable="false" />
 
-	{#if friends.length}
-		<div class="friends" aria-hidden="true">
-			{#each friends.slice(0, 2) as friend, i (friend.id)}
-				{#if friend.hero}
-					<img
-						class="friend"
-						style:left={pct(Math.max(0.02, lay.hero.x - 0.1 - i * 0.07))}
-						style:bottom={pct(1 - lay.hero.y - 0.02 * i)}
-						style:height={pct(HERO_H * 0.78)}
-						src={heroArt(friend.hero, 'idle')}
-						alt=""
-						draggable="false"
-					/>
-				{/if}
-			{/each}
+		{#if friends.length}
+			<div class="friends" aria-hidden="true">
+				{#each friends.slice(0, 2) as friend, i (friend.id)}
+					{#if friend.hero}
+						<img
+							class="friend"
+							style:left={pct(Math.max(0.02, lay.hero.x - 0.1 - i * 0.07))}
+							style:bottom={pct(1 - lay.hero.y - 0.02 * i)}
+							style:height={pct(HERO_H * 0.78)}
+							src={heroArt(friend.hero, 'idle')}
+							alt=""
+							draggable="false"
+						/>
+					{/if}
+				{/each}
+			</div>
+		{/if}
+
+		<!-- the boss stands in its arena the whole time, as in the painting; the small enemies fight on the road -->
+		<div
+			class="actor enemy boss enemy-{boss ? enemy : 'idle'}"
+			class:low={lowBoss}
+			class:lunge={!!boss && lunge === 1}
+			class:hit={!!boss && hit}
+			style={place(lay.boss)}
+			bind:this={bossEl}
+		>
+			<img src={bossArt(world)} alt={boss?.name ?? ''} draggable="false" />
 		</div>
-	{/if}
+		{#if foe && !boss && enemy !== 'none'}
+			<div class="actor enemy foe enemy-{enemy}" class:lunge={lunge === 1} class:hit style="{place(minion)}; --side: {side}" bind:this={minionEl}>
+				<img class:turned={side > 0} src={minionArt(world, foe.index % 2 === 0 ? 'b' : 'a')} alt={foe.name} draggable="false" />
+			</div>
+		{/if}
 
-	<!-- the boss stands in its arena the whole time, as in the painting; the small enemies fight on the road -->
-	<div
-		class="actor enemy boss enemy-{boss ? enemy : 'idle'}"
-		class:low={lowBoss}
-		class:lunge={!!boss && lunge === 1}
-		class:hit={!!boss && hit}
-		style={place(lay.boss)}
-		bind:this={bossEl}
-	>
-		<img src={bossArt(world)} alt={boss?.name ?? ''} draggable="false" />
-	</div>
-	{#if foe && !boss && enemy !== 'none'}
-		<div class="actor enemy foe enemy-{enemy}" class:lunge={lunge === 1} class:hit style={place(minion)} bind:this={minionEl}>
-			<img src={minionArt(world, foe.index % 2 === 0 ? 'b' : 'a')} alt={foe.name} draggable="false" />
+		<!-- the hero -->
+		<div
+			class="actor hero"
+			class:fallen
+			class:cheering
+			class:has-weapon={armed}
+			bind:this={heroEl}
+			style:left={pct(lay.hero.x)}
+			style:bottom={pct(1 - lay.hero.y)}
+			style:height={pct(HERO_H)}
+		>
+			<span class="shadow"></span>
+			<img
+				class:armed
+				class:turned={side < 0}
+				src={heroSrc}
+				alt={heroName}
+				draggable="false"
+				onerror={() => {
+					if (armed && weapon) weaponFailed = `${hero}/${weapon}`;
+				}}
+			/>
 		</div>
-	{/if}
 
-	<!-- the hero -->
-	<div
-		class="actor hero"
-		class:fallen
-		class:cheering
-		class:has-weapon={armed}
-		bind:this={heroEl}
-		style:left={pct(lay.hero.x)}
-		style:bottom={pct(1 - lay.hero.y)}
-		style:height={pct(HERO_H)}
-	>
-		<span class="shadow"></span>
-		<img
-			class:armed
-			src={heroSrc}
-			alt={heroName}
-			draggable="false"
-			onerror={() => {
-				if (armed && weapon) weaponFailed = `${hero}/${weapon}`;
-			}}
-		/>
+		<div class="fx" bind:this={fxEl} aria-hidden="true"></div>
+		<Particles bind:this={air} motes={art.motes} calm />
+		<div class="flash" bind:this={flashEl} aria-hidden="true"></div>
+
+		{#each pops as p (p.id)}
+			<span class="pop pop-{p.tone}" style:left={pct(p.x)} style:top={pct(p.y)}>{p.text}</span>
+		{/each}
 	</div>
-
-	<div class="fx" bind:this={fxEl} aria-hidden="true"></div>
-	<Particles bind:this={air} motes={art.motes} calm />
-	<div class="flash" bind:this={flashEl} aria-hidden="true"></div>
-
-	{#each pops as p (p.id)}
-		<span class="pop pop-{p.tone}" style:left={pct(p.x)} style:top={pct(p.y)}>{p.text}</span>
-	{/each}
 
 	{#if mode !== 'scenery'}
 		<!-- hearts, where the painting had its five -->
@@ -454,6 +479,11 @@
 		background: #0b1622;
 		isolation: isolate;
 		user-select: none;
+	}
+	.world {
+		position: absolute;
+		inset: 0;
+		z-index: 1;
 	}
 	.field {
 		position: absolute;
@@ -562,7 +592,12 @@
 		transform: translateX(-5cqw) scale(1.04);
 	}
 	.enemy.foe.lunge {
-		transform: translateX(-9cqw) scale(1.5);
+		transform: translateX(calc(-9cqw * var(--side, 1))) scale(1.5);
+	}
+	/* turned to face the other way: `scale` is its own property, so it does not fight the animations on `transform` */
+	.hero img.turned,
+	.enemy.foe img.turned {
+		scale: -1 1;
 	}
 	.enemy-enter {
 		opacity: 0;
