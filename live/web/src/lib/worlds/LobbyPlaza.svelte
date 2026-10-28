@@ -41,6 +41,7 @@
 	import { landMap, paintGround } from '$lib/pixel/ground';
 	import Stickers from '$lib/play/Stickers.svelte';
 	import World, { type WorldActor, type WorldProp } from './World.svelte';
+	import { route } from './route';
 
 	let {
 		people,
@@ -121,21 +122,31 @@
 	const timers = new Map<string, ReturnType<typeof setTimeout>>();
 	const still = typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+	/** Walks a child to (x, y), round the fountain if it is in the way, leg by leg at a stroll. */
 	function walkTo(id: string, x: number, y: number, facing: number) {
 		const from = shown[id];
 		if (!from) return;
-		const ms = still ? 0 : Math.round(Math.min(3200, Math.max(250, (Math.hypot(x - from.x, y - from.y) / SPEED) * 1000)));
-		shown[id] = { x, y, facing, ms, walking: ms > 0 };
 		clearTimeout(timers.get(id));
-		if (ms) {
-			timers.set(
-				id,
-				setTimeout(() => {
-					const at = shown[id];
-					if (at) shown[id] = { ...at, walking: false };
-				}, ms)
-			);
+		if (still) {
+			shown[id] = { x, y, facing, ms: 0, walking: false };
+			return;
 		}
+		const path = route([from.x, from.y], [x, y], PLAZA.fountain);
+		const leg = (i: number) => {
+			if (i >= path.length) {
+				const at = shown[id];
+				if (at) shown[id] = { ...at, facing, walking: false };
+				return;
+			}
+			const [ax, ay] = path[i - 1];
+			const [bx, by] = path[i];
+			const ms = Math.round(Math.min(3200, Math.max(250, (Math.hypot(bx - ax, by - ay) / SPEED) * 1000)));
+			// facing the way of each leg, then the way the server says once there
+			const way = Math.abs(bx - ax) > 0.05 ? (bx < ax ? -1 : 1) : facing;
+			shown[id] = { x: bx, y: by, facing: i === path.length - 1 ? facing : way, ms, walking: true };
+			timers.set(id, setTimeout(() => leg(i + 1), ms));
+		};
+		leg(1);
 	}
 
 	function place(list: [string, number, number, number][]) {
