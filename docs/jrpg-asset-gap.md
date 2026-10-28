@@ -1,44 +1,47 @@
 # Legenda JRPG: asset ledger and gaps
 
-Every shipped file is in `live/web/static/story/manifest.json` (source path, size, alpha, status).
-This ledger groups them and lists what an art specialist still needs to make. Licence for every row:
-supplied by the DIDIK project owner in `_asset_input/` (AI-assisted art per the pack notes); the
-reference images were not treated as licences for third-party characters.
+Every shipped file is in `live/web/static/story/manifest.json` (source path, size, alpha, status). This
+ledger groups them and lists what an art specialist still needs to make. Licence for every row: supplied
+by the DIDIK project owner in `_asset_input/` (AI-assisted art per the pack notes); the reference images
+were not treated as licences for third-party characters.
 
-**Status key**: *production* = a supplied game-ready file, converted to WebP without changing the art
-(stray extraction slivers removed from poses). *derived* = interim art made here from reference images,
-playable but needing replacement. *reference* = used only as a cinematic still, never as gameplay art.
-*missing* = not in any pack.
+The battlefield of each world is the supplied painting itself (`_asset_input/Battlefields/`): the game
+keeps its composition (the hero's path on the left, the boss's arena on the right, the title plate and the
+minimap) and lays the live HUD over the places where the painting had its own.
 
-| asset_id | filename | required_state | source | production_status | usage | licensing | needed_before_merge |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| hero_tuah | heroes/tuah/{idle,ready,attack,cast,hurt,victory}.webp | 6 battle poses | Batch04 extracted poses | production (still poses, no in-between frames) | battle | project-supplied | no |
-| hero_mahsuri | heroes/mahsuri/{…same 6}.webp | 6 battle poses | Batch04 | production (still poses) | battle | project-supplied | no |
-| hero_portraits | heroes/{tuah,mahsuri}/portrait.webp | select / HUD portrait | Batch03 full-body poses | production | hero select, HUD face | project-supplied | no |
-| boss_chini | bosses/chini/{idle,attack,special,hurt,defeat}.webp | 5 boss states | Batch04/06 poses | production (still poses) | boss and road "Bayang" enemy | project-supplied | no |
-| boss_chini_reveal | bosses/chini/reveal.webp | reveal | Batch03 | production | boss reveal | project-supplied | no |
-| boss_lupar / larut / kancil / ledang | bosses/{key}/idle.webp | idle, attack, hurt, defeat | Batch08–11 close-up references, SAM cut-out | **derived**: one pose each; attack/hurt/defeat are played in code (lunge, flash, shake, sink). Edges and hidden parts (crocodile's body, elephant's feet) are approximate | boss and road enemy | project-supplied | recommended |
-| bg_chini | worlds/chini/battle.webp | clean battle background | Batch03 | production | battle, travel | project-supplied | no |
-| bg_lupar / larut / kancil / ledang | worlds/{key}/battle.webp | clean battle background | Batch08–11 1536×1024 concepts | **derived**: painted HUD, small characters and painted boss filled with a soft colour field, cropped 16:9, softened; the boss sprite covers the filled area | battle, travel | project-supplied | recommended |
-| reveal_lupar … ledang | worlds/{key}/reveal.webp | reveal still | Batch08–11 close-ups | reference (cinematic still only) | boss reveal | project-supplied | no |
-| fx_elements | fx/{api,angin,petir,tanah,air}.webp | burst per element | Batch05 | production (single stills, tweened) | attack burst, projectile | project-supplied | no |
-| fx_sheets | fx/{el}_sheet.webp | impact frames | Batch02 12-frame sheets | production (real frame animation) | impact on target | project-supplied | no |
-| fx_transition | fx/transition_4x3.webp | world wipe | Batch12 12 alpha frames | production | world intro | project-supplied | no |
-| ui_elements | ui/element_{el}.webp | icons | Batch02 | production | element picker, unlock | project-supplied | no |
-| ui_hearts | ui/heart_{full,half,empty}.webp | half-heart states | Batch02 | production | HUD | project-supplied | no |
-| ui_symbols | ui/symbol_{key}.webp | world emblems | Batch12 | production | intro, clear, host map, game picker | project-supplied | no |
-| sfx | audio/*.wav | battle sounds | Batch12 synth demos | demo quality | feedback sounds | project-supplied | before public release |
-| road_enemies | — | 5 minion designs (one per world) | missing | **missing**: road enemies are drawn as a tinted "Bayang" (shadow) of the world's boss | road battles | — | recommended |
-| hero_roster | — | Hang Jebat, Tun Teja, Puteri Saadong, Bendahara poses | Batch01/02 portraits only | **missing** battle poses (portraits are references) | hero select | — | no (two heroes ship) |
-| boss_frames | — | per-state animation frames for all bosses | missing | **missing**: every boss and hero animates by switching still poses plus code tweens | battle | — | no |
-| music | — | world music | missing | **missing** | ambience | — | no |
+**Status key**: *production* = a supplied game-ready file, converted to WebP without changing the art.
+*cut from painting* = made from a supplied painting at its native detail, with the surrounding scene filled
+in behind it. *missing* = not in any pack.
+
+| asset_id | filename | required_state | source | production_status | usage | needed_before_merge |
+| --- | --- | --- | --- | --- | --- | --- |
+| battlefield_1..5 | worlds/{chini,lupar,larut,kancil,ledang}/field.webp | clean backdrop | the five supplied battlefield paintings | **cut from painting**: boss, hero, small enemies, hearts, boss panel and element row filled with the colours around them (Telea inpainting for the small characters, soft colour fill for the boss). The path patches are visible if you look closely; the live hero and enemies cover most of them | backdrop for every scene of the world | recommended: a clean repaint without characters |
+| boss_1..5 | worlds/{key}/boss.webp | boss, drawn over the field where it stands | the same paintings, SAM cut-out | **cut from painting**: ONE pose each. Idle breathing, hit recoil, lunge and defeat are made in code. Parts hidden behind the painting's foreground are missing, so the boss can only move a little | boss | recommended: attack, hurt and defeat poses |
+| minion_a / minion_b (x5) | worlds/{key}/minion_*.webp | two small enemies per world | the same paintings, SAM cut-out | **cut from painting**: small (about 100 px), shown about 1.5 times larger | road enemies, taking turns | recommended: larger redraw |
+| hero_tuah | heroes/tuah/{idle,ready,attack,cast,hurt,victory}.webp | 6 battle poses | Batch04 extracted poses | production (still poses, no in-between frames); painted larger and in a different finish than the paintings' small chibi heroes | battle | no |
+| hero_mahsuri | heroes/mahsuri/{...same 6}.webp | 6 battle poses | Batch04 | production (still poses) | battle | no |
+| hero_portraits | heroes/{tuah,mahsuri}/portrait.webp | select / HUD portrait | Batch03 full-body poses | production | hero select | no |
+| fx_elements | fx/{api,angin,petir,tanah,air}.webp | burst per element | Batch05 | production (single stills, tweened) | attack burst, projectile | no |
+| fx_sheets | fx/{el}_sheet.webp | impact frames | Batch02 12-frame sheets | production (real frame animation) | impact on target | no |
+| fx_transition | fx/transition_4x3.webp | world wipe | Batch12 12 alpha frames | production | world intro | no |
+| ui_elements | ui/element_{el}.webp | icons | Batch02 | production | element dock, unlock | no |
+| ui_hearts | ui/heart_{full,half,empty}.webp | half-heart states | Batch02 | production | HUD | no |
+| ui_symbols | ui/symbol_{key}.webp | world emblems | Batch12 | production | boss panel, intro, clear, host map, game picker | no |
+| sfx | audio/*.wav | battle sounds | Batch12 synth demos | demo quality | feedback sounds | before public release |
+| hero_roster | none | Hang Jebat, Tun Teja, Puteri Saadong, Bendahara poses | Batch01/02 portraits only | **missing** battle poses (portraits are references) | hero select | no (two heroes ship) |
+| boss_poses | none | attack, hurt and defeat drawings for the five bosses | missing | **missing**: only one pose per boss exists | battle | no |
+| music | none | world music | missing | **missing** | ambience | no |
 
 ## Not used in the game, on purpose
 
-- Batch07 story frames, Batch08–11 chapter-intro and boss-reveal compositions, Batch03/05/06 composite
-  battle previews, the Batch12 five-world board: they have UI text or HUD painted in. The game renders
-  those texts and HUDs itself.
-- Batch02 tiny scenery/boss crops (≈300×130 px): too small.
-- MP4 animatics (Batches 06–12): still-image pans, not gameplay; not shipped.
+- The earlier Batch 8 to 11 reference close-ups and Batch 13 ChatGPT prototypes (`_asset_input/Batch13*`):
+  low native detail (about 380 px upscaled), a boss design that differs from the battlefield paintings, a
+  pose that shows a different character (Penunggu Kabus "hurt"), and vector drafts for Sang Kancil Bayangan
+  and the enemies. Kept in the repository as reference only.
+- Batch07 story frames, chapter-intro and boss-reveal compositions, the Batch03/05/06 composite battle
+  previews, the Batch12 five-world board: they have UI text or HUD painted in.
+- Batch02 tiny scenery/boss crops (about 300 by 130 px): too small.
+- MP4 animatics (Batches 06 to 12): still-image pans, not gameplay.
 - Batch02 `bayangan` FX reference: there is no sixth element.
-- The Batch08 concept shows Bujang Senang as a crocodile; the Batch02 reference showing a human is not used.
+- Sang Kancil Bayangan keeps the antlers of the supplied painting, although the written brief asks for an
+  antlerless humanoid; the painting was chosen as the visual target.

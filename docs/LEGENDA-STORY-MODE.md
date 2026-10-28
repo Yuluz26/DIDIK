@@ -60,24 +60,27 @@ celebration (no podium ranks).
 
 | File | Role |
 | --- | --- |
-| `LegendaPlayer.svelte` | Child's screen: chooses the scene for the step, plays cinematics, auto-advances (with Teruskan/skip), question panel with element picker. |
-| `Stage.svelte` | The 16:9 battle stage: backdrop, hero, enemy, HUD (half hearts, five boss bars), attack/counterattack timelines (Web Animations API), element bursts and 12-frame impact sheets, flash, shake, pop-ups. The HUD keeps the old number until the hit lands. |
-| `Particles.svelte` | Canvas motes per world (petals, embers, leaves, wisps, mist) and hit sparks. |
+| `LegendaPlayer.svelte` | Child's screen: chooses the scene for the step, plays cinematics, auto-advances (with Teruskan/skip), question panel. Alt+1 to Alt+5 pick an element at the boss (plain digits already answer questions). |
+| `Stage.svelte` | The battlefield. The supplied painting of the world is the backdrop; the hero, the boss and the two small enemies are layers laid exactly where the painting had them (`layout.ts`), and the live HUD (six half-hearts, boss name and five bars, the five elements) sits where the painting had its own. Attack and counterattack timelines (Web Animations API), element bursts and 12-frame impact sheets, flash, shake, pop-ups. The HUD keeps the old number until the hit lands. |
+| `Particles.svelte` | Canvas motes per world and hit sparks. |
 | `HeroSelect.svelte`, `LegendaHost.svelte` | Hero choice; host big screen (five worlds, every child's place and hearts, live boss bars). |
-| `data.ts`, `sfx.ts` | Art paths and per-world tuning; supplied battle sounds (same mute switch). |
+| `data.ts`, `layout.ts`, `sfx.ts` | Art paths and per-world tuning; positions generated from the paintings; supplied battle sounds. |
 
 Reduced motion: no particles, shake or looping sprite motion; cinematics are shortened. Every screen
 has the full-screen button (beside the sound button) where the browser supports it.
 
-Art review without a room: open `/gaya/legenda?world=0..4&step=…` (any step, either hero, plus
+Art review without a room: open `/gaya/legenda?world=0..4&step=...` (any step, either hero, plus
 buttons that play every element's attack and the counterattack).
 
 ## Art pipeline
 
-All art comes from the supplied packs in `_asset_input/` and is built into `live/web/static/story/`
-by `live/web/scripts/story_assets.py` (Pillow, numpy, scipy, OpenCV; rembg's SAM model for the
-interim cut-outs). `static/story/manifest.json` lists every file with its source, size, alpha and
-status. What is production-ready and what is interim: see [`jrpg-asset-gap.md`](jrpg-asset-gap.md).
+The five battlefields come from the paintings in `_asset_input/Battlefields/`. `live/web/scripts/story_assets.py`
+cuts the boss and the two small enemies out of each painting with SAM (masks cached in
+`Battlefields/masks/`), fills the places the game now draws live (hearts, boss panel, element row, and
+the painted hero and enemies) with the surrounding colours, and writes `layout.ts`. Heroes, effects,
+icons, emblems and sounds are converted from the other packs. `static/story/manifest.json` lists every
+file with its source and status. What is production-ready and what is interim: see
+[`jrpg-asset-gap.md`](jrpg-asset-gap.md).
 
 ## Tests
 

@@ -38,36 +38,27 @@ B03 = SRC / "Batch03/DIDIK_JRPG_Batch03_HD_TasikChini"
 B04 = SRC / "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES"
 B05 = SRC / "Batch05/DIDIK_JRPG_Batch05_HD_ElementalCombat/01_ELEMENTAL_FX_TRANSPARENT"
 B12 = SRC / "Batch12/Batch12_Final_UI_Transitions_SFX_HD"
-WORLD_PACKS = {
-    "lupar": ("Batch08/Batch08_BatangLupar_World_HD", "batang_lupar"),
-    "larut": ("Batch09/Batch09_HutanLarut_World_HD", "hutan_larut"),
-    "kancil": ("Batch10/Batch10_RimbaBayangan_World_HD", "rimba_bayangan"),
-    "ledang": ("Batch11/Batch11_GunungLedang_World_HD", "gunung_ledang"),
+# The supplied battlefield paintings (_asset_input/Battlefields/) and, in 1536-wide pixels: where the painting
+# has its own hearts, boss panel and element row (replaced by the live HUD), the points that pick the boss out
+# for SAM, and the body centres of the two small enemies and the hero.
+BATTLEFIELDS = {
+    "chini": dict(file="tasik_chini_battlefield.jpg", clip_below=540, hearts=(250, 18, 492, 66), panel=(978, 16, 1332, 122), dock=(1028, 738, 1482, 852),
+                  boss=[(1165, 300), (1250, 200), (1330, 330), (1260, 480), (1190, 640), (1370, 600), (1050, 420)],
+                  who={"minA": (240, 500), "hero": (400, 570), "minB": (530, 670)}),
+    "lupar": dict(file="batang_lupar_battlefield.png", hearts=(252, 18, 510, 78), panel=(988, 8, 1335, 128), dock=(1008, 878, 1488, 1004),
+                  boss=[(1100, 520), (1250, 380), (1400, 450), (1450, 600), (1200, 300)],
+                  who={"minA": (150, 505), "hero": (285, 570), "minB": (395, 650)}),
+    "larut": dict(file="hutan_larut_battlefield.png", hearts=(252, 18, 510, 78), panel=(988, 12, 1340, 122), dock=(1020, 878, 1480, 996),
+                  boss=[(1180, 230), (1000, 250), (1380, 250), (1180, 450), (1330, 520), (1100, 520)],
+                  who={"minA": (225, 495), "hero": (370, 570), "minB": (560, 640)}),
+    "kancil": dict(file="rimba_bayangan_battlefield.png", hearts=(252, 18, 510, 78), panel=(975, 16, 1335, 130), dock=(1018, 884, 1484, 1004),
+                   boss=[(1200, 250), (1200, 400), (1050, 420), (1350, 400), (1150, 170)],
+                   who={"minA": (215, 525), "hero": (375, 585), "minB": (500, 670)}),
+    "ledang": dict(file="gunung_ledang_battlefield.png", hearts=(252, 18, 510, 78), panel=(958, 8, 1318, 124), dock=(1012, 876, 1486, 1004),
+                   boss=[(1200, 250), (1200, 400), (1040, 420), (1400, 380), (1200, 170)],
+                   who={"minA": (215, 478), "hero": (360, 560), "minB": (275, 680)}),
 }
-
-# Points on each boss in its 640x680 close-up (positive) and on scenery beside it (negative).
-CLOSEUP_POINTS = {
-    "lupar": ([(282, 333), (339, 262), (371, 218), (422, 179), (486, 154), (538, 320), (563, 256), (550, 384),
-               (600, 300), (470, 400), (250, 390)], [(100, 560), (330, 560)]),
-    "larut": ([(256, 256), (128, 192), (435, 166), (256, 422), (435, 422), (256, 77), (358, 358), (128, 333),
-               (192, 422), (435, 486), (340, 300)], [(320, 600)]),
-    "kancil": ([(294, 141), (307, 282), (192, 307), (422, 294), (333, 358), (250, 60), (380, 200)],
-               [(312, 420), (150, 450)]),
-    "ledang": ([(282, 154), (282, 294), (115, 307), (461, 294), (282, 64), (200, 220), (380, 220)], [(320, 560)]),
-}
-# In the 1536x1024 concepts: the painted boss (points) and the small painted characters (centres).
-CONCEPT_BOSS = {
-    "lupar": [(1100, 520), (1250, 380), (1400, 450), (1450, 600), (1200, 300)],
-    "larut": [(1180, 230), (1000, 250), (1380, 250), (1180, 450), (1330, 520), (1100, 520)],
-    "kancil": [(1200, 250), (1200, 400), (1050, 420), (1350, 400), (1150, 170)],
-    "ledang": [(1200, 250), (1200, 400), (1040, 420), (1400, 380), (1200, 170)],
-}
-CONCEPT_PEOPLE = {
-    "lupar": [(157, 486), (306, 580), (400, 666)],
-    "larut": [(212, 494), (340, 560), (580, 611), (345, 500)],
-    "kancil": [(204, 545), (376, 600), (517, 686)],
-    "ledang": [(204, 490), (376, 616), (274, 679), (330, 560)],
-}
+FIELD_ORDER = ["chini", "lupar", "larut", "kancil", "ledang"]
 ELEMENTS = {"api": "FIRE_CRESCENT_SLASH", "angin": "WIND_VORTEX", "petir": "LIGHTNING_THUNDERBURST",
             "tanah": "EARTHSHATTER", "air": "WATER_CRESCENT_TIDE"}
 
@@ -134,32 +125,14 @@ def heroes() -> None:
         note(out, rel(src), "production full-body pose (Batch 03)", "character select, world clear")
 
 
-def naga() -> None:
-    for pose in ("idle", "attack", "special", "hurt", "defeat"):
-        src = B04 / "NAGA_CHINI" / f"naga_chini_{pose}.png"
-        out = save_webp(tidy_alpha(Image.open(src), keep=0.01), OUT / "bosses" / "chini" / f"{pose}.webp")
-        note(out, rel(src), "production pose still (Batch 04/06), stray edges removed", f"boss pose: {pose}",
-             anchor="bottom-center")
-    src = next((B03 / "03_BOSS_NAGA_CHINI").glob("01_naga_chini_battle_pose_transparent_*.png"))
-    im = tidy_alpha(Image.open(src))
-    im.thumbnail((640, 800), Image.LANCZOS)
-    out = save_webp(im, OUT / "bosses" / "chini" / "reveal.webp")
-    note(out, rel(src), "production full-body pose (Batch 03)", "boss reveal")
-
-
-# ------------------------------------------------------------------ worlds
-
-
-def world_chini() -> None:
-    src = B03 / "01_BATTLE_BACKGROUND/02_tasik_chini_battle_background_FHD_1920x1080.png"
-    im = Image.open(src).convert("RGB").resize((1600, 900), Image.LANCZOS)
-    out = save_webp(im, OUT / "worlds" / "chini" / "battle.webp", 82)
-    note(out, rel(src), "production clean battle background (Batch 03)", "battle and travel backdrop")
-
-
 def soft_fill(arr: np.ndarray, mask: np.ndarray, sigma: float) -> np.ndarray:
     """Normalised convolution: fills the masked area with the blurred colours around it, widening the
-    blur wherever the first pass finds nothing to borrow."""
+    blur wherever the first pass finds nothing to borrow. Wide blurs run on a quarter-size copy."""
+    if sigma >= 24:
+        h, w = mask.shape
+        small = soft_fill(cv2.resize(arr, (w // 4, h // 4), interpolation=cv2.INTER_AREA),
+                          cv2.resize(mask.astype(np.uint8), (w // 4, h // 4), interpolation=cv2.INTER_NEAREST), sigma / 4)
+        return cv2.resize(small, (w, h), interpolation=cv2.INTER_CUBIC)
     valid = (mask == 0).astype(np.float32)
     result = None
     need = np.ones(mask.shape, bool)
@@ -193,56 +166,216 @@ def cutout(session, image: Image.Image, positive, negative=()) -> np.ndarray:
     return np.array(remove(image, session=sess, sam_prompt=prompt))[:, :, 3] > 100
 
 
-def worlds_derived() -> None:
+def field_masks(key: str, im: Image.Image) -> dict[str, np.ndarray]:
+    """SAM masks of the boss and the three small characters of a battlefield. Cached in
+    _asset_input/Battlefields/masks/ so a rerun does not need rembg or the model."""
+    cache = SRC / "Battlefields" / "masks" / f"{key}.npz"
+    if cache.exists():
+        return dict(np.load(cache))
     session = sam_session()
     if session is None:
-        print("rembg is not installed: keeping the derived boss cut-outs and backgrounds already in static/story/")
-    for key, (pack, stem) in WORLD_PACKS.items():
-        base = SRC / pack
-        closeup_src = base / f"01_REFERENCE_ART/{stem}_boss_closeup_REFERENCE_NOT_SPRITE.png"
-        concept_src = base / f"01_REFERENCE_ART/{stem}_source_concept_1536x1024.png"
-        boss_out = OUT / "bosses" / key / "idle.webp"
-        bg_out = OUT / "worlds" / key / "battle.webp"
-        if session is not None:
-            closeup = Image.open(closeup_src).convert("RGB")
-            pos, neg = CLOSEUP_POINTS[key]
-            solid = cutout(session, closeup, pos, neg)
-            labels, count = ndimage.label(solid)
-            sizes = ndimage.sum(solid, labels, range(1, count + 1))
-            keep = np.isin(labels, [i + 1 for i, s in enumerate(sizes) if s > sizes.max() * 0.04])
-            keep = ndimage.binary_erosion(ndimage.binary_fill_holes(keep), iterations=1)
-            alpha = Image.fromarray((keep * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(1.2))
-            boss = closeup.convert("RGBA")
-            boss.putalpha(alpha)
-            save_webp(boss.crop(boss.getbbox()), boss_out, 88)
+        sys.exit(f"{cache} is missing and rembg is not installed")
+    spec = BATTLEFIELDS[key]
+    masks = {"boss": cutout(session, im, spec["boss"])}
+    for who, (cx, cy) in spec["who"].items():
+        m = cutout(session, im, [(cx, cy - 32), (cx, cy), (cx, cy + 26), (cx - 18, cy - 4), (cx + 18, cy - 4)])
+        window = np.zeros_like(m)
+        window[max(0, cy - 95): cy + 70, max(0, cx - 80): cx + 80] = True
+        m &= window
+        labels, count = ndimage.label(m)
+        if count:
+            at = labels[cy, cx] or labels[cy - 20, cx] or np.bincount(labels[labels > 0]).argmax()
+            m = labels == at
+        masks[who] = ndimage.binary_fill_holes(m)
+    cache.parent.mkdir(parents=True, exist_ok=True)
+    np.savez_compressed(cache, **masks)
+    return masks
 
-            concept = Image.open(concept_src).convert("RGB")
-            arr = np.array(concept).astype(np.float32)
-            painted_boss = ndimage.binary_dilation(cutout(session, concept, CONCEPT_BOSS[key]), iterations=18)
-            people = np.zeros(painted_boss.shape, np.uint8)
-            for x, y in CONCEPT_PEOPLE[key]:
-                people[max(0, y - 85): y + 55, max(0, x - 62): x + 62] = 255
-            people[0:200, 1000:1536] = 255  # the painted title, boss bar and minimap
-            blend = cv2.GaussianBlur(people, (0, 0), 8)[:, :, None] / 255.0
-            arr = arr * (1 - blend) + soft_fill(arr, people, 14) * blend
-            big = (painted_boss * 255).astype(np.uint8)
-            blend = cv2.GaussianBlur(big, (0, 0), 25)[:, :, None] / 255.0
-            arr = arr * (1 - blend) + soft_fill(arr, big, 60) * blend
-            bg = Image.fromarray(np.clip(arr, 0, 255).astype(np.uint8)).crop((0, 112, 1362, 878))
-            bg = bg.filter(ImageFilter.GaussianBlur(1.3)).resize((1600, 900), Image.LANCZOS)
-            save_webp(bg, bg_out, 80)
 
-        if boss_out.exists():
-            note(boss_out, rel(closeup_src), "DERIVED interim cut-out (SAM segmentation of a reference close-up); "
-                 "needs a clean multi-pose sprite before public release", "boss sprite, all states animated in code",
+def sprite_from(arr: np.ndarray, mask: np.ndarray, grow: int = 2) -> tuple[Image.Image, tuple[int, int, int, int]]:
+    """A cut-out of the painting: its pixels, feathered at the edge, cropped to its box."""
+    solid = ndimage.binary_dilation(mask, iterations=grow) if grow else mask
+    alpha = ndimage.gaussian_filter(solid.astype(np.float32), 0.9)
+    rgba = np.dstack([arr, alpha * 255]).astype(np.uint8)
+    box = Image.fromarray((solid * 255).astype(np.uint8)).getbbox()
+    return Image.fromarray(rgba, "RGBA").crop(box), box
+
+
+def patch_fill(img: np.ndarray, boxes: list[tuple[int, int, int, int]], avoid: np.ndarray) -> np.ndarray:
+    """Covers each box with a patch of the same painting: the nearby area of the same size whose surrounding
+    ring matches best, blended in with Poisson cloning. Keeps the dirt path's texture where a blur or
+    inpainting smears it. `avoid` marks places a patch must not be taken from (the boss)."""
+    h, w = img.shape[:2]
+    out = img.copy()
+    taken = avoid.copy()
+    own = np.zeros_like(avoid)
+    for x0, y0, x1, y1 in boxes:
+        taken[max(0, y0 - 14): y1 + 14, max(0, x0 - 14): x1 + 14] = True
+        own[y0:y1, x0:x1] = True
+    integral = np.pad(taken.astype(np.int32).cumsum(0).cumsum(1), ((1, 0), (1, 0)))
+
+    def blocked(x0, y0, x1, y1) -> int:
+        return integral[y1, x1] - integral[y0, x1] - integral[y1, x0] + integral[y0, x0]
+
+    for x0, y0, x1, y1 in boxes:
+        bw, bh, r = x1 - x0, y1 - y0, 8
+        ex0, ey0, ex1, ey1 = x0 - r, y0 - r, x1 + r, y1 + r
+        if ex0 < 0 or ey0 < 0 or ex1 > w or ey1 > h:
+            continue
+        ring = np.ones((bh + 2 * r, bw + 2 * r), bool)
+        ring[r: r + bh, r: r + bw] = False
+        target = img[ey0:ey1, ex0:ex1].astype(np.float32)
+        valid = ring & ~own[ey0:ey1, ex0:ex1] & ~avoid[ey0:ey1, ex0:ex1]
+        count = max(1, int(valid.sum()))
+        best, best_at = None, None
+        for cy in range(max(0, ey0 - 220), min(h - bh - 2 * r, ey0 + 220), 5):
+            for cx in range(max(0, ex0 - 280), min(w - bw - 2 * r, ex0 + 280), 5):
+                if abs(cx - ex0) < bw // 2 and abs(cy - ey0) < bh // 2:
+                    continue
+                if blocked(cx, cy, cx + bw + 2 * r, cy + bh + 2 * r):
+                    continue
+                diff = img[cy: cy + bh + 2 * r, cx: cx + bw + 2 * r].astype(np.float32) - target
+                score = float((diff * diff)[valid].sum()) / count
+                if best is None or score < best:
+                    best, best_at = score, (cx, cy)
+        if best_at is None:
+            continue
+        cx, cy = best_at
+        src = img[cy + r: cy + r + bh, cx + r: cx + r + bw]
+        mask = np.full((bh, bw), 255, np.uint8)
+        out = cv2.seamlessClone(src, out, mask, (x0 + bw // 2, y0 + bh // 2), cv2.NORMAL_CLONE)
+    return out
+
+
+def battlefields() -> None:
+    """The five battlefields: the supplied painting with its boss, its three small characters and the parts
+    the game now draws live (hearts, boss panel, element row) taken out, plus the boss and the two small
+    enemies as separate cut-outs, and layout.ts with where everything stands."""
+    entries = {}
+    for key in FIELD_ORDER:
+        spec = BATTLEFIELDS[key]
+        src = SRC / "Battlefields" / spec["file"]
+        im = Image.open(src).convert("RGB")
+        width, height = im.size
+        arr = np.array(im).astype(np.float32)
+        masks = field_masks(key, im)
+        if "clip_below" in spec:  # the segmentation leaked into the stone arena under the boss
+            masks["boss"][spec["clip_below"]:, :] = False
+
+        # the small enemies' painted health bars are not part of the enemy
+        for who in ("minA", "minB"):
+            m = masks[who]
+            red = (arr[..., 0] > 170) & (arr[..., 1] < 70) & (arr[..., 2] < 70)
+            m = m & ~ndimage.binary_dilation(red & m, iterations=2)
+            labels, count = ndimage.label(m)
+            if count > 1:
+                m = labels == np.bincount(labels[labels > 0]).argmax()
+            masks[who] = m
+        bars = np.zeros_like(masks["boss"])
+        red = (arr[..., 0] > 170) & (arr[..., 1] < 70) & (arr[..., 2] < 70)
+        for who in ("minA", "minB"):
+            ys, xs = np.nonzero(masks[who])
+            window = np.zeros_like(red)
+            window[max(0, ys.min() - 40): ys.min() + 4, max(0, xs.min() - 30): xs.max() + 30] = True
+            bars |= ndimage.binary_dilation(red & window, iterations=3)
+
+        # the field: everything that moves or is live is filled with the colours around it
+        out = arr.copy()
+
+        def fill(region: np.ndarray, sigma: float, soften: float) -> None:
+            nonlocal out
+            blend = cv2.GaussianBlur(region.astype(np.uint8) * 255, (0, 0), soften)[:, :, None] / 255.0
+            out = out * (1 - blend) + soft_fill(out, region.astype(np.uint8) * 255, sigma) * blend
+
+        # SAM misses parts of the small characters (red clothes, the sword tip) and their health bars have
+        # outlines: take out a generous box around each instead of only the mask, and cover it with a patch
+        # of the same painting
+        boxes = []
+        for who in ("hero", "minA", "minB"):
+            ys, xs = np.nonzero(masks[who])
+            x0, x1, y0, y1 = int(xs.min()), int(xs.max()), int(ys.min()), int(ys.max())
+            if who == "hero":
+                boxes.append((max(0, x0 - 12), max(0, y0 - 14), x1 + 46, y1 + 10))
+            else:
+                boxes.append((max(0, x0 - 12), max(0, y0 - 38), x1 + 12, y1 + 8))
+        keep_away = ndimage.binary_dilation(masks["boss"], iterations=24)
+        for name in ("hearts", "panel", "dock"):
+            hx0, hy0, hx1, hy1 = spec[name]
+            keep_away[hy0:hy1, hx0:hx1] = True
+        out = patch_fill(np.clip(out, 0, 255).astype(np.uint8), boxes, keep_away).astype(np.float32)
+        fill(ndimage.binary_dilation(masks["boss"], iterations=3), 40, 3)
+        rects = np.zeros(masks["boss"].shape, bool)
+        for name in ("hearts", "panel", "dock"):
+            x0, y0, x1, y1 = spec[name]
+            rects[y0:y1, x0:x1] = True
+        fill(rects, 14, 6)
+        field = Image.fromarray(np.clip(out, 0, 255).astype(np.uint8))
+        field_out = save_webp(field, OUT / "worlds" / key / "field.webp", 88)
+        note(field_out, rel(src), "supplied battlefield painting with its boss, small characters, hearts, boss "
+             "panel and element row taken out (filled with the surrounding colours); the title plate and minimap "
+             "stay as painted", "battlefield backdrop")
+
+        # the boss and the two small enemies, cut from the painting itself
+        boss_img, bbox = sprite_from(arr, masks["boss"])
+        boss_out = save_webp(boss_img, OUT / "worlds" / key / "boss.webp", 90)
+        note(boss_out, rel(src), "boss cut out of the supplied painting with SAM (native painting detail)",
+             "boss, drawn over the field where it stands", anchor="bottom-center")
+        entry = {"boss": bbox}
+        for who, name in (("minA", "minion_a"), ("minB", "minion_b")):
+            img, box = sprite_from(arr, masks[who])
+            note(save_webp(img, OUT / "worlds" / key / f"{name}.webp", 90), rel(src),
+                 "small enemy cut out of the supplied painting with SAM (native painting detail, small)", "road enemy",
                  anchor="bottom-center")
-        if bg_out.exists():
-            note(bg_out, rel(concept_src), "DERIVED interim backdrop (painted HUD, characters and boss filled, "
-                 "softened); needs an authored clean background", "battle and travel backdrop")
-        reveal = OUT / "worlds" / key / "reveal.webp"
-        im = Image.open(closeup_src).convert("RGB")
-        save_webp(im, reveal, 82)
-        note(reveal, rel(closeup_src), "reference close-up used only as a cinematic still", "boss reveal cutscene")
+            entry[who] = box
+        hx0, hy0, hx1, hy1 = Image.fromarray((masks["hero"] * 255).astype(np.uint8)).getbbox()
+        entry["hero"] = ((hx0 + hx1) / 2, hy1)
+        entry["size"] = (width, height)
+        entries[key] = entry
+
+    def box(b, size):
+        w, h = size
+        return f"box({b[0] / w:.4f}, {b[1] / h:.4f}, {(b[2] - b[0]) / w:.4f}, {(b[3] - b[1]) / h:.4f})"
+
+    rows = []
+    for key in FIELD_ORDER:
+        e, spec = entries[key], BATTLEFIELDS[key]
+        size = e["size"]
+        w, h = size
+        hud = {n: spec[n] for n in ("hearts", "panel", "dock")}
+        rows.append("\t{ ar: " + f"{w} / {h}" + ", boss: " + box(e["boss"], size) + ", minA: " + box(e["minA"], size)
+                    + ", minB: " + box(e["minB"], size) + f", hero: {{ x: {e['hero'][0] / w:.4f}, y: {e['hero'][1] / h:.4f} }}, "
+                    + ", ".join(f"{n}: " + box(hud[n], size) for n in hud) + " }")
+    text = (LAYOUT_HEAD + "export const FIELDS: Field[] = [\n" + ",\n".join(rows) + "\n];\n")
+    (ROOT / "live/web/src/lib/games/legenda/layout.ts").write_text(text, encoding="utf-8")
+
+
+LAYOUT_HEAD = """// Where everything stands on each world's battlefield, as fractions of the scene (left, top, width, height).
+// Generated by scripts/story_assets.py from the supplied battlefield paintings: do not edit by hand.
+
+export interface Box {
+	x: number;
+	y: number;
+	w: number;
+	h: number;
+}
+
+export interface Field {
+	/** Width over height of the painting. */
+	ar: number;
+	boss: Box;
+	minA: Box;
+	minB: Box;
+	/** Where the hero's feet stand. */
+	hero: { x: number; y: number };
+	hearts: Box;
+	panel: Box;
+	dock: Box;
+}
+
+const box = (x: number, y: number, w: number, h: number): Box => ({ x, y, w, h });
+
+// The order is chini, lupar, larut, kancil, ledang.
+"""
 
 
 # ------------------------------------------------------------------ UI, effects, sound
@@ -305,13 +438,18 @@ def sound() -> None:
 def main() -> None:
     if not SRC.exists():
         sys.exit("_asset_input/ not found")
-    heroes()
-    naga()
-    world_chini()
-    worlds_derived()
-    ui()
-    fx()
-    sound()
+    if "--only" in sys.argv and "battlefields" in sys.argv:
+        old = OUT / "manifest.json"
+        for row in json.loads(old.read_text(encoding="utf-8"))["assets"]:
+            manifest.append(row)
+        manifest[:] = [r for r in manifest if not r["file"].startswith("worlds/")]
+        battlefields()
+    else:
+        heroes()
+        battlefields()
+        ui()
+        fx()
+        sound()
     manifest.sort(key=lambda row: row["file"])
     (OUT / "manifest.json").write_text(json.dumps({
         "about": "Legenda Story Mode art. Built by live/web/scripts/story_assets.py from _asset_input/. "

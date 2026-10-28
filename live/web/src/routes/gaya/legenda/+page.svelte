@@ -12,11 +12,11 @@
 	import { ELEMENTS, type Element } from '$lib/games/legenda/data';
 
 	const WORLDS = [
-		{ key: 'chini', title: 'Tasik Chini', boss: 'Naga Chini', intro: 'Kabus pagi menyelubungi tasik teratai.', clear: 'Teratai kembali mekar.' },
-		{ key: 'lupar', title: 'Batang Lupar', boss: 'Bujang Senang', intro: 'Senja di sungai Sarawak.', clear: 'Perahu boleh berlayar semula.' },
-		{ key: 'larut', title: 'Hutan Larut', boss: 'Gajah Rimba', intro: 'Hutan hujan yang tua dan tebal.', clear: 'Cahaya menembusi kanopi.' },
-		{ key: 'kancil', title: 'Rimba Bayangan', boss: 'Sang Kancil Bayangan', intro: 'Bulan ungu di atas rimba.', clear: 'Ilusi pecah.' },
-		{ key: 'ledang', title: 'Gunung Ledang', boss: 'Penunggu Kabus', intro: 'Jambatan batu di puncak berkabus.', clear: 'Kabus terangkat.' }
+		{ key: 'chini', foe: 'Pengawal Teratai', title: 'Tasik Chini', boss: 'Naga Chini', intro: 'Kabus pagi menyelubungi tasik teratai.', clear: 'Teratai kembali mekar.' },
+		{ key: 'lupar', foe: 'Penjaga Bakau', title: 'Batang Lupar', boss: 'Bujang Senang', intro: 'Senja di sungai Sarawak.', clear: 'Perahu boleh berlayar semula.' },
+		{ key: 'larut', foe: 'Roh Paku Pakis', title: 'Hutan Larut', boss: 'Gajah Rimba', intro: 'Hutan hujan yang tua dan tebal.', clear: 'Cahaya menembusi kanopi.' },
+		{ key: 'kancil', foe: 'Pelita Sesat', title: 'Rimba Bayangan', boss: 'Sang Kancil Bayangan', intro: 'Bulan ungu di atas rimba.', clear: 'Ilusi pecah.' },
+		{ key: 'ledang', foe: 'Bayu Kabus', title: 'Gunung Ledang', boss: 'Penunggu Kabus', intro: 'Jambatan batu di puncak berkabus.', clear: 'Kabus terangkat.' }
 	];
 	const STEPS = ['select', 'intro', 'travel', 'encounter', 'question', 'unlock', 'gather', 'reveal', 'boss', 'wait', 'fallen', 'worldclear', 'victory'];
 

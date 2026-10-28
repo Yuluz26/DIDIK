@@ -29,7 +29,9 @@
 		reducedMotion,
 		symbol,
 		worldUrls,
-		WORLD_ART,
+		battleBg,
+		bossArt,
+		field,
 		type Element
 	} from './data';
 	import { sfx } from './sfx';
@@ -174,6 +176,15 @@
 		wipe.style.opacity = '0';
 	}
 
+	/** Alt+1 to Alt+5 pick an element at the boss (plain digits already answer the question). */
+	function onkey(e: KeyboardEvent) {
+		if (!e.altKey || e.ctrlKey || e.metaKey || step !== 'question' || !boss || !story.elements) return;
+		const el = ELEMENTS[Number(e.code.replace('Digit', '')) - 1];
+		if (!el) return;
+		e.preventDefault();
+		chooseElement(el);
+	}
+
 	function chooseElement(el: Element) {
 		if (el === story.element) return;
 		sfx('click', 0.5);
@@ -197,6 +208,8 @@
 	const fighting = $derived(raid ? raid.members.length : 1);
 </script>
 
+<svelte:window onkeydown={onkey} />
+
 <Hud {me} score={game.score ?? 0} />
 
 {#if step === 'select'}
@@ -205,7 +218,7 @@
 	<main class="wrap story"><p class="loading">Membuka kitab legenda…</p></main>
 {:else}
 	<main class="wrap story step-{step}">
-		<div class="frame">
+		<div class="frame" style:--ar={field(worldIndex).ar}>
 			<Stage
 				bind:this={stage}
 				world={worldIndex}
@@ -213,8 +226,9 @@
 				heroName={me.name}
 				hearts={story.hearts ?? 12}
 				maxHearts={game.world?.maxHearts ?? 12}
-				foe={!boss ? { name: `Bayang ${scene.boss ?? ''}`, index: foeIndex, total: encounters } : null}
-				boss={boss && raid ? { name: scene.boss, hp: raid.hp, max: raid.max } : null}
+				foe={!boss ? { name: scene.foe ?? 'Musuh', index: foeIndex, total: encounters } : null}
+				boss={boss && raid ? { name: scene.boss, hp: raid.hp, max: raid.max, subtitle: scene.title } : null}
+				elements={story.hero ? { unlocked: !!story.elements, selected: story.element ?? 'api', disabled: step !== 'question' || !boss, onpick: chooseElement } : null}
 				enemy={showEnemy ? enemyState : 'none'}
 				friends={friends.filter((f) => f.step !== 'select')}
 				mode={stageMode}
@@ -261,7 +275,8 @@
 				</div>
 			{:else if step === 'reveal'}
 				<div class="overlay boss-reveal" role="status">
-					<img class="closeup" class:pose={worldIndex === 0} src={WORLD_ART[worldIndex].reveal} alt="" />
+					<img class="reveal-bg" src={battleBg(worldIndex)} alt="" />
+					<img class="reveal-boss" src={bossArt(worldIndex)} alt="" />
 					<div class="nameplate">
 						<p class="kicker">Penjaga {scene.title}</p>
 						<h2>{scene.boss}</h2>
@@ -307,22 +322,6 @@
 
 		{#if (step === 'question' || step === 'result') && question}
 			<section class="panel" aria-label="Soalan pertarungan">
-				{#if boss && story.elements}
-					<div class="elements" role="radiogroup" aria-label="Pilih elemen serangan">
-						{#each ELEMENTS as el (el)}
-							<button
-								type="button"
-								role="radio"
-								aria-checked={story.element === el}
-								class:on={story.element === el}
-								disabled={step !== 'question'}
-								onclick={() => chooseElement(el)}
-							>
-								<img src={elementIcon(el)} alt="" /><span>{ELEMENT_NAME[el]}</span>
-							</button>
-						{/each}
-					</div>
-				{/if}
 				<div class="paper">
 					<QuestionCard {question} />
 					<Answer
@@ -366,7 +365,7 @@
 	}
 	.frame {
 		position: relative;
-		width: min(100%, 1280px, calc((100dvh - 10rem) * 16 / 9));
+		width: min(100%, 1280px, calc((100dvh - 10rem) * var(--ar, 1.7778)));
 		min-width: min(100%, 320px);
 		border-radius: 16px;
 		box-shadow:
@@ -515,19 +514,32 @@
 		overflow: hidden;
 		animation: card-in 500ms ease-out both;
 	}
-	.closeup {
+	.reveal-bg {
 		position: absolute;
 		inset: 0;
 		width: 100%;
 		height: 100%;
-		object-fit: cover;
-		object-position: 50% 30%;
+		object-fit: fill;
+		filter: brightness(0.35) saturate(1.1) blur(2px);
 		animation: closeup 4.2s ease-out both;
 	}
-	.closeup.pose {
+	.reveal-boss {
+		position: absolute;
+		right: 2cqw;
+		bottom: 0;
+		height: 94%;
+		width: auto;
+		max-width: 62%;
 		object-fit: contain;
-		object-position: 70% 100%;
-		background: radial-gradient(ellipse at 70% 60%, rgb(40 160 170 / 0.6), #05101a 70%);
+		object-position: bottom right;
+		filter: drop-shadow(0 0 3cqw rgb(255 210 120 / 0.35));
+		animation: rise-boss 1.6s cubic-bezier(0.2, 0.9, 0.3, 1) both;
+	}
+	@keyframes rise-boss {
+		from {
+			opacity: 0;
+			transform: translateY(8cqw) scale(0.92);
+		}
 	}
 	.nameplate {
 		position: absolute;
@@ -603,48 +615,6 @@
 		background: linear-gradient(180deg, #fffaf0, #f6ecd6);
 		color: var(--ink);
 		box-shadow: inset 0 0 0 2px #e4cfa0;
-	}
-	.elements {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: center;
-		gap: 0.5rem;
-	}
-	.elements {
-		flex-wrap: nowrap;
-	}
-	.elements button {
-		display: grid;
-		flex: 1 1 0;
-		justify-items: center;
-		gap: 0.1rem;
-		min-width: 0;
-		max-width: 5.2rem;
-		padding: 0.35rem 0.2rem 0.4rem;
-		border: 2px solid transparent;
-		border-radius: 14px;
-		background: rgb(255 255 255 / 0.06);
-		color: #fff4d8;
-		font-weight: 800;
-		font-size: 0.85rem;
-		cursor: pointer;
-		transition:
-			transform 160ms var(--spring, ease),
-			background 160ms;
-	}
-	.elements img {
-		width: min(3rem, 100%);
-		height: auto;
-		aspect-ratio: 1;
-	}
-	.elements button.on {
-		border-color: #ffd27a;
-		background: rgb(255 210 120 / 0.18);
-		transform: translateY(-3px);
-		box-shadow: 0 0 18px rgb(255 210 120 / 0.45);
-	}
-	.elements button:focus-visible {
-		outline: 3px solid #fff;
 	}
 	.verdict {
 		display: flex;
@@ -759,7 +729,7 @@
 	@media (prefers-reduced-motion: reduce) {
 		.overlay,
 		.overlay *,
-		.closeup {
+		.reveal-bg {
 			animation-duration: 1ms !important;
 			animation-iteration-count: 1 !important;
 		}

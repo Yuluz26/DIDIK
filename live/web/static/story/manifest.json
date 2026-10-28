@@ -684,112 +684,259 @@
    "bytes": 11790
   },
   {
-   "file": "worlds/chini/battle.webp",
-   "source": "Batch03/DIDIK_JRPG_Batch03_HD_TasikChini/01_BATTLE_BACKGROUND/02_tasik_chini_battle_background_FHD_1920x1080.png",
-   "status": "production clean battle background (Batch 03)",
-   "use": "battle and travel backdrop",
+   "file": "worlds/chini/boss.webp",
+   "source": "Battlefields/tasik_chini_battlefield.jpg",
+   "status": "boss cut out of the supplied painting with SAM (native painting detail)",
+   "use": "boss, drawn over the field where it stands",
    "size": [
-    1600,
-    900
+    452,
+    457
    ],
-   "alpha": false,
-   "bytes": 505470
+   "alpha": true,
+   "bytes": 68724,
+   "anchor": "bottom-center"
   },
   {
-   "file": "worlds/kancil/battle.webp",
-   "source": "Batch10/Batch10_RimbaBayangan_World_HD/01_REFERENCE_ART/rimba_bayangan_source_concept_1536x1024.png",
-   "status": "DERIVED interim backdrop (painted HUD, characters and boss filled, softened); needs an authored clean background",
-   "use": "battle and travel backdrop",
+   "file": "worlds/chini/field.webp",
+   "source": "Battlefields/tasik_chini_battlefield.jpg",
+   "status": "supplied battlefield painting with its boss, small characters, hearts, boss panel and element row taken out (filled with the surrounding colours); the title plate and minimap stay as painted",
+   "use": "battlefield backdrop",
    "size": [
-    1600,
-    900
+    1536,
+    864
    ],
    "alpha": false,
-   "bytes": 135144
+   "bytes": 360234
   },
   {
-   "file": "worlds/kancil/reveal.webp",
-   "source": "Batch10/Batch10_RimbaBayangan_World_HD/01_REFERENCE_ART/rimba_bayangan_boss_closeup_REFERENCE_NOT_SPRITE.png",
-   "status": "reference close-up used only as a cinematic still",
-   "use": "boss reveal cutscene",
+   "file": "worlds/chini/minion_a.webp",
+   "source": "Battlefields/tasik_chini_battlefield.jpg",
+   "status": "small enemy cut out of the supplied painting with SAM (native painting detail, small)",
+   "use": "road enemy",
    "size": [
-    640,
-    680
+    101,
+    85
    ],
-   "alpha": false,
-   "bytes": 134864
+   "alpha": true,
+   "bytes": 5978,
+   "anchor": "bottom-center"
   },
   {
-   "file": "worlds/larut/battle.webp",
-   "source": "Batch09/Batch09_HutanLarut_World_HD/01_REFERENCE_ART/hutan_larut_source_concept_1536x1024.png",
-   "status": "DERIVED interim backdrop (painted HUD, characters and boss filled, softened); needs an authored clean background",
-   "use": "battle and travel backdrop",
+   "file": "worlds/chini/minion_b.webp",
+   "source": "Battlefields/tasik_chini_battlefield.jpg",
+   "status": "small enemy cut out of the supplied painting with SAM (native painting detail, small)",
+   "use": "road enemy",
    "size": [
-    1600,
-    900
+    95,
+    91
    ],
-   "alpha": false,
-   "bytes": 135390
+   "alpha": true,
+   "bytes": 5012,
+   "anchor": "bottom-center"
   },
   {
-   "file": "worlds/larut/reveal.webp",
-   "source": "Batch09/Batch09_HutanLarut_World_HD/01_REFERENCE_ART/hutan_larut_boss_closeup_REFERENCE_NOT_SPRITE.png",
-   "status": "reference close-up used only as a cinematic still",
-   "use": "boss reveal cutscene",
+   "file": "worlds/kancil/boss.webp",
+   "source": "Battlefields/rimba_bayangan_battlefield.png",
+   "status": "boss cut out of the supplied painting with SAM (native painting detail)",
+   "use": "boss, drawn over the field where it stands",
    "size": [
-    640,
-    680
+    530,
+    578
    ],
-   "alpha": false,
-   "bytes": 143296
+   "alpha": true,
+   "bytes": 97914,
+   "anchor": "bottom-center"
   },
   {
-   "file": "worlds/ledang/battle.webp",
-   "source": "Batch11/Batch11_GunungLedang_World_HD/01_REFERENCE_ART/gunung_ledang_source_concept_1536x1024.png",
-   "status": "DERIVED interim backdrop (painted HUD, characters and boss filled, softened); needs an authored clean background",
-   "use": "battle and travel backdrop",
+   "file": "worlds/kancil/field.webp",
+   "source": "Battlefields/rimba_bayangan_battlefield.png",
+   "status": "supplied battlefield painting with its boss, small characters, hearts, boss panel and element row taken out (filled with the surrounding colours); the title plate and minimap stay as painted",
+   "use": "battlefield backdrop",
    "size": [
-    1600,
-    900
+    1536,
+    1024
    ],
    "alpha": false,
-   "bytes": 143612
+   "bytes": 488400
   },
   {
-   "file": "worlds/ledang/reveal.webp",
-   "source": "Batch11/Batch11_GunungLedang_World_HD/01_REFERENCE_ART/gunung_ledang_boss_closeup_REFERENCE_NOT_SPRITE.png",
-   "status": "reference close-up used only as a cinematic still",
-   "use": "boss reveal cutscene",
+   "file": "worlds/kancil/minion_a.webp",
+   "source": "Battlefields/rimba_bayangan_battlefield.png",
+   "status": "small enemy cut out of the supplied painting with SAM (native painting detail, small)",
+   "use": "road enemy",
    "size": [
-    640,
-    680
+    108,
+    99
    ],
-   "alpha": false,
-   "bytes": 131976
+   "alpha": true,
+   "bytes": 7092,
+   "anchor": "bottom-center"
   },
   {
-   "file": "worlds/lupar/battle.webp",
-   "source": "Batch08/Batch08_BatangLupar_World_HD/01_REFERENCE_ART/batang_lupar_source_concept_1536x1024.png",
-   "status": "DERIVED interim backdrop (painted HUD, characters and boss filled, softened); needs an authored clean background",
-   "use": "battle and travel backdrop",
+   "file": "worlds/kancil/minion_b.webp",
+   "source": "Battlefields/rimba_bayangan_battlefield.png",
+   "status": "small enemy cut out of the supplied painting with SAM (native painting detail, small)",
+   "use": "road enemy",
    "size": [
-    1600,
-    900
+    112,
+    100
    ],
-   "alpha": false,
-   "bytes": 150186
+   "alpha": true,
+   "bytes": 6950,
+   "anchor": "bottom-center"
   },
   {
-   "file": "worlds/lupar/reveal.webp",
-   "source": "Batch08/Batch08_BatangLupar_World_HD/01_REFERENCE_ART/batang_lupar_boss_closeup_REFERENCE_NOT_SPRITE.png",
-   "status": "reference close-up used only as a cinematic still",
-   "use": "boss reveal cutscene",
+   "file": "worlds/larut/boss.webp",
+   "source": "Battlefields/hutan_larut_battlefield.png",
+   "status": "boss cut out of the supplied painting with SAM (native painting detail)",
+   "use": "boss, drawn over the field where it stands",
    "size": [
-    640,
-    680
+    545,
+    579
+   ],
+   "alpha": true,
+   "bytes": 111634,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "worlds/larut/field.webp",
+   "source": "Battlefields/hutan_larut_battlefield.png",
+   "status": "supplied battlefield painting with its boss, small characters, hearts, boss panel and element row taken out (filled with the surrounding colours); the title plate and minimap stay as painted",
+   "use": "battlefield backdrop",
+   "size": [
+    1536,
+    1024
    ],
    "alpha": false,
-   "bytes": 158988
+   "bytes": 477064
+  },
+  {
+   "file": "worlds/larut/minion_a.webp",
+   "source": "Battlefields/hutan_larut_battlefield.png",
+   "status": "small enemy cut out of the supplied painting with SAM (native painting detail, small)",
+   "use": "road enemy",
+   "size": [
+    107,
+    101
+   ],
+   "alpha": true,
+   "bytes": 7086,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "worlds/larut/minion_b.webp",
+   "source": "Battlefields/hutan_larut_battlefield.png",
+   "status": "small enemy cut out of the supplied painting with SAM (native painting detail, small)",
+   "use": "road enemy",
+   "size": [
+    108,
+    92
+   ],
+   "alpha": true,
+   "bytes": 6828,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "worlds/ledang/boss.webp",
+   "source": "Battlefields/gunung_ledang_battlefield.png",
+   "status": "boss cut out of the supplied painting with SAM (native painting detail)",
+   "use": "boss, drawn over the field where it stands",
+   "size": [
+    624,
+    565
+   ],
+   "alpha": true,
+   "bytes": 109172,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "worlds/ledang/field.webp",
+   "source": "Battlefields/gunung_ledang_battlefield.png",
+   "status": "supplied battlefield painting with its boss, small characters, hearts, boss panel and element row taken out (filled with the surrounding colours); the title plate and minimap stay as painted",
+   "use": "battlefield backdrop",
+   "size": [
+    1536,
+    1024
+   ],
+   "alpha": false,
+   "bytes": 514856
+  },
+  {
+   "file": "worlds/ledang/minion_a.webp",
+   "source": "Battlefields/gunung_ledang_battlefield.png",
+   "status": "small enemy cut out of the supplied painting with SAM (native painting detail, small)",
+   "use": "road enemy",
+   "size": [
+    93,
+    93
+   ],
+   "alpha": true,
+   "bytes": 5598,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "worlds/ledang/minion_b.webp",
+   "source": "Battlefields/gunung_ledang_battlefield.png",
+   "status": "small enemy cut out of the supplied painting with SAM (native painting detail, small)",
+   "use": "road enemy",
+   "size": [
+    110,
+    92
+   ],
+   "alpha": true,
+   "bytes": 6220,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "worlds/lupar/boss.webp",
+   "source": "Battlefields/batang_lupar_battlefield.png",
+   "status": "boss cut out of the supplied painting with SAM (native painting detail)",
+   "use": "boss, drawn over the field where it stands",
+   "size": [
+    547,
+    450
+   ],
+   "alpha": true,
+   "bytes": 106688,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "worlds/lupar/field.webp",
+   "source": "Battlefields/batang_lupar_battlefield.png",
+   "status": "supplied battlefield painting with its boss, small characters, hearts, boss panel and element row taken out (filled with the surrounding colours); the title plate and minimap stay as painted",
+   "use": "battlefield backdrop",
+   "size": [
+    1536,
+    1024
+   ],
+   "alpha": false,
+   "bytes": 510752
+  },
+  {
+   "file": "worlds/lupar/minion_a.webp",
+   "source": "Battlefields/batang_lupar_battlefield.png",
+   "status": "small enemy cut out of the supplied painting with SAM (native painting detail, small)",
+   "use": "road enemy",
+   "size": [
+    99,
+    84
+   ],
+   "alpha": true,
+   "bytes": 5962,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "worlds/lupar/minion_b.webp",
+   "source": "Battlefields/batang_lupar_battlefield.png",
+   "status": "small enemy cut out of the supplied painting with SAM (native painting detail, small)",
+   "use": "road enemy",
+   "size": [
+    100,
+    92
+   ],
+   "alpha": true,
+   "bytes": 6874,
+   "anchor": "bottom-center"
   }
  ]
 }
