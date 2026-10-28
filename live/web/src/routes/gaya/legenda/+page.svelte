@@ -25,6 +25,8 @@
 	let hero = $state(page.url.searchParams.get('hero') ?? 'tuah');
 	let element = $state(page.url.searchParams.get('element') ?? 'petir');
 	let stage = $state<Stage>();
+	// `foe=1..5`: the demo stage fights that small enemy (they take turns standing left and right of the hero) instead of the boss
+	const foeAt = Number(page.url.searchParams.get('foe') ?? 0);
 
 	const client = { send: () => undefined, onFx: () => () => undefined, offset: 0 } as unknown as RoomClient;
 	const me = { id: 'p1', name: 'Kancil Pelangi', avatar: 'kancil', colour: 'teal', team: null, online: true, bot: false, approved: true, score: 0 } as Me;
@@ -77,7 +79,7 @@
 <section class="wrap moves">
 	<h2>Gerak pertarungan</h2>
 	<div class="stage-box">
-		<Stage bind:this={stage} {world} {hero} weapon={element as Element} heroName="Hang Tuah" hearts={9} boss={{ name: WORLDS[world].boss, hp: 3, max: 5 }} enemy="idle" />
+		<Stage bind:this={stage} {world} {hero} weapon={element as Element} heroName="Hang Tuah" hearts={9} boss={foeAt ? null : { name: WORLDS[world].boss, hp: 3, max: 5 }} foe={foeAt ? { name: WORLDS[world].foe, index: foeAt, total: 5 } : null} enemy="idle" />
 	</div>
 	<div class="row">
 		{#each ELEMENTS as el (el)}<button type="button" class="btn" onclick={() => stage?.attack(el as Element, { weak: el === 'petir', healed: true })}>Serang: {el}</button>{/each}
