@@ -182,24 +182,38 @@
     719
    ],
    "alpha": true,
-   "bytes": 260200
+   "bytes": 269660
   },
   {
-   "file": "fx/air_sheet.webp",
-   "source": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_attack_spritesheets/fx_air_12frames_4x3.png",
-   "status": "production 12-frame sprite sheet (Batch 02)",
-   "use": "impact animation on the target",
+   "file": "fx/air_slash.webp",
+   "source": [
+    "Effects60/04_ATTACK_FRAMES/air/fx_air_frame_01.png",
+    "Effects60/04_ATTACK_FRAMES/air/fx_air_frame_02.png",
+    "Effects60/04_ATTACK_FRAMES/air/fx_air_frame_03.png",
+    "Effects60/04_ATTACK_FRAMES/air/fx_air_frame_04.png",
+    "Effects60/04_ATTACK_FRAMES/air/fx_air_frame_05.png",
+    "Effects60/04_ATTACK_FRAMES/air/fx_air_frame_06.png",
+    "Effects60/04_ATTACK_FRAMES/air/fx_air_frame_07.png",
+    "Effects60/04_ATTACK_FRAMES/air/fx_air_frame_08.png",
+    "Effects60/04_ATTACK_FRAMES/air/fx_air_frame_09.png",
+    "Effects60/04_ATTACK_FRAMES/air/fx_air_frame_10.png",
+    "Effects60/04_ATTACK_FRAMES/air/fx_air_frame_11.png",
+    "Effects60/04_ATTACK_FRAMES/air/fx_air_frame_12.png"
+   ],
+   "status": "production 12-frame attack effect (Effects60 pack; AI-generated frames cut from a contact sheet, neighbour bleed removed, native 314x418 per frame)",
+   "use": "attack and counterattack effect, played frame by frame",
    "size": [
-    1024,
-    768
+    1256,
+    1254
    ],
    "alpha": true,
-   "bytes": 89192,
+   "bytes": 632164,
    "frames": 12,
    "frame": [
-    256,
-    256
-   ]
+    314,
+    418
+   ],
+   "columns": 4
   },
   {
    "file": "fx/angin.webp",
@@ -211,24 +225,38 @@
     719
    ],
    "alpha": true,
-   "bytes": 225408
+   "bytes": 237470
   },
   {
-   "file": "fx/angin_sheet.webp",
-   "source": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_attack_spritesheets/fx_angin_12frames_4x3.png",
-   "status": "production 12-frame sprite sheet (Batch 02)",
-   "use": "impact animation on the target",
+   "file": "fx/angin_slash.webp",
+   "source": [
+    "Effects60/04_ATTACK_FRAMES/angin/fx_angin_frame_01.png",
+    "Effects60/04_ATTACK_FRAMES/angin/fx_angin_frame_02.png",
+    "Effects60/04_ATTACK_FRAMES/angin/fx_angin_frame_03.png",
+    "Effects60/04_ATTACK_FRAMES/angin/fx_angin_frame_04.png",
+    "Effects60/04_ATTACK_FRAMES/angin/fx_angin_frame_05.png",
+    "Effects60/04_ATTACK_FRAMES/angin/fx_angin_frame_06.png",
+    "Effects60/04_ATTACK_FRAMES/angin/fx_angin_frame_07.png",
+    "Effects60/04_ATTACK_FRAMES/angin/fx_angin_frame_08.png",
+    "Effects60/04_ATTACK_FRAMES/angin/fx_angin_frame_09.png",
+    "Effects60/04_ATTACK_FRAMES/angin/fx_angin_frame_10.png",
+    "Effects60/04_ATTACK_FRAMES/angin/fx_angin_frame_11.png",
+    "Effects60/04_ATTACK_FRAMES/angin/fx_angin_frame_12.png"
+   ],
+   "status": "production 12-frame attack effect (Effects60 pack; AI-generated frames cut from a contact sheet, neighbour bleed removed, native 314x418 per frame)",
+   "use": "attack and counterattack effect, played frame by frame",
    "size": [
-    1024,
-    768
+    1256,
+    1254
    ],
    "alpha": true,
-   "bytes": 76950,
+   "bytes": 542198,
    "frames": 12,
    "frame": [
-    256,
-    256
-   ]
+    314,
+    418
+   ],
+   "columns": 4
   },
   {
    "file": "fx/api.webp",
@@ -240,24 +268,38 @@
     710
    ],
    "alpha": true,
-   "bytes": 245022
+   "bytes": 255564
   },
   {
-   "file": "fx/api_sheet.webp",
-   "source": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_attack_spritesheets/fx_api_12frames_4x3.png",
-   "status": "production 12-frame sprite sheet (Batch 02)",
-   "use": "impact animation on the target",
+   "file": "fx/api_slash.webp",
+   "source": [
+    "Effects60/04_ATTACK_FRAMES/api/fx_api_frame_01.png",
+    "Effects60/04_ATTACK_FRAMES/api/fx_api_frame_02.png",
+    "Effects60/04_ATTACK_FRAMES/api/fx_api_frame_03.png",
+    "Effects60/04_ATTACK_FRAMES/api/fx_api_frame_04.png",
+    "Effects60/04_ATTACK_FRAMES/api/fx_api_frame_05.png",
+    "Effects60/04_ATTACK_FRAMES/api/fx_api_frame_06.png",
+    "Effects60/04_ATTACK_FRAMES/api/fx_api_frame_07.png",
+    "Effects60/04_ATTACK_FRAMES/api/fx_api_frame_08.png",
+    "Effects60/04_ATTACK_FRAMES/api/fx_api_frame_09.png",
+    "Effects60/04_ATTACK_FRAMES/api/fx_api_frame_10.png",
+    "Effects60/04_ATTACK_FRAMES/api/fx_api_frame_11.png",
+    "Effects60/04_ATTACK_FRAMES/api/fx_api_frame_12.png"
+   ],
+   "status": "production 12-frame attack effect (Effects60 pack; AI-generated frames cut from a contact sheet, neighbour bleed removed, native 314x418 per frame)",
+   "use": "attack and counterattack effect, played frame by frame",
    "size": [
-    1024,
-    768
+    1256,
+    1254
    ],
    "alpha": true,
-   "bytes": 112316,
+   "bytes": 598022,
    "frames": 12,
    "frame": [
-    256,
-    256
-   ]
+    314,
+    418
+   ],
+   "columns": 4
   },
   {
    "file": "fx/petir.webp",
@@ -269,24 +311,38 @@
     720
    ],
    "alpha": true,
-   "bytes": 246136
+   "bytes": 259710
   },
   {
-   "file": "fx/petir_sheet.webp",
-   "source": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_attack_spritesheets/fx_petir_12frames_4x3.png",
-   "status": "production 12-frame sprite sheet (Batch 02)",
-   "use": "impact animation on the target",
+   "file": "fx/petir_slash.webp",
+   "source": [
+    "Effects60/04_ATTACK_FRAMES/petir/fx_petir_frame_01.png",
+    "Effects60/04_ATTACK_FRAMES/petir/fx_petir_frame_02.png",
+    "Effects60/04_ATTACK_FRAMES/petir/fx_petir_frame_03.png",
+    "Effects60/04_ATTACK_FRAMES/petir/fx_petir_frame_04.png",
+    "Effects60/04_ATTACK_FRAMES/petir/fx_petir_frame_05.png",
+    "Effects60/04_ATTACK_FRAMES/petir/fx_petir_frame_06.png",
+    "Effects60/04_ATTACK_FRAMES/petir/fx_petir_frame_07.png",
+    "Effects60/04_ATTACK_FRAMES/petir/fx_petir_frame_08.png",
+    "Effects60/04_ATTACK_FRAMES/petir/fx_petir_frame_09.png",
+    "Effects60/04_ATTACK_FRAMES/petir/fx_petir_frame_10.png",
+    "Effects60/04_ATTACK_FRAMES/petir/fx_petir_frame_11.png",
+    "Effects60/04_ATTACK_FRAMES/petir/fx_petir_frame_12.png"
+   ],
+   "status": "production 12-frame attack effect (Effects60 pack; AI-generated frames cut from a contact sheet, neighbour bleed removed, native 314x418 per frame)",
+   "use": "attack and counterattack effect, played frame by frame",
    "size": [
-    1024,
-    768
+    1256,
+    1254
    ],
    "alpha": true,
-   "bytes": 99220,
+   "bytes": 635220,
    "frames": 12,
    "frame": [
-    256,
-    256
-   ]
+    314,
+    418
+   ],
+   "columns": 4
   },
   {
    "file": "fx/tanah.webp",
@@ -298,54 +354,38 @@
     698
    ],
    "alpha": true,
-   "bytes": 237140
+   "bytes": 246452
   },
   {
-   "file": "fx/tanah_sheet.webp",
-   "source": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_attack_spritesheets/fx_tanah_12frames_4x3.png",
-   "status": "production 12-frame sprite sheet (Batch 02)",
-   "use": "impact animation on the target",
-   "size": [
-    1024,
-    768
-   ],
-   "alpha": true,
-   "bytes": 65358,
-   "frames": 12,
-   "frame": [
-    256,
-    256
-   ]
-  },
-  {
-   "file": "fx/transition_4x3.webp",
+   "file": "fx/tanah_slash.webp",
    "source": [
-    "Batch12/Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_00.png",
-    "Batch12/Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_01.png",
-    "Batch12/Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_02.png",
-    "Batch12/Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_03.png",
-    "Batch12/Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_04.png",
-    "Batch12/Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_05.png",
-    "Batch12/Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_06.png",
-    "Batch12/Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_07.png",
-    "Batch12/Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_08.png",
-    "Batch12/Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_09.png",
-    "Batch12/Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_10.png",
-    "Batch12/Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_11.png"
+    "Effects60/04_ATTACK_FRAMES/tanah/fx_tanah_frame_01.png",
+    "Effects60/04_ATTACK_FRAMES/tanah/fx_tanah_frame_02.png",
+    "Effects60/04_ATTACK_FRAMES/tanah/fx_tanah_frame_03.png",
+    "Effects60/04_ATTACK_FRAMES/tanah/fx_tanah_frame_04.png",
+    "Effects60/04_ATTACK_FRAMES/tanah/fx_tanah_frame_05.png",
+    "Effects60/04_ATTACK_FRAMES/tanah/fx_tanah_frame_06.png",
+    "Effects60/04_ATTACK_FRAMES/tanah/fx_tanah_frame_07.png",
+    "Effects60/04_ATTACK_FRAMES/tanah/fx_tanah_frame_08.png",
+    "Effects60/04_ATTACK_FRAMES/tanah/fx_tanah_frame_09.png",
+    "Effects60/04_ATTACK_FRAMES/tanah/fx_tanah_frame_10.png",
+    "Effects60/04_ATTACK_FRAMES/tanah/fx_tanah_frame_11.png",
+    "Effects60/04_ATTACK_FRAMES/tanah/fx_tanah_frame_12.png"
    ],
-   "status": "production alpha frames (Batch 12), packed 4x3",
-   "use": "world transition wipe",
+   "status": "production 12-frame attack effect (Effects60 pack; AI-generated frames cut from a contact sheet, neighbour bleed removed, native 314x418 per frame)",
+   "use": "attack and counterattack effect, played frame by frame",
    "size": [
-    2560,
-    1080
+    1256,
+    1254
    ],
    "alpha": true,
-   "bytes": 55408,
+   "bytes": 651154,
    "frames": 12,
    "frame": [
-    640,
-    360
-   ]
+    314,
+    418
+   ],
+   "columns": 4
   },
   {
    "file": "heroes/mahsuri/attack.webp",

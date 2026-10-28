@@ -69,7 +69,10 @@ export const minionArt = (world: number, which: 'a' | 'b') => `/story/worlds/${W
 export const symbol = (world: number) => `/story/ui/symbol_${WORLD_ART[world].key}.webp`;
 export const elementIcon = (el: string) => `/story/ui/element_${el}.webp`;
 export const fxStill = (el: string) => `/story/fx/${el}.webp`;
-export const fxSheet = (el: string) => `/story/fx/${el}_sheet.webp`;
+/** The 12-frame attack effect (4 by 3 frames of 314 by 418). */
+export const fxSlash = (el: string) => `/story/fx/${el}_slash.webp`;
+/** Where an effect is centred on its target: slashes in the middle, the earth burst on the ground. */
+export const FX_ANCHOR: Record<string, number> = { api: 0.5, angin: 0.5, petir: 0.55, tanah: 0.9, air: 0.5 };
 
 /** Six hearts from twelve halves: 'full', 'half' or 'empty' for each. */
 export function heartIcons(halves: number, max = 12): ('full' | 'half' | 'empty')[] {
@@ -109,12 +112,12 @@ export function worldUrls(world: number, hero: string | null): string[] {
 	const art = WORLD_ART[world];
 	const urls = [battleBg(world), bossArt(world), minionArt(world, 'a'), minionArt(world, 'b'), symbol(world)];
 	if (hero) urls.push(...(['idle', 'ready', 'attack', 'cast', 'hurt', 'victory'] as Pose[]).map((p) => heroArt(hero, p)));
-	urls.push(fxStill(art.strikes), fxSheet(art.strikes));
+	urls.push(fxStill(art.strikes), fxSlash(art.strikes));
 	return urls;
 }
 
 export function elementUrls(): string[] {
-	return ELEMENTS.flatMap((el) => [fxStill(el), fxSheet(el), elementIcon(el)]);
+	return ELEMENTS.flatMap((el) => [fxStill(el), fxSlash(el), elementIcon(el)]);
 }
 
 export function reducedMotion(): boolean {

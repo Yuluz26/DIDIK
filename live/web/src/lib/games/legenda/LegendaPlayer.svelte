@@ -5,6 +5,11 @@
 
 	Nothing here walks or dodges. The child chooses a hero, reads, answers, picks an element at the
 	boss, and watches: the attack or the counterattack plays only once the server has checked the answer.
+
+	After the hero is chosen the whole screen is the game (`.arena`, fixed, with the browser's full screen
+	asked for at the tap that chooses the hero). The question is a popup over the scene, never a panel
+	beside it; while the attack or counterattack plays the popup steps aside so the fight can be seen, and
+	a wrong answer brings it back with the right answer shown.
 -->
 <script lang="ts">
 	import { onMount } from 'svelte';
@@ -13,8 +18,10 @@
 	import { confetti } from '$lib/confetti';
 	import Answer from '$lib/questions/Answer.svelte';
 	import QuestionCard from '$lib/questions/QuestionCard.svelte';
-	import Icon from '$ui/Icon.svelte';
+	import FullscreenToggle from '$ui/FullscreenToggle.svelte';
 	import Hud from '../Hud.svelte';
+	import Icon from '$ui/Icon.svelte';
+	import SoundToggle from '$ui/SoundToggle.svelte';
 	import HeroSelect from './HeroSelect.svelte';
 	import Stage from './Stage.svelte';
 	import {
@@ -23,6 +30,7 @@
 		HEROES,
 		elementIcon,
 		elementUrls,
+		heartIcons,
 		heartsText,
 		heroArt,
 		preload,
@@ -39,6 +47,10 @@
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	let { client, game, me, people }: { client: RoomClient; game: any; me: Me; people: Map<string, Person> } = $props();
 
+	// The seat's answer count the attack or counterattack has finished playing for.
+	let doneFor = $state(-1);
+	let popup = $state<HTMLElement>();
+
 	const seat = $derived(game.seat ?? {});
 	const step = $derived((seat.step as string) ?? 'wait');
 	const story = $derived(seat.story ?? {});
@@ -53,11 +65,12 @@
 	const boss = $derived(story.phase === 'boss');
 	const question = $derived(seat.question);
 	const result = $derived(seat.result);
+	// A checked answer is being played out: the popup waits until the fight has been seen.
+	const animating = $derived(step === 'result' && !!result && doneFor !== seat.answered);
 
 	let stage = $state<Stage>();
 	let wipe = $state<HTMLDivElement>();
 	let still = $state(false);
-	let animating = $state(false);
 	let ready = $state(false);
 	let lastAnswered = -1;
 	let lastStepKey = '';
@@ -145,9 +158,9 @@
 	// A checked answer: the hero's attack or the enemy's counterattack, then on to the next step.
 	$effect(() => {
 		if (step !== 'result' || !result || seat.answered === lastAnswered) return;
-		lastAnswered = seat.answered;
+		const mine = seat.answered;
+		lastAnswered = mine;
 		const reward = result.reward ?? {};
-		animating = true;
 		const run = async () => {
 			if (result.correct) {
 				sfx(boss ? 'hit' : 'correct');
@@ -157,13 +170,41 @@
 				sfx('wrong');
 				await stage?.counter();
 			}
-			animating = false;
-			// A wrong answer stays on screen with the right answer shown until the child taps on.
-			if (result.correct) later(1100);
-			else later(9000);
+			doneFor = mine;
+			// A right answer moves on by itself; a wrong one stays, with the right answer shown, until the child taps on.
+			if (result.correct) later(1300);
+			else later(12000);
 		};
 		void run();
 	});
+
+	// The question popup takes focus when it opens, so the keyboard answers it at once.
+	$effect(() => {
+		if (step === 'question' && popup) popup.focus({ preventScroll: true });
+	});
+
+	// The game fills the screen: the page behind it does not scroll.
+	$effect(() => {
+		if (step === 'select' || game.stage === 'intro') return;
+		const was = document.body.style.overflow;
+		document.body.style.overflow = 'hidden';
+		return () => (document.body.style.overflow = was);
+	});
+
+	/** Asks the browser for full screen (and, on a phone, landscape). It must come from a tap; if the
+	 *  browser says no, the game still fills the page. */
+	function goFullscreen() {
+		const root = document.documentElement as HTMLElement & { webkitRequestFullscreen?: () => Promise<void> };
+		if (document.fullscreenElement) return;
+		try {
+			const asked = root.requestFullscreen?.({ navigationUI: 'hide' }) ?? root.webkitRequestFullscreen?.();
+			void Promise.resolve(asked)
+				.then(() => (screen.orientation as unknown as { lock?: (o: string) => Promise<void> })?.lock?.('landscape'))
+				.catch(() => undefined);
+		} catch {
+			/* not allowed here: nothing changes */
+		}
+	}
 
 	/** The world transition: the twelve alpha frames supplied for it, over the new world. */
 	async function playWipe() {
@@ -204,20 +245,30 @@
 	const foeIndex = $derived(
 		Math.min(encounters, (story.cleared ?? 0) + (step === 'clear' || (step === 'result' && result?.correct) ? 0 : 1))
 	);
+	// The question popup is open while a question is asked and, for a wrong answer, once the counterattack has played.
+	const asking = $derived((step === 'question' || step === 'result') && !!question);
+	const popupAway = $derived(step === 'result' && (animating || !!result?.correct));
 	const answered = $derived(raid ? raid.answered.length : 0);
 	const fighting = $derived(raid ? raid.members.length : 1);
 </script>
 
 <svelte:window onkeydown={onkey} />
 
-<Hud {me} score={game.score ?? 0} />
-
 {#if step === 'select'}
-	<main class="wrap story"><HeroSelect onpick={(h) => client.send({ t: 'hero', hero: h, ev: story.ev })} /></main>
+	<Hud {me} score={game.score ?? 0} />
+	<main class="wrap story">
+		<HeroSelect
+			onpick={(h) => {
+				goFullscreen();
+				client.send({ t: 'hero', hero: h, ev: story.ev });
+			}}
+		/>
+	</main>
 {:else if game.stage === 'intro'}
+	<Hud {me} score={game.score ?? 0} />
 	<main class="wrap story"><p class="loading">Membuka kitab legenda…</p></main>
 {:else}
-	<main class="wrap story step-{step}">
+	<div class="arena step-{step}">
 		<div class="frame" style:--ar={field(worldIndex).ar}>
 			<Stage
 				bind:this={stage}
@@ -228,7 +279,7 @@
 				maxHearts={game.world?.maxHearts ?? 12}
 				foe={!boss ? { name: scene.foe ?? 'Musuh', index: foeIndex, total: encounters } : null}
 				boss={boss && raid ? { name: scene.boss, hp: raid.hp, max: raid.max, subtitle: scene.title } : null}
-				elements={story.hero ? { unlocked: !!story.elements, selected: story.element ?? 'api', disabled: step !== 'question' || !boss, onpick: chooseElement } : null}
+				elements={story.hero && !asking ? { unlocked: !!story.elements, selected: story.element ?? 'api', disabled: true, onpick: chooseElement } : null}
 				enemy={showEnemy ? enemyState : 'none'}
 				friends={friends.filter((f) => f.step !== 'select')}
 				mode={stageMode}
@@ -320,35 +371,75 @@
 			{#if !ready}<p class="loader" aria-live="polite">Memuat dunia…</p>{/if}
 		</div>
 
-		{#if (step === 'question' || step === 'result') && question}
-			<section class="panel" aria-label="Soalan pertarungan">
-				<div class="paper">
-					<QuestionCard {question} />
-					<Answer
-						{question}
-						disabled={step !== 'question'}
-						mine={step === 'result' ? result?.answer : undefined}
-						reveal={step === 'result' && !result?.correct ? result?.reveal : null}
-						allRight={result?.correct}
-						onanswer={send}
-					/>
-				</div>
-				{#if step === 'result' && result}
-					<div class="verdict" class:good={result.correct} role="status">
-						<p>
-							{#if result.correct}
-								Betul! {boss ? 'Serangan mengena.' : 'Musuh ditewaskan.'}{result.reward?.change > 0 ? ' +½ hati' : ''}
-							{:else}
-								Belum tepat. {boss ? scene.boss : 'Musuh'} menyerang balas: −1½ hati. Lihat jawapan yang betul.
-							{/if}
-							<span class="left">Hati: {heartsText(story.hearts ?? 0)} / 6</span>
+		<!-- the question, as a popup over the scene -->
+		{#if asking && question}
+			<div class="scrim" class:away={popupAway}>
+				<div class="popup" role="dialog" aria-modal="true" aria-label="Soalan pertarungan" tabindex="-1" bind:this={popup}>
+					<header class="p-head">
+						<p class="who"><img src={symbol(worldIndex)} alt="" /> {boss ? scene.boss : (scene.foe ?? 'Musuh')}</p>
+						<p class="hearts" aria-label="Hati: {heartsText(story.hearts ?? 0)} daripada 6">
+							{#each heartIcons(story.hearts ?? 0) as h, i (i)}<img src="/story/ui/heart_{h}.webp" alt="" />{/each}
 						</p>
-						<button type="button" class="btn btn--sun" disabled={animating} onclick={next}>Teruskan <Icon name="next" size={18} /></button>
+					</header>
+
+					{#if boss && story.elements}
+						<div class="elements" role="radiogroup" aria-label="Pilih elemen serangan (Alt+1 hingga Alt+5)">
+							{#each ELEMENTS as el, i (el)}
+								<button
+									type="button"
+									role="radio"
+									aria-checked={story.element === el}
+									class:on={story.element === el}
+									disabled={step !== 'question'}
+									title="Alt+{i + 1}"
+									onclick={() => chooseElement(el)}
+								>
+									<img src={elementIcon(el)} alt="" /><span>{ELEMENT_NAME[el]}</span>
+								</button>
+							{/each}
+						</div>
+					{/if}
+
+					<div class="paper">
+						<QuestionCard {question} />
+						<Answer
+							{question}
+							disabled={step !== 'question'}
+							mine={step === 'result' ? result?.answer : undefined}
+							reveal={step === 'result' && !result?.correct ? result?.reveal : null}
+							allRight={result?.correct}
+							onanswer={send}
+						/>
 					</div>
-				{/if}
-			</section>
+
+					{#if step === 'result' && result && !animating}
+						<div class="verdict" role="status">
+							<p>
+								Belum tepat. {boss ? scene.boss : 'Musuh'} menyerang balas: −1½ hati. Lihat jawapan yang betul.
+								<span class="left">Hati: {heartsText(story.hearts ?? 0)} / 6</span>
+							</p>
+							<button type="button" class="btn btn--sun" onclick={next}>Teruskan <Icon name="next" size={18} /></button>
+						</div>
+					{/if}
+				</div>
+			</div>
 		{/if}
-	</main>
+
+		{#if step === 'result' && result?.correct && !animating}
+			<aside class="toast" role="status">
+				<p>
+					Betul! {boss ? 'Serangan mengena.' : 'Musuh ditewaskan.'}{result.reward?.change > 0 ? ' +½ hati' : ''}
+				</p>
+				<button type="button" class="btn btn--sun" onclick={next}>Teruskan <Icon name="next" size={18} /></button>
+			</aside>
+		{/if}
+
+		<div class="tools">
+			<FullscreenToggle light />
+			<SoundToggle light />
+			<span class="score"><strong>{(game.score ?? 0).toLocaleString('ms-MY')}</strong> mata</span>
+		</div>
+	</div>
 {/if}
 
 <style>
@@ -363,34 +454,222 @@
 		font: 700 1.3rem var(--font-pixel);
 		text-align: center;
 	}
+	/* ---- the whole screen is the game */
+	.arena {
+		position: fixed;
+		inset: 0;
+		z-index: 40;
+		display: grid;
+		place-items: center;
+		background: #04070d;
+		overflow: hidden;
+	}
 	.frame {
 		position: relative;
-		width: min(100%, 1280px, calc((100dvh - 10rem) * var(--ar, 1.7778)));
-		min-width: min(100%, 320px);
-		border-radius: 16px;
+		width: min(100vw, calc(100dvh * var(--ar, 1.7778)));
+		max-height: 100dvh;
+	}
+	.frame :global(.stage) {
+		border-radius: 0;
+	}
+	.tools {
+		position: fixed;
+		left: max(0.6rem, env(safe-area-inset-left, 0px));
+		bottom: max(0.6rem, env(safe-area-inset-bottom, 0px));
+		z-index: 30;
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+	.tools :global(.btn) {
+		min-height: 2.5rem;
+		min-width: 2.5rem;
+		padding: 0.4rem;
+	}
+	.score {
+		padding: 0.35rem 0.8rem;
+		border-radius: 999px;
+		background: rgb(8 14 32 / 0.72);
+		border: 2px solid #d9a441;
+		color: #fff4d8;
+		font-weight: 800;
+		font-size: 0.85rem;
+		white-space: nowrap;
+	}
+
+	/* ---- the question popup */
+	.scrim {
+		position: fixed;
+		inset: 0;
+		z-index: 20;
+		display: grid;
+		place-items: center;
+		padding: 0.75rem 0.75rem 3.8rem;
+		background: radial-gradient(ellipse at 50% 45%, rgb(8 14 32 / 0.5), rgb(8 14 32 / 0.74));
+		backdrop-filter: blur(2px);
+		transition:
+			opacity 260ms ease,
+			visibility 0s 260ms;
+	}
+	.scrim.away {
+		opacity: 0;
+		visibility: hidden;
+		pointer-events: none;
+	}
+	.popup {
+		display: grid;
+		gap: 0.7rem;
+		width: min(46rem, 100%);
+		max-height: 100%;
+		padding: 0.8rem;
+		overflow: auto;
+		border-radius: 22px;
+		background: linear-gradient(180deg, #13284f, #0a1530);
 		box-shadow:
 			0 0 0 3px #d9a441,
 			0 0 0 6px #5a3b10,
-			0 18px 40px rgb(0 0 0 / 0.3);
+			0 24px 60px rgb(0 0 0 / 0.55);
+		animation: pop-up 340ms var(--spring, cubic-bezier(0.34, 1.56, 0.64, 1)) both;
+		outline: none;
 	}
-	.step-question,
-	.step-result {
-		justify-items: stretch;
-		width: min(100%, 1480px);
-		margin-inline: auto;
-	}
-	.step-question .frame,
-	.step-result .frame {
-		width: 100%;
-		min-width: 0;
-	}
-	@media (min-width: 1000px) {
-		.step-question,
-		.step-result {
-			grid-template-columns: minmax(0, 1fr) minmax(20rem, 25rem);
-			align-items: start;
+	@keyframes pop-up {
+		from {
+			opacity: 0;
+			transform: translateY(18px) scale(0.94);
 		}
 	}
+	.p-head {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.8rem;
+		padding: 0 0.3rem;
+	}
+	.who {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		color: #fff4d8;
+		font: 700 1.05rem/1 var(--font-pixel, var(--font-display));
+	}
+	.who img {
+		width: 1.8rem;
+		height: 1.8rem;
+	}
+	.hearts {
+		display: flex;
+		gap: 0.15rem;
+		margin: 0;
+	}
+	.hearts img {
+		width: 1.35rem;
+		height: auto;
+	}
+	.elements {
+		display: flex;
+		justify-content: center;
+		gap: 0.5rem;
+	}
+	.elements button {
+		display: grid;
+		flex: 1 1 0;
+		justify-items: center;
+		gap: 0.1rem;
+		min-width: 0;
+		max-width: 5.4rem;
+		padding: 0.35rem 0.2rem 0.4rem;
+		border: 2px solid transparent;
+		border-radius: 14px;
+		background: rgb(255 255 255 / 0.06);
+		color: #fff4d8;
+		font-weight: 800;
+		font-size: 0.82rem;
+		cursor: pointer;
+		transition:
+			transform 160ms var(--spring, ease),
+			background 160ms;
+	}
+	.elements img {
+		width: min(2.9rem, 100%);
+		height: auto;
+		aspect-ratio: 1;
+	}
+	.elements button.on {
+		border-color: #ffd27a;
+		background: rgb(255 210 120 / 0.18);
+		transform: translateY(-3px);
+		box-shadow: 0 0 18px rgb(255 210 120 / 0.45);
+	}
+	.elements button:focus-visible {
+		outline: 3px solid #fff;
+	}
+	.paper {
+		display: grid;
+		gap: 0.9rem;
+		padding: 1rem 1.1rem;
+		border-radius: 14px;
+		background: linear-gradient(180deg, #fffaf0, #f6ecd6);
+		color: var(--ink);
+		box-shadow: inset 0 0 0 2px #e4cfa0;
+	}
+	.verdict {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.6rem;
+		padding: 0.7rem 0.9rem;
+		border-radius: 12px;
+		background: rgb(200 40 50 / 0.22);
+		color: #ffe1e1;
+		font-weight: 800;
+	}
+	.verdict p {
+		margin: 0;
+	}
+	.verdict .left {
+		display: block;
+		color: #ffd27a;
+		font-size: 0.9rem;
+	}
+	.toast {
+		position: fixed;
+		left: 50%;
+		bottom: max(3.8rem, calc(env(safe-area-inset-bottom, 0px) + 3.2rem));
+		z-index: 25;
+		display: flex;
+		align-items: center;
+		gap: 0.9rem;
+		max-width: calc(100vw - 1.5rem);
+		padding: 0.6rem 0.8rem 0.6rem 1.1rem;
+		border: 3px solid #d9a441;
+		border-radius: 999px;
+		background: linear-gradient(180deg, rgb(20 90 50 / 0.96), rgb(12 60 36 / 0.96));
+		color: #d9ffe8;
+		font-weight: 800;
+		transform: translateX(-50%);
+		box-shadow: 0 14px 34px rgb(0 0 0 / 0.5);
+		animation: toast-up 300ms var(--ease-out) both;
+	}
+	.toast p {
+		margin: 0;
+	}
+	@keyframes toast-up {
+		from {
+			opacity: 0;
+			transform: translate(-50%, 14px);
+		}
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.popup,
+		.toast {
+			animation: none;
+		}
+		.scrim {
+			transition: none;
+		}
+	}
+
 	.overlay {
 		position: absolute;
 		inset: 0;
@@ -592,50 +871,6 @@
 		color: #fff;
 		font-weight: 800;
 		font-size: 0.85rem;
-	}
-
-	.panel {
-		display: grid;
-		gap: 0.7rem;
-		width: 100%;
-		min-width: 0;
-		padding: 0.8rem;
-		border-radius: 16px;
-		background: linear-gradient(180deg, #13284f, #0a1530);
-		box-shadow:
-			inset 0 0 0 3px #d9a441,
-			inset 0 0 0 6px #5a3b10;
-		animation: rise-in var(--t-enter) var(--ease-out);
-	}
-	.paper {
-		display: grid;
-		gap: 0.9rem;
-		padding: 1rem 1.1rem;
-		border-radius: 12px;
-		background: linear-gradient(180deg, #fffaf0, #f6ecd6);
-		color: var(--ink);
-		box-shadow: inset 0 0 0 2px #e4cfa0;
-	}
-	.verdict {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		justify-content: space-between;
-		gap: 0.6rem;
-		padding: 0.7rem 0.9rem;
-		border-radius: 12px;
-		background: rgb(200 40 50 / 0.2);
-		color: #ffe1e1;
-		font-weight: 800;
-	}
-	.verdict.good {
-		background: rgb(40 180 100 / 0.2);
-		color: #d9ffe8;
-	}
-	.verdict .left {
-		display: block;
-		color: #ffd27a;
-		font-size: 0.9rem;
 	}
 
 	/* A phone's stage is small: tighter cards so a whole scene fits inside it. */

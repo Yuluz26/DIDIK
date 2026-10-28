@@ -21,7 +21,8 @@
 		bossArt,
 		elementIcon,
 		field,
-		fxSheet,
+		FX_ANCHOR,
+		fxSlash,
 		fxStill,
 		heartIcons,
 		heroArt,
@@ -100,8 +101,7 @@
 	// Whichever of the two is fighting now: the boss at the boss, a small enemy on the road.
 	const enemyEl = $derived(boss ? bossEl : minionEl);
 	let flashEl: HTMLDivElement;
-	let burstEl: HTMLImageElement;
-	let sheetEl: HTMLDivElement;
+	let fxEl: HTMLDivElement;
 	let air: Particles;
 
 	$effect(() => {
@@ -147,38 +147,38 @@
 		flashEl.animate([{ opacity: still ? strength * 0.4 : strength }, { opacity: 0 }], { duration: still ? 200 : 320, easing: 'ease-out' });
 	}
 
-	/** The element's own burst: the HD still swelling and the 12-frame impact sheet, on the target. */
+	/**
+	 * The element's attack effect, frame by frame: the 12 supplied frames play on the target at about 12 fps
+	 * (a 4 by 3 sheet, frame 314 by 418), with sparks and a glow. `mirror` turns it to face the other way
+	 * (the enemy's counterattack on the hero). With reduced motion only the strongest frame shows.
+	 */
 	async function impact(el: Element, at: { x: number; y: number }, size: number, filter = '', mirror = false) {
 		const tint = ELEMENT_TINT[el];
 		air?.burst(at.x, at.y, [tint[0], tint[1], '#ffffff'], still ? 0 : 54);
-		if (burstEl) {
-			burstEl.src = fxStill(el);
-			burstEl.style.left = `${at.x * 100}%`;
-			burstEl.style.top = `${at.y * 100}%`;
-			burstEl.style.width = `${size}cqw`;
-			burstEl.style.filter = filter;
-			burstEl.animate(
-				[
-					{ opacity: 0, transform: `translate(-50%,-50%) scale(${mirror ? -0.35 : 0.35}, 0.35) rotate(-18deg)` },
-					{ opacity: 1, offset: 0.25, transform: `translate(-50%,-50%) scale(${mirror ? -1 : 1}, 1) rotate(0deg)` },
-					{ opacity: 0, transform: `translate(-50%,-50%) scale(${mirror ? -1.35 : 1.35}, 1.35) rotate(10deg)` }
-				],
-				{ duration: still ? 380 : 720, easing: 'cubic-bezier(.2,.8,.2,1)' }
-			);
-		}
-		if (sheetEl && !still) {
-			sheetEl.style.backgroundImage = `url(${fxSheet(el)})`;
-			sheetEl.style.left = `${at.x * 100}%`;
-			sheetEl.style.top = `${at.y * 100}%`;
-			sheetEl.style.width = `${size * 0.8}cqw`;
-			sheetEl.style.filter = filter;
-			sheetEl.style.opacity = '1';
+		if (!fxEl) return;
+		const height = (size * 418) / 314;
+		const down = FX_ANCHOR[el] ?? 0.5;
+		fxEl.style.backgroundImage = `url(${fxSlash(el)})`;
+		fxEl.style.left = `${at.x * 100}%`;
+		fxEl.style.top = `${at.y * 100}%`;
+		fxEl.style.width = `${size}cqw`;
+		fxEl.style.height = `${height}cqw`;
+		fxEl.style.filter = filter;
+		fxEl.style.transform = `translate(-50%, -${down * 100}%) scaleX(${mirror ? -1 : 1})`;
+		fxEl.style.opacity = '1';
+		const show = (frame: number) => {
+			fxEl.style.backgroundPosition = `${(frame % 4) * 33.3333}% ${Math.floor(frame / 4) * 50}%`;
+		};
+		if (still) {
+			show(5);
+			await sleep(420);
+		} else {
 			for (let frame = 0; frame < 12; frame++) {
-				sheetEl.style.backgroundPosition = `${(frame % 4) * 33.333}% ${Math.floor(frame / 4) * 50}%`;
-				await sleep(34);
+				show(frame);
+				await sleep(frame < 6 ? 72 : 84);
 			}
-			sheetEl.style.opacity = '0';
 		}
+		fxEl.style.opacity = '0';
 	}
 
 	/** A projectile: the element still flying from one place to another, small and spinning. */
@@ -208,19 +208,25 @@
 
 	// ------------------------------------------------------------ the moves (called by the player screen)
 
-	/** A right answer: the hero strikes with an element (or a plain blade on the road). */
+	/** A right answer: the hero gathers, slides in (or casts), and the element's frames play on the target. */
 	export async function attack(element: Element | null, opts: { weak?: boolean; finishing?: boolean; healed?: boolean } = {}) {
 		busy = true;
 		const el: Element = element ?? 'angin';
+		const blade = !element || element === 'api' || element === 'angin' || element === 'air';
 		heroPose = 'ready';
-		await move(heroEl, [{ transform: 'translateX(-50%)' }, { transform: 'translateX(calc(-50% - 1cqw))' }], 200);
-		heroPose = element ? 'cast' : 'attack';
-		const from = { x: heroAt.x + 0.04, y: heroAt.y };
-		if (element) flash(ELEMENT_TINT[el][1], 0.25);
-		await fly(el, from, enemyAt, element ? '' : 'saturate(0) brightness(1.6)', element ? 14 : 10);
-		flash('#ffffff', 0.7);
-		shake(opts.finishing ? 1.8 : 1.1);
+		if (element) flash(ELEMENT_TINT[el][1], 0.22);
+		await move(heroEl, [{ transform: 'translateX(-50%)' }, { transform: 'translateX(calc(-50% - 1.2cqw))' }], 140);
+		heroPose = blade ? 'attack' : 'cast';
+		// How far the hero slides toward the target: a share of the gap, never more than a fifth of the scene.
+		const gap = Math.max(0, (enemyAt.x - heroAt.x) * 100);
+		const slide = blade ? Math.min(gap * 0.4, 20) : 0;
+		await move(heroEl, [{ transform: 'translateX(calc(-50% - 1.2cqw))' }, { transform: `translateX(calc(-50% + ${slide}cqw))` }], 180, 'cubic-bezier(.5,0,.9,.4)');
 		hit = true;
+		const done = impact(el, enemyAt, boss ? 34 : 26);
+		// The target reacts a few frames in, as the effect reaches it.
+		await sleep(still ? 80 : 330);
+		flash('#ffffff', 0.6);
+		shake(opts.finishing ? 1.8 : 1.1);
 		void move(
 			enemyEl,
 			[
@@ -229,17 +235,18 @@
 				{ transform: 'translateX(0.7cqw) rotate(0.6deg)', filter: 'brightness(1)', offset: 0.5 },
 				{ transform: 'translateX(0) rotate(0)', filter: 'brightness(1)' }
 			],
-			520
+			240 + 280
 		);
-		const done = impact(el, enemyAt, boss ? 30 : 20, element ? '' : 'saturate(0) brightness(1.6)');
 		if (boss) shownBoss = boss.hp;
 		pop(opts.weak ? 'KELEMAHAN!' : boss ? '−1 bar' : 'Kena!', { x: enemyAt.x, y: enemyAt.y - 0.2 }, opts.weak ? 'weak' : 'hit');
 		await done;
+		heroPose = 'ready';
+		if (slide) await move(heroEl, [{ transform: `translateX(calc(-50% + ${slide}cqw))` }, { transform: 'translateX(-50%)' }], 180, 'ease-in-out');
 		hit = false;
 		heroPose = 'idle';
 		shownHearts = hearts;
 		if (opts.healed) pop('+½ ♥', { x: heroAt.x, y: heroAt.y - 0.14 }, 'heal');
-		await sleep(250);
+		await sleep(200);
 		busy = false;
 	}
 
@@ -365,8 +372,7 @@
 		<img src={heroArt(hero, heroPose)} alt={heroName} draggable="false" />
 	</div>
 
-	<img class="burst" bind:this={burstEl} alt="" aria-hidden="true" />
-	<div class="sheet" bind:this={sheetEl} aria-hidden="true"></div>
+	<div class="fx" bind:this={fxEl} aria-hidden="true"></div>
 	<Particles bind:this={air} motes={art.motes} calm />
 	<div class="flash" bind:this={flashEl} aria-hidden="true"></div>
 
@@ -588,23 +594,17 @@
 		}
 	}
 
-	.burst {
+	.fx {
 		position: absolute;
 		z-index: 6;
-		pointer-events: none;
-		opacity: 0;
-		transform: translate(-50%, -50%);
-	}
-	.sheet {
-		position: absolute;
-		z-index: 6;
-		width: 24cqw;
-		aspect-ratio: 1;
-		transform: translate(-50%, -50%);
 		background-size: 400% 300%;
+		background-repeat: no-repeat;
 		opacity: 0;
 		pointer-events: none;
 		mix-blend-mode: screen;
+		/* Some frames were cut flush with their cell: fade the edges so no rectangle shows. */
+		-webkit-mask-image: radial-gradient(closest-side, #000 70%, transparent 100%);
+		mask-image: radial-gradient(closest-side, #000 70%, transparent 100%);
 	}
 	.stage :global(.bolt) {
 		position: absolute;

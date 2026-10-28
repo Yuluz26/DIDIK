@@ -38,6 +38,7 @@ B03 = SRC / "Batch03/DIDIK_JRPG_Batch03_HD_TasikChini"
 B04 = SRC / "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES"
 B05 = SRC / "Batch05/DIDIK_JRPG_Batch05_HD_ElementalCombat/01_ELEMENTAL_FX_TRANSPARENT"
 B12 = SRC / "Batch12/Batch12_Final_UI_Transitions_SFX_HD"
+FX60 = SRC / "Effects60/04_ATTACK_FRAMES"
 # The supplied battlefield paintings (_asset_input/Battlefields/) and, in 1536-wide pixels: where the painting
 # has its own hearts, boss panel and element row (replaced by the live HUD), the points that pick the boss out
 # for SAM, and the body centres of the two small enemies and the hero.
@@ -80,8 +81,12 @@ def note(path: Path, source: str | list[str], status: str, use: str, **extra) ->
 
 
 def save_webp(im: Image.Image, path: Path, quality: int = 86) -> Path:
+    """Writes to a temporary file and renames it, so an interrupted or overlapping run never leaves a
+    half-written image behind."""
     path.parent.mkdir(parents=True, exist_ok=True)
-    im.save(path, "WEBP", quality=quality, method=6)
+    temp = path.with_name(path.name + ".part")
+    im.save(temp, "WEBP", quality=quality, method=4)
+    temp.replace(path)
     return path
 
 
@@ -418,10 +423,44 @@ def fx() -> None:
         im.thumbnail((720, 720), Image.LANCZOS)
         out = save_webp(im, OUT / "fx" / f"{el}.webp", 86)
         note(out, rel(src), "production transparent VFX still (Batch 05)", "attack burst, tweened in code")
-        src = B02 / f"element_attack_spritesheets/fx_{el}_12frames_4x3.png"
-        out = save_webp(Image.open(src).convert("RGBA"), OUT / "fx" / f"{el}_sheet.webp", 88)
-        note(out, rel(src), "production 12-frame sprite sheet (Batch 02)", "impact animation on the target",
-             frames=12, frame=[256, 256])
+    attack_frames()
+
+
+def clean_frame(im: Image.Image) -> Image.Image:
+    """Drops the neighbouring cell's bleed from a frame cut out of a contact sheet: pieces that touch a
+    side edge and are small next to the main piece."""
+    a = np.array(im.convert("RGBA"))
+    solid = a[..., 3] > 28
+    near = ndimage.binary_dilation(solid, iterations=6)  # the fragments of one effect stay joined
+    labels, count = ndimage.label(near)
+    if count < 2:
+        return im.convert("RGBA")
+    sizes = ndimage.sum(solid, labels, range(1, count + 1))
+    big = sizes.max()
+    w = solid.shape[1]
+    keep = np.zeros(count + 1, bool)
+    for i, box in enumerate(ndimage.find_objects(labels), 1):
+        touches = box[1].start <= 1 or box[1].stop >= w - 1
+        keep[i] = not (touches and sizes[i - 1] < big * 0.45 and sizes[i - 1] != big)
+    a[..., 3] = np.where(keep[labels], a[..., 3], 0)
+    return Image.fromarray(a)
+
+
+def attack_frames() -> None:
+    """The five elements' 12-frame attack effects, packed 4 by 3 (each frame 314x418) into one sheet."""
+    if not FX60.exists():
+        print("Effects60 not found: keeping the sheets already in static/story/fx/")
+        return
+    for el in ELEMENTS:
+        frames = sorted((FX60 / el).glob(f"fx_{el}_frame_*.png"))
+        assert len(frames) == 12, (el, len(frames))
+        sheet = Image.new("RGBA", (314 * 4, 418 * 3))
+        for i, f in enumerate(frames):
+            sheet.paste(clean_frame(Image.open(f)), ((i % 4) * 314, (i // 4) * 418))
+        out = save_webp(sheet, OUT / "fx" / f"{el}_slash.webp", 90)
+        note(out, [rel(f) for f in frames], "production 12-frame attack effect (Effects60 pack; AI-generated frames "
+             "cut from a contact sheet, neighbour bleed removed, native 314x418 per frame)",
+             "attack and counterattack effect, played frame by frame", frames=12, frame=[314, 418], columns=4)
 
 
 def sound() -> None:
@@ -438,18 +477,17 @@ def sound() -> None:
 def main() -> None:
     if not SRC.exists():
         sys.exit("_asset_input/ not found")
-    if "--only" in sys.argv and "battlefields" in sys.argv:
-        old = OUT / "manifest.json"
-        for row in json.loads(old.read_text(encoding="utf-8"))["assets"]:
-            manifest.append(row)
-        manifest[:] = [r for r in manifest if not r["file"].startswith("worlds/")]
-        battlefields()
-    else:
-        heroes()
-        battlefields()
-        ui()
-        fx()
-        sound()
+    steps = {"heroes": heroes, "battlefields": battlefields, "ui": ui, "fx": fx, "sound": sound}
+    only = sys.argv[sys.argv.index("--only") + 1:] if "--only" in sys.argv else []
+    old = OUT / "manifest.json"
+    if only and old.exists():
+        # a partial run keeps the rows of the steps it does not run
+        prefixes = {"heroes": "heroes/", "battlefields": "worlds/", "ui": "ui/", "fx": "fx/", "sound": "audio/"}
+        dropped = tuple(prefixes[name] for name in only)
+        manifest.extend(r for r in json.loads(old.read_text(encoding="utf-8"))["assets"] if not r["file"].startswith(dropped))
+    for name, step in steps.items():
+        if not only or name in only:
+            step()
     manifest.sort(key=lambda row: row["file"])
     (OUT / "manifest.json").write_text(json.dumps({
         "about": "Legenda Story Mode art. Built by live/web/scripts/story_assets.py from _asset_input/. "
