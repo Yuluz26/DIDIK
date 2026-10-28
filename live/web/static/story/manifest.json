@@ -44,18 +44,6 @@
    "use": "battle feedback"
   },
   {
-   "file": "banners/bersedia.webp",
-   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/01_STATIC_BANNERS_PNG/bersedia.png",
-   "status": "production banner text (Batch 14: vector-authored, Malay spelling fixed)",
-   "use": "Prepare for next encounter",
-   "size": [
-    1280,
-    320
-   ],
-   "alpha": true,
-   "bytes": 66448
-  },
-  {
    "file": "banners/boss_akan_menyerang.webp",
    "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/01_STATIC_BANNERS_PNG/boss_akan_menyerang.png",
    "status": "production banner text (Batch 14: vector-authored, Malay spelling fixed)",
@@ -65,7 +53,7 @@
     320
    ],
    "alpha": true,
-   "bytes": 88806
+   "bytes": 86592
   },
   {
    "file": "banners/boss_akan_menyerang_sheet.webp",
@@ -77,7 +65,7 @@
     720
    ],
    "alpha": true,
-   "bytes": 609932,
+   "bytes": 558212,
    "frames": 12,
    "frame": [
     960,
@@ -95,7 +83,7 @@
     320
    ],
    "alpha": true,
-   "bytes": 81926
+   "bytes": 79212
   },
   {
    "file": "banners/boss_muncul.webp",
@@ -107,7 +95,7 @@
     320
    ],
    "alpha": true,
-   "bytes": 78616
+   "bytes": 76378
   },
   {
    "file": "banners/boss_muncul_sheet.webp",
@@ -119,7 +107,7 @@
     720
    ],
    "alpha": true,
-   "bytes": 545710,
+   "bytes": 496912,
    "frames": 12,
    "frame": [
     960,
@@ -137,7 +125,7 @@
     320
    ],
    "alpha": true,
-   "bytes": 76490
+   "bytes": 74152
   },
   {
    "file": "banners/dunia_seterusnya.webp",
@@ -149,7 +137,7 @@
     320
    ],
    "alpha": true,
-   "bytes": 81940
+   "bytes": 79250
   },
   {
    "file": "banners/elemen_dibuka.webp",
@@ -161,19 +149,7 @@
     320
    ],
    "alpha": true,
-   "bytes": 73264
-  },
-  {
-   "file": "banners/giliran_awak.webp",
-   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/01_STATIC_BANNERS_PNG/giliran_awak.png",
-   "status": "production banner text (Batch 14: vector-authored, Malay spelling fixed)",
-   "use": "Player turn begins",
-   "size": [
-    1280,
-    320
-   ],
-   "alpha": true,
-   "bytes": 73948
+   "bytes": 71086
   },
   {
    "file": "banners/jawapan_betul.webp",
@@ -185,7 +161,7 @@
     320
    ],
    "alpha": true,
-   "bytes": 74896
+   "bytes": 72570
   },
   {
    "file": "banners/jawapan_betul_sheet.webp",
@@ -197,7 +173,7 @@
     720
    ],
    "alpha": true,
-   "bytes": 526326,
+   "bytes": 478182,
    "frames": 12,
    "frame": [
     960,
@@ -215,7 +191,7 @@
     320
    ],
    "alpha": true,
-   "bytes": 83712
+   "bytes": 81290
   },
   {
    "file": "banners/jawapan_salah_sheet.webp",
@@ -227,7 +203,7 @@
     720
    ],
    "alpha": true,
-   "bytes": 577924,
+   "bytes": 525860,
    "frames": 12,
    "frame": [
     960,
@@ -245,7 +221,7 @@
     320
    ],
    "alpha": true,
-   "bytes": 74778
+   "bytes": 72180
   },
   {
    "file": "banners/kemenangan_sheet.webp",
@@ -257,25 +233,13 @@
     720
    ],
    "alpha": true,
-   "bytes": 524240,
+   "bytes": 474954,
    "frames": 12,
    "frame": [
     960,
     240
    ],
    "columns": 4
-  },
-  {
-   "file": "banners/misi_selesai.webp",
-   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/01_STATIC_BANNERS_PNG/misi_selesai.png",
-   "status": "production banner text (Batch 14: vector-authored, Malay spelling fixed)",
-   "use": "End of a successful story stage",
-   "size": [
-    1280,
-    320
-   ],
-   "alpha": true,
-   "bytes": 71814
   },
   {
    "file": "banners/nyawa_berkurang.webp",
@@ -287,19 +251,7 @@
     320
    ],
    "alpha": true,
-   "bytes": 86688
-  },
-  {
-   "file": "banners/nyawa_bertambah.webp",
-   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/01_STATIC_BANNERS_PNG/nyawa_bertambah.png",
-   "status": "production banner text (Batch 14: vector-authored, Malay spelling fixed)",
-   "use": "Show after server confirms +0.5 heart",
-   "size": [
-    1280,
-    320
-   ],
-   "alpha": true,
-   "bytes": 76100
+   "bytes": 84436
   },
   {
    "file": "banners/pertarungan_bermula.webp",
@@ -311,7 +263,7 @@
     320
    ],
    "alpha": true,
-   "bytes": 82668
+   "bytes": 80254
   },
   {
    "file": "banners/pertarungan_bermula_sheet.webp",
@@ -323,7 +275,7 @@
     720
    ],
    "alpha": true,
-   "bytes": 576106,
+   "bytes": 529262,
    "frames": 12,
    "frame": [
     960,
@@ -341,19 +293,7 @@
     320
    ],
    "alpha": true,
-   "bytes": 68330
-  },
-  {
-   "file": "banners/senjata_diperoleh.webp",
-   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/01_STATIC_BANNERS_PNG/senjata_diperoleh.png",
-   "status": "production banner text (Batch 14: vector-authored, Malay spelling fixed)",
-   "use": "New elemental weapon unlocked",
-   "size": [
-    1280,
-    320
-   ],
-   "alpha": true,
-   "bytes": 83214
+   "bytes": 66294
   },
   {
    "file": "banners/serangan_balas.webp",
@@ -365,184 +305,7 @@
     320
    ],
    "alpha": true,
-   "bytes": 86076
-  },
-  {
-   "file": "banners/serangan_berjaya.webp",
-   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/01_STATIC_BANNERS_PNG/serangan_berjaya.png",
-   "status": "production banner text (Batch 14: vector-authored, Malay spelling fixed)",
-   "use": "Successful hit on boss",
-   "size": [
-    1280,
-    320
-   ],
-   "alpha": true,
-   "bytes": 80284
-  },
-  {
-   "file": "banners/serangan_dihalang.webp",
-   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/01_STATIC_BANNERS_PNG/serangan_dihalang.png",
-   "status": "production banner text (Batch 14: vector-authored, Malay spelling fixed)",
-   "use": "Blocked or invalid strike (if supported by mechanics)",
-   "size": [
-    1280,
-    320
-   ],
-   "alpha": true,
-   "bytes": 88126
-  },
-  {
-   "file": "banners/serangan_kritikal.webp",
-   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/01_STATIC_BANNERS_PNG/serangan_kritikal.png",
-   "status": "production banner text (Batch 14: vector-authored, Malay spelling fixed)",
-   "use": "Optional cinematic emphasis; do not introduce bonus damage",
-   "size": [
-    1280,
-    320
-   ],
-   "alpha": true,
-   "bytes": 83166
-  },
-  {
-   "file": "banners/soalan_seterusnya.webp",
-   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/01_STATIC_BANNERS_PNG/soalan_seterusnya.png",
-   "status": "production banner text (Batch 14: vector-authored, Malay spelling fixed)",
-   "use": "Proceed to next quiz question",
-   "size": [
-    1280,
-    320
-   ],
-   "alpha": true,
-   "bytes": 81164
-  },
-  {
-   "file": "bosses/chini/attack.webp",
-   "source": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/NAGA_CHINI/naga_chini_attack.png",
-   "status": "production pose still (Batch 04/06), stray edges removed",
-   "use": "boss pose: attack",
-   "size": [
-    712,
-    508
-   ],
-   "alpha": true,
-   "bytes": 209262,
-   "anchor": "bottom-center"
-  },
-  {
-   "file": "bosses/chini/defeat.webp",
-   "source": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/NAGA_CHINI/naga_chini_defeat.png",
-   "status": "production pose still (Batch 04/06), stray edges removed",
-   "use": "boss pose: defeat",
-   "size": [
-    481,
-    423
-   ],
-   "alpha": true,
-   "bytes": 61412,
-   "anchor": "bottom-center"
-  },
-  {
-   "file": "bosses/chini/hurt.webp",
-   "source": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/NAGA_CHINI/naga_chini_hurt.png",
-   "status": "production pose still (Batch 04/06), stray edges removed",
-   "use": "boss pose: hurt",
-   "size": [
-    482,
-    364
-   ],
-   "alpha": true,
-   "bytes": 97522,
-   "anchor": "bottom-center"
-  },
-  {
-   "file": "bosses/chini/idle.webp",
-   "source": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/NAGA_CHINI/naga_chini_idle.png",
-   "status": "production pose still (Batch 04/06), stray edges removed",
-   "use": "boss pose: idle",
-   "size": [
-    640,
-    522
-   ],
-   "alpha": true,
-   "bytes": 174982,
-   "anchor": "bottom-center"
-  },
-  {
-   "file": "bosses/chini/reveal.webp",
-   "source": "Batch03/DIDIK_JRPG_Batch03_HD_TasikChini/03_BOSS_NAGA_CHINI/01_naga_chini_battle_pose_transparent_1122x1402.png",
-   "status": "production full-body pose (Batch 03)",
-   "use": "boss reveal",
-   "size": [
-    639,
-    800
-   ],
-   "alpha": true,
-   "bytes": 290592
-  },
-  {
-   "file": "bosses/chini/special.webp",
-   "source": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/NAGA_CHINI/naga_chini_special.png",
-   "status": "production pose still (Batch 04/06), stray edges removed",
-   "use": "boss pose: special",
-   "size": [
-    472,
-    423
-   ],
-   "alpha": true,
-   "bytes": 130168,
-   "anchor": "bottom-center"
-  },
-  {
-   "file": "bosses/kancil/idle.webp",
-   "source": "Batch10/Batch10_RimbaBayangan_World_HD/01_REFERENCE_ART/rimba_bayangan_boss_closeup_REFERENCE_NOT_SPRITE.png",
-   "status": "DERIVED interim cut-out (SAM segmentation of a reference close-up); needs a clean multi-pose sprite before public release",
-   "use": "boss sprite, all states animated in code",
-   "size": [
-    414,
-    377
-   ],
-   "alpha": true,
-   "bytes": 65274,
-   "anchor": "bottom-center"
-  },
-  {
-   "file": "bosses/larut/idle.webp",
-   "source": "Batch09/Batch09_HutanLarut_World_HD/01_REFERENCE_ART/hutan_larut_boss_closeup_REFERENCE_NOT_SPRITE.png",
-   "status": "DERIVED interim cut-out (SAM segmentation of a reference close-up); needs a clean multi-pose sprite before public release",
-   "use": "boss sprite, all states animated in code",
-   "size": [
-    432,
-    472
-   ],
-   "alpha": true,
-   "bytes": 76088,
-   "anchor": "bottom-center"
-  },
-  {
-   "file": "bosses/ledang/idle.webp",
-   "source": "Batch11/Batch11_GunungLedang_World_HD/01_REFERENCE_ART/gunung_ledang_boss_closeup_REFERENCE_NOT_SPRITE.png",
-   "status": "DERIVED interim cut-out (SAM segmentation of a reference close-up); needs a clean multi-pose sprite before public release",
-   "use": "boss sprite, all states animated in code",
-   "size": [
-    523,
-    377
-   ],
-   "alpha": true,
-   "bytes": 69942,
-   "anchor": "bottom-center"
-  },
-  {
-   "file": "bosses/lupar/idle.webp",
-   "source": "Batch08/Batch08_BatangLupar_World_HD/01_REFERENCE_ART/batang_lupar_boss_closeup_REFERENCE_NOT_SPRITE.png",
-   "status": "DERIVED interim cut-out (SAM segmentation of a reference close-up); needs a clean multi-pose sprite before public release",
-   "use": "boss sprite, all states animated in code",
-   "size": [
-    473,
-    393
-   ],
-   "alpha": true,
-   "bytes": 68968,
-   "anchor": "bottom-center"
+   "bytes": 83550
   },
   {
    "file": "fx/air.webp",
@@ -554,7 +317,7 @@
     719
    ],
    "alpha": true,
-   "bytes": 269660
+   "bytes": 260200
   },
   {
    "file": "fx/air_slash.webp",
@@ -579,7 +342,7 @@
     1254
    ],
    "alpha": true,
-   "bytes": 632164,
+   "bytes": 615480,
    "frames": 12,
    "frame": [
     314,
@@ -597,7 +360,7 @@
     719
    ],
    "alpha": true,
-   "bytes": 237470
+   "bytes": 225408
   },
   {
    "file": "fx/angin_slash.webp",
@@ -622,7 +385,7 @@
     1254
    ],
    "alpha": true,
-   "bytes": 542198,
+   "bytes": 526076,
    "frames": 12,
    "frame": [
     314,
@@ -640,7 +403,7 @@
     710
    ],
    "alpha": true,
-   "bytes": 255564
+   "bytes": 245022
   },
   {
    "file": "fx/api_slash.webp",
@@ -665,7 +428,7 @@
     1254
    ],
    "alpha": true,
-   "bytes": 598022,
+   "bytes": 577334,
    "frames": 12,
    "frame": [
     314,
@@ -683,7 +446,7 @@
     720
    ],
    "alpha": true,
-   "bytes": 259710
+   "bytes": 246136
   },
   {
    "file": "fx/petir_slash.webp",
@@ -708,7 +471,7 @@
     1254
    ],
    "alpha": true,
-   "bytes": 635220,
+   "bytes": 614572,
    "frames": 12,
    "frame": [
     314,
@@ -726,7 +489,7 @@
     698
    ],
    "alpha": true,
-   "bytes": 246452
+   "bytes": 237140
   },
   {
    "file": "fx/tanah_slash.webp",
@@ -751,13 +514,43 @@
     1254
    ],
    "alpha": true,
-   "bytes": 651154,
+   "bytes": 632556,
    "frames": 12,
    "frame": [
     314,
     418
    ],
    "columns": 4
+  },
+  {
+   "file": "fx/transition_4x3.webp",
+   "source": [
+    "Batch12/Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_00.png",
+    "Batch12/Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_01.png",
+    "Batch12/Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_02.png",
+    "Batch12/Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_03.png",
+    "Batch12/Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_04.png",
+    "Batch12/Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_05.png",
+    "Batch12/Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_06.png",
+    "Batch12/Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_07.png",
+    "Batch12/Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_08.png",
+    "Batch12/Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_09.png",
+    "Batch12/Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_10.png",
+    "Batch12/Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_11.png"
+   ],
+   "status": "production alpha frames (Batch 12), packed 4x3",
+   "use": "world transition wipe",
+   "size": [
+    2560,
+    1080
+   ],
+   "alpha": true,
+   "bytes": 55408,
+   "frames": 12,
+   "frame": [
+    640,
+    360
+   ]
   },
   {
    "file": "heroes/mahsuri/attack.webp",
@@ -859,7 +652,7 @@
     700
    ],
    "alpha": true,
-   "bytes": 158362,
+   "bytes": 155040,
    "anchor": "bottom-center"
   },
   {
@@ -872,7 +665,7 @@
     700
    ],
    "alpha": true,
-   "bytes": 127398,
+   "bytes": 124556,
    "anchor": "bottom-center"
   },
   {
@@ -885,7 +678,7 @@
     700
    ],
    "alpha": true,
-   "bytes": 125500,
+   "bytes": 122684,
    "anchor": "bottom-center"
   },
   {
@@ -898,7 +691,7 @@
     700
    ],
    "alpha": true,
-   "bytes": 138710,
+   "bytes": 136442,
    "anchor": "bottom-center"
   },
   {
@@ -911,7 +704,7 @@
     700
    ],
    "alpha": true,
-   "bytes": 117772,
+   "bytes": 115204,
    "anchor": "bottom-center"
   },
   {
@@ -1014,7 +807,7 @@
     700
    ],
    "alpha": true,
-   "bytes": 142284,
+   "bytes": 138676,
    "anchor": "bottom-center"
   },
   {
@@ -1027,7 +820,7 @@
     700
    ],
    "alpha": true,
-   "bytes": 115564,
+   "bytes": 112762,
    "anchor": "bottom-center"
   },
   {
@@ -1040,7 +833,7 @@
     700
    ],
    "alpha": true,
-   "bytes": 116942,
+   "bytes": 114146,
    "anchor": "bottom-center"
   },
   {
@@ -1053,7 +846,7 @@
     700
    ],
    "alpha": true,
-   "bytes": 131894,
+   "bytes": 129266,
    "anchor": "bottom-center"
   },
   {
@@ -1066,7 +859,7 @@
     700
    ],
    "alpha": true,
-   "bytes": 111188,
+   "bytes": 108768,
    "anchor": "bottom-center"
   },
   {
@@ -1235,7 +1028,7 @@
     422
    ],
    "alpha": true,
-   "bytes": 68666,
+   "bytes": 66038,
    "anchor": "bottom-center"
   },
   {
@@ -1248,7 +1041,7 @@
     864
    ],
    "alpha": false,
-   "bytes": 433048
+   "bytes": 422294
   },
   {
    "file": "worlds/chini/minion_a.webp",
@@ -1260,7 +1053,7 @@
     85
    ],
    "alpha": true,
-   "bytes": 6048,
+   "bytes": 5978,
    "anchor": "bottom-center"
   },
   {
@@ -1273,7 +1066,7 @@
     91
    ],
    "alpha": true,
-   "bytes": 5098,
+   "bytes": 5012,
    "anchor": "bottom-center"
   },
   {
@@ -1286,7 +1079,7 @@
     484
    ],
    "alpha": true,
-   "bytes": 86438,
+   "bytes": 83962,
    "anchor": "bottom-center"
   },
   {
@@ -1299,7 +1092,7 @@
     1024
    ],
    "alpha": false,
-   "bytes": 583446
+   "bytes": 564720
   },
   {
    "file": "worlds/kancil/minion_a.webp",
@@ -1311,7 +1104,7 @@
     99
    ],
    "alpha": true,
-   "bytes": 7216,
+   "bytes": 7092,
    "anchor": "bottom-center"
   },
   {
@@ -1324,7 +1117,7 @@
     100
    ],
    "alpha": true,
-   "bytes": 7034,
+   "bytes": 6950,
    "anchor": "bottom-center"
   },
   {
@@ -1337,7 +1130,7 @@
     542
    ],
    "alpha": true,
-   "bytes": 106466,
+   "bytes": 103506,
    "anchor": "bottom-center"
   },
   {
@@ -1350,7 +1143,7 @@
     1024
    ],
    "alpha": false,
-   "bytes": 570434
+   "bytes": 555840
   },
   {
    "file": "worlds/larut/minion_a.webp",
@@ -1362,7 +1155,7 @@
     101
    ],
    "alpha": true,
-   "bytes": 7160,
+   "bytes": 7086,
    "anchor": "bottom-center"
   },
   {
@@ -1375,7 +1168,7 @@
     92
    ],
    "alpha": true,
-   "bytes": 6930,
+   "bytes": 6828,
    "anchor": "bottom-center"
   },
   {
@@ -1388,7 +1181,7 @@
     448
    ],
    "alpha": true,
-   "bytes": 94874,
+   "bytes": 92070,
    "anchor": "bottom-center"
   },
   {
@@ -1401,7 +1194,7 @@
     1024
    ],
    "alpha": false,
-   "bytes": 614324
+   "bytes": 596798
   },
   {
    "file": "worlds/ledang/minion_a.webp",
@@ -1413,7 +1206,7 @@
     93
    ],
    "alpha": true,
-   "bytes": 5688,
+   "bytes": 5598,
    "anchor": "bottom-center"
   },
   {
@@ -1426,7 +1219,7 @@
     92
    ],
    "alpha": true,
-   "bytes": 6330,
+   "bytes": 6220,
    "anchor": "bottom-center"
   },
   {
@@ -1439,7 +1232,7 @@
     450
    ],
    "alpha": true,
-   "bytes": 106382,
+   "bytes": 104432,
    "anchor": "bottom-center"
   },
   {
@@ -1452,7 +1245,7 @@
     1024
    ],
    "alpha": false,
-   "bytes": 622952
+   "bytes": 605652
   },
   {
    "file": "worlds/lupar/minion_a.webp",
@@ -1464,7 +1257,7 @@
     84
    ],
    "alpha": true,
-   "bytes": 6032,
+   "bytes": 5962,
    "anchor": "bottom-center"
   },
   {
@@ -1477,7 +1270,7 @@
     92
    ],
    "alpha": true,
-   "bytes": 6966,
+   "bytes": 6874,
    "anchor": "bottom-center"
   }
  ]

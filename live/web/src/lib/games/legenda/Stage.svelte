@@ -33,7 +33,8 @@
 		sleep,
 		symbol,
 		type Element,
-		type Pose
+		type Pose,
+		storyArt
 	} from './data';
 
 	interface Friend {
@@ -426,7 +427,7 @@
 	{#if mode !== 'scenery'}
 		<!-- hearts, where the painting had its five -->
 		<p class="hud hearts" style={place(lay.hearts)} aria-label="Hati: {shownHearts / 2} daripada {maxHearts / 2}">
-			{#each halfHearts as h, i (i)}<img src="/story/ui/heart_{h}.webp" alt="" />{/each}
+			{#each halfHearts as h, i (i)}<img src={storyArt(`ui/heart_${h}.webp`)} alt="" />{/each}
 		</p>
 
 		<!-- the world, the enemy's name and its five bars, where the painting had them -->

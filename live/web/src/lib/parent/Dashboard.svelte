@@ -4,6 +4,7 @@
 	rooms open now, and Legenda Story Mode). Every number comes from the parent's real quizzes and rooms.
 -->
 <script lang="ts">
+	import { storyArt } from '$lib/games/legenda/data';
 	import { session } from '$lib/session.svelte';
 	import { TYPE_NAMES, parent } from './store.svelte';
 	import Kawaii from './ui/Kawaii.svelte';
@@ -162,7 +163,7 @@
 			<h2 id="story-title">Legenda Story Mode</h2>
 			<p class="sub">Lima dunia legenda Melayu<br />Solo atau bersama kawan</p>
 			<ul class="worlds" aria-hidden="true">
-				{#each WORLDS as w (w)}<li><img src="/story/ui/symbol_{w}.webp" alt="" width="34" height="34" /></li>{/each}
+				{#each WORLDS as w (w)}<li><img src={storyArt(`ui/symbol_${w}.webp`)} alt="" width="34" height="34" /></li>{/each}
 			</ul>
 			<a class="pill" href={playable ? `/ibu-bapa/kuiz/${playable.id}/main` : '/ibu-bapa/permainan'}>Cuba sekarang <NmIcon name="next" size={14} /></a>
 		</section>

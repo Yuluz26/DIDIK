@@ -43,7 +43,8 @@
 		battleBg,
 		bossArt,
 		field,
-		type Element
+		type Element,
+		storyArt
 	} from './data';
 	import { sfx } from './sfx';
 
@@ -118,7 +119,7 @@
 	];
 	$effect(() => {
 		if (!ready) return;
-		void preload(USED.map((id) => (BANNERS[id]?.animated ? `/story/banners/${id}_sheet.webp` : `/story/banners/${id}.webp`)));
+		void preload(USED.map((id) => (BANNERS[id]?.animated ? storyArt(`banners/${id}_sheet.webp`) : storyArt(`banners/${id}.webp`))));
 	});
 
 	/** Shows a transition banner for `ms`; resolves when it has gone. */
@@ -443,7 +444,7 @@
 					<header class="p-head">
 						<p class="who"><img src={symbol(worldIndex)} alt="" /> {boss ? scene.boss : (scene.foe ?? 'Musuh')}</p>
 						<p class="hearts" aria-label="Hati: {heartsText(story.hearts ?? 0)} daripada 6">
-							{#each heartIcons(story.hearts ?? 0) as h, i (i)}<img src="/story/ui/heart_{h}.webp" alt="" />{/each}
+							{#each heartIcons(story.hearts ?? 0) as h, i (i)}<img src={storyArt(`ui/heart_${h}.webp`)} alt="" />{/each}
 						</p>
 					</header>
 

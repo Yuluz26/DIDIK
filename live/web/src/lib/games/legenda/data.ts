@@ -3,6 +3,10 @@
 // and every number that matters (hearts, boss bars, who hit) come from the server.
 
 import { FIELDS, type Field } from './layout';
+import { version } from '$app/environment';
+
+/** A file of the story art, with the build's version, so a new build is never mixed with old art from a cache. */
+export const storyArt = (path: string) => `/story/${path}?v=${version}`;
 
 export const ELEMENTS = ['api', 'angin', 'petir', 'tanah', 'air'] as const;
 export type Element = (typeof ELEMENTS)[number];
@@ -38,10 +42,10 @@ export const HEROES: Hero[] = [
 	{ key: 'mahsuri', name: 'Mahsuri', title: 'Puteri Langkawi', blurb: 'Tenang, jujur, kuat dengan pedang cahaya.' }
 ];
 
-export const heroArt = (hero: string, pose: Pose | 'portrait') => `/story/heroes/${hero}/${pose}.webp`;
+export const heroArt = (hero: string, pose: Pose | 'portrait') => storyArt(`heroes/${hero}/${pose}.webp`);
 
 /** The hero holding the weapon of an element (a single ready stance; concept art, taller than the base poses). */
-export const heroWeaponArt = (hero: string, element: Element) => `/story/heroes/${hero}/weapon/${element}.webp`;
+export const heroWeaponArt = (hero: string, element: Element) => storyArt(`heroes/${hero}/weapon/${element}.webp`);
 
 /** The poses that show the weapon; hurt and victory stay the base sprite, which has no weapon. */
 export const ARMED_POSES: readonly Pose[] = ['idle', 'ready', 'attack', 'cast'];
@@ -69,14 +73,14 @@ export const WORLD_ART: WorldArt[] = [
 export const field = (world: number): Field => FIELDS[world];
 
 /** The battlefield painting with the boss, the small characters and the live HUD parts taken out. */
-export const battleBg = (world: number) => `/story/worlds/${WORLD_ART[world].key}/field.webp`;
-export const bossArt = (world: number) => `/story/worlds/${WORLD_ART[world].key}/boss.webp`;
-export const minionArt = (world: number, which: 'a' | 'b') => `/story/worlds/${WORLD_ART[world].key}/minion_${which}.webp`;
-export const symbol = (world: number) => `/story/ui/symbol_${WORLD_ART[world].key}.webp`;
-export const elementIcon = (el: string) => `/story/ui/element_${el}.webp`;
-export const fxStill = (el: string) => `/story/fx/${el}.webp`;
+export const battleBg = (world: number) => storyArt(`worlds/${WORLD_ART[world].key}/field.webp`);
+export const bossArt = (world: number) => storyArt(`worlds/${WORLD_ART[world].key}/boss.webp`);
+export const minionArt = (world: number, which: 'a' | 'b') => storyArt(`worlds/${WORLD_ART[world].key}/minion_${which}.webp`);
+export const symbol = (world: number) => storyArt(`ui/symbol_${WORLD_ART[world].key}.webp`);
+export const elementIcon = (el: string) => storyArt(`ui/element_${el}.webp`);
+export const fxStill = (el: string) => storyArt(`fx/${el}.webp`);
 /** The 12-frame attack effect (4 by 3 frames of 314 by 418). */
-export const fxSlash = (el: string) => `/story/fx/${el}_slash.webp`;
+export const fxSlash = (el: string) => storyArt(`fx/${el}_slash.webp`);
 /** Where an effect is centred on its target: slashes in the middle, the earth burst on the ground. */
 export const FX_ANCHOR: Record<string, number> = { api: 0.5, angin: 0.5, petir: 0.55, tanah: 0.9, air: 0.5 };
 

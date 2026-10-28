@@ -41,6 +41,10 @@ B12 = SRC / "Batch12/Batch12_Final_UI_Transitions_SFX_HD"
 FX60 = SRC / "Effects60/04_ATTACK_FRAMES"
 B14 = SRC / "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD"
 HW = SRC / "HeroElements/didik_element_weapons_pack/assets/heroes"
+# The transition banners the story shows; keep in step with show(...) in LegendaPlayer.svelte.
+BANNERS_USED = {"dunia_seterusnya", "pertarungan_bermula", "elemen_dibuka", "boss_muncul", "boss_dikalahkan", "cuba_lagi",
+                "kemenangan", "pilih_elemen", "jawapan_betul", "jawapan_salah", "boss_akan_menyerang", "serangan_balas",
+                "nyawa_berkurang"}
 # The weapon pack names the elements in English; the server and the game use these ids.
 HW_IDS = {"fire": "api", "wind": "angin", "lightning": "petir", "earth": "tanah", "water": "air"}
 # The supplied battlefield paintings (_asset_input/Battlefields/) and, in 1536-wide pixels: where the painting
@@ -89,7 +93,8 @@ def save_webp(im: Image.Image, path: Path, quality: int = 86) -> Path:
     half-written image behind."""
     path.parent.mkdir(parents=True, exist_ok=True)
     temp = path.with_name(path.name + ".part")
-    im.save(temp, "WEBP", quality=quality, method=4)
+    # method 6: the slowest, smallest encoding; the same quality as 4, about a tenth smaller
+    im.save(temp, "WEBP", quality=quality, method=6)
     temp.replace(path)
     return path
 
@@ -557,7 +562,8 @@ def banners() -> None:
         return
     import csv
 
-    rows = list(csv.DictReader(csv_path.open(encoding="utf-8-sig")))
+    # only the banners the game shows (LegendaPlayer.svelte); the rest of the pack stays in Batch14
+    rows = [r for r in csv.DictReader(csv_path.open(encoding="utf-8-sig")) if r["id"] in BANNERS_USED]
     animated = []
     for row in rows:
         key = row["id"]
