@@ -11,6 +11,7 @@
 	import Logo from '$ui/Logo.svelte';
 	import IslandMap from '$lib/home/IslandMap.svelte';
 	import MainIsland from '$lib/home/MainIsland.svelte';
+	import StorySection from '$lib/home/StorySection.svelte';
 	import Ticket from '$lib/home/Ticket.svelte';
 	import { reveal } from '$lib/home/reveal';
 	import { beachTile, grassFringe, seaTile, shoreStrip } from '$lib/pixel/sea';
@@ -81,6 +82,7 @@
 	<Logo light />
 	<nav aria-label="Laman utama">
 		<a class="far" href="#pulau">Lapan pulau</a>
+		<a class="far" href="#hikayat">Hikayat</a>
 		<a class="far" href="#cara">Cara bermain</a>
 		<a class="parents" href="/ibu-bapa"><span class="long">Untuk ibu bapa</span><span class="short">Ibu bapa</span> <Icon name="next" size={18} /></a>
 	</nav>
@@ -109,6 +111,8 @@
 				{/snippet}
 			</IslandMap>
 		</section>
+
+		<StorySection />
 
 		<div class="shore" aria-hidden="true"></div>
 	</div>
@@ -151,7 +155,7 @@
 </section>
 
 
-<section class="field" style:--fringe={fringe} aria-labelledby="ibu-bapa-tajuk">
+<section class="field" style:--fringe={fringe} style:--beach={beach} aria-labelledby="ibu-bapa-tajuk">
 	<div class="wrap cta">
 		<p class="why" {@attach reveal()}>Soalan di sini ditulis oleh orang yang kenal anak-anak itu: ibu bapa, guru, abang dan kakak. Tiada AI yang mengarangnya.</p>
 		<div class="reply" {@attach reveal(120)}>
@@ -450,7 +454,10 @@
 		position: absolute;
 		inset: 0 0 auto;
 		height: calc(var(--px) * 14);
-		background: var(--fringe) 0 0 / calc(var(--px) * 32) calc(var(--px) * 14) repeat-x;
+		/* grass blades over the beach's sand, so the sand runs into the grass with no seam */
+		background:
+			var(--fringe) 0 0 / calc(var(--px) * 32) calc(var(--px) * 14) repeat-x,
+			var(--beach) 0 100% / calc(var(--px) * 64) calc(var(--px) * 64);
 		image-rendering: pixelated;
 	}
 	.cta {

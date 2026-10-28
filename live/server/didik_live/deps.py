@@ -3,6 +3,7 @@ request limits and Malay error responses."""
 
 from __future__ import annotations
 
+import ipaddress
 from collections.abc import Iterator
 from datetime import UTC, datetime, timedelta
 
@@ -24,6 +25,19 @@ def client_ip(request: Request) -> str:
     return request.client.host if request.client else "unknown"
 
 
+def is_local(ip: str) -> bool:
+    """True for the computer the server runs on (also behind a proxy on it, which passes the real address)."""
+    try:
+        return ipaddress.ip_address(ip).is_loopback
+    except ValueError:
+        return ip == "localhost"
+
+
+def demo_allowed(request: Request) -> bool:
+    settings = request.app.state.settings
+    return settings.seed_demo and (not settings.demo_local_only or is_local(client_ip(request)))
+
+
 def site_url(request: Request) -> str:
     """The site's address for links: DIDIK_PUBLIC_URL, else the address this browser used."""
     return request.app.state.settings.public_url or str(request.base_url).rstrip("/")
@@ -40,7 +54,8 @@ def limit(request: Request, bucket: str, count: int, per_seconds: float, key: st
 # is a limit on wrong codes only, which a class typing the right one never reaches.
 ROOM_MISSES_PER_MINUTE = 120
 JOINS_PER_ROOM_PER_MINUTE = 150
-JOINS_PER_MINUTE = 600
+# Over every room: a school of a thousand children behind one router can all join within a minute.
+JOINS_PER_MINUTE = 2000
 
 
 def lookup_paused(limiter: RateLimiter, ip: str) -> bool:

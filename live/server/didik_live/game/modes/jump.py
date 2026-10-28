@@ -122,7 +122,7 @@ class JumpMode(SyncMode):
         }
 
     def player_view(self, player: Any) -> dict[str, Any]:
-        return {**self.question_block(player), "pond": self.pond(), "myPick": self.picks.get(player.id)}
+        return {**self.question_block(player), "pond": self.shared("pond", self.pond), "myPick": self.picks.get(player.id)}
 
     def host_view(self) -> dict[str, Any]:
         return {**super().host_view(), "pond": self.pond()}

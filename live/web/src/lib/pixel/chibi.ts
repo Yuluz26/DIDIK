@@ -399,9 +399,9 @@ export function chibiSheet(animal: string, colour: string, tone: string): Sheet 
 }
 
 export const AW = 26;
-export const AH = 28;
+export const AH = 34;
 
-/** Head and shoulders on a round disc in the child's colour: lists, scoreboards, the HUD. */
+/** The whole child, head to shoes, standing in front of a round disc in their colour: lists, scoreboards, the HUD. */
 export function avatarSheet(animal: string, colour: string, tone: string, mood: Mood = 'happy'): Sheet {
 	return memo(`avatar:${animal}:${colour}:${tone}:${mood}`, () => {
 		const full = chibiSheet(animal, colour, tone);
@@ -413,13 +413,13 @@ export function avatarSheet(animal: string, colour: string, tone: string, mood: 
 		const p = new Pix(AW, AH);
 		const inDisc = (x: number, y: number, r: number) => ((x + 0.5 - 13) / r) ** 2 + ((y + 0.5 - 15) / r) ** 2 <= 1;
 		p.ellipse(13, 15, 12, 12, (x, y) => (inDisc(x, y, 10.6) ? tint : ring), ring);
+		// every row of the child, so the legs and shoes stand below the disc
 		for (let y = 0; y < CH; y++) {
 			for (let x = 0; x < CW; x++) {
 				const c = src.c[y * CW + x];
-				const ay = y - 1;
+				const ay = y + 1;
 				const ax = x + 4;
-				if (!c || c >>> 24 < 200 || ay < 0 || ay >= AH) continue;
-				if (ay >= 18 && !inDisc(ax, ay, 11.4)) continue;
+				if (!c || c >>> 24 < 200 || ay >= AH) continue;
 				p.set(ax, ay, c, src.ink[y * CW + x]);
 			}
 		}

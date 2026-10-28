@@ -41,6 +41,9 @@ class Settings:
     allow_bots: bool
     # Creates the demo parent and the sample quizzes on start when the database is empty.
     seed_demo: bool
+    # The demo account's password is public, and it owns the sample quizzes everyone plays: it can only
+    # sign in from the computer the server runs on (tests switch this off; their client is not local).
+    demo_local_only: bool = True
     session_days: int = 30
     max_upload_bytes: int = 5 * 1024 * 1024
     # The address children use to reach the site (room links and QR codes). When empty, links use the

@@ -13,8 +13,12 @@ import random
 WIDTH, HEIGHT = 16.0, 9.0
 # Nobody walks into the tree line at the top or off the edges.
 LEFT, TOP, RIGHT, BOTTOM = 0.8, 3.4, 15.2, 8.6
-# The fountain in the middle is an ellipse you walk around.
-FOUNTAIN_X, FOUNTAIN_Y, FOUNTAIN_RX, FOUNTAIN_RY = 8.0, 5.25, 1.45, 0.8
+# The fountain in the middle is an ellipse you walk around: its basin and the room a child takes up
+# (half a child's width either side, their feet in front of or behind the rim).
+FOUNTAIN_X, FOUNTAIN_Y, FOUNTAIN_RX, FOUNTAIN_RY = 8.0, 5.35, 1.75, 0.9
+# Two children never stand on top of each other: closer than this (wider than tall, the way they
+# stand side by side) and the one arriving steps aside.
+APART_X, APART_Y = 0.85, 0.5
 # Where new arrivals come in, just under the arch.
 ARCH = (8.0, 3.5)
 # The quickest a child can pick a new spot; taps in between are ignored.
@@ -36,6 +40,22 @@ def clamp(x: float, y: float) -> tuple[float, float]:
         x = FOUNTAIN_X + dx / reach * FOUNTAIN_RX * 1.02
         y = FOUNTAIN_Y + dy / reach * FOUNTAIN_RY * 1.02
     return round(x, 2), round(y, 2)
+
+
+def apart(x: float, y: float, others: list[tuple[float, float]]) -> tuple[float, float]:
+    """The nearest spot to (x, y) that is not on top of another child (and still inside the square,
+    outside the fountain). In a packed square it does the best it can."""
+    for _ in range(8):
+        near = next(((ox, oy) for ox, oy in others if ((x - ox) / APART_X) ** 2 + ((y - oy) / APART_Y) ** 2 < 1), None)
+        if near is None:
+            break
+        ox, oy = near
+        dx, dy = x - ox, y - oy
+        if abs(dx) < 1e-6 and abs(dy) < 1e-6:
+            dx = 1.0 if ox < (LEFT + RIGHT) / 2 else -1.0
+        reach = math.hypot(dx / APART_X, dy / APART_Y)
+        x, y = clamp(ox + dx / reach * 1.05, oy + dy / reach * 1.05)
+    return x, y
 
 
 # Past this many children the newcomers spread over the whole square, so a full class is not one

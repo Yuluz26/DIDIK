@@ -1,7 +1,9 @@
 <!--
 	A child's screen in the games everyone answers together (Lumba Sampan, Teka Gambar).
-	Stages from the server: intro → question → reveal → standings → … The game's own world sits
-	above the question through the `scene` snippet.
+	Stages from the server: intro → question → reveal → standings → … The game's own world (the
+	`scene` snippet) fills the screen and the question is a popup inside it, which also shows the
+	result. With `minimisable` the popup folds away so the child can play in the scene (Teka Gambar:
+	guess the picture at any moment).
 -->
 <script lang="ts">
 	import type { Snippet } from 'svelte';
@@ -17,6 +19,7 @@
 	import Timer from '$ui/Timer.svelte';
 	import Avatar from '$ui/Avatar.svelte';
 	import Hud from './Hud.svelte';
+	import QuestionPopup from './QuestionPopup.svelte';
 
 	let {
 		client,
@@ -26,7 +29,8 @@
 		title,
 		unit = 'mata',
 		scene,
-		extra
+		extra,
+		minimisable = false
 	}: {
 		client: RoomClient;
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -37,6 +41,7 @@
 		unit?: string;
 		scene?: Snippet;
 		extra?: Snippet;
+		minimisable?: boolean;
 	} = $props();
 
 	let lastReveal = '';
@@ -75,20 +80,20 @@
 		</section>
 	{:else if game.question}
 		{@render scene?.()}
+		{@render extra?.()}
 
-		<div class="timer-row">
-			{#if game.stage === 'question'}
-				<Timer clock={game.clock} offset={client.offset} total={game.question.timeLimit} ticks={!game.answered} />
+		<QuestionPopup label="Soalan {game.index + 1} daripada {game.total}" {minimisable} key={game.index}>
+			{#snippet head()}
+				{#if game.stage === 'question'}
+					<Timer clock={game.clock} offset={client.offset} total={game.question.timeLimit} ticks={!game.answered} />
+				{/if}
+			{/snippet}
+			<QuestionCard question={game.question} index={game.index} total={game.total} />
+
+			{#if game.stage === 'reveal' && game.result}
+				<Feedback correct={game.result.correct} fraction={game.result.fraction} missed={game.result.missed} points={game.result.points} {unit} />
 			{/if}
-		</div>
 
-		<QuestionCard question={game.question} index={game.index} total={game.total} />
-
-		{#if game.stage === 'reveal' && game.result}
-			<Feedback correct={game.result.correct} fraction={game.result.fraction} missed={game.result.missed} points={game.result.points} {unit} />
-		{/if}
-
-		<div class="answer">
 			<Answer
 				question={game.question}
 				disabled={game.answered || game.stage !== 'question'}
@@ -97,15 +102,13 @@
 				allRight={game.result?.correct}
 				onanswer={answer}
 			/>
-		</div>
 
-		{#if game.stage === 'question' && game.answered}
-			<p class="waiting" aria-live="polite">
-				Jawapan dihantar! Menunggu kawan-kawan… <strong>{game.answeredCount}/{game.playerCount}</strong>
-			</p>
-		{/if}
-
-		{@render extra?.()}
+			{#if game.stage === 'question' && game.answered}
+				<p class="waiting" aria-live="polite">
+					Jawapan dihantar! Menunggu kawan-kawan… <strong>{game.answeredCount}/{game.playerCount}</strong>
+				</p>
+			{/if}
+		</QuestionPopup>
 	{/if}
 </main>
 
@@ -115,12 +118,6 @@
 		gap: 1rem;
 		padding-block: 1rem 3rem;
 		max-width: 52rem;
-	}
-	.timer-row:empty {
-		display: none;
-	}
-	.answer {
-		margin-top: 0.2rem;
 	}
 	.waiting {
 		padding: 0.8rem 1rem;

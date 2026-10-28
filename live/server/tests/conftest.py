@@ -28,6 +28,7 @@ def settings(tmp_path: Path) -> Settings:
         secure_cookies=False,
         allow_bots=True,
         seed_demo=True,
+        demo_local_only=False,
     )
 
 

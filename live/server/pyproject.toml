@@ -14,6 +14,7 @@ dependencies = [
     "pydantic>=2.7",
     "segno>=1.6",
     "pillow>=10",
+    "orjson>=3.10",
 ]
 
 [project.optional-dependencies]

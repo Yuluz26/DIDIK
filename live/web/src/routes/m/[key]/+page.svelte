@@ -19,6 +19,9 @@
 	import PlayerGame from '$lib/games/PlayerGame.svelte';
 
 	const key = page.params.key ?? '';
+	// ?pratonton=1: a parent trying the game from the host screen joins at once, as a pretend child.
+	const preview = page.url.searchParams.has('pratonton');
+	let previewJoined = false;
 	const client = new RoomClient(key, 'player');
 
 	let info = $state<RoomInfo | null>(null);
@@ -29,6 +32,13 @@
 	const people = $derived(client.people);
 	const unit = $derived(view?.room.mode.unit ?? 'mata');
 
+
+	$effect(() => {
+		if (preview && info && client.needsJoin && !previewJoined) {
+			previewJoined = true;
+			client.join({ name: 'Cikgu Pratonton', avatar: 'kancil', colour: 'hijau', skin: 's2' });
+		}
+	});
 
 	onMount(() => {
 		api

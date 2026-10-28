@@ -2,6 +2,7 @@
 // the same mute switch as the chiptune sounds in lib/sound.ts.
 
 import { isMuted } from '$lib/sound';
+import { storyArt } from './data';
 
 const FILES = {
 	correct: 'correct',
@@ -20,7 +21,7 @@ export function sfx(name: Sfx, volume = 0.7): void {
 	if (typeof Audio === 'undefined' || isMuted()) return;
 	let base = pool.get(name);
 	if (!base) {
-		base = new Audio(`/story/audio/${FILES[name]}.wav`);
+		base = new Audio(storyArt(`audio/${FILES[name]}.wav`));
 		base.preload = 'auto';
 		pool.set(name, base);
 	}

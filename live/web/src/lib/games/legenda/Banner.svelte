@@ -8,7 +8,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { BANNERS } from './banners';
-	import { reducedMotion } from './data';
+	import { reducedMotion, storyArt } from './data';
 
 	let { id, ms = 1100 }: { id: string; ms?: number } = $props();
 
@@ -35,11 +35,11 @@
 			<div
 				class="sheet"
 				aria-hidden="true"
-				style:background-image="url(/story/banners/{id}_sheet.webp)"
+				style:background-image="url({storyArt(`banners/${id}_sheet.webp`)})"
 				style:background-position="{(frame % 4) * 33.3333}% {Math.floor(frame / 4) * 50}%"
 			></div>
 		{:else}
-			<img class="still" src="/story/banners/{id}.webp" alt="" draggable="false" />
+			<img class="still" src={storyArt(`banners/${id}.webp`)} alt="" draggable="false" />
 		{/if}
 		<span class="visually-hidden">{banner.text}</span>
 	</div>

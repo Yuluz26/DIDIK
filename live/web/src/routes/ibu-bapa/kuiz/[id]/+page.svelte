@@ -5,9 +5,9 @@
 	import { page } from '$app/state';
 	import { api, ApiError } from '$lib/api';
 	import { session } from '$lib/session.svelte';
-	import Didi from '$ui/Didi.svelte';
-	import Icon from '$ui/Icon.svelte';
-	import ParentHeader from '$lib/parent/ParentHeader.svelte';
+	import DashShell from '$lib/parent/DashShell.svelte';
+	import Kawaii from '$lib/parent/ui/Kawaii.svelte';
+	import NmIcon from '$lib/parent/ui/NmIcon.svelte';
 	import QuizEditor from '$lib/parent/editor/QuizEditor.svelte';
 	import { normalise, type QuizDraft } from '$lib/parent/editor/model';
 
@@ -58,54 +58,46 @@
 
 <svelte:head><title>{quiz?.title || 'Sunting kuiz'} · DIDIK Main Bersama</title></svelte:head>
 
-<ParentHeader />
-
-<main class="wrap page">
-	<div class="top">
-		<a class="back" href="/ibu-bapa"><Icon name="back" size={18} /> Kuiz saya</a>
-		<h1>{quiz?.canEdit === false ? 'Kuiz contoh' : 'Sunting kuiz'}</h1>
+<DashShell>
+	<div class="nm-head">
+		<div>
+			<a class="back" href="/ibu-bapa/kuiz"><NmIcon name="back" size={16} /> Kuiz saya</a>
+			<h1>{quiz?.canEdit === false ? 'Kuiz contoh' : 'Sunting kuiz'}</h1>
+		</div>
 	</div>
 	{#if problem}
-		<div class="missing">
-			<Didi mood="think" size={96} />
+		<div class="missing nm-card">
+			<Kawaii seed="hilang" size={90} mood="sleepy" />
 			<p>{problem}</p>
-			<a class="btn btn--plain" href="/ibu-bapa">Kembali ke Kuiz saya</a>
+			<a class="btn btn--plain" href="/ibu-bapa/kuiz">Kembali ke Kuiz saya</a>
 		</div>
 	{:else if quiz && initial}
 		{#if !quiz.canEdit}
 			<div class="sample">
 				<p>Ini kuiz contoh. Salin ke kuiz anda untuk mengubah soalannya.</p>
-				<button type="button" class="btn btn--sun" onclick={copy}><Icon name="copy" /> Salin dan ubah</button>
+				<button type="button" class="btn btn--sun" onclick={copy}><NmIcon name="copy" size={16} /> Salin dan ubah</button>
 			</div>
 		{/if}
 		{#key quiz.id}
 			<QuizEditor {initial} quizId={quiz.id} readonly={!quiz.canEdit} onsave={save} />
 		{/key}
 	{:else}
-		<div class="loading" aria-busy="true"><Didi mood="think" size={96} /></div>
+		<div class="loading" aria-busy="true"><Kawaii seed="muat" size={90} mood="wow" /></div>
 	{/if}
-</main>
+</DashShell>
 
 <style>
-	.page {
-		display: grid;
-		gap: 1.2rem;
-		padding-block: 1.4rem 3rem;
-	}
-	.top {
-		display: grid;
-		gap: 0.4rem;
-	}
 	.back {
 		display: inline-flex;
 		align-items: center;
 		gap: 0.3rem;
-		justify-self: start;
-		font-weight: 800;
+		margin-bottom: 0.4rem;
+		color: var(--ink-2);
+		font: 600 0.9rem/1 var(--font-display);
 		text-decoration: none;
 	}
-	h1 {
-		font-size: var(--fs-h1);
+	.back:hover {
+		color: var(--brand-ink);
 	}
 	.sample {
 		display: flex;
@@ -113,9 +105,11 @@
 		align-items: center;
 		justify-content: space-between;
 		gap: 0.8rem;
-		padding: 0.9rem 1.1rem;
-		border-radius: var(--r-md);
+		margin-bottom: 1rem;
+		padding: 0.9rem 1.2rem;
+		border-radius: 1.3rem;
 		background: #fff3d6;
+		box-shadow: 4px 4px 10px rgb(200 170 100 / 0.25), -4px -4px 10px rgb(255 255 255 / 0.9);
 		font-weight: 800;
 	}
 	.missing,

@@ -12,10 +12,10 @@
 	import { session } from '$lib/session.svelte';
 	import type { ModeInfo } from '$lib/types';
 	import { play } from '$lib/sound';
-	import Didi from '$ui/Didi.svelte';
-	import Icon from '$ui/Icon.svelte';
+	import Kawaii from '$lib/parent/ui/Kawaii.svelte';
+	import NmIcon from '$lib/parent/ui/NmIcon.svelte';
 	import WorldBadge from '$lib/worlds/WorldBadge.svelte';
-	import ParentHeader from '$lib/parent/ParentHeader.svelte';
+	import DashShell from '$lib/parent/DashShell.svelte';
 
 	const id = page.params.id;
 	let title = $state('');
@@ -57,26 +57,26 @@
 
 <svelte:head><title>Pilih permainan · DIDIK Main Bersama</title></svelte:head>
 
-<ParentHeader />
-
-<main class="wrap pick">
-	<a class="back" href="/ibu-bapa"><Icon name="back" size={18} /> Kuiz saya</a>
-	<div class="head">
-		<h1>Pilih permainan</h1>
-		{#if title}<p class="quiz">untuk <strong>{title}</strong> · {count} soalan</p>{/if}
+<DashShell>
+	<div class="nm-head">
+		<div>
+			<a class="back" href="/ibu-bapa/kuiz"><NmIcon name="back" size={16} /> Kuiz saya</a>
+			<h1>Pilih permainan</h1>
+			{#if title}<p>untuk <strong>{title}</strong> · {count} soalan</p>{/if}
+		</div>
 	</div>
 	{#if problem}<p class="problem" role="alert">{problem}</p>{/if}
 
 	{#if !modes.length && !problem}
-		<div class="loading"><Didi mood="think" size={100} /></div>
+		<div class="loading"><Kawaii seed="muat" size={90} mood="wow" /></div>
 	{/if}
 
 	<ul class="games">
 		{#each modes as mode, i (mode.key)}
 			<li style:--i={i} class:wide={mode.key === 'legenda'}>
 				{#if mode.key === 'legenda'}
-					<div class="game legend" class:off={!!mode.reason}>
-						<WorldBadge world={mode.world} size={92} />
+					<div class="game nm-card legend" class:off={!!mode.reason}>
+						<span class="badge"><WorldBadge world={mode.world} size={64} /></span>
 						<span class="text">
 							<span class="kind">{mode.style} · Baharu</span>
 							<span class="title">{mode.title}</span>
@@ -93,60 +93,54 @@
 						</span>
 					</div>
 				{:else}
-				<button type="button" class="game" class:off={!!mode.reason} disabled={!!mode.reason || !!opening} onclick={() => open(mode)}>
-					<WorldBadge world={mode.world} size={92} />
-					<span class="text">
-						<span class="kind">{mode.style}</span>
-						<span class="title">{mode.title}</span>
-						<span class="tagline">{mode.tagline}</span>
-						{#if mode.reason}
-							<span class="reason">{mode.reason}</span>
-						{:else if mode.needs}
-							<span class="fit">{mode.eligible} soalan sesuai</span>
-						{/if}
-					</span>
-					<span class="go" aria-hidden="true">{opening === mode.key ? '…' : ''}<Icon name="next" /></span>
-				</button>
+					<button type="button" class="game nm-card" class:off={!!mode.reason} disabled={!!mode.reason || !!opening} onclick={() => open(mode)}>
+						<span class="badge"><WorldBadge world={mode.world} size={64} /></span>
+						<span class="text">
+							<span class="kind">{mode.style}</span>
+							<span class="title">{mode.title}</span>
+							<span class="tagline">{mode.tagline}</span>
+							{#if mode.reason}
+								<span class="reason">{mode.reason}</span>
+							{:else if mode.needs}
+								<span class="fit">{mode.eligible} soalan sesuai</span>
+							{/if}
+						</span>
+						<span class="go" aria-hidden="true">{opening === mode.key ? '…' : ''}<NmIcon name="next" size={20} /></span>
+					</button>
 				{/if}
 			</li>
 		{/each}
 	</ul>
 	<p class="after">Selepas memilih, anda akan dapat pautan, kod QR dan kod 6 digit untuk dikongsi. Tetapan boleh diubah di lobi.</p>
-</main>
+</DashShell>
 
 <style>
-	.pick {
-		display: grid;
-		gap: 1.2rem;
-		padding-block: 1.6rem 4rem;
-	}
 	.back {
 		display: inline-flex;
 		align-items: center;
 		gap: 0.3rem;
-		font-weight: 800;
-		text-decoration: none;
-		width: fit-content;
-	}
-	.head h1 {
-		font-size: var(--fs-h1);
-	}
-	.quiz {
-		margin-top: 0.3rem;
+		margin-bottom: 0.4rem;
 		color: var(--ink-2);
-		font-size: 1.1rem;
+		font: 600 0.9rem/1 var(--font-display);
+		text-decoration: none;
+	}
+	.back:hover {
+		color: var(--brand-ink);
 	}
 	.games {
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr));
-		gap: 1rem;
+		gap: 1.2rem;
 		margin: 0;
 		padding: 0;
 		list-style: none;
 	}
 	.games li {
 		animation: rise-in var(--t-enter) var(--ease-out) both;
-		animation-delay: calc(var(--i) * 60ms);
+		animation-delay: calc(var(--i) * 50ms);
+	}
+	.games li.wide {
+		grid-column: 1 / -1;
 	}
 	.game {
 		display: flex;
@@ -154,78 +148,101 @@
 		gap: 1rem;
 		width: 100%;
 		height: 100%;
-		padding: 1rem 1.1rem;
+		padding: 1.1rem 1.2rem;
 		border: 0;
-		border-radius: var(--r-lg);
-		background: var(--card);
-		box-shadow: var(--card-shadow);
 		text-align: left;
 		cursor: pointer;
-		transition: transform var(--t-state) var(--spring), box-shadow var(--t-state);
+		transition:
+			transform 200ms var(--spring),
+			box-shadow 200ms;
 	}
-	.game:not(:disabled):hover {
-		transform: translateY(-4px) rotate(-0.5deg);
-		box-shadow: 0 2px 0 var(--line), 0 18px 34px rgb(31 45 39 / 0.14);
+	button.game:not(:disabled):hover {
+		transform: translateY(-3px);
+		box-shadow: 12px 12px 26px rgb(163 172 198 / 0.5), -12px -12px 26px rgb(255 255 255 / 0.95);
 	}
-	.game:not(:disabled):hover :global(.badge) {
-		animation: wiggle 0.6s ease-in-out;
+	button.game:not(:disabled):active {
+		transform: scale(0.985);
+		box-shadow: var(--nm-in);
 	}
-	.game:not(:disabled):active {
-		transform: scale(0.98);
-	}
-	.games li.wide {
-		grid-column: 1 / -1;
-	}
-	.legend {
+	.game.legend {
 		cursor: default;
-		background:
-			radial-gradient(ellipse at 0% 0%, rgb(255 200 90 / 0.18), transparent 50%),
-			var(--card);
-		box-shadow: inset 0 0 0 2px #d9a441, var(--card-shadow);
-	}
-	.pair {
-		display: flex;
 		flex-wrap: wrap;
-		gap: 0.5rem;
+		background: linear-gradient(145deg, #f1ecff, #e5ddff);
+	}
+	/* The words keep room to read; where the card is narrow (a phone), Solo and Party drop to their
+	   own row under them instead of squeezing them. */
+	.game.legend .text {
+		flex: 1 1 14rem;
+	}
+	.game.legend .pair {
+		flex: 1 1 12rem;
+		justify-content: flex-end;
+	}
+	.game.legend .pair :global(.btn) {
+		flex: 1 1 0;
+		max-width: 11rem;
+		min-height: 3rem;
 	}
 	.game.off {
 		cursor: not-allowed;
 		opacity: 0.6;
 	}
+	.badge {
+		display: grid;
+		place-items: center;
+		flex: none;
+		width: 4.6rem;
+		height: 4.6rem;
+		border-radius: 50%;
+		background: #eceef5;
+		box-shadow: inset 3px 3px 7px rgb(163 172 198 / 0.4), inset -3px -3px 7px rgb(255 255 255 / 0.95);
+	}
 	.text {
 		display: grid;
-		gap: 0.15rem;
+		gap: 0.2rem;
 		flex: 1;
 		min-width: 0;
 	}
+	.kind {
+		color: var(--brand-ink);
+		font: 600 0.72rem/1 var(--font-display);
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+	}
 	.title {
-		font: 600 1.4rem/1.15 var(--font-display);
+		font: 500 1.3rem/1.15 var(--font-display);
+		color: var(--ink);
 	}
 	.tagline {
 		color: var(--ink-2);
 		font-weight: 600;
-		font-size: 0.95rem;
+		font-size: 0.93rem;
 	}
 	.reason {
-		color: #9a4a00;
+		color: #b04a00;
 		font-weight: 800;
 		font-size: 0.88rem;
 	}
 	.fit {
-		color: var(--good);
-		font-weight: 800;
-		font-size: 0.88rem;
+		color: #0f8a6f;
+		font: 600 0.85rem/1.2 var(--font-display);
 	}
 	.go {
 		display: inline-flex;
 		align-items: center;
 		color: var(--ink-3);
 	}
+	.pair {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.6rem;
+	}
 	.after {
+		margin-top: 1.2rem;
 		color: var(--ink-2);
 	}
 	.problem {
-		color: #9a4a00;
+		color: #b04a00;
 		font-weight: 800;
 	}
 	.loading {

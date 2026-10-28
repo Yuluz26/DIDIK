@@ -49,6 +49,10 @@
 </main>
 
 <style>
+	/* grid items here never grow to a drawing's width (the square follows the child and must fit a phone) */
+	.lobby > :global(*) {
+		min-width: 0;
+	}
 	.lobby {
 		display: grid;
 		grid-template-columns: minmax(0, 1fr);

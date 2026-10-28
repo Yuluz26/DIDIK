@@ -84,7 +84,7 @@
 		{/snippet}
 	</SelfPlayer>
 {:else if mode.key === 'teka'}
-	<SyncPlayer {client} {game} {me} {people} title={mode.title}>
+	<SyncPlayer {client} {game} {me} {people} title={mode.title} minimisable>
 		{#snippet scene()}
 			{#if game.picture}<PictureGuess {client} frame={game.picture} {me} {people} />{/if}
 		{/snippet}

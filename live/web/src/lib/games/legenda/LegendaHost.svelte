@@ -5,7 +5,7 @@
 <script lang="ts">
 	import type { Person } from '$lib/types';
 	import Avatar from '$ui/Avatar.svelte';
-	import { HEROES, WORLD_ART, battleBg, heartIcons, heroArt, symbol } from './data';
+	import { HEROES, WORLD_ART, battleBg, heartIcons, heroArt, symbol, storyArt } from './data';
 
 	interface Row {
 		id: string;
@@ -90,7 +90,7 @@
 					<td><Avatar animal={person?.avatar} colour={person?.colour} skin={person?.skin} size={30} /> {person?.name ?? '…'}</td>
 					<td>{HEROES.find((h) => h.key === row.hero)?.name ?? '-'}</td>
 					<td>{worlds[row.world]?.title} · {label(row)}</td>
-					<td class="hearts">{#each heartIcons(row.hearts) as h, i (i)}<img src="/story/ui/heart_{h}.webp" alt="" />{/each}</td>
+					<td class="hearts">{#each heartIcons(row.hearts) as h, i (i)}<img src={storyArt(`ui/heart_${h}.webp`)} alt="" />{/each}</td>
 					<td>{row.worlds.length} / 5</td>
 				</tr>
 			{/each}

@@ -67,7 +67,7 @@ class RaceMode(SyncMode):
         }
 
     def player_view(self, player: Any) -> dict[str, Any]:
-        return {**self.question_block(player), "race": self.boats()}
+        return {**self.question_block(player), "race": self.shared("boats", self.boats)}
 
     def host_view(self) -> dict[str, Any]:
         return {**super().host_view(), "race": self.boats()}
