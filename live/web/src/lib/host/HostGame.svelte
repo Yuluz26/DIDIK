@@ -9,8 +9,9 @@
 	import VillageWorld from '$lib/games/village/VillageWorld.svelte';
 	import GardenHost from '$lib/games/garden/GardenHost.svelte';
 	import PictureHost from '$lib/games/picture/PictureHost.svelte';
+	import LegendaHost from '$lib/games/legenda/LegendaHost.svelte';
 	import ScoreTowers from '$ui/ScoreTowers.svelte';
-						import SelfHost from './SelfHost.svelte';
+	import SelfHost from './SelfHost.svelte';
 	import SyncHost from './SyncHost.svelte';
 
 	let { client, view, people }: { client: RoomClient; view: View; people: Map<string, Person> } = $props();
@@ -58,6 +59,12 @@
 	<SelfHost {client} {game} {people} feed={view.feed} title={mode.title} unit={mode.unit} total={minutes}>
 		{#snippet world()}
 			{#if game.world?.top}<GardenHost world={game.world} {people} unit={mode.unit} />{/if}
+		{/snippet}
+	</SelfHost>
+{:else if mode.key === 'legenda'}
+	<SelfHost {client} {game} {people} feed={view.feed} title={mode.title} unit={mode.unit} total={minutes} boardTitle="Mata pengembara">
+		{#snippet world()}
+			<LegendaHost {game} {people} />
 		{/snippet}
 	</SelfHost>
 {:else}

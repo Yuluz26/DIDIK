@@ -4,6 +4,7 @@
 	import type { View } from '$lib/types';
 	import Icon from '$ui/Icon.svelte';
 	import Logo from '$ui/Logo.svelte';
+	import FullscreenToggle from '$ui/FullscreenToggle.svelte';
 	import SoundToggle from '$ui/SoundToggle.svelte';
 
 	let { client, view }: { client: RoomClient; view: View } = $props();
@@ -37,6 +38,7 @@
 			<button type="button" class="btn btn--plain" onclick={() => (confirming = true)}><Icon name="stop" /> Tamat</button>
 		{/if}
 	{/if}
+	<FullscreenToggle />
 	<SoundToggle />
 </header>
 

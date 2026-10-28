@@ -1,4 +1,5 @@
-<!-- A small round window into each game's world, in pixels, used wherever a game is named. -->
+<!-- A small round window into each game's world, in pixels, used wherever a game is named. Legenda uses
+	its own painted emblem. -->
 <script lang="ts">
 	import { snapScale } from '$lib/pixel/cache';
 	import { badge } from '$lib/pixel/badges';
@@ -10,7 +11,9 @@
 	const s = $derived(snapScale(size / 40, 1));
 </script>
 
-<span class="badge" style:width="{size}px" style:height="{size}px" aria-hidden="true"><Sprite {sheet} {s} /></span>
+<span class="badge" style:width="{size}px" style:height="{size}px" aria-hidden="true">
+	{#if world === 'legenda'}<img src="/story/ui/symbol_chini.webp" alt="" width={size} height={size} />{:else}<Sprite {sheet} {s} />{/if}
+</span>
 
 <style>
 	.badge {

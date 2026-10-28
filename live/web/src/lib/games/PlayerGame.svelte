@@ -13,7 +13,8 @@
 	import VillageWorld from './village/VillageWorld.svelte';
 	import GardenPlayer from './garden/GardenPlayer.svelte';
 	import PictureGuess from './picture/PictureGuess.svelte';
-					
+	import LegendaPlayer from './legenda/LegendaPlayer.svelte';
+
 	let { client, view, me, people }: { client: RoomClient; view: View; me: Me; people: Map<string, Person> } = $props();
 
 	const game = $derived(view.game);
@@ -88,6 +89,8 @@
 			{#if game.picture}<PictureGuess {client} frame={game.picture} {me} {people} />{/if}
 		{/snippet}
 	</SyncPlayer>
+{:else if mode.key === 'legenda'}
+	<LegendaPlayer {client} {game} {me} {people} />
 {:else}
 	<p class="wrap">Permainan ini sedang disiapkan.</p>
 {/if}

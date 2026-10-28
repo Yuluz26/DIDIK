@@ -6,6 +6,7 @@
 	import type { RoomClient } from '$lib/room.svelte';
 	import type { Me, Person, View } from '$lib/types';
 	import StickerBar from '$ui/StickerBar.svelte';
+	import FullscreenToggle from '$ui/FullscreenToggle.svelte';
 	import SoundToggle from '$ui/SoundToggle.svelte';
 	import LobbyPlaza from '$lib/worlds/LobbyPlaza.svelte';
 	import WorldBadge from '$lib/worlds/WorldBadge.svelte';
@@ -19,6 +20,7 @@
 <main class="lobby wrap">
 	<div class="top">
 		<p class="quiz">{view.room.quizTitle}</p>
+		<FullscreenToggle />
 		<SoundToggle />
 	</div>
 

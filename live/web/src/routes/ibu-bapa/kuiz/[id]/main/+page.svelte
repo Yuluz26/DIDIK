@@ -1,7 +1,8 @@
 <!--
-	"Main bersama": choose one of the eight games for this quiz and open a room. Every game suits any
+	"Main bersama": choose one of the games for this quiz and open a room. Every game suits any
 	class; the teacher or parent picks by taste. Games the quiz cannot support
-	(e.g. Lompat! needs Betul/Salah or 2-4 choices) say why instead of failing later.
+	(e.g. Lompat! needs Betul/Salah or 2-4 choices) say why instead of failing later. Legenda opens
+	either a Solo room (one child) or a Party room; nothing else needs setting up.
 -->
 <script lang="ts">
 	import { onMount } from 'svelte';
@@ -38,12 +39,14 @@
 		}
 	});
 
-	async function open(mode: ModeInfo) {
+	async function open(mode: ModeInfo, solo = false) {
 		if (mode.reason || opening) return;
 		play('pop');
-		opening = mode.key;
+		opening = mode.key + (solo ? ':solo' : '');
 		try {
-			const room = await api.post<{ code: string }>('/api/rooms', { quiz_id: Number(id), mode: mode.key });
+			const body: Record<string, unknown> = { quiz_id: Number(id), mode: mode.key };
+			if (solo) body.settings = { max_players: 1 };
+			const room = await api.post<{ code: string }>('/api/rooms', body);
 			await goto(`/hos/${room.code}`);
 		} catch (error) {
 			problem = error instanceof ApiError ? error.message : 'Bilik tidak dapat dibuka. Cuba lagi.';
@@ -70,7 +73,26 @@
 
 	<ul class="games">
 		{#each modes as mode, i (mode.key)}
-			<li style:--i={i}>
+			<li style:--i={i} class:wide={mode.key === 'legenda'}>
+				{#if mode.key === 'legenda'}
+					<div class="game legend" class:off={!!mode.reason}>
+						<WorldBadge world={mode.world} size={92} />
+						<span class="text">
+							<span class="kind">{mode.style} · Baharu</span>
+							<span class="title">{mode.title}</span>
+							<span class="tagline">{mode.tagline}</span>
+							{#if mode.reason}<span class="reason">{mode.reason}</span>{:else}<span class="fit">Lima dunia, lima boss. Tiada tetapan lain.</span>{/if}
+						</span>
+						<span class="pair">
+							<button type="button" class="btn btn--sun" disabled={!!mode.reason || !!opening} onclick={() => open(mode, true)}>
+								{opening === 'legenda:solo' ? '…' : 'Solo'}
+							</button>
+							<button type="button" class="btn" disabled={!!mode.reason || !!opening} onclick={() => open(mode)}>
+								{opening === 'legenda' ? '…' : 'Party'}
+							</button>
+						</span>
+					</div>
+				{:else}
 				<button type="button" class="game" class:off={!!mode.reason} disabled={!!mode.reason || !!opening} onclick={() => open(mode)}>
 					<WorldBadge world={mode.world} size={92} />
 					<span class="text">
@@ -85,6 +107,7 @@
 					</span>
 					<span class="go" aria-hidden="true">{opening === mode.key ? '…' : ''}<Icon name="next" /></span>
 				</button>
+				{/if}
 			</li>
 		{/each}
 	</ul>
@@ -149,6 +172,21 @@
 	}
 	.game:not(:disabled):active {
 		transform: scale(0.98);
+	}
+	.games li.wide {
+		grid-column: 1 / -1;
+	}
+	.legend {
+		cursor: default;
+		background:
+			radial-gradient(ellipse at 0% 0%, rgb(255 200 90 / 0.18), transparent 50%),
+			var(--card);
+		box-shadow: inset 0 0 0 2px #d9a441, var(--card-shadow);
+	}
+	.pair {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
 	}
 	.game.off {
 		cursor: not-allowed;
