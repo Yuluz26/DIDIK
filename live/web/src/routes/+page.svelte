@@ -82,7 +82,7 @@
 	<Logo light />
 	<nav aria-label="Laman utama">
 		<a class="far" href="#pulau">Lapan pulau</a>
-		<a class="far" href="#legenda">Story Mode</a>
+		<a class="far" href="#hikayat">Hikayat</a>
 		<a class="far" href="#cara">Cara bermain</a>
 		<a class="parents" href="/ibu-bapa"><span class="long">Untuk ibu bapa</span><span class="short">Ibu bapa</span> <Icon name="next" size={18} /></a>
 	</nav>

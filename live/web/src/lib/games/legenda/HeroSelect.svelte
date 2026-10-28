@@ -15,7 +15,7 @@
 </script>
 
 <section class="select" aria-labelledby="pilih-wira">
-	<p class="kicker">Legenda · Story Mode</p>
+	<p class="kicker">Hikayat Lima Alam</p>
 	<h2 id="pilih-wira">Pilih wira kamu</h2>
 	<p class="lead">Wira akan mengembara sendiri. Kamu jawab soalan untuk menyerang.</p>
 	<div class="heroes">

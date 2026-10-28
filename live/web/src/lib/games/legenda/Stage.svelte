@@ -341,6 +341,9 @@
 	const halfHearts = $derived(heartIcons(shownHearts, maxHearts));
 	const lowBoss = $derived(!!boss && shownBoss <= 2 && shownBoss > 0);
 	const pct = (v: number) => `${(v * 100).toFixed(3)}%`;
+	// The paintings carry a "Story Mode" plate in the top left (about 4..250 by 4..100 of 1536 pixels across);
+	// the game's own name covers it.
+	const titlePlate = $derived({ x: 4 / 1536, y: (4 * lay.ar) / 1536, w: 246 / 1536, h: (96 * lay.ar) / 1536 });
 	const place = (b: { x: number; y: number; w: number; h: number }) => `left:${pct(b.x)};top:${pct(b.y)};width:${pct(b.w)};height:${pct(b.h)}`;
 	const dockCols = $derived(ELEMENTS.length);
 </script>
@@ -423,6 +426,9 @@
 			<span class="pop pop-{p.tone}" style:left={pct(p.x)} style:top={pct(p.y)}>{p.text}</span>
 		{/each}
 	</div>
+
+	<!-- the game's name, over the plate the painting has in its corner -->
+	<p class="hud plate" style={place(titlePlate)} aria-hidden="true"><span class="plate-a">Hikayat</span><span class="plate-b">Lima Alam</span></p>
 
 	{#if mode !== 'scenery'}
 		<!-- hearts, where the painting had its five -->
@@ -723,6 +729,31 @@
 	}
 
 	/* ---- the live HUD, in the places the painting had its own */
+	.plate {
+		display: grid;
+		align-content: center;
+		justify-items: center;
+		gap: 0.15cqw;
+		border-radius: 1cqw;
+		background: linear-gradient(180deg, #3a2414, #22150c);
+		box-shadow:
+			inset 0 0 0 0.25cqw #d9a441,
+			inset 0 0 0 0.45cqw #22150c,
+			0 0.3cqw 0.8cqw rgb(0 0 0 / 0.45);
+		color: #ffe7a8;
+		text-align: center;
+		line-height: 1;
+	}
+	.plate-a {
+		font: 700 clamp(0.6rem, 2.1cqw, 1.9rem) / 1 var(--font-display);
+		text-shadow: 0 0.2cqw 0 #7a4a12;
+	}
+	.plate-b {
+		font: 700 clamp(0.4rem, 0.95cqw, 0.85rem) / 1 var(--font-display);
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: #f3d58a;
+	}
 	.hud {
 		position: absolute;
 		z-index: 9;

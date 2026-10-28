@@ -114,13 +114,13 @@ def now_ms() -> int:
 
 class LegendaMode(SelfPacedMode):
     key = "legenda"
-    title = "Legenda: Story Mode"
-    tagline = "Pengembaraan JRPG lima dunia legenda Melayu. Jawab soalan untuk menyerang!"
+    title = "Hikayat Lima Alam"
+    tagline = "Wira kamu mengembara lima alam legenda Melayu. Jawab soalan untuk menyerang!"
     how = (
         "Wira berjalan sendiri. Setiap musuh membuka pertarungan: jawapan betul menyerang dan memulihkan "
         "separuh hati, jawapan salah kena serangan. Lima musuh membuka lima senjata elemen untuk melawan boss."
     )
-    style = "Pengembaraan JRPG"
+    style = "Pengembaraan"
     pace = "self"
     world = "legenda"
     unit = "mata"

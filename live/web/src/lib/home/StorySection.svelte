@@ -1,27 +1,56 @@
 <!--
-	The front page's Legenda: Story Mode section: the five worlds' battlefield paintings take turns
-	behind the hero and that world's boss, with the world's name, a row of the five worlds to pick from,
-	what the mode is, and a way in for parents. The paintings change every few seconds (not while the
-	pointer or focus is on the section, and never with reduced motion); only the shown painting and
-	the next one are loaded.
+	The front page's Hikayat Lima Alam section (the story mode), a slideshow of the five worlds. Each slide is one
+	world: its battlefield painting with the hero and the world's boss, its name, its story line, the
+	boss and the element it fears. The slides move on every few seconds (a bar on the world's chip
+	shows how long is left); arrows, the chips, a swipe or the arrow keys change slide, and a button
+	pauses it. With reduced motion it starts paused and slides without moving. Only the shown painting
+	and its neighbours are loaded, and nothing until the section comes near the screen.
 -->
 <script lang="ts">
 	import Icon from '$ui/Icon.svelte';
-	import { ELEMENTS, ELEMENT_NAME, battleBg, bossArt, elementIcon, heroWeaponArt, symbol } from '$lib/games/legenda/data';
+	import { ELEMENTS, ELEMENT_NAME, battleBg, bossArt, elementIcon, heroWeaponArt, symbol, type Element } from '$lib/games/legenda/data';
 
-	const WORLDS = [
-		{ name: 'Tasik Chini', boss: 'Naga Chini' },
-		{ name: 'Batang Lupar', boss: 'Bujang Senang' },
-		{ name: 'Hutan Larut', boss: 'Gajah Rimba' },
-		{ name: 'Rimba Bayangan', boss: 'Sang Kancil Bayangan' },
-		{ name: 'Gunung Ledang', boss: 'Penunggu Kabus' }
+	const WORLDS: { name: string; boss: string; intro: string; weak: Element; hero: 'tuah' | 'mahsuri'; weapon: Element }[] = [
+		{ name: 'Tasik Chini', boss: 'Naga Chini', intro: 'Kabus pagi menyelubungi tasik teratai. Di dasarnya, Naga Chini menjaga rahsia lama.', weak: 'petir', hero: 'tuah', weapon: 'air' },
+		{ name: 'Batang Lupar', boss: 'Bujang Senang', intro: 'Senja di sungai Sarawak. Rumah panjang terdiam; sang buaya legenda sedang menunggu.', weak: 'api', hero: 'mahsuri', weapon: 'api' },
+		{ name: 'Hutan Larut', boss: 'Gajah Rimba', intro: 'Hutan hujan yang tua dan tebal. Langkah Gajah Rimba menggegarkan denai.', weak: 'angin', hero: 'tuah', weapon: 'angin' },
+		{ name: 'Rimba Bayangan', boss: 'Sang Kancil Bayangan', intro: 'Bulan ungu di atas rimba. Sang Kancil Bayangan menguji akal sesiapa yang lalu.', weak: 'tanah', hero: 'mahsuri', weapon: 'tanah' },
+		{ name: 'Gunung Ledang', boss: 'Penunggu Kabus', intro: 'Jambatan batu di puncak berkabus. Penunggu Kabus menanti ujian terakhir.', weak: 'air', hero: 'tuah', weapon: 'petir' }
 	];
-	const HERO_WEAPON = ['air', 'api', 'tanah', 'petir', 'angin'] as const;
+	const N = WORLDS.length;
+	const EVERY = 3500;
 
 	let shown = $state(0);
-	let held = $state(false);
-	let section = $state<HTMLElement>();
+	// which way the last change went, so the new painting comes in from that side
+	let way = $state(1);
+	let paused = $state(false);
+	let focused = $state(false);
+	let hidden = $state(false);
+	let still = $state(false);
 	let seen = $state(false);
+	let section = $state<HTMLElement>();
+	// bumps on every change, so the timer and the chip's bar start again
+	let turn = $state(0);
+
+	const world = $derived(WORLDS[shown]);
+	const near = $derived(new Set([shown, (shown + 1) % N, (shown + N - 1) % N]));
+	const playing = $derived(seen && !paused && !focused && !hidden);
+
+	function go(to: number, direction = to > shown ? 1 : -1) {
+		way = direction;
+		shown = (to + N) % N;
+		turn++;
+	}
+	const next = () => go(shown + 1, 1);
+	const prev = () => go(shown - 1, -1);
+
+	$effect(() => {
+		still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+		if (still) paused = true;
+		const onVisibility = () => (hidden = document.hidden);
+		document.addEventListener('visibilitychange', onVisibility);
+		return () => document.removeEventListener('visibilitychange', onVisibility);
+	});
 
 	// Nothing is fetched until the section comes near the screen.
 	$effect(() => {
@@ -35,61 +64,95 @@
 	});
 
 	$effect(() => {
-		if (!seen || held || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-		const timer = setInterval(() => (shown = (shown + 1) % WORLDS.length), 5200);
-		return () => clearInterval(timer);
+		void turn;
+		if (!playing) return;
+		const timer = setTimeout(next, EVERY);
+		return () => clearTimeout(timer);
 	});
 
-	const next = $derived((shown + 1) % WORLDS.length);
+	// a swipe across the painting changes slide
+	let downX: number | null = null;
+	function down(event: PointerEvent) {
+		downX = event.clientX;
+	}
+	function up(event: PointerEvent) {
+		if (downX === null) return;
+		const dx = event.clientX - downX;
+		downX = null;
+		if (Math.abs(dx) > 40) (dx < 0 ? next : prev)();
+	}
+
+	function keys(event: KeyboardEvent) {
+		if (event.key === 'ArrowRight') {
+			event.preventDefault();
+			next();
+		} else if (event.key === 'ArrowLeft') {
+			event.preventDefault();
+			prev();
+		}
+	}
 </script>
 
 <section
-	id="legenda"
+	id="hikayat"
 	class="story wrap"
+	aria-roledescription="tayangan slaid"
 	aria-labelledby="legenda-tajuk"
 	bind:this={section}
-	onpointerenter={() => (held = true)}
-	onpointerleave={() => (held = false)}
-	onfocusin={() => (held = true)}
-	onfocusout={() => (held = false)}
+	onfocusin={() => (focused = true)}
+	onfocusout={(e) => (focused = !!section?.contains(e.relatedTarget as Node))}
 >
-	<div class="frame">
-		<div class="scene" aria-hidden="true">
+	<div class="frame" class:still>
+		<div class="scene" aria-hidden="true" onpointerdown={down} onpointerup={up} onpointercancel={() => (downX = null)}>
 			{#if seen}
-				{#each WORLDS as _, i (i)}
-					{#if i === shown || i === next}
-						<img class="field" class:on={i === shown} src={battleBg(i)} alt="" draggable="false" />
+				{#each WORLDS as w, i (w.name)}
+					{#if near.has(i)}
+						<img class="field" class:on={i === shown} style:--from="{way * 6}%" src={battleBg(i)} alt="" draggable="false" />
 					{/if}
 				{/each}
 				{#key shown}
 					<img class="boss" src={bossArt(shown)} alt="" draggable="false" />
-					<img class="hero" src={heroWeaponArt(shown % 2 ? 'mahsuri' : 'tuah', HERO_WEAPON[shown])} alt="" draggable="false" />
+					<img class="hero" src={heroWeaponArt(world.hero, world.weapon)} alt="" draggable="false" />
 				{/key}
 			{/if}
 			<div class="shade"></div>
 		</div>
 
 		<div class="copy">
-			<p class="badge"><span>Baharu</span> Pengembaraan JRPG</p>
-			<h2 id="legenda-tajuk">Legenda: Story Mode</h2>
-			<p class="lead">
-				Wira kamu mengembara lima dunia legenda Melayu. Setiap jawapan betul ialah serangan, setiap
-				jawapan salah dibalas musuh. Kalahkan lima boss dengan kuasa lima elemen.
-			</p>
-			<p class="now" aria-live="polite">
-				<img src={symbol(shown)} alt="" width="34" height="34" />
-				<span><strong>{WORLDS[shown].name}</strong> · boss {WORLDS[shown].boss}</span>
-			</p>
+			<p class="badge"><span>Baharu</span> Mod pengembaraan</p>
+			<h2 id="legenda-tajuk">Hikayat Lima Alam</h2>
 
-			<ul class="worlds" aria-label="Lima dunia">
-				{#each WORLDS as world, i (world.name)}
-					<li>
-						<button type="button" class:on={i === shown} aria-pressed={i === shown} onclick={() => (shown = i)} aria-label={world.name}>
-							<img src={symbol(i)} alt="" width="40" height="40" />
-						</button>
-					</li>
-				{/each}
-			</ul>
+			{#key shown}
+				<div class="slide" role="group" aria-roledescription="slaid" aria-label="Dunia {shown + 1} daripada {N}: {world.name}" style:--from="{way * 1.2}rem">
+					<p class="count">Dunia {shown + 1} / {N}</p>
+					<h3 class="world-name"><img src={symbol(shown)} alt="" width="38" height="38" /> {world.name}</h3>
+					<p class="intro">{world.intro}</p>
+					<p class="boss-line">
+						<span>Boss: <strong>{world.boss}</strong></span>
+						<span class="weak">Takut <img src={elementIcon(world.weak)} alt="" width="24" height="24" /> <strong>{ELEMENT_NAME[world.weak]}</strong></span>
+					</p>
+				</div>
+			{/key}
+
+			<div class="controls" role="toolbar" aria-label="Tayangan dunia" tabindex="-1" onkeydown={keys}>
+				<button type="button" class="round" onclick={prev} aria-label="Dunia sebelum"><Icon name="back" /></button>
+				<ul class="worlds" aria-label="Pilih dunia">
+					{#each WORLDS as w, i (w.name)}
+						<li>
+							<button type="button" class:on={i === shown} aria-current={i === shown ? 'true' : undefined} onclick={() => go(i)} aria-label={w.name}>
+								<img src={symbol(i)} alt="" width="34" height="34" />
+								{#if i === shown}
+									{#key turn}<span class="bar" class:run={playing} style:--every="{EVERY}ms"></span>{/key}
+								{/if}
+							</button>
+						</li>
+					{/each}
+				</ul>
+				<button type="button" class="round" onclick={next} aria-label="Dunia seterusnya"><Icon name="next" /></button>
+				<button type="button" class="round pause" onclick={() => (paused = !paused)} aria-pressed={paused} aria-label={paused ? 'Main tayangan' : 'Jeda tayangan'}>
+					<Icon name={paused ? 'play' : 'pause'} />
+				</button>
+			</div>
 
 			<ul class="facts">
 				<li><strong>5</strong> dunia, 5 boss besar</li>
@@ -114,7 +177,7 @@
 		position: relative;
 		display: grid;
 		grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
-		min-height: 30rem;
+		min-height: 32rem;
 		overflow: hidden;
 		border-radius: 22px;
 		background: #0d1630;
@@ -127,7 +190,8 @@
 	.scene {
 		position: absolute;
 		inset: 0;
-		container-type: inline-size;
+		touch-action: pan-y;
+		user-select: none;
 	}
 	.field {
 		position: absolute;
@@ -136,10 +200,14 @@
 		height: 100%;
 		object-fit: cover;
 		opacity: 0;
-		transition: opacity 1.1s ease;
+		transform: translateX(var(--from)) scale(1.06);
+		transition:
+			opacity 900ms ease,
+			transform 1.4s cubic-bezier(0.2, 0.8, 0.2, 1);
 	}
 	.field.on {
 		opacity: 1;
+		transform: translateX(0) scale(1);
 	}
 	.boss {
 		position: absolute;
@@ -151,8 +219,8 @@
 		object-position: bottom;
 		filter: drop-shadow(0 1rem 1.4rem rgb(0 0 0 / 0.55));
 		animation:
-			rise 900ms cubic-bezier(0.2, 0.9, 0.3, 1.1) both,
-			float 4.5s ease-in-out 900ms infinite;
+			rise 900ms 150ms cubic-bezier(0.2, 0.9, 0.3, 1.1) both,
+			float 4.5s ease-in-out 1.05s infinite;
 	}
 	.hero {
 		position: absolute;
@@ -161,20 +229,21 @@
 		height: 46%;
 		width: auto;
 		filter: drop-shadow(0 0.6rem 0.8rem rgb(0 0 0 / 0.5));
-		animation: rise 700ms 120ms cubic-bezier(0.2, 0.9, 0.3, 1.1) both;
+		animation: rise 700ms 300ms cubic-bezier(0.2, 0.9, 0.3, 1.1) both;
 	}
 	/* the copy side darkens so the words read over any painting */
 	.shade {
 		position: absolute;
 		inset: 0;
 		background: linear-gradient(90deg, rgb(13 22 48 / 0.05) 0%, rgb(13 22 48 / 0.25) 45%, rgb(13 22 48 / 0.88) 62%, rgb(13 22 48 / 0.95) 100%);
+		pointer-events: none;
 	}
 	.copy {
 		position: relative;
 		grid-column: 2;
 		display: grid;
 		align-content: center;
-		gap: 0.9rem;
+		gap: 0.85rem;
 		padding: 2rem 2rem 2rem 0.5rem;
 	}
 	.badge {
@@ -197,35 +266,89 @@
 		color: #fff4d8;
 		text-shadow: 0 3px 0 #7a4a12;
 	}
-	.lead {
+	.slide {
+		display: grid;
+		gap: 0.55rem;
+		min-height: 11.5rem;
+		animation: slide-in 520ms cubic-bezier(0.2, 0.9, 0.3, 1) both;
+	}
+	.count {
+		color: #ffd98a;
+		font: 700 0.8rem var(--font-display);
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+	}
+	.world-name {
+		display: flex;
+		align-items: center;
+		gap: 0.6rem;
+		font: 700 1.6rem/1.1 var(--font-display);
+		color: #fff;
+	}
+	.intro {
 		max-width: 30rem;
 		color: #f3e6c8;
 		font-size: 1.02rem;
 	}
-	.now {
+	.boss-line {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.4rem 1.2rem;
+		font-weight: 700;
+	}
+	.boss-line strong {
+		color: #ffcf5a;
+	}
+	.weak {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+	}
+	.controls {
 		display: flex;
 		align-items: center;
-		gap: 0.6rem;
-		min-height: 2.5rem;
-		color: #ffd98a;
+		gap: 0.45rem;
+		flex-wrap: wrap;
 	}
-	.now strong {
-		color: #fff;
+	.round {
+		display: grid;
+		place-items: center;
+		width: 2.75rem;
+		height: 2.75rem;
+		padding: 0;
+		border: 2px solid rgb(217 164 65 / 0.55);
+		border-radius: 50%;
+		background: rgb(255 255 255 / 0.08);
+		color: #fff4d8;
+		cursor: pointer;
+		transition:
+			transform 140ms ease,
+			background 140ms ease;
+	}
+	.round:hover {
+		background: rgb(255 207 90 / 0.18);
+		transform: translateY(-1px);
+	}
+	.pause {
+		margin-left: 0.2rem;
 	}
 	.worlds {
 		display: flex;
-		gap: 0.5rem;
+		gap: 0.4rem;
 		margin: 0;
 		padding: 0;
 		list-style: none;
 	}
 	.worlds button {
+		position: relative;
 		display: grid;
 		place-items: center;
-		width: 3.2rem;
-		height: 3.2rem;
+		width: 2.9rem;
+		height: 2.9rem;
 		padding: 0;
-		border: 2px solid rgb(217 164 65 / 0.45);
+		overflow: hidden;
+		border: 2px solid rgb(217 164 65 / 0.4);
 		border-radius: 14px;
 		background: rgb(255 255 255 / 0.06);
 		cursor: pointer;
@@ -241,17 +364,33 @@
 		border-color: #ffcf5a;
 		background: rgb(255 207 90 / 0.18);
 	}
+	/* how long until the next world */
+	.bar {
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		height: 4px;
+		width: 100%;
+		background: #ffcf5a;
+		transform: scaleX(0);
+		transform-origin: left;
+	}
+	.bar.run {
+		animation: fill var(--every) linear forwards;
+	}
+	.round:focus-visible,
 	.worlds button:focus-visible {
 		outline: 3px solid #ffcf5a;
 		outline-offset: 2px;
 	}
 	.facts {
 		display: grid;
-		gap: 0.35rem;
+		gap: 0.3rem;
 		margin: 0;
 		padding: 0;
 		list-style: none;
 		font-weight: 700;
+		font-size: 0.95rem;
 	}
 	.facts strong {
 		color: #ffcf5a;
@@ -303,6 +442,17 @@
 			transform: translateY(-0.5rem);
 		}
 	}
+	@keyframes slide-in {
+		from {
+			opacity: 0;
+			transform: translateX(var(--from));
+		}
+	}
+	@keyframes fill {
+		to {
+			transform: scaleX(1);
+		}
+	}
 	@media (max-width: 860px) {
 		.frame {
 			grid-template-columns: minmax(0, 1fr);
@@ -331,13 +481,12 @@
 			background: #0d1630;
 		}
 	}
-	@media (prefers-reduced-motion: reduce) {
-		.field {
-			transition: none;
-		}
-		.boss,
-		.hero {
-			animation: none;
-		}
+	.still .field,
+	.still .boss,
+	.still .hero,
+	.still .slide {
+		transition: opacity 200ms linear;
+		animation: none;
+		transform: none;
 	}
 </style>

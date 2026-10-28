@@ -160,7 +160,7 @@
 		</section>
 
 		<section class="tile purple" aria-labelledby="story-title">
-			<h2 id="story-title">Legenda Story Mode</h2>
+			<h2 id="story-title">Hikayat Lima Alam</h2>
 			<p class="sub">Lima dunia legenda Melayu<br />Solo atau bersama kawan</p>
 			<ul class="worlds" aria-hidden="true">
 				{#each WORLDS as w (w)}<li><img src={storyArt(`ui/symbol_${w}.webp`)} alt="" width="34" height="34" /></li>{/each}
