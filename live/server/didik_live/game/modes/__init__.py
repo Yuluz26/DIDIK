@@ -1,11 +1,12 @@
-"""Every game a room can play, in the order the host sees them (eight classic 2D games). Any game suits
-any class; teachers and parents choose by taste."""
+"""Every game a room can play, in the order the host sees them (eight classic 2D games, then Legenda,
+the JRPG Story Mode). Any game suits any class; teachers and parents choose by taste."""
 
 from __future__ import annotations
 
 from .forest import ForestMode
 from .garden import GardenMode
 from .jump import JumpMode
+from .legenda import LegendaMode
 from .picture import PictureMode
 from .race import RaceMode
 from .teams import TeamsMode
@@ -23,5 +24,6 @@ MODES = {
         VillageMode,
         PictureMode,
         GardenMode,
+        LegendaMode,
     )
 }

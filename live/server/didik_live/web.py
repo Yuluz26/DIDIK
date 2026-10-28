@@ -9,11 +9,17 @@ from __future__ import annotations
 
 import base64
 import hashlib
+import mimetypes
 import re
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse, HTMLResponse, Response
+
+# Windows takes file types from the registry, which may not know these; with `nosniff` an image sent
+# as application/octet-stream is never drawn.
+for _type, _ext in (("image/webp", ".webp"), ("audio/wav", ".wav"), ("image/svg+xml", ".svg")):
+    mimetypes.add_type(_type, _ext)
 
 INLINE_SCRIPT = re.compile(r"<script(?![^>]*\bsrc=)[^>]*>(.*?)</script>", re.S | re.I)
 

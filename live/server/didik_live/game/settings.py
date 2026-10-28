@@ -22,6 +22,7 @@ class RoomSettings(BaseModel):
     custom_names: bool = False
     waiting_room: bool = False
     late_join: bool = True
-    max_players: int = Field(default=60, ge=2, le=100)
+    # 1 opens a Solo room (one child; Legenda offers it), otherwise a Party room.
+    max_players: int = Field(default=60, ge=1, le=100)
     # Surprises that take points away (a parrot that steals, a crab that pinches).
     naughty: bool = True
