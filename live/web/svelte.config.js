@@ -5,7 +5,8 @@ import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 export default {
 	preprocess: vitePreprocess(),
 	kit: {
-		adapter: adapter({ fallback: '200.html' }),
+		// precompress: .br and .gz beside every text file, which the server sends to browsers that take them
+		adapter: adapter({ fallback: '200.html', precompress: true }),
 		alias: { $ui: 'src/lib/ui', $games: 'src/lib/games' }
 	}
 };

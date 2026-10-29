@@ -128,7 +128,7 @@ class VillageMode(SelfPacedMode):
         }
 
     def world_view(self, player: Any) -> dict[str, Any]:
-        site = self.site()
+        site = dict(self.shared("site", self.site))
         if player is not None:
             seat = self.seats.get(player.id)
             site["tokens"] = seat.extra["tokens"] if seat else 0

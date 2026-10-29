@@ -1,7 +1,7 @@
 <!--
-	A child joining: pick an animal hood, a colour, a skin tone and a suggested nickname, and see the
-	character they will play as. No typing needed, no real name asked for. A host can allow typed
-	nicknames; those are checked on the server.
+	A child joining: type their own name (or take a suggestion), pick an animal hood, a colour and a
+	skin tone, and see the character they will play as. Typed names are checked on the server; a host
+	can switch to suggested names only.
 -->
 <script lang="ts">
 	import type { JoinData } from '$lib/room.svelte';
@@ -25,8 +25,9 @@
 	let colour = $state(randomOf(Object.keys(COLOURS)));
 	let skin = $state(randomOf(Object.keys(SKINS)));
 	let name = $state('');
-	let typing = $state(false);
 	let typed = $state('');
+	// A name of their own unless the host chose suggested names only.
+	const typing = $derived(info.customNames);
 
 	$effect(() => {
 		// A fresh suggestion that matches the chosen animal.
@@ -51,8 +52,34 @@
 		<CharacterStage {animal} {colour} {skin} />
 		<div class="name-row">
 			{#if typing}
-				<label class="visually-hidden" for="own-name">Nama kamu</label>
-				<input id="own-name" class="input name-input" bind:value={typed} maxlength="16" placeholder="Nama samaran" autocomplete="off" />
+				<div class="own">
+					<label class="own-label" for="own-name">Nama kamu</label>
+					<div class="own-row">
+						<input
+							id="own-name"
+							class="input name-input"
+							bind:value={typed}
+							maxlength="16"
+							placeholder={name}
+							autocomplete="off"
+							autocapitalize="words"
+							enterkeyhint="go"
+							aria-describedby="own-hint"
+						/>
+						<button
+							type="button"
+							class="btn btn--plain btn--icon"
+							onclick={() => {
+								name = suggestName(animal, name);
+								typed = name;
+							}}
+							aria-label="Cadang nama"
+						>
+							<Icon name="shuffle" />
+						</button>
+					</div>
+					<p class="own-hint" id="own-hint">Nama panggilan sahaja, 2 hingga 16 huruf. Kosongkan untuk guna “{name}”.</p>
+				</div>
 			{:else}
 				<output class="name" aria-live="polite">{name}</output>
 				<button type="button" class="btn btn--plain btn--icon" onclick={() => (name = suggestName(animal, name))} aria-label="Cadang nama lain">
@@ -60,11 +87,6 @@
 				</button>
 			{/if}
 		</div>
-		{#if info.customNames}
-			<button type="button" class="btn btn--ghost" onclick={() => (typing = !typing)}>
-				{typing ? 'Guna nama cadangan' : 'Tulis nama sendiri'}
-			</button>
-		{/if}
 	</div>
 
 	<fieldset class="pick">
@@ -151,10 +173,29 @@
 	.name {
 		font: 600 clamp(1.6rem, 1.2rem + 2vw, 2.3rem) var(--font-display);
 	}
+	.own {
+		display: grid;
+		justify-items: center;
+		gap: 0.35rem;
+	}
+	.own-label {
+		font: 600 1.1rem var(--font-display);
+	}
+	.own-row {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
 	.name-input {
 		font: 600 1.4rem var(--font-display);
 		text-align: center;
-		max-width: 16rem;
+		width: min(16rem, 62vw);
+	}
+	.own-hint {
+		max-width: 22rem;
+		color: var(--ink-2);
+		font-size: 0.85rem;
+		text-align: center;
 	}
 	.pick {
 		margin: 0;

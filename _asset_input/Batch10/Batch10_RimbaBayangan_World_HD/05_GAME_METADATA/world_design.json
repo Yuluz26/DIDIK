@@ -1,0 +1,17 @@
+{
+  "worldIndex": 3,
+  "worldKey": "rimba_bayangan",
+  "displayName": "Rimba Bayangan",
+  "bossName": "Sang Kancil Bayangan",
+  "weaknessElement": "tanah",
+  "regionMood": "Enchanted forest",
+  "direction": "Bioluminescent fungi, purple moonlit ruins, mousedeer spirit",
+  "playerMovement": "automatic_cinematic_only",
+  "encounterQuestions": 5,
+  "bossHitPoints": 5,
+  "maxHealthHalfHearts": 12,
+  "wrongAnswerDamageHalfHearts": 3,
+  "correctAnswerHealHalfHearts": 1,
+  "bossSpriteStatus": "not_available_in_this_pack",
+  "battleBackgroundCleanStatus": "not_available_in_this_pack"
+}

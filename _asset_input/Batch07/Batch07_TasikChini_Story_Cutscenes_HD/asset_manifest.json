@@ -1,0 +1,98 @@
+{
+  "pack": "Batch 07",
+  "title": "Tasik Chini Story, Journey & Victory",
+  "status": "ART_AND_IMPLEMENTATION_HANDOFF_NOT_FULL_GAME",
+  "items": [
+    {
+      "path": "02_STORY_FRAMES/03_enemy_encounter_FHD.png",
+      "type": "art_reference",
+      "size_bytes": 4324034,
+      "width": 1920,
+      "height": 1080,
+      "mode": "RGBA"
+    },
+    {
+      "path": "02_STORY_FRAMES/02_journey_transition_FHD.png",
+      "type": "art_reference",
+      "size_bytes": 4327688,
+      "width": 1920,
+      "height": 1080,
+      "mode": "RGBA"
+    },
+    {
+      "path": "02_STORY_FRAMES/05_world_clear_FHD.png",
+      "type": "art_reference",
+      "size_bytes": 4364597,
+      "width": 1920,
+      "height": 1080,
+      "mode": "RGBA"
+    },
+    {
+      "path": "02_STORY_FRAMES/01_world_opening_FHD.png",
+      "type": "art_reference",
+      "size_bytes": 4324933,
+      "width": 1920,
+      "height": 1080,
+      "mode": "RGBA"
+    },
+    {
+      "path": "02_STORY_FRAMES/04_boss_reveal_FHD.png",
+      "type": "art_reference",
+      "size_bytes": 4376512,
+      "width": 1920,
+      "height": 1080,
+      "mode": "RGBA"
+    },
+    {
+      "path": "05_CONTACT_SHEET/batch07_contact_sheet.png",
+      "type": "art_reference",
+      "size_bytes": 775652,
+      "width": 1500,
+      "height": 910,
+      "mode": "RGB"
+    },
+    {
+      "path": "03_PREVIEW_VIDEO/tasik_chini_cutscene_animatic.mp4",
+      "type": "cinematic_animatic_video",
+      "size_bytes": 1381466
+    },
+    {
+      "path": "01_SOURCE_ART/02_tasik_chini_battle_background_FHD_1920x1080.png",
+      "type": "art_reference",
+      "size_bytes": 4297930,
+      "width": 1920,
+      "height": 1080,
+      "mode": "RGB"
+    },
+    {
+      "path": "01_SOURCE_ART/naga_chini_idle.png",
+      "type": "art_reference",
+      "size_bytes": 738934,
+      "width": 663,
+      "height": 528,
+      "mode": "RGBA"
+    },
+    {
+      "path": "01_SOURCE_ART/mahsuri_idle.png",
+      "type": "art_reference",
+      "size_bytes": 354503,
+      "width": 453,
+      "height": 459,
+      "mode": "RGBA"
+    },
+    {
+      "path": "01_SOURCE_ART/hang_tuah_idle.png",
+      "type": "art_reference",
+      "size_bytes": 316459,
+      "width": 468,
+      "height": 461,
+      "mode": "RGBA"
+    },
+    {
+      "path": "04_STORY_DATA/tasik_chini_story_nodes.json",
+      "type": "art_reference",
+      "size_bytes": 734
+    }
+  ],
+  "tech_notes": "Five HD story title/frame compositions, event JSON and a playable storyboard MP4. They are illustrated frames, not finished gameplay or character animation."
+}

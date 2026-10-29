@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from dataclasses import replace
 from io import BytesIO
 
 from fastapi.testclient import TestClient
@@ -175,3 +176,16 @@ def test_an_existing_demo_account_gets_sample_quizzes_added_later(parent: TestCl
         restarted.post("/api/auth/login", json={"email": DEMO_EMAIL, "password": DEMO_PASSWORD})
         titles = [q["title"] for q in restarted.get("/api/quizzes").json()["mine"]]
     assert newest in titles and len(titles) == len(SAMPLES)
+
+
+def test_the_demo_account_only_signs_in_from_the_server_computer(settings: Settings) -> None:
+    app = create_app(replace(settings, demo_local_only=True))
+    login = {"email": DEMO_EMAIL, "password": DEMO_PASSWORD}
+    with TestClient(app, client=("203.0.113.9", 40000)) as far:
+        assert far.get("/api/auth/me").json()["demo"] is False
+        refused = far.post("/api/auth/login", json=login)
+        assert refused.status_code == 422
+        assert refused.json()["message"] == "Emel atau kata laluan tidak betul."
+    with TestClient(app, client=("127.0.0.1", 40001)) as here:
+        assert here.get("/api/auth/me").json()["demo"] is True
+        assert here.post("/api/auth/login", json=login).status_code == 200

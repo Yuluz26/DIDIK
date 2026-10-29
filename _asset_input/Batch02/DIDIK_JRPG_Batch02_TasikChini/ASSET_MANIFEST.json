@@ -1,0 +1,805 @@
+{
+  "package": "DIDIK JRPG BATCH 02",
+  "version": 2,
+  "scope": "Concept panel extraction plus originally authored transparent SVG/PNG UI",
+  "files": [
+    {
+      "path": "01_VISUAL_CONCEPT_BOARDS/01_HD2D_art_direction_atlas_REFERENCE.png",
+      "kind": "reference_board",
+      "status": "REFERENCE_ONLY",
+      "usage": "Complete visual art direction; not a gameplay texture",
+      "source": "01_HD2D_art_direction_atlas_REFERENCE.png",
+      "alpha": true,
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "game_ready": false
+    },
+    {
+      "path": "01_VISUAL_CONCEPT_BOARDS/02_environment_boss_hud_REFERENCE.png",
+      "kind": "reference_board",
+      "status": "REFERENCE_ONLY",
+      "usage": "Complete visual art direction; not a gameplay texture",
+      "source": "02_environment_boss_hud_REFERENCE.png",
+      "alpha": false,
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "game_ready": false
+    },
+    {
+      "path": "02_WORLD_ART_REFERENCES/01_tasik_chini_scenery_REFERENCE.png",
+      "kind": "world",
+      "status": "REFERENCE_CROP",
+      "usage": "Art/reference of World tasik_chini; small native cropped panel; not clean alpha / sprites",
+      "source": "a_wide_high_resolution_multi_panel_game_asset_sh.png",
+      "alpha": false,
+      "dimensions": [
+        323,
+        130
+      ],
+      "game_ready": false
+    },
+    {
+      "path": "02_WORLD_ART_REFERENCES/02_batang_lupar_scenery_REFERENCE.png",
+      "kind": "world",
+      "status": "REFERENCE_CROP",
+      "usage": "Art/reference of World batang_lupar; small native cropped panel; not clean alpha / sprites",
+      "source": "a_wide_high_resolution_multi_panel_game_asset_sh.png",
+      "alpha": false,
+      "dimensions": [
+        313,
+        130
+      ],
+      "game_ready": false
+    },
+    {
+      "path": "02_WORLD_ART_REFERENCES/03_hutan_larut_scenery_REFERENCE.png",
+      "kind": "world",
+      "status": "REFERENCE_CROP",
+      "usage": "Art/reference of World hutan_larut; small native cropped panel; not clean alpha / sprites",
+      "source": "a_wide_high_resolution_multi_panel_game_asset_sh.png",
+      "alpha": false,
+      "dimensions": [
+        282,
+        130
+      ],
+      "game_ready": false
+    },
+    {
+      "path": "02_WORLD_ART_REFERENCES/04_rimba_bayangan_scenery_REFERENCE.png",
+      "kind": "world",
+      "status": "REFERENCE_CROP",
+      "usage": "Art/reference of World rimba_bayangan; small native cropped panel; not clean alpha / sprites",
+      "source": "a_wide_high_resolution_multi_panel_game_asset_sh.png",
+      "alpha": false,
+      "dimensions": [
+        290,
+        130
+      ],
+      "game_ready": false
+    },
+    {
+      "path": "02_WORLD_ART_REFERENCES/05_gunung_ledang_scenery_REFERENCE.png",
+      "kind": "world",
+      "status": "REFERENCE_CROP",
+      "usage": "Art/reference of World gunung_ledang; small native cropped panel; not clean alpha / sprites",
+      "source": "a_wide_high_resolution_multi_panel_game_asset_sh.png",
+      "alpha": false,
+      "dimensions": [
+        307,
+        130
+      ],
+      "game_ready": false
+    },
+    {
+      "path": "03_BOSS_ART_REFERENCES/01_naga_chini_boss_REFERENCE.png",
+      "kind": "boss",
+      "status": "REFERENCE_CROP",
+      "usage": "Art/reference of Boss naga_chini; small native cropped panel; not clean alpha / sprites",
+      "source": "a_wide_high_resolution_multi_panel_game_asset_sh.png",
+      "alpha": false,
+      "dimensions": [
+        308,
+        159
+      ],
+      "game_ready": false
+    },
+    {
+      "path": "03_BOSS_ART_REFERENCES/02_bujang_senang_boss_REFERENCE.png",
+      "kind": "boss",
+      "status": "REFERENCE_CROP",
+      "usage": "Art/reference of Boss bujang_senang; small native cropped panel; not clean alpha / sprites",
+      "source": "a_wide_high_resolution_multi_panel_game_asset_sh.png",
+      "alpha": false,
+      "dimensions": [
+        308,
+        159
+      ],
+      "game_ready": false
+    },
+    {
+      "path": "03_BOSS_ART_REFERENCES/03_gajah_rimba_boss_REFERENCE.png",
+      "kind": "boss",
+      "status": "REFERENCE_CROP",
+      "usage": "Art/reference of Boss gajah_rimba; small native cropped panel; not clean alpha / sprites",
+      "source": "a_wide_high_resolution_multi_panel_game_asset_sh.png",
+      "alpha": false,
+      "dimensions": [
+        306,
+        159
+      ],
+      "game_ready": false
+    },
+    {
+      "path": "03_BOSS_ART_REFERENCES/04_sang_kancil_bayangan_boss_REFERENCE.png",
+      "kind": "boss",
+      "status": "REFERENCE_CROP",
+      "usage": "Art/reference of Boss sang_kancil_bayangan; small native cropped panel; not clean alpha / sprites",
+      "source": "a_wide_high_resolution_multi_panel_game_asset_sh.png",
+      "alpha": false,
+      "dimensions": [
+        286,
+        159
+      ],
+      "game_ready": false
+    },
+    {
+      "path": "03_BOSS_ART_REFERENCES/05_penunggu_kabus_boss_REFERENCE.png",
+      "kind": "boss",
+      "status": "REFERENCE_CROP",
+      "usage": "Art/reference of Boss penunggu_kabus; small native cropped panel; not clean alpha / sprites",
+      "source": "a_wide_high_resolution_multi_panel_game_asset_sh.png",
+      "alpha": false,
+      "dimensions": [
+        308,
+        159
+      ],
+      "game_ready": false
+    },
+    {
+      "path": "04_HERO_ART_REFERENCES/01_hang_tuah_portrait_REFERENCE.png",
+      "kind": "hero",
+      "status": "REFERENCE_CROP",
+      "usage": "Art/reference of Hero hang_tuah; small native cropped panel; not clean alpha / sprites",
+      "source": "a_wide_high_resolution_multi_panel_game_asset_sh.png",
+      "alpha": false,
+      "dimensions": [
+        116,
+        95
+      ],
+      "game_ready": false
+    },
+    {
+      "path": "04_HERO_ART_REFERENCES/02_hang_jebat_portrait_REFERENCE.png",
+      "kind": "hero",
+      "status": "REFERENCE_CROP",
+      "usage": "Art/reference of Hero hang_jebat; small native cropped panel; not clean alpha / sprites",
+      "source": "a_wide_high_resolution_multi_panel_game_asset_sh.png",
+      "alpha": false,
+      "dimensions": [
+        121,
+        95
+      ],
+      "game_ready": false
+    },
+    {
+      "path": "04_HERO_ART_REFERENCES/03_bendahara_portrait_REFERENCE.png",
+      "kind": "hero",
+      "status": "REFERENCE_CROP",
+      "usage": "Art/reference of Hero bendahara; small native cropped panel; not clean alpha / sprites",
+      "source": "a_wide_high_resolution_multi_panel_game_asset_sh.png",
+      "alpha": false,
+      "dimensions": [
+        118,
+        95
+      ],
+      "game_ready": false
+    },
+    {
+      "path": "04_HERO_ART_REFERENCES/04_mahsuri_portrait_REFERENCE.png",
+      "kind": "hero",
+      "status": "REFERENCE_CROP",
+      "usage": "Art/reference of Hero mahsuri; small native cropped panel; not clean alpha / sprites",
+      "source": "a_wide_high_resolution_multi_panel_game_asset_sh.png",
+      "alpha": false,
+      "dimensions": [
+        114,
+        95
+      ],
+      "game_ready": false
+    },
+    {
+      "path": "04_HERO_ART_REFERENCES/05_tun_teja_portrait_REFERENCE.png",
+      "kind": "hero",
+      "status": "REFERENCE_CROP",
+      "usage": "Art/reference of Hero tun_teja; small native cropped panel; not clean alpha / sprites",
+      "source": "a_wide_high_resolution_multi_panel_game_asset_sh.png",
+      "alpha": false,
+      "dimensions": [
+        114,
+        95
+      ],
+      "game_ready": false
+    },
+    {
+      "path": "04_HERO_ART_REFERENCES/06_puteri_saadong_portrait_REFERENCE.png",
+      "kind": "hero",
+      "status": "REFERENCE_CROP",
+      "usage": "Art/reference of Hero puteri_saadong; small native cropped panel; not clean alpha / sprites",
+      "source": "a_wide_high_resolution_multi_panel_game_asset_sh.png",
+      "alpha": false,
+      "dimensions": [
+        119,
+        95
+      ],
+      "game_ready": false
+    },
+    {
+      "path": "05_ELEMENT_FX_REFERENCES/01_air_fx_REFERENCE.png",
+      "kind": "element_fx",
+      "status": "REFERENCE_CROP",
+      "usage": "Art/reference of Effect air; small native cropped panel; not clean alpha / sprites",
+      "source": "a_wide_high_resolution_multi_panel_game_asset_sh.png",
+      "alpha": false,
+      "dimensions": [
+        75,
+        78
+      ],
+      "game_ready": false
+    },
+    {
+      "path": "05_ELEMENT_FX_REFERENCES/02_angin_fx_REFERENCE.png",
+      "kind": "element_fx",
+      "status": "REFERENCE_CROP",
+      "usage": "Art/reference of Effect angin; small native cropped panel; not clean alpha / sprites",
+      "source": "a_wide_high_resolution_multi_panel_game_asset_sh.png",
+      "alpha": false,
+      "dimensions": [
+        73,
+        78
+      ],
+      "game_ready": false
+    },
+    {
+      "path": "05_ELEMENT_FX_REFERENCES/03_petir_fx_REFERENCE.png",
+      "kind": "element_fx",
+      "status": "REFERENCE_CROP",
+      "usage": "Art/reference of Effect petir; small native cropped panel; not clean alpha / sprites",
+      "source": "a_wide_high_resolution_multi_panel_game_asset_sh.png",
+      "alpha": false,
+      "dimensions": [
+        76,
+        78
+      ],
+      "game_ready": false
+    },
+    {
+      "path": "05_ELEMENT_FX_REFERENCES/04_bayangan_fx_REFERENCE.png",
+      "kind": "element_fx",
+      "status": "REFERENCE_CROP",
+      "usage": "Art/reference of Effect bayangan; small native cropped panel; not clean alpha / sprites",
+      "source": "a_wide_high_resolution_multi_panel_game_asset_sh.png",
+      "alpha": false,
+      "dimensions": [
+        73,
+        78
+      ],
+      "game_ready": false
+    },
+    {
+      "path": "05_ELEMENT_FX_REFERENCES/05_api_fx_REFERENCE.png",
+      "kind": "element_fx",
+      "status": "REFERENCE_CROP",
+      "usage": "Art/reference of Effect api; small native cropped panel; not clean alpha / sprites",
+      "source": "a_wide_high_resolution_multi_panel_game_asset_sh.png",
+      "alpha": false,
+      "dimensions": [
+        75,
+        78
+      ],
+      "game_ready": false
+    },
+    {
+      "path": "06_GAME_READY_UI/element_icons/element_api.svg",
+      "kind": "element_icon",
+      "status": "GAME_READY_VECTOR",
+      "usage": "Independent icon, Api; no characters, UI text, or baked background",
+      "source": "Original authored SVG",
+      "alpha": false,
+      "dimensions": null,
+      "game_ready": true
+    },
+    {
+      "path": "06_GAME_READY_UI/element_icons/element_api.png",
+      "kind": "element_icon",
+      "status": "GAME_READY_RASTER",
+      "usage": "Independent icon, Api; no characters, UI text, or baked background",
+      "source": "Rasterised from original SVG",
+      "alpha": true,
+      "dimensions": [
+        512,
+        512
+      ],
+      "game_ready": true
+    },
+    {
+      "path": "06_GAME_READY_UI/element_icons/element_angin.svg",
+      "kind": "element_icon",
+      "status": "GAME_READY_VECTOR",
+      "usage": "Independent icon, Angin; no characters, UI text, or baked background",
+      "source": "Original authored SVG",
+      "alpha": false,
+      "dimensions": null,
+      "game_ready": true
+    },
+    {
+      "path": "06_GAME_READY_UI/element_icons/element_angin.png",
+      "kind": "element_icon",
+      "status": "GAME_READY_RASTER",
+      "usage": "Independent icon, Angin; no characters, UI text, or baked background",
+      "source": "Rasterised from original SVG",
+      "alpha": true,
+      "dimensions": [
+        512,
+        512
+      ],
+      "game_ready": true
+    },
+    {
+      "path": "06_GAME_READY_UI/element_icons/element_petir.svg",
+      "kind": "element_icon",
+      "status": "GAME_READY_VECTOR",
+      "usage": "Independent icon, Petir; no characters, UI text, or baked background",
+      "source": "Original authored SVG",
+      "alpha": false,
+      "dimensions": null,
+      "game_ready": true
+    },
+    {
+      "path": "06_GAME_READY_UI/element_icons/element_petir.png",
+      "kind": "element_icon",
+      "status": "GAME_READY_RASTER",
+      "usage": "Independent icon, Petir; no characters, UI text, or baked background",
+      "source": "Rasterised from original SVG",
+      "alpha": true,
+      "dimensions": [
+        512,
+        512
+      ],
+      "game_ready": true
+    },
+    {
+      "path": "06_GAME_READY_UI/element_icons/element_tanah.svg",
+      "kind": "element_icon",
+      "status": "GAME_READY_VECTOR",
+      "usage": "Independent icon, Tanah; no characters, UI text, or baked background",
+      "source": "Original authored SVG",
+      "alpha": false,
+      "dimensions": null,
+      "game_ready": true
+    },
+    {
+      "path": "06_GAME_READY_UI/element_icons/element_tanah.png",
+      "kind": "element_icon",
+      "status": "GAME_READY_RASTER",
+      "usage": "Independent icon, Tanah; no characters, UI text, or baked background",
+      "source": "Rasterised from original SVG",
+      "alpha": true,
+      "dimensions": [
+        512,
+        512
+      ],
+      "game_ready": true
+    },
+    {
+      "path": "06_GAME_READY_UI/element_icons/element_air.svg",
+      "kind": "element_icon",
+      "status": "GAME_READY_VECTOR",
+      "usage": "Independent icon, Air; no characters, UI text, or baked background",
+      "source": "Original authored SVG",
+      "alpha": false,
+      "dimensions": null,
+      "game_ready": true
+    },
+    {
+      "path": "06_GAME_READY_UI/element_icons/element_air.png",
+      "kind": "element_icon",
+      "status": "GAME_READY_RASTER",
+      "usage": "Independent icon, Air; no characters, UI text, or baked background",
+      "source": "Rasterised from original SVG",
+      "alpha": true,
+      "dimensions": [
+        512,
+        512
+      ],
+      "game_ready": true
+    },
+    {
+      "path": "06_GAME_READY_UI/heart_icons/heart_full.svg",
+      "kind": "heart_icon",
+      "status": "GAME_READY_VECTOR",
+      "usage": "Half-heart precision HP icon; on transparent canvas",
+      "source": "Original authored SVG",
+      "alpha": false,
+      "dimensions": null,
+      "game_ready": true
+    },
+    {
+      "path": "06_GAME_READY_UI/heart_icons/heart_full.png",
+      "kind": "heart_icon",
+      "status": "GAME_READY_RASTER",
+      "usage": "Half-heart precision HP icon; on transparent canvas",
+      "source": "Rasterised from original SVG",
+      "alpha": true,
+      "dimensions": [
+        96,
+        104
+      ],
+      "game_ready": true
+    },
+    {
+      "path": "06_GAME_READY_UI/heart_icons/heart_half.svg",
+      "kind": "heart_icon",
+      "status": "GAME_READY_VECTOR",
+      "usage": "Half-heart precision HP icon; on transparent canvas",
+      "source": "Original authored SVG",
+      "alpha": false,
+      "dimensions": null,
+      "game_ready": true
+    },
+    {
+      "path": "06_GAME_READY_UI/heart_icons/heart_half.png",
+      "kind": "heart_icon",
+      "status": "GAME_READY_RASTER",
+      "usage": "Half-heart precision HP icon; on transparent canvas",
+      "source": "Rasterised from original SVG",
+      "alpha": true,
+      "dimensions": [
+        96,
+        104
+      ],
+      "game_ready": true
+    },
+    {
+      "path": "06_GAME_READY_UI/heart_icons/heart_empty.svg",
+      "kind": "heart_icon",
+      "status": "GAME_READY_VECTOR",
+      "usage": "Half-heart precision HP icon; on transparent canvas",
+      "source": "Original authored SVG",
+      "alpha": false,
+      "dimensions": null,
+      "game_ready": true
+    },
+    {
+      "path": "06_GAME_READY_UI/heart_icons/heart_empty.png",
+      "kind": "heart_icon",
+      "status": "GAME_READY_RASTER",
+      "usage": "Half-heart precision HP icon; on transparent canvas",
+      "source": "Rasterised from original SVG",
+      "alpha": true,
+      "dimensions": [
+        96,
+        104
+      ],
+      "game_ready": true
+    },
+    {
+      "path": "06_GAME_READY_UI/panels/battle_question_panel_blank.svg",
+      "kind": "question_panel",
+      "status": "GAME_READY_VECTOR",
+      "usage": "1024×590 ornamental game panel background: overlay live question text via DOM",
+      "source": "Original authored SVG",
+      "alpha": false,
+      "dimensions": null,
+      "game_ready": true
+    },
+    {
+      "path": "06_GAME_READY_UI/panels/battle_question_panel_blank.png",
+      "kind": "question_panel",
+      "status": "GAME_READY_RASTER",
+      "usage": "1024×590 ornamental game panel background: overlay live question text via DOM",
+      "source": "Rasterised from original SVG",
+      "alpha": true,
+      "dimensions": [
+        1024,
+        590
+      ],
+      "game_ready": true
+    },
+    {
+      "path": "06_GAME_READY_UI/panels/boss_five_bar_empty.svg",
+      "kind": "boss_hp_bar",
+      "status": "GAME_READY_VECTOR",
+      "usage": "Five bar frame prototype, animate each segment independently in implementation",
+      "source": "Original authored SVG",
+      "alpha": false,
+      "dimensions": null,
+      "game_ready": true
+    },
+    {
+      "path": "06_GAME_READY_UI/panels/boss_five_bar_empty.png",
+      "kind": "boss_hp_bar",
+      "status": "GAME_READY_RASTER",
+      "usage": "Five bar frame prototype, animate each segment independently in implementation",
+      "source": "Rasterised from original SVG",
+      "alpha": true,
+      "dimensions": [
+        626,
+        72
+      ],
+      "game_ready": true
+    },
+    {
+      "path": "06_GAME_READY_UI/panels/boss_five_bar_full.svg",
+      "kind": "boss_hp_bar",
+      "status": "GAME_READY_VECTOR",
+      "usage": "Five bar frame prototype, animate each segment independently in implementation",
+      "source": "Original authored SVG",
+      "alpha": false,
+      "dimensions": null,
+      "game_ready": true
+    },
+    {
+      "path": "06_GAME_READY_UI/panels/boss_five_bar_full.png",
+      "kind": "boss_hp_bar",
+      "status": "GAME_READY_RASTER",
+      "usage": "Five bar frame prototype, animate each segment independently in implementation",
+      "source": "Rasterised from original SVG",
+      "alpha": true,
+      "dimensions": [
+        626,
+        72
+      ],
+      "game_ready": true
+    },
+    {
+      "path": "06_GAME_READY_UI/panels/answer_button_normal.svg",
+      "kind": "button",
+      "status": "GAME_READY_VECTOR",
+      "usage": "Blank answer button frame, label belongs to HTML accessible text",
+      "source": "Original authored SVG",
+      "alpha": false,
+      "dimensions": null,
+      "game_ready": true
+    },
+    {
+      "path": "06_GAME_READY_UI/panels/answer_button_normal.png",
+      "kind": "button",
+      "status": "GAME_READY_RASTER",
+      "usage": "Blank answer button frame, label belongs to HTML accessible text",
+      "source": "Rasterised from original SVG",
+      "alpha": true,
+      "dimensions": [
+        420,
+        104
+      ],
+      "game_ready": true
+    },
+    {
+      "path": "06_GAME_READY_UI/panels/answer_button_selected.svg",
+      "kind": "button",
+      "status": "GAME_READY_VECTOR",
+      "usage": "Blank answer button frame, label belongs to HTML accessible text",
+      "source": "Original authored SVG",
+      "alpha": false,
+      "dimensions": null,
+      "game_ready": true
+    },
+    {
+      "path": "06_GAME_READY_UI/panels/answer_button_selected.png",
+      "kind": "button",
+      "status": "GAME_READY_RASTER",
+      "usage": "Blank answer button frame, label belongs to HTML accessible text",
+      "source": "Rasterised from original SVG",
+      "alpha": true,
+      "dimensions": [
+        420,
+        104
+      ],
+      "game_ready": true
+    },
+    {
+      "path": "06_GAME_READY_UI/panels/answer_button_disabled.svg",
+      "kind": "button",
+      "status": "GAME_READY_VECTOR",
+      "usage": "Blank answer button frame, label belongs to HTML accessible text",
+      "source": "Original authored SVG",
+      "alpha": false,
+      "dimensions": null,
+      "game_ready": true
+    },
+    {
+      "path": "06_GAME_READY_UI/panels/answer_button_disabled.png",
+      "kind": "button",
+      "status": "GAME_READY_RASTER",
+      "usage": "Blank answer button frame, label belongs to HTML accessible text",
+      "source": "Rasterised from original SVG",
+      "alpha": true,
+      "dimensions": [
+        420,
+        104
+      ],
+      "game_ready": true
+    },
+    {
+      "path": "09_PREVIEWS/00_worlds_bosses_contact_sheet.png",
+      "kind": "preview",
+      "status": "REVIEW_ONLY",
+      "usage": "Summary grid for user review; individual source files are in world and boss folders",
+      "source": "a_wide_high_resolution_multi_panel_game_asset_sh.png",
+      "alpha": false,
+      "dimensions": [
+        1600,
+        925
+      ],
+      "game_ready": false
+    },
+    {
+      "path": "06_GAME_READY_UI/element_attack_spritesheets/fx_api_12frames_4x3.png",
+      "kind": "attack_fx_spritesheet",
+      "status": "GAME_READY_RASTER",
+      "usage": "api independent 12-frame attack FX atlas, 256px cells, 4 cols x 3 rows, transparencies preserved",
+      "source": "Original procedural graphics",
+      "alpha": true,
+      "dimensions": [
+        1024,
+        768
+      ],
+      "game_ready": true
+    },
+    {
+      "path": "06_GAME_READY_UI/element_attack_spritesheets/fx_api_preview.gif",
+      "kind": "attack_fx_preview",
+      "status": "REVIEW_ONLY",
+      "usage": "api animation preview, dark background is for visibility only; use spritesheet in gameplay",
+      "source": "Original procedural graphics",
+      "alpha": false,
+      "dimensions": [
+        256,
+        256
+      ],
+      "game_ready": false
+    },
+    {
+      "path": "06_GAME_READY_UI/element_attack_spritesheets/fx_angin_12frames_4x3.png",
+      "kind": "attack_fx_spritesheet",
+      "status": "GAME_READY_RASTER",
+      "usage": "angin independent 12-frame attack FX atlas, 256px cells, 4 cols x 3 rows, transparencies preserved",
+      "source": "Original procedural graphics",
+      "alpha": true,
+      "dimensions": [
+        1024,
+        768
+      ],
+      "game_ready": true
+    },
+    {
+      "path": "06_GAME_READY_UI/element_attack_spritesheets/fx_angin_preview.gif",
+      "kind": "attack_fx_preview",
+      "status": "REVIEW_ONLY",
+      "usage": "angin animation preview, dark background is for visibility only; use spritesheet in gameplay",
+      "source": "Original procedural graphics",
+      "alpha": false,
+      "dimensions": [
+        256,
+        256
+      ],
+      "game_ready": false
+    },
+    {
+      "path": "06_GAME_READY_UI/element_attack_spritesheets/fx_petir_12frames_4x3.png",
+      "kind": "attack_fx_spritesheet",
+      "status": "GAME_READY_RASTER",
+      "usage": "petir independent 12-frame attack FX atlas, 256px cells, 4 cols x 3 rows, transparencies preserved",
+      "source": "Original procedural graphics",
+      "alpha": true,
+      "dimensions": [
+        1024,
+        768
+      ],
+      "game_ready": true
+    },
+    {
+      "path": "06_GAME_READY_UI/element_attack_spritesheets/fx_petir_preview.gif",
+      "kind": "attack_fx_preview",
+      "status": "REVIEW_ONLY",
+      "usage": "petir animation preview, dark background is for visibility only; use spritesheet in gameplay",
+      "source": "Original procedural graphics",
+      "alpha": false,
+      "dimensions": [
+        256,
+        256
+      ],
+      "game_ready": false
+    },
+    {
+      "path": "06_GAME_READY_UI/element_attack_spritesheets/fx_tanah_12frames_4x3.png",
+      "kind": "attack_fx_spritesheet",
+      "status": "GAME_READY_RASTER",
+      "usage": "tanah independent 12-frame attack FX atlas, 256px cells, 4 cols x 3 rows, transparencies preserved",
+      "source": "Original procedural graphics",
+      "alpha": true,
+      "dimensions": [
+        1024,
+        768
+      ],
+      "game_ready": true
+    },
+    {
+      "path": "06_GAME_READY_UI/element_attack_spritesheets/fx_tanah_preview.gif",
+      "kind": "attack_fx_preview",
+      "status": "REVIEW_ONLY",
+      "usage": "tanah animation preview, dark background is for visibility only; use spritesheet in gameplay",
+      "source": "Original procedural graphics",
+      "alpha": false,
+      "dimensions": [
+        256,
+        256
+      ],
+      "game_ready": false
+    },
+    {
+      "path": "06_GAME_READY_UI/element_attack_spritesheets/fx_air_12frames_4x3.png",
+      "kind": "attack_fx_spritesheet",
+      "status": "GAME_READY_RASTER",
+      "usage": "air independent 12-frame attack FX atlas, 256px cells, 4 cols x 3 rows, transparencies preserved",
+      "source": "Original procedural graphics",
+      "alpha": true,
+      "dimensions": [
+        1024,
+        768
+      ],
+      "game_ready": true
+    },
+    {
+      "path": "06_GAME_READY_UI/element_attack_spritesheets/fx_air_preview.gif",
+      "kind": "attack_fx_preview",
+      "status": "REVIEW_ONLY",
+      "usage": "air animation preview, dark background is for visibility only; use spritesheet in gameplay",
+      "source": "Original procedural graphics",
+      "alpha": false,
+      "dimensions": [
+        256,
+        256
+      ],
+      "game_ready": false
+    },
+    {
+      "path": "09_PREVIEWS/01_game_ready_ui_contact_sheet.png",
+      "kind": "ui_preview",
+      "status": "REVIEW_ONLY",
+      "usage": "Contact sheet for original vector/PNG UI components",
+      "source": "Original rendered SVG assets",
+      "alpha": false,
+      "dimensions": [
+        1480,
+        830
+      ],
+      "game_ready": false
+    }
+  ],
+  "sprite_sheet_spec": {
+    "format": "png_rgba",
+    "columns": 4,
+    "rows": 3,
+    "frame_width": 256,
+    "frame_height": 256,
+    "frames": 12,
+    "frame_duration_ms": 85,
+    "playback": "once on validated correct answer",
+    "anchor": [
+      0.5,
+      0.5
+    ],
+    "names": [
+      "api",
+      "angin",
+      "petir",
+      "tanah",
+      "air"
+    ]
+  }
+}

@@ -10,8 +10,8 @@ export interface ModeInfo {
 	style: string;
 	pace: Pace;
 	world: string;
-	/** How the game is drawn: the 3/4 worlds ("2d") or three.js ("3d"). Any game suits any class. */
-	look: '2d' | '3d';
+	/** All supported modes use 2D presentation. */
+	look: '2d';
 	/** What a score counts: mata, m, syiling, petak... */
 	unit: string;
 	needs: string;

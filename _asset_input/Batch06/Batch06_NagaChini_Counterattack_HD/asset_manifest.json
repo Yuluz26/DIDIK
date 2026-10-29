@@ -1,0 +1,125 @@
+{
+  "pack": "Batch 06",
+  "title": "Naga Chini Boss Counterattack",
+  "status": "ART_AND_IMPLEMENTATION_HANDOFF_NOT_FULL_GAME",
+  "items": [
+    {
+      "path": "03_CONCEPT_COMPOSITIONS/boss_water_counterattack_FHD_upscaled.png",
+      "type": "art_reference",
+      "size_bytes": 4228106,
+      "width": 1920,
+      "height": 1080,
+      "mode": "RGBA"
+    },
+    {
+      "path": "03_CONCEPT_COMPOSITIONS/boss_defeat_state_FHD_upscaled.png",
+      "type": "art_reference",
+      "size_bytes": 4192190,
+      "width": 1920,
+      "height": 1080,
+      "mode": "RGBA"
+    },
+    {
+      "path": "03_CONCEPT_COMPOSITIONS/boss_hurt_state_FHD_upscaled.png",
+      "type": "art_reference",
+      "size_bytes": 4173341,
+      "width": 1920,
+      "height": 1080,
+      "mode": "RGBA"
+    },
+    {
+      "path": "03_CONCEPT_COMPOSITIONS/boss_water_special_FHD_upscaled.png",
+      "type": "art_reference",
+      "size_bytes": 4175432,
+      "width": 1920,
+      "height": 1080,
+      "mode": "RGBA"
+    },
+    {
+      "path": "02_BATTLE_BACKGROUNDS/tasik_chini_battle_scene_background_FHD.png",
+      "type": "art_reference",
+      "size_bytes": 4739473,
+      "width": 1920,
+      "height": 1080,
+      "mode": "RGBA"
+    },
+    {
+      "path": "05_PREVIEW_VIDEO/naga_chini_counterattack_animatic_960x540.mp4",
+      "type": "cinematic_animatic_video",
+      "size_bytes": 699677
+    },
+    {
+      "path": "01_SOURCE_POSES_FX/hang_tuah_hurt.png",
+      "type": "art_reference",
+      "size_bytes": 321511,
+      "width": 434,
+      "height": 444,
+      "mode": "RGBA"
+    },
+    {
+      "path": "01_SOURCE_POSES_FX/naga_chini_special.png",
+      "type": "art_reference",
+      "size_bytes": 485580,
+      "width": 478,
+      "height": 423,
+      "mode": "RGBA"
+    },
+    {
+      "path": "01_SOURCE_POSES_FX/naga_chini_hurt.png",
+      "type": "art_reference",
+      "size_bytes": 396414,
+      "width": 482,
+      "height": 423,
+      "mode": "RGBA"
+    },
+    {
+      "path": "01_SOURCE_POSES_FX/FX_WATER_CRESCENT_TIDE_HD.png",
+      "type": "art_reference",
+      "size_bytes": 2125081,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA"
+    },
+    {
+      "path": "01_SOURCE_POSES_FX/naga_chini_idle.png",
+      "type": "art_reference",
+      "size_bytes": 738934,
+      "width": 663,
+      "height": 528,
+      "mode": "RGBA"
+    },
+    {
+      "path": "01_SOURCE_POSES_FX/naga_chini_defeat.png",
+      "type": "art_reference",
+      "size_bytes": 253758,
+      "width": 485,
+      "height": 423,
+      "mode": "RGBA"
+    },
+    {
+      "path": "01_SOURCE_POSES_FX/naga_chini_attack.png",
+      "type": "art_reference",
+      "size_bytes": 821441,
+      "width": 720,
+      "height": 516,
+      "mode": "RGBA"
+    },
+    {
+      "path": "06_CONTACT_SHEET/batch06_contact_sheet.png",
+      "type": "art_reference",
+      "size_bytes": 1066912,
+      "width": 1500,
+      "height": 910,
+      "mode": "RGB"
+    },
+    {
+      "path": "04_REUSABLE_UI/quiz_battle_frame_TRANSPARENT_1920x1080.png",
+      "type": "art_reference",
+      "size_bytes": 10488,
+      "width": 1920,
+      "height": 1080,
+      "mode": "RGBA"
+    }
+  ],
+  "tech_notes": "Boss water attack, hit, special and defeat poses + layered pan/scale animatic; use code-controlled outcomes for -1.5 HP on wrong answer."
+}

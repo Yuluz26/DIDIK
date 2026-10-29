@@ -38,30 +38,36 @@
 		{ id: 'e', animal: 'arnab', colour: 'jambu', skin: 's3' },
 		{ id: 'f', animal: 'beruang', colour: 'hijau', skin: 's2' }
 	];
-	const SPOTS: [number, number][] = [
-		[4.1, 5.0], [8.2, 4.7], [5.1, 6.35], [7.3, 6.2], [3.3, 3.95], [9.0, 4.05], [6.1, 3.3], [4.8, 4.15], [8.8, 6.0], [6.9, 7.0]
-	];
+	// The children stroll one loop round the fountain, evenly spaced and at the same pace, so nobody
+	// walks into anybody or through the water. The loop (in tiles) keeps clear of the basin, the lamps
+	// and the benches.
+	const LOOP = { x: 6.1, y: 4.7, rx: 2.1, ry: 1.3 };
+	const LAP_SECONDS = 15;
+	const STEP_MS = 350;
+	const at = (angle: number): [number, number] => [LOOP.x + Math.cos(angle) * LOOP.rx, LOOP.y + Math.sin(angle) * LOOP.ry];
+	const start = CAST.map((_, i) => (i / CAST.length) * Math.PI * 2);
 
-	let places = $state(CAST.map((_, i) => ({ at: SPOTS[i], walking: false, facing: i % 2 ? -1 : 1 })));
+	let angle = $state(0);
+	let walking = $state(false);
 	let width = $state(0);
 	// A whole or half step of the sprite size, so every pixel on the island is the same size.
 	const tile = $derived(TILE * snapScale(width / W / TILE, 1));
 
-	// Every few seconds one child strolls to a free spot; nobody moves when motion is reduced.
+	const places = $derived(
+		start.map((s0) => {
+			const a0 = s0 + angle;
+			const [x, y] = at(a0);
+			// going round anticlockwise on screen: moving right along the front, left along the back
+			const facing = -Math.sin(a0) >= 0 ? -1 : 1;
+			return { at: [x, y] as [number, number], walking, facing, ms: STEP_MS };
+		})
+	);
+
+	// Nobody moves when motion is reduced.
 	$effect(() => {
 		if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-		const timer = setInterval(() => {
-			const who = Math.floor(Math.random() * places.length);
-			const taken = new Set(places.map((p) => p.at.join()));
-			const free = SPOTS.filter((s) => !taken.has(s.join()));
-			const to = free[Math.floor(Math.random() * free.length)];
-			if (!to) return;
-			const from = places[who].at;
-			places[who] = { at: to, walking: true, facing: to[0] < from[0] ? -1 : 1 };
-			setTimeout(() => {
-				places[who] = { ...places[who], walking: false };
-			}, 1600);
-		}, 2400);
+		walking = true;
+		const timer = setInterval(() => (angle -= ((Math.PI * 2) / LAP_SECONDS) * (STEP_MS / 1000)), STEP_MS);
 		return () => clearInterval(timer);
 	});
 
@@ -72,6 +78,7 @@
 			y: places[i].at[1],
 			facing: places[i].facing,
 			walking: places[i].walking,
+			ms: places[i].ms,
 			animal: c.animal,
 			colour: c.colour,
 			skin: c.skin,

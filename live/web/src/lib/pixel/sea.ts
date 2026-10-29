@@ -1,7 +1,7 @@
 /*
  * The front page's backdrops as repeating pixel pictures: the sea with its little waves (two frames
- * that take turns), the foam line where the sea meets the beach, grains of sand, the dusk sky in
- * dithered bands with a few stars, and the blades of grass along the top of the parents' field.
+ * that take turns), the foam line where the sea meets the beach, grains of sand,
+ * and the blades of grass along the top of the parents' field.
  * Each is a small picture the page repeats and magnifies by a whole number.
  */
 import { memo } from './cache';
@@ -123,52 +123,16 @@ export function beachTile(): Pix {
 	});
 }
 
-export const DUSK = { w: 96, h: 88 };
-const SKY = ['#f8e7bf', '#f6cd9a', '#f2b077', '#d38a6f', '#8c6176', '#5a4f6b', '#2f3d5c', '#1b2d3f'].map((h) => rgba(h));
-
-/** The sand turning to sunset and then night, in bands whose edges are dithered, with stars. */
-export function duskSky(): Pix {
-	return memo('sea:dusk', () => {
-		const p = new Pix(DUSK.w, DUSK.h);
-		const band = DUSK.h / SKY.length;
-		for (let y = 0; y < DUSK.h; y++) {
-			const k = Math.floor(y / band);
-			const into = y - k * band;
-			for (let x = 0; x < DUSK.w; x++) {
-				let c = SKY[k];
-				// the last rows of a band dither into the next, the first rows of the next dither back
-				if (k < SKY.length - 1 && into >= band - 3) c = (into - (band - 3) + 1) / 7 + 0.14 > bayer(x, y) ? SKY[k + 1] : SKY[k];
-				else if (k > 0 && into < 3) c = 1 - (into + 1) / 7 - 0.14 > bayer(x, y) ? SKY[k - 1] : SKY[k];
-				p.set(x, y, c);
-			}
-		}
-		const star = rgba('#f3efe6');
-		for (let i = 0; i < 16; i++) {
-			const x = Math.floor(noise(i, 1, 90) * DUSK.w);
-			const y = 38 + Math.floor(noise(i, 2, 90) * 24);
-			p.set(x, y, star);
-			if (i % 4 === 0) {
-				p.set(x - 1, y, star);
-				p.set(x + 1, y, star);
-				p.set(x, y - 1, star);
-				p.set(x, y + 1, star);
-			}
-		}
-		return p;
-	});
-}
-
 export const FRINGE = { w: 32, h: 14 };
 
 /** Grass along the top of the parents' field, rising into the night above it. */
 export function grassFringe(): Pix {
 	return memo('sea:fringe', () => {
 		const p = new Pix(FRINGE.w, FRINGE.h);
-		const night = rgba('#0f1f24');
 		const field = rgba('#1c6b4a');
 		const lit = rgba('#2f8a5c');
 		const tip = rgba('#58b27a');
-		p.rect(0, 0, FRINGE.w, FRINGE.h, night);
+		// clear between the blades: the sand of the beach above shows through
 		for (let x = 0; x < FRINGE.w; x++) {
 			// blades of different heights, always a pixel wider at the foot
 			const height = 3 + Math.floor(noise(x >> 1, 0, 61) * 8) + (x % 4 === 1 ? 1 : 0);

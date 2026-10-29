@@ -10,7 +10,7 @@
 	import Icon from '$ui/Icon.svelte';
 	import StickerArt from '$ui/StickerArt.svelte';
 
-	const WORLDS = ['sungai', 'kolam', 'pulau', 'hutan', 'peta', 'kampung', 'galeri', 'kebun', 'litar', 'stadium', 'lanun', 'menara'];
+	const WORLDS = ['sungai', 'kolam', 'pulau', 'hutan', 'peta', 'kampung', 'galeri', 'kebun'];
 	const MOODS = ['happy', 'cheer', 'think', 'hint', 'wave'] as const;
 	const STICKERS = ['hati', 'bintang', 'ketawa', 'tepuk', 'wah', 'ok', 'api', 'pelangi'];
 

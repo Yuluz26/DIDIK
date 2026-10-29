@@ -19,9 +19,12 @@ class RoomSettings(BaseModel):
     # Limit on questions in the games everyone answers together (None means the whole quiz).
     question_limit: int | None = Field(default=None, ge=3, le=60)
     shuffle: bool = True
-    custom_names: bool = False
+    # Children may type their own name (checked for length, characters and rude words); a host can
+    # switch to suggested names only.
+    custom_names: bool = True
     waiting_room: bool = False
     late_join: bool = True
-    max_players: int = Field(default=60, ge=2, le=100)
+    # 1 opens a Solo room (one child; Legenda offers it), otherwise a Party room.
+    max_players: int = Field(default=60, ge=1, le=100)
     # Surprises that take points away (a parrot that steals, a crab that pinches).
     naughty: bool = True

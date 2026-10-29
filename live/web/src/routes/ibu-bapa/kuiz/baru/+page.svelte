@@ -4,8 +4,8 @@
 	import { goto } from '$app/navigation';
 	import { api } from '$lib/api';
 	import { session } from '$lib/session.svelte';
-	import Icon from '$ui/Icon.svelte';
-	import ParentHeader from '$lib/parent/ParentHeader.svelte';
+	import DashShell from '$lib/parent/DashShell.svelte';
+	import NmIcon from '$lib/parent/ui/NmIcon.svelte';
 	import QuizEditor from '$lib/parent/editor/QuizEditor.svelte';
 	import { blank, type QuizDraft } from '$lib/parent/editor/model';
 
@@ -25,35 +25,27 @@
 
 <svelte:head><title>Kuiz baharu · DIDIK Main Bersama</title></svelte:head>
 
-<ParentHeader />
-
-<main class="wrap page">
-	<div class="top">
-		<a class="back" href="/ibu-bapa"><Icon name="back" size={18} /> Kuiz saya</a>
-		<h1>Kuiz baharu</h1>
+<DashShell>
+	<div class="nm-head">
+		<div>
+			<a class="back" href="/ibu-bapa/kuiz"><NmIcon name="back" size={16} /> Kuiz saya</a>
+			<h1>Kuiz baharu</h1>
+		</div>
 	</div>
 	{#if ready}<QuizEditor {initial} onsave={create} />{/if}
-</main>
+</DashShell>
 
 <style>
-	.page {
-		display: grid;
-		gap: 1.2rem;
-		padding-block: 1.4rem 3rem;
-	}
-	.top {
-		display: grid;
-		gap: 0.4rem;
-	}
 	.back {
 		display: inline-flex;
 		align-items: center;
 		gap: 0.3rem;
-		justify-self: start;
-		font-weight: 800;
+		margin-bottom: 0.4rem;
+		color: var(--ink-2);
+		font: 600 0.9rem/1 var(--font-display);
 		text-decoration: none;
 	}
-	h1 {
-		font-size: var(--fs-h1);
+	.back:hover {
+		color: var(--brand-ink);
 	}
 </style>

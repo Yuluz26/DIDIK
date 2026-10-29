@@ -1,0 +1,1357 @@
+{
+ "about": "Legenda Story Mode art. Built by live/web/scripts/story_assets.py from _asset_input/. Licence: supplied by the DIDIK project owner; AI-assisted art per the pack notes.",
+ "assets": [
+  {
+   "file": "audio/boss_hit.wav",
+   "source": "Batch12/Batch12_Final_UI_Transitions_SFX_HD/03_SYNTH_SFX_DEMOS/boss_hit.wav",
+   "bytes": 37970,
+   "status": "synthesised demo SFX (Batch 12); replace with designed sound before release",
+   "use": "battle feedback"
+  },
+  {
+   "file": "audio/correct.wav",
+   "source": "Batch12/Batch12_Final_UI_Transitions_SFX_HD/03_SYNTH_SFX_DEMOS/correct.wav",
+   "bytes": 45908,
+   "status": "synthesised demo SFX (Batch 12); replace with designed sound before release",
+   "use": "battle feedback"
+  },
+  {
+   "file": "audio/heal.wav",
+   "source": "Batch12/Batch12_Final_UI_Transitions_SFX_HD/03_SYNTH_SFX_DEMOS/heal.wav",
+   "bytes": 45908,
+   "status": "synthesised demo SFX (Batch 12); replace with designed sound before release",
+   "use": "battle feedback"
+  },
+  {
+   "file": "audio/menu_click.wav",
+   "source": "Batch12/Batch12_Final_UI_Transitions_SFX_HD/03_SYNTH_SFX_DEMOS/menu_click.wav",
+   "bytes": 17684,
+   "status": "synthesised demo SFX (Batch 12); replace with designed sound before release",
+   "use": "battle feedback"
+  },
+  {
+   "file": "audio/world_unlock.wav",
+   "source": "Batch12/Batch12_Final_UI_Transitions_SFX_HD/03_SYNTH_SFX_DEMOS/world_unlock.wav",
+   "bytes": 110294,
+   "status": "synthesised demo SFX (Batch 12); replace with designed sound before release",
+   "use": "battle feedback"
+  },
+  {
+   "file": "audio/wrong.wav",
+   "source": "Batch12/Batch12_Final_UI_Transitions_SFX_HD/03_SYNTH_SFX_DEMOS/wrong.wav",
+   "bytes": 58256,
+   "status": "synthesised demo SFX (Batch 12); replace with designed sound before release",
+   "use": "battle feedback"
+  },
+  {
+   "file": "banners/boss_akan_menyerang.webp",
+   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/01_STATIC_BANNERS_PNG/boss_akan_menyerang.png",
+   "status": "production banner text (Batch 14: vector-authored, Malay spelling fixed)",
+   "use": "Boss counterattack immediately before damaging player",
+   "size": [
+    1280,
+    320
+   ],
+   "alpha": true,
+   "bytes": 86592
+  },
+  {
+   "file": "banners/boss_akan_menyerang_sheet.webp",
+   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/06_SPRITESHEETS/boss_akan_menyerang_12frames_4x3.png",
+   "status": "production animated banner (Batch 14, 12 frames)",
+   "use": "Boss counterattack immediately before damaging player",
+   "size": [
+    3840,
+    720
+   ],
+   "alpha": true,
+   "bytes": 494538,
+   "frames": 12,
+   "frame": [
+    960,
+    240
+   ],
+   "columns": 4
+  },
+  {
+   "file": "banners/boss_dikalahkan.webp",
+   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/01_STATIC_BANNERS_PNG/boss_dikalahkan.png",
+   "status": "production banner text (Batch 14: vector-authored, Malay spelling fixed)",
+   "use": "Boss HP reaches zero after 5 successful hits",
+   "size": [
+    1280,
+    320
+   ],
+   "alpha": true,
+   "bytes": 79212
+  },
+  {
+   "file": "banners/boss_muncul.webp",
+   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/01_STATIC_BANNERS_PNG/boss_muncul.png",
+   "status": "production banner text (Batch 14: vector-authored, Malay spelling fixed)",
+   "use": "Boss reveal after world encounters",
+   "size": [
+    1280,
+    320
+   ],
+   "alpha": true,
+   "bytes": 76378
+  },
+  {
+   "file": "banners/boss_muncul_sheet.webp",
+   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/06_SPRITESHEETS/boss_muncul_12frames_4x3.png",
+   "status": "production animated banner (Batch 14, 12 frames)",
+   "use": "Boss reveal after world encounters",
+   "size": [
+    3840,
+    720
+   ],
+   "alpha": true,
+   "bytes": 439940,
+   "frames": 12,
+   "frame": [
+    960,
+    240
+   ],
+   "columns": 4
+  },
+  {
+   "file": "banners/cuba_lagi.webp",
+   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/01_STATIC_BANNERS_PNG/cuba_lagi.png",
+   "status": "production banner text (Batch 14: vector-authored, Malay spelling fixed)",
+   "use": "Retry from current world checkpoint on zero HP",
+   "size": [
+    1280,
+    320
+   ],
+   "alpha": true,
+   "bytes": 74152
+  },
+  {
+   "file": "banners/dunia_seterusnya.webp",
+   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/01_STATIC_BANNERS_PNG/dunia_seterusnya.png",
+   "status": "production banner text (Batch 14: vector-authored, Malay spelling fixed)",
+   "use": "New world opened",
+   "size": [
+    1280,
+    320
+   ],
+   "alpha": true,
+   "bytes": 79250
+  },
+  {
+   "file": "banners/elemen_dibuka.webp",
+   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/01_STATIC_BANNERS_PNG/elemen_dibuka.png",
+   "status": "production banner text (Batch 14: vector-authored, Malay spelling fixed)",
+   "use": "New elemental power unlock",
+   "size": [
+    1280,
+    320
+   ],
+   "alpha": true,
+   "bytes": 71086
+  },
+  {
+   "file": "banners/jawapan_betul.webp",
+   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/01_STATIC_BANNERS_PNG/jawapan_betul.png",
+   "status": "production banner text (Batch 14: vector-authored, Malay spelling fixed)",
+   "use": "Correct quiz answer",
+   "size": [
+    1280,
+    320
+   ],
+   "alpha": true,
+   "bytes": 72570
+  },
+  {
+   "file": "banners/jawapan_betul_sheet.webp",
+   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/06_SPRITESHEETS/jawapan_betul_12frames_4x3.png",
+   "status": "production animated banner (Batch 14, 12 frames)",
+   "use": "Correct quiz answer",
+   "size": [
+    3840,
+    720
+   ],
+   "alpha": true,
+   "bytes": 416848,
+   "frames": 12,
+   "frame": [
+    960,
+    240
+   ],
+   "columns": 4
+  },
+  {
+   "file": "banners/jawapan_salah.webp",
+   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/01_STATIC_BANNERS_PNG/jawapan_salah.png",
+   "status": "production banner text (Batch 14: vector-authored, Malay spelling fixed)",
+   "use": "Incorrect quiz answer",
+   "size": [
+    1280,
+    320
+   ],
+   "alpha": true,
+   "bytes": 81290
+  },
+  {
+   "file": "banners/jawapan_salah_sheet.webp",
+   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/06_SPRITESHEETS/jawapan_salah_12frames_4x3.png",
+   "status": "production animated banner (Batch 14, 12 frames)",
+   "use": "Incorrect quiz answer",
+   "size": [
+    3840,
+    720
+   ],
+   "alpha": true,
+   "bytes": 468184,
+   "frames": 12,
+   "frame": [
+    960,
+    240
+   ],
+   "columns": 4
+  },
+  {
+   "file": "banners/kemenangan.webp",
+   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/01_STATIC_BANNERS_PNG/kemenangan.png",
+   "status": "production banner text (Batch 14: vector-authored, Malay spelling fixed)",
+   "use": "Winning a battle or chapter",
+   "size": [
+    1280,
+    320
+   ],
+   "alpha": true,
+   "bytes": 72180
+  },
+  {
+   "file": "banners/kemenangan_sheet.webp",
+   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/06_SPRITESHEETS/kemenangan_12frames_4x3.png",
+   "status": "production animated banner (Batch 14, 12 frames)",
+   "use": "Winning a battle or chapter",
+   "size": [
+    3840,
+    720
+   ],
+   "alpha": true,
+   "bytes": 416908,
+   "frames": 12,
+   "frame": [
+    960,
+    240
+   ],
+   "columns": 4
+  },
+  {
+   "file": "banners/nyawa_berkurang.webp",
+   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/01_STATIC_BANNERS_PNG/nyawa_berkurang.png",
+   "status": "production banner text (Batch 14: vector-authored, Malay spelling fixed)",
+   "use": "Show after server confirms -1.5 hearts",
+   "size": [
+    1280,
+    320
+   ],
+   "alpha": true,
+   "bytes": 84436
+  },
+  {
+   "file": "banners/pertarungan_bermula.webp",
+   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/01_STATIC_BANNERS_PNG/pertarungan_bermula.png",
+   "status": "production banner text (Batch 14: vector-authored, Malay spelling fixed)",
+   "use": "Start of JRPG battle",
+   "size": [
+    1280,
+    320
+   ],
+   "alpha": true,
+   "bytes": 80254
+  },
+  {
+   "file": "banners/pertarungan_bermula_sheet.webp",
+   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/06_SPRITESHEETS/pertarungan_bermula_12frames_4x3.png",
+   "status": "production animated banner (Batch 14, 12 frames)",
+   "use": "Start of JRPG battle",
+   "size": [
+    3840,
+    720
+   ],
+   "alpha": true,
+   "bytes": 466212,
+   "frames": 12,
+   "frame": [
+    960,
+    240
+   ],
+   "columns": 4
+  },
+  {
+   "file": "banners/pilih_elemen.webp",
+   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/01_STATIC_BANNERS_PNG/pilih_elemen.png",
+   "status": "production banner text (Batch 14: vector-authored, Malay spelling fixed)",
+   "use": "Element weapon selection",
+   "size": [
+    1280,
+    320
+   ],
+   "alpha": true,
+   "bytes": 66294
+  },
+  {
+   "file": "banners/serangan_balas.webp",
+   "source": "Batch14/DIDIK_Legenda_Batch14_Transition_Text_HD/01_STATIC_BANNERS_PNG/serangan_balas.png",
+   "status": "production banner text (Batch 14: vector-authored, Malay spelling fixed)",
+   "use": "Boss counterattack triggered by wrong answer",
+   "size": [
+    1280,
+    320
+   ],
+   "alpha": true,
+   "bytes": 83550
+  },
+  {
+   "file": "fx/air.webp",
+   "source": "Batch05/DIDIK_JRPG_Batch05_HD_ElementalCombat/01_ELEMENTAL_FX_TRANSPARENT/FX_WATER_CRESCENT_TIDE_HD.png",
+   "status": "production transparent VFX still (Batch 05)",
+   "use": "attack burst, tweened in code",
+   "size": [
+    360,
+    360
+   ],
+   "alpha": true,
+   "bytes": 78358
+  },
+  {
+   "file": "fx/air_slash.webp",
+   "source": [
+    "Effects60/04_ATTACK_FRAMES/air/fx_air_frame_01.png",
+    "Effects60/04_ATTACK_FRAMES/air/fx_air_frame_02.png",
+    "Effects60/04_ATTACK_FRAMES/air/fx_air_frame_03.png",
+    "Effects60/04_ATTACK_FRAMES/air/fx_air_frame_04.png",
+    "Effects60/04_ATTACK_FRAMES/air/fx_air_frame_05.png",
+    "Effects60/04_ATTACK_FRAMES/air/fx_air_frame_06.png",
+    "Effects60/04_ATTACK_FRAMES/air/fx_air_frame_07.png",
+    "Effects60/04_ATTACK_FRAMES/air/fx_air_frame_08.png",
+    "Effects60/04_ATTACK_FRAMES/air/fx_air_frame_09.png",
+    "Effects60/04_ATTACK_FRAMES/air/fx_air_frame_10.png",
+    "Effects60/04_ATTACK_FRAMES/air/fx_air_frame_11.png",
+    "Effects60/04_ATTACK_FRAMES/air/fx_air_frame_12.png"
+   ],
+   "status": "production 12-frame attack effect (Effects60 pack; AI-generated frames cut from a contact sheet, neighbour bleed removed, native 314x418 per frame)",
+   "use": "attack and counterattack effect, played frame by frame",
+   "size": [
+    1256,
+    1254
+   ],
+   "alpha": true,
+   "bytes": 515144,
+   "frames": 12,
+   "frame": [
+    314,
+    418
+   ],
+   "columns": 4
+  },
+  {
+   "file": "fx/angin.webp",
+   "source": "Batch05/DIDIK_JRPG_Batch05_HD_ElementalCombat/01_ELEMENTAL_FX_TRANSPARENT/FX_WIND_VORTEX_HD.png",
+   "status": "production transparent VFX still (Batch 05)",
+   "use": "attack burst, tweened in code",
+   "size": [
+    360,
+    359
+   ],
+   "alpha": true,
+   "bytes": 72218
+  },
+  {
+   "file": "fx/angin_slash.webp",
+   "source": [
+    "Effects60/04_ATTACK_FRAMES/angin/fx_angin_frame_01.png",
+    "Effects60/04_ATTACK_FRAMES/angin/fx_angin_frame_02.png",
+    "Effects60/04_ATTACK_FRAMES/angin/fx_angin_frame_03.png",
+    "Effects60/04_ATTACK_FRAMES/angin/fx_angin_frame_04.png",
+    "Effects60/04_ATTACK_FRAMES/angin/fx_angin_frame_05.png",
+    "Effects60/04_ATTACK_FRAMES/angin/fx_angin_frame_06.png",
+    "Effects60/04_ATTACK_FRAMES/angin/fx_angin_frame_07.png",
+    "Effects60/04_ATTACK_FRAMES/angin/fx_angin_frame_08.png",
+    "Effects60/04_ATTACK_FRAMES/angin/fx_angin_frame_09.png",
+    "Effects60/04_ATTACK_FRAMES/angin/fx_angin_frame_10.png",
+    "Effects60/04_ATTACK_FRAMES/angin/fx_angin_frame_11.png",
+    "Effects60/04_ATTACK_FRAMES/angin/fx_angin_frame_12.png"
+   ],
+   "status": "production 12-frame attack effect (Effects60 pack; AI-generated frames cut from a contact sheet, neighbour bleed removed, native 314x418 per frame)",
+   "use": "attack and counterattack effect, played frame by frame",
+   "size": [
+    1256,
+    1254
+   ],
+   "alpha": true,
+   "bytes": 440410,
+   "frames": 12,
+   "frame": [
+    314,
+    418
+   ],
+   "columns": 4
+  },
+  {
+   "file": "fx/api.webp",
+   "source": "Batch05/DIDIK_JRPG_Batch05_HD_ElementalCombat/01_ELEMENTAL_FX_TRANSPARENT/FX_FIRE_CRESCENT_SLASH_HD.png",
+   "status": "production transparent VFX still (Batch 05)",
+   "use": "attack burst, tweened in code",
+   "size": [
+    360,
+    355
+   ],
+   "alpha": true,
+   "bytes": 73656
+  },
+  {
+   "file": "fx/api_slash.webp",
+   "source": [
+    "Effects60/04_ATTACK_FRAMES/api/fx_api_frame_01.png",
+    "Effects60/04_ATTACK_FRAMES/api/fx_api_frame_02.png",
+    "Effects60/04_ATTACK_FRAMES/api/fx_api_frame_03.png",
+    "Effects60/04_ATTACK_FRAMES/api/fx_api_frame_04.png",
+    "Effects60/04_ATTACK_FRAMES/api/fx_api_frame_05.png",
+    "Effects60/04_ATTACK_FRAMES/api/fx_api_frame_06.png",
+    "Effects60/04_ATTACK_FRAMES/api/fx_api_frame_07.png",
+    "Effects60/04_ATTACK_FRAMES/api/fx_api_frame_08.png",
+    "Effects60/04_ATTACK_FRAMES/api/fx_api_frame_09.png",
+    "Effects60/04_ATTACK_FRAMES/api/fx_api_frame_10.png",
+    "Effects60/04_ATTACK_FRAMES/api/fx_api_frame_11.png",
+    "Effects60/04_ATTACK_FRAMES/api/fx_api_frame_12.png"
+   ],
+   "status": "production 12-frame attack effect (Effects60 pack; AI-generated frames cut from a contact sheet, neighbour bleed removed, native 314x418 per frame)",
+   "use": "attack and counterattack effect, played frame by frame",
+   "size": [
+    1256,
+    1254
+   ],
+   "alpha": true,
+   "bytes": 480130,
+   "frames": 12,
+   "frame": [
+    314,
+    418
+   ],
+   "columns": 4
+  },
+  {
+   "file": "fx/petir.webp",
+   "source": "Batch05/DIDIK_JRPG_Batch05_HD_ElementalCombat/01_ELEMENTAL_FX_TRANSPARENT/FX_LIGHTNING_THUNDERBURST_HD.png",
+   "status": "production transparent VFX still (Batch 05)",
+   "use": "attack burst, tweened in code",
+   "size": [
+    360,
+    360
+   ],
+   "alpha": true,
+   "bytes": 74182
+  },
+  {
+   "file": "fx/petir_slash.webp",
+   "source": [
+    "Effects60/04_ATTACK_FRAMES/petir/fx_petir_frame_01.png",
+    "Effects60/04_ATTACK_FRAMES/petir/fx_petir_frame_02.png",
+    "Effects60/04_ATTACK_FRAMES/petir/fx_petir_frame_03.png",
+    "Effects60/04_ATTACK_FRAMES/petir/fx_petir_frame_04.png",
+    "Effects60/04_ATTACK_FRAMES/petir/fx_petir_frame_05.png",
+    "Effects60/04_ATTACK_FRAMES/petir/fx_petir_frame_06.png",
+    "Effects60/04_ATTACK_FRAMES/petir/fx_petir_frame_07.png",
+    "Effects60/04_ATTACK_FRAMES/petir/fx_petir_frame_08.png",
+    "Effects60/04_ATTACK_FRAMES/petir/fx_petir_frame_09.png",
+    "Effects60/04_ATTACK_FRAMES/petir/fx_petir_frame_10.png",
+    "Effects60/04_ATTACK_FRAMES/petir/fx_petir_frame_11.png",
+    "Effects60/04_ATTACK_FRAMES/petir/fx_petir_frame_12.png"
+   ],
+   "status": "production 12-frame attack effect (Effects60 pack; AI-generated frames cut from a contact sheet, neighbour bleed removed, native 314x418 per frame)",
+   "use": "attack and counterattack effect, played frame by frame",
+   "size": [
+    1256,
+    1254
+   ],
+   "alpha": true,
+   "bytes": 513004,
+   "frames": 12,
+   "frame": [
+    314,
+    418
+   ],
+   "columns": 4
+  },
+  {
+   "file": "fx/tanah.webp",
+   "source": "Batch05/DIDIK_JRPG_Batch05_HD_ElementalCombat/01_ELEMENTAL_FX_TRANSPARENT/FX_EARTHSHATTER_HD.png",
+   "status": "production transparent VFX still (Batch 05)",
+   "use": "attack burst, tweened in code",
+   "size": [
+    360,
+    349
+   ],
+   "alpha": true,
+   "bytes": 70104
+  },
+  {
+   "file": "fx/tanah_slash.webp",
+   "source": [
+    "Effects60/04_ATTACK_FRAMES/tanah/fx_tanah_frame_01.png",
+    "Effects60/04_ATTACK_FRAMES/tanah/fx_tanah_frame_02.png",
+    "Effects60/04_ATTACK_FRAMES/tanah/fx_tanah_frame_03.png",
+    "Effects60/04_ATTACK_FRAMES/tanah/fx_tanah_frame_04.png",
+    "Effects60/04_ATTACK_FRAMES/tanah/fx_tanah_frame_05.png",
+    "Effects60/04_ATTACK_FRAMES/tanah/fx_tanah_frame_06.png",
+    "Effects60/04_ATTACK_FRAMES/tanah/fx_tanah_frame_07.png",
+    "Effects60/04_ATTACK_FRAMES/tanah/fx_tanah_frame_08.png",
+    "Effects60/04_ATTACK_FRAMES/tanah/fx_tanah_frame_09.png",
+    "Effects60/04_ATTACK_FRAMES/tanah/fx_tanah_frame_10.png",
+    "Effects60/04_ATTACK_FRAMES/tanah/fx_tanah_frame_11.png",
+    "Effects60/04_ATTACK_FRAMES/tanah/fx_tanah_frame_12.png"
+   ],
+   "status": "production 12-frame attack effect (Effects60 pack; AI-generated frames cut from a contact sheet, neighbour bleed removed, native 314x418 per frame)",
+   "use": "attack and counterattack effect, played frame by frame",
+   "size": [
+    1256,
+    1254
+   ],
+   "alpha": true,
+   "bytes": 521436,
+   "frames": 12,
+   "frame": [
+    314,
+    418
+   ],
+   "columns": 4
+  },
+  {
+   "file": "fx/transition_4x3.webp",
+   "source": [
+    "Batch12/Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_00.png",
+    "Batch12/Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_01.png",
+    "Batch12/Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_02.png",
+    "Batch12/Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_03.png",
+    "Batch12/Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_04.png",
+    "Batch12/Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_05.png",
+    "Batch12/Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_06.png",
+    "Batch12/Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_07.png",
+    "Batch12/Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_08.png",
+    "Batch12/Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_09.png",
+    "Batch12/Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_10.png",
+    "Batch12/Batch12_Final_UI_Transitions_SFX_HD/02_TRANSITION_ALPHA_FRAMES/world_transition_11.png"
+   ],
+   "status": "production alpha frames (Batch 12), packed 4x3",
+   "use": "world transition wipe",
+   "size": [
+    2560,
+    1080
+   ],
+   "alpha": true,
+   "bytes": 55408,
+   "frames": 12,
+   "frame": [
+    640,
+    360
+   ]
+  },
+  {
+   "file": "heroes/mahsuri/attack.webp",
+   "source": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/MAHSURI/mahsuri_attack.png",
+   "status": "production pose still (Batch 04), stray edges removed",
+   "use": "battle pose: attack",
+   "size": [
+    490,
+    449
+   ],
+   "alpha": true,
+   "bytes": 114516,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "heroes/mahsuri/cast.webp",
+   "source": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/MAHSURI/mahsuri_cast.png",
+   "status": "production pose still (Batch 04), stray edges removed",
+   "use": "battle pose: cast",
+   "size": [
+    489,
+    426
+   ],
+   "alpha": true,
+   "bytes": 109848,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "heroes/mahsuri/hurt.webp",
+   "source": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/MAHSURI/mahsuri_hurt.png",
+   "status": "production pose still (Batch 04), stray edges removed",
+   "use": "battle pose: hurt",
+   "size": [
+    430,
+    339
+   ],
+   "alpha": true,
+   "bytes": 68744,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "heroes/mahsuri/idle.webp",
+   "source": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/MAHSURI/mahsuri_idle.png",
+   "status": "production pose still (Batch 04), stray edges removed",
+   "use": "battle pose: idle",
+   "size": [
+    445,
+    453
+   ],
+   "alpha": true,
+   "bytes": 82828,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "heroes/mahsuri/portrait.webp",
+   "source": "Batch03/DIDIK_JRPG_Batch03_HD_TasikChini/02_HERO_CHARACTERS/02_mahsuri_battle_pose_transparent_1086x1448.png",
+   "status": "production full-body pose (Batch 03)",
+   "use": "character select, world clear",
+   "size": [
+    600,
+    705
+   ],
+   "alpha": true,
+   "bytes": 154956
+  },
+  {
+   "file": "heroes/mahsuri/ready.webp",
+   "source": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/MAHSURI/mahsuri_ready.png",
+   "status": "production pose still (Batch 04), stray edges removed",
+   "use": "battle pose: ready",
+   "size": [
+    483,
+    441
+   ],
+   "alpha": true,
+   "bytes": 92418,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "heroes/mahsuri/victory.webp",
+   "source": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/MAHSURI/mahsuri_victory.png",
+   "status": "production pose still (Batch 04), stray edges removed",
+   "use": "battle pose: victory",
+   "size": [
+    482,
+    444
+   ],
+   "alpha": true,
+   "bytes": 95458,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "heroes/mahsuri/weapon/air.webp",
+   "source": "HeroElements/didik_element_weapons_pack/assets/heroes/mahsuri/water/equipped_ready.png",
+   "status": "CONCEPT hero holding the element's weapon (AI-generated, magenta key cleaned); a taller, more realistic style than the base chibi poses, one pose only",
+   "use": "hero while the element is active",
+   "size": [
+    559,
+    700
+   ],
+   "alpha": true,
+   "bytes": 155040,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "heroes/mahsuri/weapon/angin.webp",
+   "source": "HeroElements/didik_element_weapons_pack/assets/heroes/mahsuri/wind/equipped_ready.png",
+   "status": "CONCEPT hero holding the element's weapon (AI-generated, magenta key cleaned); a taller, more realistic style than the base chibi poses, one pose only",
+   "use": "hero while the element is active",
+   "size": [
+    559,
+    700
+   ],
+   "alpha": true,
+   "bytes": 124556,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "heroes/mahsuri/weapon/api.webp",
+   "source": "HeroElements/didik_element_weapons_pack/assets/heroes/mahsuri/fire/equipped_ready.png",
+   "status": "CONCEPT hero holding the element's weapon (AI-generated, magenta key cleaned); a taller, more realistic style than the base chibi poses, one pose only",
+   "use": "hero while the element is active",
+   "size": [
+    559,
+    700
+   ],
+   "alpha": true,
+   "bytes": 122684,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "heroes/mahsuri/weapon/petir.webp",
+   "source": "HeroElements/didik_element_weapons_pack/assets/heroes/mahsuri/lightning/equipped_ready.png",
+   "status": "CONCEPT hero holding the element's weapon (AI-generated, magenta key cleaned); a taller, more realistic style than the base chibi poses, one pose only",
+   "use": "hero while the element is active",
+   "size": [
+    559,
+    700
+   ],
+   "alpha": true,
+   "bytes": 136442,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "heroes/mahsuri/weapon/tanah.webp",
+   "source": "HeroElements/didik_element_weapons_pack/assets/heroes/mahsuri/earth/equipped_ready.png",
+   "status": "CONCEPT hero holding the element's weapon (AI-generated, magenta key cleaned); a taller, more realistic style than the base chibi poses, one pose only",
+   "use": "hero while the element is active",
+   "size": [
+    559,
+    700
+   ],
+   "alpha": true,
+   "bytes": 115204,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "heroes/tuah/attack.webp",
+   "source": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/HANG_TUAH/hang_tuah_attack.png",
+   "status": "production pose still (Batch 04), stray edges removed",
+   "use": "battle pose: attack",
+   "size": [
+    486,
+    430
+   ],
+   "alpha": true,
+   "bytes": 111942,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "heroes/tuah/cast.webp",
+   "source": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/HANG_TUAH/hang_tuah_cast.png",
+   "status": "production pose still (Batch 04), stray edges removed",
+   "use": "battle pose: cast",
+   "size": [
+    496,
+    420
+   ],
+   "alpha": true,
+   "bytes": 119966,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "heroes/tuah/hurt.webp",
+   "source": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/HANG_TUAH/hang_tuah_hurt.png",
+   "status": "production pose still (Batch 04), stray edges removed",
+   "use": "battle pose: hurt",
+   "size": [
+    426,
+    367
+   ],
+   "alpha": true,
+   "bytes": 75454,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "heroes/tuah/idle.webp",
+   "source": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/HANG_TUAH/hang_tuah_idle.png",
+   "status": "production pose still (Batch 04), stray edges removed",
+   "use": "battle pose: idle",
+   "size": [
+    411,
+    454
+   ],
+   "alpha": true,
+   "bytes": 78088,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "heroes/tuah/portrait.webp",
+   "source": "Batch03/DIDIK_JRPG_Batch03_HD_TasikChini/02_HERO_CHARACTERS/01_hang_tuah_battle_pose_transparent_1086x1448.png",
+   "status": "production full-body pose (Batch 03)",
+   "use": "character select, world clear",
+   "size": [
+    600,
+    727
+   ],
+   "alpha": true,
+   "bytes": 114830
+  },
+  {
+   "file": "heroes/tuah/ready.webp",
+   "source": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/HANG_TUAH/hang_tuah_ready.png",
+   "status": "production pose still (Batch 04), stray edges removed",
+   "use": "battle pose: ready",
+   "size": [
+    490,
+    456
+   ],
+   "alpha": true,
+   "bytes": 93410,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "heroes/tuah/victory.webp",
+   "source": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/HANG_TUAH/hang_tuah_victory.png",
+   "status": "production pose still (Batch 04), stray edges removed",
+   "use": "battle pose: victory",
+   "size": [
+    452,
+    444
+   ],
+   "alpha": true,
+   "bytes": 100920,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "heroes/tuah/weapon/air.webp",
+   "source": "HeroElements/didik_element_weapons_pack/assets/heroes/tuah/water/equipped_ready.png",
+   "status": "CONCEPT hero holding the element's weapon (AI-generated, magenta key cleaned); a taller, more realistic style than the base chibi poses, one pose only",
+   "use": "hero while the element is active",
+   "size": [
+    562,
+    700
+   ],
+   "alpha": true,
+   "bytes": 138676,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "heroes/tuah/weapon/angin.webp",
+   "source": "HeroElements/didik_element_weapons_pack/assets/heroes/tuah/wind/equipped_ready.png",
+   "status": "CONCEPT hero holding the element's weapon (AI-generated, magenta key cleaned); a taller, more realistic style than the base chibi poses, one pose only",
+   "use": "hero while the element is active",
+   "size": [
+    562,
+    700
+   ],
+   "alpha": true,
+   "bytes": 112762,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "heroes/tuah/weapon/api.webp",
+   "source": "HeroElements/didik_element_weapons_pack/assets/heroes/tuah/fire/equipped_ready.png",
+   "status": "CONCEPT hero holding the element's weapon (AI-generated, magenta key cleaned); a taller, more realistic style than the base chibi poses, one pose only",
+   "use": "hero while the element is active",
+   "size": [
+    562,
+    700
+   ],
+   "alpha": true,
+   "bytes": 114146,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "heroes/tuah/weapon/petir.webp",
+   "source": "HeroElements/didik_element_weapons_pack/assets/heroes/tuah/lightning/equipped_ready.png",
+   "status": "CONCEPT hero holding the element's weapon (AI-generated, magenta key cleaned); a taller, more realistic style than the base chibi poses, one pose only",
+   "use": "hero while the element is active",
+   "size": [
+    562,
+    700
+   ],
+   "alpha": true,
+   "bytes": 129266,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "heroes/tuah/weapon/tanah.webp",
+   "source": "HeroElements/didik_element_weapons_pack/assets/heroes/tuah/earth/equipped_ready.png",
+   "status": "CONCEPT hero holding the element's weapon (AI-generated, magenta key cleaned); a taller, more realistic style than the base chibi poses, one pose only",
+   "use": "hero while the element is active",
+   "size": [
+    562,
+    700
+   ],
+   "alpha": true,
+   "bytes": 108768,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "ui/element_air.webp",
+   "source": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_icons/element_air.png",
+   "status": "production UI icon (Batch 02)",
+   "use": "element picker",
+   "size": [
+    160,
+    160
+   ],
+   "alpha": true,
+   "bytes": 8776
+  },
+  {
+   "file": "ui/element_angin.webp",
+   "source": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_icons/element_angin.png",
+   "status": "production UI icon (Batch 02)",
+   "use": "element picker",
+   "size": [
+    160,
+    160
+   ],
+   "alpha": true,
+   "bytes": 9214
+  },
+  {
+   "file": "ui/element_api.webp",
+   "source": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_icons/element_api.png",
+   "status": "production UI icon (Batch 02)",
+   "use": "element picker",
+   "size": [
+    160,
+    160
+   ],
+   "alpha": true,
+   "bytes": 8590
+  },
+  {
+   "file": "ui/element_petir.webp",
+   "source": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_icons/element_petir.png",
+   "status": "production UI icon (Batch 02)",
+   "use": "element picker",
+   "size": [
+    160,
+    160
+   ],
+   "alpha": true,
+   "bytes": 9074
+  },
+  {
+   "file": "ui/element_tanah.webp",
+   "source": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_icons/element_tanah.png",
+   "status": "production UI icon (Batch 02)",
+   "use": "element picker",
+   "size": [
+    160,
+    160
+   ],
+   "alpha": true,
+   "bytes": 8730
+  },
+  {
+   "file": "ui/heart_empty.webp",
+   "source": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/heart_icons/heart_empty.png",
+   "status": "production UI icon (Batch 02)",
+   "use": "half-heart HUD",
+   "size": [
+    96,
+    104
+   ],
+   "alpha": true,
+   "bytes": 2544
+  },
+  {
+   "file": "ui/heart_full.webp",
+   "source": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/heart_icons/heart_full.png",
+   "status": "production UI icon (Batch 02)",
+   "use": "half-heart HUD",
+   "size": [
+    96,
+    104
+   ],
+   "alpha": true,
+   "bytes": 2108
+  },
+  {
+   "file": "ui/heart_half.webp",
+   "source": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/heart_icons/heart_half.png",
+   "status": "production UI icon (Batch 02)",
+   "use": "half-heart HUD",
+   "size": [
+    96,
+    104
+   ],
+   "alpha": true,
+   "bytes": 3036
+  },
+  {
+   "file": "ui/symbol_chini.webp",
+   "source": "Batch12/Batch12_Final_UI_Transitions_SFX_HD/01_UI_GAME_READY/world_01_tasik_chini_symbol.png",
+   "status": "production UI emblem (Batch 12)",
+   "use": "world map and world intro",
+   "size": [
+    160,
+    160
+   ],
+   "alpha": true,
+   "bytes": 11912
+  },
+  {
+   "file": "ui/symbol_kancil.webp",
+   "source": "Batch12/Batch12_Final_UI_Transitions_SFX_HD/01_UI_GAME_READY/world_03_rimba_bayangan_symbol.png",
+   "status": "production UI emblem (Batch 12)",
+   "use": "world map and world intro",
+   "size": [
+    160,
+    160
+   ],
+   "alpha": true,
+   "bytes": 11680
+  },
+  {
+   "file": "ui/symbol_larut.webp",
+   "source": "Batch12/Batch12_Final_UI_Transitions_SFX_HD/01_UI_GAME_READY/world_02_hutan_larut_symbol.png",
+   "status": "production UI emblem (Batch 12)",
+   "use": "world map and world intro",
+   "size": [
+    160,
+    160
+   ],
+   "alpha": true,
+   "bytes": 11472
+  },
+  {
+   "file": "ui/symbol_ledang.webp",
+   "source": "Batch12/Batch12_Final_UI_Transitions_SFX_HD/01_UI_GAME_READY/world_04_gunung_ledang_symbol.png",
+   "status": "production UI emblem (Batch 12)",
+   "use": "world map and world intro",
+   "size": [
+    160,
+    160
+   ],
+   "alpha": true,
+   "bytes": 11480
+  },
+  {
+   "file": "ui/symbol_lupar.webp",
+   "source": "Batch12/Batch12_Final_UI_Transitions_SFX_HD/01_UI_GAME_READY/world_01_batang_lupar_symbol.png",
+   "status": "production UI emblem (Batch 12)",
+   "use": "world map and world intro",
+   "size": [
+    160,
+    160
+   ],
+   "alpha": true,
+   "bytes": 11790
+  },
+  {
+   "file": "worlds/chini/boss.webp",
+   "source": "Battlefields/tasik_chini_battlefield.jpg",
+   "status": "boss cut out of the supplied painting with SAM (native painting detail)",
+   "use": "boss, drawn over the field where it stands",
+   "size": [
+    452,
+    422
+   ],
+   "alpha": true,
+   "bytes": 66038,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "worlds/chini/field.webp",
+   "source": "Battlefields/tasik_chini_battlefield.jpg",
+   "status": "supplied battlefield painting with its boss, small characters, hearts, boss panel and element row taken out (filled with the surrounding colours); the title plate and minimap stay as painted",
+   "use": "battlefield backdrop",
+   "size": [
+    1536,
+    864
+   ],
+   "alpha": false,
+   "bytes": 422294
+  },
+  {
+   "file": "worlds/chini/intro.webp",
+   "source": [
+    "BossIntro/boss_intro_sheet.png",
+    "BossIntro/boss_intro_sheet_white.webp"
+   ],
+   "status": "production boss introduction portrait (supplied sheet, cut out; about 500 px)",
+   "use": "boss reveal before the fight",
+   "size": [
+    488,
+    389
+   ],
+   "alpha": true,
+   "bytes": 80486,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "worlds/chini/minion_a.webp",
+   "source": "Battlefields/tasik_chini_battlefield.jpg",
+   "status": "small enemy cut out of the supplied painting with SAM (native painting detail, small)",
+   "use": "road enemy",
+   "size": [
+    101,
+    85
+   ],
+   "alpha": true,
+   "bytes": 5978,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "worlds/chini/minion_b.webp",
+   "source": "Battlefields/tasik_chini_battlefield.jpg",
+   "status": "small enemy cut out of the supplied painting with SAM (native painting detail, small)",
+   "use": "road enemy",
+   "size": [
+    95,
+    91
+   ],
+   "alpha": true,
+   "bytes": 5012,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "worlds/kancil/boss.webp",
+   "source": "Battlefields/rimba_bayangan_battlefield.png",
+   "status": "boss cut out of the supplied painting with SAM (native painting detail)",
+   "use": "boss, drawn over the field where it stands",
+   "size": [
+    530,
+    484
+   ],
+   "alpha": true,
+   "bytes": 83962,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "worlds/kancil/field.webp",
+   "source": "Battlefields/rimba_bayangan_battlefield.png",
+   "status": "supplied battlefield painting with its boss, small characters, hearts, boss panel and element row taken out (filled with the surrounding colours); the title plate and minimap stay as painted",
+   "use": "battlefield backdrop",
+   "size": [
+    1536,
+    1024
+   ],
+   "alpha": false,
+   "bytes": 564720
+  },
+  {
+   "file": "worlds/kancil/intro.webp",
+   "source": [
+    "BossIntro/boss_intro_sheet.png",
+    "BossIntro/boss_intro_sheet_white.webp"
+   ],
+   "status": "production boss introduction portrait (supplied sheet, cut out; about 500 px)",
+   "use": "boss reveal before the fight",
+   "size": [
+    642,
+    400
+   ],
+   "alpha": true,
+   "bytes": 54202,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "worlds/kancil/minion_a.webp",
+   "source": "Battlefields/rimba_bayangan_battlefield.png",
+   "status": "small enemy cut out of the supplied painting with SAM (native painting detail, small)",
+   "use": "road enemy",
+   "size": [
+    108,
+    99
+   ],
+   "alpha": true,
+   "bytes": 7092,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "worlds/kancil/minion_b.webp",
+   "source": "Battlefields/rimba_bayangan_battlefield.png",
+   "status": "small enemy cut out of the supplied painting with SAM (native painting detail, small)",
+   "use": "road enemy",
+   "size": [
+    112,
+    100
+   ],
+   "alpha": true,
+   "bytes": 6950,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "worlds/larut/boss.webp",
+   "source": "Battlefields/hutan_larut_battlefield.png",
+   "status": "boss cut out of the supplied painting with SAM (native painting detail)",
+   "use": "boss, drawn over the field where it stands",
+   "size": [
+    545,
+    542
+   ],
+   "alpha": true,
+   "bytes": 103506,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "worlds/larut/field.webp",
+   "source": "Battlefields/hutan_larut_battlefield.png",
+   "status": "supplied battlefield painting with its boss, small characters, hearts, boss panel and element row taken out (filled with the surrounding colours); the title plate and minimap stay as painted",
+   "use": "battlefield backdrop",
+   "size": [
+    1536,
+    1024
+   ],
+   "alpha": false,
+   "bytes": 555840
+  },
+  {
+   "file": "worlds/larut/intro.webp",
+   "source": [
+    "BossIntro/boss_intro_sheet.png",
+    "BossIntro/boss_intro_sheet_white.webp"
+   ],
+   "status": "production boss introduction portrait (supplied sheet, cut out; about 500 px)",
+   "use": "boss reveal before the fight",
+   "size": [
+    498,
+    398
+   ],
+   "alpha": true,
+   "bytes": 63780,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "worlds/larut/minion_a.webp",
+   "source": "Battlefields/hutan_larut_battlefield.png",
+   "status": "small enemy cut out of the supplied painting with SAM (native painting detail, small)",
+   "use": "road enemy",
+   "size": [
+    107,
+    101
+   ],
+   "alpha": true,
+   "bytes": 7086,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "worlds/larut/minion_b.webp",
+   "source": "Battlefields/hutan_larut_battlefield.png",
+   "status": "small enemy cut out of the supplied painting with SAM (native painting detail, small)",
+   "use": "road enemy",
+   "size": [
+    108,
+    92
+   ],
+   "alpha": true,
+   "bytes": 6828,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "worlds/ledang/boss.webp",
+   "source": "Battlefields/gunung_ledang_battlefield.png",
+   "status": "boss cut out of the supplied painting with SAM (native painting detail)",
+   "use": "boss, drawn over the field where it stands",
+   "size": [
+    623,
+    448
+   ],
+   "alpha": true,
+   "bytes": 92070,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "worlds/ledang/field.webp",
+   "source": "Battlefields/gunung_ledang_battlefield.png",
+   "status": "supplied battlefield painting with its boss, small characters, hearts, boss panel and element row taken out (filled with the surrounding colours); the title plate and minimap stay as painted",
+   "use": "battlefield backdrop",
+   "size": [
+    1536,
+    1024
+   ],
+   "alpha": false,
+   "bytes": 596798
+  },
+  {
+   "file": "worlds/ledang/intro.webp",
+   "source": [
+    "BossIntro/boss_intro_sheet.png",
+    "BossIntro/boss_intro_sheet_white.webp"
+   ],
+   "status": "production boss introduction portrait (supplied sheet, cut out; about 500 px)",
+   "use": "boss reveal before the fight",
+   "size": [
+    651,
+    433
+   ],
+   "alpha": true,
+   "bytes": 84644,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "worlds/ledang/minion_a.webp",
+   "source": "Battlefields/gunung_ledang_battlefield.png",
+   "status": "small enemy cut out of the supplied painting with SAM (native painting detail, small)",
+   "use": "road enemy",
+   "size": [
+    93,
+    93
+   ],
+   "alpha": true,
+   "bytes": 5598,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "worlds/ledang/minion_b.webp",
+   "source": "Battlefields/gunung_ledang_battlefield.png",
+   "status": "small enemy cut out of the supplied painting with SAM (native painting detail, small)",
+   "use": "road enemy",
+   "size": [
+    110,
+    92
+   ],
+   "alpha": true,
+   "bytes": 6220,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "worlds/lupar/boss.webp",
+   "source": "Battlefields/batang_lupar_battlefield.png",
+   "status": "boss cut out of the supplied painting with SAM (native painting detail)",
+   "use": "boss, drawn over the field where it stands",
+   "size": [
+    546,
+    450
+   ],
+   "alpha": true,
+   "bytes": 104432,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "worlds/lupar/field.webp",
+   "source": "Battlefields/batang_lupar_battlefield.png",
+   "status": "supplied battlefield painting with its boss, small characters, hearts, boss panel and element row taken out (filled with the surrounding colours); the title plate and minimap stay as painted",
+   "use": "battlefield backdrop",
+   "size": [
+    1536,
+    1024
+   ],
+   "alpha": false,
+   "bytes": 605652
+  },
+  {
+   "file": "worlds/lupar/intro.webp",
+   "source": [
+    "BossIntro/boss_intro_sheet.png",
+    "BossIntro/boss_intro_sheet_white.webp"
+   ],
+   "status": "production boss introduction portrait (supplied sheet, cut out; about 500 px)",
+   "use": "boss reveal before the fight",
+   "size": [
+    494,
+    358
+   ],
+   "alpha": true,
+   "bytes": 57068,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "worlds/lupar/minion_a.webp",
+   "source": "Battlefields/batang_lupar_battlefield.png",
+   "status": "small enemy cut out of the supplied painting with SAM (native painting detail, small)",
+   "use": "road enemy",
+   "size": [
+    99,
+    84
+   ],
+   "alpha": true,
+   "bytes": 5962,
+   "anchor": "bottom-center"
+  },
+  {
+   "file": "worlds/lupar/minion_b.webp",
+   "source": "Battlefields/batang_lupar_battlefield.png",
+   "status": "small enemy cut out of the supplied painting with SAM (native painting detail, small)",
+   "use": "road enemy",
+   "size": [
+    100,
+    92
+   ],
+   "alpha": true,
+   "bytes": 6874,
+   "anchor": "bottom-center"
+  }
+ ]
+}

@@ -16,8 +16,16 @@ from fastapi import WebSocket
 from ..security import token_hash
 
 
-def dumps(data: Any) -> str:
-    return json.dumps(data, separators=(",", ":"), ensure_ascii=False)
+try:  # several times faster, and a room encodes a view for every child up to ten times a second
+    import orjson
+
+    def dumps(data: Any) -> str:
+        return orjson.dumps(data, option=orjson.OPT_NON_STR_KEYS).decode()
+
+except ImportError:  # pragma: no cover - the standard library gives the same text, only slower
+
+    def dumps(data: Any) -> str:
+        return json.dumps(data, separators=(",", ":"), ensure_ascii=False)
 
 
 @dataclass(frozen=True)

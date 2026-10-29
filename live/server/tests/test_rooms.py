@@ -25,9 +25,10 @@ def run(coro):
     return asyncio.run(coro)
 
 
-def test_children_get_a_suggested_name_unless_the_host_allows_typing() -> None:
+def test_children_get_a_suggested_name_when_the_host_turns_typing_off() -> None:
     async def scenario() -> None:
         room = open_room("lumba")
+        room.settings.custom_names = False
         conn, _ = connection()
         typed = room.join(conn, {"name": "Aminah binti Ali", "avatar": "penyu"})
         assert typed.nickname.startswith("Penyu ")  # replaced by a suggestion
@@ -405,5 +406,20 @@ def test_a_full_class_spreads_over_the_whole_square() -> None:
         assert min(k.spot[1] for k in later) < 6.0  # a full class fills the square, not one row
         assert all(plaza.clamp(*k.spot) == k.spot for k in kids)  # never in the fountain
         room.close()
+
+    run(scenario())
+
+
+def test_two_children_never_stand_on_the_same_spot() -> None:
+    async def scenario() -> None:
+        room = open_room("lumba")
+        a = room.join(connection()[0], {"avatar": "kancil"})
+        b = room.join(connection()[0], {"avatar": "penyu"})
+        for kid in (a, b):
+            kid.last_walk -= 1
+            room.handle_player(kid, {"t": "walk", "x": 4.0, "y": 7.0})
+        dx, dy = (a.spot[0] - b.spot[0]) / plaza.APART_X, (a.spot[1] - b.spot[1]) / plaza.APART_Y
+        assert math.hypot(dx, dy) >= 1
+        assert plaza.clamp(*b.spot) == b.spot  # still in the square, outside the fountain
 
     run(scenario())

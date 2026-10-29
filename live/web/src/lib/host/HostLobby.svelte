@@ -34,9 +34,15 @@
 <div class="lobby">
 	<div class="strip">
 		<JoinPanel room={view.room} />
-		<button type="button" class="btn btn--sun btn--big start" class:btn--ready={players.length > 0} disabled={!players.length || !!blocked} onclick={() => client.send({ t: 'start' })}>
-			<Icon name="play" size={30} /> Mula
-		</button>
+		<div class="go">
+			<button type="button" class="btn btn--sun btn--big start" class:btn--ready={players.length > 0} disabled={!players.length || !!blocked} onclick={() => client.send({ t: 'start' })}>
+				<Icon name="play" size={30} /> Mula
+			</button>
+			<!-- the child's screen in a new tab, joined as a pretend child: press Mula here and play it there -->
+			<a class="btn btn--plain preview" href="/m/{view.room.slug}?pratonton=1" target="_blank" rel="noopener">
+				<Icon name="eye" /> Pratonton sebagai murid
+			</a>
+		</div>
 	</div>
 
 	<div class="main">
@@ -104,7 +110,7 @@
 				<span>Tukar permainan</span>
 				<select class="input" value={mode.key} onchange={(e) => client.send({ t: 'mode', key: (e.target as HTMLSelectElement).value })}>
 					{#each modes as m (m.key)}
-						<option value={m.key} disabled={!!m.reason}>{m.title}{m.look === '3d' ? ' (3D)' : ''}{m.reason ? ' (tidak sesuai)' : ''}</option>
+						<option value={m.key} disabled={!!m.reason}>{m.title}{m.reason ? ' (tidak sesuai)' : ''}</option>
 					{/each}
 				</select>
 			</label>
@@ -157,7 +163,18 @@
 		grid-template-columns: minmax(0, 1fr) auto;
 		gap: 1.2rem;
 	}
-	/* Mula stands at the end of the join strip, as tall as it, so it is the first thing the host finds. */
+	/* Mula stands at the end of the join strip, as tall as it, so it is the first thing the host finds;
+	   the preview link sits under it. */
+	.go {
+		display: grid;
+		grid-template-rows: minmax(0, 1fr) auto;
+		gap: 0.5rem;
+		align-self: stretch;
+	}
+	.preview {
+		justify-content: center;
+		font-size: 0.95rem;
+	}
 	.start {
 		align-self: stretch;
 		min-width: 11rem;
@@ -173,6 +190,8 @@
 	.square {
 		display: grid;
 		gap: 0.6rem;
+		/* a grid item would grow to its drawing's width, and the drawing then never shrinks to fit a phone */
+		min-width: 0;
 	}
 	.square-head {
 		display: flex;
@@ -206,6 +225,7 @@
 	}
 	.stage {
 		position: relative;
+		min-width: 0;
 	}
 	.empty {
 		position: absolute;

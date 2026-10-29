@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+import os
 import subprocess
 import sys
 from dataclasses import replace
@@ -134,6 +135,8 @@ def test_the_command_line_prints_a_working_link(settings: Settings) -> None:
     with TestClient(create_app(settings)):
         pass  # creates the database with the demo parent
     env = {"DIDIK_DATA_DIR": str(settings.data_dir), "DIDIK_DATABASE_URL": settings.database_url, "PATH": ""}
+    # Windows cannot start Python without these
+    env |= {k: os.environ[k] for k in ("SYSTEMROOT", "SYSTEMDRIVE", "TEMP", "TMP") if k in os.environ}
     out = subprocess.run(
         [sys.executable, "-m", "didik_live", "--reset-link", DEMO_EMAIL, "--port", "8123"],
         capture_output=True, text=True, env=env, check=True,

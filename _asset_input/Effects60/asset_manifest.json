@@ -1,0 +1,394 @@
+{
+  "pack": "DIDIK Legenda — Two Heroes + Five Elemental Weapons + Attack FX",
+  "format_version": 1,
+  "source": "Image generation from the preceding turns, cropped and exported from source sprite sheets, without creating new character poses.",
+  "warnings": [
+    "Hero images are static element-weapon variants, not animated sprites.",
+    "FX atlases contain 12 illustrated stages each, but frames are crops of a generative contact sheet; some may show edge clipping, inconsistencies and neighboring-frame bleed.",
+    "Resizing cannot add original image detail. Native cells are 313–314 x 418 px, not full-HD individual frames.",
+    "GIFs are previews; use RGBA PNG frames or APNG in browser."
+  ],
+  "heroes": {
+    "lelaki": {
+      "source": "01_ORIGINAL_CHARACTER_SHEETS/five_elemental_hero_variants.png",
+      "source_dimensions": [
+        1448,
+        1086
+      ],
+      "variants": {
+        "api": {
+          "natural_crop": "02_CHARACTER_VARIANTS/lelaki/hero_lelaki_api_weapon.png",
+          "crop_dimensions": [
+            483,
+            543
+          ],
+          "crop_rectangle_in_source": [
+            0,
+            0,
+            483,
+            543
+          ],
+          "canvas_768": "02_CHARACTER_VARIANTS/lelaki/hero_lelaki_api_on_768_canvas.png",
+          "asset_type": "STATIC_HERO_WEAPON_VARIANT_DERIVED_CROP",
+          "limitations": "Background is RGBA transparent; adjacent artwork or clipped effects may appear around cropped borders."
+        },
+        "angin": {
+          "natural_crop": "02_CHARACTER_VARIANTS/lelaki/hero_lelaki_angin_weapon.png",
+          "crop_dimensions": [
+            482,
+            543
+          ],
+          "crop_rectangle_in_source": [
+            483,
+            0,
+            965,
+            543
+          ],
+          "canvas_768": "02_CHARACTER_VARIANTS/lelaki/hero_lelaki_angin_on_768_canvas.png",
+          "asset_type": "STATIC_HERO_WEAPON_VARIANT_DERIVED_CROP",
+          "limitations": "Background is RGBA transparent; adjacent artwork or clipped effects may appear around cropped borders."
+        },
+        "petir": {
+          "natural_crop": "02_CHARACTER_VARIANTS/lelaki/hero_lelaki_petir_weapon.png",
+          "crop_dimensions": [
+            483,
+            543
+          ],
+          "crop_rectangle_in_source": [
+            965,
+            0,
+            1448,
+            543
+          ],
+          "canvas_768": "02_CHARACTER_VARIANTS/lelaki/hero_lelaki_petir_on_768_canvas.png",
+          "asset_type": "STATIC_HERO_WEAPON_VARIANT_DERIVED_CROP",
+          "limitations": "Background is RGBA transparent; adjacent artwork or clipped effects may appear around cropped borders."
+        },
+        "tanah": {
+          "natural_crop": "02_CHARACTER_VARIANTS/lelaki/hero_lelaki_tanah_weapon.png",
+          "crop_dimensions": [
+            724,
+            543
+          ],
+          "crop_rectangle_in_source": [
+            0,
+            543,
+            724,
+            1086
+          ],
+          "canvas_768": "02_CHARACTER_VARIANTS/lelaki/hero_lelaki_tanah_on_768_canvas.png",
+          "asset_type": "STATIC_HERO_WEAPON_VARIANT_DERIVED_CROP",
+          "limitations": "Background is RGBA transparent; adjacent artwork or clipped effects may appear around cropped borders."
+        },
+        "air": {
+          "natural_crop": "02_CHARACTER_VARIANTS/lelaki/hero_lelaki_air_weapon.png",
+          "crop_dimensions": [
+            724,
+            543
+          ],
+          "crop_rectangle_in_source": [
+            724,
+            543,
+            1448,
+            1086
+          ],
+          "canvas_768": "02_CHARACTER_VARIANTS/lelaki/hero_lelaki_air_on_768_canvas.png",
+          "asset_type": "STATIC_HERO_WEAPON_VARIANT_DERIVED_CROP",
+          "limitations": "Background is RGBA transparent; adjacent artwork or clipped effects may appear around cropped borders."
+        }
+      }
+    },
+    "perempuan": {
+      "source": "01_ORIGINAL_CHARACTER_SHEETS/elemental_chibi_warrior_character_sheet.png",
+      "source_dimensions": [
+        1448,
+        1086
+      ],
+      "variants": {
+        "api": {
+          "natural_crop": "02_CHARACTER_VARIANTS/perempuan/hero_perempuan_api_weapon.png",
+          "crop_dimensions": [
+            724,
+            543
+          ],
+          "crop_rectangle_in_source": [
+            0,
+            0,
+            724,
+            543
+          ],
+          "canvas_768": "02_CHARACTER_VARIANTS/perempuan/hero_perempuan_api_on_768_canvas.png",
+          "asset_type": "STATIC_HERO_WEAPON_VARIANT_DERIVED_CROP",
+          "limitations": "Background is RGBA transparent; adjacent artwork or clipped effects may appear around cropped borders."
+        },
+        "angin": {
+          "natural_crop": "02_CHARACTER_VARIANTS/perempuan/hero_perempuan_angin_weapon.png",
+          "crop_dimensions": [
+            724,
+            543
+          ],
+          "crop_rectangle_in_source": [
+            724,
+            0,
+            1448,
+            543
+          ],
+          "canvas_768": "02_CHARACTER_VARIANTS/perempuan/hero_perempuan_angin_on_768_canvas.png",
+          "asset_type": "STATIC_HERO_WEAPON_VARIANT_DERIVED_CROP",
+          "limitations": "Background is RGBA transparent; adjacent artwork or clipped effects may appear around cropped borders."
+        },
+        "petir": {
+          "natural_crop": "02_CHARACTER_VARIANTS/perempuan/hero_perempuan_petir_weapon.png",
+          "crop_dimensions": [
+            483,
+            543
+          ],
+          "crop_rectangle_in_source": [
+            0,
+            543,
+            483,
+            1086
+          ],
+          "canvas_768": "02_CHARACTER_VARIANTS/perempuan/hero_perempuan_petir_on_768_canvas.png",
+          "asset_type": "STATIC_HERO_WEAPON_VARIANT_DERIVED_CROP",
+          "limitations": "Background is RGBA transparent; adjacent artwork or clipped effects may appear around cropped borders."
+        },
+        "tanah": {
+          "natural_crop": "02_CHARACTER_VARIANTS/perempuan/hero_perempuan_tanah_weapon.png",
+          "crop_dimensions": [
+            482,
+            543
+          ],
+          "crop_rectangle_in_source": [
+            483,
+            543,
+            965,
+            1086
+          ],
+          "canvas_768": "02_CHARACTER_VARIANTS/perempuan/hero_perempuan_tanah_on_768_canvas.png",
+          "asset_type": "STATIC_HERO_WEAPON_VARIANT_DERIVED_CROP",
+          "limitations": "Background is RGBA transparent; adjacent artwork or clipped effects may appear around cropped borders."
+        },
+        "air": {
+          "natural_crop": "02_CHARACTER_VARIANTS/perempuan/hero_perempuan_air_weapon.png",
+          "crop_dimensions": [
+            483,
+            543
+          ],
+          "crop_rectangle_in_source": [
+            965,
+            543,
+            1448,
+            1086
+          ],
+          "canvas_768": "02_CHARACTER_VARIANTS/perempuan/hero_perempuan_air_on_768_canvas.png",
+          "asset_type": "STATIC_HERO_WEAPON_VARIANT_DERIVED_CROP",
+          "limitations": "Background is RGBA transparent; adjacent artwork or clipped effects may appear around cropped borders."
+        }
+      }
+    }
+  },
+  "effects": {
+    "api": {
+      "malay": "Api",
+      "english": "Fire",
+      "weapon_example": "Pedang bara",
+      "source": "03_ORIGINAL_ATTACK_SHEETS/fiery_crescent_slash_animation_sheet.png",
+      "original_sheet_dimensions": [
+        1254,
+        1254
+      ],
+      "sheet_layout": {
+        "columns": 4,
+        "rows": 3,
+        "order": "left to right then top to bottom"
+      },
+      "frame_dimensions": [
+        314,
+        418
+      ],
+      "frame_count": 12,
+      "duration_ms": 100,
+      "frames": [
+        "04_ATTACK_FRAMES/api/fx_api_frame_01.png",
+        "04_ATTACK_FRAMES/api/fx_api_frame_02.png",
+        "04_ATTACK_FRAMES/api/fx_api_frame_03.png",
+        "04_ATTACK_FRAMES/api/fx_api_frame_04.png",
+        "04_ATTACK_FRAMES/api/fx_api_frame_05.png",
+        "04_ATTACK_FRAMES/api/fx_api_frame_06.png",
+        "04_ATTACK_FRAMES/api/fx_api_frame_07.png",
+        "04_ATTACK_FRAMES/api/fx_api_frame_08.png",
+        "04_ATTACK_FRAMES/api/fx_api_frame_09.png",
+        "04_ATTACK_FRAMES/api/fx_api_frame_10.png",
+        "04_ATTACK_FRAMES/api/fx_api_frame_11.png",
+        "04_ATTACK_FRAMES/api/fx_api_frame_12.png"
+      ],
+      "apng": "05_ANIMATED_PREVIEWS/fx_api_12frame_rgba.apng",
+      "gif_preview": "05_ANIMATED_PREVIEWS/fx_api_12frame_preview.gif",
+      "asset_type": "ILLUSTRATED_STAGES_AS_CROPPED_FRAMES",
+      "frame_limitations": "Not guaranteed seamless hand-drawn animation; edge bleed may require retouching."
+    },
+    "angin": {
+      "malay": "Angin",
+      "english": "Wind",
+      "weapon_example": "Pedang angin",
+      "source": "03_ORIGINAL_ATTACK_SHEETS/emerald_wind_slash_sprite_sheet.png",
+      "original_sheet_dimensions": [
+        1254,
+        1254
+      ],
+      "sheet_layout": {
+        "columns": 4,
+        "rows": 3,
+        "order": "left to right then top to bottom"
+      },
+      "frame_dimensions": [
+        314,
+        418
+      ],
+      "frame_count": 12,
+      "duration_ms": 100,
+      "frames": [
+        "04_ATTACK_FRAMES/angin/fx_angin_frame_01.png",
+        "04_ATTACK_FRAMES/angin/fx_angin_frame_02.png",
+        "04_ATTACK_FRAMES/angin/fx_angin_frame_03.png",
+        "04_ATTACK_FRAMES/angin/fx_angin_frame_04.png",
+        "04_ATTACK_FRAMES/angin/fx_angin_frame_05.png",
+        "04_ATTACK_FRAMES/angin/fx_angin_frame_06.png",
+        "04_ATTACK_FRAMES/angin/fx_angin_frame_07.png",
+        "04_ATTACK_FRAMES/angin/fx_angin_frame_08.png",
+        "04_ATTACK_FRAMES/angin/fx_angin_frame_09.png",
+        "04_ATTACK_FRAMES/angin/fx_angin_frame_10.png",
+        "04_ATTACK_FRAMES/angin/fx_angin_frame_11.png",
+        "04_ATTACK_FRAMES/angin/fx_angin_frame_12.png"
+      ],
+      "apng": "05_ANIMATED_PREVIEWS/fx_angin_12frame_rgba.apng",
+      "gif_preview": "05_ANIMATED_PREVIEWS/fx_angin_12frame_preview.gif",
+      "asset_type": "ILLUSTRATED_STAGES_AS_CROPPED_FRAMES",
+      "frame_limitations": "Not guaranteed seamless hand-drawn animation; edge bleed may require retouching."
+    },
+    "petir": {
+      "malay": "Petir",
+      "english": "Lightning",
+      "weapon_example": "Tombak/pedang petir",
+      "source": "03_ORIGINAL_ATTACK_SHEETS/golden_lightning_vfx_sprite_sheet.png",
+      "original_sheet_dimensions": [
+        1254,
+        1254
+      ],
+      "sheet_layout": {
+        "columns": 4,
+        "rows": 3,
+        "order": "left to right then top to bottom"
+      },
+      "frame_dimensions": [
+        314,
+        418
+      ],
+      "frame_count": 12,
+      "duration_ms": 100,
+      "frames": [
+        "04_ATTACK_FRAMES/petir/fx_petir_frame_01.png",
+        "04_ATTACK_FRAMES/petir/fx_petir_frame_02.png",
+        "04_ATTACK_FRAMES/petir/fx_petir_frame_03.png",
+        "04_ATTACK_FRAMES/petir/fx_petir_frame_04.png",
+        "04_ATTACK_FRAMES/petir/fx_petir_frame_05.png",
+        "04_ATTACK_FRAMES/petir/fx_petir_frame_06.png",
+        "04_ATTACK_FRAMES/petir/fx_petir_frame_07.png",
+        "04_ATTACK_FRAMES/petir/fx_petir_frame_08.png",
+        "04_ATTACK_FRAMES/petir/fx_petir_frame_09.png",
+        "04_ATTACK_FRAMES/petir/fx_petir_frame_10.png",
+        "04_ATTACK_FRAMES/petir/fx_petir_frame_11.png",
+        "04_ATTACK_FRAMES/petir/fx_petir_frame_12.png"
+      ],
+      "apng": "05_ANIMATED_PREVIEWS/fx_petir_12frame_rgba.apng",
+      "gif_preview": "05_ANIMATED_PREVIEWS/fx_petir_12frame_preview.gif",
+      "asset_type": "ILLUSTRATED_STAGES_AS_CROPPED_FRAMES",
+      "frame_limitations": "Not guaranteed seamless hand-drawn animation; edge bleed may require retouching."
+    },
+    "tanah": {
+      "malay": "Tanah",
+      "english": "Earth",
+      "weapon_example": "Kapak / bilah batu",
+      "source": "03_ORIGINAL_ATTACK_SHEETS/earthshatter_explosion_vfx_sprite_sheet.png",
+      "original_sheet_dimensions": [
+        1254,
+        1254
+      ],
+      "sheet_layout": {
+        "columns": 4,
+        "rows": 3,
+        "order": "left to right then top to bottom"
+      },
+      "frame_dimensions": [
+        314,
+        418
+      ],
+      "frame_count": 12,
+      "duration_ms": 100,
+      "frames": [
+        "04_ATTACK_FRAMES/tanah/fx_tanah_frame_01.png",
+        "04_ATTACK_FRAMES/tanah/fx_tanah_frame_02.png",
+        "04_ATTACK_FRAMES/tanah/fx_tanah_frame_03.png",
+        "04_ATTACK_FRAMES/tanah/fx_tanah_frame_04.png",
+        "04_ATTACK_FRAMES/tanah/fx_tanah_frame_05.png",
+        "04_ATTACK_FRAMES/tanah/fx_tanah_frame_06.png",
+        "04_ATTACK_FRAMES/tanah/fx_tanah_frame_07.png",
+        "04_ATTACK_FRAMES/tanah/fx_tanah_frame_08.png",
+        "04_ATTACK_FRAMES/tanah/fx_tanah_frame_09.png",
+        "04_ATTACK_FRAMES/tanah/fx_tanah_frame_10.png",
+        "04_ATTACK_FRAMES/tanah/fx_tanah_frame_11.png",
+        "04_ATTACK_FRAMES/tanah/fx_tanah_frame_12.png"
+      ],
+      "apng": "05_ANIMATED_PREVIEWS/fx_tanah_12frame_rgba.apng",
+      "gif_preview": "05_ANIMATED_PREVIEWS/fx_tanah_12frame_preview.gif",
+      "asset_type": "ILLUSTRATED_STAGES_AS_CROPPED_FRAMES",
+      "frame_limitations": "Not guaranteed seamless hand-drawn animation; edge bleed may require retouching."
+    },
+    "air": {
+      "malay": "Air",
+      "english": "Water",
+      "weapon_example": "Pedang arus air",
+      "source": "03_ORIGINAL_ATTACK_SHEETS/sapphire_water_slash_sprite_sheet.png",
+      "original_sheet_dimensions": [
+        1254,
+        1254
+      ],
+      "sheet_layout": {
+        "columns": 4,
+        "rows": 3,
+        "order": "left to right then top to bottom"
+      },
+      "frame_dimensions": [
+        314,
+        418
+      ],
+      "frame_count": 12,
+      "duration_ms": 100,
+      "frames": [
+        "04_ATTACK_FRAMES/air/fx_air_frame_01.png",
+        "04_ATTACK_FRAMES/air/fx_air_frame_02.png",
+        "04_ATTACK_FRAMES/air/fx_air_frame_03.png",
+        "04_ATTACK_FRAMES/air/fx_air_frame_04.png",
+        "04_ATTACK_FRAMES/air/fx_air_frame_05.png",
+        "04_ATTACK_FRAMES/air/fx_air_frame_06.png",
+        "04_ATTACK_FRAMES/air/fx_air_frame_07.png",
+        "04_ATTACK_FRAMES/air/fx_air_frame_08.png",
+        "04_ATTACK_FRAMES/air/fx_air_frame_09.png",
+        "04_ATTACK_FRAMES/air/fx_air_frame_10.png",
+        "04_ATTACK_FRAMES/air/fx_air_frame_11.png",
+        "04_ATTACK_FRAMES/air/fx_air_frame_12.png"
+      ],
+      "apng": "05_ANIMATED_PREVIEWS/fx_air_12frame_rgba.apng",
+      "gif_preview": "05_ANIMATED_PREVIEWS/fx_air_12frame_preview.gif",
+      "asset_type": "ILLUSTRATED_STAGES_AS_CROPPED_FRAMES",
+      "frame_limitations": "Not guaranteed seamless hand-drawn animation; edge bleed may require retouching."
+    }
+  },
+  "suggested_integrations": {
+    "renderer": "SvelteKit / HTML Canvas or CSS layers",
+    "story_mode": "quiz-driven turn-based, no manual dodging or WASD",
+    "fps_preview": 10,
+    "frame_duration_ms": 100
+  }
+}

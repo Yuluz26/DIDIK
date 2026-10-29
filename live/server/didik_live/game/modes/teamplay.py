@@ -1,4 +1,4 @@
-"""Two teams, Harimau and Penyu, shared by every team game (Pasukan Warna, Sepakan Penalti).
+"""Two teams, Harimau and Penyu, used by Pasukan Warna.
 
 Children are dealt into teams at random when the host presses Mula, alternately so the sizes never
 differ by more than one, and a child who joins later goes to the smaller team.
@@ -16,10 +16,6 @@ TEAMS = [("harimau", "Pasukan Harimau"), ("penyu", "Pasukan Penyu")]
 
 def team_name(team: str) -> str:
     return dict(TEAMS)[team]
-
-
-def rival(team: str) -> str:
-    return TEAMS[1][0] if team == TEAMS[0][0] else TEAMS[0][0]
 
 
 class TeamPlay:

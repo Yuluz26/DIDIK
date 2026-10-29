@@ -1,0 +1,213 @@
+{
+  "pack": "Batch 12",
+  "title": "Reusable UI, Chapter Transitions, SFX Prototypes",
+  "status": "ART_AND_IMPLEMENTATION_HANDOFF_NOT_FULL_GAME",
+  "items": [
+    {
+      "path": "04_MASTER_VISUAL/five_worlds_progression_FHD.png",
+      "type": "art_reference",
+      "size_bytes": 2858140,
+      "width": 1920,
+      "height": 1080,
+      "mode": "RGB"
+    },
+    {
+      "path": "05_PREVIEW_VIDEO/five_world_story_mode_reveal.mp4",
+      "type": "cinematic_animatic_video",
+      "size_bytes": 1510208
+    },
+    {
+      "path": "03_SYNTH_SFX_DEMOS/heal.wav",
+      "type": "synthesized_sfx_demo",
+      "size_bytes": 45908
+    },
+    {
+      "path": "03_SYNTH_SFX_DEMOS/boss_hit.wav",
+      "type": "synthesized_sfx_demo",
+      "size_bytes": 37970
+    },
+    {
+      "path": "03_SYNTH_SFX_DEMOS/menu_click.wav",
+      "type": "synthesized_sfx_demo",
+      "size_bytes": 17684
+    },
+    {
+      "path": "03_SYNTH_SFX_DEMOS/wrong.wav",
+      "type": "synthesized_sfx_demo",
+      "size_bytes": 58256
+    },
+    {
+      "path": "03_SYNTH_SFX_DEMOS/world_unlock.wav",
+      "type": "synthesized_sfx_demo",
+      "size_bytes": 110294
+    },
+    {
+      "path": "03_SYNTH_SFX_DEMOS/correct.wav",
+      "type": "synthesized_sfx_demo",
+      "size_bytes": 45908
+    },
+    {
+      "path": "01_UI_GAME_READY/didik_story_mode_title_card.svg",
+      "type": "reusable_ui_or_fx",
+      "size_bytes": 438
+    },
+    {
+      "path": "01_UI_GAME_READY/world_02_hutan_larut_symbol.png",
+      "type": "art_reference",
+      "size_bytes": 6415,
+      "width": 512,
+      "height": 512,
+      "mode": "RGBA"
+    },
+    {
+      "path": "01_UI_GAME_READY/world_03_rimba_bayangan_symbol.png",
+      "type": "art_reference",
+      "size_bytes": 6490,
+      "width": 512,
+      "height": 512,
+      "mode": "RGBA"
+    },
+    {
+      "path": "01_UI_GAME_READY/transparent_battle_hud_FHD.png",
+      "type": "art_reference",
+      "size_bytes": 10488,
+      "width": 1920,
+      "height": 1080,
+      "mode": "RGBA"
+    },
+    {
+      "path": "01_UI_GAME_READY/world_01_tasik_chini_symbol.png",
+      "type": "art_reference",
+      "size_bytes": 6440,
+      "width": 512,
+      "height": 512,
+      "mode": "RGBA"
+    },
+    {
+      "path": "01_UI_GAME_READY/world_01_batang_lupar_symbol.png",
+      "type": "art_reference",
+      "size_bytes": 6443,
+      "width": 512,
+      "height": 512,
+      "mode": "RGBA"
+    },
+    {
+      "path": "01_UI_GAME_READY/world_04_gunung_ledang_symbol.png",
+      "type": "art_reference",
+      "size_bytes": 6430,
+      "width": 512,
+      "height": 512,
+      "mode": "RGBA"
+    },
+    {
+      "path": "07_CODEX_CLAUDE_HANDOFF/asset_entrypoints.json",
+      "type": "art_reference",
+      "size_bytes": 584
+    },
+    {
+      "path": "02_TRANSITION_ALPHA_FRAMES/world_transition_11.png",
+      "type": "art_reference",
+      "size_bytes": 2683,
+      "width": 640,
+      "height": 360,
+      "mode": "RGBA"
+    },
+    {
+      "path": "02_TRANSITION_ALPHA_FRAMES/world_transition_01.png",
+      "type": "art_reference",
+      "size_bytes": 1551,
+      "width": 640,
+      "height": 360,
+      "mode": "RGBA"
+    },
+    {
+      "path": "02_TRANSITION_ALPHA_FRAMES/world_transition_08.png",
+      "type": "art_reference",
+      "size_bytes": 3658,
+      "width": 640,
+      "height": 360,
+      "mode": "RGBA"
+    },
+    {
+      "path": "02_TRANSITION_ALPHA_FRAMES/world_transition_09.png",
+      "type": "art_reference",
+      "size_bytes": 3385,
+      "width": 640,
+      "height": 360,
+      "mode": "RGBA"
+    },
+    {
+      "path": "02_TRANSITION_ALPHA_FRAMES/world_transition_10.png",
+      "type": "art_reference",
+      "size_bytes": 3320,
+      "width": 640,
+      "height": 360,
+      "mode": "RGBA"
+    },
+    {
+      "path": "02_TRANSITION_ALPHA_FRAMES/world_transition_06.png",
+      "type": "art_reference",
+      "size_bytes": 3909,
+      "width": 640,
+      "height": 360,
+      "mode": "RGBA"
+    },
+    {
+      "path": "02_TRANSITION_ALPHA_FRAMES/world_transition_03.png",
+      "type": "art_reference",
+      "size_bytes": 2428,
+      "width": 640,
+      "height": 360,
+      "mode": "RGBA"
+    },
+    {
+      "path": "02_TRANSITION_ALPHA_FRAMES/world_transition_04.png",
+      "type": "art_reference",
+      "size_bytes": 2909,
+      "width": 640,
+      "height": 360,
+      "mode": "RGBA"
+    },
+    {
+      "path": "02_TRANSITION_ALPHA_FRAMES/world_transition_00.png",
+      "type": "art_reference",
+      "size_bytes": 982,
+      "width": 640,
+      "height": 360,
+      "mode": "RGBA"
+    },
+    {
+      "path": "02_TRANSITION_ALPHA_FRAMES/world_transition_07.png",
+      "type": "art_reference",
+      "size_bytes": 4315,
+      "width": 640,
+      "height": 360,
+      "mode": "RGBA"
+    },
+    {
+      "path": "02_TRANSITION_ALPHA_FRAMES/world_transition_02.png",
+      "type": "art_reference",
+      "size_bytes": 2001,
+      "width": 640,
+      "height": 360,
+      "mode": "RGBA"
+    },
+    {
+      "path": "02_TRANSITION_ALPHA_FRAMES/world_transition_05.png",
+      "type": "art_reference",
+      "size_bytes": 3436,
+      "width": 640,
+      "height": 360,
+      "mode": "RGBA"
+    },
+    {
+      "path": "06_CONTACT_SHEET/batch12_contact_sheet.png",
+      "type": "art_reference",
+      "size_bytes": 310218,
+      "width": 1500,
+      "height": 520,
+      "mode": "RGB"
+    }
+  ],
+  "tech_notes": "Transparent FHD UI, vector title card, 12 real transparent transition PNG frames and six synthesized PCM WAV UI sound demos; MP4 is a storyboard animatic. Music / voices / elaborate combat animation are NOT included."
+}

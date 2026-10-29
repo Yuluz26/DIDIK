@@ -16,6 +16,7 @@
 	import Icon from '$ui/Icon.svelte';
 	import Timer from '$ui/Timer.svelte';
 	import Hud from '../Hud.svelte';
+	import QuestionPopup from '../QuestionPopup.svelte';
 	import ForestMap from './ForestMap.svelte';
 	import Joystick from './Joystick.svelte';
 	import { livePositions } from './positions.svelte';
@@ -195,32 +196,30 @@
 	</div>
 
 	{#if asking && seat.question}
-		<div class="sheet-backdrop">
-			<section class="sheet" aria-label="Soalan dari peti">
-				<QuestionCard question={seat.question} />
-				{#if seat.step === 'result' && seat.result}
-					<Feedback
-						correct={seat.result.correct}
-						fraction={seat.result.fraction}
-						extra={seat.result.reward?.key ? `Kamu dapat kunci! (${keys}/${need})` : ''}
-					/>
-				{/if}
-				<Answer
-					question={seat.question}
-					disabled={seat.step !== 'question'}
-					mine={seat.step === 'result' ? seat.result?.answer : undefined}
-					reveal={seat.step === 'result' ? seat.result?.reveal : null}
-					allRight={seat.result?.correct}
-					onanswer={(a) => client.send({ t: 'answer', a })}
+		<QuestionPopup label="Soalan dari peti" key={seat.answered ?? 0}>
+			<QuestionCard question={seat.question} />
+			{#if seat.step === 'result' && seat.result}
+				<Feedback
+					correct={seat.result.correct}
+					fraction={seat.result.fraction}
+					extra={seat.result.reward?.key ? `Kamu dapat kunci! (${keys}/${need})` : ''}
 				/>
-				{#if seat.step === 'result'}
-					<button type="button" class="btn btn--sun btn--big" onclick={() => client.send({ t: 'next' })}>
-						Teruskan jelajah <Icon name="next" />
-					</button>
-					{#if !seat.result?.correct}<p class="lock-note">Peti ini berkunci beberapa saat. Cuba peti lain dahulu.</p>{/if}
-				{/if}
-			</section>
-		</div>
+			{/if}
+			<Answer
+				question={seat.question}
+				disabled={seat.step !== 'question'}
+				mine={seat.step === 'result' ? seat.result?.answer : undefined}
+				reveal={seat.step === 'result' ? seat.result?.reveal : null}
+				allRight={seat.result?.correct}
+				onanswer={(a) => client.send({ t: 'answer', a })}
+			/>
+			{#if seat.step === 'result'}
+				<button type="button" class="btn btn--sun btn--big" onclick={() => client.send({ t: 'next' })}>
+					Teruskan jelajah <Icon name="next" />
+				</button>
+				{#if !seat.result?.correct}<p class="lock-note">Peti ini berkunci beberapa saat. Cuba peti lain dahulu.</p>{/if}
+			{/if}
+		</QuestionPopup>
 	{/if}
 {/if}
 
@@ -300,37 +299,9 @@
 	.escaped h2 {
 		font-size: 1.6rem;
 	}
-	.sheet-backdrop {
-		position: fixed;
-		inset: 0;
-		z-index: 40;
-		display: grid;
-		align-items: end;
-		justify-items: center;
-		background: rgb(20 40 30 / 0.45);
-	}
-	.sheet {
-		display: grid;
-		gap: 0.9rem;
-		width: min(44rem, 100%);
-		max-height: 88dvh;
-		overflow-y: auto;
-		padding: 1.2rem var(--gutter-r) max(1.2rem, env(safe-area-inset-bottom, 0px)) var(--gutter);
-		border-radius: var(--r-lg) var(--r-lg) 0 0;
-		background: var(--paper);
-		animation: rise-in var(--t-enter) var(--spring);
-	}
 	.lock-note {
 		color: var(--ink-2);
 		font-weight: 700;
 		text-align: center;
-	}
-	@media (min-width: 760px) {
-		.sheet-backdrop {
-			align-items: center;
-		}
-		.sheet {
-			border-radius: var(--r-lg);
-		}
 	}
 </style>

@@ -103,7 +103,9 @@ export class RoomClient {
 				return;
 			}
 			this.status = 'reconnecting';
-			const wait = Math.min(5000, 400 * 2 ** this.attempts++);
+			// Doubling waits, each with some randomness, so a classroom that lost its connection at the same
+			// moment does not come back in one burst.
+			const wait = Math.min(5000, 400 * 2 ** this.attempts++) * (0.6 + Math.random() * 0.8);
 			setTimeout(() => !this.stopped && this.connect(), wait);
 		};
 	}

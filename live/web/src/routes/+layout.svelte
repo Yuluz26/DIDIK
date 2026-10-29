@@ -1,7 +1,6 @@
 <script lang="ts">
 	import '@fontsource-variable/fredoka';
 	import '@fontsource-variable/nunito';
-	import '@fontsource-variable/pixelify-sans';
 	import '../app.css';
 	import { page } from '$app/state';
 	import { unlock } from '$lib/sound';

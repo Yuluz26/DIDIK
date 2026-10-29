@@ -1,0 +1,2 @@
+# Preserve supplied file bytes, including CSV line endings, for inventory hashes.
+* -text

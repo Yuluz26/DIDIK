@@ -1,7 +1,8 @@
-<!-- The strip at the top of a child's screen: who you are, your score and place, sound. -->
+<!-- The strip at the top of a child's screen: who you are, your score and place, full screen, sound. -->
 <script lang="ts">
 	import type { Me } from '$lib/types';
 	import Avatar from '$ui/Avatar.svelte';
+	import FullscreenToggle from '$ui/FullscreenToggle.svelte';
 	import SoundToggle from '$ui/SoundToggle.svelte';
 	import StickerArt from '$ui/StickerArt.svelte';
 
@@ -29,6 +30,7 @@
 	{/if}
 	{@render children?.()}
 	<span class="score"><strong>{score.toLocaleString('ms-MY')}</strong> {unit}</span>
+	<FullscreenToggle />
 	<SoundToggle />
 </header>
 

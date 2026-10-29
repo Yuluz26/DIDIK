@@ -65,7 +65,8 @@
 
 	/* Type */
 	--font-display: 'Fredoka Variable', ui-rounded, 'Hiragino Maru Gothic ProN', system-ui, sans-serif;
-	--font-pixel: 'Pixelify Sans Variable', 'Fredoka Variable', ui-rounded, system-ui, sans-serif;
+	/* The game screens' labels and headings: the same rounded, friendly face (no pixel font anywhere). */
+	--font-pixel: 'Fredoka Variable', ui-rounded, 'Hiragino Maru Gothic ProN', system-ui, sans-serif;
 	--font-body: 'Nunito Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 	--fs-hero: clamp(2.4rem, 1.2rem + 4.6vw, 4.6rem);
 	--fs-h1: clamp(1.9rem, 1.3rem + 2.4vw, 3rem);
@@ -106,43 +107,12 @@
 	--t-enter: 420ms;
 }
 
-/*
- * The 3D games run in a darker "arena": the same brand colours in a deeper register, so the dusk-lit
- * and floodlit worlds sit inside it. Set on <html> by lib/look.ts for the whole room, from joining
- * to the podium.
- */
 @media (max-width: 700px) {
 	:root {
 		--px: 3px;
 	}
 }
 
-:root[data-look='3d'] {
-	color-scheme: dark;
-	--paper: #0f1f24;
-	--paper-2: #1a333b;
-	--card: #162b32;
-	--ink: #f3efe6;
-	--ink-2: #bccac7;
-	--ink-3: #8ea3a0;
-	--line: #284149;
-	--brand: #23805a;
-	--brand-deep: #155c40;
-	--brand-ink: #5cc795;
-	--brand-soft: #1b3a33;
-	--on-brand-soft: #a6e6c6;
-	--good: #4fd08a;
-	--good-soft: #173a2a;
-	--almost: #f2a05a;
-	--almost-soft: #3d2b1a;
-	--on-good-soft: #a9ecc5;
-	--on-almost-soft: #ffcf9e;
-	--feed-gold: #3a321b;
-	--feed-steal: #43271f;
-	--card-shadow: 0 1px 0 #0a171b, 0 12px 28px rgb(0 0 0 / 0.32);
-	--lift: 0 6px 0 var(--shade, rgb(0 0 0 / 0.4)), 0 12px 22px rgb(0 0 0 / 0.3);
-	--lift-low: 0 3px 0 var(--shade, rgb(0 0 0 / 0.4)), 0 6px 12px rgb(0 0 0 / 0.25);
-}
 
 *,
 *::before,
@@ -759,8 +729,10 @@ textarea {
 	--card-shadow: 0 3px 0 var(--edge);
 }
 
-:root[data-ui='pixel'][data-look='3d'] {
-	--edge: #071418;
+
+:root[data-ui='pixel'] :is(h1, h2, h3) {
+	font-weight: 700;
+	letter-spacing: -0.01em;
 }
 
 :root[data-ui='pixel'] :is(.btn, .tile, .card, .chip, .input) {

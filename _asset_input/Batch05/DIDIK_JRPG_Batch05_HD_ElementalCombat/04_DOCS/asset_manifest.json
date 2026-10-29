@@ -1,0 +1,89 @@
+{
+  "pack": "DIDIK JRPG HD Batch 05 — Elemental Attacks & Battle References",
+  "assets": [
+    {
+      "file": "01_ELEMENTAL_FX_TRANSPARENT/FX_FIRE_CRESCENT_SLASH_HD.png",
+      "source_filename": "ornate_fiery_crescent_slash_emblem.png",
+      "category": "element_fx_still",
+      "element_or_world": "api",
+      "width": 1254,
+      "height": 1254,
+      "has_transparency": true,
+      "animation_frames": 1,
+      "usage": "Transparent illustrated fire slash; layer above characters during correct-answer cinematic.",
+      "sha256": "631f8df21042a8d1eed9141fa3f20ae97f894d7d9ce7c145987b07627d9e3b10"
+    },
+    {
+      "file": "01_ELEMENTAL_FX_TRANSPARENT/FX_WIND_VORTEX_HD.png",
+      "source_filename": "teal_crescent_wind_vortex.png",
+      "category": "element_fx_still",
+      "element_or_world": "angin",
+      "width": 1254,
+      "height": 1254,
+      "has_transparency": true,
+      "animation_frames": 1,
+      "usage": "Transparent wind attack illustration; rotate/scale during correct-answer cinematic.",
+      "sha256": "21bbc54905828e0b2969732c20ef62e21333da615dbf9117ff01f30be9cf02af"
+    },
+    {
+      "file": "01_ELEMENTAL_FX_TRANSPARENT/FX_LIGHTNING_THUNDERBURST_HD.png",
+      "source_filename": "golden_thunderburst_lightning_vfx.png",
+      "category": "element_fx_still",
+      "element_or_world": "petir",
+      "width": 1254,
+      "height": 1254,
+      "has_transparency": true,
+      "animation_frames": 1,
+      "usage": "Transparent lightning burst; place over target impact for lightning attack.",
+      "sha256": "3b93b4d01acc15be91484db4a3961d5c8fb6d04ea82aa6180137b6b80f674ed9"
+    },
+    {
+      "file": "01_ELEMENTAL_FX_TRANSPARENT/FX_EARTHSHATTER_HD.png",
+      "source_filename": "golden_earthshatter_explosion.png",
+      "category": "element_fx_still",
+      "element_or_world": "tanah",
+      "width": 1254,
+      "height": 1254,
+      "has_transparency": true,
+      "animation_frames": 1,
+      "usage": "Transparent rocks and glowing earth impact; attack cinematic layer.",
+      "sha256": "2252d2ef5cc0ff874830c6aea22207de34a1cfb96ce6fa47da58271552b8f6af"
+    },
+    {
+      "file": "01_ELEMENTAL_FX_TRANSPARENT/FX_WATER_CRESCENT_TIDE_HD.png",
+      "source_filename": "crescent_tide_water_slash.png",
+      "category": "element_fx_still",
+      "element_or_world": "air",
+      "width": 1254,
+      "height": 1254,
+      "has_transparency": true,
+      "animation_frames": 1,
+      "usage": "Transparent illustrated water crescent; use as water slash overlay.",
+      "sha256": "49a0906444a00cce18a6e4462fee9cb9cb2913dbcafcd742edf2b7a42d0a6462"
+    },
+    {
+      "file": "02_BATTLE_SCENE_REFERENCES/PREVIEW_HANG_TUAH_VS_NAGA_CHINI_HD.png",
+      "source_filename": "didik_versus_naga_chini_at_lotus_ruins.png",
+      "category": "concept_only",
+      "element_or_world": "tasik_chini",
+      "width": 1672,
+      "height": 941,
+      "has_transparency": false,
+      "animation_frames": 1,
+      "usage": "Illustrated battle scene reference, NOT actual game screenshot; do not embed as gameplay background.",
+      "sha256": "7280cd6596d2bf96de672705c2d08d105cfe7db0bbb536b696519dad74e636c3"
+    },
+    {
+      "file": "02_BATTLE_SCENE_REFERENCES/PREVIEW_MAHSURI_VS_NAGA_CHINI_HD.png",
+      "source_filename": "mahsuri_versus_naga_chini.png",
+      "category": "concept_only",
+      "element_or_world": "tasik_chini",
+      "width": 1672,
+      "height": 941,
+      "has_transparency": false,
+      "animation_frames": 1,
+      "usage": "Illustrated boss counterattack scene reference, NOT a finished gameplay/animation asset.",
+      "sha256": "45512445ef8e811023503bde0997b1719a67e536fedfffbc257ea5c36fdd5d3e"
+    }
+  ]
+}

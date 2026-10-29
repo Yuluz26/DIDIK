@@ -1,0 +1,448 @@
+{
+  "pack": "DIDIK Legenda Batch 14 — JRPG Transition Text HD",
+  "version": "1.0",
+  "created_utc": "2026-10-28",
+  "purpose": "Frontend battle transition text overlays for DIDIK Legenda",
+  "original_source": "Authored standalone vector artwork in this pack, not collage crops",
+  "reference_image": "a_high_resolution_game_ui_asset_sheet_collage_on_a.png is inspirational only; not used as a source for text banners",
+  "asset_count": 22,
+  "native_size_px": [
+    1920,
+    480
+  ],
+  "transparent_background": true,
+  "language": "ms-MY",
+  "animation_count": 6,
+  "messages": [
+    {
+      "id": "boss_akan_menyerang",
+      "text_ms": "Boss Akan Menyerang!",
+      "theme": "boss",
+      "usage": "Boss counterattack immediately before damaging player",
+      "asset_type": "AUTHORED_VECTOR_TEXT",
+      "native_size_px": [
+        1920,
+        480
+      ],
+      "banner_png": "01_STATIC_BANNERS_PNG/boss_akan_menyerang.png",
+      "text_only_png": "02_TEXT_ONLY_TRANSPARENT_PNG/boss_akan_menyerang.png",
+      "banner_svg": "03_VECTOR_SVG/banners/boss_akan_menyerang.svg",
+      "text_only_svg": "03_VECTOR_SVG/text_only/boss_akan_menyerang.svg"
+    },
+    {
+      "id": "boss_muncul",
+      "text_ms": "Boss Muncul!",
+      "theme": "boss",
+      "usage": "Boss reveal after world encounters",
+      "asset_type": "AUTHORED_VECTOR_TEXT",
+      "native_size_px": [
+        1920,
+        480
+      ],
+      "banner_png": "01_STATIC_BANNERS_PNG/boss_muncul.png",
+      "text_only_png": "02_TEXT_ONLY_TRANSPARENT_PNG/boss_muncul.png",
+      "banner_svg": "03_VECTOR_SVG/banners/boss_muncul.svg",
+      "text_only_svg": "03_VECTOR_SVG/text_only/boss_muncul.svg"
+    },
+    {
+      "id": "serangan_balas",
+      "text_ms": "Serangan Balas!",
+      "theme": "danger",
+      "usage": "Boss counterattack triggered by wrong answer",
+      "asset_type": "AUTHORED_VECTOR_TEXT",
+      "native_size_px": [
+        1920,
+        480
+      ],
+      "banner_png": "01_STATIC_BANNERS_PNG/serangan_balas.png",
+      "text_only_png": "02_TEXT_ONLY_TRANSPARENT_PNG/serangan_balas.png",
+      "banner_svg": "03_VECTOR_SVG/banners/serangan_balas.svg",
+      "text_only_svg": "03_VECTOR_SVG/text_only/serangan_balas.svg"
+    },
+    {
+      "id": "pertarungan_bermula",
+      "text_ms": "Pertarungan Bermula!",
+      "theme": "battle",
+      "usage": "Start of JRPG battle",
+      "asset_type": "AUTHORED_VECTOR_TEXT",
+      "native_size_px": [
+        1920,
+        480
+      ],
+      "banner_png": "01_STATIC_BANNERS_PNG/pertarungan_bermula.png",
+      "text_only_png": "02_TEXT_ONLY_TRANSPARENT_PNG/pertarungan_bermula.png",
+      "banner_svg": "03_VECTOR_SVG/banners/pertarungan_bermula.svg",
+      "text_only_svg": "03_VECTOR_SVG/text_only/pertarungan_bermula.svg"
+    },
+    {
+      "id": "giliran_awak",
+      "text_ms": "Giliran Awak!",
+      "theme": "battle",
+      "usage": "Player turn begins",
+      "asset_type": "AUTHORED_VECTOR_TEXT",
+      "native_size_px": [
+        1920,
+        480
+      ],
+      "banner_png": "01_STATIC_BANNERS_PNG/giliran_awak.png",
+      "text_only_png": "02_TEXT_ONLY_TRANSPARENT_PNG/giliran_awak.png",
+      "banner_svg": "03_VECTOR_SVG/banners/giliran_awak.svg",
+      "text_only_svg": "03_VECTOR_SVG/text_only/giliran_awak.svg"
+    },
+    {
+      "id": "pilih_elemen",
+      "text_ms": "Pilih Elemen!",
+      "theme": "magic",
+      "usage": "Element weapon selection",
+      "asset_type": "AUTHORED_VECTOR_TEXT",
+      "native_size_px": [
+        1920,
+        480
+      ],
+      "banner_png": "01_STATIC_BANNERS_PNG/pilih_elemen.png",
+      "text_only_png": "02_TEXT_ONLY_TRANSPARENT_PNG/pilih_elemen.png",
+      "banner_svg": "03_VECTOR_SVG/banners/pilih_elemen.svg",
+      "text_only_svg": "03_VECTOR_SVG/text_only/pilih_elemen.svg"
+    },
+    {
+      "id": "jawapan_betul",
+      "text_ms": "Jawapan Betul!",
+      "theme": "good",
+      "usage": "Correct quiz answer",
+      "asset_type": "AUTHORED_VECTOR_TEXT",
+      "native_size_px": [
+        1920,
+        480
+      ],
+      "banner_png": "01_STATIC_BANNERS_PNG/jawapan_betul.png",
+      "text_only_png": "02_TEXT_ONLY_TRANSPARENT_PNG/jawapan_betul.png",
+      "banner_svg": "03_VECTOR_SVG/banners/jawapan_betul.svg",
+      "text_only_svg": "03_VECTOR_SVG/text_only/jawapan_betul.svg"
+    },
+    {
+      "id": "jawapan_salah",
+      "text_ms": "Jawapan Salah!",
+      "theme": "bad",
+      "usage": "Incorrect quiz answer",
+      "asset_type": "AUTHORED_VECTOR_TEXT",
+      "native_size_px": [
+        1920,
+        480
+      ],
+      "banner_png": "01_STATIC_BANNERS_PNG/jawapan_salah.png",
+      "text_only_png": "02_TEXT_ONLY_TRANSPARENT_PNG/jawapan_salah.png",
+      "banner_svg": "03_VECTOR_SVG/banners/jawapan_salah.svg",
+      "text_only_svg": "03_VECTOR_SVG/text_only/jawapan_salah.svg"
+    },
+    {
+      "id": "serangan_berjaya",
+      "text_ms": "Serangan Berjaya!",
+      "theme": "good",
+      "usage": "Successful hit on boss",
+      "asset_type": "AUTHORED_VECTOR_TEXT",
+      "native_size_px": [
+        1920,
+        480
+      ],
+      "banner_png": "01_STATIC_BANNERS_PNG/serangan_berjaya.png",
+      "text_only_png": "02_TEXT_ONLY_TRANSPARENT_PNG/serangan_berjaya.png",
+      "banner_svg": "03_VECTOR_SVG/banners/serangan_berjaya.svg",
+      "text_only_svg": "03_VECTOR_SVG/text_only/serangan_berjaya.svg"
+    },
+    {
+      "id": "serangan_dihalang",
+      "text_ms": "Serangan Dihalang!",
+      "theme": "bad",
+      "usage": "Blocked or invalid strike (if supported by mechanics)",
+      "asset_type": "AUTHORED_VECTOR_TEXT",
+      "native_size_px": [
+        1920,
+        480
+      ],
+      "banner_png": "01_STATIC_BANNERS_PNG/serangan_dihalang.png",
+      "text_only_png": "02_TEXT_ONLY_TRANSPARENT_PNG/serangan_dihalang.png",
+      "banner_svg": "03_VECTOR_SVG/banners/serangan_dihalang.svg",
+      "text_only_svg": "03_VECTOR_SVG/text_only/serangan_dihalang.svg"
+    },
+    {
+      "id": "serangan_kritikal",
+      "text_ms": "Serangan Kritikal!",
+      "theme": "gold",
+      "usage": "Optional cinematic emphasis; do not introduce bonus damage",
+      "asset_type": "AUTHORED_VECTOR_TEXT",
+      "native_size_px": [
+        1920,
+        480
+      ],
+      "banner_png": "01_STATIC_BANNERS_PNG/serangan_kritikal.png",
+      "text_only_png": "02_TEXT_ONLY_TRANSPARENT_PNG/serangan_kritikal.png",
+      "banner_svg": "03_VECTOR_SVG/banners/serangan_kritikal.svg",
+      "text_only_svg": "03_VECTOR_SVG/text_only/serangan_kritikal.svg"
+    },
+    {
+      "id": "nyawa_berkurang",
+      "text_ms": "Nyawa Berkurang!",
+      "theme": "bad",
+      "usage": "Show after server confirms -1.5 hearts",
+      "asset_type": "AUTHORED_VECTOR_TEXT",
+      "native_size_px": [
+        1920,
+        480
+      ],
+      "banner_png": "01_STATIC_BANNERS_PNG/nyawa_berkurang.png",
+      "text_only_png": "02_TEXT_ONLY_TRANSPARENT_PNG/nyawa_berkurang.png",
+      "banner_svg": "03_VECTOR_SVG/banners/nyawa_berkurang.svg",
+      "text_only_svg": "03_VECTOR_SVG/text_only/nyawa_berkurang.svg"
+    },
+    {
+      "id": "nyawa_bertambah",
+      "text_ms": "Nyawa Bertambah!",
+      "theme": "heal",
+      "usage": "Show after server confirms +0.5 heart",
+      "asset_type": "AUTHORED_VECTOR_TEXT",
+      "native_size_px": [
+        1920,
+        480
+      ],
+      "banner_png": "01_STATIC_BANNERS_PNG/nyawa_bertambah.png",
+      "text_only_png": "02_TEXT_ONLY_TRANSPARENT_PNG/nyawa_bertambah.png",
+      "banner_svg": "03_VECTOR_SVG/banners/nyawa_bertambah.svg",
+      "text_only_svg": "03_VECTOR_SVG/text_only/nyawa_bertambah.svg"
+    },
+    {
+      "id": "boss_dikalahkan",
+      "text_ms": "Boss Dikalahkan!",
+      "theme": "gold",
+      "usage": "Boss HP reaches zero after 5 successful hits",
+      "asset_type": "AUTHORED_VECTOR_TEXT",
+      "native_size_px": [
+        1920,
+        480
+      ],
+      "banner_png": "01_STATIC_BANNERS_PNG/boss_dikalahkan.png",
+      "text_only_png": "02_TEXT_ONLY_TRANSPARENT_PNG/boss_dikalahkan.png",
+      "banner_svg": "03_VECTOR_SVG/banners/boss_dikalahkan.svg",
+      "text_only_svg": "03_VECTOR_SVG/text_only/boss_dikalahkan.svg"
+    },
+    {
+      "id": "kemenangan",
+      "text_ms": "Kemenangan!",
+      "theme": "gold",
+      "usage": "Winning a battle or chapter",
+      "asset_type": "AUTHORED_VECTOR_TEXT",
+      "native_size_px": [
+        1920,
+        480
+      ],
+      "banner_png": "01_STATIC_BANNERS_PNG/kemenangan.png",
+      "text_only_png": "02_TEXT_ONLY_TRANSPARENT_PNG/kemenangan.png",
+      "banner_svg": "03_VECTOR_SVG/banners/kemenangan.svg",
+      "text_only_svg": "03_VECTOR_SVG/text_only/kemenangan.svg"
+    },
+    {
+      "id": "cuba_lagi",
+      "text_ms": "Cuba Lagi!",
+      "theme": "danger",
+      "usage": "Retry from current world checkpoint on zero HP",
+      "asset_type": "AUTHORED_VECTOR_TEXT",
+      "native_size_px": [
+        1920,
+        480
+      ],
+      "banner_png": "01_STATIC_BANNERS_PNG/cuba_lagi.png",
+      "text_only_png": "02_TEXT_ONLY_TRANSPARENT_PNG/cuba_lagi.png",
+      "banner_svg": "03_VECTOR_SVG/banners/cuba_lagi.svg",
+      "text_only_svg": "03_VECTOR_SVG/text_only/cuba_lagi.svg"
+    },
+    {
+      "id": "senjata_diperoleh",
+      "text_ms": "Senjata Diperoleh!",
+      "theme": "gold",
+      "usage": "New elemental weapon unlocked",
+      "asset_type": "AUTHORED_VECTOR_TEXT",
+      "native_size_px": [
+        1920,
+        480
+      ],
+      "banner_png": "01_STATIC_BANNERS_PNG/senjata_diperoleh.png",
+      "text_only_png": "02_TEXT_ONLY_TRANSPARENT_PNG/senjata_diperoleh.png",
+      "banner_svg": "03_VECTOR_SVG/banners/senjata_diperoleh.svg",
+      "text_only_svg": "03_VECTOR_SVG/text_only/senjata_diperoleh.svg"
+    },
+    {
+      "id": "elemen_dibuka",
+      "text_ms": "Elemen Dibuka!",
+      "theme": "magic",
+      "usage": "New elemental power unlock",
+      "asset_type": "AUTHORED_VECTOR_TEXT",
+      "native_size_px": [
+        1920,
+        480
+      ],
+      "banner_png": "01_STATIC_BANNERS_PNG/elemen_dibuka.png",
+      "text_only_png": "02_TEXT_ONLY_TRANSPARENT_PNG/elemen_dibuka.png",
+      "banner_svg": "03_VECTOR_SVG/banners/elemen_dibuka.svg",
+      "text_only_svg": "03_VECTOR_SVG/text_only/elemen_dibuka.svg"
+    },
+    {
+      "id": "dunia_seterusnya",
+      "text_ms": "Dunia Seterusnya!",
+      "theme": "gold",
+      "usage": "New world opened",
+      "asset_type": "AUTHORED_VECTOR_TEXT",
+      "native_size_px": [
+        1920,
+        480
+      ],
+      "banner_png": "01_STATIC_BANNERS_PNG/dunia_seterusnya.png",
+      "text_only_png": "02_TEXT_ONLY_TRANSPARENT_PNG/dunia_seterusnya.png",
+      "banner_svg": "03_VECTOR_SVG/banners/dunia_seterusnya.svg",
+      "text_only_svg": "03_VECTOR_SVG/text_only/dunia_seterusnya.svg"
+    },
+    {
+      "id": "soalan_seterusnya",
+      "text_ms": "Soalan Seterusnya!",
+      "theme": "battle",
+      "usage": "Proceed to next quiz question",
+      "asset_type": "AUTHORED_VECTOR_TEXT",
+      "native_size_px": [
+        1920,
+        480
+      ],
+      "banner_png": "01_STATIC_BANNERS_PNG/soalan_seterusnya.png",
+      "text_only_png": "02_TEXT_ONLY_TRANSPARENT_PNG/soalan_seterusnya.png",
+      "banner_svg": "03_VECTOR_SVG/banners/soalan_seterusnya.svg",
+      "text_only_svg": "03_VECTOR_SVG/text_only/soalan_seterusnya.svg"
+    },
+    {
+      "id": "misi_selesai",
+      "text_ms": "Misi Selesai!",
+      "theme": "good",
+      "usage": "End of a successful story stage",
+      "asset_type": "AUTHORED_VECTOR_TEXT",
+      "native_size_px": [
+        1920,
+        480
+      ],
+      "banner_png": "01_STATIC_BANNERS_PNG/misi_selesai.png",
+      "text_only_png": "02_TEXT_ONLY_TRANSPARENT_PNG/misi_selesai.png",
+      "banner_svg": "03_VECTOR_SVG/banners/misi_selesai.svg",
+      "text_only_svg": "03_VECTOR_SVG/text_only/misi_selesai.svg"
+    },
+    {
+      "id": "bersedia",
+      "text_ms": "Bersedia!",
+      "theme": "battle",
+      "usage": "Prepare for next encounter",
+      "asset_type": "AUTHORED_VECTOR_TEXT",
+      "native_size_px": [
+        1920,
+        480
+      ],
+      "banner_png": "01_STATIC_BANNERS_PNG/bersedia.png",
+      "text_only_png": "02_TEXT_ONLY_TRANSPARENT_PNG/bersedia.png",
+      "banner_svg": "03_VECTOR_SVG/banners/bersedia.svg",
+      "text_only_svg": "03_VECTOR_SVG/text_only/bersedia.svg"
+    }
+  ],
+  "animations": [
+    {
+      "id": "boss_akan_menyerang",
+      "frame_size_px": [
+        1280,
+        320
+      ],
+      "frame_count": 12,
+      "sprite_sheet_columns": 4,
+      "sprite_sheet_rows": 3,
+      "duration_ms": 1185,
+      "path_frames": "05_FRAME_BY_FRAME/boss_akan_menyerang/",
+      "apng": "04_ANIMATED_APNG/boss_akan_menyerang.png",
+      "gif_preview": "07_GIF_PREVIEWS/boss_akan_menyerang.gif",
+      "spritesheet": "06_SPRITESHEETS/boss_akan_menyerang_12frames_4x3.png",
+      "animation_type": "frame_by_frame_original_banner_compositing"
+    },
+    {
+      "id": "boss_muncul",
+      "frame_size_px": [
+        1280,
+        320
+      ],
+      "frame_count": 12,
+      "sprite_sheet_columns": 4,
+      "sprite_sheet_rows": 3,
+      "duration_ms": 1185,
+      "path_frames": "05_FRAME_BY_FRAME/boss_muncul/",
+      "apng": "04_ANIMATED_APNG/boss_muncul.png",
+      "gif_preview": "07_GIF_PREVIEWS/boss_muncul.gif",
+      "spritesheet": "06_SPRITESHEETS/boss_muncul_12frames_4x3.png",
+      "animation_type": "frame_by_frame_original_banner_compositing"
+    },
+    {
+      "id": "pertarungan_bermula",
+      "frame_size_px": [
+        1280,
+        320
+      ],
+      "frame_count": 12,
+      "sprite_sheet_columns": 4,
+      "sprite_sheet_rows": 3,
+      "duration_ms": 1185,
+      "path_frames": "05_FRAME_BY_FRAME/pertarungan_bermula/",
+      "apng": "04_ANIMATED_APNG/pertarungan_bermula.png",
+      "gif_preview": "07_GIF_PREVIEWS/pertarungan_bermula.gif",
+      "spritesheet": "06_SPRITESHEETS/pertarungan_bermula_12frames_4x3.png",
+      "animation_type": "frame_by_frame_original_banner_compositing"
+    },
+    {
+      "id": "jawapan_betul",
+      "frame_size_px": [
+        1280,
+        320
+      ],
+      "frame_count": 12,
+      "sprite_sheet_columns": 4,
+      "sprite_sheet_rows": 3,
+      "duration_ms": 1195,
+      "path_frames": "05_FRAME_BY_FRAME/jawapan_betul/",
+      "apng": "04_ANIMATED_APNG/jawapan_betul.png",
+      "gif_preview": "07_GIF_PREVIEWS/jawapan_betul.gif",
+      "spritesheet": "06_SPRITESHEETS/jawapan_betul_12frames_4x3.png",
+      "animation_type": "frame_by_frame_original_banner_compositing"
+    },
+    {
+      "id": "jawapan_salah",
+      "frame_size_px": [
+        1280,
+        320
+      ],
+      "frame_count": 12,
+      "sprite_sheet_columns": 4,
+      "sprite_sheet_rows": 3,
+      "duration_ms": 1195,
+      "path_frames": "05_FRAME_BY_FRAME/jawapan_salah/",
+      "apng": "04_ANIMATED_APNG/jawapan_salah.png",
+      "gif_preview": "07_GIF_PREVIEWS/jawapan_salah.gif",
+      "spritesheet": "06_SPRITESHEETS/jawapan_salah_12frames_4x3.png",
+      "animation_type": "frame_by_frame_original_banner_compositing"
+    },
+    {
+      "id": "kemenangan",
+      "frame_size_px": [
+        1280,
+        320
+      ],
+      "frame_count": 12,
+      "sprite_sheet_columns": 4,
+      "sprite_sheet_rows": 3,
+      "duration_ms": 1195,
+      "path_frames": "05_FRAME_BY_FRAME/kemenangan/",
+      "apng": "04_ANIMATED_APNG/kemenangan.png",
+      "gif_preview": "07_GIF_PREVIEWS/kemenangan.gif",
+      "spritesheet": "06_SPRITESHEETS/kemenangan_12frames_4x3.png",
+      "animation_type": "frame_by_frame_original_banner_compositing"
+    }
+  ],
+  "licensing": "Original generated artwork for user project. No font files included. SVG glyphs are rendered as outlined paths.",
+  "accessibility": "All wording duplicated in manifest for screen reader/live DOM use. Prefer UI DOM text for critical gameplay and reduced-motion support."
+}
