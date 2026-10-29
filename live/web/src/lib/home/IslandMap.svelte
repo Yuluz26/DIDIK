@@ -1,8 +1,8 @@
 <!--
-	The eight games as islands on one sea. On a wide screen they lie in two rows with a channel
-	between them; pointing at an island sails a sampan along the channel to it, and the card beside
-	the map tells you about that island. On a phone and a tablet the islands follow one another down
-	the page, each with its own words. The section's heading is passed in as `head`.
+	The fourteen games as islands on one sea. On a wide screen they lie in a ring around a lagoon;
+	pointing at an island sails a sampan around the lagoon to it, and the card in the middle of the
+	ring tells you about that island. On a phone and a tablet the islands follow one another down the
+	page, each with its own words. The section's heading is passed in as `head`.
 -->
 <script lang="ts">
 	import type { Snippet } from 'svelte';
@@ -13,20 +13,32 @@
 
 	let { head }: { head: Snippet } = $props();
 
-	// Island centres in % of the map: the top row left to right, then the bottom row back again.
+	// Island centres in % of the map, clockwise round the ring: the top row left to right, down the
+	// right side, the bottom row back again and up the left side.
 	const SPOTS = [
-		{ x: 13, y: 21 },
-		{ x: 38, y: 15 },
-		{ x: 63, y: 22 },
-		{ x: 87, y: 16 },
-		{ x: 87, y: 81 },
-		{ x: 62, y: 87 },
-		{ x: 37, y: 80 },
-		{ x: 12, y: 86 }
+		{ x: 11, y: 12 },
+		{ x: 30.5, y: 10 },
+		{ x: 50, y: 13 },
+		{ x: 69.5, y: 10 },
+		{ x: 89, y: 12 },
+		{ x: 92, y: 37 },
+		{ x: 92, y: 62 },
+		{ x: 89, y: 87 },
+		{ x: 69.5, y: 90 },
+		{ x: 50, y: 87 },
+		{ x: 30.5, y: 90 },
+		{ x: 11, y: 87 },
+		{ x: 8, y: 62 },
+		{ x: 8, y: 37 }
 	];
-	// Where the sampan waits for each island: in the channel between the rows.
-	const DOCKS = SPOTS.map((s, i) => ({ x: s.x + (i < 4 ? 3 : -3), y: i < 4 ? 46 : 58 }));
-	const HOP = 360;
+	// Where the sampan waits for each island: on the lagoon inside the ring.
+	const DOCKS = SPOTS.map((s) => ({
+		x: Math.min(84, Math.max(16, s.x < 15 ? 17 : s.x > 85 ? 83 : s.x)),
+		y: s.y < 20 ? 28 : s.y > 80 ? 72 : s.y
+	}));
+	// How wide an island is, as a share of the map.
+	const ISLE_SHARE = 0.17;
+	const HOP = 300;
 
 	let width = $state(typeof window === 'undefined' ? 0 : Math.min(window.innerWidth, 1216) - 32);
 	let mapWidth = $state(0);
@@ -88,26 +100,23 @@
 
 	const game = $derived(GAMES[selected]);
 	// The boat is drawn at the same whole or half step of pixel size as the islands it sails between.
-	const boatTile = $derived(TILE * snapScale((mapWidth * 0.215) / 6 / TILE, 1));
+	const boatTile = $derived(TILE * snapScale((mapWidth * ISLE_SHARE) / 6 / TILE, 1));
 </script>
 
 <div class="islands-map" class:wide bind:clientWidth={width}>
-	<div class="side">
-		{@render head()}
-		{#if wide}
-			<section id="pulau-kad" class="info" aria-live="polite" style:--tint={game.tint}>
-				<p class="pace">{game.pace}</p>
-				<h3>{game.title}</h3>
-				<p class="line">{game.line}</p>
-			</section>
-		{/if}
-	</div>
+	{@render head()}
 
 	{#if wide}
 		<div class="map" bind:clientWidth={mapWidth}>
 			<svg class="route" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
 				<path d={route} />
 			</svg>
+
+			<section id="pulau-kad" class="info" aria-live="polite" style:--tint={game.tint}>
+				<p class="pace">{game.pace}</p>
+				<h3>{game.title}</h3>
+				<p class="line">{game.line}</p>
+			</section>
 
 			{#each GAMES as g, i (g.key)}
 				<button
@@ -124,7 +133,7 @@
 					onpointerenter={() => hover(i)}
 					onpointerleave={() => clearTimeout(hoverTimer)}
 				>
-					<span class="art" data-ui><GameIsland game={g.key} width={mapWidth * 0.215} active={selected === i} /></span>
+					<span class="art" data-ui><GameIsland game={g.key} width={mapWidth * ISLE_SHARE} active={selected === i} /></span>
 					<span class="name">{g.title}</span>
 				</button>
 			{/each}
@@ -155,19 +164,19 @@
 		gap: 2.4rem;
 	}
 	.wide {
-		grid-template-columns: minmax(0, 0.62fr) minmax(0, 1.38fr);
-		align-items: center;
-		gap: 3rem;
-	}
-	.side {
-		display: grid;
 		gap: 1.6rem;
-		align-content: center;
 	}
+	/* The card floats on the lagoon in the middle of the ring. */
 	.info {
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		z-index: 1;
+		translate: -50% -50%;
 		display: grid;
 		gap: 0.4rem;
-		min-height: 13rem;
+		width: min(44%, 30rem);
+		min-height: 12rem;
 		align-content: start;
 		padding: 1.4rem 1.5rem 1.5rem;
 		border: 2px solid var(--edge);
@@ -185,7 +194,7 @@
 	}
 	.map {
 		position: relative;
-		aspect-ratio: 1.42;
+		aspect-ratio: 1.4;
 	}
 	.route {
 		position: absolute;
@@ -209,7 +218,7 @@
 		display: grid;
 		justify-items: center;
 		gap: 0.15rem;
-		width: 24%;
+		width: 17%;
 		padding: 0;
 		border: 0;
 		background: none;
@@ -246,7 +255,7 @@
 		border-radius: var(--r-sm);
 		background: var(--paper);
 		box-shadow: 0 3px 0 var(--edge);
-		font: 600 1.0625rem / 1.35 var(--font-display);
+		font: 600 0.95rem / 1.35 var(--font-display);
 		white-space: nowrap;
 		transition: transform var(--t-press) steps(2);
 	}

@@ -14,8 +14,11 @@ from .conftest import sample_id
 from .roomkit import connection, open_room
 
 
-def test_catalogue_contains_eight_classic_games_and_legenda():
-    assert set(MODES) == {"lumba", "lompat", "harta", "hutan", "pasukan", "kampung", "teka", "kebun", "legenda"}
+def test_catalogue_contains_fourteen_2d_games_and_legenda():
+    assert set(MODES) == {
+        "lumba", "lompat", "harta", "hutan", "pasukan", "kampung", "teka", "kebun",
+        "pancing", "wau", "kubu", "keretapi", "pasar", "bintang", "legenda",
+    }
     assert all(mode.look == "2d" for mode in MODES.values())
 
 

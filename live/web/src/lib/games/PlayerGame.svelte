@@ -14,6 +14,12 @@
 	import GardenPlayer from './garden/GardenPlayer.svelte';
 	import PictureGuess from './picture/PictureGuess.svelte';
 	import LegendaPlayer from './legenda/LegendaPlayer.svelte';
+	import FishingWorld from './fun/FishingWorld.svelte';
+	import SkyKites from './fun/SkyKites.svelte';
+	import CastleWorld from './fun/CastleWorld.svelte';
+	import TrainWorld from './fun/TrainWorld.svelte';
+	import MarketWorld from './fun/MarketWorld.svelte';
+	import StarSky from './fun/StarSky.svelte';
 
 	let { client, view, me, people }: { client: RoomClient; view: View; me: Me; people: Map<string, Person> } = $props();
 
@@ -89,6 +95,42 @@
 			{#if game.picture}<PictureGuess {client} frame={game.picture} {me} {people} />{/if}
 		{/snippet}
 	</SyncPlayer>
+{:else if mode.key === 'pancing'}
+	<SelfPlayer {client} {game} {me} title={mode.title} unit={mode.unit} total={minutes} rewardText={(r) => (r.gold ? 'Kamu dapat umpan emas!' : r.bait ? 'Kamu dapat satu umpan!' : '')}>
+		{#snippet world()}
+			{#if game.world?.fish}<FishingWorld {client} world={game.world} {me} />{/if}
+		{/snippet}
+	</SelfPlayer>
+{:else if mode.key === 'wau'}
+	<SyncPlayer {client} {game} {me} {people} title={mode.title} unit={mode.unit}>
+		{#snippet scene()}
+			{#if game.race}<SkyKites race={game.race} {people} me={me.id} compact />{/if}
+		{/snippet}
+	</SyncPlayer>
+{:else if mode.key === 'kubu'}
+	<SelfPlayer {client} {game} {me} title={mode.title} unit={mode.unit} total={minutes} rewardText={(r) => (r.sand ? `+${r.sand} baldi pasir!` : '')}>
+		{#snippet world()}
+			{#if game.world?.costs}<CastleWorld {client} world={game.world} offset={client.offset} />{/if}
+		{/snippet}
+	</SelfPlayer>
+{:else if mode.key === 'keretapi'}
+	<SelfPlayer {client} {game} {me} title={mode.title} unit={mode.unit} total={minutes} rewardText={(r) => (r.coal ? `+${r.coal} arang untuk kereta api!` : '')}>
+		{#snippet world()}
+			{#if game.world?.stations}<TrainWorld {client} world={game.world} />{/if}
+		{/snippet}
+	</SelfPlayer>
+{:else if mode.key === 'pasar'}
+	<SelfPlayer {client} {game} {me} title={mode.title} unit={mode.unit} total={minutes} rewardText={(r) => (r.stock ? `+${r.stock} barang untuk dijual!` : '')}>
+		{#snippet world()}
+			{#if game.world?.upgrades}<MarketWorld {client} world={game.world} />{/if}
+		{/snippet}
+	</SelfPlayer>
+{:else if mode.key === 'bintang'}
+	<SelfPlayer {client} {game} {me} title={mode.title} unit={mode.unit} total={minutes} rewardText={(r) => (r.stars ? `Kamu menangkap ${r.stars} bintang!` : '')}>
+		{#snippet world()}
+			{#if game.world?.teams}<StarSky {client} world={game.world} />{/if}
+		{/snippet}
+	</SelfPlayer>
 {:else if mode.key === 'legenda'}
 	<LegendaPlayer {client} {game} {me} {people} />
 {:else}

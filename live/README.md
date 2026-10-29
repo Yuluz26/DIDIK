@@ -25,7 +25,13 @@ butang bunyi, kecuali pada pelayar yang tidak menyokongnya (Safari iPhone).
 | Kampung Kita | Semua bina satu kampung bersama dan hias padangnya. Tiada yang kalah. |
 | Teka Gambar | Jawapan betul membuka petak gambar rahsia. Teka awal, mata lebih banyak. |
 | Kebun Ajaib | Jawapan betul memberi air. Tanam, siram dan tuai untuk dapat syiling. |
-| Legenda: Story Mode | JRPG lima dunia legenda Melayu, Solo atau Party. Wira berjalan sendiri; setiap musuh membuka pertarungan dan jawapan menentukan serangan. Perlukan sekurang-kurangnya 10 soalan. Lihat [`docs/LEGENDA-STORY-MODE.md`](../docs/LEGENDA-STORY-MODE.md). |
+| Pancing Ikan | Jawapan betul memberi umpan (tiga berturut-turut, umpan emas). Lempar joran dan tangkap ikan, dari bilis sampai Arowana Emas. |
+| Lumba Wau | Semua jawab soalan yang sama. Betul dan laju, wau naik lebih tinggi; sesekali angin kencang menaikkan semua wau. |
+| Kubu Pasir | Jawapan betul memberi pasir untuk tingkat, tembok dan bendera. Ombak setiap 45 saat: tembok menahannya, jika tiada satu tingkat runtuh. |
+| Kereta Api Kampung | Jawapan betul memberi arang untuk menambah gerabak atau ke stesen seterusnya; lebih banyak gerabak, lebih jauh dikira. |
+| Pasar Malam | Jawapan betul memberi barang untuk dijual; hiasan gerai menaikkan harga dan menarik lebih ramai pelanggan. |
+| Kejar Bintang | Dua pasukan menangkap bintang jatuh dengan jawapan betul; setiap sepuluh bintang menyalakan satu buruj. |
+| Hikayat Lima Alam | Mod cerita lima dunia legenda Melayu, Solo atau Party. Wira berjalan sendiri; setiap musuh membuka pertarungan dan jawapan menentukan serangan. Perlukan sekurang-kurangnya 10 soalan. Lihat [`docs/LEGENDA-STORY-MODE.md`](../docs/LEGENDA-STORY-MODE.md). |
 
 Jenis soalan: pilihan tunggal, pilih semua yang betul, betul atau salah, taip jawapan, nombor, susun
 turutan, padankan, dan isi tempat kosong.

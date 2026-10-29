@@ -3,8 +3,8 @@
 	game's world (a shovel, a flag, water, building material); the world is the `world` snippet.
 
 	The world fills the screen. The question is a popup inside the game, over the world; after
-	answering, the same popup shows the result, the right answer and the Next button, and closes when
-	the child goes back to the world to spend what was earned.
+	answering, the result (and the right answer, when it was wrong) docks at the bottom with the Next
+	button, and the world above stays playable, so what the answer earned can be spent there.
 -->
 <script lang="ts">
 	import type { Snippet } from 'svelte';
@@ -69,38 +69,38 @@
 	<main class="wrap"><Countdown clock={game.clock} offset={client.offset} {title} /></main>
 {:else}
 	<div class="clock wrap"><Timer clock={game.clock} offset={client.offset} {total} compact /></div>
-	<main class="self wrap">
+	<main class="self wrap" class:docked={step === 'result'}>
 		<section class="world" aria-label="Dunia permainan">
 			{@render world()}
 		</section>
 	</main>
 
-	{#if (step === 'question' || step === 'result') && seat.question}
+	{#if step === 'question' && seat.question}
 		<QuestionPopup label="Soalan" key={seat.answered ?? 0}>
 			{#snippet head()}
 				<Timer clock={game.clock} offset={client.offset} {total} compact />
 			{/snippet}
 			<QuestionCard question={seat.question} />
-			{#if step === 'result' && seat.result}
-				<Feedback
-					correct={seat.result.correct}
-					fraction={seat.result.fraction}
-					extra={seat.result.reward && rewardText ? rewardText(seat.result.reward) : ''}
-				/>
-			{/if}
-			<Answer
-				question={seat.question}
-				disabled={step !== 'question'}
-				mine={step === 'result' ? seat.result?.answer : undefined}
-				reveal={step === 'result' ? seat.result?.reveal : null}
-				allRight={seat.result?.correct}
-				onanswer={(a) => client.send({ t: 'answer', a })}
+			<Answer question={seat.question} onanswer={(a) => client.send({ t: 'answer', a })} />
+		</QuestionPopup>
+	{:else if step === 'result' && seat.result}
+		<!-- the result docks at the bottom, so what the answer earned can be spent in the world above -->
+		<QuestionPopup mode="dock" label="Keputusan">
+			<Feedback
+				correct={seat.result.correct}
+				fraction={seat.result.fraction}
+				extra={seat.result.reward && rewardText ? rewardText(seat.result.reward) : ''}
 			/>
-			{#if step === 'result'}
-				<button type="button" class="btn btn--sun btn--big next" onclick={() => client.send({ t: 'next' })}>
-					{nextLabel} <Icon name="next" />
-				</button>
+			{#if !seat.result.correct && seat.question}
+				<!-- the right answer folds away, so the dock leaves the world in view -->
+				<details class="reveal">
+					<summary>Lihat jawapan betul</summary>
+					<Answer question={seat.question} disabled mine={seat.result.answer} reveal={seat.result.reveal} allRight={false} onanswer={() => {}} />
+				</details>
 			{/if}
+			<button type="button" class="btn btn--sun btn--big next" onclick={() => client.send({ t: 'next' })}>
+				{nextLabel} <Icon name="next" />
+			</button>
 		</QuestionPopup>
 	{/if}
 {/if}
@@ -112,10 +112,25 @@
 	.self {
 		padding-block: 0.8rem 3rem;
 	}
+	/* room under the world, so none of it stays hidden behind the docked result */
+	.self.docked {
+		padding-bottom: 36dvh;
+	}
 	.world {
 		min-width: 0;
 	}
 	.next {
 		width: 100%;
+	}
+	.reveal summary {
+		cursor: pointer;
+		color: var(--brand-ink);
+		font-weight: 800;
+		min-height: 2.75rem;
+		display: flex;
+		align-items: center;
+	}
+	.reveal[open] summary {
+		margin-bottom: 0.5rem;
 	}
 </style>

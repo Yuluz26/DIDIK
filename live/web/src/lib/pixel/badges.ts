@@ -138,6 +138,70 @@ const scenes: Record<string, (p: Pix) => void> = {
 		p.ellipse(20, 5, 3.2, 3.2, M.red.c[2], M.red.ink);
 		p.set(20, 5, M.gold.c[3]);
 	},
+	tasik(p) {
+		sky(p, 12);
+		sea(p, 12, M.deep);
+		p.rect(0, 30, 16, 10, M.plank.c[2], M.plank.ink);
+		p.hline(0, 30, 16, M.plank.c[4], M.plank.ink);
+		p.line(12, 29, 30, 14, M.bark.c[1]);
+		p.vline(30, 14, 12, rgba('#ffffff'));
+		p.ellipse(30, 27, 1.6, 1.6, M.red.c[2]);
+		p.blob(24, 33, 6, 2.6, M.gold, { bias: 0.3 });
+		p.poly([[29, 33], [33, 30], [33, 36]], M.autumn.c[3], M.autumn.ink);
+		p.set(20, 32, rgba('#2a1f2d'));
+	},
+	langit(p) {
+		sky(p, 40, '#2f7fcf', '#a9ddf5');
+		p.blob(9, 30, 6, 2.6, M.cloth, { bias: 0.6 });
+		p.blob(30, 12, 5, 2.2, M.cloth, { bias: 0.6 });
+		p.poly([[20, 6], [29, 13], [20, 17], [11, 13]], M.red.c[2], M.red.ink);
+		p.poly([[13, 20], [20, 25], [27, 20], [25, 26], [20, 28], [15, 26]], M.red.c[2], M.red.ink);
+		p.vline(20, 6, 21, M.bark.c[3]);
+		p.line(20, 28, 14, 39, rgba('#ffffff'));
+	},
+	pantai(p) {
+		sea(p, 0);
+		p.rect(0, 14, N, 26, M.sand.c[3]);
+		p.speckle(M.sand.c[1], 0.08, 5, (_x, y) => y > 14);
+		p.rect(13, 22, 14, 6, M.sand.c[2], M.sand.ink);
+		p.rect(15, 16, 10, 6, M.sand.c[2], M.sand.ink);
+		for (const x of [13, 18, 23]) p.rect(x, 20, 3, 2, M.sand.c[3], M.sand.ink);
+		p.vline(20, 9, 7, M.bark.c[2]);
+		p.poly([[21, 9], [25, 10.5], [21, 12]], M.red.c[2], M.red.ink);
+		p.rect(9, 31, 22, 3, M.sand.c[1], M.sand.ink);
+	},
+	landasan(p) {
+		sky(p, 22);
+		p.rect(0, 22, N, 18, M.grass.c[2]);
+		p.rect(0, 31, N, 3, M.metal.c[2]);
+		for (let x = 1; x < N; x += 5) p.vline(x, 30, 5, M.plank.c[1]);
+		p.rect(9, 20, 16, 9, M.red.c[2], M.red.ink);
+		p.rect(21, 15, 9, 14, M.sky.c[2], M.sky.ink);
+		p.rect(11, 14, 3, 6, M.metal.c[2], M.metal.ink);
+		p.blob(12, 9, 3.5, 2.4, M.cloth, { bias: 0.5 });
+		for (const x of [13, 19, 26]) p.ellipse(x, 30, 2.4, 2.4, M.metal.c[1], M.metal.ink);
+	},
+	pasar(p) {
+		bands(p, 0, N, rgba('#1b1a33'), rgba('#2f2c48'));
+		for (let x = 2; x < N; x += 5) p.ellipse(x, 6 + (x % 3), 1.2, 1.2, M.sun.c[4]);
+		for (let x = 6; x < 34; x++) p.vline(x, 14, 5, Math.floor((x - 6) / 4) % 2 ? M.red.c[2] : M.cream.c[3]);
+		p.rect(7, 19, 3, 14, M.plank.c[1], M.plank.ink);
+		p.rect(30, 19, 3, 14, M.plank.c[1], M.plank.ink);
+		p.rect(5, 26, 30, 8, M.plank.c[2], M.plank.ink);
+		for (let i = 0; i < 4; i++) p.blob(11 + i * 6, 24, 2, 1.6, M.autumn, { bias: 0.2 });
+	},
+	malam(p) {
+		bands(p, 0, N, rgba('#14121f'), rgba('#2f2c48'));
+		for (const [x, y] of [[8, 9], [16, 5], [27, 8], [33, 15], [12, 20], [24, 18], [6, 28], [30, 27]] as const) {
+			p.set(x, y, M.gold.c[4]);
+			p.set(x - 1, y, M.gold.c[2]).set(x + 1, y, M.gold.c[2]).set(x, y - 1, M.gold.c[2]).set(x, y + 1, M.gold.c[2]);
+		}
+		p.line(8, 9, 16, 5, rgba('#ffe070', 140));
+		p.line(16, 5, 27, 8, rgba('#ffe070', 140));
+		p.line(27, 8, 33, 15, rgba('#ffe070', 140));
+		p.ellipse(30, 31, 4, 4, M.cream.c[4]);
+		p.ellipse(32, 30, 3.4, 3.4, rgba('#2f2c48'));
+	},
 };
 
 /** The round badge for a game's world. */

@@ -1,12 +1,12 @@
 /*
  * The ground of the front page's islands, painted in pixels (lib/pixel/island.ts): the town island
  * where children gather, and a small island for each of the games, with the details that flat ground
- * carries (a jetty, a path, buoys, a spot to dig, a board of hexagons). Everything that stands up
+ * carries (a jetty, a path, buoys, a spot to dig, a board of hexagons, a pond, a railway, a plaza). Everything that stands up
  * is a prop the world draws on top.
  */
 import { memo } from '$lib/pixel/cache';
 import { TILE } from '$lib/pixel/cache';
-import type { Pix } from '$lib/pixel/pix';
+import { type Pix, rgba } from '$lib/pixel/pix';
 import { type Isle, alongPath, curve, inEllipse, inPoly, paintIsland } from '$lib/pixel/island';
 import { buoy, digMark, hole, miniHex } from './sprites';
 
@@ -109,6 +109,44 @@ const GAMES: Record<string, GameIsle> = {
 	kebun: {
 		seed: 28,
 		isles: [{ cx: 3, cy: 2.62, rx: 2.55, ry: 1.32, reach: [1, 1.05, 0.95, 1, 1.04, 0.96, 1, 1.03], tops: GRASS() }]
+	},
+	pancing: {
+		seed: 29,
+		isles: [{ cx: 3, cy: 2.6, rx: 2.55, ry: 1.3, reach: [1, 0.96, 1.05, 0.98, 1, 1.06, 0.94, 1], tops: GRASS() }],
+		over: [
+			{ land: 'water', test: inEllipse(3.45, 2.95, 1.35, 0.62) },
+			{ land: 'plank', test: inPoly([[1.85, 2.72], [2.75, 2.75], [2.75, 2.98], [1.85, 2.95]]) }
+		]
+	},
+	wau: {
+		seed: 30,
+		isles: [{ cx: 3, cy: 2.75, rx: 2.5, ry: 1.2, reach: [1, 1.04, 0.96, 1, 1.05, 0.95, 1.02, 0.98], tops: GRASS() }],
+		over: [{ land: 'dirt', test: alongPath(curve([1.2, 3.6], [[2.0, 3.2], [3.2, 3.5], [4.6, 3.1]]), 0.26) }]
+	},
+	kubu: {
+		seed: 31,
+		isles: [{ cx: 3, cy: 2.65, rx: 2.5, ry: 1.28, reach: [1, 0.94, 1.06, 1, 0.95, 1.05, 0.98, 1], tops: GRASS(0.42, -0.42) }]
+	},
+	keretapi: {
+		seed: 32,
+		isles: [{ cx: 3, cy: 2.6, rx: 2.6, ry: 1.32, reach: [1.03, 0.96, 1, 1.04, 0.95, 1, 1.05, 0.97], tops: GRASS() }],
+		over: [{ land: 'stone', test: inPoly([[0.75, 3.0], [5.25, 3.0], [5.25, 3.42], [0.75, 3.42]]) }],
+		detail(g) {
+			// sleepers and the two rails along the ballast
+			const y = Math.round(3.02 * TILE);
+			for (let x = Math.round(0.85 * TILE); x < 5.15 * TILE; x += 5) g.rect(x, y, 2, 6, rgba('#6e4a30'));
+			g.rect(Math.round(0.8 * TILE), y + 1, Math.round(4.4 * TILE), 1, rgba('#9a9caa'));
+			g.rect(Math.round(0.8 * TILE), y + 4, Math.round(4.4 * TILE), 1, rgba('#9a9caa'));
+		}
+	},
+	pasar: {
+		seed: 33,
+		isles: [{ cx: 3, cy: 2.6, rx: 2.55, ry: 1.3, reach: [1, 1.05, 0.95, 1, 1.04, 0.96, 1, 1.03], tops: GRASS() }],
+		over: [{ land: 'stone', test: inEllipse(3.0, 3.0, 1.9, 0.75) }]
+	},
+	bintang: {
+		seed: 34,
+		isles: [{ cx: 3, cy: 2.7, rx: 2.45, ry: 1.25, reach: [1.02, 0.96, 1, 1.05, 0.95, 1, 1.04, 0.97], tops: [{ land: 'moss', k: 0.88, dy: -0.04 }] }]
 	}
 };
 

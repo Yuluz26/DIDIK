@@ -81,7 +81,7 @@
 <header class="top wrap">
 	<Logo light />
 	<nav aria-label="Laman utama">
-		<a class="far" href="#pulau">Lapan pulau</a>
+		<a class="far" href="#pulau">Empat belas pulau</a>
 		<a class="far" href="#hikayat">Hikayat</a>
 		<a class="far" href="#cara">Cara bermain</a>
 		<a class="parents" href="/ibu-bapa"><span class="long">Untuk ibu bapa</span><span class="short">Ibu bapa</span> <Icon name="next" size={18} /></a>
@@ -105,7 +105,7 @@
 			<IslandMap>
 				{#snippet head()}
 					<div class="islands-head">
-						<h2 id="pulau-tajuk">Satu kuiz, lapan pulau</h2>
+						<h2 id="pulau-tajuk">Satu kuiz, empat belas pulau</h2>
 						<p>Semua berkumpul di dataran dahulu. Bila hos tekan Mula, kamu belayar ke pulau yang dipilih dan menjawab soalan yang sama di sana.</p>
 					</div>
 				{/snippet}
@@ -178,7 +178,7 @@
 				<span class="stamp" aria-hidden="true"><Didi mood="happy" size={54} /></span>
 				<ul>
 					<li><a href="#tiket">Masuk bilik dengan kod</a></li>
-					<li><a href="#pulau">Lapan pulau permainan</a></li>
+					<li><a href="#pulau">Empat belas pulau permainan</a></li>
 					<li><a href="#cara">Cara bermain</a></li>
 					<li><a href="/ibu-bapa">Ruang ibu bapa</a></li>
 				</ul>

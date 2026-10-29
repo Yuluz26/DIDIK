@@ -60,7 +60,8 @@ def test_every_game_runs_with_practice_bots_and_ends_with_results(key: str) -> N
         assert room.phase == "playing"
         assert sum(p.score for p in room.players.values()) > 0, f"nobody scored in {key}"
         room.handle_host(host, {"t": "end"})
-        await settle()
+        # the next flush carries the results; on a busy machine that can take a moment
+        await until(lambda: "results" in (host_socket.view() or {}))
         results = host_socket.view()["results"]
         assert len(results["players"]) == 4
         room.close()

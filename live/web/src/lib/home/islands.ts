@@ -1,4 +1,4 @@
-// The eight games as the front page shows them: islands on one sea, each with what a child does there.
+// The fourteen games as the front page shows them: islands on one sea, each with what a child does there.
 
 export interface GameIslandInfo {
 	key: string;
@@ -66,5 +66,47 @@ export const GAMES: GameIslandInfo[] = [
 		pace: 'Ikut kadar sendiri',
 		line: 'Jawapan betul memberi air. Tanam benih, siram sampai masak, tuai untuk syiling dan beli tanah baharu.',
 		tint: '#956641'
+	},
+	{
+		key: 'pancing',
+		title: 'Pancing Ikan',
+		pace: 'Ikut kadar sendiri',
+		line: 'Jawapan betul memberi umpan. Lempar joran dan lihat apa yang menyambar, dari ikan bilis sampai Arowana Emas.',
+		tint: '#1b7185'
+	},
+	{
+		key: 'wau',
+		title: 'Lumba Wau',
+		pace: 'Semua menjawab serentak',
+		line: 'Jawapan betul dan pantas menaikkan wau kamu lebih tinggi, melepasi awan sampai ke garisan penamat.',
+		tint: '#b0412e'
+	},
+	{
+		key: 'kubu',
+		title: 'Kubu Pasir',
+		pace: 'Ikut kadar sendiri',
+		line: 'Jawapan betul memberi baldi pasir. Bina istana setingkat demi setingkat, dan bina tembok sebelum ombak datang.',
+		tint: '#8f6210'
+	},
+	{
+		key: 'keretapi',
+		title: 'Kereta Api Kampung',
+		pace: 'Ikut kadar sendiri',
+		line: 'Arang dari jawapan betul menambah gerabak dan membawa penumpang dari stesen ke stesen.',
+		tint: '#5c4a8a'
+	},
+	{
+		key: 'pasar',
+		title: 'Pasar Malam',
+		pace: 'Ikut kadar sendiri',
+		line: 'Jawapan betul memberi barang untuk dijual. Hias gerai dengan lampu, kanopi dan muzik untuk lebih ramai pelanggan.',
+		tint: '#a4366a'
+	},
+	{
+		key: 'bintang',
+		title: 'Kejar Bintang',
+		pace: 'Dua pasukan',
+		line: 'Pasukan Harimau lawan Pasukan Penyu. Tangkap bintang jatuh dan nyalakan buruj di langit malam.',
+		tint: '#34407e'
 	}
 ];

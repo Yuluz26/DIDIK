@@ -7,6 +7,8 @@
 	world (or guess the picture) and open the question again; a new question opens it again.
 	`float`: no dimming and no blocking, a compact card pinned to the top of the scene, for games where
 	the answer is given in the world itself (Lompat!: tap a pad).
+	`dock`: a compact card fixed to the bottom of the screen, with no dimming, for the result of a
+	self-paced game: the world above stays playable, so what the answer earned can be spent there.
 	The HUD at the top stays above it.
 -->
 <script lang="ts">
@@ -23,7 +25,7 @@
 		children
 	}: {
 		label?: string;
-		mode?: 'modal' | 'float';
+		mode?: 'modal' | 'float' | 'dock';
 		minimisable?: boolean;
 		/** Changes with every question, so a folded popup opens again for the next one. */
 		key?: string | number;
@@ -74,7 +76,12 @@
 
 <svelte:window onresize={refit} />
 
-{#if mode === 'float'}
+{#if mode === 'dock'}
+	<section class="dock" aria-label={label} aria-live="polite">
+		{#if head}<div class="head">{@render head()}</div>{/if}
+		{@render children()}
+	</section>
+{:else if mode === 'float'}
 	<section class="float" aria-label={label} aria-live="polite" bind:clientHeight={height}>
 		{#if head}<div class="head">{@render head()}</div>{/if}
 		{@render children()}
@@ -168,6 +175,38 @@
 		cursor: pointer;
 		animation: pop-up 320ms var(--spring, ease-out) both;
 	}
+	.dock {
+		position: fixed;
+		left: 50%;
+		bottom: max(0.6rem, env(safe-area-inset-bottom, 0px));
+		z-index: 15;
+		display: grid;
+		gap: 0.6rem;
+		width: min(40rem, calc(100% - 1.2rem));
+		max-height: 40dvh;
+		overflow: auto;
+		scrollbar-width: none;
+		translate: -50% 0;
+		padding: 0.8rem 0.9rem;
+		border-radius: var(--r-lg);
+		background: var(--paper, #fff);
+		box-shadow:
+			var(--card-shadow),
+			0 -0.4rem 1.6rem rgb(0 0 0 / 0.22);
+		animation: pop-up 320ms var(--spring, ease-out) both;
+	}
+	.dock::-webkit-scrollbar {
+		display: none;
+	}
+	/* a smaller mascot and tighter words in the dock, so it stays a strip at the bottom */
+	.dock :global(.feedback) {
+		padding-block: 0.4rem;
+	}
+	.dock :global(.feedback .didi),
+	.dock :global(.feedback > :first-child) {
+		width: 52px;
+		height: auto;
+	}
 	.float {
 		position: absolute;
 		left: 50%;
@@ -201,6 +240,7 @@
 		.scrim,
 		.card,
 		.pill,
+		.dock,
 		.float {
 			animation: none;
 		}

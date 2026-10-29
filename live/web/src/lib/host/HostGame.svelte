@@ -11,6 +11,9 @@
 	import PictureHost from '$lib/games/picture/PictureHost.svelte';
 	import LegendaHost from '$lib/games/legenda/LegendaHost.svelte';
 	import ScoreTowers from '$ui/ScoreTowers.svelte';
+	import FunHost from '$lib/games/fun/FunHost.svelte';
+	import SkyKites from '$lib/games/fun/SkyKites.svelte';
+	import StarSky from '$lib/games/fun/StarSky.svelte';
 	import SelfHost from './SelfHost.svelte';
 	import SyncHost from './SyncHost.svelte';
 
@@ -59,6 +62,24 @@
 	<SelfHost {client} {game} {people} feed={view.feed} title={mode.title} unit={mode.unit} total={minutes}>
 		{#snippet world()}
 			{#if game.world?.top}<GardenHost world={game.world} {people} unit={mode.unit} />{/if}
+		{/snippet}
+	</SelfHost>
+{:else if mode.key === 'wau'}
+	<SyncHost {client} {game} {people} title={mode.title} unit={mode.unit}>
+		{#snippet scene()}
+			{#if game.race}<SkyKites race={game.race} {people} />{/if}
+		{/snippet}
+	</SyncHost>
+{:else if ['pancing', 'kubu', 'keretapi', 'pasar'].includes(mode.key)}
+	<SelfHost {client} {game} {people} feed={view.feed} title={mode.title} unit={mode.unit} total={minutes}>
+		{#snippet world()}
+			{#if game.world?.top}<FunHost game={mode.key} world={game.world} {people} unit={mode.unit} />{/if}
+		{/snippet}
+	</SelfHost>
+{:else if mode.key === 'bintang'}
+	<SelfHost {client} {game} {people} feed={view.feed} title={mode.title} unit={mode.unit} total={minutes} boardTitle="Paling banyak bintang">
+		{#snippet world()}
+			{#if game.world?.teams}<StarSky {client} world={game.world} big />{/if}
 		{/snippet}
 	</SelfHost>
 {:else if mode.key === 'legenda'}
