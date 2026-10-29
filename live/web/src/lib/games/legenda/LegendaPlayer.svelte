@@ -42,6 +42,9 @@
 		worldUrls,
 		battleBg,
 		introArt,
+		introFlip,
+		heroWeaponArt,
+		WORLD_ART,
 		bossArt,
 		field,
 		type Element,
@@ -390,15 +393,21 @@
 					</p>
 				</div>
 			{:else if step === 'reveal'}
-				<div class="overlay boss-reveal" role="status">
+				<!-- the hero on the left faces the boss on the right, which turns to look back at the hero -->
+				<div class="overlay boss-reveal" role="status" style:--aura={WORLD_ART[worldIndex].aura}>
 					<img class="reveal-bg" src={battleBg(worldIndex)} alt="" />
+					<span class="reveal-aura"></span>
+					<img class="reveal-hero" src={heroWeaponArt(hero, (story.element ?? 'api') as Element)} alt="" />
+					<span class="reveal-ground"></span>
 					<!-- the boss's introduction portrait; the battle sprite if it cannot be loaded -->
 					<img
 						class="reveal-boss"
+						class:flip={introFlip(worldIndex)}
 						src={introArt(worldIndex)}
 						alt=""
 						onerror={(e) => {
 							const img = e.currentTarget as HTMLImageElement;
+							img.classList.remove('flip');
 							if (!img.src.includes('/boss.webp')) img.src = bossArt(worldIndex);
 						}}
 					/>
@@ -406,8 +415,8 @@
 						<p class="kicker">Penjaga {scene.title}</p>
 						<h2>{scene.boss}</h2>
 						<p>Lima bar kuasa. Setiap jawapan betul membuang satu bar.</p>
+						<button type="button" class="skip" onclick={next}>Lawan! <Icon name="next" size={18} /></button>
 					</div>
-					<button type="button" class="skip" onclick={next}>Lawan! <Icon name="next" size={18} /></button>
 				</div>
 			{:else if step === 'wait'}
 				<div class="overlay caption" role="status">
@@ -920,57 +929,121 @@
 		overflow: hidden;
 		animation: card-in 500ms ease-out both;
 	}
-	/* larger than the frame, so the painting's own title plate and minimap in its corners stay out of view */
+	/* The painting, cropped in (its own title plate and minimap in the corners stay out of view),
+	   darkened and softened behind the two who are about to fight. */
 	.reveal-bg {
 		position: absolute;
-		left: -22%;
-		top: -22%;
-		width: 144%;
-		height: 144%;
-		object-fit: fill;
-		filter: brightness(0.35) saturate(1.1) blur(2px);
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transform: scale(1.18);
+		filter: brightness(0.42) saturate(1.1) blur(3px);
 		animation: closeup 4.2s ease-out both;
+	}
+	/* the boss's own light behind it, and a dark floor under both */
+	.reveal-aura {
+		position: absolute;
+		right: -6cqw;
+		top: 4%;
+		width: 66cqw;
+		height: 96%;
+		border-radius: 50%;
+		background: radial-gradient(closest-side, color-mix(in srgb, var(--aura) 45%, transparent), color-mix(in srgb, var(--aura) 12%, transparent) 62%, transparent);
+		animation:
+			glow-in 1.2s ease-out both,
+			aura-pulse 3.4s ease-in-out 1.2s infinite;
+	}
+	.reveal-ground {
+		position: absolute;
+		inset: auto 0 0;
+		height: 28%;
+		background: linear-gradient(180deg, transparent, rgb(5 8 15 / 0.75));
+	}
+	.reveal-hero {
+		position: absolute;
+		left: 3cqw;
+		bottom: 2%;
+		z-index: 1;
+		height: 52%;
+		width: auto;
+		filter: drop-shadow(0 0.6cqw 1cqw rgb(0 0 0 / 0.6)) brightness(0.92);
+		animation: hero-in 900ms 250ms cubic-bezier(0.2, 0.9, 0.3, 1) both;
 	}
 	.reveal-boss {
 		position: absolute;
-		right: 2cqw;
-		bottom: 0;
-		height: 94%;
+		right: 3cqw;
+		bottom: 3%;
+		z-index: 1;
+		height: 82%;
 		width: auto;
-		max-width: 62%;
+		max-width: 60cqw;
 		object-fit: contain;
 		object-position: bottom right;
-		filter: drop-shadow(0 0 3cqw rgb(255 210 120 / 0.35));
-		animation: rise-boss 1.6s cubic-bezier(0.2, 0.9, 0.3, 1) both;
+		filter: drop-shadow(0 0 2.4cqw color-mix(in srgb, var(--aura) 55%, transparent)) drop-shadow(0 1cqw 1.2cqw rgb(0 0 0 / 0.5));
+		animation:
+			rise-boss 1.4s cubic-bezier(0.2, 0.9, 0.3, 1) both,
+			boss-breathe 4.5s ease-in-out 1.4s infinite;
+	}
+	.reveal-boss.flip {
+		scale: -1 1;
 	}
 	@keyframes rise-boss {
 		from {
 			opacity: 0;
-			transform: translateY(8cqw) scale(0.92);
+			transform: translateY(6cqw) scale(0.9);
+			filter: brightness(2.4) drop-shadow(0 0 3cqw var(--aura));
 		}
 	}
+	@keyframes boss-breathe {
+		50% {
+			transform: translateY(-0.8cqw);
+		}
+	}
+	@keyframes hero-in {
+		from {
+			opacity: 0;
+			transform: translateX(-6cqw);
+		}
+	}
+	@keyframes glow-in {
+		from {
+			opacity: 0;
+			transform: scale(0.6);
+		}
+	}
+	@keyframes aura-pulse {
+		50% {
+			opacity: 0.65;
+		}
+	}
+	/* the boss's name in the open sky above the hero, clear of both */
 	.nameplate {
 		position: absolute;
 		left: 4cqw;
-		bottom: 5cqw;
+		top: 4cqw;
+		z-index: 2;
 		display: grid;
 		justify-items: start;
 		gap: 0.3rem;
-		max-width: 52cqw;
-		padding: 1.6cqw 2.4cqw;
+		max-width: 38cqw;
+		padding: 1.2cqw 1.8cqw;
 		border-left: 0.6cqw solid #d9a441;
-		background: linear-gradient(90deg, rgb(5 8 15 / 0.88), rgb(5 8 15 / 0.2));
+		border-radius: 0 1cqw 1cqw 0;
+		background: linear-gradient(90deg, rgb(5 8 15 / 0.85), rgb(5 8 15 / 0.35));
 		text-align: left;
 		animation: plate-in 900ms 500ms cubic-bezier(0.2, 0.9, 0.3, 1) both;
 	}
-	.nameplate p:last-child {
+	.nameplate h2 {
+		font-size: clamp(1.2rem, 4.6cqw, 3rem);
+	}
+	.nameplate p:not(.kicker) {
 		font-weight: 700;
-		font-size: clamp(0.75rem, 1.8cqw, 1.1rem);
+		font-size: clamp(0.7rem, 1.6cqw, 1rem);
+		line-height: 1.3;
 	}
 	.boss-reveal .skip {
-		position: absolute;
-		right: 3cqw;
-		bottom: 3cqw;
+		margin-top: 0.6cqw;
 	}
 	.fallen h2 {
 		color: #ffb0b0;
@@ -1040,7 +1113,7 @@
 			font-size: 0.9rem;
 		}
 		.nameplate {
-			max-width: 70cqw;
+			max-width: 52cqw;
 		}
 		.victor {
 			width: 70px;
@@ -1074,14 +1147,14 @@
 	}
 	@keyframes closeup {
 		from {
-			transform: scale(1.35) translateY(4%);
-			filter: brightness(0.3);
+			transform: scale(1.4) translateY(4%);
+			filter: brightness(0.25) blur(3px);
 		}
 		40% {
-			filter: brightness(1);
+			filter: brightness(0.7) blur(3px);
 		}
 		to {
-			transform: scale(1.05);
+			transform: scale(1.18);
 		}
 	}
 	@keyframes plate-in {

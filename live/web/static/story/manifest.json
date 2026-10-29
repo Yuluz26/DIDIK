@@ -864,63 +864,63 @@
   },
   {
    "file": "ui/element_air.webp",
-   "source": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_icons/element_air.png",
-   "status": "production UI icon (Batch 02)",
-   "use": "element picker",
+   "source": "NotoEmoji/emoji_u1f4a7.png",
+   "status": "Google Noto Emoji (Apache 2.0) on a drawn medallion",
+   "use": "element picker and HUD",
    "size": [
     160,
     160
    ],
    "alpha": true,
-   "bytes": 8776
+   "bytes": 8618
   },
   {
    "file": "ui/element_angin.webp",
-   "source": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_icons/element_angin.png",
-   "status": "production UI icon (Batch 02)",
-   "use": "element picker",
+   "source": "NotoEmoji/emoji_u1f32a.png",
+   "status": "Google Noto Emoji (Apache 2.0) on a drawn medallion",
+   "use": "element picker and HUD",
    "size": [
     160,
     160
    ],
    "alpha": true,
-   "bytes": 9214
+   "bytes": 9674
   },
   {
    "file": "ui/element_api.webp",
-   "source": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_icons/element_api.png",
-   "status": "production UI icon (Batch 02)",
-   "use": "element picker",
+   "source": "NotoEmoji/emoji_u1f525.png",
+   "status": "Google Noto Emoji (Apache 2.0) on a drawn medallion",
+   "use": "element picker and HUD",
    "size": [
     160,
     160
    ],
    "alpha": true,
-   "bytes": 8590
+   "bytes": 8912
   },
   {
    "file": "ui/element_petir.webp",
-   "source": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_icons/element_petir.png",
-   "status": "production UI icon (Batch 02)",
-   "use": "element picker",
+   "source": "NotoEmoji/emoji_u26a1.png",
+   "status": "Google Noto Emoji (Apache 2.0) on a drawn medallion",
+   "use": "element picker and HUD",
    "size": [
     160,
     160
    ],
    "alpha": true,
-   "bytes": 9074
+   "bytes": 9188
   },
   {
    "file": "ui/element_tanah.webp",
-   "source": "Batch02/DIDIK_JRPG_Batch02_TasikChini/06_GAME_READY_UI/element_icons/element_tanah.png",
-   "status": "production UI icon (Batch 02)",
-   "use": "element picker",
+   "source": "NotoEmoji/emoji_u1faa8.png",
+   "status": "Google Noto Emoji (Apache 2.0) on a drawn medallion",
+   "use": "element picker and HUD",
    "size": [
     160,
     160
    ],
    "alpha": true,
-   "bytes": 8730
+   "bytes": 8606
   },
   {
    "file": "ui/heart_empty.webp",
@@ -960,63 +960,63 @@
   },
   {
    "file": "ui/symbol_chini.webp",
-   "source": "Batch12/Batch12_Final_UI_Transitions_SFX_HD/01_UI_GAME_READY/world_01_tasik_chini_symbol.png",
-   "status": "production UI emblem (Batch 12)",
+   "source": "NotoEmoji/emoji_u1fab7.png",
+   "status": "Google Noto Emoji (Apache 2.0) on a drawn medallion",
    "use": "world map and world intro",
    "size": [
     160,
     160
    ],
    "alpha": true,
-   "bytes": 11912
+   "bytes": 10266
   },
   {
    "file": "ui/symbol_kancil.webp",
-   "source": "Batch12/Batch12_Final_UI_Transitions_SFX_HD/01_UI_GAME_READY/world_03_rimba_bayangan_symbol.png",
-   "status": "production UI emblem (Batch 12)",
+   "source": "NotoEmoji/emoji_u1f319.png",
+   "status": "Google Noto Emoji (Apache 2.0) on a drawn medallion",
    "use": "world map and world intro",
    "size": [
     160,
     160
    ],
    "alpha": true,
-   "bytes": 11680
+   "bytes": 9154
   },
   {
    "file": "ui/symbol_larut.webp",
-   "source": "Batch12/Batch12_Final_UI_Transitions_SFX_HD/01_UI_GAME_READY/world_02_hutan_larut_symbol.png",
-   "status": "production UI emblem (Batch 12)",
+   "source": "NotoEmoji/emoji_u1f333.png",
+   "status": "Google Noto Emoji (Apache 2.0) on a drawn medallion",
    "use": "world map and world intro",
    "size": [
     160,
     160
    ],
    "alpha": true,
-   "bytes": 11472
+   "bytes": 9226
   },
   {
    "file": "ui/symbol_ledang.webp",
-   "source": "Batch12/Batch12_Final_UI_Transitions_SFX_HD/01_UI_GAME_READY/world_04_gunung_ledang_symbol.png",
-   "status": "production UI emblem (Batch 12)",
+   "source": "NotoEmoji/emoji_u1f3d4.png",
+   "status": "Google Noto Emoji (Apache 2.0) on a drawn medallion",
    "use": "world map and world intro",
    "size": [
     160,
     160
    ],
    "alpha": true,
-   "bytes": 11480
+   "bytes": 9948
   },
   {
    "file": "ui/symbol_lupar.webp",
-   "source": "Batch12/Batch12_Final_UI_Transitions_SFX_HD/01_UI_GAME_READY/world_01_batang_lupar_symbol.png",
-   "status": "production UI emblem (Batch 12)",
+   "source": "NotoEmoji/emoji_u1f40a.png",
+   "status": "Google Noto Emoji (Apache 2.0) on a drawn medallion",
    "use": "world map and world intro",
    "size": [
     160,
     160
    ],
    "alpha": true,
-   "bytes": 11790
+   "bytes": 9526
   },
   {
    "file": "worlds/chini/boss.webp",

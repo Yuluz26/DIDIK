@@ -1,6 +1,7 @@
 <!--
 	The front page's Hikayat Lima Alam section (the story mode), a slideshow of the five worlds. Each slide is one
-	world: its battlefield painting with the hero and the world's boss, its name, its story line, the
+	world: its battlefield painting with the hero facing the world's boss (its introduction portrait, as
+	the game shows it, rising in its own glow), its name, its story line, the
 	boss and the element it fears. The slides move on every few seconds (a bar on the world's chip
 	shows how long is left); arrows, the chips, a swipe or the arrow keys change slide, and a button
 	pauses it. With reduced motion it starts paused and slides without moving. Only the shown painting
@@ -8,14 +9,14 @@
 -->
 <script lang="ts">
 	import Icon from '$ui/Icon.svelte';
-	import { ELEMENTS, ELEMENT_NAME, battleBg, bossArt, elementIcon, heroWeaponArt, symbol, type Element } from '$lib/games/legenda/data';
+	import { ELEMENTS, ELEMENT_NAME, battleBg, elementIcon, heroWeaponArt, introArt, introFlip, symbol, type Element } from '$lib/games/legenda/data';
 
-	const WORLDS: { key: string; name: string; boss: string; intro: string; weak: Element; hero: 'tuah' | 'mahsuri'; weapon: Element }[] = [
-		{ key: 'chini', name: 'Tasik Chini', boss: 'Naga Chini', intro: 'Kabus pagi menyelubungi tasik teratai. Di dasarnya, Naga Chini menjaga rahsia lama.', weak: 'petir', hero: 'tuah', weapon: 'air' },
-		{ key: 'lupar', name: 'Batang Lupar', boss: 'Bujang Senang', intro: 'Senja di sungai Sarawak. Rumah panjang terdiam; sang buaya legenda sedang menunggu.', weak: 'api', hero: 'mahsuri', weapon: 'api' },
-		{ key: 'larut', name: 'Hutan Larut', boss: 'Gajah Rimba', intro: 'Hutan hujan yang tua dan tebal. Langkah Gajah Rimba menggegarkan denai.', weak: 'angin', hero: 'tuah', weapon: 'angin' },
-		{ key: 'kancil', name: 'Rimba Bayangan', boss: 'Sang Kancil Bayangan', intro: 'Bulan ungu di atas rimba. Sang Kancil Bayangan menguji akal sesiapa yang lalu.', weak: 'tanah', hero: 'mahsuri', weapon: 'tanah' },
-		{ key: 'ledang', name: 'Gunung Ledang', boss: 'Penunggu Kabus', intro: 'Jambatan batu di puncak berkabus. Penunggu Kabus menanti ujian terakhir.', weak: 'air', hero: 'tuah', weapon: 'petir' }
+	const WORLDS: { key: string; name: string; boss: string; intro: string; weak: Element; hero: 'tuah' | 'mahsuri'; weapon: Element; aura: string }[] = [
+		{ key: 'chini', name: 'Tasik Chini', boss: 'Naga Chini', intro: 'Kabus pagi menyelubungi tasik teratai. Di dasarnya, Naga Chini menjaga rahsia lama.', weak: 'petir', hero: 'tuah', weapon: 'air', aura: '#38d6c8' },
+		{ key: 'lupar', name: 'Batang Lupar', boss: 'Bujang Senang', intro: 'Senja di sungai Sarawak. Rumah panjang terdiam; sang buaya legenda sedang menunggu.', weak: 'api', hero: 'mahsuri', weapon: 'api', aura: '#ff8a3d' },
+		{ key: 'larut', name: 'Hutan Larut', boss: 'Gajah Rimba', intro: 'Hutan hujan yang tua dan tebal. Langkah Gajah Rimba menggegarkan denai.', weak: 'angin', hero: 'tuah', weapon: 'angin', aura: '#9ad66a' },
+		{ key: 'kancil', name: 'Rimba Bayangan', boss: 'Sang Kancil Bayangan', intro: 'Bulan ungu di atas rimba. Sang Kancil Bayangan menguji akal sesiapa yang lalu.', weak: 'tanah', hero: 'mahsuri', weapon: 'tanah', aura: '#b07cff' },
+		{ key: 'ledang', name: 'Gunung Ledang', boss: 'Penunggu Kabus', intro: 'Jambatan batu di puncak berkabus. Penunggu Kabus menanti ujian terakhir.', weak: 'air', hero: 'tuah', weapon: 'petir', aura: '#dcecff' }
 	];
 	const N = WORLDS.length;
 	const EVERY = 3500;
@@ -111,7 +112,11 @@
 					{/if}
 				{/each}
 				{#key shown}
-					<img class="boss" src={bossArt(shown)} alt="" draggable="false" />
+					<div class="boss-spot" style:--aura={world.aura}>
+						<span class="aura"></span>
+						<span class="ground"></span>
+						<img class="boss" class:flip={introFlip(shown)} src={introArt(shown)} alt="" draggable="false" />
+					</div>
 					<img class="hero" src={heroWeaponArt(world.hero, world.weapon)} alt="" draggable="false" />
 				{/key}
 			{/if}
@@ -125,11 +130,11 @@
 			{#key shown}
 				<div class="slide" role="group" aria-roledescription="slaid" aria-label="Dunia {shown + 1} daripada {N}: {world.name}" style:--from="{way * 1.2}rem">
 					<p class="count">Dunia {shown + 1} / {N}</p>
-					<h3 class="world-name"><img class="emblem e-{world.key}" src={symbol(shown)} alt="" width="38" height="38" /> {world.name}</h3>
+					<h3 class="world-name"><img class="emblem e-{world.key}" src={symbol(shown)} alt="" width="44" height="44" /> {world.name}</h3>
 					<p class="intro">{world.intro}</p>
 					<p class="boss-line">
 						<span>Boss: <strong>{world.boss}</strong></span>
-						<span class="weak">Takut <img src={elementIcon(world.weak)} alt="" width="24" height="24" /> <strong>{ELEMENT_NAME[world.weak]}</strong></span>
+						<span class="weak">Takut <img src={elementIcon(world.weak)} alt="" width="28" height="28" /> <strong>{ELEMENT_NAME[world.weak]}</strong></span>
 					</p>
 				</div>
 			{/key}
@@ -140,7 +145,7 @@
 					{#each WORLDS as w, i (w.name)}
 						<li>
 							<button type="button" class:on={i === shown} aria-current={i === shown ? 'true' : undefined} onclick={() => go(i)} aria-label={w.name}>
-								<img class="emblem e-{w.key}" src={symbol(i)} alt="" width="34" height="34" />
+								<img class="emblem e-{w.key}" src={symbol(i)} alt="" width="46" height="46" />
 								{#if i === shown}
 									{#key turn}<span class="bar" class:run={playing} style:--every="{EVERY}ms"></span>{/key}
 								{/if}
@@ -158,7 +163,7 @@
 				<li><strong>5</strong> dunia, 5 boss besar</li>
 				<li><strong>Solo</strong> atau <strong>Party</strong> bersama kelas</li>
 				<li class="elements">
-					{#each ELEMENTS as el (el)}<img src={elementIcon(el)} alt={ELEMENT_NAME[el]} title={ELEMENT_NAME[el]} width="26" height="26" />{/each}
+					{#each ELEMENTS as el (el)}<img src={elementIcon(el)} alt={ELEMENT_NAME[el]} title={ELEMENT_NAME[el]} width="32" height="32" />{/each}
 					<span>lima elemen</span>
 				</li>
 			</ul>
@@ -209,22 +214,58 @@
 		opacity: 1;
 		transform: translateX(0) scale(1);
 	}
-	.boss {
+	/* The boss stands in the painting's open middle, in a glow of its world's colour, on its own
+	   shadow, so the portrait sits in the scene instead of on top of it. It stands over the shade
+	   that darkens the painting for the words, and stops short of them. */
+	.boss-spot {
 		position: absolute;
-		left: 26%;
-		bottom: 6%;
+		z-index: 1;
+		left: 21%;
+		bottom: 7%;
 		width: 34%;
-		max-height: 72%;
+		height: 70%;
+		display: grid;
+		place-items: end center;
+		pointer-events: none;
+	}
+	.aura {
+		position: absolute;
+		inset: 8% 4% 6%;
+		border-radius: 50%;
+		background: radial-gradient(closest-side, color-mix(in srgb, var(--aura) 55%, transparent), color-mix(in srgb, var(--aura) 18%, transparent) 60%, transparent);
+		filter: blur(6px);
+		animation:
+			glow-in 900ms ease-out both,
+			pulse 3.6s ease-in-out 900ms infinite;
+	}
+	.ground {
+		position: absolute;
+		bottom: -2%;
+		left: 16%;
+		right: 16%;
+		height: 12%;
+		border-radius: 50%;
+		background: radial-gradient(closest-side, rgb(0 0 0 / 0.55), transparent);
+	}
+	.boss {
+		position: relative;
+		max-width: 100%;
+		max-height: 100%;
 		object-fit: contain;
 		object-position: bottom;
-		filter: drop-shadow(0 1rem 1.4rem rgb(0 0 0 / 0.55));
+		filter: drop-shadow(0 0 0.9rem color-mix(in srgb, var(--aura) 60%, transparent)) drop-shadow(0 0.8rem 1rem rgb(0 0 0 / 0.5));
 		animation:
-			rise 900ms 150ms cubic-bezier(0.2, 0.9, 0.3, 1.1) both,
-			float 4.5s ease-in-out 1.05s infinite;
+			appear 1s 120ms cubic-bezier(0.2, 0.9, 0.3, 1.05) both,
+			float 4.5s ease-in-out 1.2s infinite;
+	}
+	/* the boss turns to look at the hero on its left */
+	.boss.flip {
+		scale: -1 1;
 	}
 	.hero {
 		position: absolute;
-		left: 4%;
+		z-index: 2;
+		left: 2%;
 		bottom: 5%;
 		height: 46%;
 		width: auto;
@@ -347,30 +388,35 @@
 		width: 2.9rem;
 		height: 2.9rem;
 		padding: 0;
-		overflow: hidden;
-		border: 2px solid rgb(217 164 65 / 0.4);
-		border-radius: 14px;
-		background: rgb(255 255 255 / 0.06);
+		border: 0;
+		border-radius: 50%;
+		background: none;
+		opacity: 0.72;
 		cursor: pointer;
 		transition:
 			transform 160ms ease,
-			border-color 160ms ease,
-			background 160ms ease;
+			opacity 160ms ease;
 	}
 	.worlds button:hover {
+		opacity: 1;
 		transform: translateY(-2px);
 	}
+	/* the chosen world's medallion is whole-bright, ringed in light */
 	.worlds button.on {
-		border-color: #ffcf5a;
-		background: rgb(255 207 90 / 0.18);
+		opacity: 1;
+		box-shadow:
+			0 0 0 2px #0d1630,
+			0 0 0 4px #ffcf5a,
+			0 0 1rem rgb(255 207 90 / 0.55);
 	}
-	/* how long until the next world */
+	/* how long until the next world, under the chosen medallion */
 	.bar {
 		position: absolute;
-		left: 0;
-		bottom: 0;
-		height: 4px;
-		width: 100%;
+		left: 15%;
+		bottom: -0.55rem;
+		height: 3px;
+		width: 70%;
+		border-radius: 2px;
 		background: #ffcf5a;
 		transform: scaleX(0);
 		transform-origin: left;
@@ -380,7 +426,7 @@
 	}
 	/* Each world's emblem moves its own way: on the slide's title, on the chosen chip, and on a chip
 	   under the pointer. Tasik Chini ripples like water, Batang Lupar floats on the river, Hutan Larut
-	   stomps, Rimba Bayangan flickers like a shadow, Gunung Ledang drifts in the mist. */
+	   stomps, Rimba Bayangan flickers like a shadow, Gunung Ledang glows in the mist. */
 	.emblem {
 		transform-origin: 50% 60%;
 	}
@@ -464,11 +510,11 @@
 	@keyframes mist {
 		0%,
 		100% {
-			transform: translateY(0) rotate(0deg);
+			transform: translateY(0);
 			filter: drop-shadow(0 0 2px #ffffff) brightness(1);
 		}
 		50% {
-			transform: translateY(-3px) rotate(180deg);
+			transform: translateY(-3px);
 			filter: drop-shadow(0 0 9px #e8f4ff) brightness(1.15);
 		}
 	}
@@ -531,6 +577,28 @@
 			transform: translateY(1.2rem) scale(0.96);
 		}
 	}
+	@keyframes appear {
+		from {
+			opacity: 0;
+			transform: translateY(1.6rem) scale(0.9);
+			filter: brightness(2.2) drop-shadow(0 0 1.6rem var(--aura));
+		}
+		55% {
+			opacity: 1;
+		}
+	}
+	@keyframes glow-in {
+		from {
+			opacity: 0;
+			transform: scale(0.6);
+		}
+	}
+	@keyframes pulse {
+		50% {
+			opacity: 0.7;
+			transform: scale(1.05);
+		}
+	}
 	@keyframes float {
 		50% {
 			transform: translateY(-0.5rem);
@@ -560,10 +628,11 @@
 		.shade {
 			background: linear-gradient(180deg, rgb(13 22 48 / 0) 55%, rgb(13 22 48 / 0.95) 100%);
 		}
-		.boss {
+		.boss-spot {
 			left: auto;
-			right: 4%;
-			width: 52%;
+			right: 3%;
+			width: 60%;
+			height: 80%;
 		}
 		.hero {
 			height: 62%;
@@ -580,6 +649,7 @@
 	}
 	.still .field,
 	.still .boss,
+	.still .aura,
 	.still .hero,
 	.still .slide {
 		transition: opacity 200ms linear;

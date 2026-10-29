@@ -434,25 +434,10 @@ const box = (x: number, y: number, w: number, h: number): Box => ({ x, y, w, h }
 
 
 def ui() -> None:
-    for el in ELEMENTS:
-        src = B02 / f"element_icons/element_{el}.png"
-        im = Image.open(src).convert("RGBA")
-        im.thumbnail((160, 160), Image.LANCZOS)
-        out = save_webp(im, OUT / "ui" / f"element_{el}.webp", 90)
-        note(out, rel(src), "production UI icon (Batch 02)", "element picker")
     for heart in ("full", "half", "empty"):
         src = B02 / f"heart_icons/heart_{heart}.png"
         out = save_webp(Image.open(src).convert("RGBA"), OUT / "ui" / f"heart_{heart}.webp", 92)
         note(out, rel(src), "production UI icon (Batch 02)", "half-heart HUD")
-    symbols = {"chini": "world_01_tasik_chini", "lupar": "world_01_batang_lupar", "larut": "world_02_hutan_larut",
-               "kancil": "world_03_rimba_bayangan", "ledang": "world_04_gunung_ledang"}
-    for key, stem in symbols.items():
-        src = B12 / f"01_UI_GAME_READY/{stem}_symbol.png"
-        im = Image.open(src).convert("RGBA")
-        im = im.crop(im.getbbox())
-        im.thumbnail((160, 160), Image.LANCZOS)
-        out = save_webp(im, OUT / "ui" / f"symbol_{key}.webp", 90)
-        note(out, rel(src), "production UI emblem (Batch 12)", "world map and world intro")
     frames = sorted((B12 / "02_TRANSITION_ALPHA_FRAMES").glob("world_transition_*.png"))
     sheet = Image.new("RGBA", (640 * 4, 360 * 3))
     for i, f in enumerate(frames):
@@ -460,6 +445,82 @@ def ui() -> None:
     out = save_webp(sheet, OUT / "fx" / "transition_4x3.webp", 85)
     note(out, [rel(f) for f in frames], "production alpha frames (Batch 12), packed 4x3", "world transition wipe",
          frames=12, frame=[640, 360])
+
+
+# The emblems: a Google Noto Emoji picture (_asset_input/NotoEmoji/, Apache 2.0, fetched from
+# fonts.gstatic.com/s/e/notoemoji/latest/<code>/512.png) on a gold-rimmed medallion in the world's or
+# the element's own colours. A world's rim carries rivets, so it never reads as an element.
+NOTO = SRC / "NotoEmoji"
+# key: (emoji code point, light centre, dark edge)
+ELEMENT_EMBLEMS = {"api": ("1f525", "#ff8a4c", "#6e1a0e"), "angin": ("1f32a", "#4fb8c4", "#0d3a52"),
+                   "petir": ("26a1", "#7d70ec", "#1d1550"), "tanah": ("1faa8", "#d9a368", "#4a2a12"),
+                   "air": ("1f4a7", "#7fd0ff", "#0c3a78")}
+WORLD_EMBLEMS = {"chini": ("1fab7", "#43c9b8", "#0b4048"), "lupar": ("1f40a", "#f0a050", "#5a2a10"),
+                 "larut": ("1f333", "#86c95a", "#163f1f"), "kancil": ("1f319", "#a47ae6", "#24104a"),
+                 "ledang": ("1f3d4", "#7fa6d6", "#1b2c50")}
+
+
+def hex_rgb(colour: str) -> np.ndarray:
+    return np.array([int(colour[i:i + 2], 16) for i in (1, 3, 5)], float)
+
+
+def medallion(code: str, light: str, dark: str, rivets: bool, size: int = 160) -> Image.Image:
+    big = size * 4
+    yy, xx = np.mgrid[0:big, 0:big].astype(float)
+    c = big / 2
+    r = np.hypot(xx - c, yy - c) / c
+    rgba = np.zeros((big, big, 4))
+    # the gold rim: a ring shaded from a bright top to a deep bottom, edged in dark brown
+    t = np.clip((yy / big - 0.1) / 0.8, 0, 1)[..., None]
+    gold = hex_rgb("#ffe7a3") * (1 - t) + hex_rgb("#b8761e") * t
+    rim = (r <= 0.97) & (r > 0.8)
+    rgba[r <= 1.0] = [*hex_rgb("#3b2208"), 255]
+    rgba[rim, :3] = gold[rim]
+    rgba[rim, 3] = 255
+    # a fine bright line on the rim's inner and outer edges
+    for edge in (0.94, 0.83):
+        line = np.abs(r - edge) < 0.012
+        rgba[line, :3] = rgba[line, :3] * 0.4 + 255 * 0.6
+    # the disc: the colour glows from just above the middle out to the dark edge
+    d = np.clip(np.hypot(xx - c, yy - c * 0.86) / (c * 0.86), 0, 1)[..., None] ** 1.3
+    disc = r <= 0.8
+    body = hex_rgb(light) * (1 - d) + hex_rgb(dark) * d
+    rgba[disc, :3] = body[disc]
+    rgba[disc, 3] = 255
+    ring = disc & (np.abs(r - 0.755) < 0.012)
+    rgba[ring, :3] = rgba[ring, :3] * 0.55 + hex_rgb(light) * 0.45
+    if rivets:
+        for k in range(12):
+            a = k * np.pi / 6
+            px, py = c + np.cos(a) * c * 0.885, c + np.sin(a) * c * 0.885
+            dot = np.hypot(xx - px, yy - py) < big * 0.022
+            rgba[dot, :3] = hex_rgb("#fff4cf")
+    im = Image.fromarray(rgba.astype(np.uint8), "RGBA")
+    # the picture, with a soft shadow under it
+    pic = Image.open(NOTO / f"emoji_u{code}.png").convert("RGBA")
+    pic.thumbnail((int(big * 0.62),) * 2, Image.LANCZOS)
+    at = ((big - pic.width) // 2, (big - pic.height) // 2 + int(big * 0.01))
+    shadow = Image.new("RGBA", im.size, (0, 0, 0, 0))
+    shade = Image.new("RGBA", pic.size, (0, 0, 0, 150))
+    shade.putalpha(pic.getchannel("A").point(lambda v: v * 150 // 255))
+    shadow.alpha_composite(shade, (at[0], at[1] + int(big * 0.03)))
+    im.alpha_composite(shadow.filter(ImageFilter.GaussianBlur(big * 0.02)))
+    im.alpha_composite(pic, at)
+    # a gloss across the top of the disc
+    gloss = np.zeros((big, big), float)
+    g = ((xx - c) / (c * 0.62)) ** 2 + ((yy - c * 0.5) / (c * 0.3)) ** 2 < 1
+    gloss[g & disc] = 34
+    im.alpha_composite(Image.merge("RGBA", [Image.new("L", im.size, 255)] * 3 + [Image.fromarray(gloss.astype(np.uint8)).filter(ImageFilter.GaussianBlur(big * 0.02))]))
+    return im.resize((size, size), Image.LANCZOS)
+
+
+def emblems() -> None:
+    for el, (code, light, dark) in ELEMENT_EMBLEMS.items():
+        out = save_webp(medallion(code, light, dark, rivets=False), OUT / "ui" / f"element_{el}.webp", 90)
+        note(out, rel(NOTO / f"emoji_u{code}.png"), "Google Noto Emoji (Apache 2.0) on a drawn medallion", "element picker and HUD")
+    for key, (code, light, dark) in WORLD_EMBLEMS.items():
+        out = save_webp(medallion(code, light, dark, rivets=True), OUT / "ui" / f"symbol_{key}.webp", 90)
+        note(out, rel(NOTO / f"emoji_u{code}.png"), "Google Noto Emoji (Apache 2.0) on a drawn medallion", "world map and world intro")
 
 
 def fx() -> None:
@@ -644,12 +705,12 @@ def sound() -> None:
 def main() -> None:
     if not SRC.exists():
         sys.exit("_asset_input/ not found")
-    steps = {"heroes": heroes, "battlefields": battlefields, "ui": ui, "fx": fx, "banners": banners, "weapons": hero_weapons, "intros": boss_intros, "sound": sound}
+    steps = {"heroes": heroes, "battlefields": battlefields, "ui": ui, "emblems": emblems, "fx": fx, "banners": banners, "weapons": hero_weapons, "intros": boss_intros, "sound": sound}
     only = sys.argv[sys.argv.index("--only") + 1:] if "--only" in sys.argv else []
     old = OUT / "manifest.json"
     if only and old.exists():
         # a partial run keeps the rows of the steps it does not run
-        prefixes = {"heroes": "heroes/", "battlefields": tuple(f"worlds/{k}/{n}" for k in FIELD_ORDER for n in ("field", "boss", "minion_")), "ui": ("ui/", "fx/transition"), "fx": tuple(f"fx/{el}" for el in ELEMENTS), "banners": "banners/", "weapons": ("heroes/tuah/weapon/", "heroes/mahsuri/weapon/"), "intros": tuple(f"worlds/{k}/intro" for k in FIELD_ORDER), "sound": "audio/"}
+        prefixes = {"heroes": "heroes/", "battlefields": tuple(f"worlds/{k}/{n}" for k in FIELD_ORDER for n in ("field", "boss", "minion_")), "ui": ("ui/heart_", "fx/transition"), "emblems": ("ui/element_", "ui/symbol_"), "fx": tuple(f"fx/{el}" for el in ELEMENTS), "banners": "banners/", "weapons": ("heroes/tuah/weapon/", "heroes/mahsuri/weapon/"), "intros": tuple(f"worlds/{k}/intro" for k in FIELD_ORDER), "sound": "audio/"}
         dropped = tuple(p for name in only for p in ((prefixes[name],) if isinstance(prefixes[name], str) else prefixes[name]))
         manifest.extend(r for r in json.loads(old.read_text(encoding="utf-8"))["assets"] if not r["file"].startswith(dropped))
     for name, step in steps.items():

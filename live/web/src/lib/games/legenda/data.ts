@@ -59,14 +59,16 @@ export interface WorldArt {
 	aura: string;
 	/** Ambient particles in the air. */
 	motes: 'petals' | 'embers' | 'leaves' | 'wisps' | 'mist';
+	/** Which way the boss looks in its introduction portrait; shown facing the hero (to the left). */
+	introFaces: 'left' | 'right' | 'front';
 }
 
 export const WORLD_ART: WorldArt[] = [
-	{ key: 'chini', strikes: 'air', aura: '#3fe0d0', motes: 'petals' },
-	{ key: 'lupar', strikes: 'air', strikeFilter: 'hue-rotate(-40deg) saturate(0.8)', aura: '#ffb347', motes: 'embers' },
-	{ key: 'larut', strikes: 'tanah', aura: '#7dff9a', motes: 'leaves' },
-	{ key: 'kancil', strikes: 'angin', strikeFilter: 'hue-rotate(120deg) saturate(1.6) brightness(0.9)', aura: '#b77dff', motes: 'wisps' },
-	{ key: 'ledang', strikes: 'angin', strikeFilter: 'saturate(0.2) brightness(1.3)', aura: '#bfefff', motes: 'mist' }
+	{ key: 'chini', strikes: 'air', aura: '#3fe0d0', motes: 'petals', introFaces: 'right' },
+	{ key: 'lupar', strikes: 'air', strikeFilter: 'hue-rotate(-40deg) saturate(0.8)', aura: '#ffb347', motes: 'embers', introFaces: 'left' },
+	{ key: 'larut', strikes: 'tanah', aura: '#7dff9a', motes: 'leaves', introFaces: 'left' },
+	{ key: 'kancil', strikes: 'angin', strikeFilter: 'hue-rotate(120deg) saturate(1.6) brightness(0.9)', aura: '#b77dff', motes: 'wisps', introFaces: 'right' },
+	{ key: 'ledang', strikes: 'angin', strikeFilter: 'saturate(0.2) brightness(1.3)', aura: '#bfefff', motes: 'mist', introFaces: 'front' }
 ];
 
 /** Where things stand on this world's battlefield painting. */
@@ -77,6 +79,8 @@ export const battleBg = (world: number) => storyArt(`worlds/${WORLD_ART[world].k
 export const bossArt = (world: number) => storyArt(`worlds/${WORLD_ART[world].key}/boss.webp`);
 /** The boss's introduction portrait, shown when the boss first appears (the battle uses bossArt). */
 export const introArt = (world: number) => storyArt(`worlds/${WORLD_ART[world].key}/intro.webp`);
+/** Whether the introduction portrait is mirrored so the boss, on the right, looks at the hero on the left. */
+export const introFlip = (world: number) => WORLD_ART[world].introFaces === 'right';
 export const minionArt = (world: number, which: 'a' | 'b') => storyArt(`worlds/${WORLD_ART[world].key}/minion_${which}.webp`);
 export const symbol = (world: number) => storyArt(`ui/symbol_${WORLD_ART[world].key}.webp`);
 export const elementIcon = (el: string) => storyArt(`ui/element_${el}.webp`);
