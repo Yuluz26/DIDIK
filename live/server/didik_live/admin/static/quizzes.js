@@ -1,6 +1,7 @@
 // Kuiz: every quiz parents wrote. Look at the questions, fix a title, or remove one.
 
 import { api, query } from './core.js';
+import { askBulk, bulk, bulkBar, Selection } from './bulk.js';
 import { dataTable } from './table.js';
 import { ago, confirmBox, h, icon, num, openDialog, pill, seg, sheetHead, stamp, toast } from './ui.js';
 
@@ -63,9 +64,13 @@ export default {
 
 	async mount(root, ctx) {
 		const state = { samples: false, q: ctx.params.get('q') || '', page: 1 };
+		const selection = new Selection();
 		const table = dataTable({
 			columns: ['Kuiz', 'Ibu bapa', 'Soalan', 'Dikemas kini', ''],
 			emptyText: 'Tiada kuiz yang sepadan.',
+			selection,
+			rowId: (q) => q.id,
+			rowName: (q) => q.title,
 			onPage: (step) => {
 				state.page += step;
 				load();
@@ -79,11 +84,22 @@ export default {
 			)
 		});
 		const count = h('span', { class: 'sub' });
+		const bar = bulkBar(selection, {
+			actions: [
+				{ label: 'Padam', icon: 'trash', tone: 'danger', run: async (ids, names) => {
+					const many = `${num(ids.length)} kuiz`;
+					if (!(await askBulk({ ids, names, title: `Padam ${many}?`, body: state.samples ? 'Kuiz contoh akan dibuang. Ini tidak boleh dibatalkan.' : 'Kuiz ini dipadam untuk selama-lamanya daripada akaun pemiliknya.', ok: `Padam ${many}` }))) return false;
+					await bulk('/quizzes/bulk', { ids, action: 'delete' }, { noun: 'kuiz', did: 'dipadam' });
+					load();
+				} }
+			]
+		});
 		root.append(h('div', { class: 'toolbar' }, seg([['mine', 'Ibu bapa'], ['samples', 'Kuiz contoh']], 'mine', (value) => {
 			state.samples = value === 'samples';
 			state.page = 1;
+			selection.clear();
 			load();
-		}), count), table.el);
+		}), count), table.el, bar.el);
 
 		async function load() {
 			table.busy(true);
@@ -91,6 +107,7 @@ export default {
 				const result = await api(`/quizzes${query({ q: state.q, samples: state.samples, page: state.page })}`);
 				table.set(result);
 				count.textContent = `${num(result.total)} kuiz`;
+				bar.matching({ total: result.total, pageIds: result.items.map((q) => q.id), fetchAll: () => api(`/quizzes/ids${query({ q: state.q, samples: state.samples })}`) });
 			} catch (error) {
 				toast(error.message, 'bad');
 			} finally {
@@ -100,8 +117,10 @@ export default {
 		const open = (id) => drawer(id, load).catch((error) => toast(error.message, 'bad'));
 
 		this.onSearch = (value) => {
+			if (value === state.q) return;
 			state.q = value;
 			state.page = 1;
+			selection.clear();
 			load();
 		};
 		const stop = ctx.on('event', (event) => event.kind.startsWith('quiz.') && load());

@@ -198,7 +198,10 @@ VPS. Pelayan atau domain lain: pembolehubah repositori `DIDIK_VPS` (`pengguna@ho
 ## 10. Bilik kawalan admin (untuk pemilik laman)
 
 Papan pemuka peribadi: ibu bapa baharu, kuiz, bilik dan murid yang masuk secara langsung, notifikasi, log aktiviti, dan
-urus ibu bapa, kuiz serta notifikasi. Ia **tidak wujud** sehingga anda menetapkan emel dan alamat rahsia; alamat lain
+urus ibu bapa, kuiz serta notifikasi. Setiap senarai (ibu bapa, kuiz, notifikasi, bilik langsung) ada **tindakan pukal**:
+tanda baris satu-satu, satu halaman, julat dengan Shift, atau "Pilih semua yang sepadan" merentas halaman (sehingga
+500 sekali), kemudian gantung, pulihkan, padam, tandakan dibaca, sematkan atau tutup bilik. Memadam banyak baris sekali
+gus meminta anda menaip PADAM; akaun demo dan sampel tidak pernah disentuh. Ia **tidak wujud** sehingga anda menetapkan emel dan alamat rahsia; alamat lain
 menunjukkan laman biasa.
 
 Persediaan sekali (pada VPS, fail yang sama dengan SMTP: `/etc/didik/didik.env` atau `.env` Docker):

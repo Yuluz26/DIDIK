@@ -5,11 +5,11 @@ from __future__ import annotations
 
 import logging
 from datetime import UTC, datetime
-from typing import Any, Literal
+from typing import Annotated, Any, Literal
 
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Request, Response
 from fastapi.concurrency import run_in_threadpool
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, StringConstraints
 from sqlalchemy import delete, func, or_, select
 from sqlalchemy.orm import Session
 
@@ -147,6 +147,45 @@ async def live(request: Request) -> dict:
     return stats.live(request.app.state.rooms, await live_names(request))
 
 
+# ---------------------------------------------------------------- bulk actions
+#
+# Every list can act on many rows at once. A bulk call is one transaction, skips what it must not touch
+# (the demo and sample accounts, rows that are already gone or already in the asked state) and says how many
+# it did and how many it skipped. The log gets one summary line, not one per row.
+
+MAX_BULK = 500
+
+
+def _ids(values: list[int]) -> list[int]:
+    return list(dict.fromkeys(values))
+
+
+def _outcome(action: str, requested: int, done: int) -> dict[str, Any]:
+    return {"action": action, "requested": requested, "done": done, "skipped": requested - done}
+
+
+class RoomBulk(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    codes: list[Annotated[str, StringConstraints(max_length=12)]] = Field(min_length=1, max_length=100)
+    action: Literal["close"]
+
+
+@private.post("/api/rooms/bulk")
+async def rooms_bulk(body: RoomBulk, request: Request) -> dict:
+    rooms = request.app.state.rooms
+    codes = list(dict.fromkeys(body.codes))
+    closed = 0
+    for code in codes:
+        found = rooms.by_code.get(code)
+        if found is not None:
+            rooms.close(found, "Bilik ini ditutup oleh pentadbir laman.")
+            closed += 1
+    if closed:
+        request.app.state.bus.emit("admin.room_closed", f"{closed} bilik ditutup oleh admin", count=closed, codes=codes[:10])
+    return _outcome(body.action, len(codes), closed)
+
+
 @private.get("/api/rooms/{code}")
 async def room(code: str, request: Request) -> dict:
     detail = stats.room_detail(request.app.state.rooms, code, await live_names(request))
@@ -184,11 +223,8 @@ def _page(page: int, per: int) -> tuple[int, int]:
     return max(1, page), min(max(5, per), 100)
 
 
-@private.get("/api/users")
-def users(q: str = "", status: str = "active", page: int = 1, per: int = 25, db: Session = Depends(get_db)) -> dict:
+def _user_where(q: str, status: str) -> list[Any]:
     """status: active, suspended or system (the demo and sample-library accounts)."""
-    page, per = _page(page, per)
-    owned = select(Quiz.owner_id, func.count().label("n")).where(Quiz.is_sample.is_(False)).group_by(Quiz.owner_id).subquery()
     where: list[Any] = []
     if status == "system":
         where.append(User.email.in_(stats.SYSTEM_EMAILS))
@@ -200,6 +236,14 @@ def users(q: str = "", status: str = "active", page: int = 1, per: int = 25, db:
             where.append(User.disabled_at.is_not(None))
     if q.strip():
         where.append(or_(_search(User.name, q), _search(User.email, q)))
+    return where
+
+
+@private.get("/api/users")
+def users(q: str = "", status: str = "active", page: int = 1, per: int = 25, db: Session = Depends(get_db)) -> dict:
+    page, per = _page(page, per)
+    owned = select(Quiz.owner_id, func.count().label("n")).where(Quiz.is_sample.is_(False)).group_by(Quiz.owner_id).subquery()
+    where = _user_where(q, status)
     total = db.scalar(select(func.count()).select_from(User).where(*where)) or 0
     rows = db.execute(
         select(User, func.coalesce(owned.c.n, 0))
@@ -210,6 +254,63 @@ def users(q: str = "", status: str = "active", page: int = 1, per: int = 25, db:
         .limit(per)
     ).all()
     return {"items": [stats.user_row(u, n) for u, n in rows], "total": total, "page": page, "per": per}
+
+
+@private.get("/api/users/ids")
+def user_ids(q: str = "", status: str = "active", db: Session = Depends(get_db)) -> dict:
+    """Every account the filter matches (the first MAX_BULK), for "select all that match"."""
+    where = _user_where(q, status)
+    total = db.scalar(select(func.count()).select_from(User).where(*where)) or 0
+    ids = list(db.scalars(select(User.id).where(*where).order_by(User.id.desc()).limit(MAX_BULK)))
+    return {"ids": ids, "total": total, "capped": total > len(ids)}
+
+
+class UserBulk(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    ids: list[int] = Field(min_length=1, max_length=MAX_BULK)
+    action: Literal["suspend", "restore", "delete"]
+
+
+@private.post("/api/users/bulk")
+async def users_bulk(body: UserBulk, request: Request, db: Session = Depends(get_db)) -> dict:
+    ids = _ids(body.ids)
+
+    def work() -> tuple[list[int], list[str], list[str]]:
+        rows = list(db.scalars(select(User).where(User.id.in_(ids), User.email.not_in(stats.SYSTEM_EMAILS))))
+        files: list[str] = []
+        if body.action == "suspend":
+            rows = [u for u in rows if u.disabled_at is None]
+            now = datetime.now(UTC)
+            for user in rows:
+                user.disabled_at = now
+            if rows:
+                db.execute(delete(AuthSession).where(AuthSession.user_id.in_([u.id for u in rows])))
+        elif body.action == "restore":
+            rows = [u for u in rows if u.disabled_at is not None]
+            for user in rows:
+                user.disabled_at = None
+        else:
+            if rows:
+                files = list(db.scalars(select(Upload.filename).where(Upload.owner_id.in_([u.id for u in rows]))))
+            for user in rows:
+                db.delete(user)  # their quizzes, saved rooms and sessions go with them
+        names = [u.name for u in rows][:5]
+        changed = [u.id for u in rows]
+        db.commit()
+        return changed, names, files
+
+    changed, names, files = await run_in_threadpool(work)
+    if body.action in ("suspend", "delete"):
+        for user_id in changed:
+            _close_rooms_of(request, user_id, "Akaun hos ini digantung." if body.action == "suspend" else "Akaun hos ini telah dipadam.")
+    folder = request.app.state.settings.upload_dir
+    for filename in files:
+        (folder / filename).unlink(missing_ok=True)
+    if changed:
+        kind, said = {"suspend": ("user.suspended", "digantung"), "restore": ("user.restored", "dipulihkan"), "delete": ("user.deleted", "dipadam")}[body.action]
+        request.app.state.bus.emit(kind, f"{len(changed)} ibu bapa {said} oleh admin", count=len(changed), names=names, bulk=True)
+    return _outcome(body.action, len(ids), len(changed))
 
 
 def _user(db: Session, user_id: int) -> User:
@@ -307,15 +408,48 @@ def _quiz_row(quiz: Quiz) -> dict[str, Any]:
     }
 
 
-@private.get("/api/quizzes")
-def quizzes(q: str = "", samples: bool = False, page: int = 1, per: int = 25, db: Session = Depends(get_db)) -> dict:
-    page, per = _page(page, per)
+def _quiz_where(q: str, samples: bool) -> list[Any]:
     where: list[Any] = [Quiz.is_sample.is_(samples)]
     if q.strip():
         where.append(or_(_search(Quiz.title, q), Quiz.owner_id.in_(select(User.id).where(_search(User.name, q)))))
+    return where
+
+
+@private.get("/api/quizzes")
+def quizzes(q: str = "", samples: bool = False, page: int = 1, per: int = 25, db: Session = Depends(get_db)) -> dict:
+    page, per = _page(page, per)
+    where = _quiz_where(q, samples)
     total = db.scalar(select(func.count()).select_from(Quiz).where(*where)) or 0
     rows = db.scalars(select(Quiz).where(*where).order_by(Quiz.id.desc()).offset((page - 1) * per).limit(per)).all()
     return {"items": [_quiz_row(row) for row in rows], "total": total, "page": page, "per": per}
+
+
+@private.get("/api/quizzes/ids")
+def quiz_ids(q: str = "", samples: bool = False, db: Session = Depends(get_db)) -> dict:
+    where = _quiz_where(q, samples)
+    total = db.scalar(select(func.count()).select_from(Quiz).where(*where)) or 0
+    ids = list(db.scalars(select(Quiz.id).where(*where).order_by(Quiz.id.desc()).limit(MAX_BULK)))
+    return {"ids": ids, "total": total, "capped": total > len(ids)}
+
+
+class QuizBulk(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    ids: list[int] = Field(min_length=1, max_length=MAX_BULK)
+    action: Literal["delete"]
+
+
+@private.post("/api/quizzes/bulk")
+def quizzes_bulk(body: QuizBulk, request: Request, db: Session = Depends(get_db)) -> dict:
+    ids = _ids(body.ids)
+    rows = list(db.scalars(select(Quiz).where(Quiz.id.in_(ids))))
+    titles = [row.title for row in rows][:5]
+    for row in rows:
+        db.delete(row)
+    db.commit()
+    if rows:
+        request.app.state.bus.emit("quiz.deleted", f"{len(rows)} kuiz dipadam oleh admin", count=len(rows), titles=titles, byAdmin=True, bulk=True)
+    return _outcome(body.action, len(ids), len(rows))
 
 
 def _the_quiz(db: Session, quiz_id: int) -> Quiz:
@@ -420,6 +554,34 @@ def clear_read(request: Request, db: Session = Depends(get_db)) -> Response:
     db.commit()
     request.app.state.bus.publish({"t": "notifications-changed"})
     return Response(status_code=204)
+
+
+class NoteBulk(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    ids: list[int] = Field(min_length=1, max_length=MAX_BULK)
+    action: Literal["read", "unread", "pin", "unpin", "delete"]
+
+
+@private.post("/api/notifications/bulk")
+def notifications_bulk(body: NoteBulk, request: Request, db: Session = Depends(get_db)) -> dict:
+    ids = _ids(body.ids)
+    rows = list(db.scalars(select(AdminNotification).where(AdminNotification.id.in_(ids))))
+    now = datetime.now(UTC)
+    for row in rows:
+        if body.action == "read":
+            row.read_at = row.read_at or now
+        elif body.action == "unread":
+            row.read_at = None
+        elif body.action == "pin":
+            row.pinned = True
+        elif body.action == "unpin":
+            row.pinned = False
+        else:
+            db.delete(row)
+    db.commit()
+    request.app.state.bus.publish({"t": "notifications-changed"})
+    return _outcome(body.action, len(ids), len(rows))
 
 
 def _note(db: Session, note_id: int) -> AdminNotification:

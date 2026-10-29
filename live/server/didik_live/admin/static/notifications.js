@@ -2,6 +2,7 @@
 // Create, read, pin, edit, delete.
 
 import { api } from './core.js';
+import { askBulk, bulk, bulkBar, Selection } from './bulk.js';
 import { ago, clear, confirmBox, empty, h, icon, openDialog, seg, sheetHead, skeletons, tile, toast } from './ui.js';
 
 const LEVELS = {
@@ -69,7 +70,24 @@ export default {
 		let show = 'all';
 		let text = '';
 		let rows = [];
+		let shown = [];
+		let last = -1;
+		const selection = new Selection();
 		const list = h('ul', { class: 'list note-list' });
+		const all = h('input', { type: 'checkbox', class: 'pick', 'aria-label': 'Pilih semua notifikasi yang dipaparkan', onChange: () => selection.many(shown.map((n) => [n.id, n.title]), all.checked) });
+		const bar = bulkBar(selection, {
+			actions: [
+				{ label: 'Dibaca', icon: 'check', run: async (ids) => { await bulk('/notifications/bulk', { ids, action: 'read' }, { noun: 'notifikasi', did: 'ditandakan sudah dibaca' }); load(); } },
+				{ label: 'Belum dibaca', icon: 'bell', run: async (ids) => { await bulk('/notifications/bulk', { ids, action: 'unread' }, { noun: 'notifikasi', did: 'ditandakan belum dibaca' }); load(); } },
+				{ label: 'Sematkan', icon: 'pin', run: async (ids) => { await bulk('/notifications/bulk', { ids, action: 'pin' }, { noun: 'notifikasi', did: 'disematkan' }); load(); } },
+				{ label: 'Nyahsemat', icon: 'x', run: async (ids) => { await bulk('/notifications/bulk', { ids, action: 'unpin' }, { noun: 'notifikasi', did: 'dinyahsematkan' }); load(); } },
+				{ label: 'Padam', icon: 'trash', tone: 'danger', run: async (ids, names) => {
+					if (!(await askBulk({ ids, names, typed: false, title: `Padam ${ids.length} notifikasi?`, body: 'Notifikasi yang dipilih dibuang. Ini tidak boleh dibatalkan.', ok: 'Padam' }))) return false;
+					await bulk('/notifications/bulk', { ids, action: 'delete' }, { noun: 'notifikasi', did: 'dipadam' });
+					load();
+				} }
+			]
+		});
 		const body = h('div', { class: 'card' }, skeletons(3));
 		const readAll = h('button', { class: 'btn sm', type: 'button', onClick: async () => { await api('/notifications/read-all', { method: 'POST' }); toast('Semua ditandakan sudah dibaca.'); load(); } }, icon('check', 15), 'Tandakan semua dibaca');
 		const clearRead = h('button', { class: 'btn sm', type: 'button', onClick: async () => {
@@ -78,11 +96,20 @@ export default {
 			toast('Dikosongkan.');
 			load();
 		} }, icon('trash', 15), 'Kosongkan yang dibaca');
-		root.append(h('div', { class: 'toolbar' }, seg([['all', 'Semua'], ['unread', 'Belum dibaca'], ['pinned', 'Disematkan'], ['manual', 'Nota saya']], show, (value) => { show = value; load(); }), h('span', { class: 'grow' }), readAll, clearRead), body);
+		root.append(h('div', { class: 'toolbar' }, h('label', { class: 'check pick-all-inline' }, all, 'Pilih semua'), seg([['all', 'Semua'], ['unread', 'Belum dibaca'], ['pinned', 'Disematkan'], ['manual', 'Nota saya']], show, (value) => { show = value; selection.clear(); load(); }), h('span', { class: 'grow' }), readAll, clearRead), body, bar.el);
 
 		const card = (note) => {
 			const [label, iconName, tone] = LEVELS[note.level] || LEVELS.info;
+			const index = shown.indexOf(note);
+			const box = h('input', { type: 'checkbox', class: 'pick', 'aria-label': `Pilih “${note.title}”` });
+			box.addEventListener('click', (event) => {
+				const from = event.shiftKey && last >= 0 ? Math.min(last, index) : index;
+				const to = event.shiftKey && last >= 0 ? Math.max(last, index) : index;
+				selection.many(shown.slice(from, to + 1).map((n) => [n.id, n.title]), box.checked);
+				last = index;
+			});
 			return h('li', { class: note.read ? '' : 'unread', data: { id: note.id } },
+				box,
 				tile(iconName, tone),
 				h('span', { class: 'grow' },
 					h('b', null, note.title),
@@ -100,11 +127,27 @@ export default {
 
 		const paint = () => {
 			const query = text.toLowerCase();
-			const shown = query ? rows.filter((n) => `${n.title} ${n.body}`.toLowerCase().includes(query)) : rows;
+			shown = query ? rows.filter((n) => `${n.title} ${n.body}`.toLowerCase().includes(query)) : rows;
+			last = -1;
+			selection.keep(shown.map((n) => n.id)); // a note that was deleted or filtered out is no longer picked
 			clear(list);
 			shown.forEach((note) => list.append(card(note)));
 			body.replaceChildren(shown.length ? list : empty('inbox', query ? 'Tiada notifikasi yang sepadan.' : show === 'unread' ? 'Semua sudah dibaca.' : 'Belum ada notifikasi.'));
+			sync();
 		};
+
+		function sync() {
+			for (const li of list.children) {
+				const on = selection.has(Number(li.dataset.id));
+				li.querySelector('input.pick').checked = on;
+				li.classList.toggle('selected', on);
+			}
+			const chosen = shown.filter((n) => selection.has(n.id)).length;
+			all.checked = shown.length > 0 && chosen === shown.length;
+			all.indeterminate = chosen > 0 && chosen < shown.length;
+			all.disabled = shown.length === 0;
+		}
+		selection.onChange(sync);
 
 		async function load() {
 			try {
@@ -134,7 +177,9 @@ export default {
 		}
 
 		this.onSearch = (value) => {
+			if (value === text) return;
 			text = value;
+			selection.clear();
 			paint();
 		};
 		const stops = ['notification', 'notification-removed', 'notifications-changed'].map((type) => ctx.on(type, load));

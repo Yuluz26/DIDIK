@@ -2,6 +2,7 @@
 // screen while you read; the connection keeps listening and the page catches up when you resume.
 
 import { api } from './core.js';
+import { askBulk, bulk, bulkBar, Selection } from './bulk.js';
 import { eventRow, refreshTimes } from './feed.js';
 import { clear, confirmBox, duration, empty, h, icon, num, openDialog, pill, sheetHead, tile, toast } from './ui.js';
 
@@ -29,6 +30,16 @@ export default {
 		const [playCard, playOut] = summary('Sedang bermain', '0', 'play', 'blue');
 		const grid = h('div', { class: 'rooms' });
 		const cards = new Map();
+		const selection = new Selection();
+		const all = h('input', { type: 'checkbox', class: 'pick', 'aria-label': 'Pilih semua bilik yang dipaparkan', onChange: () => selection.many([...cards.keys()].map((code) => [code, code]), all.checked) });
+		const bar = bulkBar(selection, {
+			actions: [
+				{ label: 'Tutup bilik', icon: 'x', tone: 'danger', run: async (codes) => {
+					if (!(await askBulk({ ids: codes, names: codes.map((code) => `Bilik ${code}`), typed: false, title: `Tutup ${codes.length} bilik?`, body: 'Semua murid dalam bilik ini diputuskan dan permainan berhenti.', ok: 'Tutup bilik' }))) return false;
+					await bulk('/rooms/bulk', { codes, action: 'close' }, { noun: 'bilik', did: 'ditutup' });
+				} }
+			]
+		});
 		const pause = h('button', { class: 'btn sm', type: 'button', 'aria-pressed': 'false', onClick: () => setPaused(!paused) });
 		const feed = h('ul', { class: 'list feed' });
 		const events = [];
@@ -37,7 +48,7 @@ export default {
 			h('div', { class: 'grid kpis' }, kidsCard, roomsCard, playCard),
 			h('div', { class: 'gap' }),
 			h('div', { class: 'grid' },
-				h('section', { class: 's8' }, h('div', { class: 'toolbar' }, h('h2', { class: 'visually-hidden' }, 'Bilik'), h('span', { class: 'grow' }), pause), grid),
+				h('section', { class: 's8' }, h('div', { class: 'toolbar' }, h('h2', { class: 'visually-hidden' }, 'Bilik'), h('label', { class: 'check pick-all-inline' }, all, 'Pilih semua'), h('span', { class: 'grow' }), pause), grid, bar.el),
 				h('section', { class: 'card s4' }, h('div', { class: 'card-head' }, h('h2', null, 'Baru berlaku')), feed)
 			)
 		);
@@ -59,13 +70,15 @@ export default {
 				kids: h('span'),
 				age: h('span')
 			};
-			const el = h('button', { class: 'room', type: 'button', onClick: () => details(refs.code.textContent) },
+			const button = h('button', { class: 'room', type: 'button', onClick: () => details(refs.code.textContent) },
 				h('span', { class: 'room-top' }, refs.code, refs.phase),
 				refs.title,
 				refs.sub,
 				h('span', { class: 'sub' }, refs.kids, refs.age)
 			);
-			return { el, refs };
+			const box = h('input', { type: 'checkbox', class: 'pick', onChange: () => selection.toggle(refs.code.textContent, box.checked, `Bilik ${refs.code.textContent}`) });
+			const el = h('div', { class: 'room-wrap' }, button, h('label', { class: 'room-pick' }, box));
+			return { el, refs, box };
 		}
 
 		function paint(live) {
@@ -85,6 +98,7 @@ export default {
 				if (!card) cards.set(room.code, (card = roomCard(room)));
 				const [label, kind] = PHASES[room.phase] || PHASES.lobby;
 				card.refs.code.textContent = room.code;
+				card.box.setAttribute('aria-label', `Pilih bilik ${room.code}`);
 				card.refs.phase.replaceChildren(pill(room.locked ? `${label} · dikunci` : label, kind));
 				card.refs.title.textContent = room.quiz;
 				card.refs.sub.textContent = `${room.modeTitle} · ${room.host}`;
@@ -100,8 +114,22 @@ export default {
 			}
 			if (!shown.length) grid.replaceChildren(empty('door', query ? 'Tiada bilik yang sepadan.' : 'Tiada bilik dibuka sekarang. Bilik muncul di sini sebaik sahaja ibu bapa membukanya.'));
 			else grid.querySelector('.empty')?.remove();
+			selection.keep([...keep]); // a room that closed is no longer picked
+			sync();
 			open?.refresh();
 		}
+
+		function sync() {
+			for (const [code, card] of cards) {
+				card.box.checked = selection.has(code);
+				card.el.classList.toggle('selected', card.box.checked);
+			}
+			const chosen = [...cards.keys()].filter((code) => selection.has(code)).length;
+			all.checked = cards.size > 0 && chosen === cards.size;
+			all.indeterminate = chosen > 0 && chosen < cards.size;
+			all.disabled = cards.size === 0;
+		}
+		selection.onChange(sync);
 
 		async function details(code) {
 			let people = h('ul', { class: 'who-list' });
@@ -160,7 +188,9 @@ export default {
 		}
 
 		this.onSearch = (value) => {
+			if (value === text) return;
 			text = value;
+			selection.clear();
 			if (ctx.state.live) paint(ctx.state.live);
 		};
 

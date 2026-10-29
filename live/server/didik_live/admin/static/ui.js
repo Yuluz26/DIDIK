@@ -222,15 +222,24 @@ export function sheetHead(title, close, sub) {
 	return h('div', { class: 'sheet-head' }, h('div', null, h('h2', null, title), sub && h('p', { class: 'sub' }, sub)), h('button', { class: 'icon-btn', type: 'button', 'aria-label': 'Tutup', onClick: () => close() }, icon('x', 20)));
 }
 
-export function confirmBox({ title, body, ok = 'Ya', danger = false }) {
-	return openDialog((close) =>
-		h('div', { class: 'sheet', role: 'alertdialog', 'aria-label': title },
+/**
+ * Asks before something that cannot be undone. `detail` lists what is affected; with `type`, the button stays
+ * disabled until that word has been typed (used for bulk deletes, where one stray click could remove many rows).
+ */
+export function confirmBox({ title, body, detail = [], more = 0, type = '', ok = 'Ya', danger = false }) {
+	return openDialog((close) => {
+		const go = h('button', { class: `btn ${danger ? 'danger' : 'primary'}`, type: 'button', disabled: !!type, onClick: () => close(true) }, ok);
+		const word = type
+			? h('input', { class: 'input', id: 'confirm-word', autocomplete: 'off', spellcheck: 'false', autocapitalize: 'characters', placeholder: type, 'aria-label': `Taip ${type} untuk mengesahkan`, autofocus: true })
+			: null;
+		word?.addEventListener('input', () => (go.disabled = word.value.trim().toUpperCase() !== type.toUpperCase()));
+		word?.addEventListener('keydown', (event) => event.key === 'Enter' && !go.disabled && close(true));
+		return h('div', { class: 'sheet', role: 'alertdialog', 'aria-label': title },
 			sheetHead(title, close),
 			h('p', { class: 'sheet-text' }, body),
-			h('div', { class: 'sheet-foot' },
-				h('button', { class: 'btn', type: 'button', onClick: () => close(false), autofocus: true }, 'Batal'),
-				h('button', { class: `btn ${danger ? 'danger' : 'primary'}`, type: 'button', onClick: () => close(true) }, ok)
-			)
-		)
-	).then((value) => value === true);
+			detail.length > 0 && h('ul', { class: 'prompts affected' }, detail.map((line) => h('li', null, line)), more > 0 && h('li', { class: 'sub' }, `dan ${more} lagi`)),
+			word && h('label', { class: 'field' }, h('span', null, `Taip ${type} untuk mengesahkan`), word),
+			h('div', { class: 'sheet-foot' }, h('button', { class: 'btn', type: 'button', onClick: () => close(false), autofocus: !word }, 'Batal'), go)
+		);
+	}).then((value) => value === true);
 }

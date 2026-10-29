@@ -563,3 +563,150 @@ def test_mailer_says_whether_it_sent(monkeypatch: pytest.MonkeyPatch) -> None:
 
     monkeypatch.setattr("didik_live.mailer.smtplib.SMTP", Smtp)
     assert Mailer(MAIL).send("a@b.test", "s", "b") is True and len(sent) == 1
+
+
+# ---------------------------------------------------------------- bulk actions
+
+
+def parents(site: TestClient, count: int) -> list[tuple[TestClient, int]]:
+    made = []
+    for number in range(count):
+        parent = TestClient(site.app)
+        email = f"ibu{number}@example.test"
+        assert parent.post("/api/auth/register", json={"name": f"Ibu {number}", "email": email, "password": "rahsia-123"}).status_code == 201
+        made.append((parent, site.get(f"{P}/api/users?q={email}").json()["items"][0]["id"]))
+    return made
+
+
+def test_parents_can_be_suspended_restored_and_deleted_in_bulk(site: TestClient) -> None:
+    sign_in(site)
+    made = parents(site, 4)
+    ids = [uid for _, uid in made]
+    system = site.get(f"{P}/api/users?status=system").json()["items"][0]["id"]
+
+    # one of them is hosting a room, and has a picture on disk
+    host, host_id = made[0]
+    sample = sample_id(host, "Haiwan di Malaysia")
+    quiz = host.post(f"/api/quizzes/{sample}/copy").json()
+    assert host.post("/api/rooms", json={"quiz_id": quiz["id"], "mode": "lumba"}).status_code == 201
+    picture = site.app.state.settings.upload_dir / "bulk.webp"
+    picture.write_bytes(b"x")
+    with site.app.state.db.sessions() as db:
+        from didik_live.models import Upload
+
+        db.add(Upload(owner_id=made[1][1], filename="bulk.webp", width=1, height=1))
+        db.commit()
+
+    # three real accounts, one repeated, the protected demo account, and an id that does not exist
+    answer = site.post(f"{P}/api/users/bulk", json={"ids": [*ids[:3], ids[0], system, 99999], "action": "suspend"}).json()
+    assert answer == {"action": "suspend", "requested": 5, "done": 3, "skipped": 2}
+    assert [made[n][0].get("/api/auth/me").json()["user"] for n in range(3)] == [None, None, None]  # signed out at once
+    assert made[3][0].get("/api/auth/me").json()["user"] is not None  # the fourth was not asked
+    assert site.app.state.rooms.rooms_of(host_id) == []  # the room closed with its host
+    assert made[1][0].post("/api/auth/login", json={"email": "ibu1@example.test", "password": "rahsia-123"}).status_code == 403
+    wait_until(lambda: events(site, "user.suspended"))
+    summary = events(site, "user.suspended")[0]
+    assert summary.data["count"] == 3 and summary.data["bulk"] is True and "3 ibu bapa" in summary.summary  # one line, not three
+
+    # restoring asks only for what is suspended
+    assert site.post(f"{P}/api/users/bulk", json={"ids": ids, "action": "restore"}).json() == {"action": "restore", "requested": 4, "done": 3, "skipped": 1}
+    assert made[2][0].post("/api/auth/login", json={"email": "ibu2@example.test", "password": "rahsia-123"}).status_code == 200
+
+    # deleting takes the quizzes and the pictures with it
+    assert site.post(f"{P}/api/users/bulk", json={"ids": [ids[0], ids[1], system], "action": "delete"}).json() == {"action": "delete", "requested": 3, "done": 2, "skipped": 1}
+    assert not picture.exists() and rows(site, Quiz, Quiz.owner_id.in_(ids[:2])) == []
+    assert [u["id"] for u in site.get(f"{P}/api/users").json()["items"]] == [ids[3], ids[2]]
+    assert site.get(f"{P}/api/users?status=system").json()["total"] == 1  # still there
+    wait_until(lambda: events(site, "user.deleted"))
+
+
+def test_a_bulk_action_is_checked_before_it_runs(site: TestClient) -> None:
+    for path, body in (
+        ("users", {"ids": [], "action": "delete"}),
+        ("users", {"ids": list(range(501)), "action": "delete"}),
+        ("users", {"ids": [1], "action": "explode"}),
+        ("users", {"ids": ["x"], "action": "delete"}),
+        ("users", {"ids": [1], "action": "delete", "extra": 1}),
+        ("quizzes", {"ids": [1], "action": "suspend"}),
+        ("notifications", {"ids": [1], "action": "burn"}),
+        ("rooms", {"codes": [], "action": "close"}),
+        ("rooms", {"codes": ["x" * 40], "action": "close"}),
+    ):
+        assert site.post(f"{P}/api/{path}/bulk", json=body).status_code in (401, 422), (path, body)
+    sign_in(site)
+    for path, body in (
+        ("users", {"ids": [], "action": "delete"}),
+        ("users", {"ids": list(range(501)), "action": "delete"}),
+        ("users", {"ids": [1], "action": "explode"}),
+        ("users", {"ids": ["x"], "action": "delete"}),
+        ("users", {"ids": [1], "action": "delete", "extra": 1}),
+        ("quizzes", {"ids": [1], "action": "suspend"}),
+        ("notifications", {"ids": [1], "action": "burn"}),
+        ("rooms", {"codes": [], "action": "close"}),
+        ("rooms", {"codes": ["x" * 40], "action": "close"}),
+    ):
+        assert site.post(f"{P}/api/{path}/bulk", json=body).status_code == 422, (path, body)
+    assert site.post(f"{P}/api/users/bulk", json={"ids": [1], "action": "delete"}, headers={"x-didik-admin": ""}).status_code == 403
+
+
+def test_select_all_that_match_returns_the_ids_up_to_a_cap(site: TestClient, monkeypatch: pytest.MonkeyPatch) -> None:
+    from didik_live.admin import api
+
+    sign_in(site)
+    made = parents(site, 5)
+    site.patch(f"{P}/api/users/{made[0][1]}", json={"disabled": True})
+    everyone = site.get(f"{P}/api/users/ids").json()
+    assert sorted(everyone["ids"]) == sorted(uid for _, uid in made[1:]) and everyone["total"] == 4 and everyone["capped"] is False
+    assert site.get(f"{P}/api/users/ids?status=suspended").json()["ids"] == [made[0][1]]
+    assert site.get(f"{P}/api/users/ids?q=ibu3").json()["ids"] == [made[3][1]]
+    monkeypatch.setattr(api, "MAX_BULK", 2)
+    capped = site.get(f"{P}/api/users/ids").json()
+    assert len(capped["ids"]) == 2 and capped["total"] == 4 and capped["capped"] is True
+
+
+def test_quizzes_can_be_deleted_in_bulk(site: TestClient) -> None:
+    sign_in(site)
+    ((host, _),) = parents(site, 1)
+    made = [host.post("/api/quizzes", json={"title": f"Kuiz {n}", "questions": []}).json()["id"] for n in range(4)]
+    found = site.get(f"{P}/api/quizzes/ids?q=kuiz").json()
+    assert sorted(found["ids"]) == sorted(made) and found["total"] == 4 and found["capped"] is False
+    assert site.post(f"{P}/api/quizzes/bulk", json={"ids": [*made[:3], 99999], "action": "delete"}).json() == {"action": "delete", "requested": 4, "done": 3, "skipped": 1}
+    assert [q["id"] for q in site.get(f"{P}/api/quizzes").json()["items"]] == [made[3]]
+    wait_until(lambda: events(site, "quiz.deleted"))
+    assert events(site, "quiz.deleted")[0].data["count"] == 3
+    assert site.get(f"{P}/api/quizzes/ids?samples=true").json()["total"] > 0
+
+
+def test_notifications_can_be_changed_in_bulk(site: TestClient) -> None:
+    sign_in(site)
+    site.post(f"{P}/api/notifications/read-all")
+    site.delete(f"{P}/api/notifications")
+    ids = [site.post(f"{P}/api/notifications", json={"title": f"Nota {n}"}).json()["id"] for n in range(4)]
+
+    def state() -> dict[int, tuple[bool, bool]]:
+        return {n["id"]: (n["read"], n["pinned"]) for n in site.get(f"{P}/api/notifications").json()["items"]}
+
+    assert site.post(f"{P}/api/notifications/bulk", json={"ids": ids[:3], "action": "read"}).json()["done"] == 3
+    assert state() == {ids[0]: (True, False), ids[1]: (True, False), ids[2]: (True, False), ids[3]: (False, False)}
+    assert site.post(f"{P}/api/notifications/bulk", json={"ids": ids[:2], "action": "unread"}).json()["done"] == 2
+    assert site.post(f"{P}/api/notifications/bulk", json={"ids": [ids[1], ids[3]], "action": "pin"}).json()["done"] == 2
+    assert state()[ids[1]] == (False, True) and state()[ids[3]] == (False, True) and state()[ids[0]] == (False, False)
+    assert site.post(f"{P}/api/notifications/bulk", json={"ids": [ids[3]], "action": "unpin"}).json()["done"] == 1
+    assert site.get(f"{P}/api/notifications").json()["unread"] == 3
+
+    answer = site.post(f"{P}/api/notifications/bulk", json={"ids": [*ids[:3], 99999], "action": "delete"}).json()
+    assert answer == {"action": "delete", "requested": 4, "done": 3, "skipped": 1}
+    assert list(state()) == [ids[3]]
+
+
+def test_rooms_can_be_closed_in_bulk(site: TestClient) -> None:
+    sign_in(site)
+    host = TestClient(site.app)
+    host.post("/api/auth/login", json={"email": "demo@didik.test", "password": "main-bersama"})
+    quiz = sample_id(host, "Haiwan di Malaysia")
+    codes = [host.post("/api/rooms", json={"quiz_id": quiz, "mode": mode}).json()["code"] for mode in ("lumba", "hutan", "kebun")]
+    assert len(site.get(f"{P}/api/live").json()["rooms"]) == 3
+    answer = site.post(f"{P}/api/rooms/bulk", json={"codes": [codes[0], codes[2], codes[0], "000000"], "action": "close"}).json()
+    assert answer == {"action": "close", "requested": 3, "done": 2, "skipped": 1}
+    assert [r["code"] for r in site.get(f"{P}/api/live").json()["rooms"]] == [codes[1]]
+    wait_until(lambda: events(site, "admin.room_closed"))
