@@ -5,9 +5,12 @@
 import { FIELDS, type Field } from './layout';
 import { VIEWS } from './views';
 import { version } from '$app/environment';
+import STORY_HASHES from 'virtual:story-hashes';
 
-/** A file of the story art, with the build's version, so a new build is never mixed with old art from a cache. */
-export const storyArt = (path: string) => `/story/${path}?v=${version}`;
+/** A file of the story art, asked for with a hash of its content: a cache keeps it across new builds while it
+    is unchanged, and never serves an old copy once it changes. A file unknown to the build falls back to the
+    build's version. */
+export const storyArt = (path: string) => `/story/${path}?v=${STORY_HASHES[path] ?? version}`;
 
 export const ELEMENTS = ['api', 'angin', 'petir', 'tanah', 'air'] as const;
 export type Element = (typeof ELEMENTS)[number];

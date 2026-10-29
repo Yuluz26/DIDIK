@@ -157,6 +157,8 @@ def test_uploads_are_reencoded_and_reject_non_images(parent: TestClient) -> None
     assert (body["width"], body["height"]) == (1280, 640)
     served = parent.get(body["url"])
     assert served.status_code == 200 and served.content[:4] == b"RIFF"
+    # a picture's name is its own and never reused: browsers keep it
+    assert served.headers["cache-control"] == "public, max-age=31536000, immutable"
 
     fake = parent.post("/api/uploads", content=b"<svg onload=alert(1)>", headers={"Content-Type": "image/svg+xml"})
     assert fake.status_code == 422

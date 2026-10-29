@@ -500,7 +500,7 @@
 
 			{#if banner}{#key banner.n}<Banner id={banner.id} ms={banner.ms} />{/key}{/if}
 
-			<div class="wipe" bind:this={wipe} aria-hidden="true"></div>
+			<div class="wipe" bind:this={wipe} style:--wipe="url({storyArt('fx/transition_4x3.webp')})" aria-hidden="true"></div>
 			<!-- the curtain between worlds: the new world's emblem, until the world is ready to be seen -->
 			<div class="curtain" class:up={sceneReady} role="status" aria-live="polite">
 				<img class="curtain-emblem" src={symbol(worldIndex)} alt="" />
@@ -1153,7 +1153,7 @@
 		inset: 0;
 		z-index: 12;
 		border-radius: 16px;
-		background: url('/story/fx/transition_4x3.webp') 0 0 / 400% 300%;
+		background: var(--wipe) 0 0 / 400% 300%;
 		opacity: 0;
 		pointer-events: none;
 	}

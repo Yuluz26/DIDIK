@@ -84,6 +84,16 @@ def _same_site(headers: dict[str, str]) -> bool:
     return not origin or urlparse(origin).netloc == headers.get("host")
 
 
+class Uploads(StaticFiles):
+    """The uploaded pictures. Each has a random name of its own and is never changed in place (a new picture
+    gets a new name), so a browser may keep it for a year without asking again."""
+
+    def file_response(self, *args: Any, **kwargs: Any):
+        response = super().file_response(*args, **kwargs)
+        response.headers["Cache-Control"] = "public, max-age=31536000, immutable"
+        return response
+
+
 def create_app(settings: Settings | None = None) -> FastAPI:
     settings = settings or load_settings()
     database = Database(settings.database_url)
@@ -143,6 +153,6 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         await room_socket(ws, key)
 
     settings.upload_dir.mkdir(parents=True, exist_ok=True)
-    app.mount("/uploads", StaticFiles(directory=settings.upload_dir, check_dir=False), name="uploads")
+    app.mount("/uploads", Uploads(directory=settings.upload_dir, check_dir=False), name="uploads")
     mount_web(app, settings.web_dir)
     return app

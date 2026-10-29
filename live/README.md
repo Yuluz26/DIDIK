@@ -154,8 +154,14 @@ masuk, ~10% semasa bermain; jawapan ke keputusan median ~80 ms (p95 ~150 ms). Un
   keras sekurang-kurangnya 4096.
 - Di belakang nginx atau Caddy pada mesin yang sama, alamat sebenar pemain dibaca daripada
   `X-Forwarded-For`. Untuk proksi di mesin lain, tetapkan `FORWARDED_ALLOW_IPS` kepada alamatnya.
-- Fail binaan dimampatkan (`.br`, `.gz`) dan dicache: skrip berhash dan seni cerita bersama versi
-  binaan selama setahun, yang lain disemak semula dengan ETag (304).
+- Fail binaan dimampatkan (`.br`, `.gz`) dan dicache: skrip berhash, seni cerita (versi = hash
+  kandungannya, jadi kekal merentas binaan baharu selagi tidak berubah) dan gambar yang dimuat naik
+  selama setahun; yang lain disemak semula dengan ETag (304).
+- Service worker (`src/service-worker.ts`) menyimpan skrip aplikasi semasa dipasang, dan seni cerita,
+  video dunia serta gambar muat naik kali pertama ia digunakan. Lawatan seterusnya dibuka dari cache
+  telefon tanpa rangkaian (diuji: 0 bait melalui rangkaian, halaman siap ~130 ms). Halaman sendiri
+  sentiasa dari rangkaian, dan dari salinan terakhir jika rangkaian lambat (3.5 s) atau terputus.
+  API dan soket permainan tidak pernah dicache.
 - Akaun demo hanya boleh log masuk dari komputer pelayan itu sendiri, dan tidak dicipta langsung
   dengan `DIDIK_ENV=production`.
 

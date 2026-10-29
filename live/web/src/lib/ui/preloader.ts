@@ -1,8 +1,8 @@
 // The page's own preloader (app.html): Didi hopping on its island while the app's files arrive. The root
-// layout hides it once the app is up and its fonts are in, but never sooner than a short moment after it
-// appeared, so it does not just flash past.
+// layout hides it once the app is up and its fonts are in (at once from the cache on a later visit), but never
+// sooner than half a second after it appeared, so it does not just flash past.
 
-const SHOWN_FOR = 900;
+const SHOWN_FOR = 500;
 const FONTS_WAIT = 1200;
 
 declare global {
