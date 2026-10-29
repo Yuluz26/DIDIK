@@ -10,9 +10,8 @@
 	the server's hearts and boss bars, but holds the old number until the hit in the animation lands.
 -->
 <script lang="ts">
-	import { onMount, onDestroy, untrack } from 'svelte';
+	import { onMount } from 'svelte';
 	import Particles from './Particles.svelte';
-	import ChiniLake from './ChiniLake.svelte';
 	import {
 		ELEMENTS,
 		ELEMENT_NAME,
@@ -31,7 +30,7 @@
 		ARMED_POSES,
 		minionArt,
 		reducedMotion,
-		sleep as baseSleep,
+		sleep,
 		symbol,
 		type Element,
 		type Pose,
@@ -56,7 +55,6 @@
 		friends = [],
 		mode = 'battle',
 		dim = false,
-		hold = false,
 		elements = null,
 		weapon = null
 	}: {
@@ -75,52 +73,11 @@
 		/** 'battle' (still), 'travel' (the hero walks the path) or 'scenery' (no HUD, under a card). */
 		mode?: 'battle' | 'travel' | 'scenery';
 		dim?: boolean;
-		/** Keep the pre-result HUD until the confirmed attack reaches its impact frame. */
-		hold?: boolean;
 		/** The element dock: unlocked at the boss, which is selected, and what a tap does. */
 		elements?: { unlocked: boolean; selected: string; disabled: boolean; onpick: (el: Element) => void } | null;
 		/** The element whose weapon the hero holds (the one the server has confirmed); null before the elements unlock. */
 		weapon?: Element | null;
 	} = $props();
-
-	const chini = $derived(world === 0 && !!boss);
-	let lakeCue = $state('idle');
-	let paused = $state(false);
-	let visible = true;
-	let motionRun = 0;
-	let fxRun = 0;
-	const waits = new Map<ReturnType<typeof setTimeout>, () => void>();
-	const popTimers = new Set<ReturnType<typeof setTimeout>>();
-	function sleep(ms: number): Promise<void> {
-		if (world !== 0) return baseSleep(ms);
-		return new Promise(resolve => {
-			const timer = setTimeout(() => { waits.delete(timer); resolve(); }, ms);
-			waits.set(timer, resolve);
-		});
-	}
-	/** Cancel visuals only. HP remains authoritative server state. */
-	export function cancel(force = false) {
-		if (world !== 0 && !force) return;
-		motionRun++; fxRun++;
-		for (const [timer, resolve] of waits) { clearTimeout(timer); resolve(); }
-		waits.clear();
-		for (const timer of popTimers) clearTimeout(timer);
-		popTimers.clear();
-		for (const a of stageEl?.getAnimations({ subtree: true }) ?? []) {
-			if (!(a instanceof CSSAnimation)) a.cancel();
-		}
-		stageEl?.querySelectorAll('.bolt').forEach(el => el.remove());
-		if (fxEl) fxEl.style.opacity = '0';
-		air?.clear();
-		busy = false; hit = false; lunge = 0; zoomed = 1;
-		lakeCue = 'idle'; pops = []; heroPose = 'idle';
-	}
-	onDestroy(() => cancel());
-	$effect(() => {
-		const wasChini = world === 0;
-		void hero;
-		return () => { if (wasChini) untrack(() => cancel(true)); };
-	});
 
 	const art = $derived(WORLD_ART[world]);
 	const lay = $derived(field(world));
@@ -162,29 +119,20 @@
 	let air: Particles;
 
 	$effect(() => {
-		if (!busy && !hold) shownHearts = hearts;
+		if (!busy) shownHearts = hearts;
 	});
 	$effect(() => {
-		if (!busy && !hold) shownBoss = boss?.hp ?? 0;
+		if (!busy) shownBoss = boss?.hp ?? 0;
 	});
 
 	onMount(() => {
 		still = reducedMotion();
-		const media = matchMedia('(prefers-reduced-motion: reduce)');
-		const preference = () => { still = media.matches; cancel(); };
-		const visibility = () => { paused = document.hidden || !visible; };
-		const observer = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; visibility(); });
-		observer.observe(stageEl);
-		document.addEventListener('visibilitychange', visibility);
-		media.addEventListener('change', preference);
-		return () => { observer.disconnect(); document.removeEventListener('visibilitychange', visibility); media.removeEventListener('change', preference); };
 	});
 
 	function pop(text: string, at: { x: number; y: number }, tone: 'hurt' | 'heal' | 'hit' | 'weak') {
 		const id = ++popId;
 		pops = [...pops, { id, text, x: at.x, y: at.y, tone }];
-		const timer = setTimeout(() => { pops = pops.filter(p => p.id !== id); popTimers.delete(timer); }, 1400);
-		popTimers.add(timer);
+		setTimeout(() => (pops = pops.filter((p) => p.id !== id)), 1400);
 	}
 
 	function move(el: HTMLElement | undefined, frames: Keyframe[], ms: number, easing = 'ease-out'): Promise<void> {
@@ -201,10 +149,8 @@
 		await camEl.animate([{ transform: 'scale(1)' }, { transform: `scale(${k})` }], { duration: ms, easing: 'cubic-bezier(.3,.7,.3,1)', fill: 'forwards' }).finished.then(() => undefined, () => undefined);
 	}
 	async function zoomOut(ms: number) {
-		const run = motionRun;
 		if (!camEl || still) return;
 		await camEl.animate([{ transform: `scale(${zoomed})` }, { transform: 'scale(1)' }], { duration: ms, easing: 'ease-in-out', fill: 'forwards' }).finished.then(() => undefined, () => undefined);
-		if (run !== motionRun) return;
 		for (const a of camEl.getAnimations()) a.cancel();
 		zoomed = 1;
 	}
@@ -236,8 +182,6 @@
 	 * (the enemy's counterattack on the hero). With reduced motion only the strongest frame shows.
 	 */
 	async function impact(el: Element, at: { x: number; y: number }, size: number, filter = '', mirror = false) {
-		const scoped = world === 0;
-		const fx = ++fxRun;
 		const tint = ELEMENT_TINT[el];
 		air?.burst(at.x, at.y, [tint[0], tint[1], '#ffffff'], still ? 0 : 54);
 		if (!fxEl) return;
@@ -259,12 +203,11 @@
 			await sleep(420);
 		} else {
 			for (let frame = 0; frame < 12; frame++) {
-				if (scoped && fx !== fxRun) return;
 				show(frame);
 				await sleep(frame < 6 ? 72 : 84);
 			}
 		}
-		if (!scoped || fx === fxRun) fxEl.style.opacity = '0';
+		fxEl.style.opacity = '0';
 	}
 
 	/** A projectile: the element still flying from one place to another, small and spinning. */
@@ -296,91 +239,64 @@
 
 	/** A right answer: the hero gathers, slides in (or casts), and the element's frames play on the target. */
 	export async function attack(element: Element | null, opts: { weak?: boolean; finishing?: boolean; healed?: boolean } = {}) {
-		if (world === 0) cancel();
-		const run = motionRun;
 		busy = true;
 		const el: Element = element ?? 'angin';
 		const blade = !element || element === 'api' || element === 'angin' || element === 'air';
 		heroPose = 'ready';
 		if (element) flash(ELEMENT_TINT[el][1], 0.22);
 		await move(heroEl, [{ transform: 'translateX(-50%)' }, { transform: `translateX(calc(-50% - ${1.2 * side}cqw))` }], 140);
-		if (run !== motionRun) return;
 		heroPose = blade ? 'attack' : 'cast';
 		// How far the hero slides toward the target: a share of the gap, never more than a fifth of the scene.
 		const gap = Math.abs(enemyAt.x - heroAt.x) * 100;
 		const slide = blade ? Math.min(gap * 0.4, 20) * side : 0;
 		await move(heroEl, [{ transform: `translateX(calc(-50% - ${1.2 * side}cqw))` }, { transform: `translateX(calc(-50% + ${slide}cqw))` }], 180, 'cubic-bezier(.5,0,.9,.4)');
-		if (run !== motionRun) return;
 		hit = true;
 		const done = impact(el, enemyAt, boss ? 34 : 26, '', side < 0);
 		// The target reacts a few frames in, as the effect reaches it.
 		await sleep(still ? 80 : 330);
-		if (run !== motionRun) return;
-		if (chini) {
-			lakeCue = el === 'petir' && opts.weak ? 'weak' : 'hit';
-			air?.burst(enemyAt.x, enemyAt.y + 0.1, opts.weak ? ['#ffe69b', '#ffffff', '#72dacf'] : ['#72dacf', '#dbfff4', '#d6b875'], still ? 0 : 24);
-		}
-		flash(chini ? (opts.weak ? '#ffe69b' : '#c4fff0') : '#ffffff', chini ? 0.32 : 0.6);
+		flash('#ffffff', 0.6);
 		shake(opts.finishing ? 1.8 : 1.1);
 		void move(
 			enemyEl,
-			chini ? [
-				{ transform: 'translate(0,0) rotate(0)', filter: 'brightness(1)' },
-				{ transform: `translate(${opts.finishing ? 1.6 : 0.9}cqw, 0.15cqw) rotate(1.3deg)`, filter: 'brightness(1.6)', offset: 0.12 },
-				{ transform: `translate(${opts.finishing ? 1.6 : 0.9}cqw, 0.15cqw) rotate(1.3deg)`, filter: 'brightness(1.3)', offset: 0.25 },
-				{ transform: 'translate(0,0) rotate(0)', filter: 'brightness(1)' }
-			] : [
+			[
 				{ transform: 'translateX(0) rotate(0)', filter: 'brightness(1)' },
 				{ transform: 'translateX(1.4cqw) rotate(1.5deg)', filter: 'brightness(2.4)', offset: 0.2 },
 				{ transform: 'translateX(0.7cqw) rotate(0.6deg)', filter: 'brightness(1)', offset: 0.5 },
 				{ transform: 'translateX(0) rotate(0)', filter: 'brightness(1)' }
 			],
-			chini ? 640 : 520
+			240 + 280
 		);
 		if (boss) shownBoss = boss.hp;
 		pop(opts.weak ? 'KELEMAHAN!' : boss ? '−1 bar' : 'Kena!', { x: enemyAt.x, y: enemyAt.y - 0.2 }, opts.weak ? 'weak' : 'hit');
 		await done;
-		if (run !== motionRun) return;
 		heroPose = 'ready';
 		if (slide) await move(heroEl, [{ transform: `translateX(calc(-50% + ${slide}cqw))` }, { transform: 'translateX(-50%)' }], 180, 'ease-in-out');
-		if (run !== motionRun) return;
 		hit = false;
-		if (chini) lakeCue = 'idle';
 		heroPose = 'idle';
 		shownHearts = hearts;
 		if (opts.healed) pop('+½ ♥', { x: heroAt.x, y: heroAt.y - 0.14 }, 'heal');
 		await sleep(200);
-		if (run !== motionRun) return;
 		busy = false;
 	}
 
 	/** A wrong answer: the enemy's unavoidable counterattack. */
-	export async function counter(onStrike?: () => void) {
-		if (world === 0) cancel();
-		const run = motionRun;
+	export async function counter() {
 		busy = true;
-		if (chini) lakeCue = 'charge';
 		const el = art.strikes;
 		const filter = art.strikeFilter ?? '';
 		// the camera leans in toward the two of them (a little less when the boss is far across the scene)
-		void zoomIn({ x: (enemyAt.x + heroAt.x) / 2, y: (enemyAt.y + heroAt.y) / 2 }, chini ? 1.035 : boss ? 1.1 : 1.2, chini ? 760 : 560);
+		void zoomIn({ x: (enemyAt.x + heroAt.x) / 2, y: (enemyAt.y + heroAt.y) / 2 }, boss ? 1.1 : 1.2, 560);
 		await move(
 			enemyEl,
 			[
 				{ transform: 'scale(1)', filter: 'brightness(1)' },
-				{ transform: chini ? 'translate(0.6cqw, 0.25cqw) rotate(1deg)' : 'scale(1.05)', filter: chini ? 'brightness(1.15)' : `brightness(1.5) drop-shadow(0 0 2cqw ${art.aura})` }
+				{ transform: 'scale(1.05)', filter: `brightness(1.5) drop-shadow(0 0 2cqw ${art.aura})` }
 			],
-			chini ? 760 : 360
+			360
 		);
-		if (run !== motionRun) return;
-		if (chini) {
-			lakeCue = 'strike';
-			onStrike?.();
-			void move(enemyEl, [{ transform: 'translate(0.6cqw, 0.25cqw) rotate(1deg)' }, { transform: 'translate(-1.1cqw, -0.2cqw) rotate(-1deg)', offset: 0.3 }, { transform: 'translate(0,0) rotate(0)' }], 650);
-		} else lunge = 1;
+		lunge = 1;
 		const from = { x: enemyAt.x - side * target.w * 0.25, y: enemyAt.y };
 		await fly(el, from, heroAt, filter, boss ? 16 : 11);
-		if (run !== motionRun) return;
 		heroPose = 'hurt';
 		flash('#ff4a4a', 0.5);
 		shake(1.5);
@@ -389,43 +305,24 @@
 		shownHearts = hearts;
 		pop('−1½ ♥', { x: heroAt.x, y: heroAt.y - 0.14 }, 'hurt');
 		await done;
-		if (run !== motionRun) return;
 		await sleep(380);
-		if (run !== motionRun) return;
 		lunge = 0;
 		heroPose = hearts > 0 ? 'idle' : 'hurt';
-		if (chini) lakeCue = 'idle';
 		await zoomOut(420);
-		if (run !== motionRun) return;
 		busy = false;
 	}
 
 	/** A friend in the same fight hit the boss: a flash on the boss, no change to this child's hero. */
 	export function friendHit(element: Element) {
-		if (chini && busy) { air?.burst(enemyAt.x, enemyAt.y, ELEMENT_TINT[element], still ? 0 : 16); return; }
 		flash(ELEMENT_TINT[element][0], 0.3);
 		void impact(element, enemyAt, 20);
 	}
 
 	export async function enter() {
-		if (world === 0) cancel();
-		const run = motionRun;
-		if (chini) {
-			lakeCue = 'reveal';
-			void zoomIn(enemyAt, 1.035, 620);
-			await move(bossEl, [{ opacity: 0.25, transform: 'translateY(0.8cqw) scale(0.985)', filter: 'brightness(0.35) saturate(0.6)' }, { opacity: 1, transform: 'translateY(0) scale(1)', filter: 'brightness(1)' }], 1100, 'cubic-bezier(.16,1,.3,1)');
-			if (run !== motionRun) return;
-			air?.burst(enemyAt.x, enemyAt.y + 0.12, ['#d8bd76', '#92e4d4'], still ? 0 : 18, false);
-			await zoomOut(400);
-			if (run === motionRun) lakeCue = 'idle';
-			return;
-		}
 		await move(enemyEl, [{ opacity: 0, transform: `translateX(${-8 * side}cqw)` }, { opacity: 1, transform: 'translateX(0)' }], 620, 'cubic-bezier(.2,.9,.3,1.2)');
-		if (run !== motionRun) return;
 	}
 
 	export function celebrate() {
-		if (chini) { cancel(); lakeCue = 'defeat'; air?.burst(enemyAt.x, enemyAt.y + 0.1, ['#d8bd76', '#92e4d4'], still ? 0 : 24, false); }
 		cheering = true;
 		heroPose = 'victory';
 	}
@@ -436,7 +333,6 @@
 	}
 
 	export function reset() {
-		if (world === 0) cancel();
 		fallen = false;
 		cheering = false;
 		heroPose = 'idle';
@@ -455,9 +351,6 @@
 <div
 	class="stage mode-{mode}"
 	class:still
-	class:chini
-	class:paused
-	class:acting={busy}
 	class:dim
 	bind:this={stageEl}
 	style:aspect-ratio={lay.ar}
@@ -482,10 +375,6 @@
 					{/if}
 				{/each}
 			</div>
-		{/if}
-
-		{#if chini}
-			<ChiniLake cue={lakeCue} x={lay.boss.x + lay.boss.w * 0.5} y={lay.boss.y + lay.boss.h * 0.96} {still} {paused} />
 		{/if}
 
 		<!-- the boss stands in its arena the whole time, as in the painting; the small enemies fight on the road -->
@@ -530,7 +419,7 @@
 		</div>
 
 		<div class="fx" bind:this={fxEl} aria-hidden="true"></div>
-		<Particles bind:this={air} motes={art.motes} disabled={chini && (still || paused)} calm />
+		<Particles bind:this={air} motes={art.motes} calm />
 		<div class="flash" bind:this={flashEl} aria-hidden="true"></div>
 
 		{#each pops as p (p.id)}
@@ -588,14 +477,6 @@
 </div>
 
 <style>
-	.chini .enemy.boss img { animation: chini-breathe 5s ease-in-out infinite; }
-	.chini .enemy.low img { filter: drop-shadow(0 0.3cqw 0.4cqw rgb(0 0 0 / 0.4)); }
-	.chini.acting .enemy.boss img, .chini.paused .enemy.boss img { animation-play-state: paused; }
-	.chini .enemy.boss.enemy-beaten img { animation: chini-rest 1.8s cubic-bezier(.4,0,.2,1) forwards; }
-	.chini.still .enemy.boss.enemy-beaten img { opacity: 0.2; filter: saturate(0.5); }
-	@keyframes chini-breathe { 50% { transform: translateY(-0.12cqw) scaleY(1.006); } }
-	@keyframes chini-rest { 20% { filter: brightness(1.18); opacity: 1; } to { transform: translateY(1.1cqw) scale(0.985); opacity: 0.15; filter: saturate(0.5); } }
-
 	.stage {
 		position: relative;
 		container-type: inline-size;
