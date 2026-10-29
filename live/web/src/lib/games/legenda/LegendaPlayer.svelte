@@ -42,16 +42,19 @@
 		symbol,
 		worldUrls,
 		battleBg,
+		sceneArt,
+		sceneAr,
+		sceneSound,
+		sceneStill,
 		introArt,
 		introFlip,
 		heroWeaponArt,
 		WORLD_ART,
 		bossArt,
-		field,
 		type Element,
 		storyArt
 	} from './data';
-	import { sfx } from './sfx';
+	import { sfx, sound } from './sfx';
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	let { client, game, me, people }: { client: RoomClient; game: any; me: Me; people: Map<string, Person> } = $props();
@@ -158,7 +161,9 @@
 			sfx('unlock', 0.5);
 			void playWipe();
 			if (worldIndex > 0) void show('dunia_seterusnya', 2600);
-			later(6200);
+			// the world comes alive under its title card, with its own sound
+			sound(sceneSound(worldIndex), 0.55);
+			later(7000);
 		} else if (step === 'travel') later(3400);
 		else if (step === 'encounter') {
 			void stage?.enter();
@@ -174,7 +179,8 @@
 		} else if (step === 'reveal') {
 			stage?.reset();
 			void show('boss_muncul', 2400);
-			later(5600);
+			sound(sceneSound(worldIndex), 0.7);
+			later(7800);
 		} else if (step === 'worldclear') {
 			stage?.celebrate();
 			sfx('unlock');
@@ -339,7 +345,7 @@
 	<main class="wrap story"><p class="loading">Membuka kitab legenda…</p></main>
 {:else}
 	<div class="arena step-{step}" style:--backdrop="url({battleBg(worldIndex)})">
-		<div class="frame" style:--ar={field(worldIndex).ar}>
+		<div class="frame" style:--ar={sceneAr(worldIndex)}>
 			<Stage
 				bind:this={stage}
 				world={worldIndex}
@@ -396,7 +402,8 @@
 			{:else if step === 'reveal'}
 				<!-- the hero on the left faces the boss on the right, which turns to look back at the hero -->
 				<div class="overlay boss-reveal" role="status" style:--aura={WORLD_ART[worldIndex].aura} out:fade={{ duration: still ? 0 : 320 }}>
-					<img class="reveal-bg" src={battleBg(worldIndex)} alt="" />
+					<!-- first the boss stirs in its living world, close up; then the world dims behind the two who will fight -->
+					<video class="reveal-bg" src={sceneArt(worldIndex)} poster={sceneStill(worldIndex)} muted loop autoplay playsinline disablepictureinpicture aria-hidden="true"></video>
 					<span class="reveal-aura"></span>
 					<img class="reveal-hero" src={heroWeaponArt(hero, (story.element ?? 'api') as Element)} alt="" />
 					<span class="reveal-ground"></span>
@@ -871,7 +878,7 @@
 		--n: 5;
 	}
 	.nameplate > * {
-		animation-delay: calc(900ms + var(--n, 0) * 280ms);
+		animation-delay: calc(3.1s + var(--n, 0) * 280ms);
 	}
 	@keyframes words-in {
 		from {
@@ -973,9 +980,11 @@
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
-		transform: scale(1.18);
+		/* close in on the boss's arena: the painting's title plate and minimap stay out of view */
+		transform-origin: 66% 42%;
+		transform: scale(1.35);
 		filter: brightness(0.42) saturate(1.1) blur(3px);
-		animation: closeup 4.2s ease-out both;
+		animation: awaken 3.6s ease-out both;
 	}
 	/* the boss's own light behind it, and a dark floor under both */
 	.reveal-aura {
@@ -987,8 +996,8 @@
 		border-radius: 50%;
 		background: radial-gradient(closest-side, color-mix(in srgb, var(--aura) 45%, transparent), color-mix(in srgb, var(--aura) 12%, transparent) 62%, transparent);
 		animation:
-			glow-in 1.2s ease-out both,
-			aura-pulse 3.4s ease-in-out 1.2s infinite;
+			glow-in 1.2s 2.2s ease-out both,
+			aura-pulse 3.4s ease-in-out 3.4s infinite;
 	}
 	.reveal-ground {
 		position: absolute;
@@ -1004,7 +1013,7 @@
 		height: 52%;
 		width: auto;
 		filter: drop-shadow(0 0.6cqw 1cqw rgb(0 0 0 / 0.6)) brightness(0.92);
-		animation: hero-in 900ms 250ms cubic-bezier(0.2, 0.9, 0.3, 1) both;
+		animation: hero-in 900ms 2.4s cubic-bezier(0.2, 0.9, 0.3, 1) both;
 	}
 	.reveal-boss {
 		position: absolute;
@@ -1018,8 +1027,8 @@
 		object-position: bottom right;
 		filter: drop-shadow(0 0 2.4cqw color-mix(in srgb, var(--aura) 55%, transparent)) drop-shadow(0 1cqw 1.2cqw rgb(0 0 0 / 0.5));
 		animation:
-			rise-boss 1.4s cubic-bezier(0.2, 0.9, 0.3, 1) both,
-			boss-breathe 4.5s ease-in-out 1.4s infinite;
+			rise-boss 1.4s 2.2s cubic-bezier(0.2, 0.9, 0.3, 1) both,
+			boss-breathe 4.5s ease-in-out 3.6s infinite;
 	}
 	.reveal-boss.flip {
 		scale: -1 1;
@@ -1068,7 +1077,7 @@
 		border-radius: 0 1cqw 1cqw 0;
 		background: linear-gradient(90deg, rgb(5 8 15 / 0.85), rgb(5 8 15 / 0.35));
 		text-align: left;
-		animation: plate-in 900ms 500ms cubic-bezier(0.2, 0.9, 0.3, 1) both;
+		animation: plate-in 900ms 2.7s cubic-bezier(0.2, 0.9, 0.3, 1) both;
 	}
 	.nameplate h2 {
 		font-size: clamp(1.2rem, 4.6cqw, 3rem);
@@ -1181,16 +1190,18 @@
 			transform: translateY(30px) scale(0.4);
 		}
 	}
-	@keyframes closeup {
+	/* the boss stirs, clear and close, then the world dims as the two fighters step forward */
+	@keyframes awaken {
 		from {
-			transform: scale(1.4) translateY(4%);
-			filter: brightness(0.25) blur(3px);
+			transform: scale(1.5);
+			filter: brightness(0.35) saturate(1.1) blur(0);
 		}
-		40% {
-			filter: brightness(0.7) blur(3px);
+		12% {
+			filter: brightness(1) saturate(1.1) blur(0);
 		}
-		to {
-			transform: scale(1.18);
+		62% {
+			transform: scale(1.38);
+			filter: brightness(1) saturate(1.1) blur(0);
 		}
 	}
 	@keyframes plate-in {

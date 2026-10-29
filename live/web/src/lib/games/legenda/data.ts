@@ -3,6 +3,7 @@
 // and every number that matters (hearts, boss bars, who hit) come from the server.
 
 import { FIELDS, type Field } from './layout';
+import { VIEWS } from './views';
 import { version } from '$app/environment';
 
 /** A file of the story art, with the build's version, so a new build is never mixed with old art from a cache. */
@@ -73,10 +74,22 @@ export const WORLD_ART: WorldArt[] = [
 
 /** Where things stand on this world's battlefield painting. */
 export const field = (world: number): Field => FIELDS[world];
+/** The window of the painting the battle scene shows: the one its living video fills (16:9). */
+export const view = (world: number) => VIEWS[WORLD_ART[world].key] ?? { x: 0, y: 0, w: 1, h: 1 };
+/** The battle scene's shape: the window's, on the painting. */
+export const sceneAr = (world: number) => (FIELDS[world].ar * view(world).w) / view(world).h;
 
 /** The battlefield painting with the boss, the small characters and the live HUD parts taken out. */
 export const battleBg = (world: number) => storyArt(`worlds/${WORLD_ART[world].key}/field.webp`);
 export const bossArt = (world: number) => storyArt(`worlds/${WORLD_ART[world].key}/boss.webp`);
+/** The living battlefield: the painting animated (water, mist, the boss breathing), steadied on the painting and
+    cut to the scene's window (view), looping; muted. It fills the scene; the still painting is its fallback, and the
+    masked boss (bossArt) takes over from it while the boss is struck or strikes. */
+export const sceneArt = (world: number) => storyArt(`worlds/${WORLD_ART[world].key}/scene.mp4`);
+/** The living battlefield's own sound (roars, wind, water), played once at the world's intro and boss reveal. */
+export const sceneSound = (world: number) => storyArt(`worlds/${WORLD_ART[world].key}/scene.m4a`);
+/** The living battlefield's first frame, for the video to show while it loads. */
+export const sceneStill = (world: number) => storyArt(`worlds/${WORLD_ART[world].key}/scene.webp`);
 /** The boss's introduction portrait, shown when the boss first appears (the battle uses bossArt). */
 export const introArt = (world: number) => storyArt(`worlds/${WORLD_ART[world].key}/intro.webp`);
 /** Whether the introduction portrait is mirrored so the boss, on the right, looks at the hero on the left. */

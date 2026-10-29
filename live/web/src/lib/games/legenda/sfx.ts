@@ -29,3 +29,11 @@ export function sfx(name: Sfx, volume = 0.7): void {
 	voice.volume = volume;
 	void voice.play().catch(() => undefined);
 }
+
+/** A one-off sound file (a world's own roar and ambience), on the same mute switch. */
+export function sound(url: string, volume = 0.6): void {
+	if (typeof Audio === 'undefined' || isMuted()) return;
+	const voice = new Audio(url);
+	voice.volume = volume;
+	void voice.play().catch(() => undefined);
+}

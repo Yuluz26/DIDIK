@@ -75,17 +75,11 @@ manifest: list[dict] = []
 
 
 def note(path: Path, source: str | list[str], status: str, use: str, **extra) -> None:
-    im = Image.open(path)
-    manifest.append({
-        "file": path.relative_to(OUT).as_posix(),
-        "source": source,
-        "status": status,
-        "use": use,
-        "size": list(im.size),
-        "alpha": im.mode == "RGBA",
-        "bytes": path.stat().st_size,
-        **extra,
-    })
+    row = {"file": path.relative_to(OUT).as_posix(), "source": source, "status": status, "use": use}
+    if path.suffix == ".webp":
+        im = Image.open(path)
+        row.update(size=list(im.size), alpha=im.mode == "RGBA")
+    manifest.append({**row, "bytes": path.stat().st_size, **extra})
 
 
 def save_webp(im: Image.Image, path: Path, quality: int = 86) -> Path:
@@ -574,6 +568,111 @@ def emblems() -> None:
         note(out, rel(NOTO / f"emoji_u{code}.png"), "Google Noto Emoji (Apache 2.0) on a drawn medallion", "world map and world intro")
 
 
+# The living battlefields: one short animated painting per world (_asset_input/WorldVideos/, 1280x720,
+# 8 s, supplied by the project owner) with the water, mist and the boss moving. They fill the battle scene
+# on their own; the still painting is only the fallback. Each frame is matched to the world's battlefield
+# painting (SIFT points, a smoothed similarity transform per frame), which takes out the camera's own drift
+# and zoom, and is redrawn over one fixed 16:9 window of the painting: the largest that every frame covers.
+# That window goes to views.ts, so the game lays the hero, the enemies and the masked boss over the video
+# exactly where the painting has them. The last second is blended into the first, so the loop has no jump.
+# The video's own sound goes into a separate file, and its first frame is kept as a still.
+WORLD_VIDEOS = {"chini": "Tasik Chini", "lupar": "Batang Lupar", "larut": "Hutan Larut", "kancil": "Rimba Bayangan", "ledang": "Gunung Ledang"}
+VIDEO_SIZE = (1280, 720)
+LOOP_BLEND = 24
+VIEWS_TS = ROOT / "live/web/src/lib/games/legenda/views.ts"
+
+
+def ffmpeg_exe() -> str:
+    try:
+        import imageio_ffmpeg
+
+        return imageio_ffmpeg.get_ffmpeg_exe()
+    except ImportError:
+        return "ffmpeg"
+
+
+def world_videos() -> None:
+    import subprocess
+
+    sift = cv2.SIFT_create(6000)
+    matcher = cv2.BFMatcher()
+    ow, oh = VIDEO_SIZE
+    views = json.loads(VIEWS_TS.read_text(encoding="utf-8").split("=", 1)[1].rsplit(";", 1)[0]) if VIEWS_TS.exists() else {}
+    for key, name in WORLD_VIDEOS.items():
+        src = SRC / "WorldVideos" / f"{name}.mp4"
+        if not src.exists():
+            print(f"{src.name} not found: keeping worlds/{key}/scene.mp4")
+            continue
+        ref = cv2.cvtColor(np.array(Image.open(OUT / "worlds" / key / "field.webp").convert("RGB")), cv2.COLOR_RGB2GRAY)
+        fh, fw = ref.shape
+        k2, d2 = sift.detectAndCompute(ref, None)
+        cap = cv2.VideoCapture(str(src))
+        frames = []
+        while True:
+            ok, frame = cap.read()
+            if not ok:
+                break
+            frames.append(frame)
+        vh, vw = frames[0].shape[:2]
+        # one similarity transform per frame (video pixels to painting pixels), smoothed over time
+        params = []
+        for frame in frames:
+            k1, d1 = sift.detectAndCompute(cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY), None)
+            good = [a for a, b in matcher.knnMatch(d1, d2, k=2) if a.distance < 0.75 * b.distance]
+            p1 = np.float32([k1[a.queryIdx].pt for a in good])
+            p2 = np.float32([k2[a.trainIdx].pt for a in good])
+            m, _ = cv2.estimateAffinePartial2D(p1, p2, method=cv2.RANSAC, ransacReprojThreshold=3)
+            params.append((np.hypot(m[0, 0], m[1, 0]), np.arctan2(m[1, 0], m[0, 0]), m[0, 2], m[1, 2]))
+        params = ndimage.uniform_filter1d(np.array(params), size=9, axis=0, mode="nearest")
+        mats = [np.array([[sc * np.cos(r), -sc * np.sin(r), tx], [sc * np.sin(r), sc * np.cos(r), ty]]) for sc, r, tx, ty in params]
+        # the window every frame covers, on the painting: inside each frame's four corners, then 16:9 about its middle
+        left, top, right, bottom = 0.0, 0.0, float(fw), float(fh)
+        for m in mats:
+            c = (m @ np.array([[0, vw, vw, 0], [0, 0, vh, vh], [1, 1, 1, 1]], float)).T
+            left, right = max(left, c[0, 0], c[3, 0]), min(right, c[1, 0], c[2, 0])
+            top, bottom = max(top, c[0, 1], c[1, 1]), min(bottom, c[2, 1], c[3, 1])
+        cx, cy = (left + right) / 2, (top + bottom) / 2
+        w = min(right - left, (bottom - top) * ow / oh) * 0.995
+        h = w * oh / ow
+        x0, y0 = cx - w / 2, cy - h / 2
+        to_out = np.array([[ow / w, 0, -x0 * ow / w], [0, oh / h, -y0 * oh / h], [0, 0, 1]])
+        composed = [cv2.warpAffine(f, (to_out @ np.vstack([m, [0, 0, 1]]))[:2], (ow, oh), flags=cv2.INTER_LANCZOS4).astype(np.float32)
+                    for f, m in zip(frames, mats)]
+        n = len(composed) - LOOP_BLEND
+        for i in range(LOOP_BLEND):
+            t = (i + 1) / (LOOP_BLEND + 1)
+            composed[i] = composed[n + i] * (1 - t) + composed[i] * t
+        composed = composed[:n]
+
+        out = OUT / "worlds" / key / "scene.mp4"
+        temp = out.with_name("scene.part.mp4")
+        cmd = [ffmpeg_exe(), "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "bgr24", "-s", f"{ow}x{oh}", "-r", "24", "-i", "-",
+               "-c:v", "libx264", "-preset", "slow", "-crf", "27", "-pix_fmt", "yuv420p", "-movflags", "+faststart", "-an", str(temp)]
+        enc = subprocess.Popen(cmd, stdin=subprocess.PIPE)
+        for f in composed:
+            enc.stdin.write(np.clip(f, 0, 255).astype(np.uint8).tobytes())
+        enc.stdin.close()
+        if enc.wait():
+            sys.exit(f"ffmpeg failed on {src.name}")
+        temp.replace(out)
+        note(out, rel(src), "supplied animated battlefield, steadied on the painting, cut to one 16:9 window, seamless loop",
+             "living battlefield, world intro, boss reveal, host screen", frames=n, size=[ow, oh])
+        still = save_webp(Image.fromarray(cv2.cvtColor(np.clip(composed[0], 0, 255).astype(np.uint8), cv2.COLOR_BGR2RGB)), OUT / "worlds" / key / "scene.webp", 82)
+        note(still, rel(src), "the living battlefield's first frame", "poster while the video loads")
+        sound = OUT / "worlds" / key / "scene.m4a"
+        temp = sound.with_name("scene.part.m4a")
+        subprocess.run([ffmpeg_exe(), "-y", "-loglevel", "error", "-i", str(src), "-vn", "-c:a", "aac", "-b:a", "96k", str(temp)], check=True)
+        temp.replace(sound)
+        note(sound, rel(src), "the supplied video's own sound", "world intro and boss reveal")
+        views[key] = {k: round(v, 4) for k, v in {"x": x0 / fw, "y": y0 / fh, "w": w / fw, "h": h / fh}.items()}
+        print(key, views[key], f"{out.stat().st_size / 1e6:.1f} MB")
+    VIEWS_TS.write_text(
+        "// Written by live/web/scripts/story_assets.py (videos): the 16:9 window of each world's battlefield painting\n"
+        "// that its living video shows, as fractions of the painting. The battle scene shows this window.\n"
+        f"export const VIEWS: Record<string, {{ x: number; y: number; w: number; h: number }}> = {json.dumps(views)};\n",
+        encoding="utf-8")
+
+
 def fx() -> None:
     for el, stem in ELEMENTS.items():
         src = B05 / f"FX_{stem}_HD.png"
@@ -756,12 +855,12 @@ def sound() -> None:
 def main() -> None:
     if not SRC.exists():
         sys.exit("_asset_input/ not found")
-    steps = {"heroes": heroes, "battlefields": battlefields, "ui": ui, "emblems": emblems, "fx": fx, "banners": banners, "weapons": hero_weapons, "intros": boss_intros, "sound": sound}
+    steps = {"heroes": heroes, "battlefields": battlefields, "ui": ui, "emblems": emblems, "fx": fx, "banners": banners, "weapons": hero_weapons, "intros": boss_intros, "videos": world_videos, "sound": sound}
     only = sys.argv[sys.argv.index("--only") + 1:] if "--only" in sys.argv else []
     old = OUT / "manifest.json"
     if only and old.exists():
         # a partial run keeps the rows of the steps it does not run
-        prefixes = {"heroes": "heroes/", "battlefields": tuple(f"worlds/{k}/{n}" for k in FIELD_ORDER for n in ("field", "boss", "minion_")), "ui": ("ui/heart_", "fx/transition"), "emblems": ("ui/element_", "ui/symbol_"), "fx": tuple(f"fx/{el}" for el in ELEMENTS), "banners": "banners/", "weapons": ("heroes/tuah/weapon/", "heroes/mahsuri/weapon/"), "intros": tuple(f"worlds/{k}/intro" for k in FIELD_ORDER), "sound": "audio/"}
+        prefixes = {"heroes": "heroes/", "battlefields": tuple(f"worlds/{k}/{n}" for k in FIELD_ORDER for n in ("field", "boss", "minion_")), "ui": ("ui/heart_", "fx/transition"), "emblems": ("ui/element_", "ui/symbol_"), "fx": tuple(f"fx/{el}" for el in ELEMENTS), "banners": "banners/", "weapons": ("heroes/tuah/weapon/", "heroes/mahsuri/weapon/"), "intros": tuple(f"worlds/{k}/intro" for k in FIELD_ORDER), "videos": tuple(f"worlds/{k}/scene" for k in FIELD_ORDER), "sound": "audio/"}
         dropped = tuple(p for name in only for p in ((prefixes[name],) if isinstance(prefixes[name], str) else prefixes[name]))
         manifest.extend(r for r in json.loads(old.read_text(encoding="utf-8"))["assets"] if not r["file"].startswith(dropped))
     for name, step in steps.items():

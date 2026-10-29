@@ -1,0 +1,3 @@
+// Written by live/web/scripts/story_assets.py (videos): the 16:9 window of each world's battlefield painting
+// that its living video shows, as fractions of the painting. The battle scene shows this window.
+export const VIEWS: Record<string, { x: number; y: number; w: number; h: number }> = {"chini": {"x": 0.0688, "y": 0.1071, "w": 0.8672, "h": 0.8672}, "lupar": {"x": 0.0051, "y": 0.1386, "w": 0.9618, "h": 0.8115}, "larut": {"x": 0.0133, "y": 0.1475, "w": 0.9778, "h": 0.825}, "kancil": {"x": 0.0031, "y": 0.1238, "w": 0.9937, "h": 0.8384}, "ledang": {"x": 0.0243, "y": 0.1426, "w": 0.9496, "h": 0.8012}};

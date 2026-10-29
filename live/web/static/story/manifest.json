@@ -1086,6 +1086,37 @@
    "anchor": "bottom-center"
   },
   {
+   "file": "worlds/chini/scene.m4a",
+   "source": "WorldVideos/Tasik Chini.mp4",
+   "status": "the supplied video's own sound",
+   "use": "world intro and boss reveal",
+   "bytes": 98487
+  },
+  {
+   "file": "worlds/chini/scene.mp4",
+   "source": "WorldVideos/Tasik Chini.mp4",
+   "status": "supplied animated battlefield, steadied on the painting, cut to one 16:9 window, seamless loop",
+   "use": "living battlefield, world intro, boss reveal, host screen",
+   "bytes": 2171017,
+   "frames": 168,
+   "size": [
+    1280,
+    720
+   ]
+  },
+  {
+   "file": "worlds/chini/scene.webp",
+   "source": "WorldVideos/Tasik Chini.mp4",
+   "status": "the living battlefield's first frame",
+   "use": "poster while the video loads",
+   "size": [
+    1280,
+    720
+   ],
+   "alpha": false,
+   "bytes": 229580
+  },
+  {
    "file": "worlds/kancil/boss.webp",
    "source": "Battlefields/rimba_bayangan_battlefield.png",
    "status": "boss cut out of the supplied painting with SAM (native painting detail)",
@@ -1151,6 +1182,37 @@
    "alpha": true,
    "bytes": 6950,
    "anchor": "bottom-center"
+  },
+  {
+   "file": "worlds/kancil/scene.m4a",
+   "source": "WorldVideos/Rimba Bayangan.mp4",
+   "status": "the supplied video's own sound",
+   "use": "world intro and boss reveal",
+   "bytes": 98365
+  },
+  {
+   "file": "worlds/kancil/scene.mp4",
+   "source": "WorldVideos/Rimba Bayangan.mp4",
+   "status": "supplied animated battlefield, steadied on the painting, cut to one 16:9 window, seamless loop",
+   "use": "living battlefield, world intro, boss reveal, host screen",
+   "bytes": 2041282,
+   "frames": 168,
+   "size": [
+    1280,
+    720
+   ]
+  },
+  {
+   "file": "worlds/kancil/scene.webp",
+   "source": "WorldVideos/Rimba Bayangan.mp4",
+   "status": "the living battlefield's first frame",
+   "use": "poster while the video loads",
+   "size": [
+    1280,
+    720
+   ],
+   "alpha": false,
+   "bytes": 262940
   },
   {
    "file": "worlds/larut/boss.webp",
@@ -1220,6 +1282,37 @@
    "anchor": "bottom-center"
   },
   {
+   "file": "worlds/larut/scene.m4a",
+   "source": "WorldVideos/Hutan Larut.mp4",
+   "status": "the supplied video's own sound",
+   "use": "world intro and boss reveal",
+   "bytes": 98512
+  },
+  {
+   "file": "worlds/larut/scene.mp4",
+   "source": "WorldVideos/Hutan Larut.mp4",
+   "status": "supplied animated battlefield, steadied on the painting, cut to one 16:9 window, seamless loop",
+   "use": "living battlefield, world intro, boss reveal, host screen",
+   "bytes": 1747779,
+   "frames": 168,
+   "size": [
+    1280,
+    720
+   ]
+  },
+  {
+   "file": "worlds/larut/scene.webp",
+   "source": "WorldVideos/Hutan Larut.mp4",
+   "status": "the living battlefield's first frame",
+   "use": "poster while the video loads",
+   "size": [
+    1280,
+    720
+   ],
+   "alpha": false,
+   "bytes": 262238
+  },
+  {
    "file": "worlds/ledang/boss.webp",
    "source": "Battlefields/gunung_ledang_battlefield.png",
    "status": "boss cut out of the supplied painting with SAM (native painting detail)",
@@ -1287,6 +1380,37 @@
    "anchor": "bottom-center"
   },
   {
+   "file": "worlds/ledang/scene.m4a",
+   "source": "WorldVideos/Gunung Ledang.mp4",
+   "status": "the supplied video's own sound",
+   "use": "world intro and boss reveal",
+   "bytes": 98705
+  },
+  {
+   "file": "worlds/ledang/scene.mp4",
+   "source": "WorldVideos/Gunung Ledang.mp4",
+   "status": "supplied animated battlefield, steadied on the painting, cut to one 16:9 window, seamless loop",
+   "use": "living battlefield, world intro, boss reveal, host screen",
+   "bytes": 2085488,
+   "frames": 168,
+   "size": [
+    1280,
+    720
+   ]
+  },
+  {
+   "file": "worlds/ledang/scene.webp",
+   "source": "WorldVideos/Gunung Ledang.mp4",
+   "status": "the living battlefield's first frame",
+   "use": "poster while the video loads",
+   "size": [
+    1280,
+    720
+   ],
+   "alpha": false,
+   "bytes": 257958
+  },
+  {
    "file": "worlds/lupar/boss.webp",
    "source": "Battlefields/batang_lupar_battlefield.png",
    "status": "boss cut out of the supplied painting with SAM (native painting detail)",
@@ -1352,6 +1476,37 @@
    "alpha": true,
    "bytes": 6874,
    "anchor": "bottom-center"
+  },
+  {
+   "file": "worlds/lupar/scene.m4a",
+   "source": "WorldVideos/Batang Lupar.mp4",
+   "status": "the supplied video's own sound",
+   "use": "world intro and boss reveal",
+   "bytes": 99266
+  },
+  {
+   "file": "worlds/lupar/scene.mp4",
+   "source": "WorldVideos/Batang Lupar.mp4",
+   "status": "supplied animated battlefield, steadied on the painting, cut to one 16:9 window, seamless loop",
+   "use": "living battlefield, world intro, boss reveal, host screen",
+   "bytes": 2571136,
+   "frames": 168,
+   "size": [
+    1280,
+    720
+   ]
+  },
+  {
+   "file": "worlds/lupar/scene.webp",
+   "source": "WorldVideos/Batang Lupar.mp4",
+   "status": "the living battlefield's first frame",
+   "use": "poster while the video loads",
+   "size": [
+    1280,
+    720
+   ],
+   "alpha": false,
+   "bytes": 275562
   }
  ]
 }

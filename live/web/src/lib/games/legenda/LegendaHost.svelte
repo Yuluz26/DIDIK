@@ -1,11 +1,13 @@
 <!--
 	The host's big screen for Legenda: the five worlds as a road, every child placed on the world they
-	are in with their hero and hearts, and each boss fight's shared bars as it happens.
+	are in with their hero and hearts, and each boss fight's shared bars as it happens. A world with
+	children in it plays its living battlefield (muted), its boss moving, so the room sees where the
+	class is.
 -->
 <script lang="ts">
 	import type { Person } from '$lib/types';
 	import Avatar from '$ui/Avatar.svelte';
-	import { HEROES, WORLD_ART, battleBg, heartIcons, heroArt, symbol, storyArt } from './data';
+	import { HEROES, WORLD_ART, battleBg, heartIcons, heroArt, sceneArt, sceneStill, symbol, storyArt } from './data';
 
 	interface Row {
 		id: string;
@@ -53,7 +55,11 @@
 		{#each worlds as w, i (w.key)}
 			{@const here = party.filter((p) => p.world === i && p.step !== 'victory')}
 			{@const fight = raids.find((r) => r.world === i)}
-			<li class="world" style:--bg="url({battleBg(i)})" style:--aura={WORLD_ART[i].aura}>
+			<li class="world" class:busy={here.length > 0} style:--bg="url({battleBg(i)})" style:--aura={WORLD_ART[i].aura}>
+				{#if here.length}
+					<video class="alive" src={sceneArt(i)} poster={sceneStill(i)} muted loop autoplay playsinline disablepictureinpicture aria-hidden="true"></video>
+					<span class="veil" aria-hidden="true"></span>
+				{/if}
 				<div class="head">
 					<img src={symbol(i)} alt="" />
 					<div>
@@ -126,6 +132,30 @@
 		color: #fff4d8;
 		box-shadow:
 			inset 0 0 0 2px #d9a441,
+			0 8px 18px rgb(0 0 0 / 0.2);
+	}
+	/* the living battlefield fills the card behind its words, darkened so they read */
+	.alive,
+	.veil {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+	}
+	.alive {
+		object-fit: cover;
+		object-position: 72% 40%;
+	}
+	.veil {
+		background: linear-gradient(180deg, rgb(8 16 36 / 0.82), rgb(8 16 36 / 0.2) 60%, rgb(8 16 36 / 0.6));
+	}
+	.world > :not(.alive, .veil) {
+		position: relative;
+	}
+	.world.busy {
+		box-shadow:
+			inset 0 0 0 2px #ffd27a,
+			0 0 18px color-mix(in srgb, var(--aura) 45%, transparent),
 			0 8px 18px rgb(0 0 0 / 0.2);
 	}
 	.head {

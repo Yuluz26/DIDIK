@@ -4,6 +4,11 @@
 	boss's name and five bars, and the five elements. The hero, the boss and the two small enemies are
 	separate layers cut from the painting, so they can act while the scene stays still.
 
+	The scene shows the painting's 16:9 window that its living version fills (sceneArt: the water, mist and boss
+	moving, steadied on the painting), full frame; the still painting is the fallback. Everyone stands in the
+	painting's own places, so the video lines up with them. While the boss is struck or strikes, the living
+	scene fades to the still painting and the masked boss acts in its place, then the scene comes back to life.
+
 	Poses are separate drawings (static/story/), switched on cue and moved with the Web Animations API:
 	an attack is a wind-up, the element flying across the scene, its burst and 12-frame impact on the
 	target, a flash and a shake; a counterattack is the enemy's lunge and strike on the hero. The HUD shows
@@ -19,6 +24,9 @@
 		WORLD_ART,
 		battleBg,
 		bossArt,
+		sceneArt,
+		sceneAr,
+		view,
 		elementIcon,
 		field,
 		FX_ANCHOR,
@@ -106,6 +114,16 @@
 	let fallen = $state(false);
 	let cheering = $state(false);
 	let hit = $state(false);
+	// The living scene: ready once it plays; paused (showing the still painting and the masked boss) while
+	// the boss acts, and gone once the boss is beaten.
+	let liveReady = $state(false);
+	let bossActing = $state(false);
+	const live = $derived(liveReady && !still && !bossActing && !(boss && (busy || enemy === 'beaten' || enemy === 'gone')));
+	// a new world's living scene shows only once it plays
+	$effect(() => {
+		void world;
+		liveReady = false;
+	});
 	let lunge = $state(0);
 	let pops = $state<{ id: number; text: string; x: number; y: number; tone: string }[]>([]);
 	let popId = 0;
@@ -117,6 +135,10 @@
 	// Whichever of the two is fighting now: the boss at the boss, a small enemy on the road.
 	const enemyEl = $derived(boss ? bossEl : minionEl);
 	let camEl = $state<HTMLDivElement>();
+	let spaceEl = $state<HTMLDivElement>();
+	// the window of the painting the scene shows, and where the painting lies under it
+	const win = $derived(view(world));
+	const ar = $derived(sceneAr(world));
 	let flashEl: HTMLDivElement;
 	let fxEl: HTMLDivElement;
 	let air: Particles;
@@ -147,7 +169,7 @@
 	let zoomed = 1;
 	async function zoomIn(at: { x: number; y: number }, k: number, ms: number) {
 		if (!camEl || still) return;
-		camEl.style.transformOrigin = `${at.x * 100}% ${at.y * 100}%`;
+		camEl.style.transformOrigin = `${((at.x - win.x) / win.w) * 100}% ${((at.y - win.y) / win.h) * 100}%`;
 		zoomed = k;
 		await camEl.animate([{ transform: 'scale(1)' }, { transform: `scale(${k})` }], { duration: ms, easing: 'cubic-bezier(.3,.7,.3,1)', fill: 'forwards' }).finished.then(() => undefined, () => undefined);
 	}
@@ -222,7 +244,7 @@
 		img.className = 'bolt';
 		img.style.filter = filter;
 		img.style.width = `${size}cqw`;
-		(camEl ?? stageEl).appendChild(img);
+		(spaceEl ?? stageEl).appendChild(img);
 		return img
 			.animate(
 				[
@@ -241,8 +263,20 @@
 	// ------------------------------------------------------------ the moves (called by the player screen)
 
 	/** A right answer: the hero gathers, slides in (or casts), and the element's frames play on the target. */
+	/** While the boss acts, the still painting and the masked boss take the living scene's place. */
+	async function bossTakes() {
+		if (!boss || !liveReady || still) return;
+		bossActing = true;
+		await sleep(still ? 0 : 260);
+	}
+	function bossReturns() {
+		if (!boss) return;
+		setTimeout(() => (bossActing = false), still ? 0 : 450);
+	}
+
 	export async function attack(element: Element | null, opts: { weak?: boolean; finishing?: boolean; healed?: boolean } = {}) {
 		busy = true;
+		await bossTakes();
 		const el: Element = element ?? 'angin';
 		const blade = !element || element === 'api' || element === 'angin' || element === 'air';
 		heroPose = 'ready';
@@ -279,12 +313,14 @@
 		shownHearts = hearts;
 		if (opts.healed) pop('+½ ♥', { x: heroAt.x, y: heroAt.y - 0.14 }, 'heal');
 		await sleep(200);
+		if (!opts.finishing) bossReturns();
 		busy = false;
 	}
 
 	/** A wrong answer: the enemy's unavoidable counterattack. */
 	export async function counter() {
 		busy = true;
+		await bossTakes();
 		const el = art.strikes;
 		const filter = art.strikeFilter ?? '';
 		// the camera leans in toward the two of them (a little less when the boss is far across the scene)
@@ -312,13 +348,17 @@
 		lunge = 0;
 		heroPose = hearts > 0 ? 'idle' : 'hurt';
 		await zoomOut(420);
+		bossReturns();
 		busy = false;
 	}
 
 	/** A friend in the same fight hit the boss: a flash on the boss, no change to this child's hero. */
 	export function friendHit(element: Element) {
-		flash(ELEMENT_TINT[element][0], 0.3);
-		void impact(element, enemyAt, 20);
+		void bossTakes().then(async () => {
+			flash(ELEMENT_TINT[element][0], 0.3);
+			await impact(element, enemyAt, 20);
+			if (!busy) bossReturns();
+		});
 	}
 
 	export async function enter() {
@@ -346,7 +386,7 @@
 	const pct = (v: number) => `${(v * 100).toFixed(3)}%`;
 	// The paintings carry a "Story Mode" plate in the top left (about 4..250 by 4..100 of 1536 pixels across);
 	// the game's own name covers it.
-	const titlePlate = $derived({ x: 4 / 1536, y: (4 * lay.ar) / 1536, w: 246 / 1536, h: (96 * lay.ar) / 1536 });
+	const titlePlate = $derived({ x: 4 / 1536, y: (4 * ar) / 1536, w: 246 / 1536, h: (96 * ar) / 1536 });
 	const place = (b: { x: number; y: number; w: number; h: number }) => `left:${pct(b.x)};top:${pct(b.y)};width:${pct(b.w)};height:${pct(b.h)}`;
 	const dockCols = $derived(ELEMENTS.length);
 </script>
@@ -356,11 +396,40 @@
 	class:still
 	class:dim
 	bind:this={stageEl}
-	style:aspect-ratio={lay.ar}
+	style:aspect-ratio={ar}
 	style:--aura={art.aura}
 >
 	<div class="world" bind:this={camEl}>
+		<!-- the painting's own space, laid so the scene's window fills the stage -->
+		<div
+			class="space"
+			bind:this={spaceEl}
+			style:left={pct(-win.x / win.w)}
+			style:top={pct(-win.y / win.h)}
+			style:width={pct(1 / win.w)}
+			style:height={pct(1 / win.h)}
+		>
 		<img class="field" src={battleBg(world)} alt="" draggable="false" />
+		{#if !still}
+			{#key world}
+				<video
+					class="live"
+					class:on={live}
+					style={place(win)}
+					src={sceneArt(world)}
+					muted
+					loop
+					autoplay
+					playsinline
+					preload="auto"
+					disablepictureinpicture
+					aria-hidden="true"
+					onplaying={() => (liveReady = true)}
+					onerror={() => (liveReady = false)}
+					onemptied={() => (liveReady = false)}
+				></video>
+			{/key}
+		{/if}
 
 		{#if friends.length}
 			<div class="friends" aria-hidden="true">
@@ -386,6 +455,7 @@
 			class:low={lowBoss}
 			class:lunge={!!boss && lunge === 1}
 			class:hit={!!boss && hit}
+			class:behind={live}
 			style={place(lay.boss)}
 			bind:this={bossEl}
 		>
@@ -422,12 +492,13 @@
 		</div>
 
 		<div class="fx" bind:this={fxEl} aria-hidden="true"></div>
-		<Particles bind:this={air} motes={art.motes} calm />
-		<div class="flash" bind:this={flashEl} aria-hidden="true"></div>
 
 		{#each pops as p (p.id)}
 			<span class="pop pop-{p.tone}" style:left={pct(p.x)} style:top={pct(p.y)}>{p.text}</span>
 		{/each}
+		</div>
+		<Particles bind:this={air} motes={art.motes} calm />
+		<div class="flash" bind:this={flashEl} aria-hidden="true"></div>
 	</div>
 
 	<!-- the game's name, over the plate the painting has in its corner -->
@@ -502,8 +573,31 @@
 		height: 100%;
 		object-fit: fill;
 	}
-	.dim .field {
+	/* the living painting, over the still one and under everyone; it fades while the masked boss acts */
+	.space {
+		position: absolute;
+		container-type: inline-size;
+	}
+	.live {
+		position: absolute;
+		object-fit: fill;
+		opacity: 0;
+		transition: opacity 260ms ease;
+		pointer-events: none;
+	}
+	.live.on {
+		opacity: 1;
+	}
+	.dim .field,
+	.dim .live {
 		filter: brightness(0.55) saturate(0.9);
+	}
+	/* the masked boss waits, unseen, under the living boss until it is struck or strikes */
+	.enemy.boss {
+		transition: opacity 260ms ease;
+	}
+	.enemy.boss.behind {
+		opacity: 0;
 	}
 
 	.actor {
