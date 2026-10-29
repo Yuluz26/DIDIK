@@ -7,9 +7,343 @@
 		<meta name="description" content="DIDIK Main Bersama: kuiz permainan untuk kanak-kanak, dimainkan bersama kawan melalui satu pautan." />
 		<link rel="icon" href="%sveltekit.assets%/favicon.svg" type="image/svg+xml" />
 		<title>DIDIK Main Bersama</title>
+		<!--
+			The preloader: drawn by the page itself, before any script or stylesheet arrives, so parents and
+			teachers see Didi hopping on its little island instead of a blank page. The root layout hides it
+			once the app is up (lib/ui/preloader.ts). A game's own screens (/m/…, /hos/…) never show it.
+		-->
+		<style>
+			#didik-preloader {
+				position: fixed;
+				inset: 0;
+				z-index: 9999;
+				display: grid;
+				place-items: center;
+				padding: 1.5rem;
+				background:
+					radial-gradient(circle at 18% 22%, #ffe7b0 0 0.5rem, transparent 0.55rem),
+					radial-gradient(circle at 82% 30%, #c9eee8 0 0.7rem, transparent 0.75rem),
+					radial-gradient(circle at 74% 78%, #fbd1e6 0 0.55rem, transparent 0.6rem),
+					radial-gradient(circle at 24% 74%, #d8efc6 0 0.65rem, transparent 0.7rem),
+					radial-gradient(ellipse at 50% 42%, #fffdf7, #fff8ec 58%, #f7ecd7);
+				color: #1f2d27;
+				font-family: 'Fredoka Variable', ui-rounded, 'Arial Rounded MT Bold', 'Nunito', system-ui, sans-serif;
+				transition:
+					opacity 480ms ease,
+					transform 480ms ease,
+					visibility 0s linear 480ms;
+			}
+			#didik-preloader.pl-done {
+				opacity: 0;
+				transform: scale(1.04);
+				visibility: hidden;
+			}
+			.pl-card {
+				display: grid;
+				justify-items: center;
+				gap: 0.9rem;
+				text-align: center;
+			}
+			.pl-scene {
+				position: relative;
+				width: 11rem;
+				height: 9.5rem;
+			}
+			/* the little island Didi hops on */
+			.pl-island {
+				position: absolute;
+				left: 50%;
+				bottom: 0.6rem;
+				width: 9rem;
+				height: 2.6rem;
+				translate: -50% 0;
+				border-radius: 50%;
+				background: radial-gradient(ellipse at 50% 30%, #8fd05a, #6cb33f 60%, #4a8424);
+				box-shadow:
+					0 0.55rem 0 #e9c98f,
+					0 0.9rem 0 rgb(18 132 122 / 0.22),
+					0 1.05rem 0.4rem rgb(18 132 122 / 0.18);
+			}
+			.pl-island::before,
+			.pl-island::after {
+				content: '';
+				position: absolute;
+				bottom: 1.4rem;
+				width: 0.55rem;
+				height: 0.55rem;
+				border-radius: 50%;
+				background: #ffb627;
+				box-shadow: 0 0 0 0.18rem #fff8ec;
+			}
+			.pl-island::before {
+				left: 1.2rem;
+			}
+			.pl-island::after {
+				right: 1.5rem;
+				background: #d3328d;
+			}
+			.pl-shadow {
+				position: absolute;
+				left: 50%;
+				bottom: 2.05rem;
+				width: 4.2rem;
+				height: 0.7rem;
+				translate: -50% 0;
+				border-radius: 50%;
+				background: rgb(31 45 39 / 0.22);
+				animation: pl-shadow 0.9s ease-in-out infinite;
+			}
+			.pl-didi {
+				position: absolute;
+				left: 50%;
+				bottom: 2.1rem;
+				width: 5.6rem;
+				height: 5.6rem;
+				translate: -50% 0;
+				transform-origin: 50% 100%;
+				animation: pl-hop 0.9s cubic-bezier(0.3, 0, 0.3, 1) infinite;
+				overflow: visible;
+			}
+			.pl-didi .pl-ear-l,
+			.pl-didi .pl-ear-r {
+				transform-box: fill-box;
+				transform-origin: 50% 100%;
+				animation: pl-ear 0.9s ease-in-out infinite;
+			}
+			.pl-didi .pl-ear-r {
+				animation-delay: -0.45s;
+			}
+			.pl-didi .pl-eyes {
+				transform-box: fill-box;
+				transform-origin: 50% 50%;
+				animation: pl-blink 3.2s steps(1) infinite;
+			}
+			/* sparkles that float up around Didi */
+			.pl-spark {
+				position: absolute;
+				width: 0.7rem;
+				height: 0.7rem;
+				border-radius: 0.2rem;
+				rotate: 45deg;
+				animation: pl-float 2.4s ease-in-out infinite;
+			}
+			.pl-spark.s1 {
+				left: 0.6rem;
+				top: 2.6rem;
+				background: #ffb627;
+			}
+			.pl-spark.s2 {
+				right: 0.4rem;
+				top: 1.4rem;
+				background: #12847a;
+				animation-delay: -0.8s;
+			}
+			.pl-spark.s3 {
+				right: 1.6rem;
+				top: 4.8rem;
+				width: 0.5rem;
+				height: 0.5rem;
+				background: #d3328d;
+				animation-delay: -1.6s;
+			}
+			.pl-word {
+				display: flex;
+				gap: 0.08em;
+				margin: 0;
+				font-size: 2.6rem;
+				font-weight: 700;
+				line-height: 1;
+				letter-spacing: 0.02em;
+			}
+			.pl-word span {
+				display: inline-block;
+				color: var(--c);
+				text-shadow:
+					0 3px 0 var(--d),
+					0 5px 8px rgb(31 45 39 / 0.18);
+				animation: pl-wave 1.6s ease-in-out infinite;
+				animation-delay: calc(var(--i) * 0.12s);
+			}
+			.pl-msg {
+				min-height: 1.5em;
+				margin: 0;
+				color: #4c5f56;
+				font-size: 1.05rem;
+				font-weight: 600;
+				animation: pl-msg 1.8s ease-in-out infinite;
+			}
+			/* a rounded track with a happy blob of colours running along it */
+			.pl-track {
+				position: relative;
+				width: min(15rem, 70vw);
+				height: 0.75rem;
+				overflow: hidden;
+				border-radius: 999px;
+				background: #efe3cb;
+				box-shadow: inset 0 2px 0 rgb(31 45 39 / 0.08);
+			}
+			.pl-track span {
+				position: absolute;
+				inset: 0 auto 0 0;
+				width: 40%;
+				border-radius: inherit;
+				background: linear-gradient(90deg, #ffb627, #d0452f, #d3328d, #12847a, #6cb33f);
+				animation: pl-run 1.5s cubic-bezier(0.6, 0, 0.4, 1) infinite;
+			}
+			@keyframes pl-hop {
+				0%,
+				100% {
+					transform: translateY(0) scale(1.06, 0.92);
+				}
+				15% {
+					transform: translateY(0) scale(1, 1);
+				}
+				50% {
+					transform: translateY(-1.6rem) scale(0.97, 1.04);
+				}
+				85% {
+					transform: translateY(0) scale(1, 1);
+				}
+			}
+			@keyframes pl-shadow {
+				50% {
+					transform: scale(0.62);
+					opacity: 0.55;
+				}
+			}
+			@keyframes pl-ear {
+				50% {
+					transform: rotate(-9deg);
+				}
+			}
+			@keyframes pl-blink {
+				0%,
+				92% {
+					transform: scaleY(1);
+				}
+				94% {
+					transform: scaleY(0.12);
+				}
+			}
+			@keyframes pl-float {
+				0%,
+				100% {
+					transform: translateY(0);
+					opacity: 0.35;
+				}
+				50% {
+					transform: translateY(-0.8rem);
+					opacity: 1;
+				}
+			}
+			@keyframes pl-wave {
+				0%,
+				60%,
+				100% {
+					transform: translateY(0) rotate(0);
+				}
+				25% {
+					transform: translateY(-0.45rem) rotate(-4deg);
+				}
+			}
+			@keyframes pl-msg {
+				0%,
+				100% {
+					opacity: 0.75;
+				}
+				50% {
+					opacity: 1;
+				}
+			}
+			@keyframes pl-run {
+				from {
+					transform: translateX(-100%);
+				}
+				to {
+					transform: translateX(250%);
+				}
+			}
+			@media (prefers-reduced-motion: reduce) {
+				#didik-preloader *,
+				#didik-preloader *::before {
+					animation: none !important;
+				}
+				.pl-track span {
+					width: 100%;
+					opacity: 0.6;
+				}
+			}
+		</style>
 		%sveltekit.head%
 	</head>
 	<body data-sveltekit-preload-data="hover">
+		<div id="didik-preloader" role="status" aria-live="polite" aria-label="Sedang memuatkan DIDIK">
+			<div class="pl-card">
+				<div class="pl-scene" aria-hidden="true">
+					<span class="pl-spark s1"></span>
+					<span class="pl-spark s2"></span>
+					<span class="pl-spark s3"></span>
+					<span class="pl-island"></span>
+					<span class="pl-shadow"></span>
+					<svg class="pl-didi" viewBox="0 0 64 64" focusable="false">
+						<g class="pl-ear-l">
+							<path d="M15 27 C8 13 9 6 13 4 C18 3 24 12 27 20 Z" fill="#e7b98a" stroke="#6b4a2e" stroke-width="1.6" stroke-linejoin="round" />
+							<path d="M16 23 C12 14 13 9 15 8 C18 8 21 14 23 19 Z" fill="#f7c6c0" />
+						</g>
+						<g class="pl-ear-r">
+							<path d="M49 27 C56 13 55 6 51 4 C46 3 40 12 37 20 Z" fill="#e7b98a" stroke="#6b4a2e" stroke-width="1.6" stroke-linejoin="round" />
+							<path d="M48 23 C52 14 51 9 49 8 C46 8 43 14 41 19 Z" fill="#f7c6c0" />
+						</g>
+						<ellipse cx="32" cy="35" rx="21" ry="19" fill="#e7b98a" stroke="#6b4a2e" stroke-width="1.6" />
+						<ellipse cx="32" cy="44" rx="11" ry="8" fill="#fff4e6" />
+						<g class="pl-eyes">
+							<ellipse cx="23.5" cy="33" rx="4.2" ry="4.8" fill="#2b2133" />
+							<ellipse cx="40.5" cy="33" rx="4.2" ry="4.8" fill="#2b2133" />
+							<circle cx="25" cy="31.3" r="1.5" fill="#fff" />
+							<circle cx="42" cy="31.3" r="1.5" fill="#fff" />
+						</g>
+						<ellipse cx="32" cy="40.5" rx="2.6" ry="1.9" fill="#2b2133" />
+						<path d="M28.6 44 Q30.4 46.2 32 44.6 Q33.6 46.2 35.4 44" fill="none" stroke="#2b2133" stroke-width="1.4" stroke-linecap="round" />
+						<ellipse cx="16.5" cy="40" rx="3.4" ry="2.1" fill="#f59aa5" opacity="0.75" />
+						<ellipse cx="47.5" cy="40" rx="3.4" ry="2.1" fill="#f59aa5" opacity="0.75" />
+					</svg>
+				</div>
+				<p class="pl-word" aria-hidden="true">
+					<span style="--i: 0; --c: #ffb627; --d: #c98400">D</span><span style="--i: 1; --c: #d0452f; --d: #a8331f">I</span><span style="--i: 2; --c: #12847a; --d: #0b665e">D</span><span style="--i: 3; --c: #6cb33f; --d: #4a8424">I</span><span style="--i: 4; --c: #d3328d; --d: #9c2468">K</span>
+				</p>
+				<p class="pl-msg">Menyediakan kuiz…</p>
+				<div class="pl-track" aria-hidden="true"><span></span></div>
+			</div>
+		</div>
+		<script>
+			(function () {
+				var el = document.getElementById('didik-preloader');
+				if (!el) return;
+				// a game's own screens start at once, without it
+				if (/^\/(m|hos)(\/|$)/.test(location.pathname)) {
+					el.remove();
+					return;
+				}
+				var lines = ['Menyediakan kuiz…', 'Memanggil kawan-kawan…', 'Menyusun pulau…', 'Didi sedang bersiap…'];
+				var msg = el.querySelector('.pl-msg');
+				var n = 0;
+				var turn = setInterval(function () {
+					n = (n + 1) % lines.length;
+					msg.textContent = lines[n];
+				}, 1600);
+				function hide() {
+					if (!el.isConnected || el.classList.contains('pl-done')) return;
+					clearInterval(turn);
+					el.classList.add('pl-done');
+					setTimeout(function () {
+						el.remove();
+					}, 600);
+				}
+				window.__didikPreloader = { shownAt: performance.now(), hide: hide };
+				// never stays up for long, whatever happens to the app
+				setTimeout(hide, 8000);
+			})();
+		</script>
 		<div style="display: contents">%sveltekit.body%</div>
 	</body>
 </html>
