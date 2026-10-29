@@ -90,6 +90,7 @@
 <style>
 	.teka {
 		display: grid;
+		grid-template-columns: minmax(0, 1fr);
 		gap: 0.7rem;
 	}
 	.guess {
@@ -110,8 +111,10 @@
 		display: flex;
 		gap: 0.5rem;
 	}
+	/* width: without it the box keeps its default size (20 letters), wider than the form on a small phone */
 	input {
 		flex: 1;
+		width: 100%;
 		min-width: 0;
 		padding: 0.6rem 0.9rem;
 		border: 2px solid var(--line);

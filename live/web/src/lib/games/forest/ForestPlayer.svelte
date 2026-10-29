@@ -143,7 +143,7 @@
 <Hud {me} score={game.score} rank={game.rank}>
 	<span class="keys" aria-label="{keys} daripada {need} kunci">
 		{#each Array(need) as _, i (i)}
-			<Sprite sheet={key(i < keys)} s={1.5} />
+			<Sprite sheet={key(i < keys)} s={2} />
 		{/each}
 	</span>
 </Hud>
@@ -226,7 +226,7 @@
 <style>
 	.keys {
 		display: inline-flex;
-		gap: 0.15rem;
+		gap: 0.2rem;
 		line-height: 0;
 	}
 	.forest {
@@ -234,7 +234,7 @@
 		grid-template-columns: minmax(0, 1fr);
 		grid-template-rows: auto minmax(0, 1fr);
 		gap: 0.5rem;
-		height: calc(100dvh - 4.2rem);
+		height: calc(100dvh - var(--hud-h, 4.2rem));
 		padding: 0.5rem var(--gutter-r) max(0.6rem, env(safe-area-inset-bottom, 0px)) var(--gutter);
 	}
 	.stage {

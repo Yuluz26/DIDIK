@@ -115,6 +115,7 @@
 <style>
 	.play {
 		display: grid;
+		grid-template-columns: minmax(0, 1fr);
 		gap: 1rem;
 		padding-block: 1rem 3rem;
 		max-width: 52rem;

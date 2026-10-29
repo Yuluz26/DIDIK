@@ -113,7 +113,7 @@
 		z-index: 15;
 		display: grid;
 		place-items: center;
-		padding: calc(env(safe-area-inset-top, 0px) + 4.6rem) var(--gutter-r, 1rem) max(1rem, env(safe-area-inset-bottom, 0px)) var(--gutter, 1rem);
+		padding: calc(env(safe-area-inset-top, 0px) + var(--hud-h, 3.9rem) + 0.7rem) var(--gutter-r, 1rem) max(1rem, env(safe-area-inset-bottom, 0px)) var(--gutter, 1rem);
 		background: rgb(12 24 30 / 0.42);
 		overflow: auto;
 		scrollbar-width: none;
