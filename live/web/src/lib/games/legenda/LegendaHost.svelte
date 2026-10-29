@@ -1,13 +1,14 @@
 <!--
 	The host's big screen for Legenda: the five worlds as a road, every child placed on the world they
-	are in with their hero and hearts, and each boss fight's shared bars as it happens. A world with
-	children in it plays its living battlefield (muted), its boss moving, so the room sees where the
-	class is.
+	are in with their hero and hearts, and each boss fight's shared bars as it happens. Every world plays
+	its living battlefield (muted), its boss moving; a world with children in it is lit up, so the room
+	sees where the class is.
 -->
 <script lang="ts">
 	import type { Person } from '$lib/types';
 	import Avatar from '$ui/Avatar.svelte';
-	import { HEROES, WORLD_ART, battleBg, heartIcons, heroArt, sceneArt, sceneStill, symbol, storyArt } from './data';
+	import { keepPlaying } from './livevideo';
+	import { HEROES, WORLD_ART, battleBg, heartIcons, heroArt, reducedMotion, sceneArt, sceneStill, symbol, storyArt } from './data';
 
 	interface Row {
 		id: string;
@@ -22,6 +23,8 @@
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	let { game, people }: { game: any; people: Map<string, Person> } = $props();
 
+	// with reduced motion the cards keep the still painting
+	const still = reducedMotion();
 	const worlds = $derived((game.world?.worlds ?? []) as { key: string; title: string; boss: string }[]);
 	const party = $derived((game.party ?? []) as Row[]);
 	const raids = $derived((game.raids ?? []) as { id: string; world: number; hp: number; max: number; members: string[]; round: number }[]);
@@ -56,8 +59,8 @@
 			{@const here = party.filter((p) => p.world === i && p.step !== 'victory')}
 			{@const fight = raids.find((r) => r.world === i)}
 			<li class="world" class:busy={here.length > 0} style:--bg="url({battleBg(i)})" style:--aura={WORLD_ART[i].aura}>
-				{#if here.length}
-					<video class="alive" src={sceneArt(i)} poster={sceneStill(i)} muted loop autoplay playsinline disablepictureinpicture aria-hidden="true"></video>
+				{#if !still}
+					<video class="alive" {@attach keepPlaying} src={sceneArt(i)} poster={sceneStill(i)} muted loop autoplay playsinline disablepictureinpicture aria-hidden="true"></video>
 					<span class="veil" aria-hidden="true"></span>
 				{/if}
 				<div class="head">
@@ -145,6 +148,10 @@
 	.alive {
 		object-fit: cover;
 		object-position: 72% 40%;
+	}
+	/* a world nobody is in yet stays quieter than the ones being played */
+	.world:not(.busy) .alive {
+		filter: saturate(0.75) brightness(0.8);
 	}
 	.veil {
 		background: linear-gradient(180deg, rgb(8 16 36 / 0.82), rgb(8 16 36 / 0.2) 60%, rgb(8 16 36 / 0.6));

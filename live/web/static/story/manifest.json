@@ -1097,8 +1097,8 @@
    "source": "WorldVideos/Tasik Chini.mp4",
    "status": "supplied animated battlefield, steadied on the painting, cut to one 16:9 window, seamless loop",
    "use": "living battlefield, world intro, boss reveal, host screen",
-   "bytes": 2171017,
-   "frames": 168,
+   "bytes": 1953616,
+   "frames": 151,
    "size": [
     1280,
     720
@@ -1114,7 +1114,7 @@
     720
    ],
    "alpha": false,
-   "bytes": 229580
+   "bytes": 247020
   },
   {
    "file": "worlds/kancil/boss.webp",
@@ -1195,8 +1195,8 @@
    "source": "WorldVideos/Rimba Bayangan.mp4",
    "status": "supplied animated battlefield, steadied on the painting, cut to one 16:9 window, seamless loop",
    "use": "living battlefield, world intro, boss reveal, host screen",
-   "bytes": 2041282,
-   "frames": 168,
+   "bytes": 1705673,
+   "frames": 136,
    "size": [
     1280,
     720
@@ -1212,7 +1212,7 @@
     720
    ],
    "alpha": false,
-   "bytes": 262940
+   "bytes": 261024
   },
   {
    "file": "worlds/larut/boss.webp",
@@ -1293,8 +1293,8 @@
    "source": "WorldVideos/Hutan Larut.mp4",
    "status": "supplied animated battlefield, steadied on the painting, cut to one 16:9 window, seamless loop",
    "use": "living battlefield, world intro, boss reveal, host screen",
-   "bytes": 1747779,
-   "frames": 168,
+   "bytes": 1431938,
+   "frames": 149,
    "size": [
     1280,
     720
@@ -1310,7 +1310,7 @@
     720
    ],
    "alpha": false,
-   "bytes": 262238
+   "bytes": 259698
   },
   {
    "file": "worlds/ledang/boss.webp",
@@ -1391,8 +1391,8 @@
    "source": "WorldVideos/Gunung Ledang.mp4",
    "status": "supplied animated battlefield, steadied on the painting, cut to one 16:9 window, seamless loop",
    "use": "living battlefield, world intro, boss reveal, host screen",
-   "bytes": 2085488,
-   "frames": 168,
+   "bytes": 1323245,
+   "frames": 105,
    "size": [
     1280,
     720
@@ -1408,7 +1408,7 @@
     720
    ],
    "alpha": false,
-   "bytes": 257958
+   "bytes": 258470
   },
   {
    "file": "worlds/lupar/boss.webp",
@@ -1489,8 +1489,8 @@
    "source": "WorldVideos/Batang Lupar.mp4",
    "status": "supplied animated battlefield, steadied on the painting, cut to one 16:9 window, seamless loop",
    "use": "living battlefield, world intro, boss reveal, host screen",
-   "bytes": 2571136,
-   "frames": 168,
+   "bytes": 2379492,
+   "frames": 154,
    "size": [
     1280,
     720
@@ -1506,7 +1506,7 @@
     720
    ],
    "alpha": false,
-   "bytes": 275562
+   "bytes": 276130
   }
  ]
 }

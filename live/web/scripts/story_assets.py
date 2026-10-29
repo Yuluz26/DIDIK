@@ -21,6 +21,7 @@ Everything else is converted from production-ready pack files without changing t
 from __future__ import annotations
 
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -570,9 +571,10 @@ def emblems() -> None:
 
 # The living battlefields: one short animated painting per world (_asset_input/WorldVideos/, 1280x720,
 # 8 s, supplied by the project owner) with the water, mist and the boss moving. They fill the battle scene
-# on their own; the still painting is only the fallback. Each frame is matched to the world's battlefield
-# painting (SIFT points, a smoothed similarity transform per frame), which takes out the camera's own drift
-# and zoom, and is redrawn over one fixed 16:9 window of the painting: the largest that every frame covers.
+# on their own; the still painting is only the fallback. Each frame is held to the video's own first frame
+# (SIFT points, a similarity transform per frame), which takes out the camera's drift, zoom and shake, and
+# the first frame is placed on the world's battlefield painting (the middle of many guesses). Every frame
+# is then redrawn over one fixed 16:9 window of the painting: the largest that every frame covers.
 # That window goes to views.ts, so the game lays the hero, the enemies and the masked boss over the video
 # exactly where the painting has them. The last second is blended into the first, so the loop has no jump.
 # The video's own sound goes into a separate file, and its first frame is kept as a still.
@@ -591,14 +593,41 @@ def ffmpeg_exe() -> str:
         return "ffmpeg"
 
 
+def seamless_loop(frames: list[np.ndarray]) -> list[np.ndarray]:
+    """A loop nobody notices: it is cut where an early frame and a late one look most alike (the water,
+    mist and boss in nearly the same place), and the frames just past the cut are faded, on an eased curve,
+    into the start, so the last frame leads straight into the first."""
+    blend = LOOP_BLEND
+    count = len(frames)
+    small = [cv2.resize(cv2.cvtColor(f.astype(np.uint8), cv2.COLOR_BGR2GRAY), (160, 90), interpolation=cv2.INTER_AREA).astype(np.float32) for f in frames]
+    # the loop keeps at least two thirds of the clip
+    starts = range(0, count // 6)
+    ends = range(count - count // 6 - blend, count - blend)
+    start, end = min(((a, b) for a in starts for b in ends), key=lambda ab: float(np.abs(small[ab[0]] - small[ab[1]]).mean()))
+    clip = frames[start:end + blend]
+    length = end - start
+    out = list(clip[:length])
+    for i in range(blend):
+        t = (i + 1) / (blend + 1)
+        t = t * t * (3 - 2 * t)
+        # frame i comes mostly from just past the cut at first, and wholly from the start by the end
+        out[i] = clip[length + i] * (1 - t) + clip[i] * t
+    return out
+
+
 def world_videos() -> None:
     import subprocess
 
     sift = cv2.SIFT_create(6000)
-    matcher = cv2.BFMatcher()
+    # a k-d tree finds the nearest points far faster than comparing every pair, with the same result here
+    matcher = cv2.FlannBasedMatcher({"algorithm": 1, "trees": 5}, {"checks": 64})
     ow, oh = VIDEO_SIZE
+    # DIDIK_VIDEO_KEYS=chini,lupar redoes only those worlds
+    only = {k.strip() for k in os.environ.get("DIDIK_VIDEO_KEYS", "").split(",") if k.strip()}
     views = json.loads(VIEWS_TS.read_text(encoding="utf-8").split("=", 1)[1].rsplit(";", 1)[0]) if VIEWS_TS.exists() else {}
     for key, name in WORLD_VIDEOS.items():
+        if only and key not in only:
+            continue
         src = SRC / "WorldVideos" / f"{name}.mp4"
         if not src.exists():
             print(f"{src.name} not found: keeping worlds/{key}/scene.mp4")
@@ -614,17 +643,35 @@ def world_videos() -> None:
                 break
             frames.append(frame)
         vh, vw = frames[0].shape[:2]
-        # one similarity transform per frame (video pixels to painting pixels), smoothed over time
-        params = []
-        for frame in frames:
+
+        def similarity(kp_a, des_a, kp_b, des_b, threshold: float) -> np.ndarray:
+            good = [a for a, b in matcher.knnMatch(des_a, des_b, k=2) if a.distance < 0.75 * b.distance]
+            pa = np.float32([kp_a[a.queryIdx].pt for a in good])
+            pb = np.float32([kp_b[a.trainIdx].pt for a in good])
+            m, _ = cv2.estimateAffinePartial2D(pa, pb, method=cv2.RANSAC, ransacReprojThreshold=threshold)
+            return np.vstack([m, [0, 0, 1]])
+
+        def params_of(m: np.ndarray) -> tuple[float, float, float, float]:
+            return np.hypot(m[0, 0], m[1, 0]), np.arctan2(m[1, 0], m[0, 0]), m[0, 2], m[1, 2]
+
+        def matrix(sc: float, r: float, tx: float, ty: float) -> np.ndarray:
+            return np.array([[sc * np.cos(r), -sc * np.sin(r), tx], [sc * np.sin(r), sc * np.cos(r), ty], [0, 0, 1]])
+
+        # Each frame is held to the video's own first frame: the same picture, so hundreds of points agree
+        # and the camera's drift, zoom and shake come out to a fraction of a pixel.
+        k0, d0 = sift.detectAndCompute(cv2.cvtColor(frames[0], cv2.COLOR_BGR2GRAY), None)
+        to_first, to_painting = [], []
+        for i, frame in enumerate(frames):
             k1, d1 = sift.detectAndCompute(cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY), None)
-            good = [a for a, b in matcher.knnMatch(d1, d2, k=2) if a.distance < 0.75 * b.distance]
-            p1 = np.float32([k1[a.queryIdx].pt for a in good])
-            p2 = np.float32([k2[a.trainIdx].pt for a in good])
-            m, _ = cv2.estimateAffinePartial2D(p1, p2, method=cv2.RANSAC, ransacReprojThreshold=3)
-            params.append((np.hypot(m[0, 0], m[1, 0]), np.arctan2(m[1, 0], m[0, 0]), m[0, 2], m[1, 2]))
-        params = ndimage.uniform_filter1d(np.array(params), size=9, axis=0, mode="nearest")
-        mats = [np.array([[sc * np.cos(r), -sc * np.sin(r), tx], [sc * np.sin(r), sc * np.cos(r), ty]]) for sc, r, tx, ty in params]
+            s = np.eye(3) if i == 0 else similarity(k1, d1, k0, d0, 1.5)
+            to_first.append(params_of(s))
+            # and, every few frames, to the painting: each gives one guess at where the first frame lies on it
+            if i % 6 == 0:
+                to_painting.append(params_of(similarity(k1, d1, k2, d2, 3) @ np.linalg.inv(s)))
+        to_first = ndimage.uniform_filter1d(np.array(to_first), size=5, axis=0, mode="nearest")
+        # the first frame's place on the painting: the middle of all the guesses
+        first_on_painting = matrix(*np.median(np.array(to_painting), axis=0))
+        mats = [(first_on_painting @ matrix(*p))[:2] for p in to_first]
         # the window every frame covers, on the painting: inside each frame's four corners, then 16:9 about its middle
         left, top, right, bottom = 0.0, 0.0, float(fw), float(fh)
         for m in mats:
@@ -638,16 +685,15 @@ def world_videos() -> None:
         to_out = np.array([[ow / w, 0, -x0 * ow / w], [0, oh / h, -y0 * oh / h], [0, 0, 1]])
         composed = [cv2.warpAffine(f, (to_out @ np.vstack([m, [0, 0, 1]]))[:2], (ow, oh), flags=cv2.INTER_LANCZOS4).astype(np.float32)
                     for f, m in zip(frames, mats)]
-        n = len(composed) - LOOP_BLEND
-        for i in range(LOOP_BLEND):
-            t = (i + 1) / (LOOP_BLEND + 1)
-            composed[i] = composed[n + i] * (1 - t) + composed[i] * t
-        composed = composed[:n]
+        composed = seamless_loop(composed)
+        n = len(composed)
 
         out = OUT / "worlds" / key / "scene.mp4"
         temp = out.with_name("scene.part.mp4")
+        # one keyframe group for the whole clip, so a browser going back to the start never waits on a seek
         cmd = [ffmpeg_exe(), "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "bgr24", "-s", f"{ow}x{oh}", "-r", "24", "-i", "-",
-               "-c:v", "libx264", "-preset", "slow", "-crf", "27", "-pix_fmt", "yuv420p", "-movflags", "+faststart", "-an", str(temp)]
+               "-c:v", "libx264", "-preset", "slow", "-crf", "27", "-pix_fmt", "yuv420p", "-g", str(n), "-keyint_min", str(n),
+               "-sc_threshold", "0", "-movflags", "+faststart", "-an", str(temp)]
         enc = subprocess.Popen(cmd, stdin=subprocess.PIPE)
         for f in composed:
             enc.stdin.write(np.clip(f, 0, 255).astype(np.uint8).tobytes())
@@ -860,7 +906,7 @@ def main() -> None:
     old = OUT / "manifest.json"
     if only and old.exists():
         # a partial run keeps the rows of the steps it does not run
-        prefixes = {"heroes": "heroes/", "battlefields": tuple(f"worlds/{k}/{n}" for k in FIELD_ORDER for n in ("field", "boss", "minion_")), "ui": ("ui/heart_", "fx/transition"), "emblems": ("ui/element_", "ui/symbol_"), "fx": tuple(f"fx/{el}" for el in ELEMENTS), "banners": "banners/", "weapons": ("heroes/tuah/weapon/", "heroes/mahsuri/weapon/"), "intros": tuple(f"worlds/{k}/intro" for k in FIELD_ORDER), "videos": tuple(f"worlds/{k}/scene" for k in FIELD_ORDER), "sound": "audio/"}
+        prefixes = {"heroes": "heroes/", "battlefields": tuple(f"worlds/{k}/{n}" for k in FIELD_ORDER for n in ("field", "boss", "minion_")), "ui": ("ui/heart_", "fx/transition"), "emblems": ("ui/element_", "ui/symbol_"), "fx": tuple(f"fx/{el}" for el in ELEMENTS), "banners": "banners/", "weapons": ("heroes/tuah/weapon/", "heroes/mahsuri/weapon/"), "intros": tuple(f"worlds/{k}/intro" for k in FIELD_ORDER), "videos": tuple(f"worlds/{k}/scene" for k in ([k.strip() for k in os.environ.get("DIDIK_VIDEO_KEYS", "").split(",") if k.strip()] or FIELD_ORDER)), "sound": "audio/"}
         dropped = tuple(p for name in only for p in ((prefixes[name],) if isinstance(prefixes[name], str) else prefixes[name]))
         manifest.extend(r for r in json.loads(old.read_text(encoding="utf-8"))["assets"] if not r["file"].startswith(dropped))
     for name, step in steps.items():

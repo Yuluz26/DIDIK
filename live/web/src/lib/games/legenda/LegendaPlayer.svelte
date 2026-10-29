@@ -55,6 +55,8 @@
 		storyArt
 	} from './data';
 	import { sfx, sound } from './sfx';
+	import { keepPlaying } from './livevideo';
+	import { sceneSource, warmScenes } from './scenes';
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	let { client, game, me, people }: { client: RoomClient; game: any; me: Me; people: Map<string, Person> } = $props();
@@ -117,6 +119,34 @@
 		});
 		return () => clearTimeout(fallback);
 	});
+	// The world is ready to be seen once its art is in and its living video plays (or after a few seconds
+	// whatever happens); until then a curtain with the world's emblem hides it, then lifts, so a new world
+	// fades in whole instead of appearing piece by piece.
+	let liveWorld = $state(-1);
+	let waitedFor = $state('');
+	$effect(() => {
+		const key = artKey;
+		const cap = setTimeout(() => (waitedFor = key), 3500);
+		return () => clearTimeout(cap);
+	});
+	const sceneReady = $derived(ready && (still || liveWorld === worldIndex || waitedFor === artKey));
+	// While the child fights a world's boss, the next world's art and video arrive in the background.
+	$effect(() => {
+		const next = worldIndex + 1;
+		if (!elementsNear || next >= total) return;
+		void preload(worldUrls(next, story.hero ?? null));
+		warmScenes([sceneArt(next)]);
+	});
+	// the reveal's backdrop plays the same video, from memory
+	let revealSrc = $state<string | null>(null);
+	$effect(() => {
+		const w = worldIndex;
+		let gone = false;
+		void sceneSource(sceneArt(w)).then((src) => {
+			if (!gone) revealSrc = src;
+		});
+		return () => (gone = true);
+	});
 	$effect(() => {
 		if (elementsNear) void preload(elementUrls(hero));
 	});
@@ -158,12 +188,8 @@
 		timer = null;
 		if (step === 'intro') {
 			stage?.reset();
-			sfx('unlock', 0.5);
-			void playWipe();
-			if (worldIndex > 0) void show('dunia_seterusnya', 2600);
-			// the world comes alive under its title card, with its own sound
-			sound(sceneSound(worldIndex), 0.55);
-			later(7000);
+			// the title card, its sound and its timer begin once the world is ready to be seen
+			introWaiting = true;
 		} else if (step === 'travel') later(3400);
 		else if (step === 'encounter') {
 			void stage?.enter();
@@ -202,6 +228,18 @@
 				void show('pilih_elemen', 2000);
 			}
 		}
+	});
+
+	// The world's title card, once the curtain lifts: the wipe, the banner, the world's own sound.
+	let introWaiting = $state(false);
+	$effect(() => {
+		if (!introWaiting || !sceneReady || step !== 'intro') return;
+		introWaiting = false;
+		sfx('unlock', 0.5);
+		void playWipe();
+		if (worldIndex > 0) void show('dunia_seterusnya', 2600);
+		sound(sceneSound(worldIndex), 0.55);
+		later(7000);
 	});
 
 	// A checked answer: the hero's attack or the enemy's counterattack, then on to the next step.
@@ -344,7 +382,7 @@
 	<Hud {me} score={game.score ?? 0} />
 	<main class="wrap story"><p class="loading">Membuka kitab legenda…</p></main>
 {:else}
-	<div class="arena step-{step}" style:--backdrop="url({battleBg(worldIndex)})">
+	<div class="arena step-{step}" class:asking style:--backdrop="url({battleBg(worldIndex)})">
 		<div class="frame" style:--ar={sceneAr(worldIndex)}>
 			<Stage
 				bind:this={stage}
@@ -361,9 +399,11 @@
 				friends={friends.filter((f) => f.step !== 'select')}
 				mode={stageMode}
 				dim={['intro', 'unlock', 'gather', 'fallen', 'reveal', 'victory'].includes(step)}
+				paused={step === 'reveal'}
+				onlive={(w) => (liveWorld = w)}
 			/>
 
-			{#if step === 'intro'}
+			{#if step === 'intro' && sceneReady}
 				<div class="overlay title-card" role="status" out:fade={{ duration: still ? 0 : 320 }}>
 					<img class="emblem" src={symbol(worldIndex)} alt="" />
 					<p class="kicker">Dunia {worldIndex + 1} / {total}</p>
@@ -403,7 +443,7 @@
 				<!-- the hero on the left faces the boss on the right, which turns to look back at the hero -->
 				<div class="overlay boss-reveal" role="status" style:--aura={WORLD_ART[worldIndex].aura} out:fade={{ duration: still ? 0 : 320 }}>
 					<!-- first the boss stirs in its living world, close up; then the world dims behind the two who will fight -->
-					<video class="reveal-bg" src={sceneArt(worldIndex)} poster={sceneStill(worldIndex)} muted loop autoplay playsinline disablepictureinpicture aria-hidden="true"></video>
+					<video class="reveal-bg" {@attach keepPlaying} src={revealSrc ?? sceneArt(worldIndex)} poster={sceneStill(worldIndex)} muted loop autoplay playsinline disablepictureinpicture aria-hidden="true"></video>
 					<span class="reveal-aura"></span>
 					<img class="reveal-hero" src={heroWeaponArt(hero, (story.element ?? 'api') as Element)} alt="" />
 					<span class="reveal-ground"></span>
@@ -461,7 +501,11 @@
 			{#if banner}{#key banner.n}<Banner id={banner.id} ms={banner.ms} />{/key}{/if}
 
 			<div class="wipe" bind:this={wipe} aria-hidden="true"></div>
-			{#if !ready}<p class="loader" aria-live="polite">Memuat dunia…</p>{/if}
+			<!-- the curtain between worlds: the new world's emblem, until the world is ready to be seen -->
+			<div class="curtain" class:up={sceneReady} role="status" aria-live="polite">
+				<img class="curtain-emblem" src={symbol(worldIndex)} alt="" />
+				<p><span>Dunia {worldIndex + 1}</span> {scene.title ?? ''}</p>
+			</div>
 		</div>
 
 		<!-- the question, as a popup over the scene -->
@@ -619,9 +663,15 @@
 			/* its own layer: the blur is drawn once, not again whenever the game above it changes */
 			transform: translateZ(0);
 		}
+		/* On a tall screen the scene sits in the middle while nothing is asked, and glides to the top to make
+		   room for a question below it. */
 		.frame {
 			z-index: 1;
 			box-shadow: 0 1rem 2.4rem rgb(0 0 0 / 0.55);
+			transition: translate 420ms cubic-bezier(0.2, 0.8, 0.2, 1);
+		}
+		.arena:not(.asking) .frame {
+			translate: 0 max(0px, calc((100dvh - env(safe-area-inset-top, 0px) - 100vw / var(--ar, 1.7778)) / 2));
 		}
 		.scrim {
 			top: calc(env(safe-area-inset-top, 0px) + 100vw / var(--ar, 1.7778));
@@ -1107,17 +1157,48 @@
 		opacity: 0;
 		pointer-events: none;
 	}
-	.loader {
+	/* The curtain between worlds fades away as one piece once the new world is ready. */
+	.curtain {
 		position: absolute;
-		right: 1rem;
-		bottom: 0.8rem;
-		z-index: 11;
-		padding: 0.2rem 0.7rem;
-		border-radius: 999px;
-		background: rgb(0 0 0 / 0.6);
-		color: #fff;
-		font-weight: 800;
-		font-size: 0.85rem;
+		inset: 0;
+		z-index: 13;
+		display: grid;
+		place-content: center;
+		justify-items: center;
+		gap: 0.8cqw;
+		container-type: inline-size;
+		background: radial-gradient(ellipse at 50% 45%, #15213f, #05080f 70%);
+		color: #fff4d8;
+		transition:
+			opacity 700ms ease,
+			visibility 0s linear 700ms;
+	}
+	.curtain.up {
+		opacity: 0;
+		visibility: hidden;
+		pointer-events: none;
+	}
+	.curtain-emblem {
+		width: clamp(56px, 12cqw, 140px);
+		filter: drop-shadow(0 0 2cqw rgb(255 210 120 / 0.55));
+		animation: curtain-glow 1.6s ease-in-out infinite;
+	}
+	.curtain p {
+		display: grid;
+		justify-items: center;
+		font: 700 clamp(1rem, 3.4cqw, 2rem) / 1.1 var(--font-pixel);
+	}
+	.curtain p span {
+		color: #ffd27a;
+		font-size: 0.55em;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+	}
+	@keyframes curtain-glow {
+		50% {
+			transform: scale(1.06);
+			filter: drop-shadow(0 0 3.5cqw rgb(255 210 120 / 0.8));
+		}
 	}
 
 	/* A phone's stage is small: tighter cards so a whole scene fits inside it. */
@@ -1211,6 +1292,9 @@
 		}
 	}
 	@media (prefers-reduced-motion: reduce) {
+		.curtain-emblem {
+			animation: none;
+		}
 		.overlay,
 		.overlay *,
 		.reveal-bg {

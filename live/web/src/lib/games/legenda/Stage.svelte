@@ -17,6 +17,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import Particles from './Particles.svelte';
+	import { keepPlaying } from './livevideo';
+	import { sceneSource } from './scenes';
 	import {
 		ELEMENTS,
 		ELEMENT_NAME,
@@ -64,7 +66,9 @@
 		mode = 'battle',
 		dim = false,
 		elements = null,
-		weapon = null
+		weapon = null,
+		paused = false,
+		onlive
 	}: {
 		world: number;
 		hero: string;
@@ -85,6 +89,10 @@
 		elements?: { unlocked: boolean; selected: string; disabled: boolean; onpick: (el: Element) => void } | null;
 		/** The element whose weapon the hero holds (the one the server has confirmed); null before the elements unlock. */
 		weapon?: Element | null;
+		/** The scene is covered (the boss reveal): its video waits, so only one is decoded at a time. */
+		paused?: boolean;
+		/** Called once this world's scene is ready to be seen: its video plays, or it will not (the still painting). */
+		onlive?: (world: number) => void;
 	} = $props();
 
 	const art = $derived(WORLD_ART[world]);
@@ -118,11 +126,28 @@
 	// the boss acts, and gone once the boss is beaten.
 	let liveReady = $state(false);
 	let bossActing = $state(false);
+	let liveSrc = $state<string | null>(null);
+	let liveEl = $state<HTMLVideoElement>();
 	const live = $derived(liveReady && !still && !bossActing && !(boss && (busy || enemy === 'beaten' || enemy === 'gone')));
-	// a new world's living scene shows only once it plays
+	// A new world's living scene: its video fetched whole, then shown once it plays.
 	$effect(() => {
-		void world;
+		const w = world;
 		liveReady = false;
+		liveSrc = null;
+		if (still) {
+			onlive?.(w);
+			return;
+		}
+		let gone = false;
+		void sceneSource(sceneArt(w)).then((src) => {
+			if (!gone) liveSrc = src;
+		});
+		return () => (gone = true);
+	});
+	$effect(() => {
+		if (!liveEl) return;
+		if (paused) liveEl.pause();
+		else if (liveEl.paused) void liveEl.play().catch(() => undefined);
 	});
 	let lunge = $state(0);
 	let pops = $state<{ id: number; text: string; x: number; y: number; tone: string }[]>([]);
@@ -410,13 +435,15 @@
 			style:height={pct(1 / win.h)}
 		>
 		<img class="field" src={battleBg(world)} alt="" draggable="false" />
-		{#if !still}
-			{#key world}
+		{#if !still && liveSrc}
+			{#key liveSrc}
 				<video
 					class="live"
 					class:on={live}
+					bind:this={liveEl}
+					{@attach (v) => keepPlaying(v, () => !paused)}
 					style={place(win)}
-					src={sceneArt(world)}
+					src={liveSrc}
 					muted
 					loop
 					autoplay
@@ -424,8 +451,14 @@
 					preload="auto"
 					disablepictureinpicture
 					aria-hidden="true"
-					onplaying={() => (liveReady = true)}
-					onerror={() => (liveReady = false)}
+					onplaying={() => {
+						liveReady = true;
+						onlive?.(world);
+					}}
+					onerror={() => {
+						liveReady = false;
+						onlive?.(world);
+					}}
 					onemptied={() => (liveReady = false)}
 				></video>
 			{/key}
