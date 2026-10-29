@@ -81,9 +81,12 @@
 
 	const art = $derived(WORLD_ART[world]);
 	const lay = $derived(field(world));
-	// The hero's height on the scene, and the effects' centres, as fractions of the scene.
-	const HERO_H = 0.23;
-	const heroAt = $derived({ x: lay.hero.x, y: lay.hero.y - HERO_H * 0.55 });
+	// The hero's figure height on the scene, and the effects' centres, as fractions of the scene. The pose
+	// pictures carry room above the figure for the tallest pose (all six share one scale and ground), so
+	// the picture's box is that much taller than the figure.
+	const FIGURE_H = 0.23;
+	const HERO_H = FIGURE_H * 1.17;
+	const heroAt = $derived({ x: lay.hero.x, y: lay.hero.y - FIGURE_H * 0.55 });
 	const minion = $derived(foe && foe.index % 2 === 0 ? lay.minB : lay.minA);
 	const target = $derived(boss ? lay.boss : minion);
 	const enemyAt = $derived({ x: target.x + target.w / 2, y: target.y + target.h * (boss ? 0.42 : 0.5) });
@@ -523,7 +526,7 @@
 	}
 	/* The weapon sprites are taller and carry the blade's flames, so they are drawn larger, standing on the same ground. */
 	.hero img.armed {
-		height: 128%;
+		height: 109%;
 		flex: none;
 	}
 	.hero img {

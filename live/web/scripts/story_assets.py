@@ -125,13 +125,64 @@ def rel(path: Path) -> str:
 # ------------------------------------------------------------------ heroes and Naga Chini
 
 
+POSE_SHEETS = SRC / "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/01_ORIGINAL_HD_POSE_SHEETS"
+POSES = ("idle", "ready", "attack", "cast", "hurt", "victory")
+
+
+def pose_sheet(sheet: Path) -> dict[str, Image.Image]:
+    """The six poses of a hero's sheet (three by two, each over a name plate), whole from head to feet.
+    The pack's own extracted poses cut the feet off, so the poses are cut from the sheet: the navy
+    name plates are blanked out, touching poses are parted at the emptiest column between them, and
+    each pose keeps its figure and the sparks and petals around it. Every pose has the same height
+    with its feet on the bottom edge, so all six share one scale and one ground."""
+    rgba = np.array(Image.open(sheet).convert("RGBA"))
+    h, w = rgba.shape[:2]
+    alpha = rgba[..., 3].copy()
+    r, g, b = (rgba[..., i].astype(int) for i in range(3))
+    navy = (b > r + 18) & (np.maximum(np.maximum(r, g), b) < 120) & (alpha > 200)
+    band = np.zeros_like(navy)
+    for y0, y1 in ((465, 545), (990, 1070)):
+        band[y0:y1] = True
+    labels, _ = ndimage.label(navy & band)
+    for ys, xs in ndimage.find_objects(labels):
+        if xs.stop - xs.start > 120 and ys.stop - ys.start > 25:
+            alpha[max(0, ys.start - 7):ys.stop + 7, max(0, xs.start - 26):xs.stop + 26] = 0
+    solid = alpha > 20
+    for y0, y1 in ((0, h // 2), (h // 2, h)):
+        for x0, x1 in ((w // 3 - 50, w // 3 + 50), (2 * w // 3 - 50, 2 * w // 3 + 50)):
+            solid[y0:y1, x0 + int(np.argmin(solid[y0:y1, x0:x1].sum(axis=0)))] = False
+    labels, count = ndimage.label(solid)
+    centres = ndimage.center_of_mass(solid, labels, range(1, count + 1))
+    sizes = ndimage.sum(solid, labels, range(1, count + 1))
+    masks = {}
+    for i, pose in enumerate(POSES):
+        cx0, cx1, cy0, cy1 = (i % 3) * w / 3, (i % 3 + 1) * w / 3, (i // 3) * h / 2, (i // 3 + 1) * h / 2
+        ids = [k + 1 for k, (cy, cx) in enumerate(centres) if cx0 <= cx < cx1 and cy0 <= cy < cy1 and sizes[k] > 40]
+        main = max(ids, key=lambda k: sizes[k - 1])
+        near = ndimage.binary_dilation(labels == main, iterations=40)
+        floor = max(300, sizes[main - 1] * 0.004)
+        keep = np.isin(labels, [k for k in ids if k == main or (sizes[k - 1] >= floor and (near & (labels == k)).any())])
+        masks[pose] = ndimage.binary_dilation(keep, iterations=2) & (alpha > 0)
+    boxes = {p: (np.nonzero(m.any(1))[0], np.nonzero(m.any(0))[0]) for p, m in masks.items()}
+    tall = max(ys[-1] - ys[0] + 1 for ys, _ in boxes.values())
+    out = {}
+    for pose, m in masks.items():
+        ys, xs = boxes[pose]
+        piece = rgba.copy()
+        piece[..., 3] = np.where(m, alpha, 0)
+        crop = piece[ys[0]:ys[-1] + 1, xs[0]:xs[-1] + 1]
+        canvas = np.zeros((tall, crop.shape[1], 4), np.uint8)
+        canvas[tall - crop.shape[0]:] = crop
+        out[pose] = Image.fromarray(canvas, "RGBA")
+    return out
+
+
 def heroes() -> None:
-    for hero, folder, portrait in (("tuah", "HANG_TUAH", "01_hang_tuah"), ("mahsuri", "MAHSURI", "02_mahsuri")):
-        for pose in ("idle", "ready", "attack", "cast", "hurt", "victory"):
-            src = B04 / folder / f"{folder.lower()}_{pose}.png"
-            out = save_webp(tidy_alpha(Image.open(src)), OUT / "heroes" / hero / f"{pose}.webp")
-            note(out, rel(src), "production pose still (Batch 04), stray edges removed", f"battle pose: {pose}",
-                 anchor="bottom-center")
+    for hero, sheet, portrait in (("tuah", "Hang_Tuah_Six_Poses.png", "01_hang_tuah"), ("mahsuri", "Mahsuri_Six_Poses.png", "02_mahsuri")):
+        for pose, im in pose_sheet(POSE_SHEETS / sheet).items():
+            out = save_webp(im, OUT / "heroes" / hero / f"{pose}.webp")
+            note(out, rel(POSE_SHEETS / sheet), "production pose sheet (Batch 04), cut whole with the name plates removed",
+                 f"battle pose: {pose}", anchor="bottom-center")
         src = next((B03 / "02_HERO_CHARACTERS").glob(f"{portrait}_battle_pose_transparent_*.png"))
         im = tidy_alpha(Image.open(src))
         im.thumbnail((600, 800), Image.LANCZOS)

@@ -13,6 +13,7 @@
 -->
 <script lang="ts">
 	import { onMount, tick } from 'svelte';
+	import { fade } from 'svelte/transition';
 	import type { RoomClient } from '$lib/room.svelte';
 	import type { Me, Person } from '$lib/types';
 	import { confetti } from '$lib/confetti';
@@ -156,43 +157,43 @@
 			stage?.reset();
 			sfx('unlock', 0.5);
 			void playWipe();
-			if (worldIndex > 0) void show('dunia_seterusnya', 1800);
-			later(4600);
-		} else if (step === 'travel') later(2800);
+			if (worldIndex > 0) void show('dunia_seterusnya', 2600);
+			later(6200);
+		} else if (step === 'travel') later(3400);
 		else if (step === 'encounter') {
 			void stage?.enter();
-			void show('pertarungan_bermula', 1500);
-			later(1700);
+			void show('pertarungan_bermula', 2200);
+			later(2600);
 		} else if (step === 'clear') {
 			sfx('correct', 0.5);
-			later(1800);
+			later(2400);
 		} else if (step === 'unlock') {
 			sfx('unlock');
-			void show('elemen_dibuka', 1800);
-			later(4200);
+			void show('elemen_dibuka', 2600);
+			later(5800);
 		} else if (step === 'reveal') {
 			stage?.reset();
-			void show('boss_muncul', 1700);
-			later(4000);
+			void show('boss_muncul', 2400);
+			later(5600);
 		} else if (step === 'worldclear') {
 			stage?.celebrate();
 			sfx('unlock');
 			confetti({ count: 90 });
-			void show('boss_dikalahkan', 1800);
-			later(6500);
+			void show('boss_dikalahkan', 2600);
+			later(7600);
 		} else if (step === 'fallen') {
 			stage?.fall();
-			void show('cuba_lagi', 1500);
+			void show('cuba_lagi', 2200);
 		} else if (step === 'victory') {
 			stage?.celebrate();
 			confetti({ count: 160, spread: 1.3 });
-			void show('kemenangan', 2600);
+			void show('kemenangan', 3400);
 		} else if (step === 'question') {
 			stage?.reset();
 			// The first boss question of a world: remind the child to choose an element.
 			if (boss && story.elements && !picked.has(worldIndex)) {
 				picked.add(worldIndex);
-				void show('pilih_elemen', 1300);
+				void show('pilih_elemen', 2000);
 			}
 		}
 	});
@@ -206,19 +207,19 @@
 		const run = async () => {
 			if (result.correct) {
 				sfx(boss ? 'hit' : 'correct');
-				void show('jawapan_betul', 1000);
+				void show('jawapan_betul', 1600);
 				await stage?.attack(boss ? (reward.element as Element) : null, { weak: reward.weak, finishing: reward.bossHp === 0, healed: reward.change > 0 });
 				if (reward.change > 0) sfx('heal', 0.4);
 			} else {
 				sfx('wrong');
-				await show('jawapan_salah', 950);
-				void show(boss ? 'boss_akan_menyerang' : 'serangan_balas', 1100);
+				await show('jawapan_salah', 1400);
+				void show(boss ? 'boss_akan_menyerang' : 'serangan_balas', 1500);
 				await stage?.counter();
-				void show('nyawa_berkurang', 900);
+				void show('nyawa_berkurang', 1400);
 			}
 			doneFor = mine;
 			// A right answer moves on by itself; a wrong one stays, with the right answer shown, until the child taps on.
-			if (result.correct) later(1300);
+			if (result.correct) later(1900);
 			else later(12000);
 		};
 		void run();
@@ -357,7 +358,7 @@
 			/>
 
 			{#if step === 'intro'}
-				<div class="overlay title-card" role="status">
+				<div class="overlay title-card" role="status" out:fade={{ duration: still ? 0 : 320 }}>
 					<img class="emblem" src={symbol(worldIndex)} alt="" />
 					<p class="kicker">Dunia {worldIndex + 1} / {total}</p>
 					<h2>{scene.title}</h2>
@@ -365,13 +366,13 @@
 					<button type="button" class="skip" onclick={next}>Teruskan <Icon name="next" size={18} /></button>
 				</div>
 			{:else if step === 'travel'}
-				<div class="overlay caption" role="status">
+				<div class="overlay caption" role="status" out:fade={{ duration: still ? 0 : 320 }}>
 					<p>{heroInfo.name} meneruskan perjalanan… <span>Musuh {foeIndex} / {encounters}</span></p>
 				</div>
 			{:else if step === 'clear'}
-				<div class="overlay banner good" role="status"><p>Musuh tewas! {story.cleared} / {encounters}</p></div>
+				<div class="overlay banner good" role="status" out:fade={{ duration: still ? 0 : 320 }}><p>Musuh tewas! {story.cleared} / {encounters}</p></div>
 			{:else if step === 'unlock'}
-				<div class="overlay unlock" role="status">
+				<div class="overlay unlock" role="status" out:fade={{ duration: still ? 0 : 320 }}>
 					<p class="kicker">Lima musuh ditewaskan</p>
 					<h2>Senjata elemen terbuka!</h2>
 					<ul class="orbs">
@@ -383,7 +384,7 @@
 					<button type="button" class="skip" onclick={next}>Teruskan <Icon name="next" size={18} /></button>
 				</div>
 			{:else if step === 'gather'}
-				<div class="overlay unlock" role="status">
+				<div class="overlay unlock" role="status" out:fade={{ duration: still ? 0 : 320 }}>
 					<p class="kicker">Pintu boss</p>
 					<h2>Menunggu kawan</h2>
 					<p class="story-line">
@@ -394,7 +395,7 @@
 				</div>
 			{:else if step === 'reveal'}
 				<!-- the hero on the left faces the boss on the right, which turns to look back at the hero -->
-				<div class="overlay boss-reveal" role="status" style:--aura={WORLD_ART[worldIndex].aura}>
+				<div class="overlay boss-reveal" role="status" style:--aura={WORLD_ART[worldIndex].aura} out:fade={{ duration: still ? 0 : 320 }}>
 					<img class="reveal-bg" src={battleBg(worldIndex)} alt="" />
 					<span class="reveal-aura"></span>
 					<img class="reveal-hero" src={heroWeaponArt(hero, (story.element ?? 'api') as Element)} alt="" />
@@ -419,11 +420,11 @@
 					</div>
 				</div>
 			{:else if step === 'wait'}
-				<div class="overlay caption" role="status">
+				<div class="overlay caption" role="status" out:fade={{ duration: still ? 0 : 320 }}>
 					<p>Seranganmu sudah dihantar! Menunggu kawan menjawab… <span>{answered} / {fighting}</span></p>
 				</div>
 			{:else if step === 'fallen'}
-				<div class="overlay unlock fallen" role="alert">
+				<div class="overlay unlock fallen" role="alert" out:fade={{ duration: still ? 0 : 320 }}>
 					<h2>{heroInfo.name} tumbang!</h2>
 					<p class="story-line">
 						Jangan risau. Kamu sambung di sini dengan enam hati penuh{boss ? ', dan kerosakan pada boss kekal.' : '.'}
@@ -431,7 +432,7 @@
 					<button type="button" class="btn btn--sun btn--big" onclick={() => client.send({ t: 'retry', ev: story.ev })}>Cuba lagi</button>
 				</div>
 			{:else if step === 'worldclear'}
-				<div class="overlay title-card clear" role="status">
+				<div class="overlay title-card clear" role="status" out:fade={{ duration: still ? 0 : 320 }}>
 					<img class="emblem" src={symbol(worldIndex)} alt="" />
 					<p class="kicker">Dunia dibebaskan</p>
 					<h2>{scene.title}</h2>
@@ -439,7 +440,7 @@
 					<button type="button" class="btn btn--sun btn--big" onclick={next}>{worldIndex + 1 < total ? 'Dunia seterusnya' : 'Penamat'} <Icon name="next" /></button>
 				</div>
 			{:else if step === 'victory'}
-				<div class="overlay title-card victory" role="status">
+				<div class="overlay title-card victory" role="status" out:fade={{ duration: still ? 0 : 320 }}>
 					<img class="victor" src={heroArt(hero, 'victory')} alt="" />
 					<p class="kicker">Tamat · Lima dunia legenda</p>
 					<h2>Wira Legenda!</h2>
@@ -842,6 +843,41 @@
 		font-size: clamp(0.8rem, 2.1cqw, 1.25rem);
 		line-height: 1.35;
 		text-shadow: 0 2px 6px rgb(0 0 0 / 0.8);
+	}
+	/* The words of a story card come in one after another, slowly enough to be read and enjoyed. */
+	.title-card > :not(img),
+	.unlock > :not(.orbs),
+	.nameplate > *,
+	.caption p {
+		animation: words-in 700ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+		animation-delay: calc(250ms + var(--n, 0) * 280ms);
+	}
+	.overlay > :nth-child(2),
+	.nameplate > :nth-child(2) {
+		--n: 1;
+	}
+	.overlay > :nth-child(3),
+	.nameplate > :nth-child(3) {
+		--n: 2;
+	}
+	.overlay > :nth-child(4),
+	.nameplate > :nth-child(4) {
+		--n: 3;
+	}
+	.overlay > :nth-child(5) {
+		--n: 4;
+	}
+	.overlay > :nth-child(6) {
+		--n: 5;
+	}
+	.nameplate > * {
+		animation-delay: calc(900ms + var(--n, 0) * 280ms);
+	}
+	@keyframes words-in {
+		from {
+			opacity: 0;
+			transform: translateY(0.9rem);
+		}
 	}
 	.title-card {
 		background: radial-gradient(ellipse at 50% 55%, rgb(8 16 36 / 0.72), rgb(8 16 36 / 0.25) 70%);

@@ -1,7 +1,8 @@
 <!--
 	A transition text banner ("Jawapan Betul!", "Boss Akan Menyerang!"...): the supplied vector-authored
 	art, over the scene and never in the way (no pointer events). Six of them are 12-frame animations,
-	played over the time the banner stays; the rest are one picture that drops in. With reduced motion
+	played over the time the banner stays; the rest are one picture that drops in. Each fades out over its
+	last moments, so one banner gives way smoothly to the next. With reduced motion
 	every banner is a still picture. The words are also in the page for screen readers, since the picture
 	cannot be read aloud.
 -->
@@ -30,7 +31,7 @@
 </script>
 
 {#if banner}
-	<div class="banner" role="status" aria-live="assertive">
+	<div class="banner" role="status" aria-live="assertive" style:--ms="{ms}ms">
 		{#if banner.animated && !still}
 			<div
 				class="sheet"
@@ -55,7 +56,10 @@
 		transform: translateX(-50%);
 		pointer-events: none;
 		filter: drop-shadow(0 0.6rem 1rem rgb(0 0 0 / 0.45));
-		animation: drop-in 380ms cubic-bezier(0.2, 0.9, 0.3, 1.15) both;
+		/* in with a small bounce, held long enough to enjoy, then gently out before it is removed */
+		animation:
+			drop-in 480ms cubic-bezier(0.2, 0.9, 0.3, 1.15) both,
+			fade-out 420ms ease-in calc(var(--ms) - 420ms) forwards;
 	}
 	.sheet,
 	.still {
@@ -71,6 +75,12 @@
 		from {
 			opacity: 0;
 			transform: translateX(-50%) translateY(-1.2rem) scale(0.94);
+		}
+	}
+	@keyframes fade-out {
+		to {
+			opacity: 0;
+			transform: translateX(-50%) translateY(-0.6rem) scale(0.98);
 		}
 	}
 	@media (prefers-reduced-motion: reduce) {

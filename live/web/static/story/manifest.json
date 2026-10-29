@@ -554,54 +554,54 @@
   },
   {
    "file": "heroes/mahsuri/attack.webp",
-   "source": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/MAHSURI/mahsuri_attack.png",
-   "status": "production pose still (Batch 04), stray edges removed",
+   "source": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/01_ORIGINAL_HD_POSE_SHEETS/Mahsuri_Six_Poses.png",
+   "status": "production pose sheet (Batch 04), cut whole with the name plates removed",
    "use": "battle pose: attack",
    "size": [
-    490,
-    449
+    520,
+    522
    ],
    "alpha": true,
-   "bytes": 114516,
+   "bytes": 118100,
    "anchor": "bottom-center"
   },
   {
    "file": "heroes/mahsuri/cast.webp",
-   "source": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/MAHSURI/mahsuri_cast.png",
-   "status": "production pose still (Batch 04), stray edges removed",
+   "source": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/01_ORIGINAL_HD_POSE_SHEETS/Mahsuri_Six_Poses.png",
+   "status": "production pose sheet (Batch 04), cut whole with the name plates removed",
    "use": "battle pose: cast",
    "size": [
-    489,
-    426
+    504,
+    522
    ],
    "alpha": true,
-   "bytes": 109848,
+   "bytes": 113710,
    "anchor": "bottom-center"
   },
   {
    "file": "heroes/mahsuri/hurt.webp",
-   "source": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/MAHSURI/mahsuri_hurt.png",
-   "status": "production pose still (Batch 04), stray edges removed",
+   "source": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/01_ORIGINAL_HD_POSE_SHEETS/Mahsuri_Six_Poses.png",
+   "status": "production pose sheet (Batch 04), cut whole with the name plates removed",
    "use": "battle pose: hurt",
    "size": [
-    430,
-    339
+    442,
+    522
    ],
    "alpha": true,
-   "bytes": 68744,
+   "bytes": 71610,
    "anchor": "bottom-center"
   },
   {
    "file": "heroes/mahsuri/idle.webp",
-   "source": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/MAHSURI/mahsuri_idle.png",
-   "status": "production pose still (Batch 04), stray edges removed",
+   "source": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/01_ORIGINAL_HD_POSE_SHEETS/Mahsuri_Six_Poses.png",
+   "status": "production pose sheet (Batch 04), cut whole with the name plates removed",
    "use": "battle pose: idle",
    "size": [
-    445,
-    453
+    460,
+    522
    ],
    "alpha": true,
-   "bytes": 82828,
+   "bytes": 86306,
    "anchor": "bottom-center"
   },
   {
@@ -618,28 +618,28 @@
   },
   {
    "file": "heroes/mahsuri/ready.webp",
-   "source": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/MAHSURI/mahsuri_ready.png",
-   "status": "production pose still (Batch 04), stray edges removed",
+   "source": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/01_ORIGINAL_HD_POSE_SHEETS/Mahsuri_Six_Poses.png",
+   "status": "production pose sheet (Batch 04), cut whole with the name plates removed",
    "use": "battle pose: ready",
    "size": [
-    483,
-    441
+    451,
+    522
    ],
    "alpha": true,
-   "bytes": 92418,
+   "bytes": 93234,
    "anchor": "bottom-center"
   },
   {
    "file": "heroes/mahsuri/victory.webp",
-   "source": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/MAHSURI/mahsuri_victory.png",
-   "status": "production pose still (Batch 04), stray edges removed",
+   "source": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/01_ORIGINAL_HD_POSE_SHEETS/Mahsuri_Six_Poses.png",
+   "status": "production pose sheet (Batch 04), cut whole with the name plates removed",
    "use": "battle pose: victory",
    "size": [
-    482,
-    444
+    495,
+    522
    ],
    "alpha": true,
-   "bytes": 95458,
+   "bytes": 104192,
    "anchor": "bottom-center"
   },
   {
@@ -709,54 +709,54 @@
   },
   {
    "file": "heroes/tuah/attack.webp",
-   "source": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/HANG_TUAH/hang_tuah_attack.png",
-   "status": "production pose still (Batch 04), stray edges removed",
+   "source": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/01_ORIGINAL_HD_POSE_SHEETS/Hang_Tuah_Six_Poses.png",
+   "status": "production pose sheet (Batch 04), cut whole with the name plates removed",
    "use": "battle pose: attack",
    "size": [
-    486,
-    430
+    493,
+    536
    ],
    "alpha": true,
-   "bytes": 111942,
+   "bytes": 116920,
    "anchor": "bottom-center"
   },
   {
    "file": "heroes/tuah/cast.webp",
-   "source": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/HANG_TUAH/hang_tuah_cast.png",
-   "status": "production pose still (Batch 04), stray edges removed",
+   "source": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/01_ORIGINAL_HD_POSE_SHEETS/Hang_Tuah_Six_Poses.png",
+   "status": "production pose sheet (Batch 04), cut whole with the name plates removed",
    "use": "battle pose: cast",
    "size": [
-    496,
-    420
+    524,
+    536
    ],
    "alpha": true,
-   "bytes": 119966,
+   "bytes": 133668,
    "anchor": "bottom-center"
   },
   {
    "file": "heroes/tuah/hurt.webp",
-   "source": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/HANG_TUAH/hang_tuah_hurt.png",
-   "status": "production pose still (Batch 04), stray edges removed",
+   "source": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/01_ORIGINAL_HD_POSE_SHEETS/Hang_Tuah_Six_Poses.png",
+   "status": "production pose sheet (Batch 04), cut whole with the name plates removed",
    "use": "battle pose: hurt",
    "size": [
-    426,
-    367
+    439,
+    536
    ],
    "alpha": true,
-   "bytes": 75454,
+   "bytes": 81266,
    "anchor": "bottom-center"
   },
   {
    "file": "heroes/tuah/idle.webp",
-   "source": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/HANG_TUAH/hang_tuah_idle.png",
-   "status": "production pose still (Batch 04), stray edges removed",
+   "source": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/01_ORIGINAL_HD_POSE_SHEETS/Hang_Tuah_Six_Poses.png",
+   "status": "production pose sheet (Batch 04), cut whole with the name plates removed",
    "use": "battle pose: idle",
    "size": [
-    411,
-    454
+    421,
+    536
    ],
    "alpha": true,
-   "bytes": 78088,
+   "bytes": 81368,
    "anchor": "bottom-center"
   },
   {
@@ -773,28 +773,28 @@
   },
   {
    "file": "heroes/tuah/ready.webp",
-   "source": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/HANG_TUAH/hang_tuah_ready.png",
-   "status": "production pose still (Batch 04), stray edges removed",
+   "source": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/01_ORIGINAL_HD_POSE_SHEETS/Hang_Tuah_Six_Poses.png",
+   "status": "production pose sheet (Batch 04), cut whole with the name plates removed",
    "use": "battle pose: ready",
    "size": [
-    490,
-    456
+    520,
+    536
    ],
    "alpha": true,
-   "bytes": 93410,
+   "bytes": 98840,
    "anchor": "bottom-center"
   },
   {
    "file": "heroes/tuah/victory.webp",
-   "source": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/02_EXTRACTED_POSES/HANG_TUAH/hang_tuah_victory.png",
-   "status": "production pose still (Batch 04), stray edges removed",
+   "source": "Batch04/DIDIK_JRPG_Assets_Batch04_HD_Animation/01_ORIGINAL_HD_POSE_SHEETS/Hang_Tuah_Six_Poses.png",
+   "status": "production pose sheet (Batch 04), cut whole with the name plates removed",
    "use": "battle pose: victory",
    "size": [
     452,
-    444
+    536
    ],
    "alpha": true,
-   "bytes": 100920,
+   "bytes": 114310,
    "anchor": "bottom-center"
   },
   {
