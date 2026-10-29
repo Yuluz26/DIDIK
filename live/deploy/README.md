@@ -170,6 +170,31 @@ Ia menghantar versi yang di-commit, membuat sandaran, membina di sebelah versi y
 memulakan semula dan menunggu pemeriksaan kesihatan. Jika versi baharu tidak menjawab, versi lama dipulihkan.
 Log: `sudo journalctl -u didik-live -f`.
 
+### Kemas kini automatik dari GitHub
+
+Setiap kali cawangan utama (`ccr-5bfecad5-9qrt47`) menerima perubahan dalam `live/` dan semakan CI lulus,
+[`didik-live-deploy.yml`](../../.github/workflows/didik-live-deploy.yml) menjalankan `update-vps.sh` yang sama
+dari GitHub, kemudian memeriksa `https://didik.engineprofit.io/api/health`. Boleh juga dijalankan sendiri:
+**Actions → DIDIK Live · Deploy to the VPS → Run workflow**.
+
+Persediaan sekali, dari komputer anda:
+
+```sh
+ssh-keygen -t ed25519 -N "" -C didik-github-deploy -f ~/.ssh/didik_deploy
+ssh-copy-id -i ~/.ssh/didik_deploy.pub mpsonline@184.168.120.33
+ssh-keyscan 184.168.120.33
+```
+
+Kemudian di GitHub, **Settings → Secrets and variables → Actions → New repository secret**:
+
+| Rahsia | Isi |
+| --- | --- |
+| `DIDIK_VPS_SSH_KEY` | Kandungan `~/.ssh/didik_deploy` (kunci peribadi, bukan `.pub`) |
+| `DIDIK_VPS_KNOWN_HOSTS` | Output `ssh-keyscan` di atas, supaya GitHub hanya bercakap dengan pelayan ini |
+
+Kunci ini untuk GitHub sahaja. Untuk menariknya semula, padam barisnya dalam `~/.ssh/authorized_keys` pada
+VPS. Pelayan atau domain lain: pembolehubah repositori `DIDIK_VPS` (`pengguna@hos`) dan `DIDIK_URL`.
+
 ## 10. Satu proses sahaja
 
 Bilik permainan hidup dalam memori satu proses pelayan. **Jangan** jalankan lebih daripada satu bekas

@@ -1,0 +1,81 @@
+name: DIDIK Live · Deploy to the VPS
+
+# Sends the default branch to the VPS once its checks have passed, with live/deploy/update-vps.sh:
+# backup, build beside the running version, switch, health check, and the old version put back if the
+# new one does not answer. Also runs by hand (Actions → this workflow → Run workflow).
+#
+# Needs the repository secret DIDIK_VPS_SSH_KEY (a private key allowed on the VPS, see
+# live/deploy/README.md, section 9). DIDIK_VPS_KNOWN_HOSTS (the output of ssh-keyscan) pins the
+# server's key; without it the key is read at the start of each run.
+
+on:
+  workflow_run:
+    workflows: ['DIDIK Live · Python, Svelte and the server image']
+    types: [completed]
+    branches: [ccr-5bfecad5-9qrt47]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# One deploy at a time, and never cancelled halfway: the switch on the server must finish.
+concurrency:
+  group: didik-live-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Update the server
+    if: >-
+      (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push')
+      || (github.event_name == 'workflow_dispatch' && github.ref_name == github.event.repository.default_branch)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      DIDIK_VPS: ${{ vars.DIDIK_VPS || 'mpsonline@184.168.120.33' }}
+      SSH_KEY: ${{ secrets.DIDIK_VPS_SSH_KEY }}
+      KNOWN_HOSTS: ${{ secrets.DIDIK_VPS_KNOWN_HOSTS }}
+      DIDIK_URL: ${{ vars.DIDIK_URL || 'https://didik.engineprofit.io' }}
+    steps:
+      - name: Deploy key is set
+        run: |
+          if [ -z "$SSH_KEY" ]; then
+            echo "::error::DIDIK_VPS_SSH_KEY belum ditetapkan: tiada apa-apa dihantar ke pelayan. Lihat live/deploy/README.md, bahagian 9."
+            exit 1
+          fi
+
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+
+      - name: SSH to the VPS
+        run: |
+          host=${DIDIK_VPS#*@}
+          install -d -m 700 ~/.ssh
+          printf '%s\n' "$SSH_KEY" | tr -d '\r' > ~/.ssh/didik_deploy
+          chmod 600 ~/.ssh/didik_deploy
+          if [ -n "$KNOWN_HOSTS" ]; then
+            printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+          else
+            echo "::warning::DIDIK_VPS_KNOWN_HOSTS belum ditetapkan: kunci pelayan dibaca dengan ssh-keyscan pada setiap deploy."
+            ssh-keyscan -T 15 "$host" > ~/.ssh/known_hosts
+          fi
+          cat > ~/.ssh/config <<EOF
+          Host $host
+            IdentityFile ~/.ssh/didik_deploy
+            IdentitiesOnly yes
+            StrictHostKeyChecking yes
+            ServerAliveInterval 30
+          EOF
+          ssh "$DIDIK_VPS" true
+
+      - name: Update the VPS
+        run: live/deploy/update-vps.sh "$DIDIK_VPS"
+
+      - name: The site answers
+        run: |
+          for i in $(seq 1 10); do
+            curl -fsS -m 10 "$DIDIK_URL/api/health" && exit 0
+            sleep 3
+          done
+          exit 1
