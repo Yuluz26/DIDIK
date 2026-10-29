@@ -1,7 +1,7 @@
 # DIDIK Main Bersama as a systemd service, for a VPS without Docker (README.md, "Tanpa Docker").
 #   sudo cp didik-live.service /etc/systemd/system/ && sudo systemctl enable --now didik-live
-# Settings: /etc/didik/didik.env (from .env.example, plus the lines below). Caddy on the same machine
-# sends https to 127.0.0.1:8080.
+# Settings: /etc/didik/didik.env (from .env.example, plus the lines below). nginx or Caddy on the same
+# machine sends https to 127.0.0.1:8090.
 
 [Unit]
 Description=DIDIK Main Bersama
@@ -16,7 +16,7 @@ WorkingDirectory=/opt/didik/live/server
 EnvironmentFile=/etc/didik/didik.env
 Environment=DIDIK_ENV=production
 Environment=DIDIK_HOST=127.0.0.1
-Environment=DIDIK_PORT=8080
+Environment=DIDIK_PORT=8090
 Environment=DIDIK_DATA_DIR=/var/lib/didik
 Environment=DIDIK_WEB_DIR=/opt/didik/live/web/build
 ExecStart=/opt/didik/venv/bin/didik-live

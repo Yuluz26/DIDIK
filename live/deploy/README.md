@@ -12,6 +12,8 @@ sandaran harian dan kemas kini satu arahan.
 | [`deploy.sh`](deploy.sh) | Kemas kini: sandaran, bina, mula, tunggu sehingga sihat |
 | [`backup.sh`](backup.sh) | Sandaran pangkalan data dan gambar semasa pelayan berjalan |
 | [`didik-live.service`](didik-live.service) | Unit systemd untuk VPS tanpa Docker |
+| [`nginx-didik.conf`](nginx-didik.conf) | Laman nginx untuk VPS yang sudah ada nginx dan laman lain |
+| [`update-vps.sh`](update-vps.sh) | Kemas kini VPS tanpa Docker dari komputer anda, dengan pemulihan automatik |
 
 ## 1. Sediakan VPS
 
@@ -135,12 +137,40 @@ sudo cp deploy/didik-live.service /etc/systemd/system/ && sudo systemctl enable 
 ```
 
 Caddy di mesin yang sama: salin `deploy/Caddyfile` ke `/etc/caddy/Caddyfile`, dan tambah
-`DIDIK_DOMAIN`, `ACME_EMAIL` serta `DIDIK_UPSTREAM=127.0.0.1:8080` ke persekitaran Caddy
+`DIDIK_DOMAIN`, `ACME_EMAIL` serta `DIDIK_UPSTREAM=127.0.0.1:8090` ke persekitaran Caddy
 (`sudo systemctl edit caddy`, bahagian `[Service]`, baris `Environment=...`), kemudian
 `sudo systemctl restart caddy`. Sandaran: `sudo -u didik /opt/didik/venv/bin/python -m didik_live.backup /var/lib/didik/backups`
 (dengan `EnvironmentFile` yang sama, atau `DIDIK_DATA_DIR=/var/lib/didik`).
 
-## 9. Satu proses sahaja
+## 9. Di sebelah laman lain (nginx sedia ada)
+
+Pada VPS yang nginx-nya sudah menghidangkan laman lain pada port 80/443 (contohnya laman Laravel), **jangan**
+jalankan `compose.yaml` (Caddy akan berebut port itu). DIDIK berjalan sebagai perkhidmatan systemd pada
+`127.0.0.1:8090` dan nginx sedia ada menghantar satu domain kepadanya. Laman lain tidak disentuh.
+
+Persediaan sekali (seperti di `didik.engineprofit.io`):
+
+1. DNS: rekod **A** untuk subdomain → IP VPS (tanpa AAAA jika nginx tidak mendengar IPv6).
+2. Pasang seperti bahagian 8 (pengguna `didik`, `/opt/didik/venv`, `/var/lib/didik`, `/etc/didik/didik.env`),
+   dengan `DIDIK_PORT=8090` dan `DIDIK_PUBLIC_URL=https://domain-anda`.
+3. nginx: [`nginx-didik.conf`](nginx-didik.conf) (tukar `server_name`), kemudian
+   `sudo nginx -t && sudo systemctl reload nginx` dan `sudo certbot --nginx -d domain-anda --redirect`.
+   Setiap `location` menetapkan semua pengepalanya sendiri: nginx membuang `proxy_set_header` peringkat
+   `server` dalam `location` yang ada pengepala sendiri, dan tanpa `Host` yang betul log masuk dan soket
+   permainan ditolak.
+4. Sandaran malam: `/etc/cron.d/didik-backup`, jam 3 pagi, sebagai pengguna `didik`, ke `/var/lib/didik/backups`.
+
+Kemas kini, dari komputer anda (akar repositori):
+
+```sh
+live/deploy/update-vps.sh mpsonline@184.168.120.33
+```
+
+Ia menghantar versi yang di-commit, membuat sandaran, membina di sebelah versi yang berjalan, menukar,
+memulakan semula dan menunggu pemeriksaan kesihatan. Jika versi baharu tidak menjawab, versi lama dipulihkan.
+Log: `sudo journalctl -u didik-live -f`.
+
+## 10. Satu proses sahaja
 
 Bilik permainan hidup dalam memori satu proses pelayan. **Jangan** jalankan lebih daripada satu bekas
 `app` atau beberapa pekerja uvicorn: telefon kanak-kanak dalam bilik yang sama mesti sampai ke proses yang sama.
