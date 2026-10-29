@@ -1,0 +1,69 @@
+# DIDIK Main Bersama on one VPS: the app, and Caddy in front of it for https (certificates from Let's
+# Encrypt, renewed by itself), WebSockets and compression. From this folder:
+#
+#   cp .env.example .env      # then fill it in
+#   docker compose up -d --build
+#
+# See README.md in this folder.
+
+name: didik
+
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    image: didik-live:latest
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      # Always a public server here: the server refuses to start while a setting is unsafe.
+      DIDIK_ENV: production
+      DIDIK_SECURE_COOKIES: "1"
+      DIDIK_SEED_DEMO: "0"
+      # Only Caddy reaches the app (its port is not published), so the address Caddy passes on is trusted.
+      FORWARDED_ALLOW_IPS: "*"
+    volumes:
+      - didik-data:/data
+    expose:
+      - "8080"
+    # Open rooms are saved when the app stops; give it the time to do so.
+    stop_grace_period: 30s
+    ulimits:
+      # every child's phone is one open socket
+      nofile:
+        soft: 65536
+        hard: 65536
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "5"
+
+  caddy:
+    image: caddy:2.8-alpine
+    restart: unless-stopped
+    depends_on:
+      app:
+        condition: service_healthy
+    env_file: .env
+    environment:
+      DIDIK_UPSTREAM: app:8080
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  didik-data:
+  caddy-data:
+  caddy-config:

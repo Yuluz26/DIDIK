@@ -3,6 +3,9 @@
     didik-live                          http://localhost:8080 on this computer only
     didik-live --lan                    also reachable from phones on the same Wi-Fi
     didik-live --reset-link EMEL        prints a link to choose a new password, then exits
+
+On a server (DIDIK_ENV=production) it listens on DIDIK_HOST:DIDIK_PORT behind a reverse proxy, refuses to
+start while a setting is unsafe, and logs with times to standard output (journald or Docker keep it).
 """
 
 from __future__ import annotations
@@ -68,9 +71,9 @@ def raise_open_files(want: int = 65536) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(prog="didik-live", description="DIDIK Main Bersama")
-    parser.add_argument("--port", type=int, default=8080)
+    parser.add_argument("--port", type=int, default=int(os.environ.get("DIDIK_PORT") or 8080))
     parser.add_argument("--lan", action="store_true", help="dengar pada semua rangkaian (untuk telefon di Wi-Fi yang sama)")
-    parser.add_argument("--host", default=None, help="alamat untuk didengar (lalai 127.0.0.1)")
+    parser.add_argument("--host", default=os.environ.get("DIDIK_HOST") or None, help="alamat untuk didengar (lalai 127.0.0.1)")
     parser.add_argument("--reload", action="store_true", help="mulakan semula apabila kod Python berubah")
     parser.add_argument("--reset-link", metavar="EMEL", help="cetak pautan untuk memilih kata laluan baharu, kemudian keluar")
     args = parser.parse_args()
@@ -79,6 +82,14 @@ def main() -> None:
 
     host = args.host or ("0.0.0.0" if args.lan else "127.0.0.1")
     raise_open_files()
+
+    from .config import load_settings
+
+    settings = load_settings()
+    if settings.production:
+        serve_production(settings, host, args.port)
+        return
+
     logging.basicConfig(level=logging.INFO, format="%(message)s")
     print(f"\n  DIDIK Main Bersama\n  Buka:  http://localhost:{args.port}")
     if args.lan and (address := lan_address()):
@@ -86,7 +97,9 @@ def main() -> None:
         # browser opened the site as localhost.
         os.environ.setdefault("DIDIK_PUBLIC_URL", f"http://{address}:{args.port}")
         print(f"  Telefon di Wi-Fi yang sama:  http://{address}:{args.port}")
-    print("  Akaun demo: demo@didik.test / main-bersama\n")
+    if settings.seed_demo:
+        print("  Akaun demo: demo@didik.test / main-bersama")
+    print()
 
     uvicorn.run(
         "didik_live.app:create_app",
@@ -96,6 +109,34 @@ def main() -> None:
         reload=args.reload,
         log_level="warning",
         ws_max_size=16_384,
+    )
+
+
+def serve_production(settings, host: str, port: int) -> None:
+    """A public server: stop with a clear message while a setting is unsafe, then serve behind the proxy."""
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s", stream=sys.stdout)
+    log = logging.getLogger("didik")
+    problems = settings.problems()
+    if problems:
+        for problem in problems:
+            log.error("Tetapan: %s", problem)
+        log.error("Pelayan tidak dimulakan. Betulkan tetapan di atas (lihat live/deploy/.env.example).")
+        sys.exit(2)
+    log.info("DIDIK Main Bersama di %s (mendengar %s:%s)", settings.public_url, host, port)
+    uvicorn.run(
+        "didik_live.app:create_app",
+        factory=True,
+        host=host,
+        port=port,
+        log_level="info",
+        # Children's addresses are not written to the log on every request; errors still are.
+        access_log=os.environ.get("DIDIK_ACCESS_LOG", "").strip().lower() in {"1", "true", "yes", "on"},
+        # The real address comes from the proxy in front (FORWARDED_ALLOW_IPS names who may send it).
+        proxy_headers=True,
+        server_header=False,
+        ws_max_size=16_384,
+        # Time for open rooms to be saved and sockets closed when the service stops.
+        timeout_graceful_shutdown=20,
     )
 
 

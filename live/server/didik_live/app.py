@@ -11,6 +11,7 @@ from fastapi import FastAPI, HTTPException, Request, WebSocket
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
+from sqlalchemy import text
 
 from .api import auth, quizzes, rooms, uploads
 from .config import Settings, load_settings
@@ -21,7 +22,7 @@ from .game.socket import room_socket
 from .game.store import RoomStore
 from .mailer import Mailer
 from .security import RateLimiter
-from .seed import seed
+from .seed import seed, seed_library
 from .web import mount_web
 
 log = logging.getLogger("didik")
@@ -34,6 +35,8 @@ SECURITY_HEADERS = [
     (b"permissions-policy", b"camera=(), microphone=(), geolocation=(), payment=()"),
     (b"cross-origin-opener-policy", b"same-origin"),
 ]
+# On a public server the site is https only: browsers remember to never try plain http for a year.
+HSTS = (b"strict-transport-security", b"max-age=31536000; includeSubDomains")
 
 
 class Guard:
@@ -64,6 +67,9 @@ class Guard:
                 csp = getattr(app.state, "csp", None) if app else None
                 if csp:
                     extra.append((b"content-security-policy", csp.encode()))
+                settings = getattr(app.state, "settings", None) if app else None
+                if settings is not None and settings.production:
+                    extra.append(HSTS)
                 message["headers"] = list(message.get("headers", [])) + extra
             await send(message)
 
@@ -87,9 +93,14 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         settings.data_dir.mkdir(parents=True, exist_ok=True)
         settings.upload_dir.mkdir(parents=True, exist_ok=True)
         database.create_all()
-        if settings.seed_demo:
-            with database.sessions() as db:
+        for warning in settings.warnings():
+            log.warning("Amaran: %s", warning)
+        with database.sessions() as db:
+            # the demo parent and its samples on localhost; on a public server, the samples alone
+            if settings.seed_demo:
                 seed(db)
+            else:
+                seed_library(db)
         # Rooms that were open when the server last stopped come back before the first connection.
         await app.state.rooms.restore()
         app.state.rooms.start()
@@ -114,8 +125,15 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         return JSONResponse(body, status_code=error.status_code, headers=getattr(error, "headers", None))
 
     @app.get("/api/health", include_in_schema=False)
-    def health() -> dict:
-        return {"ok": True, "rooms": len(app.state.rooms.by_code)}
+    def health() -> JSONResponse:
+        """For the container and the uptime monitor: 200 while the server and its database answer."""
+        try:
+            with database.engine.connect() as connection:
+                connection.execute(text("SELECT 1"))
+        except Exception:  # noqa: BLE001 - any database failure means unhealthy
+            log.exception("Pemeriksaan kesihatan: pangkalan data tidak menjawab")
+            return JSONResponse({"ok": False, "database": False}, status_code=503, headers={"Cache-Control": "no-store"})
+        return JSONResponse({"ok": True, "database": True, "rooms": len(app.state.rooms.by_code)}, headers={"Cache-Control": "no-store"})
 
     for router in (auth.router, quizzes.router, uploads.router, rooms.router):
         app.include_router(router)

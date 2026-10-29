@@ -1,5 +1,8 @@
 """A demo parent and sample quizzes, so the app can be tried the moment it starts.
 
+On a public server there is no demo parent (its password is public): the sample quizzes belong to the
+library account instead, which has no password at all, so nobody can sign in as it.
+
 The sample quizzes use every question type and suit every game; the last three are pitched at older
 students (Tingkatan 1-5 content). Facts were checked; keep them checked when you change them,
 because children will believe them.
@@ -20,6 +23,11 @@ log = logging.getLogger("didik.seed")
 
 DEMO_EMAIL = "demo@didik.test"
 DEMO_PASSWORD = "main-bersama"
+# The owner of the sample quizzes on a public server. ".invalid" is never a real address, and "!" is never
+# a password hash, so the account can neither sign in nor receive a reset link.
+LIBRARY_EMAIL = "kuiz-contoh@didik.invalid"
+LIBRARY_NAME = "Perpustakaan DIDIK"
+NO_PASSWORD = "!"
 
 
 def _single(prompt: str, right: str, *wrong: str, time: int = 20) -> dict:
@@ -233,3 +241,22 @@ def seed(db: Session) -> bool:
     db.commit()
     log.warning("Akaun demo dicipta: %s / %s (untuk localhost sahaja)", DEMO_EMAIL, DEMO_PASSWORD)
     return True
+
+
+def seed_library(db: Session) -> int:
+    """On a public server: the sample quizzes, owned by the library account, added once each (a title
+    that is already a sample, whoever owns it, is not added again). Returns how many were added."""
+    have = set(db.scalars(select(Quiz.title).where(Quiz.is_sample.is_(True))))
+    missing = [sample for sample in SAMPLES if sample["title"] not in have]
+    if not missing:
+        return 0
+    library = db.scalar(select(User).where(User.email == LIBRARY_EMAIL))
+    if library is None:
+        library = User(name=LIBRARY_NAME, email=LIBRARY_EMAIL, password_hash=NO_PASSWORD)
+        db.add(library)
+        db.flush()
+    for sample in missing:
+        _add_sample(db, library, sample)
+    db.commit()
+    log.info("Kuiz contoh ditambah: %s", ", ".join(s["title"] for s in missing))
+    return len(missing)

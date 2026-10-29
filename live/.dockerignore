@@ -1,0 +1,13 @@
+# Only the sources the image is built from.
+**/node_modules
+**/.svelte-kit
+web/build
+server/.venv
+server/data
+server/tests
+server/.pytest_cache
+server/*.egg-info
+**/__pycache__
+deploy
+**/.env
+**/*.log

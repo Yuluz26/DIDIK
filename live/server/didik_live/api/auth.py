@@ -15,7 +15,7 @@ from .. import passwords
 from ..deps import current_user, demo_allowed, end_session, get_db, limit, site_url, start_session
 from ..models import User
 from ..security import DUMMY_PASSWORD_HASH, hash_password, verify_password
-from ..seed import DEMO_EMAIL
+from ..seed import DEMO_EMAIL, LIBRARY_EMAIL
 
 router = APIRouter(prefix="/api/auth", tags=["auth"])
 log = logging.getLogger("didik.auth")
@@ -131,7 +131,8 @@ def forgot(body: Forgot, request: Request, background: BackgroundTasks, db: Sess
     limit(request, "forgot", 20, 600)
     limit(request, "forgot-email", 3, 3600, key=body.email)
     user = db.scalar(select(User).where(func.lower(User.email) == body.email))
-    if user is None:
+    # nobody can take over the account that owns the samples, or the demo account on a public server
+    if user is None or user.email == LIBRARY_EMAIL or (user.email == DEMO_EMAIL and not demo_allowed(request)):
         return {"message": RESET_SENT}
     mailer = request.app.state.mailer
     if mailer.ready and not request.app.state.settings.public_url:

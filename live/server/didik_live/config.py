@@ -1,4 +1,8 @@
-"""Settings read once from the environment. Every value has a default that works on localhost."""
+"""Settings read once from the environment. Every value has a default that works on localhost.
+
+With DIDIK_ENV=production the defaults turn safe for a public server (no demo account, no bots, cookies
+only over https) and `problems()` lists what a public server still needs before it may start.
+"""
 
 from __future__ import annotations
 
@@ -52,6 +56,36 @@ class Settings:
     public_url: str | None = None
     # Without SMTP, password reset links are written to the server log instead of being emailed.
     mail: MailSettings | None = None
+    # A public server (DIDIK_ENV=production): safe defaults, and a check of the settings before it starts.
+    production: bool = False
+
+    def problems(self) -> list[str]:
+        """What stops this server from running in production, in words for whoever deploys it."""
+        if not self.production:
+            return []
+        out = []
+        if not self.public_url:
+            out.append("DIDIK_PUBLIC_URL mesti ditetapkan (contoh https://didik.contoh.my): pautan bilik, kod QR dan emel dibina daripadanya.")
+        elif not self.public_url.startswith("https://"):
+            out.append("DIDIK_PUBLIC_URL mesti bermula dengan https:// pada pelayan sebenar.")
+        if not self.secure_cookies:
+            out.append("DIDIK_SECURE_COOKIES tidak boleh dimatikan pada pelayan sebenar: kuki sesi mesti dihantar melalui https sahaja.")
+        if self.seed_demo:
+            out.append("DIDIK_SEED_DEMO mesti 0 pada pelayan sebenar: kata laluan akaun demo diketahui umum.")
+        if not (self.web_dir / "200.html").is_file() and not (self.web_dir / "index.html").is_file():
+            out.append(f"Antara muka belum dibina di {self.web_dir} (jalankan npm run build dalam live/web).")
+        return out
+
+    def warnings(self) -> list[str]:
+        """What works, but is worth knowing on a public server."""
+        if not self.production:
+            return []
+        out = []
+        if self.mail is None:
+            out.append("SMTP belum ditetapkan: pautan set semula kata laluan ditulis dalam log pelayan, bukan diemel.")
+        if self.allow_bots:
+            out.append("Bot latihan dibenarkan (DIDIK_ALLOW_BOTS=1).")
+        return out
 
     @property
     def upload_dir(self) -> Path:
@@ -59,6 +93,7 @@ class Settings:
 
 
 def load_settings() -> Settings:
+    production = (os.environ.get("DIDIK_ENV") or "").strip().lower() in {"production", "prod"}
     data_dir = Path(os.environ.get("DIDIK_DATA_DIR") or LIVE_DIR / "server" / "data").resolve()
     database_url = os.environ.get("DIDIK_DATABASE_URL") or f"sqlite:///{data_dir / 'didik-live.db'}"
     web_dir = Path(os.environ.get("DIDIK_WEB_DIR") or LIVE_DIR / "web" / "build").resolve()
@@ -67,11 +102,12 @@ def load_settings() -> Settings:
         data_dir=data_dir,
         database_url=database_url,
         web_dir=web_dir,
-        secure_cookies=_flag("DIDIK_SECURE_COOKIES", False),
-        allow_bots=_flag("DIDIK_ALLOW_BOTS", True),
-        seed_demo=_flag("DIDIK_SEED_DEMO", True),
+        secure_cookies=_flag("DIDIK_SECURE_COOKIES", production),
+        allow_bots=_flag("DIDIK_ALLOW_BOTS", not production),
+        seed_demo=_flag("DIDIK_SEED_DEMO", not production),
         public_url=(os.environ.get("DIDIK_PUBLIC_URL") or "").strip().rstrip("/") or None,
         mail=_mail(),
+        production=production,
     )
 
 

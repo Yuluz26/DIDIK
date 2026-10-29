@@ -1,0 +1,28 @@
+# Caddy in front of DIDIK Main Bersama: https with certificates it gets and renews by itself, http sent
+# on to https, WebSockets passed through, and the real address of each visitor passed to the app.
+# Used by compose.yaml (the app is "app:8080") and on a server without Docker (DIDIK_UPSTREAM=127.0.0.1:8080).
+
+{
+	email {$ACME_EMAIL}
+}
+
+{$DIDIK_DOMAIN} {
+	# the largest upload is a 5 MB picture
+	request_body {
+		max_size 8MB
+	}
+
+	# the app sends its built files already compressed; this covers the API's answers
+	encode zstd gzip
+
+	# WebSockets (the game's sockets) pass through as they are, with no time limit
+	reverse_proxy {$DIDIK_UPSTREAM:app:8080}
+
+	# No access log: visitors' addresses are not kept (children use the site). Problems still show
+	# in Caddy's own log.
+}
+
+# With a www. record in DNS as well, this sends www. visitors to the plain name:
+# www.{$DIDIK_DOMAIN} {
+# 	redir https://{$DIDIK_DOMAIN}{uri} permanent
+# }

@@ -10,7 +10,7 @@ import logging
 import smtplib
 import ssl
 from email.message import EmailMessage
-from email.utils import formatdate, make_msgid
+from email.utils import formatdate, make_msgid, parseaddr
 
 from .config import MailSettings
 
@@ -37,7 +37,8 @@ class Mailer:
         message["To"] = to
         message["Subject"] = subject
         message["Date"] = formatdate(localtime=True)
-        message["Message-ID"] = make_msgid(domain=settings.sender.rpartition("@")[2] or None)
+        # the sender may carry a name ("DIDIK <no-reply@contoh.my>"); the id takes the bare domain
+        message["Message-ID"] = make_msgid(domain=parseaddr(settings.sender)[1].rpartition("@")[2] or None)
         message.set_content(body)
 
         context = ssl.create_default_context()

@@ -1,9 +1,12 @@
-name: DIDIK Live · Python and Svelte
+name: DIDIK Live · Python, Svelte and the server image
 
 on:
   push:
     branches:
-      - feat/legenda-story-mode
+      - ccr-5bfecad5-9qrt47
+    paths:
+      - 'live/**'
+      - '.github/workflows/didik-live.yml'
   pull_request:
     paths:
       - 'live/**'
@@ -12,6 +15,10 @@ on:
 
 permissions:
   contents: read
+
+concurrency:
+  group: didik-live-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   python:
@@ -25,7 +32,7 @@ jobs:
       - name: Install DIDIK server
         run: |
           cd live/server
-          python -m pip install -e ".[dev]"
+          python -m pip install -c constraints.txt -e ".[dev]"
       - name: Test Python and quiz engine
         run: |
           cd live/server
@@ -47,3 +54,26 @@ jobs:
         run: npm run check --prefix live/web
       - name: Build frontend
         run: npm run build --prefix live/web
+
+  image:
+    name: Server image (build and start)
+    runs-on: ubuntu-latest
+    needs: [python, frontend]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the image
+        run: docker build -t didik-live:ci live
+      - name: Refuses to start with unsafe settings
+        run: |
+          if docker run --rm -e DIDIK_PUBLIC_URL= didik-live:ci; then
+            echo "the server started without DIDIK_PUBLIC_URL" && exit 1
+          fi
+      - name: Starts and answers its health check
+        run: |
+          docker run -d --name didik -p 8080:8080 -e DIDIK_PUBLIC_URL=https://didik.example.test didik-live:ci
+          for i in $(seq 1 30); do
+            curl -fsS http://127.0.0.1:8080/api/health && exit 0
+            sleep 2
+          done
+          docker logs didik
+          exit 1

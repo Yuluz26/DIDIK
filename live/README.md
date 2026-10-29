@@ -156,8 +156,8 @@ masuk, ~10% semasa bermain; jawapan ke keputusan median ~80 ms (p95 ~150 ms). Un
   `X-Forwarded-For`. Untuk proksi di mesin lain, tetapkan `FORWARDED_ALLOW_IPS` kepada alamatnya.
 - Fail binaan dimampatkan (`.br`, `.gz`) dan dicache: skrip berhash dan seni cerita bersama versi
   binaan selama setahun, yang lain disemak semula dengan ETag (304).
-- Akaun demo hanya boleh log masuk dari komputer pelayan itu sendiri. Tetap tetapkan
-  `DIDIK_SEED_DEMO=0` pada pelayan sebenar.
+- Akaun demo hanya boleh log masuk dari komputer pelayan itu sendiri, dan tidak dicipta langsung
+  dengan `DIDIK_ENV=production`.
 
 ## Lupa kata laluan
 
@@ -189,16 +189,27 @@ boleh disalin dan diubah.
 Setiap permainan memerlukan jenis soalan tertentu. Contohnya Lompat! hanya menggunakan soalan Betul atau salah,
 dan Pilihan tunggal dengan 2 hingga 4 jawapan. Halaman pilih permainan menerangkan jika kuiz belum sesuai.
 
+## Pelayan sebenar (VPS)
+
+Lihat **[deploy/README.md](deploy/README.md)**: Docker Compose dengan Caddy (https automatik), sandaran
+harian, kemas kini satu arahan (`deploy/deploy.sh`), dan pilihan systemd tanpa Docker. Pada pelayan sebenar
+`DIDIK_ENV=production` mematikan akaun demo dan bot, memaksa kuki https sahaja, dan menghalang pelayan
+bermula selagi ada tetapan yang tidak selamat.
+
 ## Tetapan (pilihan)
 
 | Pembolehubah | Lalai | Kegunaan |
 | --- | --- | --- |
+| `DIDIK_ENV` | kosong | `production` pada pelayan sebenar: lalai selamat dan semakan tetapan sebelum bermula |
+| `DIDIK_HOST`, `DIDIK_PORT` | `127.0.0.1`, `8080` | Alamat dan port untuk didengar (sama seperti `--host`, `--port`) |
 | `DIDIK_DATA_DIR` | `live/server/data` | Tempat pangkalan data dan gambar yang dimuat naik |
 | `DIDIK_DATABASE_URL` | SQLite dalam `DIDIK_DATA_DIR` | Contoh PostgreSQL: `postgresql+psycopg://...` (pasang `pip install -e ".[postgres]"`) |
 | `DIDIK_PUBLIC_URL` | kosong | Alamat laman untuk pautan bilik dan kod QR; `--lan` mengisinya sendiri. Wajib jika SMTP ditetapkan: pautan set semula dalam emel hanya dibina daripada alamat ini |
-| `DIDIK_SEED_DEMO` | `1` | Cipta akaun demo dan kuiz contoh. Tetapkan `0` pada pelayan sebenar |
-| `DIDIK_ALLOW_BOTS` | `1` | Benarkan bot latihan |
-| `DIDIK_SECURE_COOKIES` | `0` | Tetapkan `1` apabila laman dihidangkan melalui https |
+| `DIDIK_SEED_DEMO` | `1` (`0` dalam produksi) | Cipta akaun demo. Tanpanya, kuiz contoh dimiliki akaun perpustakaan yang tidak boleh log masuk |
+| `DIDIK_ALLOW_BOTS` | `1` (`0` dalam produksi) | Benarkan bot latihan |
+| `DIDIK_SECURE_COOKIES` | `0` (`1` dalam produksi) | Kuki sesi melalui https sahaja |
+| `DIDIK_ACCESS_LOG` | `0` | Produksi: tulis setiap permintaan (dengan alamat IP) dalam log |
+| `DIDIK_BACKUP_KEEP` | `14` | Bilangan sandaran yang disimpan (`python -m didik_live.backup`) |
 | `DIDIK_WEB_DIR` | `live/web/build` | Folder antara muka yang telah dibina |
 | `DIDIK_SMTP_HOST` | kosong | Pelayan SMTP untuk emel set semula kata laluan. Kosong: emel ditulis dalam log |
 | `DIDIK_SMTP_PORT` | `587` (`465` untuk `ssl`) | Port SMTP |
