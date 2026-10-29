@@ -7,6 +7,7 @@ only over https) and `problems()` lists what a public server still needs before 
 from __future__ import annotations
 
 import os
+import re
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -34,6 +35,29 @@ class MailSettings:
     sender: str
 
 
+# The secret address of the owner's control room: long enough that guessing it is hopeless.
+ADMIN_PATH = re.compile(r"^[A-Za-z0-9_-]{24,64}$")
+
+
+@dataclass(frozen=True)
+class AdminSettings:
+    """The owner's private control room. It exists only when both the owner's email and a secret path are
+    set; otherwise the server has no admin pages at all, and every address under it is an ordinary 404."""
+
+    # The only address that may ask for a sign-in code.
+    email: str
+    # The secret address, without slashes (generate one with `didik-live --admin-path`).
+    path: str
+    # The clock the dashboard's days and hours follow.
+    timezone: str = "Asia/Kuala_Lumpur"
+    session_hours: int = 12
+    otp_minutes: int = 10
+
+    @property
+    def prefix(self) -> str:
+        return f"/{self.path}"
+
+
 @dataclass(frozen=True)
 class Settings:
     data_dir: Path
@@ -56,6 +80,8 @@ class Settings:
     public_url: str | None = None
     # Without SMTP, password reset links are written to the server log instead of being emailed.
     mail: MailSettings | None = None
+    # The owner's control room (see AdminSettings); None leaves it switched off.
+    admin: AdminSettings | None = None
     # A public server (DIDIK_ENV=production): safe defaults, and a check of the settings before it starts.
     production: bool = False
 
@@ -72,6 +98,8 @@ class Settings:
             out.append("DIDIK_SECURE_COOKIES tidak boleh dimatikan pada pelayan sebenar: kuki sesi mesti dihantar melalui https sahaja.")
         if self.seed_demo:
             out.append("DIDIK_SEED_DEMO mesti 0 pada pelayan sebenar: kata laluan akaun demo diketahui umum.")
+        if self.admin is not None and self.mail is None:
+            out.append("Bilik kawalan admin perlukan SMTP (DIDIK_SMTP_*): kod log masuk dihantar melalui emel, bukan dalam log.")
         if not (self.web_dir / "200.html").is_file() and not (self.web_dir / "index.html").is_file():
             out.append(f"Antara muka belum dibina di {self.web_dir} (jalankan npm run build dalam live/web).")
         return out
@@ -107,8 +135,23 @@ def load_settings() -> Settings:
         seed_demo=_flag("DIDIK_SEED_DEMO", not production),
         public_url=(os.environ.get("DIDIK_PUBLIC_URL") or "").strip().rstrip("/") or None,
         mail=_mail(),
+        admin=_admin(),
         production=production,
     )
+
+
+def _admin() -> AdminSettings | None:
+    email = (os.environ.get("DIDIK_ADMIN_EMAIL") or "").strip().lower()
+    path = (os.environ.get("DIDIK_ADMIN_PATH") or "").strip().strip("/")
+    if not email and not path:
+        return None
+    if not email or not path:
+        raise ValueError("DIDIK_ADMIN_EMAIL dan DIDIK_ADMIN_PATH mesti ditetapkan bersama.")
+    if not re.fullmatch(r"[^@\s]{1,64}@[^@\s]+\.[^@\s]{2,}", email):
+        raise ValueError("DIDIK_ADMIN_EMAIL bukan alamat emel yang sah.")
+    if not ADMIN_PATH.fullmatch(path):
+        raise ValueError("DIDIK_ADMIN_PATH mesti 24 hingga 64 aksara (a-z, A-Z, 0-9, _ dan -). Jana satu: didik-live --admin-path")
+    return AdminSettings(email=email, path=path, timezone=(os.environ.get("DIDIK_ADMIN_TZ") or "Asia/Kuala_Lumpur").strip())
 
 
 def _mail() -> MailSettings | None:

@@ -4,8 +4,13 @@ from __future__ import annotations
 
 from collections.abc import Iterator
 
-from sqlalchemy import Engine, create_engine, event
+import logging
+
+from sqlalchemy import Engine, create_engine, event, inspect, text
 from sqlalchemy.orm import DeclarativeBase, Session, sessionmaker
+
+
+log = logging.getLogger("didik.db")
 
 
 class Base(DeclarativeBase):
@@ -38,6 +43,26 @@ class Database:
         from . import models  # noqa: F401
 
         Base.metadata.create_all(self.engine)
+        self.add_missing_columns()
+
+    def add_missing_columns(self) -> None:
+        """`create_all` makes whole tables only. A column a newer version put on a table that already
+        exists (a server upgraded in place) is added here; only columns that may be empty qualify."""
+        inspector = inspect(self.engine)
+        with self.engine.begin() as connection:
+            for table in Base.metadata.sorted_tables:
+                if not inspector.has_table(table.name):
+                    continue
+                have = {column["name"] for column in inspector.get_columns(table.name)}
+                for column in table.columns:
+                    if column.name in have:
+                        continue
+                    if not column.nullable:
+                        log.error("Lajur %s.%s tiada dan tidak boleh ditambah sendiri.", table.name, column.name)
+                        continue
+                    kind = column.type.compile(self.engine.dialect)
+                    connection.execute(text(f'ALTER TABLE "{table.name}" ADD COLUMN "{column.name}" {kind}'))
+                    log.warning("Lajur %s.%s ditambah.", table.name, column.name)
 
     def session(self) -> Iterator[Session]:
         with self.sessions() as session:

@@ -14,6 +14,7 @@ import random
 import time
 from typing import Any
 
+from ..activity import NullBus
 from . import names
 from .player import dumps
 from .room import Room
@@ -34,6 +35,8 @@ class RoomManager:
         self.by_slug: dict[str, Room] = {}
         self.allow_bots = allow_bots
         self.store = store
+        # Tells the owner's control room what happens (the app swaps in the real one when there is one).
+        self.bus: Any = NullBus()
         self._rng = random.SystemRandom()
         self._janitor: asyncio.Task | None = None
         self._saver: asyncio.Task | None = None
@@ -90,6 +93,18 @@ class RoomManager:
         return [room for room in self.by_code.values() if room.host_id == host_id]
 
     def close(self, room: Room, message: str = "Bilik ini sudah ditutup.") -> None:
+        if self.by_code.get(room.code) is room:
+            people = sum(1 for p in room.players.values() if not p.is_bot)
+            self.bus.emit(
+                "room.closed",
+                f"Bilik {room.code} ditutup ({people} murid)",
+                subject=room.mode_key,
+                code=room.code,
+                mode=room.mode_key,
+                players=people,
+                minutes=round((time.time() - room.created) / 60),
+                reason=message,
+            )
         self.by_code.pop(room.code, None)
         self.by_slug.pop(room.slug, None)
         if self.store is not None:

@@ -82,7 +82,10 @@ sw.addEventListener('fetch', (event) => {
 async function page(request: Request): Promise<Response> {
 	const cache = await caches.open(APP);
 	const network = fetch(request).then(async (response) => {
-		if (response.ok && (response.headers.get('content-type') ?? '').includes('text/html')) {
+		// A page the server marks no-store (the owner's private control room) is never kept: its copy would
+		// come back in place of the site's own page on a slow connection.
+		const kept = !(response.headers.get('cache-control') ?? '').includes('no-store');
+		if (kept && response.ok && (response.headers.get('content-type') ?? '').includes('text/html')) {
 			await cache.put(SHELL, response.clone());
 		}
 		return response;

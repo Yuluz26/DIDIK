@@ -13,6 +13,8 @@ from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy import text
 
+from .activity import AdminBus, NullBus
+from .admin import mount_admin
 from .api import auth, quizzes, rooms, uploads
 from .config import Settings, load_settings
 from .db import Database
@@ -35,6 +37,16 @@ SECURITY_HEADERS = [
     (b"permissions-policy", b"camera=(), microphone=(), geolocation=(), payment=()"),
     (b"cross-origin-opener-policy", b"same-origin"),
 ]
+# The control room's pages: never kept, never indexed, and no script or style except its own files.
+ADMIN_HEADERS = [
+    (b"cache-control", b"no-store"),
+    (b"x-robots-tag", b"noindex, nofollow, noarchive"),
+    (
+        b"content-security-policy",
+        b"default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; "
+        b"base-uri 'none'; form-action 'self'; frame-ancestors 'none'",
+    ),
+]
 # On a public server the site is https only: browsers remember to never try plain http for a year.
 HSTS = (b"strict-transport-security", b"max-age=31536000; includeSubDomains")
 
@@ -52,12 +64,14 @@ class Guard:
             return
 
         headers = {k.decode().lower(): v.decode() for k, v in scope.get("headers", [])}
-        if scope["method"] in UNSAFE and scope["path"].startswith("/api/") and not _same_site(headers):
+        app = scope.get("app")
+        path = scope["path"]
+        prefix = getattr(app.state, "admin_prefix", None) if app else None
+        admin = bool(prefix) and (path == prefix or path.startswith(prefix + "/"))
+        if scope["method"] in UNSAFE and (path.startswith("/api/") or admin) and not _same_site(headers):
             response = JSONResponse({"message": "Permintaan ditolak."}, status_code=403)
             await response(scope, receive, send)
             return
-
-        app = scope.get("app")
 
         async def send_with_headers(message: dict) -> None:
             if message["type"] == "http.response.start":
@@ -70,7 +84,11 @@ class Guard:
                 settings = getattr(app.state, "settings", None) if app else None
                 if settings is not None and settings.production:
                     extra.append(HSTS)
-                message["headers"] = list(message.get("headers", [])) + extra
+                current = list(message.get("headers", []))
+                if admin:
+                    current = [h for h in current if h[0].lower() != b"cache-control"]
+                    extra += ADMIN_HEADERS
+                message["headers"] = current + extra
             await send(message)
 
         await self.app(scope, receive, send_with_headers)
@@ -103,6 +121,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         settings.data_dir.mkdir(parents=True, exist_ok=True)
         settings.upload_dir.mkdir(parents=True, exist_ok=True)
         database.create_all()
+        if isinstance(app.state.bus, AdminBus):
+            app.state.bus.start()
         for warning in settings.warnings():
             log.warning("Amaran: %s", warning)
         with database.sessions() as db:
@@ -116,6 +136,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         app.state.rooms.start()
         yield
         await app.state.rooms.shutdown()
+        if isinstance(app.state.bus, AdminBus):
+            await app.state.bus.stop()
 
     app = FastAPI(title="DIDIK Main Bersama", lifespan=lifespan, docs_url=None, redoc_url=None, openapi_url=None)
     app.state.settings = settings
@@ -123,6 +145,9 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.state.limiter = RateLimiter()
     app.state.mailer = Mailer(settings.mail)
     app.state.rooms = RoomManager(allow_bots=settings.allow_bots, store=RoomStore(database))
+    # What happens on the site is recorded only when the owner has a control room to read it in.
+    app.state.bus = AdminBus(database, settings.admin.timezone) if settings.admin else NullBus()
+    app.state.rooms.bus = app.state.bus
     app.add_middleware(Guard)
 
     @app.exception_handler(RequestValidationError)
@@ -154,5 +179,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
     settings.upload_dir.mkdir(parents=True, exist_ok=True)
     app.mount("/uploads", Uploads(directory=settings.upload_dir, check_dir=False), name="uploads")
+    if settings.admin:
+        mount_admin(app, settings)
     mount_web(app, settings.web_dir)
     return app

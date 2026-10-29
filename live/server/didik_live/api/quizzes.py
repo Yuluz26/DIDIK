@@ -82,6 +82,7 @@ def store(body: QuizIn, request: Request, user: User = Depends(require_user), db
     )
     db.add(quiz)
     db.commit()
+    request.app.state.bus.emit("quiz.created", f"{user.name} cipta kuiz “{quiz.title}”", quizId=quiz.id, title=quiz.title, owner=user.name, questions=len(quiz.questions))
     return full(quiz, user)
 
 
@@ -100,21 +101,28 @@ def update(
     quiz.description = body.description
     quiz.questions = [q.model_dump() for q in body.questions]
     db.commit()
+    request.app.state.bus.emit(
+        "quiz.updated", f"{user.name} kemas kini kuiz “{quiz.title}”", coalesce=(quiz.id, 300), quizId=quiz.id, title=quiz.title, owner=user.name, questions=len(quiz.questions)
+    )
     return full(quiz, user)
 
 
 @router.post("/{quiz_id}/copy", status_code=201)
-def copy(quiz_id: int, user: User = Depends(require_user), db: Session = Depends(get_db)) -> dict:
+def copy(quiz_id: int, request: Request, user: User = Depends(require_user), db: Session = Depends(get_db)) -> dict:
     source = _readable(db, quiz_id, user)
     title = source.title if source.owner_id != user.id else f"{source.title} (salinan)"
     quiz = Quiz(owner_id=user.id, title=title[:120], description=source.description, questions=list(source.questions))
     db.add(quiz)
     db.commit()
+    request.app.state.bus.emit("quiz.created", f"{user.name} salin kuiz “{quiz.title}”", quizId=quiz.id, title=quiz.title, owner=user.name, questions=len(quiz.questions), copy=True)
     return full(quiz, user)
 
 
 @router.delete("/{quiz_id}", status_code=204)
-def destroy(quiz_id: int, user: User = Depends(require_user), db: Session = Depends(get_db)) -> Response:
-    db.delete(_own(db, quiz_id, user))
+def destroy(quiz_id: int, request: Request, user: User = Depends(require_user), db: Session = Depends(get_db)) -> Response:
+    quiz = _own(db, quiz_id, user)
+    title = quiz.title
+    db.delete(quiz)
     db.commit()
+    request.app.state.bus.emit("quiz.deleted", f"{user.name} padam kuiz “{title}”", quizId=quiz_id, title=title, owner=user.name)
     return Response(status_code=204)

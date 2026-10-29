@@ -25,12 +25,13 @@ class Mailer:
     def ready(self) -> bool:
         return self.settings is not None
 
-    def send(self, to: str, subject: str, body: str) -> None:
-        """Blocking: call it from a worker thread (FastAPI background tasks run there)."""
+    def send(self, to: str, subject: str, body: str) -> bool:
+        """Blocking: call it from a worker thread (FastAPI background tasks run there). True when the
+        message was handed to the mail server; without SMTP it is written to the log and this is False."""
         settings = self.settings
         if settings is None:
             log.warning("Tiada SMTP, jadi emel ini tidak dihantar.\nKepada: %s\nPerkara: %s\n\n%s", to, subject, body)
-            return
+            return False
 
         message = EmailMessage()
         message["From"] = settings.sender
@@ -53,6 +54,8 @@ class Mailer:
                     self._deliver(smtp, message)
         except (OSError, smtplib.SMTPException):
             log.exception("email to %s could not be sent", to)
+            return False
+        return True
 
     def _deliver(self, smtp: smtplib.SMTP, message: EmailMessage) -> None:
         settings = self.settings

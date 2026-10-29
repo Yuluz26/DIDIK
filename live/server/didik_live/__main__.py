@@ -3,6 +3,8 @@
     didik-live                          http://localhost:8080 on this computer only
     didik-live --lan                    also reachable from phones on the same Wi-Fi
     didik-live --reset-link EMEL        prints a link to choose a new password, then exits
+    didik-live --admin-path             prints a new secret address for the control room, then exits
+    didik-live --admin-test-mail        sends a test email to the owner with the SMTP settings, then exits
 
 On a server (DIDIK_ENV=production) it listens on DIDIK_HOST:DIDIK_PORT behind a reverse proxy, refuses to
 start while a setting is unsafe, and logs with times to standard output (journald or Docker keep it).
@@ -53,6 +55,33 @@ def print_reset_link(email: str, port: int) -> int:
     return 0
 
 
+def print_admin_path() -> int:
+    """A secret for DIDIK_ADMIN_PATH: 32 random characters, so the control room's address cannot be guessed."""
+    import secrets
+
+    print(secrets.token_urlsafe(24))
+    return 0
+
+
+def test_admin_mail() -> int:
+    """Sends one email to the owner through the real SMTP settings and says what happened, so a wrong
+    password or a blocked server shows up now and not when the first sign-in code never arrives."""
+    from .config import load_settings
+    from .mailer import Mailer
+
+    logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
+    settings = load_settings()
+    if settings.admin is None:
+        print("DIDIK_ADMIN_EMAIL dan DIDIK_ADMIN_PATH belum ditetapkan.", file=sys.stderr)
+        return 1
+    if settings.mail is None:
+        print("DIDIK_SMTP_HOST belum ditetapkan.", file=sys.stderr)
+        return 1
+    sent = Mailer(settings.mail).send(settings.admin.email, "Ujian emel DIDIK", "Jika anda membaca ini, emel kod log masuk admin akan sampai.\n")
+    print(f"Emel ujian dihantar ke {settings.admin.email}." if sent else "Emel TIDAK dihantar. Lihat ralat di atas.")
+    return 0 if sent else 1
+
+
 def raise_open_files(want: int = 65536) -> None:
     """Every child's phone is one open socket. Many Linux servers allow a process 1024 open files by
     default, which a school of a thousand children would use up; raise it as far as the system lets."""
@@ -76,7 +105,13 @@ def main() -> None:
     parser.add_argument("--host", default=os.environ.get("DIDIK_HOST") or None, help="alamat untuk didengar (lalai 127.0.0.1)")
     parser.add_argument("--reload", action="store_true", help="mulakan semula apabila kod Python berubah")
     parser.add_argument("--reset-link", metavar="EMEL", help="cetak pautan untuk memilih kata laluan baharu, kemudian keluar")
+    parser.add_argument("--admin-path", action="store_true", help="cetak alamat rahsia baharu untuk bilik kawalan admin, kemudian keluar")
+    parser.add_argument("--admin-test-mail", action="store_true", help="hantar emel ujian kepada admin dengan tetapan SMTP, kemudian keluar")
     args = parser.parse_args()
+    if args.admin_path:
+        sys.exit(print_admin_path())
+    if args.admin_test_mail:
+        sys.exit(test_admin_mail())
     if args.reset_link:
         sys.exit(print_reset_link(args.reset_link, args.port))
 

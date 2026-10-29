@@ -75,6 +75,16 @@ async def open_room(
         mode_key=body.mode,
         settings=body.settings,
     )
+    request.app.state.bus.emit(
+        "room.opened",
+        f"{user.name} buka bilik {room.code} ({room.mode_cls.title})",
+        subject=room.mode_key,
+        code=room.code,
+        mode=room.mode_key,
+        quiz=quiz.title,
+        host=user.name,
+        hostId=user.id,
+    )
     return {"code": room.code, "slug": room.slug, "link": join_link(request, room.slug)}
 
 

@@ -100,6 +100,7 @@ def register(body: Register, request: Request, response: Response, db: Session =
     db.add(user)
     db.commit()
     start_session(request, response, db, user)
+    request.app.state.bus.emit("user.signup", f"{user.name} mendaftar", userId=user.id, name=user.name, email=user.email)
     return {"user": user_out(user)}
 
 
@@ -114,7 +115,10 @@ def login(body: Login, request: Request, response: Response, db: Session = Depen
     if user.email == DEMO_EMAIL and not demo_allowed(request):
         # the same answer as a wrong password: the demo account does not exist for the internet
         raise HTTPException(422, {"message": "Emel atau kata laluan tidak betul.", "errors": []})
+    if user.disabled_at is not None:
+        raise HTTPException(403, {"message": "Akaun ini digantung. Hubungi pentadbir laman.", "errors": []})
     start_session(request, response, db, user)
+    request.app.state.bus.emit("user.login", f"{user.name} log masuk", coalesce=(user.id, 900), userId=user.id, name=user.name)
     return {"user": user_out(user)}
 
 

@@ -391,6 +391,17 @@ class Room:
             player.conns.add(conn)
             self.resend(conn)
         self.players[player.id] = player
+        if not bot:
+            self.manager.bus.emit(
+                "player.joined",
+                f"{nickname} masuk bilik {self.code}",
+                subject=self.mode_key,
+                code=self.code,
+                mode=self.mode_key,
+                player=nickname,
+                avatar=avatar,
+                inRoom=sum(1 for p in self.players.values() if not p.is_bot),
+            )
         if player.approved and self.phase == "playing" and self.mode is not None:
             self.mode.add_player(player)
         if player.approved:
@@ -424,6 +435,15 @@ class Room:
         self.mode.setup()
         self.phase = "playing"
         self.mode_task = self.spawn(self._run(self.mode))
+        self.manager.bus.emit(
+            "game.started",
+            f"Permainan bermula di bilik {self.code}",
+            subject=self.mode_key,
+            code=self.code,
+            mode=self.mode_key,
+            quiz=self.quiz_title,
+            players=sum(1 for p in self.players.values() if p.approved and not p.is_bot),
+        )
         self.fx({"kind": "start"})
         self.mark_dirty()
         return None
@@ -444,6 +464,15 @@ class Room:
         self.mode.finished = True
         self.results = self.mode.results()
         self.phase = "ended"
+        self.manager.bus.emit(
+            "game.finished",
+            f"Permainan tamat di bilik {self.code}",
+            subject=self.mode_key,
+            code=self.code,
+            mode=self.mode_key,
+            quiz=self.quiz_title,
+            players=sum(1 for p in self.players.values() if p.approved and not p.is_bot),
+        )
         if self.mode_task is not None and self.mode_task is not asyncio.current_task():
             self.mode_task.cancel()
         self.fx({"kind": "ended"})

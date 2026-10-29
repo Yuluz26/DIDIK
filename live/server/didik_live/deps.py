@@ -76,6 +76,7 @@ def join_allowed(limiter: RateLimiter, ip: str, room_code: str) -> bool:
 def start_session(request: Request, response: Response, db: Session, user: User) -> None:
     settings = request.app.state.settings
     token = new_token()
+    user.last_login_at = datetime.now(UTC)
     db.add(
         AuthSession(
             user_id=user.id,
@@ -107,7 +108,7 @@ def user_from_token(db: Session, token: str | None) -> User | None:
     if not token:
         return None
     row = db.scalar(select(AuthSession).where(AuthSession.token_hash == token_hash(token)))
-    if row is None:
+    if row is None or row.user.disabled_at is not None:
         return None
     expires = row.expires_at if row.expires_at.tzinfo else row.expires_at.replace(tzinfo=UTC)
     if expires < datetime.now(UTC):

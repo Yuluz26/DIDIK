@@ -195,7 +195,41 @@ Kemudian di GitHub, **Settings → Secrets and variables → Actions → New rep
 Kunci ini untuk GitHub sahaja. Untuk menariknya semula, padam barisnya dalam `~/.ssh/authorized_keys` pada
 VPS. Pelayan atau domain lain: pembolehubah repositori `DIDIK_VPS` (`pengguna@hos`) dan `DIDIK_URL`.
 
-## 10. Satu proses sahaja
+## 10. Bilik kawalan admin (untuk pemilik laman)
+
+Papan pemuka peribadi: ibu bapa baharu, kuiz, bilik dan murid yang masuk secara langsung, notifikasi, log aktiviti, dan
+urus ibu bapa, kuiz serta notifikasi. Ia **tidak wujud** sehingga anda menetapkan emel dan alamat rahsia; alamat lain
+menunjukkan laman biasa.
+
+Persediaan sekali (pada VPS, fail yang sama dengan SMTP: `/etc/didik/didik.env` atau `.env` Docker):
+
+```sh
+sudo -u didik /opt/didik/venv/bin/didik-live --admin-path       # cetak alamat rahsia baharu
+sudo nano /etc/didik/didik.env
+#   DIDIK_ADMIN_EMAIL=emel-anda@contoh.my
+#   DIDIK_ADMIN_PATH=<alamat yang dicetak>
+#   DIDIK_SMTP_HOST=smtp.office365.com   DIDIK_SMTP_PORT=587   DIDIK_SMTP_SECURITY=starttls
+#   DIDIK_SMTP_USER=emel-anda@contoh.my  DIDIK_SMTP_PASSWORD=...  DIDIK_MAIL_FROM=emel-anda@contoh.my
+sudo -u didik /bin/sh -c 'set -a; . /etc/didik/didik.env; /opt/didik/venv/bin/didik-live --admin-test-mail'
+sudo cp live/deploy/nginx-didik.conf /etc/nginx/sites-available/didik && sudo nginx -t && sudo systemctl reload nginx
+sudo systemctl restart didik-live
+```
+
+Buka `https://domain-anda/<alamat-rahsia>`, masukkan emel, kemudian kod 6 digit yang sampai ke peti masuk anda.
+
+- **Siapa boleh masuk:** hanya emel yang ditetapkan, dan hanya dengan kod. Kod sah 10 minit, 5 percubaan, sekali guna,
+  dan hanya hash disimpan. Permintaan kod dan percubaan dihadkan. Sesi 12 jam (4 jam tanpa aktiviti), kuki
+  `HttpOnly`, `SameSite=Strict`, hanya dihantar ke alamat rahsia. Setiap log masuk diemel kepada anda.
+- **Alamat rahsia ialah lapisan pertama, bukan satu-satunya:** log nginx menyimpan alamat itu, jadi jangan kongsi log.
+  Jika bocor, tukar `DIDIK_ADMIN_PATH` dan mulakan semula `didik-live` (semua sesi tamat).
+- **Emel Outlook / Microsoft 365:** kata laluan akaun biasa sering ditolak untuk SMTP. Guna "kata laluan aplikasi" atau minta
+  pentadbir akaun menghidupkan "Authenticated SMTP" untuk peti ini. `--admin-test-mail` memberitahu sekarang jika ia tidak
+  berfungsi, bukan apabila kod pertama tidak sampai. Jika Microsoft menutup SMTP kata laluan sepenuhnya, gunakan
+  penyedia SMTP lain (Brevo, Mailgun, SES) untuk emel ini.
+- **Privasi kanak-kanak:** murid direkodkan dengan nama samaran sahaja (tanpa alamat IP atau peranti), dan log dipadam
+  selepas 90 hari. Tiada apa-apa direkodkan jika bilik kawalan tidak dihidupkan.
+
+## 11. Satu proses sahaja
 
 Bilik permainan hidup dalam memori satu proses pelayan. **Jangan** jalankan lebih daripada satu bekas
 `app` atau beberapa pekerja uvicorn: telefon kanak-kanak dalam bilik yang sama mesti sampai ke proses yang sama.

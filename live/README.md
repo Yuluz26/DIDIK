@@ -109,6 +109,19 @@ Tingkatan) dicipta sendiri pada kali pertama; kuiz contoh baharu ditambah ke aka
 bila pelayan dimulakan.
 Akaun ini untuk mencuba di komputer sendiri sahaja.
 
+## Bilik kawalan admin (pemilik laman)
+
+Papan pemuka peribadi untuk memantau ibu bapa baharu, kuiz, bilik dan murid yang masuk secara langsung, serta
+mengurus notifikasi, ibu bapa dan kuiz. Ia **mati** melainkan `DIDIK_ADMIN_EMAIL` dan `DIDIK_ADMIN_PATH` ditetapkan;
+log masuk hanya wujud pada alamat rahsia itu, dengan kod 6 digit yang diemel. Cara memasang dan keselamatannya:
+[`deploy/README.md`](deploy/README.md), bahagian 10. Mencubanya di komputer sendiri (kod ditulis dalam terminal kerana
+tiada SMTP):
+
+```sh
+export DIDIK_ADMIN_EMAIL=anda@contoh.my DIDIK_ADMIN_PATH=$(didik-live --admin-path)
+echo "Buka http://localhost:8080/$DIDIK_ADMIN_PATH" && didik-live
+```
+
 ## Main dengan telefon di Wi-Fi yang sama
 
 ```sh

@@ -28,7 +28,7 @@ didik-live = "didik_live.__main__:main"
 include = ["didik_live*"]
 
 [tool.setuptools.package-data]
-didik_live = ["pictures/*.svg"]
+didik_live = ["pictures/*.svg", "admin/static/*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
