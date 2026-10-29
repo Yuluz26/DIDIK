@@ -235,7 +235,7 @@ def test_party_waits_at_the_gate_then_shares_one_boss_in_rounds() -> None:
         await settle(0.4)
         assert a.step == "gather"  # Ben is still on the road in the same world
         await settle(0.15)
-        assert ben_socket.view()["game"]["world"]["friends"][0]["hero"] == "tuah"
+        assert "friends" not in ben_socket.view()["game"]["world"]  # each battlefield shows its own hero only
         clear_road(room, ben)
         await until(lambda: a.step == "reveal" and b.step == "reveal")
         assert a.extra["raid"] == b.extra["raid"]

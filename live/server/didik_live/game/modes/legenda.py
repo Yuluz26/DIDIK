@@ -565,9 +565,8 @@ class LegendaMode(SelfPacedMode):
             return {"worlds": WORLDS, "heroes": HEROES, "elements": ELEMENTS}
         seat = self.seats.get(player.id)
         world = seat.extra["world"] if seat else 0
-        friends = [self.peer(pid) for pid in self.seats if pid != player.id
-                   and self.seats[pid].extra["world"] == world and self.seats[pid].extra["hero"]]
-        return {"scene": WORLDS[world], "index": world, "total": len(WORLDS), "friends": friends[:5],
+        # Only this child's own hero is drawn on their battlefield, so no other heroes are sent.
+        return {"scene": WORLDS[world], "index": world, "total": len(WORLDS),
                 "party": len(self.players()) > 1, "encounters": ENCOUNTERS, "maxHearts": HEARTS}
 
     def player_view(self, player: Any) -> dict[str, Any]:

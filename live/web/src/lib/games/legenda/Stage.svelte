@@ -47,11 +47,6 @@
 		storyArt
 	} from './data';
 
-	interface Friend {
-		id: string;
-		hero: string | null;
-		hearts: number;
-	}
 
 	let {
 		world,
@@ -62,7 +57,6 @@
 		foe = null,
 		boss = null,
 		enemy = 'idle',
-		friends = [],
 		mode = 'battle',
 		dim = false,
 		elements = null,
@@ -81,7 +75,6 @@
 		boss?: { name: string; hp: number; max: number; subtitle?: string } | null;
 		/** Where the enemy is: arriving, standing, gone (cleared), or beaten (the boss falls). */
 		enemy?: 'none' | 'enter' | 'idle' | 'gone' | 'beaten';
-		friends?: Friend[];
 		/** 'battle' (still), 'travel' (the hero walks the path) or 'scenery' (no HUD, under a card). */
 		mode?: 'battle' | 'travel' | 'scenery';
 		dim?: boolean;
@@ -464,24 +457,6 @@
 			{/key}
 		{/if}
 
-		{#if friends.length}
-			<div class="friends" aria-hidden="true">
-				{#each friends.slice(0, 2) as friend, i (friend.id)}
-					{#if friend.hero}
-						<img
-							class="friend"
-							style:left={pct(Math.max(0.02, lay.hero.x - 0.1 - i * 0.07))}
-							style:bottom={pct(1 - lay.hero.y - 0.02 * i)}
-							style:height={pct(HERO_H * 0.78)}
-							src={heroArt(friend.hero, 'idle')}
-							alt=""
-							draggable="false"
-						/>
-					{/if}
-				{/each}
-			</div>
-		{/if}
-
 		<!-- the boss stands in its arena the whole time, as in the painting; the small enemies fight on the road -->
 		<div
 			class="actor enemy boss enemy-{boss ? enemy : 'idle'}"
@@ -686,19 +661,6 @@
 	.hero.cheering img {
 		animation: hop 0.9s ease-in-out infinite;
 	}
-	.friends {
-		position: absolute;
-		inset: 0;
-		z-index: 3;
-		pointer-events: none;
-	}
-	.friend {
-		position: absolute;
-		width: auto;
-		filter: brightness(0.92) drop-shadow(0 0.3cqw 0.4cqw rgb(0 0 0 / 0.4));
-		animation: breathe 2.8s ease-in-out infinite;
-	}
-
 	.enemy {
 		z-index: 2;
 		transform-origin: 50% 100%;
@@ -1044,8 +1006,7 @@
 		cursor: default;
 	}
 
-	.still .actor img,
-	.still .friend {
+	.still .actor img {
 		animation: none !important;
 	}
 	@media (max-width: 520px) {

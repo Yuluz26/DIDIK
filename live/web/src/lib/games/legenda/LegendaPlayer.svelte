@@ -80,7 +80,6 @@
 	const raid = $derived(seat.raid);
 	const hero = $derived<string>(story.hero ?? 'tuah');
 	const heroInfo = $derived(HEROES.find((h) => h.key === hero) ?? HEROES[0]);
-	const friends = $derived((game.world?.friends ?? []) as { id: string; hero: string | null; hearts: number; step: string }[]);
 	const boss = $derived(story.phase === 'boss');
 	const question = $derived(seat.question);
 	const result = $derived(seat.result);
@@ -396,7 +395,6 @@
 				elements={story.hero && !asking ? { unlocked: !!story.elements, selected: story.element ?? 'api', disabled: true, onpick: chooseElement } : null}
 				weapon={story.elements ? ((story.element ?? 'api') as Element) : null}
 				enemy={showEnemy ? enemyState : 'none'}
-				friends={friends.filter((f) => f.step !== 'select')}
 				mode={stageMode}
 				dim={['intro', 'unlock', 'gather', 'fallen', 'reveal', 'victory'].includes(step)}
 				paused={step === 'reveal'}

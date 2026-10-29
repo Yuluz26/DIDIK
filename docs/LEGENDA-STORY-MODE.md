@@ -46,7 +46,9 @@ The worlds and bosses are fantasy inspired by regional folklore, not claims abou
   60 s) for friends still on the road in the same world, then fight one shared boss. The fight runs in
   rounds: one question per child per round, and the next round opens when everyone online in the fight
   has answered (or after 45 s). A fast child cannot finish the boss alone. Friends who arrive later join
-  the fight in progress; if the boss already fell, they get a fight of their own.
+  the fight in progress; if the boss already fell, they get a fight of their own. Each child's
+  battlefield shows only their own hero: friends appear as the boss's bars going down and the
+  "x / y" count of answers in the round, never as extra figures on the scene.
 - **Safety**: answer keys never reach the browser before checking. Every step bumps the seat's `ev`; a
   `next`/`answer` naming an older `ev` (double taps, stale messages after a reconnect) is ignored. The
   game is saved with the room and survives a server restart.

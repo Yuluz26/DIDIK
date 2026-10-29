@@ -59,7 +59,7 @@
 				raid: boss ? { id: 'r1', hp: 3, max: 5, round: 2, members: ['p1', 'p2'], answered: step === 'wait' ? ['p1'] : [], log: [] } : null,
 				gather: step === 'gather' ? { behind: 2, ends: Date.now() + 40000 } : undefined
 			},
-			world: { scene: WORLDS[world], index: world, total: 5, friends: [], party: false, encounters: 5, maxHearts: 12 }
+			world: { scene: WORLDS[world], index: world, total: 5, party: false, encounters: 5, maxHearts: 12 }
 		};
 	});
 </script>
