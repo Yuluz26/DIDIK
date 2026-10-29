@@ -4,7 +4,8 @@
 import { api } from './core.js';
 import { askBulk, bulk, bulkBar, Selection } from './bulk.js';
 import { eventRow, refreshTimes } from './feed.js';
-import { clear, confirmBox, duration, empty, h, icon, num, openDialog, pill, sheetHead, tile, toast } from './ui.js';
+import { roomPopup } from './popups.js';
+import { clear, duration, empty, h, icon, num, pill, tile, toast } from './ui.js';
 
 const PHASES = { lobby: ['Menunggu', 'info'], playing: ['Bermain', 'ok'], ended: ['Tamat', 'warn'] };
 const LIVE_KINDS = /^(player|room|game)\./;
@@ -23,7 +24,6 @@ export default {
 		let text = '';
 		let paused = false;
 		let pending = null;
-		let open = null; // the room whose drawer is open: { code, refresh }
 
 		const [kidsCard, kidsOut] = summary('Murid dalam talian', '0', 'smile', 'mint');
 		const [roomsCard, roomsOut] = summary('Bilik terbuka', '0', 'door', '');
@@ -116,7 +116,6 @@ export default {
 			else grid.querySelector('.empty')?.remove();
 			selection.keep([...keep]); // a room that closed is no longer picked
 			sync();
-			open?.refresh();
 		}
 
 		function sync() {
@@ -131,57 +130,7 @@ export default {
 		}
 		selection.onChange(sync);
 
-		async function details(code) {
-			let people = h('ul', { class: 'who-list' });
-			const facts = h('dl', { class: 'kv' });
-			const render = (room) => {
-				const [label, kind] = PHASES[room.phase] || PHASES.lobby;
-				facts.replaceChildren(
-					...[['Permainan', room.modeTitle], ['Kuiz', room.quiz], ['Hos', room.host], ['Keadaan', pill(label, kind)], ['Dibuka', `${duration(room.age)} lalu`]].flatMap(([k, v]) => [h('dt', null, k), h('dd', null, v)])
-				);
-				people.replaceChildren(...(room.people.length
-					? room.people.map((p) => h('li', { class: p.online ? '' : 'off' }, h('i'), p.name, !p.approved && h('span', { class: 'sub' }, '(menunggu)')))
-					: [h('li', null, 'Belum ada murid')]));
-			};
-			let first;
-			try {
-				first = await api(`/rooms/${encodeURIComponent(code)}`);
-			} catch (error) {
-				return toast(error.message, 'bad');
-			}
-			await openDialog((close) => {
-				render(first);
-				open = {
-					code,
-					refresh: async () => {
-						try {
-							render(await api(`/rooms/${encodeURIComponent(code)}`));
-						} catch {
-							close();
-						}
-					}
-				};
-				return h('div', { class: 'sheet' },
-					sheetHead(`Bilik ${code}`, close, 'Dikemas kini sendiri'),
-					facts,
-					h('div', null, h('h3', { class: 'sub' }, 'Murid'), h('div', { class: 'gap' }), people),
-					h('div', { class: 'sheet-foot' },
-						h('button', { class: 'btn danger', type: 'button', onClick: async () => {
-							if (!(await confirmBox({ title: `Tutup bilik ${code}?`, body: 'Semua murid dalam bilik ini akan diputuskan dan permainan berhenti.', ok: 'Tutup bilik', danger: true }))) return;
-							try {
-								await api(`/rooms/${encodeURIComponent(code)}/close`, { method: 'POST' });
-								toast(`Bilik ${code} ditutup.`);
-								close();
-							} catch (error) {
-								toast(error.message, 'bad');
-							}
-						} }, icon('x', 16), 'Tutup bilik'),
-						h('button', { class: 'btn', type: 'button', onClick: () => close() }, 'Selesai')
-					)
-				);
-			}, { drawer: true });
-			open = null;
-		}
+		const details = (code) => roomPopup(code, { on: ctx.on }).catch((error) => toast(error.message, 'bad'));
 
 		function paintFeed(fresh) {
 			feed.replaceChildren(...(events.length ? events.map((e, i) => eventRow(e, { fresh: fresh && i === 0 })) : [h('li', null, empty('smile', 'Belum ada yang masuk.'))]));

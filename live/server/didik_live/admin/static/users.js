@@ -3,63 +3,8 @@
 import { api, query } from './core.js';
 import { askBulk, bulk, bulkBar, Selection } from './bulk.js';
 import { dataTable } from './table.js';
-import { ago, avatar, confirmBox, date, h, icon, num, openDialog, pill, seg, sheetHead, stamp, toast } from './ui.js';
-
-export function userDrawer(id, onChange) {
-	return api(`/users/${id}`).then((user) =>
-		openDialog((close) => {
-			const name = h('input', { class: 'input', id: 'user-name', maxlength: 80, value: user.name, disabled: user.system });
-			const error = h('p', { class: 'error-line', role: 'alert', hidden: true });
-			const facts = [
-				['Emel', user.email],
-				['Mendaftar', stamp(user.createdAt)],
-				['Log masuk terakhir', user.lastLoginAt ? stamp(user.lastLoginAt) : 'Belum pernah'],
-				['Gambar dimuat naik', num(user.pictures)],
-				['Status', user.disabled ? pill('Digantung', 'bad') : user.system ? pill('Akaun sistem', 'info') : pill('Aktif', 'ok')]
-			];
-			const act = async (work, done) => {
-				try {
-					await work();
-					toast(done);
-					onChange();
-					close(true);
-				} catch (problem) {
-					error.hidden = false;
-					error.textContent = problem.message;
-				}
-			};
-			const rename = h('form', { class: 'field', onSubmit: (event) => {
-				event.preventDefault();
-				if (name.value.trim() && name.value.trim() !== user.name) act(() => api(`/users/${id}`, { method: 'PATCH', body: { name: name.value.trim() } }), 'Nama dikemas kini.');
-			} }, h('span', null, 'Nama'), h('div', { class: 'toolbar' }, name, h('button', { class: 'btn', type: 'submit', disabled: user.system }, 'Simpan')));
-
-			return h('div', { class: 'sheet' },
-				sheetHead(user.name, close, user.email),
-				h('dl', { class: 'kv' }, facts.flatMap(([k, v]) => [h('dt', null, k), h('dd', null, v)])),
-				rename,
-				h('div', null,
-					h('h3', { class: 'sub' }, `Kuiz (${num(user.quizList.length)})`),
-					h('div', { class: 'gap' }),
-					h('ul', { class: 'list' }, user.quizList.length
-						? user.quizList.slice(0, 12).map((q) => h('li', null, h('span', { class: 'grow' }, h('b', null, q.title), h('small', null, `${num(q.questions)} soalan`)), h('time', null, ago(q.updatedAt))))
-						: [h('li', null, h('span', { class: 'sub' }, 'Belum ada kuiz.'))])
-				),
-				error,
-				!user.system && h('div', { class: 'sheet-foot' },
-					h('button', { class: 'btn danger', type: 'button', onClick: async () => {
-						if (await confirmBox({ title: `Padam ${user.name}?`, body: 'Akaun, semua kuiz dan gambarnya dipadam, dan bilik terbukanya ditutup. Ini tidak boleh dibatalkan.', ok: 'Padam akaun', danger: true })) {
-							act(() => api(`/users/${id}`, { method: 'DELETE' }), 'Akaun dipadam.');
-						}
-					} }, icon('trash', 16), 'Padam'),
-					h('button', { class: 'btn', type: 'button', onClick: async () => {
-						if (!user.disabled && !(await confirmBox({ title: `Gantung ${user.name}?`, body: 'Ibu bapa ini tidak boleh log masuk dan bilik yang dibukanya ditutup. Anda boleh memulihkannya bila-bila masa.', ok: 'Gantung', danger: true }))) return;
-						act(() => api(`/users/${id}`, { method: 'PATCH', body: { disabled: !user.disabled } }), user.disabled ? 'Akaun dipulihkan.' : 'Akaun digantung.');
-					} }, icon(user.disabled ? 'check' : 'ban', 16), user.disabled ? 'Pulihkan' : 'Gantung')
-				)
-			);
-		}, { drawer: true })
-	);
-}
+import { userPopup } from './popups.js';
+import { ago, avatar, date, h, num, pill, seg, toast } from './ui.js';
 
 export default {
 	title: 'Ibu bapa',
@@ -129,7 +74,7 @@ export default {
 				table.busy(false);
 			}
 		}
-		const open = (id) => userDrawer(id, load).catch((error) => toast(error.message, 'bad'));
+		const open = (id) => userPopup(id, { onChange: load }).catch((error) => toast(error.message, 'bad'));
 
 		this.onSearch = (value) => {
 			if (value === state.q) return; // the same words again (a re-fired input event) change nothing, picks included

@@ -61,6 +61,8 @@ const ICONS = {
 	mail: '<rect x="2" y="4" width="20" height="16" rx="2"/>' + P('m22 7-10 5L2 7'),
 	device: '<rect x="2" y="3" width="20" height="14" rx="2"/>' + P('M8 21h8M12 17v4'),
 	refresh: P('M3 12a9 9 0 0 1 15-6.7L21 8M21 3v5h-5M21 12a9 9 0 0 1-15 6.7L3 16M3 21v-5h5'),
+	back: P('M19 12H5M12 19l-7-7 7-7'),
+	chevron: P('m9 18 6-6-6-6'),
 	pause: P('M6 4h4v16H6zM14 4h4v16h-4z'),
 	play: P('M6 3l14 9-14 9z'),
 	more: '<circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>',
@@ -191,28 +193,43 @@ export function toast(message, kind = 'ok') {
 	setTimeout(() => el.remove(), kind === 'ok' ? 3800 : 6500);
 }
 
-/** Opens the page's one <dialog>. `build(close)` returns the sheet's content; the promise ends with close(value). */
-export function openDialog(build, { drawer = false } = {}) {
-	const dialog = document.getElementById('dialog');
+/**
+ * Opens a dialog of its own. `build(close, swap)` returns the content; the promise ends with close(value).
+ * `variant` is 'modal' (a question or a small form) or 'popup' (a record's details; a bottom sheet on a phone).
+ *
+ * Every call makes its own <dialog>, so one can open over another (a confirmation over a popup): the browser
+ * stacks them, Escape and a click outside close only the top one, and cancelling a confirmation leaves the popup
+ * as it was. `swap(build, variant)` puts other content in the same dialog (a popup leading to another).
+ * An element that has a `cleanup` function gets it called when it is replaced or closed.
+ */
+export function openDialog(build, { variant = 'modal' } = {}) {
+	const dialog = document.createElement('dialog');
+	document.body.append(dialog);
 	return new Promise((resolve) => {
 		let result;
+		let shown = null;
 		const close = (value) => {
 			result = value;
 			dialog.close();
 		};
-		const finish = () => {
-			dialog.removeEventListener('close', finish);
-			dialog.removeEventListener('click', away);
-			dialog.replaceChildren();
+		const mount = (builder, as) => {
+			shown?.cleanup?.();
+			shown = builder(close, swap);
+			dialog.className = as;
+			dialog.replaceChildren(shown);
+			dialog.scrollTop = 0;
+			dialog.querySelector('[autofocus]')?.focus();
+		};
+		const swap = (builder, as = 'popup') => mount(builder, as);
+		dialog.addEventListener('close', () => {
+			shown?.cleanup?.();
+			dialog.remove();
 			resolve(result);
-		};
-		const away = (event) => {
+		});
+		dialog.addEventListener('click', (event) => {
 			if (event.target === dialog) close();
-		};
-		dialog.className = drawer ? 'drawer' : 'modal';
-		dialog.replaceChildren(build(close));
-		dialog.addEventListener('close', finish);
-		dialog.addEventListener('click', away);
+		});
+		mount(build, variant);
 		dialog.showModal();
 		dialog.querySelector('[autofocus]')?.focus();
 	});

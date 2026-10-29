@@ -3,59 +3,8 @@
 import { api, query } from './core.js';
 import { askBulk, bulk, bulkBar, Selection } from './bulk.js';
 import { dataTable } from './table.js';
-import { ago, confirmBox, h, icon, num, openDialog, pill, seg, sheetHead, stamp, toast } from './ui.js';
-
-const TYPES = { single: 'Pilihan tunggal', multiple: 'Pilih semua betul', truefalse: 'Betul/Salah', text: 'Taip jawapan', number: 'Nombor', order: 'Susun turutan', match: 'Padankan', blank: 'Isi tempat kosong' };
-
-function drawer(id, onChange) {
-	return api(`/quizzes/${id}`).then((quiz) =>
-		openDialog((close) => {
-			const title = h('input', { class: 'input', id: 'quiz-title', maxlength: 120, value: quiz.title });
-			const about = h('textarea', { class: 'input', id: 'quiz-about', maxlength: 500, rows: 3 }, quiz.description);
-			const error = h('p', { class: 'error-line', role: 'alert', hidden: true });
-			const done = (message) => {
-				toast(message);
-				onChange();
-				close(true);
-			};
-			const save = async (event) => {
-				event.preventDefault();
-				try {
-					await api(`/quizzes/${id}`, { method: 'PATCH', body: { title: title.value.trim(), description: about.value.trim() } });
-					done('Kuiz dikemas kini.');
-				} catch (problem) {
-					error.hidden = false;
-					error.textContent = problem.message;
-				}
-			};
-			return h('div', { class: 'sheet' },
-				sheetHead(quiz.title, close, `oleh ${quiz.owner} · ${num(quiz.questions)} soalan`),
-				h('dl', { class: 'kv' }, ...[['Dicipta', stamp(quiz.createdAt)], ['Dikemas kini', stamp(quiz.updatedAt)], ['Jenis', quiz.sample ? pill('Kuiz contoh', 'info') : pill('Kuiz ibu bapa', '')]].flatMap(([k, v]) => [h('dt', null, k), h('dd', null, v)])),
-				h('div', { class: 'levels' }, Object.entries(quiz.types).map(([type, count]) => h('span', { class: 'tag' }, `${TYPES[type] || type} · ${count}`))),
-				h('form', { class: 'stack', onSubmit: save },
-					h('label', { class: 'field' }, h('span', null, 'Tajuk'), title),
-					h('label', { class: 'field' }, h('span', null, 'Penerangan'), about),
-					error,
-					h('div', { class: 'sheet-foot' },
-						h('button', { class: 'btn danger', type: 'button', onClick: async () => {
-							if (await confirmBox({ title: `Padam “${quiz.title}”?`, body: `Kuiz milik ${quiz.owner} ini dipadam untuk selama-lamanya.`, ok: 'Padam kuiz', danger: true })) {
-								try {
-									await api(`/quizzes/${id}`, { method: 'DELETE' });
-									done('Kuiz dipadam.');
-								} catch (problem) {
-									toast(problem.message, 'bad');
-								}
-							}
-						} }, icon('trash', 16), 'Padam'),
-						h('button', { class: 'btn primary', type: 'submit' }, 'Simpan')
-					)
-				),
-				h('div', null, h('h3', { class: 'sub' }, `Soalan (${quiz.prompts.length}${quiz.questions > quiz.prompts.length ? ` daripada ${quiz.questions}` : ''})`), h('div', { class: 'gap' }),
-					h('ol', { class: 'prompts' }, quiz.prompts.map((p) => h('li', null, p || '(tanpa teks)'))))
-			);
-		}, { drawer: true })
-	);
-}
+import { quizPopup } from './popups.js';
+import { ago, h, icon, num, seg, toast } from './ui.js';
 
 export default {
 	title: 'Kuiz',
@@ -114,7 +63,7 @@ export default {
 				table.busy(false);
 			}
 		}
-		const open = (id) => drawer(id, load).catch((error) => toast(error.message, 'bad'));
+		const open = (id) => quizPopup(id, { onChange: load }).catch((error) => toast(error.message, 'bad'));
 
 		this.onSearch = (value) => {
 			if (value === state.q) return;
