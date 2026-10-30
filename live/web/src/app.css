@@ -134,6 +134,30 @@ body {
 	font: 600 var(--fs-body) / 1.55 var(--font-body);
 	-webkit-font-smoothing: antialiased;
 	-webkit-tap-highlight-color: transparent;
+	/* Nothing on the page is picked up by a long press or a drag: no selecting the words, no "save image"
+	   menu on a phone. What can be typed into stays selectable (lib/ui/guard.ts does the rest). */
+	-webkit-user-select: none;
+	user-select: none;
+	-webkit-touch-callout: none;
+}
+
+/* the art is not for taking: it cannot be dragged out of the page or held for the save menu */
+img,
+video,
+canvas,
+svg,
+picture {
+	-webkit-user-drag: none;
+	-webkit-touch-callout: none;
+}
+
+input,
+textarea,
+select,
+[contenteditable]:not([contenteditable='false']) {
+	-webkit-user-select: text;
+	user-select: text;
+	-webkit-touch-callout: default;
 }
 
 h1,

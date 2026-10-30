@@ -7,11 +7,16 @@
 	import { unlock } from '$lib/sound';
 	import PageLoader from '$lib/ui/PageLoader.svelte';
 	import { hidePreloader, isGamePath } from '$lib/ui/preloader';
+	import { guardContent } from '$lib/ui/guard';
 
 	let { children } = $props();
 
-	// The app is up: the page's preloader (app.html) can go.
-	onMount(() => void hidePreloader());
+	// The app is up: the page's preloader (app.html) can go. From now on the art cannot be saved or
+	// dragged out and the page cannot be copied, except what is typed into a field.
+	onMount(() => {
+		void hidePreloader();
+		return guardContent();
+	});
 
 	// A game's own screens, and the front page that leads to them, get the pixel look (app.css).
 	$effect(() => {
