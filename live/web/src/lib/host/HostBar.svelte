@@ -1,4 +1,5 @@
-<!-- The host's controls during a game: pause, next, end. Always within reach, never in the way. -->
+<!-- The host's controls during a game: pause, next, end. Always within reach, never in the way. On a phone
+	the logo is the mascot alone and the controls sit together on one compact row under the game's name. -->
 <script lang="ts">
 	import type { RoomClient } from '$lib/room.svelte';
 	import type { View } from '$lib/types';
@@ -16,11 +17,12 @@
 </script>
 
 <header class="bar">
-	<Logo href="/ibu-bapa" />
+	<Logo href="/ibu-bapa" compact />
 	<div class="what">
 		<strong>{view.room.mode.title}</strong>
 		<span>{view.room.quizTitle} · kod {view.room.code} · {players} kanak-kanak</span>
 	</div>
+	<div class="tools">
 	{#if view.phase === 'playing'}
 		<button type="button" class="btn btn--plain" onclick={() => client.send({ t: paused ? 'resume' : 'pause' })}>
 			<Icon name={paused ? 'play' : 'pause'} /> {paused ? 'Sambung' : 'Rehat'}
@@ -40,6 +42,7 @@
 	{/if}
 	<FullscreenToggle />
 	<SoundToggle />
+	</div>
 </header>
 
 <style>
@@ -61,6 +64,12 @@
 		min-width: 12rem;
 		line-height: 1.2;
 	}
+	.tools {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.6rem;
+	}
 	.what strong {
 		font: 600 1.15rem var(--font-display);
 	}
@@ -71,8 +80,33 @@
 	}
 	.confirm {
 		display: inline-flex;
+		flex-wrap: wrap;
 		align-items: center;
 		gap: 0.5rem;
 		font-weight: 800;
+	}
+	@media (max-width: 40rem) {
+		.bar {
+			gap: 0.45rem 0.6rem;
+			padding-block: 0.45rem;
+		}
+		.what {
+			min-width: 0;
+		}
+		.what strong {
+			font-size: 1.05rem;
+		}
+		.what span {
+			font-size: 0.8rem;
+		}
+		.tools {
+			width: 100%;
+			gap: 0.45rem;
+		}
+		.tools :global(.btn) {
+			min-height: 2.75rem;
+			padding-inline: 0.75rem;
+			font-size: 0.95rem;
+		}
 	}
 </style>

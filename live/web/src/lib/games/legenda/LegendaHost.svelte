@@ -111,6 +111,7 @@
 	.legend {
 		display: grid;
 		gap: 1rem;
+		min-width: 0;
 	}
 	.road {
 		display: grid;
@@ -245,6 +246,10 @@
 		align-items: center;
 		gap: 0.4rem;
 	}
+	/* the six hearts stay on one line */
+	.hearts {
+		white-space: nowrap;
+	}
 	.hearts img {
 		width: 1.1rem;
 	}
@@ -254,6 +259,78 @@
 	@media (max-width: 900px) {
 		.road {
 			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+		/* the fifth world, alone on its row, takes the whole row */
+		.road > li:last-child:nth-child(odd) {
+			grid-column: 1 / -1;
+		}
+	}
+	/* A phone: lower world cards, and each traveller as a card of its own instead of a five-column table,
+	   so nothing is wider than the screen and the page never slides sideways. */
+	@media (max-width: 40rem) {
+		.world {
+			min-height: 10rem;
+		}
+		.list,
+		.list tbody {
+			display: block;
+		}
+		.list caption {
+			display: block;
+		}
+		/* the column names stay for screen readers; each card says what it shows */
+		.list thead {
+			position: absolute;
+			width: 1px;
+			height: 1px;
+			overflow: hidden;
+			clip-path: inset(50%);
+		}
+		.list tr {
+			display: grid;
+			grid-template-columns: minmax(0, 1fr) auto;
+			grid-template-areas:
+				'name free'
+				'hero hero'
+				'where where'
+				'hearts hearts';
+			gap: 0.15rem 0.6rem;
+			padding: 0.6rem 0.75rem;
+			border-top: 1px solid var(--line);
+		}
+		.list td {
+			display: block;
+			padding: 0;
+			border: 0;
+			min-width: 0;
+		}
+		.list td:nth-child(1) {
+			grid-area: name;
+			display: flex;
+		}
+		.list td:nth-child(2) {
+			grid-area: hero;
+			color: var(--ink-2);
+			font-size: 0.9rem;
+		}
+		.list td:nth-child(2)::before {
+			content: 'Wira: ';
+		}
+		.list td:nth-child(3) {
+			grid-area: where;
+			font-size: 0.9rem;
+		}
+		.list td:nth-child(4) {
+			grid-area: hearts;
+		}
+		.list td:nth-child(5) {
+			grid-area: free;
+			align-self: center;
+			white-space: nowrap;
+			color: var(--ink-2);
+		}
+		.list td:nth-child(5)::after {
+			content: ' dunia';
 		}
 	}
 </style>
