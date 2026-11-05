@@ -122,11 +122,13 @@
 	let liveSrc = $state<string | null>(null);
 	let liveEl = $state<HTMLVideoElement>();
 	const live = $derived(liveReady && !still && !bossActing && !(boss && (busy || enemy === 'beaten' || enemy === 'gone')));
-	// A new world's living scene: its video fetched whole, then shown once it plays.
+	// A new world's living scene: its video fetched whole, then shown once it plays. Whatever the last
+	// world's boss was doing is over: the new world starts with its own video showing.
 	$effect(() => {
 		const w = world;
 		liveReady = false;
 		liveSrc = null;
+		bossActing = false;
 		if (still) {
 			onlive?.(w);
 			return;
@@ -287,8 +289,9 @@
 		bossActing = true;
 		await sleep(still ? 0 : 260);
 	}
+	// Always called after the boss's turn, even when that turn beat the boss: by then `boss` may already be
+	// gone, and skipping this would leave the next worlds on the still painting instead of their videos.
 	function bossReturns() {
-		if (!boss) return;
 		setTimeout(() => (bossActing = false), still ? 0 : 450);
 	}
 

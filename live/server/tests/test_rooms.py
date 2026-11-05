@@ -423,3 +423,14 @@ def test_two_children_never_stand_on_the_same_spot() -> None:
         assert plaza.clamp(*b.spot) == b.spot  # still in the square, outside the fountain
 
     run(scenario())
+
+
+def test_nobody_stands_in_the_fountain_on_a_bench_a_lamp_or_the_arch_posts() -> None:
+    rng = random.Random(7)
+    for _ in range(5000):
+        x, y = plaza.clamp(rng.uniform(0, 16), rng.uniform(2, 9.5))
+        assert plaza.clamp(x, y) == (x, y)
+        assert plaza.LEFT <= x <= plaza.RIGHT and plaza.TOP <= y <= plaza.BOTTOM
+        for ox, oy, rx, ry in plaza.OBSTACLES:
+            assert ((x - ox) / rx) ** 2 + ((y - oy) / ry) ** 2 >= 1, (x, y, ox, oy)
+    assert plaza.clamp(*plaza.ARCH) == plaza.ARCH  # the way in, between the arch's posts, stays open

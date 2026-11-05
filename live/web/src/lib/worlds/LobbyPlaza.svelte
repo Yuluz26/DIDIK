@@ -1,8 +1,9 @@
 <!--
 	The waiting room's town square, on the host's screen and on every phone. Children come in under
 	the arch when they join; on a phone, tapping the square (or the arrow keys) walks your character
-	there and everyone sees it. Positions come from the server; this only animates the walking.
-	The walkable box, fountain and arch match didik_live/game/plaza.py.
+	there and everyone sees it. Positions come from the server; this only animates the walking, round
+	whatever is in the way (the fountain, the lamp posts, the benches, the arch's posts, the cat and the
+	hen), never through it. The walkable box, the obstacles and the arch match didik_live/game/plaza.py.
 -->
 <script lang="ts" module>
 	export const PLAZA = {
@@ -13,23 +14,52 @@
 		right: 15.2,
 		bottom: 8.6,
 		fountain: { x: 8, y: 5.6, rx: 1.8, ry: 1.35 },
-		arch: { x: 8, y: 3.5 }
+		arch: { x: 8, y: 3.5 },
+		// where each thing stands on the ground (plaza.py OBSTACLES, in the same order)
+		obstacles: [
+			{ x: 8, y: 5.6, rx: 1.8, ry: 1.35 },
+			{ x: 5.6, y: 4.2, rx: 0.4, ry: 0.3 },
+			{ x: 10.4, y: 4.2, rx: 0.4, ry: 0.3 },
+			{ x: 2.6, y: 4.45, rx: 1.05, ry: 0.4 },
+			{ x: 13.4, y: 4.45, rx: 1.05, ry: 0.4 },
+			{ x: 6.85, y: 3.4, rx: 0.35, ry: 0.3 },
+			{ x: 9.15, y: 3.4, rx: 0.35, ry: 0.3 },
+			{ x: 14.4, y: 4.8, rx: 0.45, ry: 0.3 },
+			{ x: 1.5, y: 7.3, rx: 0.4, ry: 0.3 }
+		]
 	};
+
+	const box = (x: number, y: number): [number, number] => [Math.min(PLAZA.right, Math.max(PLAZA.left, x)), Math.min(PLAZA.bottom, Math.max(PLAZA.top, y))];
+	const free = (x: number, y: number) => PLAZA.obstacles.every((o) => ((x - o.x) / o.rx) ** 2 + ((y - o.y) / o.ry) ** 2 >= 1);
+	const r2 = (v: number) => Math.round(v * 100) / 100;
 
 	/** The nearest place a child can stand; the server does the same before it accepts a step. */
 	export function clampToPlaza(x: number, y: number): { x: number; y: number } {
-		x = Math.min(PLAZA.right, Math.max(PLAZA.left, x));
-		y = Math.min(PLAZA.bottom, Math.max(PLAZA.top, y));
-		const f = PLAZA.fountain;
-		let dx = (x - f.x) / f.rx;
-		let dy = (y - f.y) / f.ry;
-		let reach = Math.hypot(dx, dy);
-		if (reach < 1) {
-			if (reach < 1e-6) [dx, dy, reach] = [0, 1, 1];
-			x = f.x + (dx / reach) * f.rx * 1.02;
-			y = f.y + (dy / reach) * f.ry * 1.02;
+		[x, y] = box(x, y);
+		for (let pass = 0; pass < 4; pass++) {
+			let moved = false;
+			for (const o of PLAZA.obstacles) {
+				let dx = (x - o.x) / o.rx;
+				let dy = (y - o.y) / o.ry;
+				let reach = Math.hypot(dx, dy);
+				if (reach < 1) {
+					if (reach < 1e-6) [dx, dy, reach] = [0, 1, 1];
+					[x, y] = box(o.x + (dx / reach) * o.rx * 1.04, o.y + (dy / reach) * o.ry * 1.04);
+					moved = true;
+				}
+			}
+			if (!moved) break;
 		}
-		return { x: Math.round(x * 100) / 100, y: Math.round(y * 100) / 100 };
+		[x, y] = [r2(x), r2(y)];
+		if (!free(x, y)) {
+			// between two things that touch (the cat by its bench): the nearest free spot round about
+			for (let step = 1; step < 40; step++) {
+				const ring = Array.from({ length: 16 }, (_, i) => box(r2(x + step * 0.1 * Math.cos((i * Math.PI) / 8)), r2(y + step * 0.1 * Math.sin((i * Math.PI) / 8))));
+				const spot = ring.filter(([sx, sy]) => free(sx, sy)).sort((p, q) => Math.hypot(p[0] - x, p[1] - y) - Math.hypot(q[0] - x, q[1] - y))[0];
+				if (spot) return { x: spot[0], y: spot[1] };
+			}
+		}
+		return { x, y };
 	}
 </script>
 
@@ -122,7 +152,7 @@
 	const timers = new Map<string, ReturnType<typeof setTimeout>>();
 	const still = typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-	/** Walks a child to (x, y), round the fountain if it is in the way, leg by leg at a stroll. */
+	/** Walks a child to (x, y), round whatever is in the way, leg by leg at a stroll. */
 	function walkTo(id: string, x: number, y: number, facing: number) {
 		const from = shown[id];
 		if (!from) return;
@@ -131,7 +161,7 @@
 			shown[id] = { x, y, facing, ms: 0, walking: false };
 			return;
 		}
-		const path = route([from.x, from.y], [x, y], PLAZA.fountain);
+		const path = route([from.x, from.y], [x, y], PLAZA.obstacles, PLAZA);
 		const leg = (i: number) => {
 			if (i >= path.length) {
 				const at = shown[id];

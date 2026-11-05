@@ -213,9 +213,45 @@
 			transform: translateY(-5px) rotate(-3deg);
 		}
 	}
-	@media (max-width: 520px) {
+	/* On a phone the stickers sit on their own row, so the words get the card's whole width. */
+	@media (max-width: 560px) {
+		.fam-head {
+			align-items: flex-start;
+			gap: 0.6rem;
+		}
+		.fam-art {
+			width: 2.6rem;
+			height: 2.6rem;
+		}
+		.fam-art :global(img) {
+			width: 30px;
+			height: 30px;
+		}
+		.fam-head h2 {
+			font-size: 1.2rem;
+		}
+		.fam-head p {
+			font-size: 0.88rem;
+		}
 		.game.ik {
-			flex-wrap: wrap;
+			display: grid;
+			grid-template-columns: minmax(0, 1fr) auto;
+			grid-template-areas: 'art go' 'text text';
+			align-items: center;
+			gap: 0.6rem 0.8rem;
+			padding: 1rem;
+		}
+		.game.ik .ik-stickers {
+			grid-area: art;
+		}
+		.game.ik .text {
+			grid-area: text;
+		}
+		.game.ik .go {
+			grid-area: go;
+		}
+		.game.ik .title {
+			font-size: 1.45rem;
 		}
 	}
 	.games {

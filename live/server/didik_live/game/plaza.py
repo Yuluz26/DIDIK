@@ -2,7 +2,10 @@
 tap while the host gets ready; everyone sees everyone else on their own screen.
 
 Positions are in tiles of the square drawn by the web app (LobbyPlaza.svelte, 16 x 9 tiles); keep
-the walkable box, the fountain and the arch in step with that drawing.
+the walkable box, the fountain, the other things in the way and the arch in step with that drawing.
+
+Nobody stands in the fountain or on a lamp post, a bench, the arch's posts or the cat and the hen: a spot
+inside one of them moves to just outside it. (The web app walks children round them too.)
 """
 
 from __future__ import annotations
@@ -18,6 +21,19 @@ LEFT, TOP, RIGHT, BOTTOM = 0.8, 3.4, 15.2, 8.6
 # their body covers the water and they seem to stand in it); behind it, clear of its top; at the sides,
 # half a child's width clear of the basin.
 FOUNTAIN_X, FOUNTAIN_Y, FOUNTAIN_RX, FOUNTAIN_RY = 8.0, 5.6, 1.8, 1.35
+# Everything else in the way, where it stands on the ground, as (x, y, half width, half depth) in tiles:
+# the two lamp posts, the two benches, the arch's two posts, the cat by the right bench and the hen.
+OBSTACLES: tuple[tuple[float, float, float, float], ...] = (
+    (FOUNTAIN_X, FOUNTAIN_Y, FOUNTAIN_RX, FOUNTAIN_RY),
+    (5.6, 4.2, 0.4, 0.3),
+    (10.4, 4.2, 0.4, 0.3),
+    (2.6, 4.45, 1.05, 0.4),
+    (13.4, 4.45, 1.05, 0.4),
+    (6.85, 3.4, 0.35, 0.3),
+    (9.15, 3.4, 0.35, 0.3),
+    (14.4, 4.8, 0.45, 0.3),
+    (1.5, 7.3, 0.4, 0.3),
+)
 # Two children never stand on top of each other: closer than this (wider than tall, the way they
 # stand side by side) and the one arriving steps aside.
 APART_X, APART_Y = 0.85, 0.5
@@ -29,19 +45,40 @@ WALK_EVERY = 0.25
 BOT_STROLL_CHANCE = 0.035
 
 
+def _box(x: float, y: float) -> tuple[float, float]:
+    return min(RIGHT, max(LEFT, x)), min(BOTTOM, max(TOP, y))
+
+
 def clamp(x: float, y: float) -> tuple[float, float]:
-    """The nearest place a child can stand: inside the square and outside the fountain."""
-    x = min(RIGHT, max(LEFT, x))
-    y = min(BOTTOM, max(TOP, y))
-    dx = (x - FOUNTAIN_X) / FOUNTAIN_RX
-    dy = (y - FOUNTAIN_Y) / FOUNTAIN_RY
-    reach = math.hypot(dx, dy)
-    if reach < 1.0:
-        if reach < 1e-6:
-            dx, dy, reach = 0.0, 1.0, 1.0
-        x = FOUNTAIN_X + dx / reach * FOUNTAIN_RX * 1.02
-        y = FOUNTAIN_Y + dy / reach * FOUNTAIN_RY * 1.02
-    return round(x, 2), round(y, 2)
+    """The nearest place a child can stand: inside the square and outside the fountain and everything
+    else in the way."""
+    x, y = _box(x, y)
+    for _ in range(4):
+        moved = False
+        for ox, oy, rx, ry in OBSTACLES:
+            dx, dy = (x - ox) / rx, (y - oy) / ry
+            reach = math.hypot(dx, dy)
+            if reach < 1.0:
+                if reach < 1e-6:
+                    dx, dy, reach = 0.0, 1.0, 1.0
+                x, y = _box(ox + dx / reach * rx * 1.04, oy + dy / reach * ry * 1.04)
+                moved = True
+        if not moved:
+            break
+    x, y = round(x, 2), round(y, 2)
+    if not _free(x, y):
+        # between two things that touch (the cat by its bench): the nearest free spot round about
+        for step in range(1, 40):
+            r = step * 0.1
+            ring = [_box(round(x + r * math.cos(a), 2), round(y + r * math.sin(a), 2)) for a in (i * math.tau / 16 for i in range(16))]
+            free = [spot for spot in ring if _free(*spot)]
+            if free:
+                return min(free, key=lambda spot: math.hypot(spot[0] - x, spot[1] - y))
+    return x, y
+
+
+def _free(x: float, y: float) -> bool:
+    return all(((x - ox) / rx) ** 2 + ((y - oy) / ry) ** 2 >= 1 for ox, oy, rx, ry in OBSTACLES)
 
 
 def apart(x: float, y: float, others: list[tuple[float, float]]) -> tuple[float, float]:
