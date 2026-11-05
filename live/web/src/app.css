@@ -531,7 +531,7 @@ textarea {
 }
 
 /* Lifted into place the first time it scrolls into view (see lib/home/reveal.ts). */
-.reveal {
+.scroll-reveal {
 	opacity: 0;
 	transform: translateY(24px);
 	transition:
@@ -539,7 +539,7 @@ textarea {
 		transform 640ms var(--ease-out) var(--delay, 0ms);
 }
 
-.reveal.in {
+.scroll-reveal.in {
 	opacity: 1;
 	transform: none;
 }

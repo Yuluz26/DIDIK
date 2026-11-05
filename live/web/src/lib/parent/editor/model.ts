@@ -1,7 +1,9 @@
 // The quiz editor's data: the same shape the server stores (see didik_live/questions.py), with ids
 // made here so every list can be keyed while it is edited. Ids match the server's pattern.
 
-export type QuestionType = 'single' | 'multiple' | 'truefalse' | 'text' | 'number' | 'order' | 'match' | 'blank';
+import { countPrompt } from '$lib/stickers';
+
+export type QuestionType = 'single' | 'multiple' | 'truefalse' | 'text' | 'number' | 'order' | 'match' | 'blank' | 'count' | 'spell' | 'sort';
 
 export interface Choice {
 	id: string;
@@ -18,6 +20,19 @@ export interface Pair {
 	id: string;
 	left: string;
 	right: string;
+}
+
+export interface SortGroup {
+	id: string;
+	name: string;
+	sticker: string | null;
+}
+
+export interface SortItem {
+	id: string;
+	text: string;
+	sticker: string | null;
+	group: string;
 }
 
 interface Base {
@@ -37,6 +52,9 @@ export type Question = Base &
 		| { type: 'order'; items: Item[] }
 		| { type: 'match'; pairs: Pair[] }
 		| { type: 'blank'; sentence: string; distractors: string[]; word_bank: boolean }
+		| { type: 'count'; sticker: string; place: string; answer: number }
+		| { type: 'spell'; word: string; sticker: string | null; decoys: number }
+		| { type: 'sort'; groups: SortGroup[]; items: SortItem[] }
 	);
 
 export interface QuizDraft {
@@ -45,22 +63,34 @@ export interface QuizDraft {
 	questions: Question[];
 }
 
-export const TYPES: { type: QuestionType; name: string; hint: string }[] = [
-	{ type: 'single', name: 'Pilihan tunggal', hint: 'Satu jawapan betul daripada 2 hingga 6 pilihan.' },
-	{ type: 'multiple', name: 'Pilih semua', hint: 'Lebih daripada satu jawapan boleh betul.' },
-	{ type: 'truefalse', name: 'Betul atau salah', hint: 'Satu kenyataan, kanak-kanak pilih betul atau salah.' },
-	{ type: 'text', name: 'Taip jawapan', hint: 'Kanak-kanak menaip perkataan. Ejaan hampir sama boleh diterima.' },
-	{ type: 'number', name: 'Nombor', hint: 'Jawapan berupa nombor, dengan julat jika perlu.' },
-	{ type: 'order', name: 'Susun turutan', hint: 'Tulis dalam turutan betul; kanak-kanak melihatnya bercampur.' },
-	{ type: 'match', name: 'Padankan', hint: 'Pasangan kiri dan kanan untuk dipadankan.' },
-	{ type: 'blank', name: 'Isi tempat kosong', hint: 'Ayat dengan perkataan dalam [kurungan] sebagai tempat kosong.' }
+/** "biasa": every game shows it as a card of options or a box. "interaktif": the child touches, drags and
+ * sorts things; made for Kuiz Interaktif, and playable in the other games too. */
+export type TypeKind = 'biasa' | 'interaktif';
+
+export const TYPES: { type: QuestionType; name: string; hint: string; kind: TypeKind }[] = [
+	{ type: 'single', name: 'Pilihan tunggal', hint: 'Satu jawapan betul daripada 2 hingga 6 pilihan.', kind: 'biasa' },
+	{ type: 'multiple', name: 'Pilih semua', hint: 'Lebih daripada satu jawapan boleh betul.', kind: 'biasa' },
+	{ type: 'truefalse', name: 'Betul atau salah', hint: 'Satu kenyataan, kanak-kanak pilih betul atau salah.', kind: 'biasa' },
+	{ type: 'text', name: 'Taip jawapan', hint: 'Kanak-kanak menaip perkataan. Ejaan hampir sama boleh diterima.', kind: 'biasa' },
+	{ type: 'number', name: 'Nombor', hint: 'Jawapan berupa nombor, dengan julat jika perlu.', kind: 'biasa' },
+	{ type: 'order', name: 'Susun turutan', hint: 'Tulis dalam turutan betul; kanak-kanak melihatnya bercampur.', kind: 'biasa' },
+	{ type: 'match', name: 'Padankan', hint: 'Pasangan kiri dan kanan untuk dipadankan.', kind: 'biasa' },
+	{ type: 'blank', name: 'Isi tempat kosong', hint: 'Ayat dengan perkataan dalam [kurungan] sebagai tempat kosong.', kind: 'biasa' },
+	{ type: 'count', name: 'Kira dan masukkan', hint: 'Kanak-kanak seret objek ke dalam bakul, kotak atau bas sehingga cukup bilangannya.', kind: 'interaktif' },
+	{ type: 'spell', name: 'Susun huruf', hint: 'Huruf bercampur, dengan gambar petunjuk, disusun menjadi perkataan.', kind: 'interaktif' },
+	{ type: 'sort', name: 'Isih kumpulan', hint: 'Seret setiap benda ke bakul kumpulannya: darat atau laut, buah atau sayur.', kind: 'interaktif' }
+];
+
+export const KINDS: { kind: TypeKind; name: string; note: string }[] = [
+	{ kind: 'interaktif', name: 'Interaktif', note: 'Sentuh dan seret. Paling seronok dengan Kuiz Interaktif.' },
+	{ kind: 'biasa', name: 'Biasa', note: 'Pilih, taip atau padankan.' }
 ];
 
 export const TYPE_NAME = Object.fromEntries(TYPES.map((t) => [t.type, t.name])) as Record<QuestionType, string>;
 
 export const TIME_LIMITS = [10, 15, 20, 30, 45, 60, 90, 120];
 
-export const LIMITS = { questions: 60, choices: 6, answers: 8, items: 6, pairs: 5, distractors: 6 };
+export const LIMITS = { questions: 60, choices: 6, answers: 8, items: 6, pairs: 5, distractors: 6, groups: 3, things: 8, count: 20, decoys: 4 };
 
 export function newId(): string {
 	const bytes = crypto.getRandomValues(new Uint8Array(6));
@@ -70,6 +100,8 @@ export function newId(): string {
 const choice = (correct = false): Choice => ({ id: newId(), text: '', correct });
 const item = (): Item => ({ id: newId(), text: '' });
 const pair = (): Pair => ({ id: newId(), left: '', right: '' });
+const group = (): SortGroup => ({ id: newId(), name: '', sticker: null });
+const thing = (groupId: string): SortItem => ({ id: newId(), text: '', sticker: null, group: groupId });
 
 /** A fresh question of a type; `from` keeps the prompt, picture and time of the question it replaces. */
 export function blank(type: QuestionType, from?: Question): Question {
@@ -99,10 +131,19 @@ export function blank(type: QuestionType, from?: Question): Question {
 			return { ...base, type, pairs: [pair(), pair(), pair()] };
 		case 'blank':
 			return { ...base, type, sentence: '', distractors: [], word_bank: true };
+		case 'count':
+			return { ...base, prompt: base.prompt || countPrompt('epal', 'bakul', 5), time_limit: Math.max(base.time_limit, 45), type, sticker: 'epal', place: 'bakul', answer: 5 };
+		case 'spell':
+			return { ...base, prompt: base.prompt || 'Susun huruf untuk mengeja perkataan ini.', time_limit: Math.max(base.time_limit, 45), type, word: '', sticker: null, decoys: 0 };
+		case 'sort': {
+			const groups = [group(), group()];
+			const items = [thing(groups[0].id), thing(groups[1].id), thing(groups[0].id), thing(groups[1].id)];
+			return { ...base, time_limit: Math.max(base.time_limit, 60), type, groups, items };
+		}
 	}
 }
 
-export const make = { choice, item, pair };
+export const make = { choice, item, pair, group, thing };
 
 /** A deep copy with new ids, for "Salin soalan". */
 export function duplicate(question: Question): Question {
@@ -111,6 +152,11 @@ export function duplicate(question: Question): Question {
 	if ('choices' in copy) copy.choices.forEach((c) => (c.id = newId()));
 	if ('items' in copy) copy.items.forEach((i) => (i.id = newId()));
 	if ('pairs' in copy) copy.pairs.forEach((p) => (p.id = newId()));
+	if (copy.type === 'sort') {
+		const renamed = new Map(copy.groups.map((g) => [g.id, newId()]));
+		copy.groups.forEach((g) => (g.id = renamed.get(g.id)!));
+		copy.items.forEach((i) => (i.group = renamed.get(i.group) ?? copy.groups[0].id));
+	}
 	return copy;
 }
 
@@ -122,6 +168,11 @@ export function normalise(raw: Record<string, unknown>): Question {
 	if ('choices' in question) question.choices = question.choices.map((c) => ({ ...c, id: c.id || newId() }));
 	if ('items' in question) question.items = question.items.map((i) => ({ ...i, id: i.id || newId() }));
 	if ('pairs' in question) question.pairs = question.pairs.map((p) => ({ ...p, id: p.id || newId() }));
+	if (question.type === 'sort') {
+		question.groups = question.groups.map((g) => ({ ...g, sticker: g.sticker ?? null, id: g.id || newId() }));
+		question.items = question.items.map((i) => ({ ...i, sticker: i.sticker ?? null }));
+	}
+	if (question.type === 'spell') question.sticker = question.sticker ?? null;
 	return question;
 }
 

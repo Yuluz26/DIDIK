@@ -57,6 +57,9 @@ class BaseMode:
     world: ClassVar[str] = ""
     # Presentation metadata retained for API compatibility; all supported modes are 2D.
     look: ClassVar[str] = "2d"
+    # Which of the three kinds of game it is, as the host picks them: "interaktif" (Kuiz Interaktif),
+    # "2d" (the island games) or "story" (Hikayat Lima Alam).
+    family: ClassVar[str] = "2d"
     # What a score counts, shown beside every number (mata, m, syiling, petak...).
     unit: ClassVar[str] = "mata"
     min_questions: ClassVar[int] = 1
@@ -90,6 +93,7 @@ class BaseMode:
             "pace": cls.pace,
             "world": cls.world,
             "look": cls.look,
+            "family": cls.family,
             "unit": cls.unit,
             "needs": cls.needs,
         }

@@ -1,8 +1,11 @@
-<!-- Picks the right way to answer for each of the eight question types. -->
+<!-- Picks the right way to answer for each of the eleven question types. -->
 <script lang="ts">
 	import type { Answer, PublicQuestion, Reveal } from '$lib/types';
 	import BlankAnswer from './BlankAnswer.svelte';
 	import Choices from './Choices.svelte';
+	import CountAnswer from './CountAnswer.svelte';
+	import SortAnswer from './SortAnswer.svelte';
+	import SpellAnswer from './SpellAnswer.svelte';
 	import MatchAnswer from './MatchAnswer.svelte';
 	import NumberAnswer from './NumberAnswer.svelte';
 	import OrderAnswer from './OrderAnswer.svelte';
@@ -43,5 +46,11 @@
 		<MatchAnswer left={question.left ?? []} right={question.right ?? []} {disabled} {mine} {reveal} {onanswer} />
 	{:else if question.type === 'blank'}
 		<BlankAnswer parts={question.parts ?? []} blanks={question.blanks ?? 1} bank={question.bank} {disabled} {mine} {reveal} {allRight} {onanswer} />
+	{:else if question.type === 'count'}
+		<CountAnswer sticker={question.sticker ?? 'epal'} place={question.place ?? 'bakul'} supply={question.supply ?? 10} {disabled} {mine} {reveal} {onanswer} />
+	{:else if question.type === 'spell'}
+		<SpellAnswer tiles={question.tiles ?? []} length={question.length ?? 0} sticker={question.sticker} {disabled} {mine} {reveal} {onanswer} />
+	{:else if question.type === 'sort'}
+		<SortAnswer groups={question.groups ?? []} items={question.items ?? []} {disabled} {mine} {reveal} {onanswer} />
 	{/if}
 {/key}

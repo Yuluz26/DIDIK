@@ -1,8 +1,9 @@
 <!--
 	The front door, drawn as one sea seen from above. A child writes the room code on a ticket by the
-	main island, where everyone gathers before a game; below, the eight games are islands a sampan
-	sails between. Then the beach (how it works), five story realms, the
-	parents' field and the back of the card.
+	main island, where everyone gathers before a game. Below it, the three kinds of game: Kuiz Interaktif
+	(a candy-floss cloud over the sea, with a demo to play), the fourteen 2D games as islands a sampan
+	sails between, and the five story realms. Then the beach (how it works), the parents' field and the
+	back of the card.
 -->
 <script lang="ts">
 	import { fade, fly } from 'svelte/transition';
@@ -12,6 +13,8 @@
 	import IslandMap from '$lib/home/IslandMap.svelte';
 	import MainIsland from '$lib/home/MainIsland.svelte';
 	import StorySection from '$lib/home/StorySection.svelte';
+	import InteraktifSection from '$lib/home/InteraktifSection.svelte';
+	import ThreeWays from '$lib/home/ThreeWays.svelte';
 	import Ticket from '$lib/home/Ticket.svelte';
 	import { reveal } from '$lib/home/reveal';
 	import { beachTile, grassFringe, seaTile, shoreStrip } from '$lib/pixel/sea';
@@ -25,7 +28,7 @@
 		{
 			when: 'Sebelum bermain: ibu bapa',
 			rows: [
-				['Tulis soalan sendiri', '8 jenis'],
+				['Tulis soalan sendiri', '11 jenis'],
 				['Tambah gambar pada soalan', 'jika mahu'],
 				['Simpan kuiz', 'sekali sahaja']
 			]
@@ -33,7 +36,7 @@
 		{
 			when: 'Bila mahu bermain',
 			rows: [
-				['Pilih satu permainan', '9 pilihan'],
+				['Pilih cara bermain', '3 jenis, 16 permainan'],
 				['Kongsi pautan, kod QR atau kod', '6 digit']
 			]
 		},
@@ -81,8 +84,9 @@
 <header class="top wrap">
 	<Logo light />
 	<nav aria-label="Laman utama">
-		<a class="far" href="#pulau">Empat belas pulau</a>
-		<a class="far" href="#hikayat">Hikayat</a>
+		<a class="far" href="#interaktif">Kuiz Interaktif</a>
+		<a class="far" href="#pulau">Pulau 2D</a>
+		<a class="far" href="#hikayat">Story Mode</a>
 		<a class="far" href="#cara">Cara bermain</a>
 		<a class="parents" href="/ibu-bapa"><span class="long">Untuk ibu bapa</span><span class="short">Ibu bapa</span> <Icon name="next" size={18} /></a>
 	</nav>
@@ -100,6 +104,10 @@
 			</div>
 			<div class="home-island" {@attach reveal(260)}><MainIsland /></div>
 		</section>
+
+		<ThreeWays />
+
+		<InteraktifSection />
 
 		<section id="pulau" class="islands wrap" aria-labelledby="pulau-tajuk" {@attach reveal()}>
 			<IslandMap>
@@ -178,7 +186,9 @@
 				<span class="stamp" aria-hidden="true"><Didi mood="happy" size={54} /></span>
 				<ul>
 					<li><a href="#tiket">Masuk bilik dengan kod</a></li>
+					<li><a href="#interaktif">Kuiz Interaktif</a></li>
 					<li><a href="#pulau">Empat belas pulau permainan</a></li>
+					<li><a href="#hikayat">Story Mode: Hikayat Lima Alam</a></li>
 					<li><a href="#cara">Cara bermain</a></li>
 					<li><a href="/ibu-bapa">Ruang ibu bapa</a></li>
 				</ul>

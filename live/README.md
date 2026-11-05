@@ -4,16 +4,41 @@ Permainan kuiz secara langsung untuk kanak-kanak. Ibu bapa atau guru menulis soa
 bilik, dan kanak-kanak masuk dengan pautan, kod QR atau kod 6 digit. Tiada akaun untuk kanak-kanak, hanya
 nama samaran.
 
-- **`server/`**: Python (FastAPI). API, bilik masa nyata melalui WebSocket, lapan permainan dan
-  Legenda Story Mode, pangkalan data SQLite.
+- **`server/`**: Python (FastAPI). API, bilik masa nyata melalui WebSocket, Kuiz Interaktif, empat belas
+  permainan 2D dan Legenda Story Mode, pangkalan data SQLite.
 - **`web/`**: SvelteKit (TypeScript). Skrin ibu bapa, skrin hos dan skrin kanak-kanak. Selepas dibina,
   pelayan Python yang menghidangkannya, jadi semuanya berjalan pada satu port.
 
 ## Permainan
 
-Lapan permainan 2D dan Legenda Story Mode tersedia. Halaman pilih permainan menyatakan syarat soalan
-sebelum bilik dibuka. Setiap skrin permainan (kanak-kanak dan hos) ada butang skrin penuh di sebelah
-butang bunyi, kecuali pada pelayar yang tidak menyokongnya (Safari iPhone).
+Tiga jenis permainan, semuanya dengan kuiz yang sama: **Kuiz Interaktif**, **empat belas permainan 2D** dan
+**Story Mode** (Hikayat Lima Alam). Halaman pilih permainan menyusunnya mengikut tiga jenis ini dan menyatakan
+syarat soalan sebelum bilik dibuka. Setiap skrin permainan (kanak-kanak dan hos) ada butang skrin penuh di
+sebelah butang bunyi, kecuali pada pelayar yang tidak menyokongnya (Safari iPhone).
+
+### Kuiz Interaktif
+
+Setiap kanak-kanak berjalan di denai awan Didi ikut kadar sendiri, satu soalan demi satu, dalam dunia pastel
+yang lembut (bukan pixel). Soalan dibacakan dengan butang Dengar. Selepas menjawab, Didi memberi reaksi dan
+bintang muncul: tiga untuk jawapan betul, dua atau satu untuk hampir betul. Jika belum betul, jawapan betul
+terus ditunjukkan. Di hujung denai ada hadiah dan jumlah bintang. Hos melihat "Denai Didi": setiap
+kanak-kanak, setiap hentian dan bintangnya. Hos boleh memilih bilangan soalan di denai (5 hingga 20, atau
+semua). Permainan tamat bila semua sampai ke hujung, atau bila masa habis.
+
+Semua jenis soalan boleh dimainkan, tetapi tiga jenis sentuh-dan-seret dibuat khas untuknya (dan boleh
+juga dimainkan dalam permainan lain):
+
+| Jenis | Cara jawab |
+| --- | --- |
+| Kira dan masukkan | Seret (atau ketik) objek ke dalam bakul, kotak, bas atau pinggan sehingga cukup bilangannya. |
+| Susun huruf | Huruf bercampur, dengan gambar petunjuk, disusun menjadi perkataan. Boleh tambah huruf pengganggu. |
+| Isih kumpulan | Seret setiap benda ke bakul kumpulannya (2 atau 3 bakul): darat atau laut, buah atau sayur. |
+
+Gambar objek ialah 110 pelekat 3D daripada Microsoft Fluent Emoji (lesen MIT, lihat
+`web/static/pelekat/LICENSE.txt`). Senarainya dalam `web/src/lib/stickers.ts` dan `server/didik_live/stickers.py`;
+ujian memastikan kedua-duanya sama. Laman utama ada demo kecil Kuiz Interaktif yang boleh terus dicuba.
+
+### Permainan 2D dan Story Mode
 
 | Permainan | Cara main |
 | --- | --- |
@@ -33,8 +58,8 @@ butang bunyi, kecuali pada pelayar yang tidak menyokongnya (Safari iPhone).
 | Kejar Bintang | Dua pasukan menangkap bintang jatuh dengan jawapan betul; setiap sepuluh bintang menyalakan satu buruj. |
 | Hikayat Lima Alam | Mod cerita lima dunia legenda Melayu, Solo atau Party. Wira berjalan sendiri; setiap musuh membuka pertarungan dan jawapan menentukan serangan. Perlukan sekurang-kurangnya 10 soalan. Lihat [`docs/LEGENDA-STORY-MODE.md`](../docs/LEGENDA-STORY-MODE.md). |
 
-Jenis soalan: pilihan tunggal, pilih semua yang betul, betul atau salah, taip jawapan, nombor, susun
-turutan, padankan, dan isi tempat kosong.
+Jenis soalan (sebelas): pilihan tunggal, pilih semua yang betul, betul atau salah, taip jawapan, nombor, susun
+turutan, padankan, isi tempat kosong, dan tiga jenis interaktif: kira dan masukkan, susun huruf, isih kumpulan.
 
 ## Rupa pixel dan bunyi chiptune
 
@@ -207,6 +232,11 @@ boleh disalin dan diubah.
 
 Setiap permainan memerlukan jenis soalan tertentu. Contohnya Lompat! hanya menggunakan soalan Betul atau salah,
 dan Pilihan tunggal dengan 2 hingga 4 jawapan. Halaman pilih permainan menerangkan jika kuiz belum sesuai.
+
+Jenis interaktif (Kira dan masukkan, Susun huruf, Isih kumpulan) dipilih dengan gambar pelekat: ketik petak
+gambar untuk memilih daripada haiwan, makanan, benda, alam dan kenderaan. Untuk Kira dan masukkan, ayat soalan
+ditulis sendiri mengikut pilihan ("Masukkan 5 biji epal ke dalam bakul.") sehingga anda menukarnya. Kuiz contoh
+**Jom Kira, Eja dan Isih** menunjukkan ketiga-tiganya.
 
 ## Pelayan sebenar (VPS)
 

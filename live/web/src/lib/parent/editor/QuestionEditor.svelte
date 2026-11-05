@@ -6,12 +6,15 @@
 	import Icon from '$ui/Icon.svelte';
 	import BlankEditor from './BlankEditor.svelte';
 	import ChoicesEditor from './ChoicesEditor.svelte';
+	import CountEditor from './CountEditor.svelte';
 	import ImageField from './ImageField.svelte';
 	import OrderEditor from './OrderEditor.svelte';
 	import PairsEditor from './PairsEditor.svelte';
+	import SortEditor from './SortEditor.svelte';
+	import SpellEditor from './SpellEditor.svelte';
 	import TypeIcon from './TypeIcon.svelte';
 	import WordList from './WordList.svelte';
-	import { LIMITS, TIME_LIMITS, TYPES, blank, type Question, type QuestionType } from './model';
+	import { KINDS, LIMITS, TIME_LIMITS, TYPES, blank, type Question, type QuestionType } from './model';
 
 	let {
 		question = $bindable(),
@@ -46,7 +49,11 @@
 		<div class="type">
 			<TypeIcon type={question.type} />
 			<select value={question.type} onchange={retype} aria-label="Jenis soalan {index + 1}">
-				{#each TYPES as t (t.type)}<option value={t.type}>{t.name}</option>{/each}
+				{#each KINDS as k (k.kind)}
+					<optgroup label={k.name}>
+						{#each TYPES.filter((t) => t.kind === k.kind) as t (t.type)}<option value={t.type}>{t.name}</option>{/each}
+					</optgroup>
+				{/each}
 			</select>
 		</div>
 		<div class="tools">
@@ -149,6 +156,12 @@
 			<PairsEditor bind:pairs={question.pairs} {err} />
 		{:else if question.type === 'blank'}
 			<BlankEditor bind:sentence={question.sentence} bind:distractors={question.distractors} bind:wordBank={question.word_bank} id={question.id} {err} />
+		{:else if question.type === 'count'}
+			<CountEditor bind:question {err} />
+		{:else if question.type === 'spell'}
+			<SpellEditor bind:question {err} />
+		{:else if question.type === 'sort'}
+			<SortEditor bind:question {err} />
 		{/if}
 	</div>
 </article>

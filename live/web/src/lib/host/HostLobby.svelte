@@ -132,9 +132,18 @@
 				<label class="field">
 					<span>Tempoh permainan</span>
 					<select class="input" value={settings.minutes} onchange={(e) => set({ minutes: Number((e.target as HTMLSelectElement).value) })}>
-						{#each [3, 5, 7, 10, 15] as m (m)}<option value={m}>{m} minit</option>{/each}
+						{#each mode.key === 'interaktif' ? [5, 10, 15, 20] : [3, 5, 7, 10, 15] as m (m)}<option value={m}>{m} minit</option>{/each}
 					</select>
 				</label>
+				{#if mode.key === 'interaktif'}
+					<label class="field">
+						<span>Bilangan soalan di denai</span>
+						<select class="input" value={settings.question_limit ?? 0} onchange={(e) => set({ question_limit: Number((e.target as HTMLSelectElement).value) || null })}>
+							<option value={0}>Semua soalan kuiz</option>
+							{#each [5, 10, 15, 20] as n (n)}<option value={n}>{n} soalan</option>{/each}
+						</select>
+					</label>
+				{/if}
 			{/if}
 			<label class="check-row"><input type="checkbox" checked={settings.shuffle} onchange={(e) => set({ shuffle: (e.target as HTMLInputElement).checked })} /> Kocok soalan</label>
 			<label class="check-row"><input type="checkbox" checked={settings.custom_names} onchange={(e) => set({ custom_names: (e.target as HTMLInputElement).checked })} /> Benarkan nama sendiri (ditapis)</label>

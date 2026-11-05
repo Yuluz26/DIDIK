@@ -1,4 +1,4 @@
-<!-- Permainan: every game a room can play, and what each one needs from a quiz. -->
+<!-- Permainan: every game a room can play, in its three kinds, and what each one needs from a quiz. -->
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { api } from '$lib/api';
@@ -8,6 +8,8 @@
 	import NmIcon from '$lib/parent/ui/NmIcon.svelte';
 	import type { ModeInfo } from '$lib/types';
 	import WorldBadge from '$lib/worlds/WorldBadge.svelte';
+	import Sticker from '$ui/Sticker.svelte';
+	import { byFamily } from '$lib/families';
 
 	let modes = $state<ModeInfo[]>([]);
 	let problem = $state('');
@@ -42,9 +44,18 @@
 		<div class="wait"><Kawaii seed="main" size={70} mood="wow" /></div>
 	{/if}
 
+	{#each byFamily(modes) as group (group.family.key)}
+	<section class="family" aria-labelledby="k-{group.family.key}">
+		<header class="fam-head">
+			<span class="fam-art" aria-hidden="true"><Sticker key={group.family.sticker} size={40} alt="" /></span>
+			<div>
+				<h2 id="k-{group.family.key}">{group.family.name}</h2>
+				<p>{group.family.note}</p>
+			</div>
+		</header>
 	<ul class="games">
-		{#each modes as mode (mode.key)}
-			<li class="nm-card" class:story={mode.key === 'legenda'}>
+		{#each group.modes as mode (mode.key)}
+			<li class="nm-card" class:story={mode.key === 'legenda'} class:ik={mode.key === 'interaktif'}>
 				<span class="badge"><WorldBadge world={mode.world} size={60} /></span>
 				<div class="text">
 					<p class="kind">{mode.style}</p>
@@ -56,6 +67,8 @@
 			</li>
 		{/each}
 	</ul>
+	</section>
+	{/each}
 </DashShell>
 
 <style>
@@ -80,6 +93,39 @@
 		display: flex;
 		gap: 1rem;
 		padding: 1.2rem 1.3rem;
+	}
+	.family {
+		display: grid;
+		gap: 0.9rem;
+	}
+	.family + .family {
+		margin-top: 2rem;
+	}
+	.fam-head {
+		display: flex;
+		align-items: center;
+		gap: 0.8rem;
+	}
+	.fam-art {
+		display: grid;
+		place-items: center;
+		flex: none;
+		width: 3.2rem;
+		height: 3.2rem;
+		border-radius: 50%;
+		background: #fff;
+		box-shadow: 0 4px 10px rgb(163 172 198 / 0.35);
+	}
+	.fam-head h2 {
+		font: 600 1.35rem/1.15 var(--font-display);
+	}
+	.fam-head p {
+		color: var(--ink-2);
+		font-size: 0.93rem;
+	}
+	.games li.ik {
+		background: linear-gradient(135deg, #ffe8f3, #eee6ff 50%, #e3f6ff);
+		grid-column: 1 / -1;
 	}
 	.games li.story {
 		background: linear-gradient(145deg, #efe9ff, #e4dcff);

@@ -12,6 +12,8 @@ export interface ModeInfo {
 	world: string;
 	/** All supported modes use 2D presentation. */
 	look: '2d';
+	/** Which of the three kinds of game: Kuiz Interaktif, the 2D island games, or the story mode. */
+	family: 'interaktif' | '2d' | 'story';
 	/** What a score counts: mata, m, syiling, petak... */
 	unit: string;
 	needs: string;
@@ -123,7 +125,7 @@ export interface Choice {
 
 export interface PublicQuestion {
 	id: string;
-	type: 'single' | 'multiple' | 'truefalse' | 'text' | 'number' | 'order' | 'match' | 'blank';
+	type: 'single' | 'multiple' | 'truefalse' | 'text' | 'number' | 'order' | 'match' | 'blank' | 'count' | 'spell' | 'sort';
 	label: string;
 	prompt: string;
 	image: string | null;
@@ -132,12 +134,21 @@ export interface PublicQuestion {
 	pick?: number;
 	maxLength?: number;
 	unit?: string;
-	items?: Choice[];
+	items?: (Choice & { sticker?: string | null })[];
 	left?: Choice[];
 	right?: Choice[];
 	parts?: (string | { blank: number })[];
 	blanks?: number;
 	bank?: string[];
+	/** Kira dan masukkan: the object, where it goes, and how many are in the pile. */
+	sticker?: string | null;
+	place?: string;
+	supply?: number;
+	/** Susun huruf: the mixed-up letters and how many boxes. */
+	tiles?: { id: string; ch: string }[];
+	length?: number;
+	/** Isih kumpulan: the baskets (the things to sort are `items`, each with its sticker). */
+	groups?: { id: string; name: string; sticker: string | null }[];
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

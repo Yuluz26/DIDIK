@@ -1,6 +1,7 @@
 <!--
-	"Main bersama": choose one of the games for this quiz and open a room. Every game suits any
-	class; the teacher or parent picks by taste. Games the quiz cannot support
+	"Main bersama": choose one of the games for this quiz and open a room, in three kinds: Kuiz
+	Interaktif, the 2D island games and the story mode. Every game suits any class; the teacher or
+	parent picks by taste. Games the quiz cannot support
 	(e.g. Lompat! needs Betul/Salah or 2-4 choices) say why instead of failing later. Legenda opens
 	either a Solo room (one child) or a Party room; nothing else needs setting up.
 -->
@@ -16,6 +17,8 @@
 	import NmIcon from '$lib/parent/ui/NmIcon.svelte';
 	import WorldBadge from '$lib/worlds/WorldBadge.svelte';
 	import DashShell from '$lib/parent/DashShell.svelte';
+	import Sticker from '$ui/Sticker.svelte';
+	import { byFamily } from '$lib/families';
 
 	const id = page.params.id;
 	let title = $state('');
@@ -71,10 +74,32 @@
 		<div class="loading"><Kawaii seed="muat" size={90} mood="wow" /></div>
 	{/if}
 
+	{#each byFamily(modes) as group, g (group.family.key)}
+	<section class="family fam-{group.family.key}" aria-labelledby="fam-{group.family.key}">
+		<header class="fam-head">
+			<span class="fam-art" aria-hidden="true"><Sticker key={group.family.sticker} size={40} alt="" /></span>
+			<div>
+				<h2 id="fam-{group.family.key}">{group.family.name} {#if group.family.key === 'interaktif'}<span class="new">Baharu</span>{/if}</h2>
+				<p>{group.family.note}</p>
+			</div>
+		</header>
 	<ul class="games">
-		{#each modes as mode, i (mode.key)}
-			<li style:--i={i} class:wide={mode.key === 'legenda'}>
-				{#if mode.key === 'legenda'}
+		{#each group.modes as mode, i (mode.key)}
+			<li style:--i={i + g * 3} class:wide={mode.key === 'legenda' || mode.key === 'interaktif'}>
+				{#if mode.key === 'interaktif'}
+					<button type="button" class="game nm-card ik" class:off={!!mode.reason} disabled={!!mode.reason || !!opening} onclick={() => open(mode)}>
+						<span class="ik-stickers" aria-hidden="true">
+							<Sticker key="epal" size={46} alt="" /><Sticker key="bakul" size={58} alt="" /><Sticker key="buku" size={44} alt="" />
+						</span>
+						<span class="text">
+							<span class="kind">{mode.style}</span>
+							<span class="title">{mode.title}</span>
+							<span class="tagline">{mode.tagline}</span>
+							{#if mode.reason}<span class="reason">{mode.reason}</span>{:else}<span class="fit">Semua jenis soalan boleh dimainkan. Paling seronok dengan Kira, Susun huruf dan Isih.</span>{/if}
+						</span>
+						<span class="go" aria-hidden="true">{opening === mode.key ? '…' : ''}<NmIcon name="next" size={20} /></span>
+					</button>
+				{:else if mode.key === 'legenda'}
 					<div class="game nm-card legend" class:off={!!mode.reason}>
 						<span class="badge"><WorldBadge world={mode.world} size={64} /></span>
 						<span class="text">
@@ -111,6 +136,8 @@
 			</li>
 		{/each}
 	</ul>
+	</section>
+	{/each}
 	<p class="after">Selepas memilih, anda akan dapat pautan, kod QR dan kod 6 digit untuk dikongsi. Tetapan boleh diubah di lobi.</p>
 </DashShell>
 
@@ -126,6 +153,70 @@
 	}
 	.back:hover {
 		color: var(--brand-ink);
+	}
+	.family {
+		display: grid;
+		gap: 0.9rem;
+	}
+	.family + .family {
+		margin-top: 2rem;
+	}
+	.fam-head {
+		display: flex;
+		align-items: center;
+		gap: 0.8rem;
+	}
+	.fam-art {
+		display: grid;
+		place-items: center;
+		flex: none;
+		width: 3.2rem;
+		height: 3.2rem;
+		border-radius: 50%;
+		background: #fff;
+		box-shadow: 0 4px 10px rgb(163 172 198 / 0.35);
+	}
+	.fam-head h2 {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.5rem;
+		font: 600 1.35rem/1.15 var(--font-display);
+	}
+	.fam-head p {
+		color: var(--ink-2);
+		font-size: 0.93rem;
+	}
+	.new {
+		padding: 0.15rem 0.6rem;
+		border-radius: 999px;
+		background: linear-gradient(135deg, #ff7eb0, #ffb36e);
+		color: #fff;
+		font-size: 0.75rem;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+	}
+	.game.ik {
+		background: linear-gradient(135deg, #ffe8f3, #eee6ff 50%, #e3f6ff);
+	}
+	.ik-stickers {
+		display: flex;
+		align-items: flex-end;
+		flex: none;
+		gap: 0.1rem;
+	}
+	.ik-stickers :global(img:nth-child(2)) {
+		animation: float-y 3s ease-in-out infinite;
+	}
+	@keyframes float-y {
+		50% {
+			transform: translateY(-5px) rotate(-3deg);
+		}
+	}
+	@media (max-width: 520px) {
+		.game.ik {
+			flex-wrap: wrap;
+		}
 	}
 	.games {
 		display: grid;

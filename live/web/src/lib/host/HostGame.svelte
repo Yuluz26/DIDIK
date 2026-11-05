@@ -10,6 +10,7 @@
 	import GardenHost from '$lib/games/garden/GardenHost.svelte';
 	import PictureHost from '$lib/games/picture/PictureHost.svelte';
 	import LegendaHost from '$lib/games/legenda/LegendaHost.svelte';
+	import InteraktifHost from '$lib/games/interaktif/InteraktifHost.svelte';
 	import ScoreTowers from '$ui/ScoreTowers.svelte';
 	import FunHost from '$lib/games/fun/FunHost.svelte';
 	import SkyKites from '$lib/games/fun/SkyKites.svelte';
@@ -24,7 +25,13 @@
 	const minutes = $derived(view.game?.length ?? 300);
 </script>
 
-{#if mode.key === 'lumba'}
+{#if mode.key === 'interaktif'}
+	<SelfHost {client} {game} {people} feed={view.feed} title={mode.title} unit={mode.unit} total={minutes} boardTitle="Paling banyak bintang">
+		{#snippet world()}
+			<InteraktifHost {game} {people} />
+		{/snippet}
+	</SelfHost>
+{:else if mode.key === 'lumba'}
 	<SyncHost {client} {game} {people} title={mode.title} unit={mode.unit}>
 		{#snippet scene()}
 			{#if game.race}<RaceRiver race={game.race} {people} />{/if}

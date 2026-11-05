@@ -1,4 +1,4 @@
-"""The eight question types a parent can write, and how each one is shown, answered and checked.
+"""The eleven question types a parent can write, and how each one is shown, answered and checked.
 
 A question reaches a child only as a *presentation*: a copy with the answers removed, the options
 shuffled and every option renamed with a random token. The tokens map back to the real ids only on the
@@ -16,6 +16,7 @@ from typing import Annotated, Any, Literal, Union
 from pydantic import BaseModel, ConfigDict, Field, TypeAdapter, field_validator, model_validator
 
 from . import text as textutil
+from .stickers import PLACES, check_sticker
 
 ID_PATTERN = r"^[A-Za-z0-9_-]{1,16}$"
 IMAGE_PATTERN = re.compile(r"^/uploads/[a-f0-9]{32}\.webp$")
@@ -31,7 +32,15 @@ TYPE_LABELS = {
     "order": "Susun turutan",
     "match": "Padankan",
     "blank": "Isi tempat kosong",
+    "count": "Kira dan masukkan",
+    "spell": "Susun huruf",
+    "sort": "Isih kumpulan",
 }
+
+# Letters a "Susun huruf" word may use: Malay and English words, written with or without capitals.
+WORD_PATTERN = re.compile(r"^[A-Za-z]{2,12}$")
+DECOY_LETTERS = "abcdeghiklmnoprstuy"
+COUNT_MAX = 20
 
 
 def new_id() -> str:
@@ -193,6 +202,95 @@ class BlankQuestion(_Question):
         return parts
 
 
+class CountQuestion(_Question):
+    """Kira dan masukkan: drag (or tap) the right number of objects into a basket, a box, a bus."""
+
+    type: Literal["count"]
+    sticker: str = Field(max_length=24)
+    place: str = Field(default="bakul", max_length=24)
+    answer: int = Field(ge=1, le=COUNT_MAX)
+
+    @field_validator("sticker")
+    @classmethod
+    def _sticker(cls, value: str) -> str:
+        if not check_sticker(value):
+            raise ValueError("Pilih gambar objek untuk dikira.")
+        return value
+
+    @field_validator("place")
+    @classmethod
+    def _place(cls, value: str) -> str:
+        if value not in PLACES:
+            raise ValueError("Tempat tidak dikenali.")
+        return value
+
+
+class SpellQuestion(_Question):
+    """Susun huruf: the word's letters, mixed up, to be put back in order. A sticker or the question's
+    picture shows what the word is."""
+
+    type: Literal["spell"]
+    word: str = Field(min_length=2, max_length=12)
+    sticker: str | None = Field(default=None, max_length=24)
+    decoys: int = Field(default=0, ge=0, le=4)
+
+    @field_validator("word")
+    @classmethod
+    def _word(cls, value: str) -> str:
+        if not WORD_PATTERN.match(value):
+            raise ValueError("Satu perkataan sahaja, 2 hingga 12 huruf (tanpa jarak, nombor atau tanda).")
+        return value
+
+    @field_validator("sticker")
+    @classmethod
+    def _sticker(cls, value: str | None) -> str | None:
+        return check_sticker(value)
+
+
+class SortGroup(_Strict):
+    id: str = Field(default_factory=new_id, pattern=ID_PATTERN)
+    name: str = Field(min_length=1, max_length=30)
+    sticker: str | None = Field(default=None, max_length=24)
+
+    @field_validator("sticker")
+    @classmethod
+    def _sticker(cls, value: str | None) -> str | None:
+        return check_sticker(value)
+
+
+class SortItem(_Strict):
+    id: str = Field(default_factory=new_id, pattern=ID_PATTERN)
+    text: str = Field(min_length=1, max_length=40)
+    sticker: str | None = Field(default=None, max_length=24)
+    group: str = Field(pattern=ID_PATTERN)
+
+    @field_validator("sticker")
+    @classmethod
+    def _sticker(cls, value: str | None) -> str | None:
+        return check_sticker(value)
+
+
+class SortQuestion(_Question):
+    """Isih kumpulan: put each thing into the basket it belongs to (land or sea, fruit or vegetable)."""
+
+    type: Literal["sort"]
+    groups: list[SortGroup] = Field(min_length=2, max_length=3)
+    items: list[SortItem] = Field(min_length=3, max_length=8)
+
+    @model_validator(mode="after")
+    def _check(self) -> SortQuestion:
+        _distinct([g.name for g in self.groups], "Setiap kumpulan mesti berbeza namanya.")
+        _distinct([i.text for i in self.items], "Setiap benda mesti berbeza.")
+        ids = {g.id for g in self.groups}
+        if len(ids) != len(self.groups):
+            raise ValueError("Kumpulan berulang.")
+        if any(i.group not in ids for i in self.items):
+            raise ValueError("Setiap benda mesti masuk satu kumpulan.")
+        if any(not any(i.group == g.id for i in self.items) for g in self.groups):
+            raise ValueError("Setiap kumpulan mesti ada sekurang-kurangnya satu benda.")
+        return self
+
+
 Question = Annotated[
     Union[
         SingleQuestion,
@@ -203,6 +301,9 @@ Question = Annotated[
         OrderQuestion,
         MatchQuestion,
         BlankQuestion,
+        CountQuestion,
+        SpellQuestion,
+        SortQuestion,
     ],
     Field(discriminator="type"),
 ]
@@ -306,6 +407,30 @@ def present(question: Any, rng: random.Random, time_limit: int | None = None) ->
             words = [alts[0] for alts in question.blanks()] + list(question.distractors)
             rng.shuffle(words)
             public["bank"] = words
+    elif question.type == "count":
+        public["sticker"] = question.sticker
+        public["place"] = question.place
+        # a few more than needed, so the pile itself never gives the answer away
+        public["supply"] = min(COUNT_MAX, max(8, question.answer + rng.randint(2, 4)))
+    elif question.type == "spell":
+        word = question.word
+        letters = list(word) + [rng.choice(DECOY_LETTERS) for _ in range(question.decoys)]
+        if word.isupper():
+            letters = [ch.upper() for ch in letters]
+        order = list(range(len(letters)))
+        # mixed up, never handed over already spelt (unless every letter is the same, as in "AA")
+        for _ in range(30):
+            rng.shuffle(order)
+            if "".join(letters[i] for i in order[: len(word)]) != word:
+                break
+        public["tiles"] = [{"id": _token(pres, f"t{i}"), "ch": letters[i]} for i in order]
+        public["length"] = len(word)
+        public["sticker"] = question.sticker
+    elif question.type == "sort":
+        items = list(question.items)
+        rng.shuffle(items)
+        public["groups"] = [{"id": _token(pres, "G" + g.id), "name": g.name, "sticker": g.sticker} for g in question.groups]
+        public["items"] = [{"id": _token(pres, "I" + i.id), "text": i.text, "sticker": i.sticker} for i in items]
 
     pres.public = public
     return pres
@@ -390,6 +515,44 @@ def _check_blank(pres: Presentation, answer: Any) -> Outcome:
     return Outcome(right == len(blanks), round(right / len(blanks), 3))
 
 
+def _check_count(pres: Presentation, answer: Any) -> Outcome:
+    if isinstance(answer, bool) or not isinstance(answer, int) or not 0 <= answer <= COUNT_MAX:
+        raise ValueError
+    ok = answer == pres.question.answer
+    return Outcome(ok, 1.0 if ok else 0.0)
+
+
+def _spell_letters(pres: Presentation) -> dict[str, str]:
+    return {str(t["id"]): str(t["ch"]) for t in pres.public["tiles"]}
+
+
+def _check_spell(pres: Presentation, answer: Any) -> Outcome:
+    word = pres.question.word
+    letters = _spell_letters(pres)
+    if not isinstance(answer, list) or len(answer) != len(word) or len({str(t) for t in answer}) != len(answer):
+        raise ValueError
+    built = [letters[str(t)] for t in answer]
+    right = sum(a.casefold() == b.casefold() for a, b in zip(built, word, strict=True))
+    return Outcome(right == len(word), round(right / len(word), 3))
+
+
+def _check_sort(pres: Presentation, answer: Any) -> Outcome:
+    if not isinstance(answer, dict) or len(answer) != len(pres.question.items):
+        raise ValueError
+    home = {i.id: i.group for i in pres.question.items}
+    right = 0
+    seen: set[str] = set()
+    for item_token, group_token in answer.items():
+        item = pres.token_to_id[str(item_token)]
+        group = pres.token_to_id[str(group_token)]
+        if not item.startswith("I") or not group.startswith("G") or item in seen:
+            raise ValueError
+        seen.add(item)
+        right += home[item[1:]] == group[1:]
+    total = len(pres.question.items)
+    return Outcome(right == total, round(right / total, 3))
+
+
 _CHECKERS = {
     "single": _check_single,
     "multiple": _check_multiple,
@@ -399,6 +562,9 @@ _CHECKERS = {
     "order": _check_order,
     "match": _check_match,
     "blank": _check_blank,
+    "count": _check_count,
+    "spell": _check_spell,
+    "sort": _check_sort,
 }
 
 
@@ -415,6 +581,16 @@ def _reveal_number(pres: Presentation) -> dict[str, Any]:
     return {"correct": value, "tolerance": q.tolerance, "unit": q.unit}
 
 
+def _spell_tokens(pres: Presentation) -> list[str]:
+    """The tiles that spell the word, in order (the first free tile of each letter)."""
+    free = list(_spell_letters(pres).items())
+    tokens: list[str] = []
+    for ch in pres.question.word:
+        index = next(i for i, (_, letter) in enumerate(free) if letter.casefold() == ch.casefold())
+        tokens.append(free.pop(index)[0])
+    return tokens
+
+
 _REVEALS = {
     "single": _reveal_choices,
     "multiple": _reveal_choices,
@@ -424,6 +600,9 @@ _REVEALS = {
     "order": lambda p: {"correct": [p.id_to_token[i.id] for i in p.question.items]},
     "match": lambda p: {"correct": {p.id_to_token["L" + x.id]: p.id_to_token["R" + x.id] for x in p.question.pairs}},
     "blank": lambda p: {"correct": [alts[0] for alts in p.question.blanks()]},
+    "count": lambda p: {"correct": p.question.answer},
+    "spell": lambda p: {"correct": _spell_tokens(p), "word": p.question.word},
+    "sort": lambda p: {"correct": {p.id_to_token["I" + i.id]: p.id_to_token["G" + i.group] for i in p.question.items}},
 }
 
 
@@ -472,6 +651,38 @@ def _sample_blank(pres: Presentation, correct: bool, rng: random.Random) -> Any:
     return [pres.question.distractors[0] if pres.question.distractors else "entah"] + words[1:]
 
 
+def _sample_count(pres: Presentation, correct: bool, rng: random.Random) -> Any:
+    answer = pres.question.answer
+    if correct:
+        return answer
+    return answer - 1 if answer > 1 and (rng.random() < 0.5 or answer == pres.public["supply"]) else answer + 1
+
+
+def _sample_spell(pres: Presentation, correct: bool, rng: random.Random) -> Any:
+    tokens = _spell_tokens(pres)
+    if correct:
+        return tokens
+    word = pres.question.word.casefold()
+    for i in range(len(tokens) - 1):
+        if word[i] != word[i + 1]:
+            tokens[i], tokens[i + 1] = tokens[i + 1], tokens[i]
+            return tokens
+    letters = _spell_letters(pres)
+    spare = [t for t in letters if t not in tokens and letters[t].casefold() != word[0]]
+    return [spare[0], *tokens[1:]] if spare else tokens
+
+
+def _sample_sort(pres: Presentation, correct: bool, rng: random.Random) -> Any:
+    groups = [g.id for g in pres.question.groups]
+    out = {}
+    for index, item in enumerate(pres.question.items):
+        group = item.group
+        if not correct and index == 0:
+            group = next(g for g in groups if g != item.group)
+        out[pres.id_to_token["I" + item.id]] = pres.id_to_token["G" + group]
+    return out
+
+
 _SAMPLES = {
     "single": _sample_single,
     "multiple": _sample_multiple,
@@ -481,4 +692,7 @@ _SAMPLES = {
     "order": _sample_order,
     "match": _sample_match,
     "blank": _sample_blank,
+    "count": _sample_count,
+    "spell": _sample_spell,
+    "sort": _sample_sort,
 }

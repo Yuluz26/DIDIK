@@ -123,6 +123,7 @@ class LegendaMode(SelfPacedMode):
     style = "Pengembaraan"
     pace = "self"
     world = "legenda"
+    family = "story"
     unit = "mata"
     needs = "(apa-apa jenis)"
     min_questions = 10

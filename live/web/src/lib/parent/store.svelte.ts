@@ -32,7 +32,10 @@ export const TYPE_NAMES: Record<string, string> = {
 	number: 'Nombor',
 	order: 'Susun',
 	match: 'Padan',
-	blank: 'Isi kosong'
+	blank: 'Isi kosong',
+	count: 'Kira',
+	spell: 'Eja',
+	sort: 'Isih'
 };
 
 class ParentData {

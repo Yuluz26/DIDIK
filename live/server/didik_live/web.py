@@ -84,6 +84,8 @@ class Shell:
 # asks each time, and gets a bodiless 304 while it is unchanged.
 IMMUTABLE = "public, max-age=31536000, immutable"
 CHECK = "no-cache"
+# The 3D stickers change only when one is redrawn: a week in the browser, then checked again.
+STICKERS = "public, max-age=604800"
 # The build writes these beside every text file (svelte.config.js, precompress).
 ENCODINGS = (("br", ".br"), ("gzip", ".gz"))
 
@@ -125,7 +127,7 @@ def mount_web(app: FastAPI, web_dir: Path) -> None:
             candidate = (root / path).resolve()
             if candidate.is_file() and candidate.is_relative_to(root):
                 fixed = path.startswith("_app/immutable/") or (path.startswith("story/") and "v" in request.query_params)
-                return file_response(request, candidate, IMMUTABLE if fixed else CHECK)
+                return file_response(request, candidate, IMMUTABLE if fixed else STICKERS if path.startswith("pelekat/") else CHECK)
             # A script or style from an older build (a page left open across an update) must fail
             # as missing, not arrive as the HTML page, so the app can fall back instead of choking.
             if path.startswith("_app/"):

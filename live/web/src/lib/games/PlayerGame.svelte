@@ -14,6 +14,7 @@
 	import GardenPlayer from './garden/GardenPlayer.svelte';
 	import PictureGuess from './picture/PictureGuess.svelte';
 	import LegendaPlayer from './legenda/LegendaPlayer.svelte';
+	import InteraktifPlayer from './interaktif/InteraktifPlayer.svelte';
 	import FishingWorld from './fun/FishingWorld.svelte';
 	import SkyKites from './fun/SkyKites.svelte';
 	import CastleWorld from './fun/CastleWorld.svelte';
@@ -28,7 +29,9 @@
 	const minutes = $derived(view.game?.length ?? 300);
 </script>
 
-{#if mode.key === 'lumba'}
+{#if mode.key === 'interaktif'}
+	<InteraktifPlayer {client} {game} {me} {people} />
+{:else if mode.key === 'lumba'}
 	<SyncPlayer {client} {game} {me} {people} title={mode.title} unit={mode.unit}>
 		{#snippet scene()}
 			{#if game.race}<RaceRiver race={game.race} {people} me={me.id} compact />{/if}

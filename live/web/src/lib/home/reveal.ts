@@ -8,7 +8,7 @@ import type { Attachment } from 'svelte/attachments';
 export function reveal(delay = 0): Attachment<HTMLElement> {
 	return (node) => {
 		if (matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
-		node.classList.add('reveal');
+		node.classList.add('scroll-reveal');
 		node.style.setProperty('--delay', `${delay}ms`);
 		const seen = new IntersectionObserver(
 			(entries) => {

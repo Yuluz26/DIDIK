@@ -3,8 +3,8 @@
 On a public server there is no demo parent (its password is public): the sample quizzes belong to the
 library account instead, which has no password at all, so nobody can sign in as it.
 
-The sample quizzes use every question type and suit every game; the last three are pitched at older
-students (Tingkatan 1-5 content). Facts were checked; keep them checked when you change them,
+The sample quizzes use every question type and suit every game; three are pitched at older students
+(Tingkatan 1-5 content), and the last one, for the youngest, is made of the hands-on types. Facts were checked; keep them checked when you change them,
 because children will believe them.
 """
 
@@ -62,6 +62,27 @@ def _match(prompt: str, pairs: list[tuple[str, str]], time: int = 45) -> dict:
 
 def _blank(prompt: str, sentence: str, *distractors: str, time: int = 30) -> dict:
     return {"type": "blank", "prompt": prompt, "sentence": sentence, "distractors": list(distractors), "time_limit": time}
+
+
+def _count(prompt: str, sticker: str, place: str, answer: int, time: int = 45) -> dict:
+    return {"type": "count", "prompt": prompt, "sticker": sticker, "place": place, "answer": answer, "time_limit": time}
+
+
+def _spell(prompt: str, word: str, sticker: str | None = None, decoys: int = 0, time: int = 45) -> dict:
+    return {"type": "spell", "prompt": prompt, "word": word, "sticker": sticker, "decoys": decoys, "time_limit": time}
+
+
+def _sort(prompt: str, groups: list[tuple[str, str | None, list[tuple[str, str | None]]]], time: int = 60) -> dict:
+    """groups: (name, sticker, [(thing, sticker), ...])"""
+    return {
+        "type": "sort",
+        "prompt": prompt,
+        "groups": [{"id": f"g{i}", "name": name, "sticker": sticker} for i, (name, sticker, _) in enumerate(groups)],
+        "items": [
+            {"text": text, "sticker": thing, "group": f"g{i}"} for i, (_, _, things) in enumerate(groups) for text, thing in things
+        ],
+        "time_limit": time,
+    }
 
 
 SAMPLES = [
@@ -198,6 +219,38 @@ SAMPLES = [
             _multiple("Pilih wilayah yang bersama Persekutuan Tanah Melayu membentuk Malaysia pada tahun 1963.", ["Sabah", "Sarawak", "Singapura"], ["Brunei"]),
             _tf("Singapura berpisah daripada Malaysia pada tahun 1965.", True),
             _blank("Lengkapkan ayat.", "Perlembagaan Persekutuan ialah undang-undang [tertinggi] negara.", "terendah", "sementara"),
+        ],
+    },
+    {
+        "title": "Jom Kira, Eja dan Isih",
+        "description": "Kuiz sentuh dan seret untuk 4 hingga 7 tahun: kira objek, susun huruf dan isih ke bakul. "
+        "Paling seronok dengan Kuiz Interaktif.",
+        "questions": [
+            _count("Masukkan 5 biji epal ke dalam bakul.", "epal", "bakul", 5),
+            _spell("Susun huruf untuk mengeja nama haiwan ini.", "kucing", "kucing"),
+            _sort(
+                "Haiwan ini tinggal di darat atau di laut?",
+                [
+                    ("Darat", "pokok", [("Kucing", "kucing"), ("Lembu", "lembu"), ("Arnab", "arnab")]),
+                    ("Laut", "bot", [("Ikan", "ikan"), ("Sotong", "sotong"), ("Paus", "paus")]),
+                ],
+            ),
+            _single("Yang manakah sejenis buah?", "Pisang", "Kereta", "Kasut", "Bola"),
+            _count("Masukkan 8 biji telur ke dalam kotak.", "telur", "kotak", 8),
+            _spell("Eja nama buah ini.", "pisang", "pisang", decoys=1),
+            _sort(
+                "Kenderaan ini bergerak di udara, di darat atau di air?",
+                [
+                    ("Udara", "awan", [("Kapal terbang", "kapal-terbang"), ("Helikopter", "helikopter")]),
+                    ("Darat", "pokok", [("Kereta", "kereta"), ("Bas", "bas"), ("Basikal", "basikal")]),
+                    ("Air", "air", [("Bot", "bot"), ("Kapal", "kapal")]),
+                ],
+            ),
+            _count("3 + 2 = ? Letakkan donat sebanyak jawapannya di atas pinggan.", "donat", "pinggan", 5),
+            _tf("Lebah membuat madu.", True),
+            _spell("Eja perkataan ini.", "BOLA", "bola", decoys=2),
+            _order("Susun haiwan dari yang paling kecil hingga paling besar.", "Tikus", "Kucing", "Lembu", "Gajah"),
+            _count("Naikkan 6 ekor ayam ke dalam bas.", "ayam", "bas", 6),
         ],
     },
 ]

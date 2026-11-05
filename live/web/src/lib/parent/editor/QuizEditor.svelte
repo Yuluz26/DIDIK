@@ -9,7 +9,11 @@
 	import Icon from '$ui/Icon.svelte';
 	import QuestionEditor from './QuestionEditor.svelte';
 	import TypeIcon from './TypeIcon.svelte';
-	import { LIMITS, TYPES, blank, duplicate, type QuizDraft, type QuestionType } from './model';
+	import { KINDS, LIMITS, TYPES, blank, duplicate, type QuizDraft, type QuestionType } from './model';
+	import Sticker from '$ui/Sticker.svelte';
+
+	// the hands-on types show what the child will touch
+	const TYPE_STICKER: Partial<Record<QuestionType, string>> = { count: 'epal', spell: 'buku', sort: 'bakul' };
 
 	let {
 		initial,
@@ -193,15 +197,22 @@
 					{#if draft.questions.length >= LIMITS.questions}
 						<p class="help">Kuiz ini sudah ada {LIMITS.questions} soalan, iaitu had maksimum.</p>
 					{:else}
-						<div class="types">
-							{#each TYPES as t (t.type)}
-								<button type="button" class="type-card" onclick={() => add(t.type)}>
-									<span class="icon"><TypeIcon type={t.type} /></span>
-									<strong>{t.name}</strong>
-									<small>{t.hint}</small>
-								</button>
-							{/each}
-						</div>
+						{#each KINDS as k (k.kind)}
+							<div class="kind-group" class:interaktif={k.kind === 'interaktif'}>
+								<p class="kind-name"><strong>{k.name}</strong> <span>{k.note}</span></p>
+								<div class="types">
+									{#each TYPES.filter((t) => t.kind === k.kind) as t (t.type)}
+										<button type="button" class="type-card" onclick={() => add(t.type)}>
+											<span class="icon">
+												{#if TYPE_STICKER[t.type]}<Sticker key={TYPE_STICKER[t.type]!} size={34} alt="" />{:else}<TypeIcon type={t.type} />{/if}
+											</span>
+											<strong>{t.name}</strong>
+											<small>{t.hint}</small>
+										</button>
+									{/each}
+								</div>
+							</div>
+						{/each}
 					{/if}
 				</section>
 			{/if}
@@ -377,6 +388,36 @@
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(11.5rem, 1fr));
 		gap: 0.6rem;
+	}
+	.kind-group {
+		display: grid;
+		gap: 0.5rem;
+	}
+	.kind-group + .kind-group {
+		margin-top: 0.9rem;
+	}
+	.kind-group.interaktif {
+		padding: 0.8rem;
+		border-radius: var(--r-lg);
+		background: linear-gradient(135deg, #fff1f8, #eef6ff 55%, #f1fbe9);
+	}
+	.kind-group.interaktif .icon {
+		background: #fff;
+		box-shadow: 0 3px 8px rgb(211 50 141 / 0.15);
+	}
+	.kind-name {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: 0.2rem 0.6rem;
+	}
+	.kind-name strong {
+		font: 600 1.05rem var(--font-display);
+	}
+	.kind-name span {
+		color: var(--ink-2);
+		font-size: 0.88rem;
+		font-weight: 700;
 	}
 	.type-card {
 		display: grid;

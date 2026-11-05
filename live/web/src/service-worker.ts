@@ -10,6 +10,8 @@
 // - The story art (asked for with a hash of its content, see storyArt) and the uploaded pictures (each a
 //   random name of its own) never change under their address: they are kept the first time they are
 //   seen (ART, shared by every build) and served from there, video ranges included.
+// - The 3D stickers (/pelekat/, about 650 KB in all) are not stored at install: only the few a quiz uses are
+//   ever needed, and the browser keeps those for a week (the server's Cache-Control).
 // - The page itself comes from the network, and from the last copy when the network is slow or gone.
 // - The API, the game sockets and anything from another site are never touched.
 
@@ -26,8 +28,8 @@ const PAGE_WAIT_MS = 3500;
 const ART_FILES = 400;
 
 const IMMUTABLE = new Set(build);
-// Everything of this build except the story art, which is stored as it is first used (about 24 MB).
-const PRECACHE = [...build, ...files.filter((file) => !file.startsWith('/story/'))];
+// Everything of this build except the story art, which is stored as it is first used (about 24 MB), and the stickers.
+const PRECACHE = [...build, ...files.filter((file) => !file.startsWith('/story/') && !file.startsWith('/pelekat/'))];
 
 sw.addEventListener('install', (event) => {
 	event.waitUntil(
