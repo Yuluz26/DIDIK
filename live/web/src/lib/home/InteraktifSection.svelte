@@ -11,10 +11,14 @@
 	import { reveal } from './reveal';
 
 	const KINDS = [
-		{ sticker: 'epal', name: 'Kira dan masukkan', line: 'Seret epal ke dalam bakul sehingga cukup bilangannya.' },
-		{ sticker: 'buku', name: 'Susun huruf', line: 'Huruf bercampur, gambar menjadi petunjuk.' },
-		{ sticker: 'bakul', name: 'Isih kumpulan', line: 'Darat atau laut? Buah atau sayur? Seret ke bakulnya.' },
-		{ sticker: 'bintang', name: 'Bintang dan denai Didi', line: 'Tiga bintang untuk jawapan betul, hadiah di hujung denai.' }
+		{ sticker: 'epal', name: 'Kira dan masukkan', line: 'Seret epal ke bakul sehingga cukup.' },
+		{ sticker: 'buku', name: 'Susun huruf', line: 'Huruf bercampur menjadi perkataan.' },
+		{ sticker: 'huruf', name: 'Huruf hilang', line: 'Isi huruf yang tertinggal.' },
+		{ sticker: 'bakul', name: 'Isih kumpulan', line: 'Darat atau laut? Seret ke bakulnya.' },
+		{ sticker: 'kucing', name: 'Cantum gambar', line: 'Susun 4 atau 9 kepingan gambar.' },
+		{ sticker: 'nombor', name: 'Bina nombor', line: 'Blok ratus, puluh dan sa.' },
+		{ sticker: 'jam', name: 'Laraskan jam', line: 'Pusing jarum ke masa yang betul.' },
+		{ sticker: 'syiling', name: 'Bayar dengan wang', line: 'Syiling dan wang kertas Malaysia.' }
 	];
 	// at the cloud's edges, clear of its words; on a phone only the two on the right
 	const FLOATERS = [
@@ -34,8 +38,9 @@
 			<p class="kicker"><span class="new">Baharu</span> Kuiz Interaktif</p>
 			<h2 id="interaktif-tajuk">Sentuh, seret dan susun bersama Didi</h2>
 			<p class="lead">
-				Setiap soalan menjadi permainan kecil. Kanak-kanak mengira epal ke dalam bakul, menyusun huruf menjadi
-				perkataan dan mengisih haiwan ke rumahnya, ikut kadar sendiri. Ibu bapa dan guru menulis soalannya.
+				Setiap soalan menjadi permainan kecil, ikut kadar sendiri, dengan gambar untuk setiap soalan. Betul dapat
+				tiga bintang; jika belum betul, Didi tunjukkan jawapannya dan terangkan kenapa. Ibu bapa dan guru menulis
+				soalannya.
 			</p>
 			<ul class="kinds">
 				{#each KINDS as k, i (k.name)}
@@ -123,8 +128,8 @@
 	.kinds li {
 		display: flex;
 		align-items: center;
-		gap: 0.6rem;
-		padding: 0.6rem 0.8rem 0.6rem 0.5rem;
+		gap: 0.5rem;
+		padding: 0.45rem 0.6rem 0.45rem 0.4rem;
 		border-radius: 20px;
 		background: rgb(255 255 255 / 0.75);
 		box-shadow: 0 4px 0 rgb(214 200 240 / 0.8);
@@ -185,8 +190,19 @@
 		}
 	}
 	@media (max-width: 560px) {
-		.kinds {
-			grid-template-columns: minmax(0, 1fr);
+		.kinds li {
+			font-size: 0.8rem;
+		}
+		.kinds strong {
+			font-size: 0.92rem;
+		}
+		.art {
+			width: 2.5rem;
+			height: 2.5rem;
+		}
+		.art :global(img) {
+			width: 34px;
+			height: 34px;
 		}
 		.cloud {
 			padding: 1.1rem 0.9rem;

@@ -17,6 +17,7 @@
 	import { confetti } from '$lib/confetti';
 	import { canSpeak, speak, stopSpeaking } from '$lib/speech';
 	import Answer from '$lib/questions/Answer.svelte';
+	import Explain from '$lib/questions/Explain.svelte';
 	import Avatar from '$ui/Avatar.svelte';
 	import FullscreenToggle from '$ui/FullscreenToggle.svelte';
 	import Icon from '$ui/Icon.svelte';
@@ -167,7 +168,10 @@
 									</button>
 								{/if}
 							</div>
-							<h1 id="ik-prompt" class="prompt">{question.prompt}</h1>
+							<div class="prompt-row" class:with-pic={!!question.picture}>
+								<h1 id="ik-prompt" class="prompt">{question.prompt}</h1>
+								{#if question.picture}<span class="qpic" aria-hidden="true"><Sticker key={question.picture} size={104} alt="" eager /></span>{/if}
+							</div>
 							{#if question.image}<img class="picture" src={question.image} alt="" loading="eager" />{/if}
 							<div class="answer">
 								<Answer {question} disabled={paused} onanswer={(a) => client.send({ t: 'answer', a })} />
@@ -193,6 +197,7 @@
 								<div class="reveal">
 									<p class="reveal-title">{question.prompt}</p>
 									<Answer {question} disabled mine={result.answer} reveal={result.reveal} onanswer={() => {}} />
+									{#if result.reveal?.explain}<Explain text={result.reveal.explain} />{/if}
 								</div>
 							{/if}
 							<button type="button" class="btn btn--big go" onclick={() => client.send({ t: 'next' })}>
@@ -266,8 +271,13 @@
 		align-items: center;
 		gap: 0.6rem;
 		padding: calc(0.5rem + env(safe-area-inset-top, 0px)) var(--gutter-r) 0.5rem var(--gutter);
-		background: linear-gradient(180deg, rgb(255 240 248 / 0.92), rgb(255 240 248 / 0.65) 70%, transparent);
-		backdrop-filter: blur(6px);
+		background: linear-gradient(180deg, rgb(255 240 248 / 0.96), rgb(255 240 248 / 0.8) 70%, rgb(255 240 248 / 0));
+	}
+	/* a blur over a moving page is costly on a phone; only bigger screens get it */
+	@media (min-width: 900px) {
+		.top {
+			backdrop-filter: blur(6px);
+		}
 	}
 	.me {
 		display: flex;
@@ -408,6 +418,37 @@
 	.prompt {
 		font: 600 clamp(1.35rem, 1.05rem + 1.5vw, 2rem) / 1.25 var(--font-display);
 		text-wrap: balance;
+	}
+	.prompt-row.with-pic {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		align-items: center;
+		gap: 0.8rem;
+	}
+	.qpic {
+		display: grid;
+		place-items: center;
+		width: 7.4rem;
+		height: 7.4rem;
+		border-radius: 50%;
+		background: radial-gradient(circle at 50% 40%, #fff 0 45%, #fff1f8 72%, #ffe4f1);
+		box-shadow: 0 5px 0 #f7d9e8;
+		animation: float-pic 3.4s ease-in-out infinite;
+	}
+	@keyframes float-pic {
+		50% {
+			transform: translateY(-5px) rotate(-3deg);
+		}
+	}
+	@media (max-width: 420px) {
+		.qpic {
+			width: 5.6rem;
+			height: 5.6rem;
+		}
+		.qpic :global(img) {
+			width: 76px;
+			height: 76px;
+		}
 	}
 	.picture {
 		max-width: 100%;

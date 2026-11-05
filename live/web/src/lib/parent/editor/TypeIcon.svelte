@@ -13,7 +13,12 @@
 		blank: 'M3 9h6M15 9h6M3 15h4M11 15h10M10 7.5h4v3h-4z',
 		count: 'M4 12h16l-1.8 7H5.8zM8 12l2.5-6M16 12l-2.5-6M9.5 15.5v1M14.5 15.5v1M12 15.5v1',
 		spell: 'M3.5 7.5h5v6h-5zM9.5 7.5h5v6h-5zM15.5 7.5h5v6h-5zM6 10.5h.01M12 10.5h.01M18 10.5h.01M4 17.5h16',
-		sort: 'M3.5 13h7l-1 6h-5zM13.5 13h7l-1 6h-5zM7 4.5v5M5 7.5l2 2 2-2M17 4.5v5M15 7.5l2 2 2-2'
+		sort: 'M3.5 13h7l-1 6h-5zM13.5 13h7l-1 6h-5zM7 4.5v5M5 7.5l2 2 2-2M17 4.5v5M15 7.5l2 2 2-2',
+		missing: 'M3.5 8h4v7h-4zM10 8h4v7h-4zM16.5 8h4v7h-4zM12 10.5v.01M12 13v.01',
+		puzzle: 'M4 4h7v3a2 2 0 1 0 0 4v2H4zM13 4h7v9h-3a2 2 0 1 0-4 0zM4 15h9v5H4zM15 15h5v5h-5z',
+		blocks: 'M4 20V6h3v14zM9 20V10h3v10zM15 17h3v3h-3zM19.5 17h.01',
+		clock: 'M12 3.5a8.5 8.5 0 1 1-.01 0M12 7v5l3.5 2',
+		money: 'M3.5 7h17v10h-17zM12 9.5a2.5 2.5 0 1 1-.01 0M6 10v4M18 10v4'
 	};
 </script>
 

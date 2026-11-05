@@ -1,8 +1,13 @@
-"""The eleven question types a parent can write, and how each one is shown, answered and checked.
+"""The sixteen question types a parent can write, and how each one is shown, answered and checked.
 
 A question reaches a child only as a *presentation*: a copy with the answers removed, the options
 shuffled and every option renamed with a random token. The tokens map back to the real ids only on the
 server, so nothing in the browser (not even option order or ids) reveals the answer before it is checked.
+(A jigsaw is the one exception by nature: the picture on each piece is where it goes.)
+
+Every question may have a picture (a 3D sticker, beside or instead of an uploaded image) and an
+explanation. The explanation reaches the browser only with the answer (`reveal`), to be shown to a child
+who did not get it right.
 """
 
 from __future__ import annotations
@@ -35,12 +40,21 @@ TYPE_LABELS = {
     "count": "Kira dan masukkan",
     "spell": "Susun huruf",
     "sort": "Isih kumpulan",
+    "missing": "Huruf hilang",
+    "puzzle": "Cantum gambar",
+    "blocks": "Bina nombor",
+    "clock": "Laraskan jam",
+    "money": "Bayar dengan wang",
 }
 
 # Letters a "Susun huruf" word may use: Malay and English words, written with or without capitals.
 WORD_PATTERN = re.compile(r"^[A-Za-z]{2,12}$")
 DECOY_LETTERS = "abcdeghiklmnoprstuy"
 COUNT_MAX = 20
+# Malaysian money in sen: the coins, then the notes, as a child pays with them.
+MONEY = (5, 10, 20, 50, 100, 500, 1000, 5000)
+MONEY_MAX = 10000
+PLACES_NAMES = ("ratus", "puluh", "sa")
 
 
 def new_id() -> str:
@@ -55,6 +69,13 @@ class Choice(_Strict):
     id: str = Field(default_factory=new_id, pattern=ID_PATTERN)
     text: str = Field(min_length=1, max_length=120)
     correct: bool = False
+    # a picture on the option, for children who cannot read yet ("Yang mana kucing?")
+    sticker: str | None = Field(default=None, max_length=24)
+
+    @field_validator("sticker")
+    @classmethod
+    def _sticker(cls, value: str | None) -> str | None:
+        return check_sticker(value)
 
 
 class Item(_Strict):
@@ -66,6 +87,13 @@ class Pair(_Strict):
     id: str = Field(default_factory=new_id, pattern=ID_PATTERN)
     left: str = Field(min_length=1, max_length=60)
     right: str = Field(min_length=1, max_length=60)
+    # a picture on the left side: match the picture to its word
+    sticker: str | None = Field(default=None, max_length=24)
+
+    @field_validator("sticker")
+    @classmethod
+    def _sticker(cls, value: str | None) -> str | None:
+        return check_sticker(value)
 
 
 def _distinct(values: list[str], message: str) -> None:
@@ -78,7 +106,16 @@ class _Question(_Strict):
     id: str = Field(default_factory=new_id, pattern=ID_PATTERN)
     prompt: str = Field(min_length=1, max_length=300)
     image: str | None = Field(default=None, max_length=80)
+    # a 3D sticker that illustrates the question (the "gambar rajah"), beside or instead of an image
+    picture: str | None = Field(default=None, max_length=24)
+    # why the answer is what it is, shown to a child who got it wrong
+    explain: str = Field(default="", max_length=400)
     time_limit: int = Field(default=20, ge=5, le=120)
+
+    @field_validator("picture")
+    @classmethod
+    def _picture(cls, value: str | None) -> str | None:
+        return check_sticker(value)
 
     @field_validator("image")
     @classmethod
@@ -291,6 +328,98 @@ class SortQuestion(_Question):
         return self
 
 
+class MissingQuestion(_Question):
+    """Huruf hilang: a word with one to three letters left out; letter tiles fill the gaps."""
+
+    type: Literal["missing"]
+    word: str = Field(min_length=2, max_length=12)
+    hide: list[int] = Field(min_length=1, max_length=3)
+    sticker: str | None = Field(default=None, max_length=24)
+    decoys: int = Field(default=2, ge=0, le=4)
+
+    @field_validator("word")
+    @classmethod
+    def _word(cls, value: str) -> str:
+        if not WORD_PATTERN.match(value):
+            raise ValueError("Satu perkataan sahaja, 2 hingga 12 huruf (tanpa jarak, nombor atau tanda).")
+        return value
+
+    @field_validator("sticker")
+    @classmethod
+    def _sticker(cls, value: str | None) -> str | None:
+        return check_sticker(value)
+
+    @model_validator(mode="after")
+    def _check(self) -> MissingQuestion:
+        if len(set(self.hide)) != len(self.hide) or any(not 0 <= i < len(self.word) for i in self.hide):
+            raise ValueError("Pilih huruf yang hendak disembunyikan.")
+        if len(self.hide) >= len(self.word):
+            raise ValueError("Biarkan sekurang-kurangnya satu huruf kelihatan.")
+        self.hide = sorted(self.hide)
+        return self
+
+
+class PuzzleQuestion(_Question):
+    """Cantum gambar: a picture cut into 4 or 9 pieces to put back together."""
+
+    type: Literal["puzzle"]
+    sticker: str | None = Field(default=None, max_length=24)
+    grid: Literal[2, 3] = 2
+
+    @field_validator("sticker")
+    @classmethod
+    def _sticker(cls, value: str | None) -> str | None:
+        return check_sticker(value)
+
+    @model_validator(mode="after")
+    def _check(self) -> PuzzleQuestion:
+        if not self.sticker and not self.image:
+            raise ValueError("Pilih pelekat atau muat naik gambar untuk dicantum.")
+        return self
+
+
+class BlocksQuestion(_Question):
+    """Bina nombor: make a number with hundreds, tens and ones blocks (place value)."""
+
+    type: Literal["blocks"]
+    answer: int = Field(ge=1, le=999)
+
+
+class ClockQuestion(_Question):
+    """Laraskan jam: turn the hands of a clock to a time, to five minutes."""
+
+    type: Literal["clock"]
+    hour: int = Field(ge=1, le=12)
+    minute: int = Field(default=0, ge=0, le=55)
+
+    @field_validator("minute")
+    @classmethod
+    def _minute(cls, value: int) -> int:
+        if value % 5:
+            raise ValueError("Minit mesti gandaan 5 (0, 5, 10 ... 55).")
+        return value
+
+
+class MoneyQuestion(_Question):
+    """Bayar dengan wang: pay an amount exactly with Malaysian coins and notes."""
+
+    type: Literal["money"]
+    amount: int = Field(ge=5, le=MONEY_MAX)
+    sticker: str | None = Field(default=None, max_length=24)
+
+    @field_validator("amount")
+    @classmethod
+    def _amount(cls, value: int) -> int:
+        if value % 5:
+            raise ValueError("Jumlah mesti gandaan 5 sen.")
+        return value
+
+    @field_validator("sticker")
+    @classmethod
+    def _sticker(cls, value: str | None) -> str | None:
+        return check_sticker(value)
+
+
 Question = Annotated[
     Union[
         SingleQuestion,
@@ -304,6 +433,11 @@ Question = Annotated[
         CountQuestion,
         SpellQuestion,
         SortQuestion,
+        MissingQuestion,
+        PuzzleQuestion,
+        BlocksQuestion,
+        ClockQuestion,
+        MoneyQuestion,
     ],
     Field(discriminator="type"),
 ]
@@ -353,11 +487,20 @@ class Presentation:
             return None
 
     def reveal(self) -> dict[str, Any]:
-        return _REVEALS[self.type](self)
+        out = _REVEALS[self.type](self)
+        if self.question.explain:
+            out["explain"] = self.question.explain
+        return out
 
     def sample_answer(self, correct: bool, rng: random.Random) -> Any:
         """A well-formed answer, right or wrong. Used by the practice bots."""
         return _SAMPLES[self.type](self, correct, rng)
+
+
+def _with_sticker(item: dict[str, Any], sticker: str | None) -> dict[str, Any]:
+    if sticker:
+        item["sticker"] = sticker
+    return item
 
 
 def _token(pres: Presentation, real_id: str) -> str:
@@ -377,13 +520,14 @@ def present(question: Any, rng: random.Random, time_limit: int | None = None) ->
         "label": TYPE_LABELS[question.type],
         "prompt": question.prompt,
         "image": question.image,
+        "picture": question.picture,
         "timeLimit": time_limit or question.time_limit,
     }
 
     if question.type in ("single", "multiple"):
         choices = list(question.choices)
         rng.shuffle(choices)
-        public["choices"] = [{"id": _token(pres, c.id), "text": c.text} for c in choices]
+        public["choices"] = [_with_sticker({"id": _token(pres, c.id), "text": c.text}, c.sticker) for c in choices]
         if question.type == "multiple":
             public["pick"] = sum(c.correct for c in question.choices)
     elif question.type == "text":
@@ -398,7 +542,7 @@ def present(question: Any, rng: random.Random, time_limit: int | None = None) ->
     elif question.type == "match":
         rights = list(question.pairs)
         rng.shuffle(rights)
-        public["left"] = [{"id": _token(pres, "L" + p.id), "text": p.left} for p in question.pairs]
+        public["left"] = [_with_sticker({"id": _token(pres, "L" + p.id), "text": p.left}, p.sticker) for p in question.pairs]
         public["right"] = [{"id": _token(pres, "R" + p.id), "text": p.right} for p in rights]
     elif question.type == "blank":
         public["parts"] = question.parts()
@@ -431,6 +575,37 @@ def present(question: Any, rng: random.Random, time_limit: int | None = None) ->
         rng.shuffle(items)
         public["groups"] = [{"id": _token(pres, "G" + g.id), "name": g.name, "sticker": g.sticker} for g in question.groups]
         public["items"] = [{"id": _token(pres, "I" + i.id), "text": i.text, "sticker": i.sticker} for i in items]
+    elif question.type == "missing":
+        word = question.word
+        hidden = [word[i] for i in question.hide]
+        taken = {ch.casefold() for ch in hidden}
+        spare = [ch for ch in DECOY_LETTERS if ch not in taken]
+        rng.shuffle(spare)
+        letters = hidden + spare[: question.decoys]
+        if word.isupper():
+            letters = [ch.upper() for ch in letters]
+        order = list(range(len(letters)))
+        rng.shuffle(order)
+        public["tiles"] = [{"id": _token(pres, f"m{i}"), "ch": letters[i]} for i in order]
+        blanks = {i: k for k, i in enumerate(question.hide)}
+        public["parts"] = [{"blank": blanks[i]} if i in blanks else {"ch": ch} for i, ch in enumerate(word)]
+        public["blanks"] = len(question.hide)
+        public["sticker"] = question.sticker
+    elif question.type == "puzzle":
+        n = question.grid * question.grid
+        order = list(range(n))
+        while order == sorted(order):
+            rng.shuffle(order)
+        # each piece carries the part of the picture it shows ("cut"), which is the point of a jigsaw
+        public["pieces"] = [{"id": _token(pres, f"p{i}"), "cut": i} for i in order]
+        public["grid"] = question.grid
+        public["sticker"] = question.sticker
+    elif question.type == "blocks":
+        public["places"] = list(PLACES_NAMES if question.answer >= 100 else PLACES_NAMES[1:])
+    elif question.type == "money":
+        public["amount"] = question.amount
+        public["money"] = [m for m in MONEY if m <= max(question.amount, 50)]
+        public["sticker"] = question.sticker
 
     pres.public = public
     return pres
@@ -553,6 +728,72 @@ def _check_sort(pres: Presentation, answer: Any) -> Outcome:
     return Outcome(right == total, round(right / total, 3))
 
 
+def _tile_letters(pres: Presentation) -> dict[str, str]:
+    return {str(t["id"]): str(t["ch"]) for t in pres.public["tiles"]}
+
+
+def _check_missing(pres: Presentation, answer: Any) -> Outcome:
+    q = pres.question
+    letters = _tile_letters(pres)
+    if not isinstance(answer, list) or len(answer) != len(q.hide) or len({str(t) for t in answer}) != len(answer):
+        raise ValueError
+    given = [letters[str(t)] for t in answer]
+    right = sum(a.casefold() == q.word[i].casefold() for a, i in zip(given, q.hide, strict=True))
+    return Outcome(right == len(q.hide), round(right / len(q.hide), 3))
+
+
+def _check_puzzle(pres: Presentation, answer: Any) -> Outcome:
+    n = pres.question.grid ** 2
+    if not isinstance(answer, list) or len(answer) != n or len({str(t) for t in answer}) != n:
+        raise ValueError
+    slots = [pres.token_to_id[str(t)] for t in answer]
+    right = sum(slot == f"p{i}" for i, slot in enumerate(slots))
+    return Outcome(right == n, round(right / n, 3))
+
+
+def _digits(number: int) -> dict[str, int]:
+    return {"ratus": number // 100, "puluh": number // 10 % 10, "sa": number % 10}
+
+
+def _check_blocks(pres: Presentation, answer: Any) -> Outcome:
+    if not isinstance(answer, dict):
+        raise TypeError
+    places = pres.public["places"]
+    given = {name: answer.get(name, 0) for name in PLACES_NAMES}
+    if any(isinstance(v, bool) or not isinstance(v, int) or not 0 <= v <= 9 for v in given.values()):
+        raise ValueError
+    if any(given[name] for name in PLACES_NAMES if name not in places):
+        raise ValueError
+    want = _digits(pres.question.answer)
+    right = sum(given[name] == want[name] for name in places)
+    return Outcome(right == len(places), round(right / len(places), 3))
+
+
+def _check_clock(pres: Presentation, answer: Any) -> Outcome:
+    if not isinstance(answer, dict):
+        raise TypeError
+    h, m = answer.get("h"), answer.get("m")
+    if isinstance(h, bool) or isinstance(m, bool) or not isinstance(h, int) or not isinstance(m, int):
+        raise TypeError
+    if not 1 <= h <= 12 or not 0 <= m <= 55 or m % 5:
+        raise ValueError
+    right = (h == pres.question.hour) + (m == pres.question.minute)
+    return Outcome(right == 2, right / 2)
+
+
+def _check_money(pres: Presentation, answer: Any) -> Outcome:
+    if not isinstance(answer, dict):
+        raise TypeError
+    total = 0
+    for key, count in answer.items():
+        value = int(str(key))
+        if value not in pres.public["money"] or isinstance(count, bool) or not isinstance(count, int) or not 0 <= count <= 50:
+            raise ValueError
+        total += value * count
+    ok = total == pres.question.amount
+    return Outcome(ok, 1.0 if ok else 0.0)
+
+
 _CHECKERS = {
     "single": _check_single,
     "multiple": _check_multiple,
@@ -565,6 +806,11 @@ _CHECKERS = {
     "count": _check_count,
     "spell": _check_spell,
     "sort": _check_sort,
+    "missing": _check_missing,
+    "puzzle": _check_puzzle,
+    "blocks": _check_blocks,
+    "clock": _check_clock,
+    "money": _check_money,
 }
 
 
@@ -591,6 +837,26 @@ def _spell_tokens(pres: Presentation) -> list[str]:
     return tokens
 
 
+def _missing_tokens(pres: Presentation) -> list[str]:
+    free = list(_tile_letters(pres).items())
+    tokens: list[str] = []
+    for i in pres.question.hide:
+        ch = pres.question.word[i]
+        index = next(k for k, (_, letter) in enumerate(free) if letter.casefold() == ch.casefold())
+        tokens.append(free.pop(index)[0])
+    return tokens
+
+
+def _pay(amount: int, money: list[int]) -> dict[str, int]:
+    """The fewest coins and notes for an amount (Malaysian money is a greedy-friendly set)."""
+    out: dict[str, int] = {}
+    for value in sorted(money, reverse=True):
+        if amount >= value:
+            out[str(value)] = amount // value
+            amount %= value
+    return out
+
+
 _REVEALS = {
     "single": _reveal_choices,
     "multiple": _reveal_choices,
@@ -603,6 +869,11 @@ _REVEALS = {
     "count": lambda p: {"correct": p.question.answer},
     "spell": lambda p: {"correct": _spell_tokens(p), "word": p.question.word},
     "sort": lambda p: {"correct": {p.id_to_token["I" + i.id]: p.id_to_token["G" + i.group] for i in p.question.items}},
+    "missing": lambda p: {"correct": _missing_tokens(p), "word": p.question.word},
+    "puzzle": lambda p: {"correct": [p.id_to_token[f"p{i}"] for i in range(p.question.grid**2)]},
+    "blocks": lambda p: {"correct": {k: v for k, v in _digits(p.question.answer).items() if k in p.public["places"]}, "number": p.question.answer},
+    "clock": lambda p: {"correct": {"h": p.question.hour, "m": p.question.minute}},
+    "money": lambda p: {"correct": p.question.amount, "pay": _pay(p.question.amount, p.public["money"])},
 }
 
 
@@ -683,6 +954,40 @@ def _sample_sort(pres: Presentation, correct: bool, rng: random.Random) -> Any:
     return out
 
 
+def _sample_missing(pres: Presentation, correct: bool, rng: random.Random) -> Any:
+    tokens = _missing_tokens(pres)
+    if correct:
+        return tokens
+    letters = _tile_letters(pres)
+    first = pres.question.word[pres.question.hide[0]].casefold()
+    wrong = [t for t in letters if t not in tokens and letters[t].casefold() != first]
+    return [wrong[0], *tokens[1:]] if wrong else tokens[::-1]
+
+
+def _sample_puzzle(pres: Presentation, correct: bool, rng: random.Random) -> Any:
+    tokens = [pres.id_to_token[f"p{i}"] for i in range(pres.question.grid**2)]
+    return tokens if correct else tokens[1:] + tokens[:1]
+
+
+def _sample_blocks(pres: Presentation, correct: bool, rng: random.Random) -> Any:
+    digits = {k: v for k, v in _digits(pres.question.answer).items() if k in pres.public["places"]}
+    if not correct:
+        digits["sa"] = (digits["sa"] + 1) % 10
+    return digits
+
+
+def _sample_clock(pres: Presentation, correct: bool, rng: random.Random) -> Any:
+    q = pres.question
+    return {"h": q.hour, "m": q.minute if correct else (q.minute + 30) % 60}
+
+
+def _sample_money(pres: Presentation, correct: bool, rng: random.Random) -> Any:
+    pay = _pay(pres.question.amount, pres.public["money"])
+    if not correct:
+        pay["5"] = pay.get("5", 0) + 1
+    return pay
+
+
 _SAMPLES = {
     "single": _sample_single,
     "multiple": _sample_multiple,
@@ -695,4 +1000,9 @@ _SAMPLES = {
     "count": _sample_count,
     "spell": _sample_spell,
     "sort": _sample_sort,
+    "missing": _sample_missing,
+    "puzzle": _sample_puzzle,
+    "blocks": _sample_blocks,
+    "clock": _sample_clock,
+    "money": _sample_money,
 }

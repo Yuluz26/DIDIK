@@ -1,7 +1,12 @@
-<!-- Picks the right way to answer for each of the eleven question types. -->
+<!-- Picks the right way to answer for each of the sixteen question types. -->
 <script lang="ts">
 	import type { Answer, PublicQuestion, Reveal } from '$lib/types';
 	import BlankAnswer from './BlankAnswer.svelte';
+	import BlocksAnswer from './BlocksAnswer.svelte';
+	import ClockAnswer from './ClockAnswer.svelte';
+	import MissingAnswer from './MissingAnswer.svelte';
+	import MoneyAnswer from './MoneyAnswer.svelte';
+	import PuzzleAnswer from './PuzzleAnswer.svelte';
 	import Choices from './Choices.svelte';
 	import CountAnswer from './CountAnswer.svelte';
 	import SortAnswer from './SortAnswer.svelte';
@@ -45,12 +50,22 @@
 	{:else if question.type === 'match'}
 		<MatchAnswer left={question.left ?? []} right={question.right ?? []} {disabled} {mine} {reveal} {onanswer} />
 	{:else if question.type === 'blank'}
-		<BlankAnswer parts={question.parts ?? []} blanks={question.blanks ?? 1} bank={question.bank} {disabled} {mine} {reveal} {allRight} {onanswer} />
+		<BlankAnswer parts={(question.parts ?? []) as (string | { blank: number })[]} blanks={question.blanks ?? 1} bank={question.bank} {disabled} {mine} {reveal} {allRight} {onanswer} />
 	{:else if question.type === 'count'}
 		<CountAnswer sticker={question.sticker ?? 'epal'} place={question.place ?? 'bakul'} supply={question.supply ?? 10} {disabled} {mine} {reveal} {onanswer} />
 	{:else if question.type === 'spell'}
 		<SpellAnswer tiles={question.tiles ?? []} length={question.length ?? 0} sticker={question.sticker} {disabled} {mine} {reveal} {onanswer} />
 	{:else if question.type === 'sort'}
 		<SortAnswer groups={question.groups ?? []} items={question.items ?? []} {disabled} {mine} {reveal} {onanswer} />
+	{:else if question.type === 'missing'}
+		<MissingAnswer parts={(question.parts ?? []) as ({ ch: string } | { blank: number })[]} tiles={question.tiles ?? []} blanks={question.blanks ?? 1} sticker={question.sticker} {disabled} {mine} {reveal} {onanswer} />
+	{:else if question.type === 'puzzle'}
+		<PuzzleAnswer pieces={question.pieces ?? []} grid={question.grid ?? 2} sticker={question.sticker} image={question.image} {disabled} {mine} {reveal} {onanswer} />
+	{:else if question.type === 'blocks'}
+		<BlocksAnswer places={question.places ?? ['puluh', 'sa']} {disabled} {mine} {reveal} {onanswer} />
+	{:else if question.type === 'clock'}
+		<ClockAnswer {disabled} {mine} {reveal} {onanswer} />
+	{:else if question.type === 'money'}
+		<MoneyAnswer amount={question.amount ?? 0} money={question.money ?? [5, 10, 20, 50]} sticker={question.sticker} {disabled} {mine} {reveal} {onanswer} />
 	{/if}
 {/key}

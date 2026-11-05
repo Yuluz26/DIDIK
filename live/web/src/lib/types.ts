@@ -121,14 +121,34 @@ export interface View {
 export interface Choice {
 	id: string;
 	text: string;
+	/** A 3D sticker on the option (lib/stickers.ts). */
+	sticker?: string | null;
 }
 
 export interface PublicQuestion {
 	id: string;
-	type: 'single' | 'multiple' | 'truefalse' | 'text' | 'number' | 'order' | 'match' | 'blank' | 'count' | 'spell' | 'sort';
+	type:
+		| 'single'
+		| 'multiple'
+		| 'truefalse'
+		| 'text'
+		| 'number'
+		| 'order'
+		| 'match'
+		| 'blank'
+		| 'count'
+		| 'spell'
+		| 'sort'
+		| 'missing'
+		| 'puzzle'
+		| 'blocks'
+		| 'clock'
+		| 'money';
 	label: string;
 	prompt: string;
 	image: string | null;
+	/** A 3D sticker that illustrates the question. */
+	picture?: string | null;
 	timeLimit: number;
 	choices?: Choice[];
 	pick?: number;
@@ -137,7 +157,7 @@ export interface PublicQuestion {
 	items?: (Choice & { sticker?: string | null })[];
 	left?: Choice[];
 	right?: Choice[];
-	parts?: (string | { blank: number })[];
+	parts?: (string | { blank: number } | { ch: string })[];
 	blanks?: number;
 	bank?: string[];
 	/** Kira dan masukkan: the object, where it goes, and how many are in the pile. */
@@ -149,6 +169,14 @@ export interface PublicQuestion {
 	length?: number;
 	/** Isih kumpulan: the baskets (the things to sort are `items`, each with its sticker). */
 	groups?: { id: string; name: string; sticker: string | null }[];
+	/** Cantum gambar: the pieces (each with the part of the picture it shows) and the grid's size. */
+	pieces?: { id: string; cut: number }[];
+	grid?: number;
+	/** Bina nombor: the place-value columns shown (ratus, puluh, sa). */
+	places?: string[];
+	/** Bayar dengan wang: the amount in sen and the coins and notes to pay with. */
+	amount?: number;
+	money?: number[];
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -160,4 +188,12 @@ export interface Reveal {
 	accepted?: string[];
 	tolerance?: number;
 	unit?: string;
+	/** Why the answer is what it is, for a child who got it wrong. */
+	explain?: string;
+	/** Susun huruf, Huruf hilang: the whole word. */
+	word?: string;
+	/** Bina nombor: the number. */
+	number?: number;
+	/** Bayar dengan wang: one way to pay it, coin or note (in sen) to how many. */
+	pay?: Record<string, number>;
 }

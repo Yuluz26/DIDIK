@@ -3,6 +3,7 @@
 	import type { PublicQuestion } from '$lib/types';
 	import { canSpeak, speak } from '$lib/speech';
 	import Icon from '$ui/Icon.svelte';
+	import Sticker from '$ui/Sticker.svelte';
 
 	let {
 		question,
@@ -26,7 +27,10 @@
 		{/if}
 	</div>
 	{#key question.id}
-		<h2 class="prompt">{question.prompt}</h2>
+		<div class="prompt-row" class:with-pic={!!question.picture}>
+			<h2 class="prompt">{question.prompt}</h2>
+			{#if question.picture}<span class="pic" aria-hidden="true"><Sticker key={question.picture} size={big ? 120 : 84} alt="" eager /></span>{/if}
+		</div>
 	{/key}
 	{#if question.image}
 		<img class="picture" src={question.image} alt="" loading="eager" />
@@ -61,6 +65,16 @@
 	}
 	.read:hover {
 		transform: scale(1.06);
+	}
+	.prompt-row.with-pic {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		align-items: center;
+		gap: 0.8rem;
+	}
+	.pic {
+		filter: drop-shadow(0 6px 8px rgb(31 45 39 / 0.18));
+		animation: pop-in var(--t-enter) var(--spring);
 	}
 	.prompt {
 		font-size: clamp(1.45rem, 1.1rem + 1.6vw, 2.2rem);

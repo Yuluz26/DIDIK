@@ -8,6 +8,7 @@
 	import type { Person } from '$lib/types';
 	import { play } from '$lib/sound';
 	import Answer from '$lib/questions/Answer.svelte';
+	import Explain from '$lib/questions/Explain.svelte';
 	import QuestionCard from '$lib/questions/QuestionCard.svelte';
 	import Countdown from '$ui/Countdown.svelte';
 	import Leaderboard from '$ui/Leaderboard.svelte';
@@ -71,6 +72,7 @@
 					<Answer question={game.question} disabled reveal={game.stage === 'reveal' ? game.reveal : null} stats={game.stage === 'reveal' ? game.stats : null} />
 				{/if}
 				{#if game.stage === 'reveal'}
+					{#if game.reveal?.explain}<Explain text={game.reveal.explain} />{/if}
 					<p class="tally">{game.correctCount} daripada {game.playerCount} menjawab betul.</p>
 				{/if}
 			</div>

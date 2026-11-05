@@ -4,6 +4,7 @@
 -->
 <script lang="ts">
 	import Icon from '$ui/Icon.svelte';
+	import StickerPicker from './StickerPicker.svelte';
 	import { LIMITS, make, type Choice } from './model';
 
 	let {
@@ -36,6 +37,7 @@
 					/>
 					<span class="box" class:square={multiple}><Icon name="check" size={16} /></span>
 				</label>
+				<StickerPicker value={choice.sticker ?? null} onpick={(v) => (choice.sticker = v)} label="Gambar pilihan {i + 1}" optional compact />
 				<input
 					class="input"
 					bind:value={choice.text}
@@ -81,7 +83,7 @@
 	}
 	li {
 		display: grid;
-		grid-template-columns: auto minmax(0, 1fr) auto;
+		grid-template-columns: auto auto minmax(0, 1fr) auto;
 		align-items: center;
 		gap: 0.5rem;
 	}

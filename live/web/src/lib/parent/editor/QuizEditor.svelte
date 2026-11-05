@@ -13,7 +13,16 @@
 	import Sticker from '$ui/Sticker.svelte';
 
 	// the hands-on types show what the child will touch
-	const TYPE_STICKER: Partial<Record<QuestionType, string>> = { count: 'epal', spell: 'buku', sort: 'bakul' };
+	const TYPE_STICKER: Partial<Record<QuestionType, string>> = {
+		count: 'epal',
+		spell: 'buku',
+		sort: 'bakul',
+		missing: 'huruf',
+		puzzle: 'kucing',
+		blocks: 'nombor',
+		clock: 'jam',
+		money: 'syiling'
+	};
 
 	let {
 		initial,
@@ -41,6 +50,12 @@
 	const status = $derived(
 		saving ? 'Menyimpan…' : dirty ? 'Ada perubahan belum disimpan.' : savedAt ? `Disimpan pada ${savedAt.toLocaleTimeString('ms-MY', { hour: '2-digit', minute: '2-digit' })}.` : quizId ? 'Semua perubahan disimpan.' : 'Belum disimpan.'
 	);
+	// every question should have a picture and an explanation: the sidebar counts those still without
+	// the hands-on games carry their own pictures (the objects, the letters' picture, the clock, the blocks)
+	const hasPicture = (q: (typeof draft.questions)[number]) =>
+		!!q.picture || !!q.image || ('sticker' in q && !!q.sticker) || q.type === 'blocks' || q.type === 'clock' || (q.type === 'sort' && q.items.some((i) => i.sticker));
+	const noPicture = $derived(draft.questions.filter((q) => !hasPicture(q)).length);
+	const noWhy = $derived(draft.questions.filter((q) => !q.explain?.trim()).length);
 	const flagged = $derived(new Set(errors.filter((e) => e.loc[0] === 'questions').map((e) => e.loc[1] as number)));
 
 	function errorAt(...path: (string | number)[]): string | undefined {
@@ -147,6 +162,14 @@
 			{#if draft.questions.length}
 				<nav class="outline" aria-label="Senarai soalan">
 					<h2>Soalan <span>{draft.questions.length}/{LIMITS.questions}</span></h2>
+					{#if noPicture || noWhy}
+						<p class="todo">
+							{#if noPicture}<span><Sticker key="kanta" size={20} alt="" /> {noPicture} soalan tanpa gambar rajah</span>{/if}
+							{#if noWhy}<span><Sticker key="mentol" size={20} alt="" /> {noWhy} soalan tanpa penerangan</span>{/if}
+						</p>
+					{:else}
+						<p class="todo done"><Sticker key="bintang" size={20} alt="" /> Semua soalan ada gambar dan penerangan.</p>
+					{/if}
 					<ol>
 						{#each draft.questions as question, i (question.id)}
 							<li class:flagged={flagged.has(i)}>
@@ -392,6 +415,27 @@
 	.kind-group {
 		display: grid;
 		gap: 0.5rem;
+	}
+	.todo {
+		display: grid;
+		gap: 0.2rem;
+		margin-bottom: 0.4rem;
+		padding: 0.45rem 0.6rem;
+		border-radius: var(--r-sm);
+		background: #fff7d6;
+		color: #6b5200;
+		font-size: 0.84rem;
+		font-weight: 800;
+	}
+	.todo span,
+	.todo.done {
+		display: flex;
+		align-items: center;
+		gap: 0.35rem;
+	}
+	.todo.done {
+		background: var(--good-soft);
+		color: var(--on-good-soft);
 	}
 	.kind-group + .kind-group {
 		margin-top: 0.9rem;

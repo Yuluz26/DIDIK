@@ -2,6 +2,11 @@
 	The backdrop of Kuiz Interaktif: a candy-floss sky over soft hills, a pastel rainbow, puffy clouds that
 	drift by and a few twinkles. Drawn with CSS and one SVG, so it is sharp on any screen and costs no
 	download. Decorative only; it sits behind everything and never takes a tap. Still with reduced motion.
+
+	On a phone the browser's address bar shrinks and grows while the page scrolls, which changes the height
+	of anything pinned to both the top and the bottom of the screen. So the sky is as tall as the largest
+	the screen gets (lvh), pinned to the top only, sized in pixels and lvh, and drawn on its own layer: it
+	stays perfectly still under a scrolling page.
 -->
 <script lang="ts">
 	let { mood = 'day' }: { mood?: 'day' | 'party' } = $props();
@@ -49,8 +54,14 @@
 <style>
 	.sky {
 		position: fixed;
-		inset: 0;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100vh;
+		height: 100lvh;
 		z-index: 0;
+		transform: translateZ(0);
+		contain: strict;
 		overflow: hidden;
 		pointer-events: none;
 		background: linear-gradient(180deg, #ffdcee 0%, #eadfff 34%, #d4efff 66%, #e6fbe8 100%);
@@ -60,19 +71,19 @@
 	}
 	.sun {
 		position: absolute;
-		top: -6vmin;
-		right: -4vmin;
-		width: 34vmin;
-		height: 34vmin;
+		top: -2.5rem;
+		right: -2rem;
+		width: clamp(9rem, 30vw, 16rem);
+		height: clamp(9rem, 30vw, 16rem);
 		border-radius: 50%;
 		background: radial-gradient(circle, #fff6c2 0 38%, rgb(255 236 150 / 0.55) 55%, transparent 70%);
 		animation: glow 6s ease-in-out infinite;
 	}
 	.rainbow {
 		position: absolute;
-		left: -8vmin;
-		bottom: 14vh;
-		width: 70vmin;
+		left: -2.5rem;
+		top: calc(78lvh - clamp(8rem, 28vw, 15rem));
+		width: clamp(16rem, 56vw, 30rem);
 		opacity: 0.55;
 	}
 	.rainbow path {
@@ -108,10 +119,9 @@
 		position: absolute;
 		left: 0;
 		right: 0;
-		bottom: 0;
+		top: calc(100lvh - max(22lvh, 120px));
 		width: 100%;
-		height: 22vh;
-		min-height: 120px;
+		height: max(22lvh, 120px);
 	}
 	.far {
 		fill: #bfe8c9;

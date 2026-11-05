@@ -6,6 +6,7 @@
 	import type { Choice, Reveal } from '$lib/types';
 	import { play } from '$lib/sound';
 	import Icon from '$ui/Icon.svelte';
+	import Sticker from '$ui/Sticker.svelte';
 
 	let {
 		left,
@@ -77,6 +78,7 @@
 				onclick={() => tapLeft(item.id)}
 			>
 				{#if partner}<span class="badge">{i + 1}</span>{/if}
+				{#if item.sticker}<Sticker key={item.sticker} size={40} alt="" eager />{/if}
 				<span>{item.text}</span>
 				{#if reveal}<span class="result" class:ok><Icon name={ok ? 'check' : 'close'} size={18} /></span>{/if}
 			</button>

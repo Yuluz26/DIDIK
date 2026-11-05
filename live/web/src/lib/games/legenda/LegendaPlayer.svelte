@@ -18,6 +18,7 @@
 	import type { Me, Person } from '$lib/types';
 	import { confetti } from '$lib/confetti';
 	import Answer from '$lib/questions/Answer.svelte';
+	import Explain from '$lib/questions/Explain.svelte';
 	import QuestionCard from '$lib/questions/QuestionCard.svelte';
 	import FullscreenToggle from '$ui/FullscreenToggle.svelte';
 	import Hud from '../Hud.svelte';
@@ -545,6 +546,7 @@
 							allRight={result?.correct}
 							onanswer={send}
 						/>
+						{#if step === 'result' && !result?.correct && result?.reveal?.explain}<Explain text={result.reveal.explain} />{/if}
 					</div>
 
 					{#if step === 'result' && result && !animating}

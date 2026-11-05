@@ -7,6 +7,11 @@
 	import BlankEditor from './BlankEditor.svelte';
 	import ChoicesEditor from './ChoicesEditor.svelte';
 	import CountEditor from './CountEditor.svelte';
+	import MissingEditor from './MissingEditor.svelte';
+	import SmallGameEditor from './SmallGameEditor.svelte';
+	import StickerPicker from './StickerPicker.svelte';
+	import Sticker from '$ui/Sticker.svelte';
+	import { suggestStickers } from '$lib/stickers';
 	import ImageField from './ImageField.svelte';
 	import OrderEditor from './OrderEditor.svelte';
 	import PairsEditor from './PairsEditor.svelte';
@@ -41,6 +46,7 @@
 	}
 
 	const problem = $derived(err());
+	const ideas = $derived(question.picture ? [] : suggestStickers(question.prompt));
 </script>
 
 <article class="question" id="soalan-{index + 1}" class:has-problem={!!problem} aria-labelledby="q-title-{question.id}">
@@ -89,6 +95,18 @@
 
 	<div class="extras">
 		<ImageField bind:image={question.image} id={question.id} />
+		<div class="pic-field">
+			<StickerPicker bind:value={question.picture} label="Gambar rajah" optional />
+			{#if ideas.length}
+				<span class="ideas" aria-label="Cadangan gambar">
+					{#each ideas as idea (idea.key)}
+						<button type="button" class="idea" onclick={() => (question.picture = idea.key)} title="Guna {idea.name}" aria-label="Guna gambar {idea.name}">
+							<Sticker key={idea.key} size={30} alt="" />
+						</button>
+					{/each}
+				</span>
+			{/if}
+		</div>
 		<label class="time">
 			<span>Masa menjawab</span>
 			<select class="input" bind:value={question.time_limit}>
@@ -162,8 +180,26 @@
 			<SpellEditor bind:question {err} />
 		{:else if question.type === 'sort'}
 			<SortEditor bind:question {err} />
+		{:else if question.type === 'missing'}
+			<MissingEditor bind:question {err} />
+		{:else if question.type === 'puzzle' || question.type === 'blocks' || question.type === 'clock' || question.type === 'money'}
+			<SmallGameEditor bind:question {err} />
 		{/if}
 	</div>
+
+	<label class="field explain">
+		<span>Penerangan jika salah <small>(digalakkan)</small></span>
+		<textarea
+			class="input"
+			rows="2"
+			bind:value={question.explain}
+			maxlength="400"
+			placeholder="Contoh: Gajah ialah satu-satunya haiwan di sini yang mempunyai belalai."
+			aria-invalid={!!err('explain')}
+		></textarea>
+		<small class="help">Ditunjukkan kepada kanak-kanak yang belum betul, bersama jawapannya, dan di skrin hos semasa jawapan didedahkan.</small>
+		{#if err('explain')}<span class="field-error">{err('explain')}</span>{/if}
+	</label>
 </article>
 
 <style>
@@ -263,6 +299,38 @@
 		align-items: flex-start;
 		justify-content: space-between;
 		gap: 1rem;
+	}
+	.pic-field {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.4rem;
+	}
+	.ideas {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.25rem;
+		padding: 0.2rem 0.4rem;
+		border-radius: 999px;
+		background: #fff7d6;
+	}
+	.idea {
+		display: grid;
+		place-items: center;
+		width: 2.4rem;
+		height: 2.4rem;
+		border: 0;
+		border-radius: 50%;
+		background: #fff;
+		cursor: pointer;
+		transition: transform var(--t-state) var(--spring);
+	}
+	.idea:hover {
+		transform: scale(1.12);
+	}
+	.explain small {
+		color: var(--ink-3);
+		font-weight: 700;
 	}
 	.time {
 		display: flex;

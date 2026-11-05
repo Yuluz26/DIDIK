@@ -3,12 +3,29 @@
 
 import { countPrompt } from '$lib/stickers';
 
-export type QuestionType = 'single' | 'multiple' | 'truefalse' | 'text' | 'number' | 'order' | 'match' | 'blank' | 'count' | 'spell' | 'sort';
+export type QuestionType =
+	| 'single'
+	| 'multiple'
+	| 'truefalse'
+	| 'text'
+	| 'number'
+	| 'order'
+	| 'match'
+	| 'blank'
+	| 'count'
+	| 'spell'
+	| 'sort'
+	| 'missing'
+	| 'puzzle'
+	| 'blocks'
+	| 'clock'
+	| 'money';
 
 export interface Choice {
 	id: string;
 	text: string;
 	correct: boolean;
+	sticker?: string | null;
 }
 
 export interface Item {
@@ -20,6 +37,7 @@ export interface Pair {
 	id: string;
 	left: string;
 	right: string;
+	sticker?: string | null;
 }
 
 export interface SortGroup {
@@ -39,6 +57,10 @@ interface Base {
 	id: string;
 	prompt: string;
 	image: string | null;
+	/** A 3D sticker that illustrates the question (the "gambar rajah"). */
+	picture: string | null;
+	/** Why the answer is right, shown to a child who got it wrong. */
+	explain: string;
 	time_limit: number;
 }
 
@@ -55,6 +77,11 @@ export type Question = Base &
 		| { type: 'count'; sticker: string; place: string; answer: number }
 		| { type: 'spell'; word: string; sticker: string | null; decoys: number }
 		| { type: 'sort'; groups: SortGroup[]; items: SortItem[] }
+		| { type: 'missing'; word: string; hide: number[]; sticker: string | null; decoys: number }
+		| { type: 'puzzle'; sticker: string | null; grid: 2 | 3 }
+		| { type: 'blocks'; answer: number }
+		| { type: 'clock'; hour: number; minute: number }
+		| { type: 'money'; amount: number; sticker: string | null }
 	);
 
 export interface QuizDraft {
@@ -78,7 +105,12 @@ export const TYPES: { type: QuestionType; name: string; hint: string; kind: Type
 	{ type: 'blank', name: 'Isi tempat kosong', hint: 'Ayat dengan perkataan dalam [kurungan] sebagai tempat kosong.', kind: 'biasa' },
 	{ type: 'count', name: 'Kira dan masukkan', hint: 'Kanak-kanak seret objek ke dalam bakul, kotak atau bas sehingga cukup bilangannya.', kind: 'interaktif' },
 	{ type: 'spell', name: 'Susun huruf', hint: 'Huruf bercampur, dengan gambar petunjuk, disusun menjadi perkataan.', kind: 'interaktif' },
-	{ type: 'sort', name: 'Isih kumpulan', hint: 'Seret setiap benda ke bakul kumpulannya: darat atau laut, buah atau sayur.', kind: 'interaktif' }
+	{ type: 'sort', name: 'Isih kumpulan', hint: 'Seret setiap benda ke bakul kumpulannya: darat atau laut, buah atau sayur.', kind: 'interaktif' },
+	{ type: 'missing', name: 'Huruf hilang', hint: 'Satu hingga tiga huruf disembunyikan; kanak-kanak isi dengan jubin huruf.', kind: 'interaktif' },
+	{ type: 'puzzle', name: 'Cantum gambar', hint: 'Gambar dipotong 4 atau 9 keping untuk dicantum semula.', kind: 'interaktif' },
+	{ type: 'blocks', name: 'Bina nombor', hint: 'Bina nombor dengan blok ratus, puluh dan sa (nilai tempat).', kind: 'interaktif' },
+	{ type: 'clock', name: 'Laraskan jam', hint: 'Pusing jarum jam sehingga menunjukkan masa yang diminta.', kind: 'interaktif' },
+	{ type: 'money', name: 'Bayar dengan wang', hint: 'Bayar harga dengan syiling dan wang kertas Malaysia.', kind: 'interaktif' }
 ];
 
 export const KINDS: { kind: TypeKind; name: string; note: string }[] = [
@@ -105,7 +137,14 @@ const thing = (groupId: string): SortItem => ({ id: newId(), text: '', sticker: 
 
 /** A fresh question of a type; `from` keeps the prompt, picture and time of the question it replaces. */
 export function blank(type: QuestionType, from?: Question): Question {
-	const base: Base = { id: from?.id ?? newId(), prompt: from?.prompt ?? '', image: from?.image ?? null, time_limit: from?.time_limit ?? 20 };
+	const base: Base = {
+		id: from?.id ?? newId(),
+		prompt: from?.prompt ?? '',
+		image: from?.image ?? null,
+		picture: from?.picture ?? null,
+		explain: from?.explain ?? '',
+		time_limit: from?.time_limit ?? 20
+	};
 	const keptChoices = from && (from.type === 'single' || from.type === 'multiple') ? from.choices : null;
 	switch (type) {
 		case 'single': {
@@ -140,6 +179,16 @@ export function blank(type: QuestionType, from?: Question): Question {
 			const items = [thing(groups[0].id), thing(groups[1].id), thing(groups[0].id), thing(groups[1].id)];
 			return { ...base, time_limit: Math.max(base.time_limit, 60), type, groups, items };
 		}
+		case 'missing':
+			return { ...base, prompt: base.prompt || 'Lengkapkan huruf yang hilang.', time_limit: Math.max(base.time_limit, 45), type, word: '', hide: [], sticker: null, decoys: 2 };
+		case 'puzzle':
+			return { ...base, prompt: base.prompt || 'Cantumkan kepingan gambar ini.', time_limit: Math.max(base.time_limit, 60), type, sticker: 'kucing', grid: 2 };
+		case 'blocks':
+			return { ...base, prompt: base.prompt || 'Bina nombor 24 dengan blok puluh dan sa.', time_limit: Math.max(base.time_limit, 60), type, answer: 24 };
+		case 'clock':
+			return { ...base, prompt: base.prompt || 'Laraskan jam kepada pukul 3.00.', time_limit: Math.max(base.time_limit, 45), type, hour: 3, minute: 0 };
+		case 'money':
+			return { ...base, prompt: base.prompt || 'Aiskrim ini berharga RM2.50. Bayar dengan tepat.', time_limit: Math.max(base.time_limit, 60), type, amount: 250, sticker: 'aiskrim' };
 	}
 }
 
@@ -165,6 +214,8 @@ export function normalise(raw: Record<string, unknown>): Question {
 	const type = raw.type as QuestionType;
 	const fresh = blank(type);
 	const question = { ...fresh, ...raw } as Question;
+	question.picture = question.picture ?? null;
+	question.explain = question.explain ?? '';
 	if ('choices' in question) question.choices = question.choices.map((c) => ({ ...c, id: c.id || newId() }));
 	if ('items' in question) question.items = question.items.map((i) => ({ ...i, id: i.id || newId() }));
 	if ('pairs' in question) question.pairs = question.pairs.map((p) => ({ ...p, id: p.id || newId() }));

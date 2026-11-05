@@ -35,7 +35,12 @@ export const TYPE_NAMES: Record<string, string> = {
 	blank: 'Isi kosong',
 	count: 'Kira',
 	spell: 'Eja',
-	sort: 'Isih'
+	sort: 'Isih',
+	missing: 'Huruf hilang',
+	puzzle: 'Cantum',
+	blocks: 'Blok nombor',
+	clock: 'Jam',
+	money: 'Wang'
 };
 
 class ParentData {

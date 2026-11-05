@@ -85,7 +85,7 @@
 		{#if game.stage === 'reveal' && game.result}
 			<!-- the result docks at the bottom, so the scene (boats, kites, the picture's tiles) shows what it did -->
 			<QuestionPopup mode="dock" label="Keputusan soalan {game.index + 1}">
-				<Feedback correct={game.result.correct} fraction={game.result.fraction} missed={game.result.missed} points={game.result.points} {unit} />
+				<Feedback correct={game.result.correct} fraction={game.result.fraction} missed={game.result.missed} points={game.result.points} {unit} explain={game.reveal?.explain ?? ''} />
 				{#if !game.result.correct}
 					<details class="reveal">
 						<summary>Lihat jawapan betul</summary>

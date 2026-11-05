@@ -90,6 +90,7 @@
 				correct={seat.result.correct}
 				fraction={seat.result.fraction}
 				extra={seat.result.reward && rewardText ? rewardText(seat.result.reward) : ''}
+				explain={seat.result.reveal?.explain ?? ''}
 			/>
 			{#if !seat.result.correct && seat.question}
 				<!-- the right answer folds away, so the dock leaves the world in view -->

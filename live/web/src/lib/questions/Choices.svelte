@@ -6,6 +6,7 @@
 	import type { Choice, Reveal } from '$lib/types';
 	import { play } from '$lib/sound';
 	import Icon from '$ui/Icon.svelte';
+	import Sticker from '$ui/Sticker.svelte';
 
 	let {
 		choices,
@@ -54,7 +55,7 @@
 <svelte:window onkeydown={onkey} />
 
 <div class="tiles-wrap">
-<div class="tiles" class:long={choices.some((c) => c.text.length > 12)} class:one-col={choices.some((c) => c.text.length > 38)}>
+<div class="tiles" class:pics={choices.some((c) => c.sticker)} class:long={!choices.some((c) => c.sticker) && choices.some((c) => c.text.length > 12)} class:one-col={!choices.some((c) => c.sticker) && choices.some((c) => c.text.length > 38)}>
 	{#each choices as choice, i (choice.id)}
 		{@const isRight = right.has(choice.id)}
 		<button
@@ -70,6 +71,7 @@
 			onclick={() => tap(choice.id)}
 		>
 			<span class="letter">{LETTERS[i]}</span>
+			{#if choice.sticker}<span class="tile-pic"><Sticker key={choice.sticker} size={64} alt="" eager /></span>{/if}
 			<span class="text">{choice.text}</span>
 			{#if stats}<span class="count">{stats[choice.id] ?? 0}</span>{/if}
 			{#if reveal && (isRight || picked.has(choice.id))}
@@ -92,6 +94,30 @@
 {/if}
 
 <style>
+	/* options with pictures: two to a row even on a small phone, the picture on top, the word under it,
+	   the letter in the corner */
+	.tiles.pics {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+	.tiles.pics :global(.tile) {
+		flex-direction: column;
+		justify-content: center;
+		gap: 0.3rem;
+		min-height: 7rem;
+		padding: 0.9rem 0.5rem 0.6rem;
+		text-align: center;
+	}
+	.tiles.pics :global(.tile .letter) {
+		position: absolute;
+		top: 0.45rem;
+		left: 0.45rem;
+		width: 1.7rem;
+		height: 1.7rem;
+		font-size: 0.85rem;
+	}
+	.tile-pic {
+		filter: drop-shadow(0 4px 4px rgb(0 0 0 / 0.18));
+	}
 	.send {
 		display: flex;
 		align-items: center;

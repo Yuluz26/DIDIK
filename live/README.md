@@ -25,7 +25,7 @@ terus ditunjukkan. Di hujung denai ada hadiah dan jumlah bintang. Hos melihat "D
 kanak-kanak, setiap hentian dan bintangnya. Hos boleh memilih bilangan soalan di denai (5 hingga 20, atau
 semua). Permainan tamat bila semua sampai ke hujung, atau bila masa habis.
 
-Semua jenis soalan boleh dimainkan, tetapi tiga jenis sentuh-dan-seret dibuat khas untuknya (dan boleh
+Semua jenis soalan boleh dimainkan, tetapi lapan jenis sentuh-dan-seret dibuat khas untuknya (dan boleh
 juga dimainkan dalam permainan lain):
 
 | Jenis | Cara jawab |
@@ -33,8 +33,21 @@ juga dimainkan dalam permainan lain):
 | Kira dan masukkan | Seret (atau ketik) objek ke dalam bakul, kotak, bas atau pinggan sehingga cukup bilangannya. |
 | Susun huruf | Huruf bercampur, dengan gambar petunjuk, disusun menjadi perkataan. Boleh tambah huruf pengganggu. |
 | Isih kumpulan | Seret setiap benda ke bakul kumpulannya (2 atau 3 bakul): darat atau laut, buah atau sayur. |
+| Huruf hilang | Satu hingga tiga huruf disembunyikan; isi dengan jubin huruf, dengan gambar petunjuk. |
+| Cantum gambar | Pelekat atau gambar soalan dipotong 4 atau 9 keping untuk dicantum semula. |
+| Bina nombor | Blok ratus, puluh dan sa pada carta nilai tempat (1 hingga 999). |
+| Laraskan jam | Seret jarum pendek dan panjang (atau guna butang) ke masa yang diminta, ikut 5 minit. |
+| Bayar dengan wang | Bayar harga dengan tepat menggunakan syiling 5, 10, 20, 50 sen dan wang kertas RM1 hingga RM50. |
 
-Gambar objek ialah 110 pelekat 3D daripada Microsoft Fluent Emoji (lesen MIT, lihat
+Pilihan jawapan dan pasangan Padankan juga boleh bergambar, untuk kanak-kanak yang belum lancar membaca.
+
+**Gambar rajah dan penerangan.** Setiap soalan boleh ada gambar rajah (pelekat 3D, selain gambar yang
+dimuat naik) dan penerangan. Penerangan hanya dihantar ke pelayar bersama jawapan: kanak-kanak yang belum
+betul melihatnya dalam kotak "Kenapa begitu?" (dan boleh mendengarnya), dan skrin hos memaparkannya semasa
+jawapan didedahkan. Editor mencadangkan gambar daripada perkataan dalam soalan dan menunjukkan berapa soalan
+yang belum ada gambar atau penerangan. Semua 119 soalan dalam kuiz contoh ada kedua-duanya.
+
+Gambar objek ialah 164 pelekat 3D daripada Microsoft Fluent Emoji (lesen MIT, lihat
 `web/static/pelekat/LICENSE.txt`). Senarainya dalam `web/src/lib/stickers.ts` dan `server/didik_live/stickers.py`;
 ujian memastikan kedua-duanya sama. Laman utama ada demo kecil Kuiz Interaktif yang boleh terus dicuba.
 
@@ -58,8 +71,9 @@ ujian memastikan kedua-duanya sama. Laman utama ada demo kecil Kuiz Interaktif y
 | Kejar Bintang | Dua pasukan menangkap bintang jatuh dengan jawapan betul; setiap sepuluh bintang menyalakan satu buruj. |
 | Hikayat Lima Alam | Mod cerita lima dunia legenda Melayu, Solo atau Party. Wira berjalan sendiri; setiap musuh membuka pertarungan dan jawapan menentukan serangan. Perlukan sekurang-kurangnya 10 soalan. Lihat [`docs/LEGENDA-STORY-MODE.md`](../docs/LEGENDA-STORY-MODE.md). |
 
-Jenis soalan (sebelas): pilihan tunggal, pilih semua yang betul, betul atau salah, taip jawapan, nombor, susun
-turutan, padankan, isi tempat kosong, dan tiga jenis interaktif: kira dan masukkan, susun huruf, isih kumpulan.
+Jenis soalan (enam belas): pilihan tunggal, pilih semua yang betul, betul atau salah, taip jawapan, nombor, susun
+turutan, padankan, isi tempat kosong, dan lapan jenis interaktif: kira dan masukkan, susun huruf, isih
+kumpulan, huruf hilang, cantum gambar, bina nombor, laraskan jam, dan bayar dengan wang.
 
 ## Rupa pixel dan bunyi chiptune
 
@@ -235,8 +249,10 @@ dan Pilihan tunggal dengan 2 hingga 4 jawapan. Halaman pilih permainan menerangk
 
 Jenis interaktif (Kira dan masukkan, Susun huruf, Isih kumpulan) dipilih dengan gambar pelekat: ketik petak
 gambar untuk memilih daripada haiwan, makanan, benda, alam dan kenderaan. Untuk Kira dan masukkan, ayat soalan
-ditulis sendiri mengikut pilihan ("Masukkan 5 biji epal ke dalam bakul.") sehingga anda menukarnya. Kuiz contoh
-**Jom Kira, Eja dan Isih** menunjukkan ketiga-tiganya.
+ditulis sendiri mengikut pilihan ("Masukkan 5 biji epal ke dalam bakul.") sehingga anda menukarnya; begitu juga
+Bina nombor, Laraskan jam dan Bayar dengan wang. Kuiz contoh **Jom Kira, Eja dan Isih**, **Jom Main
+Matematik** dan **Jom Main Bahasa** menunjukkan kesemuanya. Kuiz contoh milik perpustakaan dikemas kini
+sendiri apabila versi baharu mengubahnya; salinan ibu bapa tidak disentuh.
 
 ## Pelayan sebenar (VPS)
 

@@ -71,6 +71,7 @@
 						missed={game.result.missed}
 						points={game.result.points}
 						extra={hearts === 0 ? 'Kamu ikan sekarang. Jawab betul dua kali untuk naik semula ke darat.' : ''}
+						explain={game.reveal?.explain ?? ''}
 					/>
 				{:else if hearts === 0}
 					<p class="note">Kamu ikan sekarang, tapi masih boleh menjawab! Dua jawapan betul berturut-turut dan kamu naik semula ke darat.</p>

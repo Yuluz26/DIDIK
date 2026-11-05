@@ -203,6 +203,7 @@
 					correct={seat.result.correct}
 					fraction={seat.result.fraction}
 					extra={seat.result.reward?.key ? `Kamu dapat kunci! (${keys}/${need})` : ''}
+					explain={seat.result.reveal?.explain ?? ''}
 				/>
 			{/if}
 			<Answer

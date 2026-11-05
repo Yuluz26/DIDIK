@@ -1,6 +1,7 @@
 <!-- Padankan: pairs of things that belong together, written side by side. -->
 <script lang="ts">
 	import Icon from '$ui/Icon.svelte';
+	import StickerPicker from './StickerPicker.svelte';
 	import { LIMITS, make, type Pair } from './model';
 
 	let { pairs = $bindable(), err }: { pairs: Pair[]; err: (...path: (string | number)[]) => string | undefined } = $props();
@@ -12,6 +13,7 @@
 	<ol>
 		{#each pairs as pair, i (pair.id)}
 			<li>
+				<StickerPicker value={pair.sticker ?? null} onpick={(v) => (pair.sticker = v)} label="Gambar pasangan {i + 1}" optional compact />
 				<input class="input" bind:value={pair.left} maxlength="60" placeholder="Kiri, contoh: Kucing" aria-label="Pasangan {i + 1}, kiri" aria-invalid={!!err('pairs', i, 'left')} />
 				<span class="link" aria-hidden="true">↔</span>
 				<input class="input" bind:value={pair.right} maxlength="60" placeholder="Kanan, contoh: Meow" aria-label="Pasangan {i + 1}, kanan" aria-invalid={!!err('pairs', i, 'right')} />
@@ -49,7 +51,7 @@
 	}
 	li {
 		display: grid;
-		grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto;
+		grid-template-columns: auto minmax(0, 1fr) auto minmax(0, 1fr) auto;
 		align-items: center;
 		gap: 0.4rem;
 	}

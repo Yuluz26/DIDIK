@@ -4,6 +4,7 @@
 -->
 <script lang="ts">
 	import Didi from '$ui/Didi.svelte';
+	import Explain from './Explain.svelte';
 
 	let {
 		correct,
@@ -11,8 +12,9 @@
 		missed = false,
 		points = null,
 		unit = 'mata',
-		extra = ''
-	}: { correct: boolean; fraction?: number; missed?: boolean; points?: number | null; unit?: string; extra?: string } = $props();
+		extra = '',
+		explain = ''
+	}: { correct: boolean; fraction?: number; missed?: boolean; points?: number | null; unit?: string; extra?: string; explain?: string } = $props();
 
 	const CHEERS = ['Betul!', 'Hebat!', 'Bagus!', 'Tepat sekali!', 'Pandainya!'];
 	const cheer = CHEERS[Math.floor(Math.random() * CHEERS.length)];
@@ -38,6 +40,7 @@
 		<span class="points">+{points.toLocaleString('ms-MY')} <small>{unit}</small></span>
 	{/if}
 </div>
+{#if explain && !correct}<Explain text={explain} />{/if}
 
 <style>
 	.feedback {
