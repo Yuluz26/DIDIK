@@ -1,7 +1,7 @@
 /*
- * The pixels of the six newer games (Pancing Ikan, Lumba Wau, Kubu Pasir, Kereta Api Kampung, Pasar
- * Malam, Kejar Bintang): fish, a wau bulan, sandcastle floors, a steam train, a market stall and
- * stars, in the same palette and outlined the same way as every other sprite (pix.ts).
+ * Sprites of the newer games: Pancing Ikan's fish, Lumba Wau's wau bulan, Pasar Malam's stall and
+ * Kejar Bintang's stars, in the same palette and outlined the same way as every other sprite (pix.ts).
+ * Their scenes are painted in lake.ts, beach.ts, rail.ts, night.ts and scenery.ts.
  */
 import { memo, sheetOf, type Sheet } from '$lib/pixel/cache';
 import { M } from '$lib/pixel/palette';
@@ -21,9 +21,12 @@ const FISH_LOOK: Record<string, { body: Ramp; belly: string; fin: Ramp; w: numbe
 	arowana: { body: M.gold, belly: '#fff6b0', fin: rampFrom('#e0742a'), w: 22 }
 };
 
-/** A fish swimming to the left (or the old boot). */
-export function fish(kind: string): Sheet {
-	return memo(`fun:fish:${kind}`, () => {
+/**
+ * A fish swimming to the left (or the old boot). `small` is the size it is in the lake, seen from
+ * the jetty: smaller than a child, as a real fish would be.
+ */
+export function fish(kind: string, small = false): Sheet {
+	return memo(`fun:fish:${kind}:${small}`, () => {
 		if (kind === 'kasut') {
 			const p = new Pix(16, 12);
 			p.rect(3, 1, 6, 7, M.bark.c[2], M.bark.ink);
@@ -35,7 +38,7 @@ export function fish(kind: string): Sheet {
 			return sheetOf(p);
 		}
 		const look = FISH_LOOK[kind] ?? FISH_LOOK.bilis;
-		const w = look.w;
+		const w = small ? Math.max(8, Math.round(look.w * 0.6)) : look.w;
 		const h = Math.round(w * 0.55);
 		const p = new Pix(w + 6, h + 2);
 		const cy = (h + 2) / 2;
@@ -78,100 +81,6 @@ export function kite(index: number): Sheet {
 		// ribbons
 		p.line(11, 26, 9, 29, M.gold.c[3]);
 		p.line(13, 26, 15, 29, WHITE);
-		return sheetOf(p);
-	});
-}
-
-// ------------------------------------------------------------------ Kubu Pasir
-
-/** One floor of a sandcastle, with a little window; the top floor has battlements. */
-export function castleFloor(top: boolean): Sheet {
-	return memo(`fun:floor:${top}`, () => {
-		const p = new Pix(30, top ? 11 : 8);
-		const y0 = top ? 3 : 0;
-		p.rect(1, y0, 28, 8, M.sand.c[2], M.sand.ink);
-		p.hline(1, y0, 28, M.sand.c[4], M.sand.ink);
-		p.hline(1, y0 + 7, 28, M.sand.c[1], M.sand.ink);
-		for (let x = 3; x < 28; x += 6) p.set(x, y0 + 3, M.sand.c[1]).set(x + 2, y0 + 5, M.sand.c[3]);
-		p.rect(13, y0 + 2, 4, 4, M.sand.c[0], M.sand.ink);
-		if (top) for (const x of [1, 8, 15, 22]) p.rect(x, 0, 5, 4, M.sand.c[3], M.sand.ink);
-		p.outline();
-		return sheetOf(p);
-	});
-}
-
-/** A low sea wall of packed sand and shells. */
-export function seaWall(): Sheet {
-	return memo('fun:wall', () => {
-		const p = new Pix(40, 8);
-		p.rect(0, 2, 40, 6, M.sand.c[1], M.sand.ink);
-		p.hline(0, 2, 40, M.sand.c[3], M.sand.ink);
-		for (let x = 3; x < 40; x += 7) p.set(x, 4, M.pink.c[3]).set(x + 1, 4, M.pink.c[4]).set(x + 3, 6, M.cream.c[4]);
-		p.outline();
-		return sheetOf(p);
-	});
-}
-
-export function flag(index: number): Sheet {
-	const tone = ['#e2483d', '#f5c518', '#2f7fcf'][index % 3];
-	return memo(`fun:flag:${tone}`, () => {
-		const r = rampFrom(tone);
-		const p = new Pix(8, 12);
-		p.vline(1, 0, 12, M.bark.c[2], M.bark.ink);
-		p.poly([[2, 1], [7, 3], [2, 6]], r.c[2], r.ink);
-		p.outline();
-		return sheetOf(p);
-	});
-}
-
-// ------------------------------------------------------------------ Kereta Api Kampung
-
-/** The little steam engine, facing right. */
-export function engine(): Sheet {
-	return memo('fun:engine', () => {
-		const p = new Pix(34, 22);
-		p.rect(2, 8, 22, 9, M.red.c[2], M.red.ink); // boiler
-		p.hline(2, 8, 22, M.red.c[4], M.red.ink);
-		p.rect(18, 3, 12, 14, M.sky.c[2], M.sky.ink); // cab
-		p.rect(20, 5, 7, 5, M.water.c[4], M.sky.ink);
-		p.rect(17, 1, 15, 3, M.sky.c[1], M.sky.ink);
-		p.rect(5, 2, 4, 6, M.metal.c[2], M.metal.ink); // chimney
-		p.rect(4, 1, 6, 2, M.metal.c[3], M.metal.ink);
-		p.rect(0, 15, 34, 2, M.metal.c[1], M.metal.ink);
-		for (const x of [6, 14, 25]) {
-			p.ellipse(x, 18, 3.4, 3.4, M.metal.c[1], M.metal.ink);
-			p.set(x, 18, M.gold.c[3]);
-		}
-		p.set(2, 11, M.gold.c[4]).set(2, 12, M.gold.c[4]);
-		p.outline();
-		return sheetOf(p);
-	});
-}
-
-const CAR_COLOURS = ['#2bb0a6', '#f5c518', '#8a5cd1', '#ec6ca5', '#6cb33f', '#e0742a', '#2f7fcf'];
-
-/** A passenger carriage; `riders` faces show in its windows. */
-export function carriage(index: number, riders: number): Sheet {
-	const tone = CAR_COLOURS[index % CAR_COLOURS.length];
-	return memo(`fun:car:${tone}:${riders}`, () => {
-		const r = rampFrom(tone);
-		const p = new Pix(28, 20);
-		p.rect(1, 3, 26, 12, r.c[2], r.ink);
-		p.rect(0, 1, 28, 3, r.c[1], r.ink);
-		p.hline(1, 14, 26, r.c[0], r.ink);
-		for (let i = 0; i < 3; i++) {
-			const x = 3 + i * 8;
-			p.rect(x, 6, 6, 5, M.water.c[4], r.ink);
-			if (i < riders) {
-				p.ellipse(x + 3, 9, 1.8, 1.8, rgba('#e7b98a'));
-				p.set(x + 2, 8, INK).set(x + 4, 8, INK);
-			}
-		}
-		for (const x of [6, 22]) {
-			p.ellipse(x, 17, 2.6, 2.6, M.metal.c[1], M.metal.ink);
-			p.set(x, 17, M.metal.c[3]);
-		}
-		p.outline();
 		return sheetOf(p);
 	});
 }

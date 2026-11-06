@@ -1,14 +1,18 @@
 <!--
-	A child's Kereta Api Kampung (and, with no client, a train on the host's board): hills and the track,
-	the engine with its carriages full of passengers, the station it stands at and the next one, and,
-	for the child, the coal they have and what it buys. A run slides the scenery past.
+	A child's Kereta Api Kampung (and, without a client, a train on the host's board), as one pixel
+	scene: the steam engine and its carriages, passengers at the windows, standing with their wheels
+	on the rail at a station whose name is on its board. A run sets the wheels turning and the steam
+	puffing while hills, trees, kampung houses and telegraph poles slide past at their own speeds, until
+	the next station comes in and the train stops at it. For the child, their coal and what it buys.
 -->
 <script lang="ts">
 	import type { RoomClient } from '$lib/room.svelte';
 	import { play } from '$lib/sound';
-	import Sprite from '$lib/pixel/Sprite.svelte';
+	import Scene from '$lib/pixel/Scene.svelte';
+	import { type G, ease, put, sagLine, stillWanted, hex } from '$lib/pixel/scene';
 	import Icon from '$ui/Icon.svelte';
-	import { carriage, engine } from './art';
+	import { BOARD, RAIL, STATION, coach, locomotive, pole, puff, railHills, railNear, railSky, railTrees, station } from './rail';
+	import { cloud } from './scenery';
 
 	interface Train {
 		coal?: number;
@@ -20,23 +24,117 @@
 		kmPerCar?: number;
 		maxCars?: number;
 	}
-	let { client = null, world, s = 3 }: { client?: RoomClient | null; world: Train; s?: number } = $props();
+	let { client = null, world }: { client?: RoomClient | null; world: Train; s?: number } = $props();
 
-	let moving = $state(0);
+	const { w: W, h: H, top: TOP } = RAIL;
+	const ENGINE_X = 124;
+	const STATION_X = 22;
+	const RUN = 2800;
+	const TRIP = W * 3; // how far the countryside slides past on one run
+	const still = stillWanted();
+
+	let run = $state<{ at: number; from: number } | null>(null);
+	let travelled = 0;
 	let gained = $state<{ key: number; km: number } | null>(null);
+	let n = 0;
 	$effect(() => {
 		if (!client) return;
 		return client.onFx((fx) => {
 			if (fx.kind !== 'arrive') return;
-			moving++;
-			gained = { key: moving, km: fx.km };
+			const key = ++n;
+			const from = (fx.station - 1 + world.stations.length) % world.stations.length;
+			if (!still) run = { at: performance.now(), from };
 			play('go');
-			const key = moving;
-			setTimeout(() => gained?.key === key && (gained = null), 1800);
+			setTimeout(() => {
+				gained = { key, km: fx.km };
+				play('coin');
+			}, still ? 0 : RUN - 200);
+			setTimeout(() => gained?.key === key && (gained = null), (still ? 0 : RUN) + 1800);
 		});
 	});
-	const here = $derived(world.stations[world.station] ?? '');
+
+	// the name on the board: the station left behind until the train is halfway, then the next one
+	let half = $state(false);
+	const shown = $derived(run && !half ? run.from : world.station);
+	const here = $derived(world.stations[shown] ?? '');
 	const next = $derived(world.stations[(world.station + 1) % world.stations.length] ?? '');
+
+	function tile(g: G, pix: Parameters<typeof put>[1], offset: number, y = 0) {
+		const x = -(((offset % W) + W) % W);
+		put(g, pix, x, y);
+		put(g, pix, x + W, y);
+	}
+
+	function paint(g: G, t: number) {
+		const now = still ? 0 : t;
+		let cam = 0;
+		let moving = false;
+		if (run) {
+			const u = (now - run.at) / RUN;
+			if (u >= 1) {
+				travelled += TRIP;
+				run = null;
+				half = false;
+			} else {
+				cam = TRIP * ease(u);
+				moving = true;
+				if (u > 0.5 !== half) half = u > 0.5;
+			}
+		}
+		const go = travelled + cam;
+
+		put(g, railSky(), 0, 0);
+		put(g, cloud(0), ((now * 0.002 - go * 0.05) % (W + 60) + W + 60) % (W + 60) - 40, 6);
+		tile(g, railHills(), go * 0.12);
+		tile(g, railTrees(), go * 0.35);
+
+		// the station going out, and the next one coming in
+		put(g, station(), STATION_X - cam, TOP - STATION.h);
+		if (run) put(g, station(), STATION_X - cam + TRIP, TOP - STATION.h);
+
+		tile(g, railNear(), go);
+
+		// telegraph poles behind the track, wires slung between them
+		const gap = 88;
+		const first = -(((go % gap) + gap) % gap);
+		const tops: [number, number][] = [];
+		for (let x = first - gap; x < W + gap; x += gap) {
+			put(g, pole(), x, RAIL.ground - 30);
+			tops.push([x + 4, RAIL.ground - 27]);
+		}
+		for (let i = 0; i + 1 < tops.length; i++) sagLine(g, tops[i], tops[i + 1], 2, hex('#3a3346', 200));
+
+		// the train: wheels on the rail, a little jolt at every rail joint while it runs
+		const frame = moving ? ((now / 110) | 0) % 2 : 0;
+		const jolt = moving && ((now / 170) | 0) % 2 ? 1 : 0;
+		for (let i = 0; i < world.cars; i++) {
+			const x = ENGINE_X - (i + 1) * 31;
+			if (x < -32) break;
+			put(g, coach(i, frame), x, TOP - 21 - 1 + (i % 2 ? jolt : 0));
+		}
+		put(g, locomotive(frame), ENGINE_X, TOP - 25 - 1 + jolt);
+
+		// steam from the chimney: a stream of puffs blown back while running, a lazy one at a stop
+		const every = moving ? 110 : 700;
+		const life = moving ? 1100 : 2200;
+		const cx = ENGINE_X + 29;
+		const cy = TOP - 26 - 3;
+		for (let k = 0; k < Math.ceil(life / every); k++) {
+			const born = Math.floor(now / every) * every - k * every;
+			const age = now - born;
+			if (age < 0 || age > life) continue;
+			const a = age / 1000;
+			const x = cx - a * (moving ? 70 : 6) + Math.sin(born) * 2;
+			const y = cy - a * (moving ? 10 : 9);
+			const size = age < life * 0.3 ? 0 : age < life * 0.65 ? 1 : 2;
+			g.globalAlpha = Math.max(0, 1 - age / life) * 0.95;
+			put(g, puff(size), x - 6, y - 5);
+			g.globalAlpha = 1;
+		}
+	}
+
+	const label = $derived(`Kereta api dengan ${world.cars} gerabak di stesen ${here}.`);
+	const boardStyle = `left:${((STATION_X + BOARD.x) / W) * 100}%;top:${((TOP - STATION.h + BOARD.y) / H) * 100}%;width:${(BOARD.w / W) * 100}%;height:${(BOARD.h / H) * 100}%`;
 </script>
 
 <div class="fun keretapi">
@@ -47,23 +145,19 @@
 		</ul>
 	{/if}
 
-	<div class="scene land" style:--s={s}>
-		{#key moving}<span class="hills" class:run={moving > 0} aria-hidden="true"></span>{/key}
-		<p class="sign"><span>Stesen</span> {here}</p>
-		<div class="train" aria-label="Kereta api dengan {world.cars} gerabak di stesen {here}">
-			{#each Array(world.cars) as _, i (i)}<Sprite sheet={carriage(world.cars - 1 - i, 3)} {s} />{/each}
-			<Sprite sheet={engine()} {s} />
-		</div>
-		<span class="rails" aria-hidden="true"></span>
-		{#if gained}{#key gained.key}<p class="km" role="status">+{gained.km} km</p>{/key}{/if}
+	<div class="frame">
+		<Scene w={W} h={H} {paint} fps={20} {label}>
+			{#if !run}<p class="board" style={boardStyle}>{here}</p>{/if}
+			{#if gained}{#key gained.key}<p class="km" role="status">+{gained.km} km</p>{/key}{/if}
+		</Scene>
 	</div>
 
 	{#if client && world.carCost !== undefined}
 		<div class="acts">
-			<button type="button" class="btn btn--sun btn--big" disabled={(world.coal ?? 0) < (world.runCost ?? 2)} onclick={() => client?.send({ t: 'go' })}>
+			<button type="button" class="btn btn--sun btn--big" disabled={(world.coal ?? 0) < (world.runCost ?? 2) || !!run} onclick={() => client?.send({ t: 'go' })}>
 				Jalan ke {next} · {world.runCost} arang
 			</button>
-			<button type="button" class="btn btn--sea" disabled={(world.coal ?? 0) < world.carCost || world.cars >= (world.maxCars ?? 8)} onclick={() => (client?.send({ t: 'car' }), play('pop'))}>
+			<button type="button" class="btn btn--sea" disabled={(world.coal ?? 0) < world.carCost || world.cars >= (world.maxCars ?? 8) || !!run} onclick={() => (client?.send({ t: 'car' }), play('build'))}>
 				Tambah gerabak · {world.carCost} arang
 			</button>
 		</div>
@@ -94,72 +188,35 @@
 		box-shadow: var(--card-shadow);
 		font-weight: 800;
 	}
-	.scene {
-		position: relative;
+	.frame {
 		overflow: hidden;
-		border-radius: var(--r-lg);
-		box-shadow: var(--card-shadow);
-		image-rendering: pixelated;
+		border: 3px solid #2a1f2d;
+		border-radius: 6px;
+		box-shadow: 0 4px 0 #2a1f2d;
+		background: #8fcdee;
 	}
-	.land {
-		min-height: calc(var(--s) * 70px);
-		background: linear-gradient(180deg, #9ed8f2 0 45%, #72bc4c 45% 100%);
-	}
-	.hills {
+	.board {
 		position: absolute;
-		inset: 20% -50% 40% 0;
-		background:
-			radial-gradient(ellipse 12% 60% at 10% 100%, #3d8858 98%, transparent) 0 0 / 50% 100% repeat-x,
-			radial-gradient(ellipse 16% 80% at 70% 100%, #589a46 98%, transparent) 0 0 / 50% 100% repeat-x;
-	}
-	.hills.run {
-		animation: slide 1.4s ease-in-out;
-	}
-	.sign {
-		position: absolute;
-		left: 0.8rem;
-		top: 0.7rem;
 		display: grid;
-		padding: 0.3rem 0.8rem;
-		border: 3px solid #6e4a30;
-		border-radius: var(--r-sm);
-		background: #fff6e6;
-		font: 700 1rem/1.1 var(--font-display);
-	}
-	.sign span {
-		color: var(--ink-3);
-		font-size: 0.7rem;
-		text-transform: uppercase;
-		letter-spacing: 0.1em;
-	}
-	.train {
-		position: absolute;
-		right: 0.8rem;
-		bottom: calc(var(--s) * 6px);
-		z-index: 1;
-		display: flex;
-		align-items: flex-end;
-		gap: calc(var(--s) * 1px);
-		line-height: 0;
-		max-width: calc(100% - 1.6rem);
+		place-items: center;
 		overflow: hidden;
-	}
-	.rails {
-		position: absolute;
-		inset: auto 0 calc(var(--s) * 4px);
-		height: calc(var(--s) * 3px);
-		background: repeating-linear-gradient(90deg, #6e4a30 0 6px, #555766 6px 18px);
+		color: #2a1f2d;
+		font: 700 clamp(0.5rem, 3.3cqw, 1.3rem) / 1 var(--font-pixel);
+		letter-spacing: -0.01em;
+		text-align: center;
+		white-space: nowrap;
 	}
 	.km {
 		position: absolute;
-		left: 50%;
-		top: 30%;
-		translate: -50% 0;
-		padding: 0.4rem 0.9rem;
-		border-radius: var(--r-pill);
+		right: 4%;
+		top: 6%;
+		padding: 0.3rem 0.8rem;
+		border: 2px solid #2a1f2d;
+		border-radius: 4px;
 		background: #ffcf5a;
-		font: 700 1.2rem var(--font-display);
-		animation: rise 1.8s ease-out both;
+		box-shadow: 0 3px 0 #2a1f2d;
+		font: 700 1.1rem/1.2 var(--font-display);
+		animation: rise 1.8s steps(10) both;
 	}
 	.acts {
 		display: flex;
@@ -173,11 +230,6 @@
 		color: var(--ink-2);
 		font-weight: 800;
 		text-align: center;
-	}
-	@keyframes slide {
-		to {
-			transform: translateX(-50%);
-		}
 	}
 	@keyframes rise {
 		from {
@@ -193,7 +245,6 @@
 		}
 	}
 	@media (prefers-reduced-motion: reduce) {
-		.hills.run,
 		.km {
 			animation: none;
 		}

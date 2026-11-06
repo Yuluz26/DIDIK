@@ -309,8 +309,9 @@ function backCell(p: Pix, l: Look, pose: Pose) {
 	p.outline();
 }
 
-// Side view faces left: the viewer sees the near arm and one leg forward, one back.
-function sideCell(p: Pix, l: Look, frame: number) {
+// Side view faces left: the viewer sees the near arm and one leg forward, one back. With `hold`,
+// both arms reach forward under the chin, hands together, the way a child holds a fishing rod.
+function sideCell(p: Pix, l: Look, frame: number, hold = false) {
 	const c = l.coat;
 	const dy = frame % 2 ? -1 : 0;
 	const phase = [0, 1, 0, -1][frame];
@@ -323,14 +324,23 @@ function sideCell(p: Pix, l: Look, frame: number) {
 		p.set(x + off - 1, 29, SHOE_HI, PANTS.ink);
 	}
 	// far arm, then body, then near arm
-	p.rect(8 + phase, 22 + dy, 2, 4, c.c[1], c.ink);
+	if (hold) {
+		p.rect(5, 22 + dy, 4, 2, c.c[1], c.ink);
+		p.rect(3, 22 + dy, 2, 1, l.skin.c[1], l.skin.ink);
+	} else p.rect(8 + phase, 22 + dy, 2, 4, c.c[1], c.ink);
 	p.rect(5, 21 + dy, 8, 6, c.c[2], c.ink);
 	p.rect(5, 21 + dy, 8, 1, c.c[3], c.ink);
 	p.vline(5, 22 + dy, 5, c.c[3], c.ink);
 	p.vline(12, 22 + dy, 5, c.c[1], c.ink);
 	p.hline(5, 26 + dy, 8, c.c[1], c.ink);
-	p.rect(7 - phase * 2, 22 + dy, 3, 4, c.c[3], c.ink);
-	p.rect(7 - phase * 2, 26 + dy, 3, 2, l.skin.c[2], l.skin.ink);
+	if (hold) {
+		p.rect(4, 23 + dy, 6, 2, c.c[3], c.ink);
+		p.hline(5, 24 + dy, 5, c.c[2], c.ink);
+		p.rect(2, 23 + dy, 2, 2, l.skin.c[2], l.skin.ink);
+	} else {
+		p.rect(7 - phase * 2, 22 + dy, 3, 4, c.c[3], c.ink);
+		p.rect(7 - phase * 2, 26 + dy, 3, 2, l.skin.c[2], l.skin.ink);
+	}
 	// ear behind the head, then the head: the hood's back is on the right, the face looks left
 	if (l.animal === 'harimau' || l.animal === 'beruang') {
 		p.blob(10, 9 + dy, 2.7, 2.7, l.hood.base, { rim: true });
@@ -397,6 +407,18 @@ export function chibiSheet(animal: string, colour: string, tone: string): Sheet 
 		return sheetOf(pix, CW, CH);
 	});
 }
+
+/** The child side on, facing left, both hands forward holding something (a fishing rod, a kite's string). */
+export function holdingSheet(animal: string, colour: string, tone: string): Sheet {
+	return memo(`chibi:hold:${animal}:${colour}:${tone}`, () => {
+		const p = new Pix(CW, CH);
+		sideCell(p, look(animal, colour, tone), 0, true);
+		return sheetOf(p);
+	});
+}
+
+/** Where the hands are in a holding cell (facing left), in its pixels. */
+export const HANDS = { x: 2, y: 23 } as const;
 
 export const AW = 26;
 export const AH = 34;
