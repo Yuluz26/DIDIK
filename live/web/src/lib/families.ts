@@ -15,7 +15,7 @@ export const FAMILIES: Family[] = [
 	{
 		key: 'interaktif',
 		name: 'Kuiz Interaktif',
-		note: 'Sentuh, seret dan susun bersama Didi. Setiap soalan satu permainan kecil, ikut kadar sendiri.',
+		note: 'Empat jenis: umum, Sains, Sejarah dan Pendidikan Islam. Setiap soalan satu permainan kecil, ikut kadar sendiri.',
 		sticker: 'bintang-bersinar'
 	},
 	{

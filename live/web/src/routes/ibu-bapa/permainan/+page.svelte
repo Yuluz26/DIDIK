@@ -55,7 +55,7 @@
 		</header>
 	<ul class="games">
 		{#each group.modes as mode (mode.key)}
-			<li class="nm-card" class:story={mode.key === 'legenda'} class:ik={mode.key === 'interaktif'}>
+			<li class="nm-card" class:story={mode.key === 'legenda'} class:ik={mode.world === 'interaktif'}>
 				<span class="badge"><WorldBadge world={mode.world} size={60} /></span>
 				<div class="text">
 					<p class="kind">{mode.style}</p>

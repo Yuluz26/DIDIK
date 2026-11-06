@@ -70,7 +70,6 @@
 			{/each}
 			</div>
 		</div>
-		{#if d}<p class="credit">Gambar: {d.credit}</p>{/if}
 	</div>
 
 	<ol class="lines">
@@ -204,11 +203,6 @@
 		cursor: pointer;
 		animation: pulse 1.2s ease-in-out infinite;
 	}
-	.credit {
-		color: var(--ink-3, #8a8a8a);
-		font-size: 0.72rem;
-		text-align: center;
-	}
 	.tag {
 		position: absolute;
 		top: 0.5rem;
@@ -334,9 +328,6 @@
 	.xray .frame img {
 		filter: drop-shadow(0 0 12px rgb(120 220 255 / 0.25));
 	}
-	.xray .credit {
-		color: #8fb9d0;
-	}
 	.xray .pin {
 		background: #10b6d8;
 		box-shadow: 0 0 0 4px rgb(16 182 216 / 0.3);
@@ -380,9 +371,6 @@
 		animation: focus 1.1s var(--ease-out, ease-out) both;
 	}
 
-	.scope .credit {
-		color: #b8bcc6;
-	}
 	.knob {
 		position: absolute;
 		right: 0.6rem;
@@ -436,9 +424,6 @@
 	}
 	.parchment .pin.off::before {
 		background: var(--almost);
-	}
-	.parchment .credit {
-		color: #7a5a2a;
 	}
 	.rose {
 		position: absolute;

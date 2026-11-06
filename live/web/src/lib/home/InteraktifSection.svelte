@@ -1,6 +1,7 @@
 <!--
 	The front page's Kuiz Interaktif section: a candy-floss cloud floating over the sea, with what the
-	game is, its three hands-on kinds of question, and a small demo to play right here (InteraktifDemo).
+	game is, its hands-on kinds of question, and a small demo to play right here (InteraktifDemo). Under it,
+	the four kinds of Kuiz Interaktif a room can be opened in (InteraktifKinds).
 	Stickers bob around it; with reduced motion they stay still.
 -->
 <script lang="ts">
@@ -8,6 +9,7 @@
 	import Sticker from '$ui/Sticker.svelte';
 	import DidiSoft from '$lib/games/interaktif/DidiSoft.svelte';
 	import InteraktifDemo from './InteraktifDemo.svelte';
+	import InteraktifKinds from './InteraktifKinds.svelte';
 	import { reveal } from './reveal';
 
 	const KINDS = [
@@ -59,6 +61,7 @@
 			<InteraktifDemo />
 		</div>
 	</div>
+	<InteraktifKinds />
 </section>
 
 <style>

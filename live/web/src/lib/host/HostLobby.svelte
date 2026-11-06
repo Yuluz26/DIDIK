@@ -132,10 +132,10 @@
 				<label class="field">
 					<span>Tempoh permainan</span>
 					<select class="input" value={settings.minutes} onchange={(e) => set({ minutes: Number((e.target as HTMLSelectElement).value) })}>
-						{#each mode.key === 'interaktif' ? [5, 10, 15, 20] : [3, 5, 7, 10, 15] as m (m)}<option value={m}>{m} minit</option>{/each}
+						{#each mode.world === 'interaktif' ? [5, 10, 15, 20] : [3, 5, 7, 10, 15] as m (m)}<option value={m}>{m} minit</option>{/each}
 					</select>
 				</label>
-				{#if mode.key === 'interaktif'}
+				{#if mode.world === 'interaktif'}
 					<label class="field">
 						<span>Bilangan soalan di denai</span>
 						<select class="input" value={settings.question_limit ?? 0} onchange={(e) => set({ question_limit: Number((e.target as HTMLSelectElement).value) || null })}>

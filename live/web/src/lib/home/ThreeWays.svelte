@@ -7,7 +7,7 @@
 	import { reveal } from './reveal';
 
 	const WAYS = [
-		{ href: '#interaktif', sticker: 'bintang-bersinar', name: 'Kuiz Interaktif', line: 'Sentuh, seret dan susun. Baharu!', tone: 'pink' },
+		{ href: '#interaktif', sticker: 'bintang-bersinar', name: 'Kuiz Interaktif', line: 'Umum, Sains, Sejarah dan Pendidikan Islam. Baharu!', tone: 'pink' },
 		{ href: '#pulau', sticker: 'bot', name: 'Permainan 2D', line: 'Empat belas pulau pixel bersama kawan.', tone: 'sea' },
 		{ href: '#hikayat', sticker: 'mahkota', name: 'Story Mode', line: 'Hikayat Lima Alam: wira lawan boss.', tone: 'violet' }
 	];

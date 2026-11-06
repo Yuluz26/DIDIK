@@ -105,3 +105,80 @@ def test_each_subject_sample_plays_all_twelve_of_its_games_with_explanations() -
         assert len(pictured) >= 2, sample["title"]
     # Tahap 1 (Tahun 1-3), Tahap 2 (Tahun 4-6) and Menengah (Tingkatan 1-5) for each subject
     assert {k: len(v) for k, v in by_subject.items()} == {"sains": 3, "sejarah": 3, "islam": 3}
+
+
+# ---------------------------------------------------------------- Kuiz Interaktif in one subject's games
+
+
+def _single(*choices: str, game: str | None = None) -> dict:
+    rows = [{"text": choices[0], "correct": True}] + [{"text": c} for c in choices[1:]]
+    return {"type": "single", "prompt": "?", "choices": rows, **({"game": game} if game else {})}
+
+
+def test_a_subject_deals_its_games_spreading_them_out_and_keeps_games_written_for_it() -> None:
+    from didik_live.games import deal_games
+
+    questions = [one(_single("a", "b", "c")) for _ in range(4)]
+    assert deal_games("sains", questions) == ["ramuan", "teropong", "litar", "ramuan"]
+    # a question written for one of the subject's games keeps it; one written for another subject does not
+    mixed = [one(_single("a", "b", game="litar")), one(_single("a", "b", game="gali")), one({"type": "clock", "prompt": "?", "hour": 3})]
+    assert deal_games("sains", mixed) == ["litar", "ramuan", None]  # no Sains game tells the time
+    assert deal_games("sejarah", mixed) == ["gali", "gali", None]
+
+
+def test_games_that_need_their_own_kind_of_content_are_dealt_only_with_it() -> None:
+    from didik_live.games import deal_games
+
+    latin = one(_single("Ba", "Ta", "Tsa"))
+    arabic = one(_single("ب", "ت", "ث"))
+    assert "hijaiyah" not in deal_games("islam", [latin] * 5)
+    assert deal_games("islam", [arabic] * 3) == ["kiblat", "kafilah", "hijaiyah"]
+
+    def number(answer: float, unit: str = "") -> object:
+        return one({"type": "number", "prompt": "?", "answer": answer, "unit": unit})
+
+    assert deal_games("sains", [number(37, "°C"), number(400, "ml"), number(405, "ml"), number(-5, "")]) == ["alat", "alat", None, None]
+    assert deal_games("sejarah", [number(1957), number(12000), number(2.5)]) == ["mesinmasa", None, None]
+
+    prayers = one({"type": "match", "prompt": "?", "pairs": [{"left": "Subuh", "right": "2"}, {"left": "Maghrib", "right": "3"}]})
+    words = one({"type": "match", "prompt": "?", "pairs": [{"left": "Besar", "right": "Kecil"}, {"left": "Panas", "right": "Sejuk"}]})
+    assert deal_games("islam", [prayers, prayers]) == ["malaikat", "waktu"]
+    assert deal_games("islam", [words, words]) == ["malaikat", "malaikat"]
+
+    organ = one({"type": "diagram", "prompt": "?", "diagram": "rajah-organ", "spots": [{"x": 50, "y": 30, "label": "Jantung"}, {"x": 20, "y": 60, "label": "Perut"}]})
+    water = one({**organ.model_dump(), "diagram": "rajah-kitaran-air"})
+    assert deal_games("sains", [organ, water]) == ["tubuh", None]
+    assert deal_games("sejarah", [organ]) == [None]
+
+
+def test_the_subject_kinds_say_how_much_of_a_quiz_they_play_and_refuse_a_quiz_they_cannot() -> None:
+    from didik_live.game.modes import MODES
+
+    sains = MODES["interaktif-sains"]
+    quiz = parse_questions(next(s for s in SUBJECT_SAMPLES if s["title"].startswith("Sains Tahap 1"))["questions"])
+    info = sains.describe(quiz)
+    assert info["family"] == "interaktif" and info["world"] == "interaktif" and info["subject"] == "sains"
+    assert info["eligible"] == 12 and info["reason"] is None
+    clocks = [one({"type": "clock", "prompt": "?", "hour": h}) for h in (1, 2)]
+    assert "Sains" in sains.unplayable_reason(clocks)
+    assert MODES["interaktif"].unplayable_reason(clocks) is None
+
+
+def test_a_subject_room_plays_every_question_it_can_as_the_subjects_games() -> None:
+    from .test_modes import answer, run, started
+
+    async def scenario() -> None:
+        room, _, _, ((ana, _), _) = await started("interaktif-islam", title="Matematik Ceria")
+        mode = room.mode
+        expected = mode.dealt()
+        assert any(expected) and all(g is None or GAMES[g]["subject"] == "islam" for g in expected)
+        seen = []
+        for _ in range(mode.total):
+            seat = mode.seats[ana.id]
+            seen.append(seat.pres.public.get("game"))
+            answer(room, ana, True)
+            room.handle_player(ana, {"t": "next"})
+        assert seen == expected
+        room.close()
+
+    run(scenario())

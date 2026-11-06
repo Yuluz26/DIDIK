@@ -16,7 +16,8 @@ from .roomkit import connection, open_room
 
 def test_catalogue_contains_kuiz_interaktif_fourteen_2d_games_and_legenda():
     assert set(MODES) == {
-        "interaktif", "lumba", "lompat", "harta", "hutan", "pasukan", "kampung", "teka", "kebun",
+        "interaktif", "interaktif-sains", "interaktif-sejarah", "interaktif-islam",
+        "lumba", "lompat", "harta", "hutan", "pasukan", "kampung", "teka", "kebun",
         "pancing", "wau", "kubu", "keretapi", "pasar", "bintang", "legenda",
     }
     assert all(mode.look == "2d" for mode in MODES.values())
