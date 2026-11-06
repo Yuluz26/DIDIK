@@ -55,8 +55,14 @@
 		map.forEach((row, y) =>
 			[...row].forEach((ch, x) => {
 				const h = hash(x, y);
-				if (ch === '#') out.push({ id: `t${x}-${y}`, kind: h % 5 === 0 ? 'pine' : 'tree', x: x + 0.5 + ((h % 7) - 3) * 0.03, y: y + 0.95, variant: h % 3 });
-				else if (ch === 'R') out.push({ id: `r${x}-${y}`, kind: 'rock', x: x + 0.5, y: y + 0.85 });
+				if (ch === '#') {
+					// The forest's edge: trees on the sides lean out of the clearing so their crowns do not
+					// hang over the first row a child can walk on, and along the near (bottom) edge low bushes
+					// stand instead, so no tree ever hides a child from the front.
+					const nudge = x === 0 ? -0.32 : x === W - 1 ? 0.32 : ((h % 7) - 3) * 0.03;
+					if (y === H - 1 && x > 0 && x < W - 1) out.push({ id: `t${x}-${y}`, kind: 'bush', x: x + 0.5, y: y + 0.8, variant: h % 3 });
+					else out.push({ id: `t${x}-${y}`, kind: h % 5 === 0 ? 'pine' : 'tree', x: x + 0.5 + nudge, y: y + 0.95, variant: h % 3 });
+				} else if (ch === 'R') out.push({ id: `r${x}-${y}`, kind: 'rock', x: x + 0.5, y: y + 0.85 });
 				else if (ch === 'f') out.push({ id: `f${x}-${y}`, kind: 'flowers', x: x + 0.5, y: y + 0.7, variant: h % 2 });
 				else if (ch === 'm') out.push({ id: `m${x}-${y}`, kind: 'mushroom', x: x + 0.5, y: y + 0.75 });
 				else if (ch === '.' && h % 23 === 0 && at(x, y - 1) !== '~') out.push({ id: `b${x}-${y}`, kind: 'bush', x: x + 0.5, y: y + 0.8, variant: h % 3 });

@@ -1,14 +1,19 @@
 <!--
-	A child's Kubu Pasir (and, with `big`, a castle on the host's board): the beach with the sea at the
-	top, the castle built floor by floor with flags on top and a sea wall in front, a countdown to the
-	next wave, and, for the child, the sand in their bucket and what it builds.
+	A child's Kubu Pasir (and, without a client, a castle on the host's board), as one pixel scene: the
+	sea behind, the waves washing up the wet sand, the sea walls as mounds between the sea and the
+	castle, and the castle itself in tiers that narrow as they rise, flags on top. As the next wave
+	nears, a swell can be seen rolling in; when it comes, it surges up the beach and breaks on the wall,
+	or, with no wall, washes over the castle and takes its top tier. For the child, the sand in their
+	bucket and what it builds.
 -->
 <script lang="ts">
 	import type { RoomClient } from '$lib/room.svelte';
 	import { play } from '$lib/sound';
-	import Sprite from '$lib/pixel/Sprite.svelte';
+	import Scene from '$lib/pixel/Scene.svelte';
+	import { type G, dot, hash, hex, put, stillWanted } from '$lib/pixel/scene';
 	import Icon from '$ui/Icon.svelte';
-	import { castleFloor, flag, seaWall } from './art';
+	import { BEACH, FOAM, beachBack, beachHeight, castle, spade, wallMound } from './beach';
+	import { bird, cloud } from './scenery';
 
 	interface Castle {
 		sand?: number;
@@ -22,30 +27,127 @@
 		waveAt?: number;
 		paused?: boolean;
 	}
-	let { client = null, world, s = 3, offset = 0 }: { client?: RoomClient | null; world: Castle; s?: number; offset?: number } = $props();
+	let { client = null, world, offset = 0 }: { client?: RoomClient | null; world: Castle; s?: number; offset?: number } = $props();
+
+	const { w: W, horizon: HORIZON, surf: SURF } = BEACH;
+	const H = $derived(beachHeight(world.floors));
+	const FOOT = $derived(H - 12);
+	const still = stillWanted();
 
 	let now = $state(Date.now());
-	let splash = $state(0);
 	$effect(() => {
 		const timer = setInterval(() => (now = Date.now()), 500);
 		return () => clearInterval(timer);
 	});
+	const left = $derived(world.waveAt ? Math.max(0, Math.ceil((world.waveAt - (now + offset)) / 1000)) : null);
+
+	// When a wave comes: whether a wall was there to take it (the room may already show it gone).
+	let wallsBefore = -1;
+	let wallGoneAt = 0;
+	$effect(() => {
+		const walls = world.walls;
+		if (wallsBefore >= 0 && walls < wallsBefore) wallGoneAt = Date.now();
+		wallsBefore = walls;
+	});
+	let surge = $state<{ at: number; wall: boolean; top: number } | null>(null);
 	$effect(() => {
 		if (!client) return;
 		return client.onFx((fx) => {
 			if (fx.kind !== 'wave') return;
-			splash++;
+			const wall = world.walls > 0 || Date.now() - wallGoneAt < 1500;
+			surge = { at: performance.now(), wall, top: castle(world.floors, world.flags).top };
 			play('splash');
 		});
 	});
-	const left = $derived(world.waveAt ? Math.max(0, Math.ceil((world.waveAt - (now + offset)) / 1000)) : null);
 
 	function build(part: 'floor' | 'wall' | 'flag') {
 		if (!client || !world.costs || (world.sand ?? 0) < world.costs[part]) return;
 		client.send({ t: 'build', part });
-		play('pop');
+		play('build');
 	}
 	const can = (part: string) => !!world.costs && (world.sand ?? 0) >= world.costs[part];
+
+	// ------------------------------------------------------------------ the picture
+
+	const SEA_LIGHT = hex('#7cc8da', 235);
+	const SEA_DEEP = hex('#3fa2c0', 245);
+	const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+
+	/** Water washing up the sand from the sea to `edge`, with a line of foam at its front. */
+	function wash(g: G, edge: number, t: number) {
+		for (let x = 0; x < W; x++) {
+			const e = Math.round(edge + Math.sin(x * 0.11 + t / 900) * 1.5 + (hash(x >> 2, 9) - 0.5) * 2);
+			if (e <= SURF) continue;
+			g.fillStyle = 'rgba(124,200,218,0.85)';
+			g.fillRect(x, SURF, 1, e - SURF);
+			dot(g, x, e, FOAM);
+			if (hash(x, (t / 300) | 0) < 0.4) dot(g, x, e - 1, FOAM);
+		}
+	}
+
+	function paint(g: G, t: number) {
+		const now = still ? 0 : t;
+		put(g, beachBack(H), 0, 0);
+		put(g, cloud(0), ((now * 0.0025) % (W + 60)) - 40, 4);
+		for (let i = 0; i < 2; i++) put(g, bird(((now / 240 + i) | 0) % 2), W - (((now * 0.01 + i * 40) % (W + 30)) - 10), 14 + i * 6);
+
+		// the swell of the coming wave, rolling in from far out
+		if (left !== null && !world.paused && left <= 12 && !surge) {
+			const u = 1 - left / 12;
+			const y = Math.round(lerp(HORIZON + 4, SURF - 3, u));
+			for (let x = 0; x < W; x++) {
+				const yy = y + Math.round(Math.sin(x * 0.09 + now / 500));
+				dot(g, x, yy, FOAM);
+				dot(g, x, yy + 1, SEA_LIGHT);
+				dot(g, x, yy + 2, SEA_DEEP);
+				if (hash(x, (now / 200) | 0) < 0.3) dot(g, x, yy - 1, FOAM);
+			}
+		}
+
+		// the tide line going in and out, or a wave surging up the beach
+		const wallFoot = BEACH.wall + (world.walls > 1 ? BEACH.wallGap : 0);
+		let edge = SURF + 2 + Math.round(Math.sin(now / 1400) * 2);
+		let surgeU = -1;
+		if (surge) {
+			surgeU = (now - surge.at) / 1900;
+			if (still || surgeU > 1) surge = null;
+			else {
+				const reach = surge.wall ? BEACH.wall - 3 : FOOT - 2;
+				edge = Math.round(lerp(SURF, reach, Math.sin(Math.PI * Math.min(1, surgeU * 1.25))));
+			}
+		}
+		wash(g, edge, now);
+
+		// sea walls: the first nearest the sea, a second one closer in, in front of it
+		for (let i = 0; i < Math.min(world.walls, 2); i++) put(g, wallMound(), (W - 104) / 2, BEACH.wall + i * BEACH.wallGap - 9);
+
+		// the castle, with a spade and a bucket beside it
+		const built = castle(world.floors, world.flags);
+		put(g, built.pix, (W - built.pix.w) / 2, FOOT - built.pix.h + 1);
+		if (world.floors || client) put(g, spade(), W / 2 + 30, FOOT - 13);
+
+		if (surge && surgeU >= 0) {
+			// spray where the wave meets the wall, or sand tumbling off the castle's top
+			const s = surgeU * 1.9;
+			if (surge.wall) {
+				for (let k = 0; k < 26; k++) {
+					const x = 40 + hash(k, 1) * 96;
+					const v = 30 + hash(k, 2) * 40;
+					const y = BEACH.wall - 6 - v * s + 70 * s * s;
+					if (s > 0.15 && y < BEACH.wall) dot(g, x, y, k % 3 ? FOAM : hex('#9fe6ea'));
+				}
+			} else if (surge.top) {
+				for (let k = 0; k < 10; k++) {
+					const x = W / 2 + (hash(k, 3) - 0.5) * 24;
+					const y = FOOT - surge.top + 6 + (s * 60) ** 1.4 * (0.4 + hash(k, 4));
+					if (y < FOOT) g.fillStyle = k % 2 ? '#e9c78d' : '#d1a974';
+					if (y < FOOT) g.fillRect(Math.round(x), Math.round(y), 2, 2);
+				}
+			}
+		}
+	}
+
+	const label = $derived(`Pantai. Istana ${world.floors} tingkat, ${world.flags} bendera, ${world.walls} tembok menghadap laut.`);
 </script>
 
 <div class="fun kubu">
@@ -57,20 +159,10 @@
 		</ul>
 	{/if}
 
-	<div class="scene beach" style:--s={s}>
-		{#key splash}<span class="sea" class:hit={splash > 0} aria-hidden="true"></span>{/key}
-		<div class="castle" aria-label="Istana {world.floors} tingkat, {world.flags} bendera, {world.walls} tembok">
-			{#if world.floors > 0}
-				<div class="flags">{#each Array(world.flags) as _, i (i)}<Sprite sheet={flag(i)} {s} />{/each}</div>
-			{/if}
-			{#each Array(world.floors) as _, i (i)}
-				<span class="floor"><Sprite sheet={castleFloor(i === 0)} {s} /></span>
-			{/each}
+	<div class="frame">
+		<Scene w={W} h={H} {paint} fps={15} {label}>
 			{#if world.floors === 0}<p class="empty">Belum ada istana</p>{/if}
-		</div>
-		{#if world.walls > 0}
-			<div class="walls">{#each Array(world.walls) as _, i (i)}<Sprite sheet={seaWall()} {s} />{/each}</div>
-		{/if}
+		</Scene>
 	</div>
 
 	{#if client && world.costs}
@@ -115,57 +207,26 @@
 		background: #ffe3d6;
 		animation: pulse 1s ease-in-out infinite;
 	}
-	.scene {
-		position: relative;
+	.frame {
 		overflow: hidden;
-		border-radius: var(--r-lg);
-		box-shadow: var(--card-shadow);
-		image-rendering: pixelated;
-	}
-	.beach {
-		display: grid;
-		align-content: end;
-		justify-items: center;
-		min-height: calc(var(--s) * 120px);
-		padding-bottom: 1rem;
-		background: linear-gradient(180deg, #2a88a6 0 18%, #7fd2d2 18% 22%, #f5dfaa 22% 100%);
-	}
-	.sea {
-		position: absolute;
-		inset: 0 0 auto;
-		height: 22%;
-		background: repeating-linear-gradient(90deg, #47b0bd 0 24px, #7fd2d2 24px 30px);
-	}
-	.sea.hit {
-		animation: wave 1.4s ease-in-out;
-	}
-	.castle {
-		position: relative;
-		z-index: 1;
-		display: grid;
-		justify-items: center;
-		line-height: 0;
-	}
-	.flags {
-		display: flex;
-		gap: calc(var(--s) * 4px);
-		margin-bottom: -2px;
-	}
-	.floor {
-		display: block;
-		margin-top: -2px;
-	}
-	.walls {
-		position: relative;
-		z-index: 2;
-		display: flex;
-		margin-top: -4px;
+		border: 3px solid #2a1f2d;
+		border-radius: 6px;
+		box-shadow: 0 4px 0 #2a1f2d;
+		background: #e9c78d;
 	}
 	.empty {
-		padding: 1rem;
-		color: #8a6a3a;
+		position: absolute;
+		left: 50%;
+		bottom: 14%;
+		translate: -50% 0;
+		padding: 0.3rem 0.8rem;
+		border: 2px solid #2a1f2d;
+		border-radius: 4px;
+		background: #fff6e6;
+		color: #6a4a2a;
 		font-weight: 800;
-		line-height: 1.2;
+		line-height: 1.3;
+		white-space: nowrap;
 	}
 	.acts {
 		display: flex;
@@ -180,19 +241,12 @@
 		font-weight: 800;
 		text-align: center;
 	}
-	@keyframes wave {
-		50% {
-			height: 70%;
-			opacity: 0.85;
-		}
-	}
 	@keyframes pulse {
 		50% {
 			transform: scale(1.05);
 		}
 	}
 	@media (prefers-reduced-motion: reduce) {
-		.sea.hit,
 		.stats .soon {
 			animation: none;
 		}

@@ -7,11 +7,13 @@
 -->
 <script lang="ts">
 	import World, { type WorldActor, type WorldProp } from '$lib/worlds/World.svelte';
-	import { TILE, snapScale } from '$lib/pixel/cache';
+	import { TILE, sheetOf, snapScale } from '$lib/pixel/cache';
 	import Sprite from '$lib/pixel/Sprite.svelte';
 	import GardenBed from '$lib/worlds/GardenBed.svelte';
 	import Sampan from '$lib/worlds/Sampan.svelte';
-	import { carriage, castleFloor, engine, fish, flag, kite, stall, star } from '$lib/games/fun/art';
+	import { fish, kite, stall, star } from '$lib/games/fun/art';
+	import { castle } from '$lib/games/fun/beach';
+	import { coach, locomotive } from '$lib/games/fun/rail';
 	import { ISLE, gameGround } from './isles';
 	import { easelSprite, flagSprite, markBadge } from './sprites';
 
@@ -22,6 +24,10 @@
 	const tile = $derived(TILE * snapScale(width / W / TILE, 1));
 	const s = $derived(tile / TILE);
 	const cheer = $derived(active ? 'cheer' : 'happy');
+	// the same sandcastle and train the games draw, as sprites
+	const CASTLE = sheetOf(castle(3, 2).pix);
+	const COACHES = [sheetOf(coach(1, 0)), sheetOf(coach(0, 0))];
+	const ENGINE = sheetOf(locomotive(0));
 
 	const PROPS: Record<string, WorldProp[]> = {
 		lumba: [
@@ -170,17 +176,11 @@
 	{:else if prop.kind === 'kite'}
 		<span class="fly" class:go={active}><Sprite sheet={kite(prop.variant ?? 0)} {s} /></span>
 	{:else if prop.kind === 'castle'}
-		<span class="stack">
-			<Sprite sheet={flag(0)} {s} />
-			<Sprite sheet={castleFloor(true)} {s} />
-			<Sprite sheet={castleFloor(false)} {s} />
-			<Sprite sheet={castleFloor(false)} {s} />
-		</span>
+		<span class="stack"><Sprite sheet={CASTLE} {s} /></span>
 	{:else if prop.kind === 'train'}
 		<span class="train" class:go={active}>
-			<Sprite sheet={carriage(1, 2)} {s} />
-			<Sprite sheet={carriage(0, 3)} {s} />
-			<Sprite sheet={engine()} {s} />
+			{#each COACHES as sheet, i (i)}<Sprite {sheet} {s} />{/each}
+			<Sprite sheet={ENGINE} {s} />
 		</span>
 	{:else if prop.kind === 'stall'}
 		<Sprite sheet={stall(['lampu', 'kanopi'], 'satay')} {s} />

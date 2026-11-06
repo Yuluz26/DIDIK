@@ -125,7 +125,7 @@
 {:else if mode.key === 'pasar'}
 	<SelfPlayer {client} {game} {me} title={mode.title} unit={mode.unit} total={minutes} rewardText={(r) => (r.stock ? `+${r.stock} barang untuk dijual!` : '')}>
 		{#snippet world()}
-			{#if game.world?.upgrades}<MarketWorld {client} world={game.world} />{/if}
+			{#if game.world?.upgrades}<MarketWorld {client} world={game.world} seller={me} />{/if}
 		{/snippet}
 	</SelfPlayer>
 {:else if mode.key === 'bintang'}

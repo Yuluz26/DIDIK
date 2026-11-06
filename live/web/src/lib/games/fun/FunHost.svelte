@@ -45,7 +45,7 @@
 						{:else if game === 'keretapi'}
 							<TrainWorld world={{ ...t, stations: world.stations }} s={i === 0 ? 3 : 2} />
 						{:else if game === 'pasar'}
-							<MarketWorld world={{ mine: t.upgrades ?? [], good: t.good, upgrades: world.upgrades }} s={i === 0 ? 4 : 2} />
+							<MarketWorld world={{ mine: t.upgrades ?? [], good: t.good, upgrades: world.upgrades }} seller={owner} />
 						{/if}
 					</div>
 					<p class="who"><span class="place">{i + 1}</span><Avatar animal={owner.avatar} colour={owner.colour} skin={owner.skin} size={30} /> <strong>{owner.name}</strong> <span class="score">{t.score} {unit}</span></p>
@@ -90,9 +90,13 @@
 		justify-items: center;
 		gap: 0.4rem;
 		padding: 1rem;
-		border-radius: var(--r-lg);
-		background: linear-gradient(180deg, #47b0bd, #2a88a6);
+		border: 3px solid #2a1f2d;
+		border-radius: 6px;
+		/* the lake in bands of water, like the scene a child fishes in */
+		background: repeating-linear-gradient(180deg, #3fa6b8 0 6px, #2f90ab 6px 12px);
+		box-shadow: 0 4px 0 #2a1f2d;
 		color: #fff;
+		text-shadow: 0 2px 0 #1f4a5a;
 		font-weight: 800;
 		image-rendering: pixelated;
 	}
