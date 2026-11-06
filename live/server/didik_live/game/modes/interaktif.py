@@ -13,8 +13,9 @@ celebration first), or when the game's minutes run out.
 from __future__ import annotations
 
 import time
-from typing import Any
+from typing import Any, ClassVar
 
+from ...games import SUBJECTS, deal_games
 from ...questions import Outcome, present
 from .base import Seat, SelfPacedMode
 
@@ -120,3 +121,80 @@ class InteraktifMode(SelfPacedMode):
             for pid, seat in self.seats.items()
             if pid in self.room.players
         ]
+
+
+class SubjectInteraktifMode(InteraktifMode):
+    """Kuiz Interaktif in one subject's games (games.py): the same trail and stars, but every question that
+    one of the subject's games suits is played as that game, whatever quiz it comes from. The rest are
+    played the plain hands-on way."""
+
+    subject: ClassVar[str] = ""
+
+    @classmethod
+    def unplayable_reason(cls, questions: list[Any]) -> str | None:
+        if any(deal_games(cls.subject, questions)):
+            return None
+        return f"Tiada soalan dalam kuiz ini yang sesuai untuk permainan {SUBJECTS[cls.subject]}. Cuba Kuiz Interaktif."
+
+    @classmethod
+    def describe(cls, questions: list[Any] | None = None) -> dict[str, Any]:
+        info = super().describe(questions)
+        info["subject"] = cls.subject
+        if questions is not None:
+            info["eligible"] = sum(1 for game in deal_games(cls.subject, questions) if game)
+        return info
+
+    def __init__(self, room: Any) -> None:
+        super().__init__(room)
+        self._dealt: tuple[tuple[int, ...], list[str | None]] | None = None
+
+    def dealt(self) -> list[str | None]:
+        """The game for each stop of the trail; worked out again only if the trail changes (a restart)."""
+        order = tuple(id(q) for q in self.questions)
+        if self._dealt is None or self._dealt[0] != order:
+            self._dealt = (order, deal_games(self.subject, self.questions))
+        return self._dealt[1]
+
+    def deal(self, seat: Seat) -> None:
+        super().deal(seat)
+        if seat.pres is not None:
+            seat.pres.public["game"] = self.dealt()[seat.last_index]
+
+
+class SainsInteraktifMode(SubjectInteraktifMode):
+    key = "interaktif-sains"
+    subject = "sains"
+    title = "Makmal Sains"
+    style = "Interaktif Sains"
+    tagline = "Ramuan berbuih, teropong angkasa, litar dan magnet. Setiap soalan menjadi eksperimen."
+    how = (
+        "Kuiz Interaktif dalam permainan Sains: tuang ramuan ke dalam bikar, cari jawapan dengan teropong, "
+        "nyalakan mentol litar, tarik benda ke magnet dan label organ seperti imbasan X-ray. Ikut kadar sendiri; "
+        "betul dapat tiga bintang."
+    )
+
+
+class SejarahInteraktifMode(SubjectInteraktifMode):
+    key = "interaktif-sejarah"
+    subject = "sejarah"
+    title = "Ekspedisi Sejarah"
+    style = "Interaktif Sejarah"
+    tagline = "Gali artifak, bina empayar dan putar mesin masa. Setiap soalan satu penemuan."
+    how = (
+        "Kuiz Interaktif dalam permainan Sejarah: gali tapak arkeologi, gantung peristiwa pada garis masa, "
+        "bina istana setingkat demi setingkat, cop dokumen arkib dan pacak pin pada peta purba. Ikut kadar "
+        "sendiri; betul dapat tiga bintang."
+    )
+
+
+class IslamInteraktifMode(SubjectInteraktifMode):
+    key = "interaktif-islam"
+    subject = "islam"
+    title = "Cahaya Ilmu"
+    style = "Interaktif Pendidikan Islam"
+    tagline = "Kompas kiblat, peta hijrah, lentera dan neraca amal. Setiap soalan satu amalan."
+    how = (
+        "Kuiz Interaktif dalam permainan Pendidikan Islam: pusing kompas kiblat, susun perjalanan hijrah, "
+        "nyalakan lentera, timbang amalan dan isi tabung zakat. Huruf Arab diwarnakan mengikut hukum tajwid. "
+        "Ikut kadar sendiri; betul dapat tiga bintang."
+    )

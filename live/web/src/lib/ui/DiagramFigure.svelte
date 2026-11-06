@@ -1,6 +1,7 @@
 <!--
-	A diagram or photograph (lib/diagrams.ts) as a question's picture: framed, kept to its shape while it
-	loads, with its name and who made it underneath. It cannot be dragged out or saved with a long press.
+	A diagram or photograph (lib/diagrams.ts) as a question's picture: framed and kept to its shape while it
+	loads. Its credit is in static/rajah/CREDITS.txt, not on the screen. It cannot be dragged out or saved
+	with a long press.
 -->
 <script lang="ts">
 	import { diagramOf, diagramUrl } from '$lib/diagrams';
@@ -12,7 +13,6 @@
 {#if d}
 	<figure class="rajah" class:photo={d.photo} style:--max="{max}px">
 		<img src={diagramUrl(d.key)} alt="Gambar rajah soalan" width={d.w} height={d.h} style:aspect-ratio="{d.w} / {d.h}" loading="eager" decoding="async" draggable="false" />
-		<figcaption><span>Gambar: {d.credit}</span></figcaption>
 	</figure>
 {/if}
 
@@ -40,18 +40,5 @@
 	}
 	.photo img {
 		border-radius: 8px;
-	}
-	figcaption {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: center;
-		gap: 0 0.4rem;
-		color: var(--ink-2);
-		font-size: 0.78rem;
-		line-height: 1.3;
-		text-align: center;
-	}
-	figcaption span {
-		opacity: 0.75;
 	}
 </style>

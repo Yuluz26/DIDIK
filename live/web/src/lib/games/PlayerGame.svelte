@@ -29,7 +29,7 @@
 	const minutes = $derived(view.game?.length ?? 300);
 </script>
 
-{#if mode.key === 'interaktif'}
+{#if mode.world === 'interaktif'}
 	<InteraktifPlayer {client} {game} {me} {people} />
 {:else if mode.key === 'lumba'}
 	<SyncPlayer {client} {game} {me} {people} title={mode.title} unit={mode.unit}>

@@ -19,6 +19,8 @@
 	import DashShell from '$lib/parent/DashShell.svelte';
 	import Sticker from '$ui/Sticker.svelte';
 	import { byFamily } from '$lib/families';
+	import { interaktifKind, kindGames } from '$lib/interaktifKinds';
+	import { SUBJECTS } from '$lib/subjects/games';
 
 	const id = page.params.id;
 	let title = $state('');
@@ -85,17 +87,41 @@
 		</header>
 	<ul class="games">
 		{#each group.modes as mode, i (mode.key)}
-			<li style:--i={i + g * 3} class:wide={mode.key === 'legenda' || mode.key === 'interaktif'}>
-				{#if mode.key === 'interaktif'}
-					<button type="button" class="game nm-card ik" class:off={!!mode.reason} disabled={!!mode.reason || !!opening} onclick={() => open(mode)}>
+			<li style:--i={i + g * 3} class:wide={mode.key === 'legenda'}>
+				{#if mode.family === 'interaktif'}
+					{@const kind = interaktifKind(mode.key)}
+					{@const games = kind ? kindGames(kind) : []}
+					<button
+						type="button"
+						class="game nm-card ik"
+						class:off={!!mode.reason}
+						style:--tint={kind?.tint}
+						style:--kind-ink={kind?.ink}
+						disabled={!!mode.reason || !!opening}
+						onclick={() => open(mode)}
+					>
 						<span class="ik-stickers" aria-hidden="true">
-							<Sticker key="epal" size={46} alt="" /><Sticker key="bakul" size={58} alt="" /><Sticker key="buku" size={44} alt="" />
+							{#each kind?.stickers ?? ['epal', 'bakul', 'buku'] as s, k (s)}<Sticker key={s} size={k === 1 ? 58 : 46} alt="" />{/each}
 						</span>
 						<span class="text">
-							<span class="kind">{mode.style}</span>
+							<span class="kind">{kind?.kicker ?? mode.style}</span>
 							<span class="title">{mode.title}</span>
 							<span class="tagline">{mode.tagline}</span>
-							{#if mode.reason}<span class="reason">{mode.reason}</span>{:else}<span class="fit">Semua jenis soalan boleh dimainkan. Paling seronok dengan Kira, Susun huruf dan Isih.</span>{/if}
+							{#if games.length}
+								<span class="chips" aria-label="Permainan">
+									{#each games.slice(0, 4) as game (game.key)}<span class="chip">{game.title}</span>{/each}
+									<span class="chip more">+{games.length - 4} lagi</span>
+								</span>
+							{/if}
+							{#if mode.reason}
+								<span class="reason">{mode.reason}</span>
+							{:else if mode.subject}
+								<span class="fit">
+									{mode.eligible === count ? `Kesemua ${count} soalan` : `${mode.eligible} daripada ${count} soalan`} menjadi permainan {SUBJECTS.find((s) => s.key === mode.subject)?.name}.{mode.eligible === count ? '' : ' Yang lain dimainkan seperti biasa.'}
+								</span>
+							{:else}
+								<span class="fit">Semua jenis soalan boleh dimainkan. Paling seronok dengan Kira, Susun huruf dan Isih.</span>
+							{/if}
 						</span>
 						<span class="go" aria-hidden="true">{opening === mode.key ? '…' : ''}<NmIcon name="next" size={20} /></span>
 					</button>
@@ -196,8 +222,46 @@
 		letter-spacing: 0.06em;
 		text-transform: uppercase;
 	}
+	/* The four kinds of Kuiz Interaktif side by side: stickers on top, the words under them, each kind in
+	   its own colours. */
 	.game.ik {
-		background: linear-gradient(135deg, #ffe8f3, #eee6ff 50%, #e3f6ff);
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		grid-template-areas: 'art go' 'text text';
+		align-items: center;
+		align-content: start;
+		gap: 0.6rem 0.8rem;
+		background: var(--tint, linear-gradient(135deg, #ffe8f3, #eee6ff 50%, #e3f6ff));
+	}
+	.game.ik .ik-stickers {
+		grid-area: art;
+	}
+	.game.ik .text {
+		grid-area: text;
+	}
+	.game.ik .go {
+		grid-area: go;
+	}
+	.game.ik .kind,
+	.game.ik .title {
+		color: var(--kind-ink, var(--brand-ink));
+	}
+	.chips {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.3rem;
+		margin-block: 0.2rem;
+	}
+	.chip {
+		padding: 0.15rem 0.55rem;
+		border-radius: 999px;
+		background: rgb(255 255 255 / 0.75);
+		color: var(--ink-2);
+		font: 600 0.78rem/1.3 var(--font-display);
+	}
+	.chip.more {
+		background: transparent;
+		color: var(--kind-ink, var(--brand-ink));
 	}
 	.ik-stickers {
 		display: flex;
@@ -234,21 +298,7 @@
 			font-size: 0.88rem;
 		}
 		.game.ik {
-			display: grid;
-			grid-template-columns: minmax(0, 1fr) auto;
-			grid-template-areas: 'art go' 'text text';
-			align-items: center;
-			gap: 0.6rem 0.8rem;
 			padding: 1rem;
-		}
-		.game.ik .ik-stickers {
-			grid-area: art;
-		}
-		.game.ik .text {
-			grid-area: text;
-		}
-		.game.ik .go {
-			grid-area: go;
 		}
 		.game.ik .title {
 			font-size: 1.45rem;

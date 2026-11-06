@@ -18,6 +18,8 @@ export interface ModeInfo {
 	unit: string;
 	needs: string;
 	eligible?: number;
+	/** a subject's Kuiz Interaktif (sains, sejarah, islam): every question it suits plays as one of its games */
+	subject?: string;
 	reason?: string | null;
 }
 
