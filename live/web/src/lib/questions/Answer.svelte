@@ -1,4 +1,5 @@
-<!-- Picks the right way to answer for each of the sixteen question types. -->
+<!-- Picks the right way to answer for each of the seventeen question types, or the subject game a
+	question asks to be played in (lib/subjects), which answers the same way in its own look. -->
 <script lang="ts">
 	import type { Answer, PublicQuestion, Reveal } from '$lib/types';
 	import BlankAnswer from './BlankAnswer.svelte';
@@ -16,6 +17,8 @@
 	import OrderAnswer from './OrderAnswer.svelte';
 	import TrueFalse from './TrueFalse.svelte';
 	import TypeAnswer from './TypeAnswer.svelte';
+	import DiagramAnswer from './DiagramAnswer.svelte';
+	import GameAnswer from '$lib/subjects/GameAnswer.svelte';
 
 	let {
 		question,
@@ -36,7 +39,7 @@
 	} = $props();
 </script>
 
-{#key question.id}
+{#snippet plain()}
 	{#if question.type === 'single' || question.type === 'multiple'}
 		<Choices choices={question.choices ?? []} multiple={question.type === 'multiple'} pick={question.pick} {disabled} {mine} {reveal} {stats} {onanswer} />
 	{:else if question.type === 'truefalse'}
@@ -67,5 +70,15 @@
 		<ClockAnswer {disabled} {mine} {reveal} {onanswer} />
 	{:else if question.type === 'money'}
 		<MoneyAnswer amount={question.amount ?? 0} money={question.money ?? [5, 10, 20, 50]} sticker={question.sticker} {disabled} {mine} {reveal} {onanswer} />
+	{:else if question.type === 'diagram'}
+		<DiagramAnswer {question} {disabled} {mine} {reveal} {onanswer} />
+	{/if}
+{/snippet}
+
+{#key question.id}
+	{#if question.game}
+		<GameAnswer {question} {disabled} {mine} {reveal} {onanswer} {plain} />
+	{:else}
+		{@render plain()}
 	{/if}
 {/key}

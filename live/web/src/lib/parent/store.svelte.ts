@@ -40,7 +40,8 @@ export const TYPE_NAMES: Record<string, string> = {
 	puzzle: 'Cantum',
 	blocks: 'Blok nombor',
 	clock: 'Jam',
-	money: 'Wang'
+	money: 'Wang',
+	diagram: 'Label rajah'
 };
 
 class ParentData {

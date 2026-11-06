@@ -2,6 +2,8 @@
 // made here so every list can be keyed while it is edited. Ids match the server's pattern.
 
 import { countPrompt } from '$lib/stickers';
+import { diagramOf } from '$lib/diagrams';
+import { gameOf } from '$lib/subjects/games';
 
 export type QuestionType =
 	| 'single'
@@ -19,7 +21,8 @@ export type QuestionType =
 	| 'puzzle'
 	| 'blocks'
 	| 'clock'
-	| 'money';
+	| 'money'
+	| 'diagram';
 
 export interface Choice {
 	id: string;
@@ -46,6 +49,14 @@ export interface SortGroup {
 	sticker: string | null;
 }
 
+/** A place on a diagram (percent from the top left) and its label. */
+export interface Spot {
+	id: string;
+	x: number;
+	y: number;
+	label: string;
+}
+
 export interface SortItem {
 	id: string;
 	text: string;
@@ -62,6 +73,8 @@ interface Base {
 	/** Why the answer is right, shown to a child who got it wrong. */
 	explain: string;
 	time_limit: number;
+	/** A subject game to play it in (lib/subjects/games.ts), or none for the plain way. */
+	game: string | null;
 }
 
 export type Question = Base &
@@ -82,6 +95,7 @@ export type Question = Base &
 		| { type: 'blocks'; answer: number }
 		| { type: 'clock'; hour: number; minute: number }
 		| { type: 'money'; amount: number; sticker: string | null }
+		| { type: 'diagram'; diagram: string; spots: Spot[] }
 	);
 
 export interface QuizDraft {
@@ -110,7 +124,8 @@ export const TYPES: { type: QuestionType; name: string; hint: string; kind: Type
 	{ type: 'puzzle', name: 'Cantum gambar', hint: 'Gambar dipotong 4 atau 9 keping untuk dicantum semula.', kind: 'interaktif' },
 	{ type: 'blocks', name: 'Bina nombor', hint: 'Bina nombor dengan blok ratus, puluh dan sa (nilai tempat).', kind: 'interaktif' },
 	{ type: 'clock', name: 'Laraskan jam', hint: 'Pusing jarum jam sehingga menunjukkan masa yang diminta.', kind: 'interaktif' },
-	{ type: 'money', name: 'Bayar dengan wang', hint: 'Bayar harga dengan syiling dan wang kertas Malaysia.', kind: 'interaktif' }
+	{ type: 'money', name: 'Bayar dengan wang', hint: 'Bayar harga dengan syiling dan wang kertas Malaysia.', kind: 'interaktif' },
+	{ type: 'diagram', name: 'Label rajah', hint: 'Letak label pada bahagian rajah: organ badan, sel, peta, kitaran air.', kind: 'interaktif' }
 ];
 
 export const KINDS: { kind: TypeKind; name: string; note: string }[] = [
@@ -122,7 +137,7 @@ export const TYPE_NAME = Object.fromEntries(TYPES.map((t) => [t.type, t.name])) 
 
 export const TIME_LIMITS = [10, 15, 20, 30, 45, 60, 90, 120];
 
-export const LIMITS = { questions: 60, choices: 6, answers: 8, items: 6, pairs: 5, distractors: 6, groups: 3, things: 8, count: 20, decoys: 4 };
+export const LIMITS = { questions: 60, choices: 6, answers: 8, items: 6, pairs: 5, distractors: 6, groups: 3, things: 8, count: 20, decoys: 4, spots: 6 };
 
 export function newId(): string {
 	const bytes = crypto.getRandomValues(new Uint8Array(6));
@@ -134,6 +149,12 @@ const item = (): Item => ({ id: newId(), text: '' });
 const pair = (): Pair => ({ id: newId(), left: '', right: '' });
 const group = (): SortGroup => ({ id: newId(), name: '', sticker: null });
 const thing = (groupId: string): SortItem => ({ id: newId(), text: '', sticker: null, group: groupId });
+const spot = (x: number, y: number, label = ''): Spot => ({ id: newId(), x, y, label });
+
+/** The diagram's suggested places, the first few, ready to label. */
+export function suggestedSpots(key: string, count = 3): Spot[] {
+	return (diagramOf(key)?.spots ?? []).slice(0, count).map((s) => spot(s.x, s.y, s.label));
+}
 
 /** A fresh question of a type; `from` keeps the prompt, picture and time of the question it replaces. */
 export function blank(type: QuestionType, from?: Question): Question {
@@ -143,7 +164,9 @@ export function blank(type: QuestionType, from?: Question): Question {
 		image: from?.image ?? null,
 		picture: from?.picture ?? null,
 		explain: from?.explain ?? '',
-		time_limit: from?.time_limit ?? 20
+		time_limit: from?.time_limit ?? 20,
+		// a game stays only if it can play the new type
+		game: from?.game && gameOf(from.game)?.types.includes(type) ? from.game : null
 	};
 	const keptChoices = from && (from.type === 'single' || from.type === 'multiple') ? from.choices : null;
 	switch (type) {
@@ -189,10 +212,20 @@ export function blank(type: QuestionType, from?: Question): Question {
 			return { ...base, prompt: base.prompt || 'Laraskan jam kepada pukul 3.00.', time_limit: Math.max(base.time_limit, 45), type, hour: 3, minute: 0 };
 		case 'money':
 			return { ...base, prompt: base.prompt || 'Aiskrim ini berharga RM2.50. Bayar dengan tepat.', time_limit: Math.max(base.time_limit, 60), type, amount: 250, sticker: 'aiskrim' };
+		case 'diagram':
+			return {
+				...base,
+				prompt: base.prompt || 'Labelkan bahagian rajah ini.',
+				picture: null,
+				time_limit: Math.max(base.time_limit, 60),
+				type,
+				diagram: 'rajah-organ',
+				spots: suggestedSpots('rajah-organ', 4)
+			};
 	}
 }
 
-export const make = { choice, item, pair, group, thing };
+export const make = { choice, item, pair, group, thing, spot };
 
 /** A deep copy with new ids, for "Salin soalan". */
 export function duplicate(question: Question): Question {
@@ -201,6 +234,7 @@ export function duplicate(question: Question): Question {
 	if ('choices' in copy) copy.choices.forEach((c) => (c.id = newId()));
 	if ('items' in copy) copy.items.forEach((i) => (i.id = newId()));
 	if ('pairs' in copy) copy.pairs.forEach((p) => (p.id = newId()));
+	if (copy.type === 'diagram') copy.spots.forEach((s) => (s.id = newId()));
 	if (copy.type === 'sort') {
 		const renamed = new Map(copy.groups.map((g) => [g.id, newId()]));
 		copy.groups.forEach((g) => (g.id = renamed.get(g.id)!));
@@ -216,6 +250,8 @@ export function normalise(raw: Record<string, unknown>): Question {
 	const question = { ...fresh, ...raw } as Question;
 	question.picture = question.picture ?? null;
 	question.explain = question.explain ?? '';
+	question.game = question.game ?? null;
+	if (question.type === 'diagram') question.spots = question.spots.map((s) => ({ ...s, id: s.id || newId() }));
 	if ('choices' in question) question.choices = question.choices.map((c) => ({ ...c, id: c.id || newId() }));
 	if ('items' in question) question.items = question.items.map((i) => ({ ...i, id: i.id || newId() }));
 	if ('pairs' in question) question.pairs = question.pairs.map((p) => ({ ...p, id: p.id || newId() }));

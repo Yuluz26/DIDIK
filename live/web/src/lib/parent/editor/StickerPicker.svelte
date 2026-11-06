@@ -1,40 +1,53 @@
 <!--
 	Choose a 3D sticker: a button showing the chosen one opens a dialog of every sticker, in groups, with a
-	search by name. `optional` adds "Tiada gambar".
+	search by name. `optional` adds "Tiada gambar"; `diagrams` adds the diagrams and photos (lib/diagrams.ts)
+	as their own group, for a question's picture.
 -->
 <script lang="ts">
 	import Icon from '$ui/Icon.svelte';
 	import Sticker from '$ui/Sticker.svelte';
 	import { STICKERS, STICKER_GROUPS, stickerOf, type StickerGroup } from '$lib/stickers';
+	import { DIAGRAMS, diagramOf, diagramUrl } from '$lib/diagrams';
 
 	let {
 		value = $bindable(),
 		label,
 		optional = false,
 		compact = false,
+		diagrams = false,
 		onpick
 	}: {
 		value: string | null;
 		label: string;
 		optional?: boolean;
 		compact?: boolean;
+		diagrams?: boolean;
 		onpick?: (key: string | null) => void;
 	} = $props();
 
 	let dialog = $state<HTMLDialogElement>();
 	let search = $state('');
-	let tab = $state<StickerGroup | 'semua'>('haiwan');
+	let tab = $state<StickerGroup | 'semua' | 'rajah'>('haiwan');
 
 	const chosen = $derived(stickerOf(value));
+	const chosenDiagram = $derived(diagrams ? diagramOf(value) : undefined);
+	const shownDiagrams = $derived.by(() => {
+		if (!diagrams) return [];
+		const q = search.trim().toLowerCase();
+		if (q) return DIAGRAMS.filter((d) => d.name.toLowerCase().includes(q));
+		return tab === 'rajah' ? DIAGRAMS : [];
+	});
 	const shown = $derived.by(() => {
 		const q = search.trim().toLowerCase();
 		if (q) return STICKERS.filter((s) => s.name.toLowerCase().includes(q) || s.key.includes(q));
+		if (tab === 'rajah') return [];
 		return tab === 'semua' ? STICKERS : STICKERS.filter((s) => s.group === tab);
 	});
 
 	function open() {
 		search = '';
 		if (chosen) tab = chosen.group;
+		else if (chosenDiagram) tab = 'rajah';
 		dialog?.showModal();
 	}
 
@@ -45,13 +58,15 @@
 	}
 </script>
 
-<button type="button" class="pick" class:compact class:empty={!chosen} onclick={open} aria-label="{label}: {chosen?.name ?? 'tiada gambar'}. Tukar">
+<button type="button" class="pick" class:compact class:empty={!chosen && !chosenDiagram} onclick={open} aria-label="{label}: {chosen?.name ?? chosenDiagram?.name ?? 'tiada gambar'}. Tukar">
 	{#if chosen}
 		<Sticker key={chosen.key} size={compact ? 34 : 44} alt="" />
+	{:else if chosenDiagram}
+		<img class="thumb" src={diagramUrl(chosenDiagram.key)} alt="" />
 	{:else}
 		<span class="plus"><Icon name="plus" size={compact ? 16 : 20} /></span>
 	{/if}
-	{#if !compact}<span class="what"><small>{label}</small>{chosen?.name ?? 'Pilih gambar'}</span>{/if}
+	{#if !compact}<span class="what"><small>{label}</small>{chosen?.name ?? chosenDiagram?.name ?? 'Pilih gambar'}</span>{/if}
 </button>
 
 <dialog bind:this={dialog} class="picker" aria-label="Pilih gambar: {label}" onclick={(e) => e.target === dialog && dialog?.close()}>
@@ -63,6 +78,7 @@
 		<input class="input" type="search" bind:value={search} placeholder="Cari: kucing, epal, bas..." aria-label="Cari gambar" />
 		{#if !search.trim()}
 			<div class="tabs" role="tablist" aria-label="Kumpulan gambar">
+				{#if diagrams}<button type="button" role="tab" aria-selected={tab === 'rajah'} class:on={tab === 'rajah'} onclick={() => (tab = 'rajah')}>Rajah &amp; foto</button>{/if}
 				{#each STICKER_GROUPS as g (g.key)}
 					<button type="button" role="tab" aria-selected={tab === g.key} class:on={tab === g.key} onclick={() => (tab = g.key)}>{g.name}</button>
 				{/each}
@@ -77,6 +93,14 @@
 					</button>
 				</li>
 			{/if}
+			{#each shownDiagrams as d (d.key)}
+				<li>
+					<button type="button" class="cell rajah" class:on={value === d.key} onclick={() => pick(d.key)}>
+						<img src={diagramUrl(d.key)} alt="" loading="lazy" />
+						<span>{d.name}</span>
+					</button>
+				</li>
+			{/each}
 			{#each shown as s (s.key)}
 				<li>
 					<button type="button" class="cell" class:on={value === s.key} onclick={() => pick(s.key)}>
@@ -85,7 +109,7 @@
 					</button>
 				</li>
 			{:else}
-				<li class="nothing">Tiada gambar bernama "{search}".</li>
+				{#if !shownDiagrams.length}<li class="nothing">Tiada gambar bernama "{search}".</li>{/if}
 			{/each}
 		</ul>
 	</div>
@@ -111,6 +135,20 @@
 	.pick:hover {
 		border-color: var(--sky);
 		transform: translateY(-1px);
+	}
+	.thumb {
+		width: 3.4rem;
+		height: 2.6rem;
+		border-radius: 6px;
+		object-fit: cover;
+		background: #fff;
+	}
+	.cell.rajah img {
+		width: 100%;
+		height: 4.2rem;
+		border-radius: 8px;
+		object-fit: contain;
+		background: #fff;
 	}
 	.pick.compact {
 		justify-content: center;

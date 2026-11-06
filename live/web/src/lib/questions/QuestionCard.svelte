@@ -3,6 +3,8 @@
 	import type { PublicQuestion } from '$lib/types';
 	import { canSpeak, speak } from '$lib/speech';
 	import Icon from '$ui/Icon.svelte';
+	import { isDiagram } from '$lib/diagrams';
+	import DiagramFigure from '$ui/DiagramFigure.svelte';
 	import Sticker from '$ui/Sticker.svelte';
 
 	let {
@@ -11,6 +13,10 @@
 		total = null,
 		big = false
 	}: { question: PublicQuestion; index?: number | null; total?: number | null; big?: boolean } = $props();
+
+	// a sticker sits beside the words; a diagram or photo goes under them, as large as it needs
+	const sticker = $derived(question.picture && !isDiagram(question.picture) ? question.picture : null);
+	const diagram = $derived(isDiagram(question.picture) ? question.picture : null);
 
 	function readAloud() {
 		const options = question.choices?.map((c) => c.text).join(', ');
@@ -27,10 +33,11 @@
 		{/if}
 	</div>
 	{#key question.id}
-		<div class="prompt-row" class:with-pic={!!question.picture}>
+		<div class="prompt-row" class:with-pic={!!sticker}>
 			<h2 class="prompt">{question.prompt}</h2>
-			{#if question.picture}<span class="pic" aria-hidden="true"><Sticker key={question.picture} size={big ? 120 : 84} alt="" eager /></span>{/if}
+			{#if sticker}<span class="pic" aria-hidden="true"><Sticker key={sticker} size={big ? 120 : 84} alt="" eager /></span>{/if}
 		</div>
+		{#if diagram && question.type !== 'diagram'}<DiagramFigure key={diagram} max={big ? 320 : 220} />{/if}
 	{/key}
 	{#if question.image}
 		<img class="picture" src={question.image} alt="" loading="eager" />

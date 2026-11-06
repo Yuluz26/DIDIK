@@ -1,5 +1,6 @@
-"""The 3D stickers a question can show: animals, food, things, vehicles. Each key is a picture in
-web/static/pelekat/<key>.webp (Microsoft Fluent Emoji 3D, MIT licence; see LICENSE.txt beside them).
+"""The 3D stickers a question can show: animals, food, things, vehicles, science, history and Islam. Each
+key is a picture in web/static/pelekat/<key>.webp (Microsoft Fluent Emoji 3D, MIT licence; see LICENSE.txt
+beside them).
 
 The web keeps the same keys with their Malay names in web/src/lib/stickers.ts; a test keeps the two lists
 the same. Only these keys are accepted, so a question can never point at some other file.
@@ -23,6 +24,14 @@ STICKERS: frozenset[str] = frozenset(
     kereta bas basikal motosikal lori kereta-api kapal-terbang helikopter bot kapal roket bomba ambulans
     bakul kotak troli sarang pinggan
     kilauan bintang-bersinar mercun piala mahkota pingat
+    teropong planet jantung paru-paru kelalang piring-petri satelit komet mikrob darah pil stetoskop mata gear spana
+    batu-kecil kayu herba bulan-baru bulan-sabit bulan-separuh bulan-purnama puting-beliung bimasakti gunung-salji
+    pulau padang-pasir pokok-renek daun-gugur fajar senja malam sabit
+    kumbang-kura cacing belalang helang rusa udang garam lemon tomato sayur padi minuman-panas teh
+    span klip-kertas kunci gunting sudu skru tukul cermin lilin bulu sabun baldi kuali neraca tanglung beg-wang
+    tempayan dewan-klasik istana kota perahu-layar keris pedang perisai busur kunci-lama beliung bata patung-batu
+    akhbar surat pen permata cincin benang pin-peta khemah
+    kaabah tasbih bulan-bintang buku-terbuka tangan-doa berjabat telinga hidung kaki mulut lengan tangan
     """.split()
 )
 

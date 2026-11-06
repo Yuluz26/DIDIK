@@ -23,6 +23,8 @@
 	import Icon from '$ui/Icon.svelte';
 	import SoundToggle from '$ui/SoundToggle.svelte';
 	import Sticker from '$ui/Sticker.svelte';
+	import DiagramFigure from '$ui/DiagramFigure.svelte';
+	import { isDiagram } from '$lib/diagrams';
 	import Timer from '$ui/Timer.svelte';
 	import CloudSky from './CloudSky.svelte';
 	import DidiSoft, { type DidiMood } from './DidiSoft.svelte';
@@ -168,10 +170,11 @@
 									</button>
 								{/if}
 							</div>
-							<div class="prompt-row" class:with-pic={!!question.picture}>
+							<div class="prompt-row" class:with-pic={!!question.picture && !isDiagram(question.picture)}>
 								<h1 id="ik-prompt" class="prompt">{question.prompt}</h1>
-								{#if question.picture}<span class="qpic" aria-hidden="true"><Sticker key={question.picture} size={104} alt="" eager /></span>{/if}
+								{#if question.picture && !isDiagram(question.picture)}<span class="qpic" aria-hidden="true"><Sticker key={question.picture} size={104} alt="" eager /></span>{/if}
 							</div>
+							{#if isDiagram(question.picture) && question.type !== 'diagram'}<DiagramFigure key={question.picture ?? ''} />{/if}
 							{#if question.image}<img class="picture" src={question.image} alt="" loading="eager" />{/if}
 							<div class="answer">
 								<Answer {question} disabled={paused} onanswer={(a) => client.send({ t: 'answer', a })} />

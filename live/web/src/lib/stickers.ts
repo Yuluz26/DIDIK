@@ -4,7 +4,7 @@
 // Each sticker has its Malay name and the counting word that goes with it (penjodoh bilangan), so the
 // editor can write "Masukkan 5 biji epal ke dalam bakul." for a parent.
 
-export type StickerGroup = 'haiwan' | 'makanan' | 'benda' | 'alam' | 'kenderaan' | 'sekolah' | 'lain';
+export type StickerGroup = 'haiwan' | 'makanan' | 'benda' | 'alam' | 'kenderaan' | 'sekolah' | 'badan' | 'sejarah' | 'islam' | 'lain';
 
 export interface Sticker {
 	key: string;
@@ -71,7 +71,54 @@ export const STICKERS: Sticker[] = [
 	),
 	...S('sekolah', 'batang', 'tulang=Tulang, gigi=Gigi'),
 	...S('lain', 'buah', 'bakul=Bakul, kotak=Kotak, troli=Troli, sarang=Sarang, pinggan=Pinggan, piala=Piala, mahkota=Mahkota, pingat=Pingat'),
-	...S('lain', 'biji', 'kilauan=Kilauan, bintang-bersinar=Bintang bersinar, mercun=Mercun')
+	...S('lain', 'biji', 'kilauan=Kilauan, bintang-bersinar=Bintang bersinar, mercun=Mercun'),
+	...S(
+		'sekolah',
+		'buah',
+		'teropong=Teropong, planet=Planet Zuhal, kelalang=Kelalang kimia, piring-petri=Piring petri, satelit=Satelit, komet=Komet, mikrob=Mikrob, pil=Pil, stetoskop=Stetoskop, gear=Gear, spana=Spana, neraca=Neraca'
+	),
+	...S('badan', 'buah', 'jantung=Jantung, paru-paru=Paru-paru, mata=Mata, hidung=Hidung, mulut=Mulut'),
+	...S('badan', 'titis', 'darah=Darah'),
+	...S('badan', 'belah', 'telinga=Telinga, kaki=Kaki, lengan=Lengan, tangan=Tangan'),
+	...S(
+		'alam',
+		'biji',
+		'batu-kecil=Batu kecil, bulan-baru=Bulan baru, bulan-sabit=Bulan sabit, bulan-separuh=Bulan separa, bulan-purnama=Bulan purnama, sabit=Anak bulan'
+	),
+	...S(
+		'alam',
+		'buah',
+		'puting-beliung=Puting beliung, bimasakti=Bima Sakti, gunung-salji=Gunung bersalji, pulau=Pulau, padang-pasir=Padang pasir, fajar=Matahari terbit, senja=Matahari terbenam, malam=Malam berbintang'
+	),
+	...S('alam', 'batang', 'kayu=Kayu, herba=Herba, pokok-renek=Pokok malar hijau'),
+	...S('alam', 'helai', 'daun-gugur=Daun gugur'),
+	...S('haiwan', 'ekor', 'kumbang-kura=Kumbang kura-kura, cacing=Cacing, belalang=Belalang, helang=Helang, rusa=Rusa, udang=Udang'),
+	...S('makanan', 'biji', 'lemon=Lemon, tomato=Tomato'),
+	...S('makanan', 'ikat', 'sayur=Sayur, padi=Padi'),
+	...S('makanan', 'cawan', 'minuman-panas=Minuman panas, teh=Teh'),
+	...S('makanan', 'balang', 'garam=Garam'),
+	...S(
+		'benda',
+		'buah',
+		'span=Span, klip-kertas=Klip kertas, kunci=Kunci, gunting=Gunting, sudu=Sudu, skru=Skru dan nat, tukul=Tukul, cermin=Cermin, baldi=Baldi, kuali=Kuali, tanglung=Tanglung, beg-wang=Beg wang'
+	),
+	...S('benda', 'batang', 'lilin=Lilin'),
+	...S('benda', 'helai', 'bulu=Bulu pelepah'),
+	...S('benda', 'ketul', 'sabun=Sabun'),
+	...S(
+		'sejarah',
+		'buah',
+		'tempayan=Tempayan, dewan-klasik=Dewan purba, istana=Istana, kota=Kota, perahu-layar=Perahu layar, perisai=Perisai, kunci-lama=Kunci lama, beliung=Beliung, patung-batu=Patung batu, akhbar=Akhbar, surat=Surat, pin-peta=Pin peta, khemah=Khemah'
+	),
+	...S('sejarah', 'bilah', 'keris=Keris, pedang=Pedang'),
+	...S('sejarah', 'set', 'busur=Busur dan anak panah'),
+	...S('sejarah', 'ketul', 'bata=Batu bata'),
+	...S('sejarah', 'batang', 'pen=Pen dakwat'),
+	...S('sejarah', 'biji', 'permata=Permata, cincin=Cincin'),
+	...S('sejarah', 'gulung', 'benang=Benang'),
+	...S('islam', 'buah', 'kaabah=Kaabah, buku-terbuka=Kitab terbuka, bulan-bintang=Bulan dan bintang'),
+	...S('islam', 'utas', 'tasbih=Tasbih'),
+	...S('islam', 'pasang', 'tangan-doa=Tangan berdoa, berjabat=Berjabat tangan')
 ];
 
 export const STICKER_GROUPS: { key: StickerGroup; name: string }[] = [
@@ -81,6 +128,9 @@ export const STICKER_GROUPS: { key: StickerGroup; name: string }[] = [
 	{ key: 'alam', name: 'Alam' },
 	{ key: 'kenderaan', name: 'Kenderaan' },
 	{ key: 'sekolah', name: 'Sekolah & sains' },
+	{ key: 'badan', name: 'Tubuh badan' },
+	{ key: 'sejarah', name: 'Sejarah' },
+	{ key: 'islam', name: 'Islam' },
 	{ key: 'lain', name: 'Lain-lain' }
 ];
 

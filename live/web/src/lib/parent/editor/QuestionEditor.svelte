@@ -7,6 +7,8 @@
 	import BlankEditor from './BlankEditor.svelte';
 	import ChoicesEditor from './ChoicesEditor.svelte';
 	import CountEditor from './CountEditor.svelte';
+	import DiagramEditor from './DiagramEditor.svelte';
+	import GamePicker from './GamePicker.svelte';
 	import MissingEditor from './MissingEditor.svelte';
 	import SmallGameEditor from './SmallGameEditor.svelte';
 	import StickerPicker from './StickerPicker.svelte';
@@ -80,6 +82,8 @@
 
 	{#if problem}<p class="problem">{problem}</p>{/if}
 
+	<GamePicker bind:game={question.game} type={question.type} />
+
 	<label class="field">
 		<span>{question.type === 'truefalse' ? 'Kenyataan' : question.type === 'blank' ? 'Arahan' : 'Soalan'}</span>
 		<textarea
@@ -96,7 +100,7 @@
 	<div class="extras">
 		<ImageField bind:image={question.image} id={question.id} />
 		<div class="pic-field">
-			<StickerPicker bind:value={question.picture} label="Gambar rajah" optional />
+			<StickerPicker bind:value={question.picture} label="Gambar rajah" optional diagrams={question.type !== 'diagram'} />
 			{#if ideas.length}
 				<span class="ideas" aria-label="Cadangan gambar">
 					{#each ideas as idea (idea.key)}
@@ -184,6 +188,8 @@
 			<MissingEditor bind:question {err} />
 		{:else if question.type === 'puzzle' || question.type === 'blocks' || question.type === 'clock' || question.type === 'money'}
 			<SmallGameEditor bind:question {err} />
+		{:else if question.type === 'diagram'}
+			<DiagramEditor bind:question {err} />
 		{/if}
 	</div>
 
