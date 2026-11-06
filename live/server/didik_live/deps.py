@@ -168,7 +168,7 @@ def malay_errors(errors: list[dict]) -> list[dict]:
     return out
 
 
-_TAGS = {"single", "multiple", "truefalse", "text", "number", "order", "match", "blank", "count", "spell", "sort", "missing", "puzzle", "blocks", "clock", "money"}
+_TAGS = {"single", "multiple", "truefalse", "text", "number", "order", "match", "blank", "count", "spell", "sort", "missing", "puzzle", "blocks", "clock", "money", "diagram"}
 
 
 def _clean_loc(loc: tuple | list) -> list:

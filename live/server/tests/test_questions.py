@@ -41,6 +41,12 @@ EVERY_TYPE = [
     {"type": "blocks", "prompt": "Bina 345.", "answer": 345},
     {"type": "clock", "prompt": "Pukul 3.30.", "hour": 3, "minute": 30},
     {"type": "money", "prompt": "Bayar RM2.50.", "amount": 250, "sticker": "aiskrim"},
+    {
+        "type": "diagram",
+        "prompt": "Labelkan organ.",
+        "diagram": "rajah-organ",
+        "spots": [{"x": 53, "y": 29, "label": "Jantung"}, {"x": 27, "y": 33, "label": "Paru-paru"}, {"x": 74, "y": 45, "label": "Perut"}],
+    },
 ]
 
 
@@ -178,7 +184,7 @@ def test_samples_are_valid_and_cover_every_type() -> None:
         seen |= {q.type for q in parse_questions(sample["questions"])}
     assert seen == {
         "single", "multiple", "truefalse", "text", "number", "order", "match", "blank",
-        "count", "spell", "sort", "missing", "puzzle", "blocks", "clock", "money",
+        "count", "spell", "sort", "missing", "puzzle", "blocks", "clock", "money", "diagram",
     }
 
 
@@ -312,7 +318,8 @@ def test_every_sample_question_has_a_picture_and_an_explanation() -> None:
         for question in parse_questions(sample["questions"]):
             where = (sample["title"], question.prompt)
             assert question.explain.strip(), where
-            pictured = question.picture or getattr(question, "sticker", None) or question.type in ("blocks", "clock")
+            # a subject game draws its own scene (a lab, a dig, a compass), and a diagram is its own picture
+            pictured = question.picture or getattr(question, "sticker", None) or question.type in ("blocks", "clock", "diagram") or question.game
             assert pictured, where
 
 

@@ -53,7 +53,7 @@
 	// every question should have a picture and an explanation: the sidebar counts those still without
 	// the hands-on games carry their own pictures (the objects, the letters' picture, the clock, the blocks)
 	const hasPicture = (q: (typeof draft.questions)[number]) =>
-		!!q.picture || !!q.image || ('sticker' in q && !!q.sticker) || q.type === 'blocks' || q.type === 'clock' || (q.type === 'sort' && q.items.some((i) => i.sticker));
+		!!q.picture || !!q.image || ('sticker' in q && !!q.sticker) || q.type === 'blocks' || q.type === 'clock' || q.type === 'diagram' || (q.type === 'sort' && q.items.some((i) => i.sticker));
 	const noPicture = $derived(draft.questions.filter((q) => !hasPicture(q)).length);
 	const noWhy = $derived(draft.questions.filter((q) => !q.explain?.trim()).length);
 	const flagged = $derived(new Set(errors.filter((e) => e.loc[0] === 'questions').map((e) => e.loc[1] as number)));

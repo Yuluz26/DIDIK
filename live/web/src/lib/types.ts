@@ -143,12 +143,15 @@ export interface PublicQuestion {
 		| 'puzzle'
 		| 'blocks'
 		| 'clock'
-		| 'money';
+		| 'money'
+		| 'diagram';
 	label: string;
 	prompt: string;
 	image: string | null;
-	/** A 3D sticker that illustrates the question. */
+	/** What illustrates the question: a 3D sticker (lib/stickers.ts) or a diagram (lib/diagrams.ts). */
 	picture?: string | null;
+	/** A subject game to answer it in (lib/subjects/games.ts). */
+	game?: string;
 	timeLimit: number;
 	choices?: Choice[];
 	pick?: number;
@@ -177,6 +180,10 @@ export interface PublicQuestion {
 	/** Bayar dengan wang: the amount in sen and the coins and notes to pay with. */
 	amount?: number;
 	money?: number[];
+	/** Label rajah: the diagram, its places (percent from the top left) and the labels to put on them. */
+	diagram?: string;
+	spots?: { id: string; x: number; y: number }[];
+	labels?: { id: string; text: string }[];
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

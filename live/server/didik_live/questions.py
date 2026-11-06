@@ -1,13 +1,14 @@
-"""The sixteen question types a parent can write, and how each one is shown, answered and checked.
+"""The seventeen question types a parent can write, and how each one is shown, answered and checked.
 
 A question reaches a child only as a *presentation*: a copy with the answers removed, the options
 shuffled and every option renamed with a random token. The tokens map back to the real ids only on the
 server, so nothing in the browser (not even option order or ids) reveals the answer before it is checked.
 (A jigsaw is the one exception by nature: the picture on each piece is where it goes.)
 
-Every question may have a picture (a 3D sticker, beside or instead of an uploaded image) and an
-explanation. The explanation reaches the browser only with the answer (`reveal`), to be shown to a child
-who did not get it right.
+Every question may have a picture (a 3D sticker or a diagram, beside or instead of an uploaded image) and
+an explanation. The explanation reaches the browser only with the answer (`reveal`), to be shown to a
+child who did not get it right. A question may also name a subject game (games.py), a way of playing its
+type: the game changes how the child answers, never how the answer is checked.
 """
 
 from __future__ import annotations
@@ -21,7 +22,9 @@ from typing import Annotated, Any, Literal, Union
 from pydantic import BaseModel, ConfigDict, Field, TypeAdapter, field_validator, model_validator
 
 from . import text as textutil
-from .stickers import PLACES, check_sticker
+from .diagrams import check_diagram
+from .games import check_game
+from .stickers import PLACES, STICKERS, check_sticker
 
 ID_PATTERN = r"^[A-Za-z0-9_-]{1,16}$"
 IMAGE_PATTERN = re.compile(r"^/uploads/[a-f0-9]{32}\.webp$")
@@ -45,6 +48,7 @@ TYPE_LABELS = {
     "blocks": "Bina nombor",
     "clock": "Laraskan jam",
     "money": "Bayar dengan wang",
+    "diagram": "Label rajah",
 }
 
 # Letters a "Susun huruf" word may use: Malay and English words, written with or without capitals.
@@ -106,16 +110,25 @@ class _Question(_Strict):
     id: str = Field(default_factory=new_id, pattern=ID_PATTERN)
     prompt: str = Field(min_length=1, max_length=300)
     image: str | None = Field(default=None, max_length=80)
-    # a 3D sticker that illustrates the question (the "gambar rajah"), beside or instead of an image
+    # what illustrates the question (the "gambar rajah"): a 3D sticker, or a diagram or photo (diagrams.py)
     picture: str | None = Field(default=None, max_length=24)
     # why the answer is what it is, shown to a child who got it wrong
     explain: str = Field(default="", max_length=400)
     time_limit: int = Field(default=20, ge=5, le=120)
+    # a subject game to play this question in (games.py), or none for the plain way
+    game: str | None = Field(default=None, max_length=24)
 
     @field_validator("picture")
     @classmethod
     def _picture(cls, value: str | None) -> str | None:
+        if value and value not in STICKERS:
+            return check_diagram(value)
         return check_sticker(value)
+
+    @model_validator(mode="after")
+    def _game_fits(self) -> _Question:
+        self.game = check_game(self.game, getattr(self, "type", ""))
+        return self
 
     @field_validator("image")
     @classmethod
@@ -420,6 +433,40 @@ class MoneyQuestion(_Question):
         return check_sticker(value)
 
 
+class Spot(_Strict):
+    """A place on a diagram, in percent of its width and height from the top left, and what it is."""
+
+    id: str = Field(default_factory=new_id, pattern=ID_PATTERN)
+    x: float = Field(ge=0, le=100)
+    y: float = Field(ge=0, le=100)
+    label: str = Field(min_length=1, max_length=40)
+
+
+class DiagramQuestion(_Question):
+    """Label rajah: name the parts of a diagram (the heart, a cell, the states on a map) by putting each
+    label on its place."""
+
+    type: Literal["diagram"]
+    diagram: str = Field(max_length=24)
+    spots: list[Spot] = Field(min_length=2, max_length=6)
+
+    @field_validator("diagram")
+    @classmethod
+    def _diagram(cls, value: str) -> str:
+        if not check_diagram(value):
+            raise ValueError("Pilih rajah untuk dilabel.")
+        return value
+
+    @model_validator(mode="after")
+    def _check(self) -> DiagramQuestion:
+        _distinct([s.label for s in self.spots], "Setiap label mesti berbeza.")
+        for i, a in enumerate(self.spots):
+            for b in self.spots[i + 1 :]:
+                if abs(a.x - b.x) < 6 and abs(a.y - b.y) < 6:
+                    raise ValueError("Dua tempat terlalu dekat: jarakkan sedikit supaya mudah diletak label.")
+        return self
+
+
 Question = Annotated[
     Union[
         SingleQuestion,
@@ -438,6 +485,7 @@ Question = Annotated[
         BlocksQuestion,
         ClockQuestion,
         MoneyQuestion,
+        DiagramQuestion,
     ],
     Field(discriminator="type"),
 ]
@@ -523,6 +571,8 @@ def present(question: Any, rng: random.Random, time_limit: int | None = None) ->
         "picture": question.picture,
         "timeLimit": time_limit or question.time_limit,
     }
+    if question.game:
+        public["game"] = question.game
 
     if question.type in ("single", "multiple"):
         choices = list(question.choices)
@@ -606,6 +656,13 @@ def present(question: Any, rng: random.Random, time_limit: int | None = None) ->
         public["amount"] = question.amount
         public["money"] = [m for m in MONEY if m <= max(question.amount, 50)]
         public["sticker"] = question.sticker
+    elif question.type == "diagram":
+        labels = list(question.spots)
+        rng.shuffle(labels)
+        public["diagram"] = question.diagram
+        # where the places are says nothing about which label is which
+        public["spots"] = [{"id": _token(pres, "S" + s.id), "x": s.x, "y": s.y} for s in question.spots]
+        public["labels"] = [{"id": _token(pres, "B" + s.id), "text": s.label} for s in labels]
 
     pres.public = public
     return pres
@@ -794,6 +851,25 @@ def _check_money(pres: Presentation, answer: Any) -> Outcome:
     return Outcome(ok, 1.0 if ok else 0.0)
 
 
+def _check_diagram(pres: Presentation, answer: Any) -> Outcome:
+    """{spot token: label token}, every place labelled, no label used twice."""
+    if not isinstance(answer, dict) or len(answer) != len(pres.question.spots):
+        raise ValueError
+    right = 0
+    seen_spots: set[str] = set()
+    seen_labels: set[str] = set()
+    for spot_token, label_token in answer.items():
+        spot = pres.token_to_id[str(spot_token)]
+        label = pres.token_to_id[str(label_token)]
+        if not spot.startswith("S") or not label.startswith("B") or spot in seen_spots or label in seen_labels:
+            raise ValueError
+        seen_spots.add(spot)
+        seen_labels.add(label)
+        right += spot[1:] == label[1:]
+    total = len(pres.question.spots)
+    return Outcome(right == total, round(right / total, 3))
+
+
 _CHECKERS = {
     "single": _check_single,
     "multiple": _check_multiple,
@@ -811,6 +887,7 @@ _CHECKERS = {
     "blocks": _check_blocks,
     "clock": _check_clock,
     "money": _check_money,
+    "diagram": _check_diagram,
 }
 
 
@@ -874,6 +951,7 @@ _REVEALS = {
     "blocks": lambda p: {"correct": {k: v for k, v in _digits(p.question.answer).items() if k in p.public["places"]}, "number": p.question.answer},
     "clock": lambda p: {"correct": {"h": p.question.hour, "m": p.question.minute}},
     "money": lambda p: {"correct": p.question.amount, "pay": _pay(p.question.amount, p.public["money"])},
+    "diagram": lambda p: {"correct": {p.id_to_token["S" + s.id]: p.id_to_token["B" + s.id] for s in p.question.spots}},
 }
 
 
@@ -988,6 +1066,14 @@ def _sample_money(pres: Presentation, correct: bool, rng: random.Random) -> Any:
     return pay
 
 
+def _sample_diagram(pres: Presentation, correct: bool, rng: random.Random) -> Any:
+    spots = pres.question.spots
+    labels = [pres.id_to_token["B" + s.id] for s in spots]
+    if not correct:
+        labels = labels[1:] + labels[:1]
+    return {pres.id_to_token["S" + s.id]: b for s, b in zip(spots, labels, strict=True)}
+
+
 _SAMPLES = {
     "single": _sample_single,
     "multiple": _sample_multiple,
@@ -1005,4 +1091,5 @@ _SAMPLES = {
     "blocks": _sample_blocks,
     "clock": _sample_clock,
     "money": _sample_money,
+    "diagram": _sample_diagram,
 }
