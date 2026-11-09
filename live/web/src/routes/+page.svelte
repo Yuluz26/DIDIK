@@ -16,6 +16,7 @@
 	import InteraktifSection from '$lib/home/InteraktifSection.svelte';
 	import ThreeWays from '$lib/home/ThreeWays.svelte';
 	import Ticket from '$lib/home/Ticket.svelte';
+	import PlanSection from '$lib/home/PlanSection.svelte';
 	import { reveal } from '$lib/home/reveal';
 	import { beachTile, grassFringe, seaTile, shoreStrip } from '$lib/pixel/sea';
 
@@ -88,6 +89,7 @@
 		<a class="far" href="#pulau">Pulau 2D</a>
 		<a class="far" href="#hikayat">Story Mode</a>
 		<a class="far" href="#cara">Cara bermain</a>
+		<a class="far" href="#pelan">Pelan</a>
 		<a class="parents" href="/ibu-bapa"><span class="long">Untuk ibu bapa</span><span class="short">Ibu bapa</span> <Icon name="next" size={18} /></a>
 	</nav>
 </header>
@@ -162,6 +164,7 @@
 	</div>
 </section>
 
+<PlanSection {beach} />
 
 <section class="field" style:--fringe={fringe} style:--beach={beach} aria-labelledby="ibu-bapa-tajuk">
 	<div class="wrap cta">
@@ -190,6 +193,7 @@
 					<li><a href="#pulau">Empat belas pulau permainan</a></li>
 					<li><a href="#hikayat">Story Mode: Hikayat Lima Alam</a></li>
 					<li><a href="#cara">Cara bermain</a></li>
+					<li><a href="#pelan">Pelan keahlian</a></li>
 					<li><a href="/ibu-bapa">Ruang ibu bapa</a></li>
 				</ul>
 			</div>
@@ -655,8 +659,8 @@
 			padding-bottom: 0;
 		}
 	}
-	/* The three section links need about 860px beside the logo and the parents' link. */
-	@media (max-width: 900px) {
+	/* The section links need room beside the logo and the parents' link. */
+	@media (max-width: 1120px) {
 		nav .far {
 			display: none;
 		}
