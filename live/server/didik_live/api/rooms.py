@@ -67,9 +67,9 @@ async def open_room(
     # Guests may still join by code/QR. Only the authenticated host needs this entitlement.
     local_demo = user.email == DEMO_EMAIL and demo_allowed(request)
     if body.mode == "legenda" and not local_demo and not can(db, user, "story"):
-        raise HTTPException(403, "Pengembaraan ini tersedia untuk ahli DIDIK Premium dan Family.")
+        raise HTTPException(403, {"code": "membership_required", "message": "Pengembaraan ini tersedia untuk ahli DIDIK Premium dan Family."})
     if body.mode not in {"legenda", "interaktif", "interaktif-sains", "interaktif-sejarah", "interaktif-islam"} and not local_demo and not can(db, user, "games"):
-        raise HTTPException(403, "Permainan ini tersedia untuk ahli DIDIK Premium dan Family.")
+        raise HTTPException(403, {"code": "membership_required", "message": "Permainan ini tersedia untuk ahli DIDIK Premium dan Family."})
     quiz = await run_in_threadpool(_quiz_for, db, body.quiz_id, user)
     questions = parse_questions(quiz.questions)
     reason = MODES[body.mode].unplayable_reason(questions)

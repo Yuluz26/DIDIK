@@ -28,6 +28,8 @@
 	let modes = $state<ModeInfo[]>([]);
 	let opening = $state<string | null>(null);
 	let problem = $state<string | null>(null);
+	let lockedGame = $state('');
+	let lockDialog = $state<HTMLDialogElement>();
 
 	onMount(async () => {
 		if (!(await session.load())) {
@@ -46,6 +48,7 @@
 
 	async function open(mode: ModeInfo, solo = false) {
 		if (mode.reason || opening) return;
+		problem = null;
 		play('pop');
 		opening = mode.key + (solo ? ':solo' : '');
 		try {
@@ -54,7 +57,12 @@
 			const room = await api.post<{ code: string }>('/api/rooms', body);
 			await goto(`/hos/${room.code}`);
 		} catch (error) {
-			problem = error instanceof ApiError ? error.message : 'Bilik tidak dapat dibuka. Cuba lagi.';
+			if (error instanceof ApiError && error.status === 403 && error.code === 'membership_required') {
+				lockedGame = mode.title;
+				lockDialog?.showModal();
+			} else {
+				problem = error instanceof ApiError ? error.message : 'Bilik tidak dapat dibuka. Cuba lagi.';
+			}
 			opening = null;
 		}
 	}
@@ -167,7 +175,46 @@
 	<p class="after">Selepas memilih, anda akan dapat pautan, kod QR dan kod 6 digit untuk dikongsi. Tetapan boleh diubah di lobi.</p>
 </DashShell>
 
+<dialog
+	bind:this={lockDialog}
+	class="access-dialog"
+	role="alertdialog"
+	aria-labelledby="access-title"
+	aria-describedby="access-description"
+	onclick={(event) => { if (event.target === lockDialog) lockDialog?.close(); }}
+>
+	<div class="access-sheet">
+		<button type="button" class="access-close" aria-label="Tutup popup" onclick={() => lockDialog?.close()}><NmIcon name="close" size={20} /></button>
+		<div class="access-art" aria-hidden="true">
+			<span class="access-star"><Sticker key="bintang-bersinar" size={56} alt="" /></span>
+			<Kawaii seed="akses-keahlian" size={104} mood="sleepy" />
+		</div>
+		<p class="access-kicker">Pintu permainan terkunci sekejap</p>
+		<h2 id="access-title">Alamak, belum boleh main!</h2>
+		<p id="access-description"><strong>{lockedGame}</strong> tersedia untuk keahlian DIDIK Premium atau Family. Jika baru menghantar bukti bayaran, tunggu admin sahkan dahulu ya.</p>
+		<div class="access-actions">
+			<a class="access-upgrade" href="/ibu-bapa/keahlian">Lihat pelan keahlian <NmIcon name="next" size={18} /></a>
+			<button type="button" class="access-back" onclick={() => lockDialog?.close()}>Pilih permainan lain</button>
+		</div>
+	</div>
+</dialog>
+
 <style>
+	.access-dialog{width:min(31rem,calc(100vw - 2rem));max-height:calc(100dvh - 2rem);margin:auto;padding:0;border:2px solid #6f519b;border-radius:24px;background:#fff9f0;color:var(--ink);box-shadow:0 18px 65px rgb(32 25 62 / .28);overflow:auto;animation:access-pop 260ms cubic-bezier(.23,1,.32,1) both}
+	.access-dialog::backdrop{background:rgb(24 20 49 / .55);backdrop-filter:blur(3px)}
+	.access-sheet{position:relative;display:grid;justify-items:center;padding:2rem clamp(1.2rem,5vw,2.5rem) 2.2rem;text-align:center;isolation:isolate}
+	.access-sheet::before{content:'';position:absolute;z-index:-1;inset:0 0 auto;height:8rem;background:#eee3ff;border-radius:22px 22px 50% 50%}
+	.access-close{position:absolute;top:.85rem;right:.85rem;display:grid;place-items:center;width:2.7rem;height:2.7rem;border:0;border-radius:50%;background:#fff;color:#584475;cursor:pointer;transition:transform 160ms cubic-bezier(.23,1,.32,1)}
+	.access-art{position:relative;margin:.5rem 0 .8rem;line-height:0}.access-star{position:absolute;right:-1.3rem;top:-.5rem;transform:rotate(12deg);animation:access-twinkle 2.4s ease-in-out infinite}
+	.access-kicker{margin:.3rem 0 .4rem;color:#7050a7;font:800 .78rem/1.3 var(--font-body);letter-spacing:.08em;text-transform:uppercase}
+	.access-dialog h2{font:700 clamp(1.8rem,6vw,2.35rem)/1.1 var(--font-display);margin:0;color:#3d3154}
+	.access-dialog p#access-description{max-width:35ch;margin:.9rem 0 1.5rem;color:#574e60;line-height:1.6}
+	.access-actions{display:grid;width:100%;gap:.7rem}.access-upgrade,.access-back{display:flex;align-items:center;justify-content:center;gap:.4rem;min-height:3.1rem;border-radius:12px;font:800 1rem var(--font-body);text-decoration:none;cursor:pointer}
+	.access-upgrade{background:#6e50b8;color:#fff;box-shadow:0 4px 0 #453478;transition:transform 160ms cubic-bezier(.23,1,.32,1),box-shadow 160ms ease}.access-back{border:2px solid #d9c9e9;background:#fff;color:#55436d}.access-dialog :is(a,button):focus-visible{outline:3px solid #db5c8e;outline-offset:3px}
+	@media(hover:hover) and (pointer:fine){.access-close:hover{transform:rotate(90deg)}.access-upgrade:hover{transform:translateY(-2px);box-shadow:0 6px 0 #453478}}
+	@keyframes access-pop{from{opacity:0;transform:translateY(14px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+	@keyframes access-twinkle{50%{transform:rotate(-8deg) scale(1.08)}}
+	@media(prefers-reduced-motion:reduce){.access-dialog,.access-star{animation:none}.access-close,.access-upgrade{transition:none}.access-close:hover,.access-upgrade:hover{transform:none}}
 	.back {
 		display: inline-flex;
 		align-items: center;

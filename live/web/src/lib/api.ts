@@ -9,7 +9,8 @@ export class ApiError extends Error {
 	constructor(
 		public status: number,
 		message: string,
-		public errors: FieldError[] = []
+		public errors: FieldError[] = [],
+		public code?: string
 	) {
 		super(message);
 	}
@@ -45,7 +46,7 @@ async function request<T>(method: string, url: string, body?: unknown, raw?: Blo
 	const data = await response.json().catch(() => undefined);
 	if (!response.ok) {
 		const message = typeof data?.message === 'string' ? data.message : 'Sesuatu tidak kena. Cuba lagi.';
-		throw new ApiError(response.status, message, Array.isArray(data?.errors) ? data.errors : []);
+		throw new ApiError(response.status, message, Array.isArray(data?.errors) ? data.errors : [], typeof data?.code === 'string' ? data.code : undefined);
 	}
 	if (data === undefined) throw new ApiError(response.status, 'Jawapan pelayan tidak dapat dibaca. Cuba lagi.');
 	return data as T;

@@ -77,7 +77,10 @@ def test_manual_qr_review_is_single_use(site):
 def test_parent_cannot_use_owner_routes(site):
     register(site)
     assert site.get(f"{P}/api/membership/parents").status_code == 401
-    assert site.post("/api/rooms", json={"quiz_id": 1, "mode": "legenda"}).status_code == 403
+    story = site.post("/api/rooms", json={"quiz_id": 1, "mode": "legenda"})
+    assert story.status_code == 403 and story.json()["code"] == "membership_required"
+    game = site.post("/api/rooms", json={"quiz_id": 1, "mode": "lumba"})
+    assert game.status_code == 403 and game.json()["code"] == "membership_required"
 
 
 def test_qr_admin_upload_and_family_profiles_survive_downgrade(site):
