@@ -14,10 +14,12 @@ from fastapi.concurrency import run_in_threadpool
 from pydantic import BaseModel, ConfigDict, Field
 from sqlalchemy.orm import Session
 
-from ..deps import client_ip, get_db, limit, lookup_paused, note_wrong_code, require_user, site_url
+from ..deps import client_ip, demo_allowed, get_db, limit, lookup_paused, note_wrong_code, require_user, site_url
 from ..game.modes import MODES
 from ..game.settings import RoomSettings
 from ..models import Quiz, User
+from ..membership import can
+from ..seed import DEMO_EMAIL
 from ..questions import parse_questions
 
 router = APIRouter(prefix="/api", tags=["rooms"])
@@ -62,6 +64,12 @@ async def open_room(
     limit(request, "open-room", 20, 600, key=str(user.id))
     if body.mode not in MODES:
         raise HTTPException(422, "Permainan tidak dikenali.")
+    # Guests may still join by code/QR. Only the authenticated host needs this entitlement.
+    local_demo = user.email == DEMO_EMAIL and demo_allowed(request)
+    if body.mode == "legenda" and not local_demo and not can(db, user, "story"):
+        raise HTTPException(403, "Pengembaraan ini tersedia untuk ahli DIDIK Premium dan Family.")
+    if body.mode not in {"legenda", "interaktif", "interaktif-sains", "interaktif-sejarah", "interaktif-islam"} and not local_demo and not can(db, user, "games"):
+        raise HTTPException(403, "Permainan ini tersedia untuk ahli DIDIK Premium dan Family.")
     quiz = await run_in_threadpool(_quiz_for, db, body.quiz_id, user)
     questions = parse_questions(quiz.questions)
     reason = MODES[body.mode].unplayable_reason(questions)

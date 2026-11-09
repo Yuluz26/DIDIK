@@ -44,7 +44,14 @@ def backup(folder: Path, keep: int) -> list[Path]:
             archive.add(settings.upload_dir, arcname="uploads")
         made.append(target)
 
-    for pattern in ("didik-live-*.db", "didik-uploads-*.tar.gz"):
+    billing_dir = settings.data_dir / "billing"
+    if billing_dir.is_dir():
+        target = folder / f"didik-billing-{stamp}.tar.gz"
+        with tarfile.open(target, "w:gz") as archive:
+            archive.add(billing_dir, arcname="billing")
+        made.append(target)
+
+    for pattern in ("didik-live-*.db", "didik-uploads-*.tar.gz", "didik-billing-*.tar.gz"):
         for old in sorted(folder.glob(pattern), reverse=True)[keep:]:
             old.unlink()
     return made

@@ -586,6 +586,12 @@ def test_parents_can_be_suspended_restored_and_deleted_in_bulk(site: TestClient)
 
     # one of them is hosting a room, and has a picture on disk
     host, host_id = made[0]
+    # Hosting a 2D game now needs a paid or owner-granted membership.
+    now = datetime.now(UTC)
+    grant = site.post(f"{P}/api/membership/parents/{host_id}/grants", json={
+        "plan": "premium", "starts_at": now.isoformat(),
+        "expires_at": (now + timedelta(days=30)).isoformat(), "note": "Ujian hos admin"})
+    assert grant.status_code == 201, grant.text
     sample = sample_id(host, "Haiwan di Malaysia")
     quiz = host.post(f"/api/quizzes/{sample}/copy").json()
     assert host.post("/api/rooms", json={"quiz_id": quiz["id"], "mode": "lumba"}).status_code == 201

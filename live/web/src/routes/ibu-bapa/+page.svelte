@@ -33,7 +33,7 @@
 			<section class="pitch">
 				<p class="kind">Untuk ibu bapa dan guru</p>
 				<h1>Tulis kuiz anda sendiri. Anak-anak main bersama.</h1>
-				<p class="lead">Lapan jenis soalan, empat belas permainan dan Hikayat Lima Alam, satu pautan untuk masuk. Tiada akaun untuk kanak-kanak, tiada iklan, percuma.</p>
+				<p class="lead">Tulis kuiz sendiri dan mula bermain percuma. Premium dan Family membuka lebih banyak permainan, termasuk Hikayat Lima Alam. Kanak-kanak masuk dengan pautan atau kod tanpa akaun.</p>
 				<ul class="points">
 					<li><span class="dot"><Icon name="edit" /></span> Anda tulis setiap soalan. Tiada soalan dijana oleh AI.</li>
 					<li><span class="dot"><Icon name="link" /></span> Kongsi pautan, kod QR atau kod 6 digit.</li>

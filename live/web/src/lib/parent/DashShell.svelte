@@ -28,6 +28,7 @@
 		{ href: '/ibu-bapa/kuiz/baru', label: 'Kuiz baharu', icon: 'plus' },
 		{ href: '/ibu-bapa/bilik', label: 'Bilik langsung', icon: 'room' },
 		{ href: '/ibu-bapa/permainan', label: 'Permainan', icon: 'game' },
+		{ href: '/ibu-bapa/keahlian', label: 'Keahlian', icon: 'heart' },
 		{ href: '/ibu-bapa/akaun', label: 'Akaun', icon: 'user' }
 	];
 

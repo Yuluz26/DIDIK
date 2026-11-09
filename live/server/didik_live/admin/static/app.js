@@ -11,6 +11,7 @@ const ROUTES = {
 	live: './live.js',
 	activity: './activity.js',
 	users: './users.js',
+	membership: './membership.js',
 	quizzes: './quizzes.js',
 	notifications: './notifications.js',
 	security: './security.js'

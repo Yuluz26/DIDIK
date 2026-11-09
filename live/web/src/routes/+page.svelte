@@ -156,7 +156,7 @@
 						{/each}
 					</ul>
 				{/each}
-				<p class="total"><span>Jumlah bayaran</span><span>Percuma</span></p>
+				<p class="total"><span>Pelan asas</span><span>Percuma</span></p>
 			</div>
 		</div>
 	</div>
@@ -168,7 +168,7 @@
 		<p class="why" {@attach reveal()}>Soalan di sini ditulis oleh orang yang kenal anak-anak itu: ibu bapa, guru, abang dan kakak. Tiada AI yang mengarangnya.</p>
 		<div class="reply" {@attach reveal(120)}>
 			<h2 id="ibu-bapa-tajuk">Tulis kuiz pertama</h2>
-			<p>Akaun ibu bapa percuma. Daftar dengan e-mel, tulis soalan, dan buka bilik bila-bila masa.</p>
+			<p>Akaun ibu bapa percuma. Daftar dengan e-mel dan tulis soalan. <a href="/keahlian">Lihat pelan keahlian</a> untuk permainan Premium.</p>
 			<a class="bar" href="/ibu-bapa">Ke ruang ibu bapa <span class="arrow"><Icon name="next" /></span></a>
 		</div>
 	</div>
@@ -180,7 +180,7 @@
 		<div class="postcard">
 			<div class="message">
 				<p class="sign">Jumpa di dataran!</p>
-				<p>DIDIK Main Bersama ialah tempat kanak-kanak bermain kuiz bersama kawan. Percuma, tanpa iklan dan tanpa akaun untuk kanak-kanak.</p>
+				<p>DIDIK Main Bersama ialah tempat kanak-kanak bermain kuiz bersama kawan. Ada pelan percuma, tanpa iklan dan tanpa akaun untuk kanak-kanak.</p>
 			</div>
 			<div class="address">
 				<span class="stamp" aria-hidden="true"><Didi mood="happy" size={54} /></span>

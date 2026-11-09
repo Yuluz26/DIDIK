@@ -18,7 +18,7 @@ from sqlalchemy.orm import Session
 from ..activity import zone
 from ..config import Settings
 from ..deps import get_db
-from . import api
+from . import api, membership
 from .auth import COOKIE, find_session
 from .socket import admin_socket
 
@@ -40,6 +40,7 @@ def mount_admin(app: FastAPI, settings: Settings) -> None:
     router = APIRouter(prefix=admin.prefix, include_in_schema=False)
     router.include_router(api.public)
     router.include_router(api.private)
+    router.include_router(membership.router)
 
     @router.get("")
     @router.get("/")

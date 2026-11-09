@@ -37,6 +37,95 @@ class User(Base):
     quizzes: Mapped[list[Quiz]] = relationship(back_populates="owner", cascade="all, delete-orphan")
 
 
+class ChildProfile(Base):
+    __tablename__ = "child_profiles"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    parent_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), index=True)
+    name: Mapped[str] = mapped_column(String(60))
+    school_year: Mapped[int | None] = mapped_column(SmallInteger, default=None)
+    selected: Mapped[bool] = mapped_column(Boolean, default=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+
+class PaidSubscription(Base):
+    __tablename__ = "paid_subscriptions"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    parent_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), index=True)
+    plan: Mapped[str] = mapped_column(String(12))
+    interval: Mapped[str] = mapped_column(String(8))
+    price_sen: Mapped[int] = mapped_column(Integer)
+    status: Mapped[str] = mapped_column(String(16), default="active", index=True)
+    starts_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+    expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), index=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+
+class MembershipGrant(Base):
+    __tablename__ = "membership_grants"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    parent_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), index=True)
+    plan: Mapped[str] = mapped_column(String(12))
+    status: Mapped[str] = mapped_column(String(16), default="active", index=True)
+    starts_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+    expires_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), default=None, index=True)
+    note: Mapped[str] = mapped_column(String(500), default="")
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+
+class EntitlementOverride(Base):
+    __tablename__ = "entitlement_overrides"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    parent_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), index=True)
+    feature: Mapped[str] = mapped_column(String(40))
+    enabled: Mapped[bool] = mapped_column(Boolean, default=True)
+    value_int: Mapped[int | None] = mapped_column(Integer, default=None)
+    starts_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+    expires_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), default=None)
+    note: Mapped[str] = mapped_column(String(500), default="")
+
+
+class PaymentRequest(Base):
+    __tablename__ = "payment_requests"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    parent_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), index=True)
+    reference: Mapped[str] = mapped_column(String(32), unique=True, index=True)
+    plan: Mapped[str] = mapped_column(String(12))
+    interval: Mapped[str] = mapped_column(String(8))
+    amount_sen: Mapped[int] = mapped_column(Integer)
+    status: Mapped[str] = mapped_column(String(16), default="pending", index=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+    reviewed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), default=None)
+    review_note: Mapped[str] = mapped_column(String(500), default="")
+    subscription_id: Mapped[int | None] = mapped_column(ForeignKey("paid_subscriptions.id"), default=None)
+
+
+class MembershipAudit(Base):
+    __tablename__ = "membership_audit"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    parent_id: Mapped[int | None] = mapped_column(ForeignKey("users.id", ondelete="SET NULL"), index=True)
+    actor: Mapped[str] = mapped_column(String(254))
+    action: Mapped[str] = mapped_column(String(40))
+    before: Mapped[dict[str, Any]] = mapped_column(JSON, default=dict)
+    after: Mapped[dict[str, Any]] = mapped_column(JSON, default=dict)
+    note: Mapped[str] = mapped_column(String(500), default="")
+    at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow, index=True)
+
+
+class BillingSettings(Base):
+    __tablename__ = "billing_settings"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    qr_image: Mapped[str | None] = mapped_column(String(200), default=None)
+    payee_name: Mapped[str] = mapped_column(String(120), default="")
+    instructions: Mapped[str] = mapped_column(String(500), default="")
+
+
 class AuthSession(Base):
     __tablename__ = "auth_sessions"
 

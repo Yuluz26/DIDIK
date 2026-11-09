@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+import asyncio
 from contextlib import asynccontextmanager
 from typing import Any
 from urllib.parse import urlparse
@@ -15,7 +16,7 @@ from sqlalchemy import text
 
 from .activity import AdminBus, NullBus
 from .admin import mount_admin
-from .api import auth, quizzes, rooms, uploads
+from .api import auth, membership, quizzes, rooms, uploads
 from .config import Settings, load_settings
 from .db import Database
 from .deps import malay_errors
@@ -23,6 +24,7 @@ from .game.manager import RoomManager
 from .game.socket import room_socket
 from .game.store import RoomStore
 from .mailer import Mailer
+from .membership import expire_records
 from .security import RateLimiter
 from .seed import seed, seed_library
 from .web import mount_web
@@ -121,6 +123,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         settings.data_dir.mkdir(parents=True, exist_ok=True)
         settings.upload_dir.mkdir(parents=True, exist_ok=True)
         database.create_all()
+        with database.sessions() as db:
+            expire_records(db)
         if isinstance(app.state.bus, AdminBus):
             app.state.bus.start()
         for warning in settings.warnings():
@@ -134,7 +138,18 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         # Rooms that were open when the server last stopped come back before the first connection.
         await app.state.rooms.restore()
         app.state.rooms.start()
+        async def expire_loop() -> None:
+            while True:
+                await asyncio.sleep(3600)
+                with database.sessions() as db:
+                    expire_records(db)
+        expiry_task = asyncio.create_task(expire_loop())
         yield
+        expiry_task.cancel()
+        try:
+            await expiry_task
+        except asyncio.CancelledError:
+            pass
         await app.state.rooms.shutdown()
         if isinstance(app.state.bus, AdminBus):
             await app.state.bus.stop()
@@ -170,7 +185,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             return JSONResponse({"ok": False, "database": False}, status_code=503, headers={"Cache-Control": "no-store"})
         return JSONResponse({"ok": True, "database": True, "rooms": len(app.state.rooms.by_code)}, headers={"Cache-Control": "no-store"})
 
-    for router in (auth.router, quizzes.router, uploads.router, rooms.router):
+    for router in (auth.router, membership.router, quizzes.router, uploads.router, rooms.router):
         app.include_router(router)
 
     @app.websocket("/ws/{key}")

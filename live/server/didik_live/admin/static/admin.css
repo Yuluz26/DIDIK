@@ -2407,3 +2407,11 @@ dialog.popup[open] {
 		background: var(--solid);
 	}
 }
+/* Membership management follows the control room's existing dark surfaces. */
+.member-tabs,.member-toolbar,.member-pagination,.member-payment>div{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;margin:1rem 0}
+.member-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:.75rem;margin:1.2rem 0}
+.member-stats>div,.member-payment,.member-form,.member-records,.member-detail-head{padding:1.1rem;border-radius:14px;background:var(--surface,#1d2838);border:1px solid rgb(255 255 255 / .08)}
+.member-stats small,.member-stats strong,.member-table small,.member-field span{display:block}.member-stats small,.member-table small{opacity:.72}.member-stats strong{font-size:1.35rem;margin-top:.25rem}
+.member-table{width:100%;border-collapse:collapse;text-align:left}.member-table th,.member-table td{padding:.85rem .6rem;border-bottom:1px solid rgb(255 255 255 / .1);vertical-align:middle}.member-table th{font-size:.8rem;opacity:.7}.member-table td strong{font-weight:700}
+.member-detail-head{display:flex;justify-content:space-between;gap:1rem;margin:1rem 0}.member-detail-head h2{margin:0}.member-detail-head p{margin:.3rem 0 0}.member-detail-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}.member-form{display:grid;gap:.7rem}.member-form h3{margin:.2rem 0}.member-field{display:grid;gap:.35rem}.member-field span{font-size:.85rem;font-weight:700}.member-form .input{width:100%;box-sizing:border-box}.member-records{margin-top:1rem}.member-records ul{padding-left:1.2rem}.member-records li{margin:.45rem 0;line-height:1.6}.member-records li button{margin-left:.6rem}.member-payment{margin:1rem 0}.member-payment h3{margin:0}.member-payment .input{width:min(100%,27rem)}.member-qr{display:block;width:min(220px,100%);margin:1rem 0;border-radius:10px}.member-info{line-height:1.55;opacity:.85}
+@media(max-width:800px){.member-table{display:block;overflow-x:auto}.member-detail-grid{grid-template-columns:1fr}.member-detail-head{flex-direction:column}}

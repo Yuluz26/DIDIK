@@ -17,6 +17,8 @@ from ..activity import aware, event_out, iso, notification_out
 from ..config import AdminSettings
 from ..deps import client_ip, get_db, limit
 from ..models import ActivityEvent, AdminNotification, AdminSession, AuthSession, Quiz, Upload, User
+from ..models import MembershipAudit
+from ..membership import current as membership_current
 from . import auth, stats
 from .auth import require_admin, settings_of
 
@@ -283,13 +285,19 @@ async def users_bulk(body: UserBulk, request: Request, db: Session = Depends(get
             rows = [u for u in rows if u.disabled_at is None]
             now = datetime.now(UTC)
             for user in rows:
+                before = membership_current(db, user)
                 user.disabled_at = now
+                db.add(MembershipAudit(parent_id=user.id, actor=settings_of(request).email, action="account.suspended",
+                                       before=before, after=membership_current(db, user), note="Operasi pukal"))
             if rows:
                 db.execute(delete(AuthSession).where(AuthSession.user_id.in_([u.id for u in rows])))
         elif body.action == "restore":
             rows = [u for u in rows if u.disabled_at is not None]
             for user in rows:
+                before = membership_current(db, user)
                 user.disabled_at = None
+                db.add(MembershipAudit(parent_id=user.id, actor=settings_of(request).email, action="account.restored",
+                                       before=before, after=membership_current(db, user), note="Operasi pukal"))
         else:
             if rows:
                 files = list(db.scalars(select(Upload.filename).where(Upload.owner_id.in_([u.id for u in rows]))))
@@ -346,8 +354,12 @@ async def update_user(user_id: int, body: UserPatch, request: Request, db: Sessi
         if body.name is not None:
             user.name = body.name
         if body.disabled is not None and (user.disabled_at is not None) != body.disabled:
+            before = membership_current(db, user)
             changed = body.disabled
             user.disabled_at = datetime.now(UTC) if body.disabled else None
+            db.add(MembershipAudit(parent_id=user.id, actor=settings_of(request).email,
+                                   action="account.suspended" if body.disabled else "account.restored",
+                                   before=before, after=membership_current(db, user)))
             if body.disabled:
                 db.execute(delete(AuthSession).where(AuthSession.user_id == user.id))
         db.commit()
