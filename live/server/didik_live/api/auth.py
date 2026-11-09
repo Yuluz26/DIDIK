@@ -11,8 +11,8 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
-from .. import passwords
-from ..deps import current_user, demo_allowed, end_session, get_db, limit, site_url, start_session
+from .. import passwords, verification
+from ..deps import current_user, demo_allowed, end_session, get_db, limit, require_user, site_url, start_session
 from ..models import User
 from ..security import DUMMY_PASSWORD_HASH, hash_password, verify_password
 from ..seed import DEMO_EMAIL, LIBRARY_EMAIL
@@ -79,7 +79,7 @@ class NewPassword(ResetLink):
 def user_out(user: User | None) -> dict | None:
     if user is None:
         return None
-    return {"id": user.id, "name": user.name, "email": user.email}
+    return {"id": user.id, "name": user.name, "email": user.email, "emailVerified": user.email_verified_at is not None}
 
 
 @router.get("/me")
@@ -90,7 +90,7 @@ def me(request: Request, user: User | None = Depends(current_user)) -> dict:
 
 
 @router.post("/register", status_code=201)
-def register(body: Register, request: Request, response: Response, db: Session = Depends(get_db)) -> dict:
+def register(body: Register, request: Request, response: Response, background: BackgroundTasks, db: Session = Depends(get_db)) -> dict:
     limit(request, "register", 20, 600)
     if db.scalar(select(User).where(func.lower(User.email) == body.email)):
         raise HTTPException(422, {"message": "Semak semula maklumat.", "errors": [
@@ -99,9 +99,35 @@ def register(body: Register, request: Request, response: Response, db: Session =
     user = User(name=body.name, email=body.email, password_hash=hash_password(body.password))
     db.add(user)
     db.commit()
+    if request.app.state.mailer.ready and request.app.state.settings.public_url:
+        token = verification.issue(db, user)
+        subject, text = verification.message(user.name, request.app.state.settings.public_url, token)
+        background.add_task(request.app.state.mailer.send, user.email, subject, text)
     start_session(request, response, db, user)
     request.app.state.bus.emit("user.signup", f"{user.name} mendaftar", userId=user.id, name=user.name, email=user.email)
     return {"user": user_out(user)}
+
+
+@router.post("/verify-email/send", status_code=202)
+def send_verification(request: Request, background: BackgroundTasks, user: User = Depends(require_user), db: Session = Depends(get_db)) -> dict:
+    limit(request, "verify-email", 3, 3600, key=str(user.id))
+    if user.email_verified_at is not None:
+        return {"message": "Emel sudah disahkan."}
+    if not request.app.state.mailer.ready or not request.app.state.settings.public_url:
+        raise HTTPException(503, "Pengesahan emel belum tersedia. Hubungi admin DIDIK.")
+    token = verification.issue(db, user)
+    subject, text = verification.message(user.name, request.app.state.settings.public_url, token)
+    background.add_task(request.app.state.mailer.send, user.email, subject, text)
+    return {"message": "Pautan pengesahan dihantar. Semak emel anda; pautan sah 24 jam."}
+
+
+@router.post("/verify-email")
+def verify_email(body: ResetLink, request: Request, db: Session = Depends(get_db)) -> dict:
+    limit(request, "verify-email-token", 20, 600)
+    user = verification.complete(db, body.token)
+    if user is None:
+        raise HTTPException(410, "Pautan pengesahan tamat tempoh atau sudah digunakan.")
+    return {"message": "Emel berjaya disahkan.", "user": user_out(user)}
 
 
 @router.post("/login")

@@ -2,6 +2,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { session } from '$lib/session.svelte';
+	import { api } from '$lib/api';
 	import DashShell from '$lib/parent/DashShell.svelte';
 	import { parent } from '$lib/parent/store.svelte';
 	import Kawaii from '$lib/parent/ui/Kawaii.svelte';
@@ -15,6 +16,13 @@
 
 	function password() {
 		session.emailHint = session.user?.email ?? '';
+	}
+	let verifyMessage = $state('');
+	async function sendVerification() {
+		try {
+			const result = await api.post<{ message: string }>('/api/auth/verify-email/send');
+			verifyMessage = result.message;
+		} catch (problem) { verifyMessage = problem instanceof Error ? problem.message : 'Emel tidak dapat dihantar.'; }
 	}
 </script>
 
@@ -34,6 +42,7 @@
 				<span class="face"><Kawaii seed={session.user.email} size={92} mood="happy" /></span>
 				<h2>{session.user.name}</h2>
 				<p class="mail">{session.user.email}</p>
+				{#if !session.user.emailVerified}<p>Emel belum disahkan.</p><button type="button" class="btn btn--plain" onclick={sendVerification}>Hantar pautan pengesahan</button>{#if verifyMessage}<p role="status">{verifyMessage}</p>{/if}{/if}
 				{#if session.demo}<p class="demo">Akaun demo untuk mencuba di komputer sendiri.</p>{/if}
 				<ul class="facts">
 					<li><strong>{parent.mine.length}</strong><span>kuiz</span></li>

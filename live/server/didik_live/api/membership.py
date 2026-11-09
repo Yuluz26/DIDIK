@@ -93,6 +93,8 @@ class CheckoutIn(BaseModel):
 @router.post("/checkout", status_code=201)
 def checkout(body: CheckoutIn, request: Request, user: User = Depends(require_user), db: Session = Depends(get_db)) -> dict:
     limit(request, "membership-checkout", 10, 3600, key=str(user.id))
+    if user.email_verified_at is None:
+        raise HTTPException(403, "Sahkan emel akaun dahulu sebelum membuat bayaran. Buka Akaun saya untuk menghantar pautan.")
     billing = db.get(BillingSettings, 1)
     if billing is None or not billing.qr_image:
         raise HTTPException(503, "Pembayaran QR belum tersedia. Cuba lagi kemudian.")

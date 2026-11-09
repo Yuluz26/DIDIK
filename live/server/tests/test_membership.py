@@ -9,6 +9,7 @@ from PIL import Image
 from sqlalchemy import select
 
 from didik_live.membership import PRICES, current
+from didik_live import verification
 from didik_live.models import BillingSettings, MembershipAudit, MembershipGrant, PaidSubscription, PaymentRequest, User
 
 from .test_admin import P, OWNER, outbox, sign_in, site  # noqa: F401
@@ -50,6 +51,11 @@ def test_admin_grant_expiry_and_paid_overlap(site):
 
 def test_manual_qr_review_is_single_use(site):
     user_id = register(site)
+    assert site.post("/api/membership/checkout", json={"plan": "family", "interval": "yearly"}).status_code == 403
+    with site.app.state.db.sessions() as db:
+        token = verification.issue(db, db.get(User, user_id))
+    assert site.post("/api/auth/verify-email", json={"token": token}).status_code == 200
+    assert site.post("/api/auth/verify-email", json={"token": token}).status_code == 410
     with site.app.state.db.sessions() as db:
         db.add(BillingSettings(id=1, qr_image="test.png", payee_name="DIDIK"))
         db.commit()

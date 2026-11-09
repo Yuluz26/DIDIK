@@ -6,6 +6,8 @@ Harga rasmi disimpan dalam `server/didik_live/membership.py` dalam sen: Free RM0
 
 Pembayaran QR ialah proses manual. Pemilik memuat naik PNG QR dan nama penerima di **Bilik kawalan → Keahlian → Tetapan QR**. Selagi QR belum disediakan, butang memilih pelan berbayar dilumpuhkan. Ibu bapa memilih pelan dan tempoh, mendapat rujukan unik, membayar jumlah tepat, lalu menghantar bukti ke WhatsApp `+60139558132`. Permintaan kekal `pending` sehingga pemilik menyemak bukti dan menekan **Sahkan bayaran**. Hanya semakan itu mencipta tempoh langganan berbayar. Permintaan yang telah disemak tidak boleh disahkan kali kedua.
 
+Akaun baharu menerima pautan pengesahan emel sekali guna apabila SMTP tersedia. Pemilik akaun boleh meminta pautan semula dari **Akaun saya**. Emel perlu disahkan sebelum permintaan bayaran QR boleh dibuat.
+
 QR disimpan di `DIDIK_DATA_DIR/billing/` dan disertakan dalam sandaran. Sandaran pangkalan data mesti dibuat sebelum deploy. Jangan letak QR atau bukti bayaran dalam repo.
 
 ## Keahlian dan akses
@@ -18,4 +20,4 @@ Profil anak dimiliki akaun ibu bapa. Free/Premium membenarkan satu profil baharu
 
 ## Had pelaksanaan semasa
 
-Projek produksi DIDIK Live menggunakan FastAPI dan SvelteKit; aplikasi Laravel dalam repo ini ialah laman kuiz berasingan dan tidak berkongsi sesi atau pengguna dengan DIDIK Live. Keahlian ini berkuat kuasa pada DIDIK Live. Pengesahan emel, laporan kemajuan pembelajaran terperinci setiap anak, dan pengelasan kandungan Tahun 4/5/6 belum disambungkan kepada sumber data permainan sedia ada. Jangan mengiklankan ciri tersebut sebagai tersedia sehingga aliran data dan ujian lengkap. Tiada integrasi gateway atau caj automatik.
+Projek produksi DIDIK Live menggunakan FastAPI dan SvelteKit; aplikasi Laravel dalam repo ini ialah laman kuiz berasingan dan tidak berkongsi sesi atau pengguna dengan DIDIK Live. Keahlian ini berkuat kuasa pada DIDIK Live. Laporan kemajuan pembelajaran terperinci setiap anak dan pengelasan kandungan Tahun 4/5/6 belum disambungkan kepada sumber data permainan sedia ada. Jangan mengiklankan ciri tersebut sebagai tersedia sehingga aliran data dan ujian lengkap. Tiada integrasi gateway atau caj automatik.
