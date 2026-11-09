@@ -267,6 +267,20 @@ def test_garden_economy() -> None:
         for _ in range(5):
             room.handle_player(kid, {"t": "buy", "item": "tanah"})
         assert len(g["plots"]) == 9
+
+        # Every new flower is plantable, grows through its watering stages, and pays out.
+        g["water"] = 20
+        for flower in ("daisi", "tulip", "matahari", "orkid"):
+            info = mode.world_view(kid)["crops"][flower]
+            before = g["coins"]
+            room.handle_player(kid, {"t": "plant", "plot": 0, "crop": flower})
+            assert g["plots"][0] == {"crop": flower, "stage": 0}
+            assert g["coins"] == before - info["cost"]
+            for _ in range(info["water"]):
+                room.handle_player(kid, {"t": "water", "plot": 0})
+            room.handle_player(kid, {"t": "harvest", "plot": 0})
+            assert g["plots"][0] is None
+            assert g["coins"] == before - info["cost"] + info["value"]
         room.close()
 
     run(scenario())

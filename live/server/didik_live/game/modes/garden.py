@@ -13,6 +13,10 @@ from .base import Seat, SelfPacedMode
 
 CROPS = {
     "bunga": {"name": "Bunga Raya", "cost": 0, "water": 2, "value": 15},
+    "daisi": {"name": "Bunga Daisi", "cost": 5, "water": 2, "value": 22},
+    "tulip": {"name": "Bunga Tulip", "cost": 12, "water": 2, "value": 30},
+    "matahari": {"name": "Bunga Matahari", "cost": 18, "water": 3, "value": 48},
+    "orkid": {"name": "Bunga Orkid", "cost": 28, "water": 3, "value": 70},
     "cili": {"name": "Cili", "cost": 10, "water": 3, "value": 35},
     "jagung": {"name": "Jagung", "cost": 20, "water": 3, "value": 55},
     "tembikai": {"name": "Tembikai", "cost": 35, "water": 4, "value": 100},

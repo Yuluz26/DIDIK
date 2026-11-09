@@ -28,13 +28,13 @@ function leafAt(p: Pix, x: number, y: number, dir: number, len: number, tone = 0
 }
 
 function bunga(p: Pix, cx: number, base: number, t: number, ready: boolean) {
-	const h = 8 + Math.round(t * 20);
+	const h = 8 + Math.round(t * 12);
 	p.vline(cx, base - h, h, stalk.c[2], stalk.ink);
 	leafAt(p, cx, base - h * 0.35, -1, 4 + t * 4, 0.2);
 	leafAt(p, cx, base - h * 0.5, 1, 4 + t * 4, -0.2);
 	if (t > 0.7) leafAt(p, cx, base - h * 0.8, -1, 3 + t * 3, 0.3);
 	if (ready) {
-		for (const [dx, dy, r] of [[0, -h - 3, 4.4], [-7, -h * 0.55, 3.2]] as const) {
+		for (const [dx, dy, r] of [[0, -h - 1, 4.4], [-6, -h * 0.55, 3.2]] as const) {
 			for (let a = 0; a < 5; a++) {
 				const ang = (a * 72 * Math.PI) / 180;
 				p.blob(cx + dx + Math.sin(ang) * r * 0.62, base + dy - Math.cos(ang) * r * 0.62, r * 0.55, r * 0.55, M.red, { rim: true, bias: 0.4 });
@@ -43,6 +43,69 @@ function bunga(p: Pix, cx: number, base: number, t: number, ready: boolean) {
 			p.set(cx + dx + 1, base + dy - 1, M.gold.c[4]);
 		}
 	} else p.blob(cx, base - h - 2, 2, 3, leaf, { rim: true });
+}
+
+/** Four flower silhouettes, each shaded with the same upper-left light as the garden scenery. */
+function flowerStem(p: Pix, cx: number, base: number, h: number) {
+	p.vline(cx, base - h, h, stalk.c[2], stalk.ink);
+	p.vline(cx + 1, base - h + 3, h - 4, stalk.c[3]);
+	leafAt(p, cx, base - 6, -1, 4, 0.2);
+	leafAt(p, cx, base - 11, 1, 4, -0.1);
+}
+
+function daisi(p: Pix, cx: number, base: number, t: number, ready: boolean) {
+	const h = 8 + Math.round(t * 12);
+	flowerStem(p, cx, base, h);
+	if (!ready) { p.blob(cx, base - h, 2.2, 2.6, M.cream, { rim: true }); return; }
+	const cy = base - h - 1;
+	for (let i = 0; i < 8; i++) {
+		const a = (i * Math.PI) / 4;
+		p.blob(cx + Math.sin(a) * 4, cy - Math.cos(a) * 4, 2, 2.7, M.cream, { rim: true, angle: -a });
+	}
+	p.blob(cx, cy, 2.8, 2.8, M.gold, { rim: true });
+	p.set(cx - 1, cy - 1, M.gold.c[4]);
+}
+
+function tulip(p: Pix, cx: number, base: number, t: number, ready: boolean) {
+	const h = 8 + Math.round(t * 10);
+	flowerStem(p, cx, base, h);
+	if (!ready) { p.blob(cx, base - h, 2.3, 3, M.pink, { rim: true }); return; }
+	const y = base - h;
+	p.poly([[cx - 5, y - 7], [cx - 2, y - 5], [cx, y - 8], [cx + 2, y - 5], [cx + 5, y - 7], [cx + 4, y], [cx, y + 2], [cx - 4, y]], M.pink.c[1], M.pink.ink);
+	p.blob(cx - 2, y - 3, 2.2, 4, M.pink, { rim: true, bias: 0.5 });
+	p.blob(cx + 2, y - 3, 2.2, 4, M.violet, { rim: true, bias: 0.4 });
+	p.vline(cx - 2, y - 5, 3, M.pink.c[4]);
+	p.vline(cx + 1, y - 6, 3, M.violet.c[4]);
+	p.poly([[cx - 4, y], [cx, y + 3], [cx + 4, y]], leaf.c[2], leaf.ink);
+}
+
+function matahari(p: Pix, cx: number, base: number, t: number, ready: boolean) {
+	const h = 8 + Math.round(t * 10);
+	flowerStem(p, cx, base, h);
+	if (!ready) { p.blob(cx, base - h, 2.7, 3, M.sun, { rim: true }); return; }
+	const cy = base - h - 1;
+	for (let i = 0; i < 10; i++) {
+		const a = (i * Math.PI) / 5;
+		p.blob(cx + Math.sin(a) * 4.5, cy - Math.cos(a) * 4.5, 2.1, 2.7, M.sun, { rim: true, angle: -a });
+	}
+	p.blob(cx, cy, 3.2, 3.2, M.bark, { rim: true, bias: -0.2 });
+	p.set(cx - 1, cy - 1, M.gold.c[3]);
+	p.set(cx + 1, cy, M.gold.c[2]);
+}
+
+function orkid(p: Pix, cx: number, base: number, t: number, ready: boolean) {
+	const h = 8 + Math.round(t * 10);
+	flowerStem(p, cx, base, h);
+	p.line(cx, base - h * 0.55, cx + 5, base - h * 0.72, stalk.c[2], stalk.ink);
+	if (!ready) { p.blob(cx, base - h, 2, 3, M.violet, { rim: true }); return; }
+	for (const [dx, dy, r] of [[0, -h - 1, 3.8], [5, -h * 0.72, 2.9]] as const) {
+		const x = cx + dx, y = base + dy;
+		p.blob(x - r, y - 1, r * 0.7, r * 0.85, M.violet, { rim: true, bias: 0.3 });
+		p.blob(x + r, y - 1, r * 0.7, r * 0.85, M.violet, { rim: true, bias: 0.4 });
+		p.blob(x, y - r, r * 0.75, r * 0.75, M.pink, { rim: true, bias: 0.5 });
+		p.blob(x, y + 1, r * 0.8, r * 0.75, M.cream, { rim: true });
+		p.set(x, y, M.gold.c[3]);
+	}
 }
 
 function cili(p: Pix, cx: number, base: number, t: number, ready: boolean) {
@@ -64,7 +127,7 @@ function cili(p: Pix, cx: number, base: number, t: number, ready: boolean) {
 }
 
 function jagung(p: Pix, cx: number, base: number, t: number, ready: boolean) {
-	const h = 10 + Math.round(t * 24);
+	const h = 10 + Math.round(t * 14);
 	p.vline(cx, base - h, h, stalk.c[3], stalk.ink);
 	p.vline(cx + 1, base - h, h, stalk.c[2], stalk.ink);
 	for (const [f, dir] of [[0.25, -1], [0.45, 1], [0.65, -1], [0.8, 1]] as const) {
@@ -97,9 +160,9 @@ function tembikai(p: Pix, cx: number, base: number, t: number, ready: boolean) {
 }
 
 function durian(p: Pix, cx: number, base: number, t: number, ready: boolean) {
-	const h = 10 + Math.round(t * 12);
+	const h = 8 + Math.round(t * 8);
 	p.cyl(cx - 2, base - h, 4, h, M.bark);
-	const r = 6 + t * 7;
+	const r = 5 + t * 5;
 	p.blob(cx, base - h - r * 0.5, r, r * 0.9, leaf, { rim: true, bias: -0.5 });
 	p.blob(cx - r * 0.55, base - h - r * 0.25, r * 0.6, r * 0.55, leaf, { rim: true, bias: -0.2 });
 	p.blob(cx + r * 0.55, base - h - r * 0.3, r * 0.6, r * 0.55, leaf, { rim: true, bias: -0.3 });
@@ -115,7 +178,7 @@ function durian(p: Pix, cx: number, base: number, t: number, ready: boolean) {
 	}
 }
 
-const MAKE: Record<string, (p: Pix, cx: number, base: number, t: number, ready: boolean) => void> = { bunga, cili, jagung, tembikai, durian };
+const MAKE: Record<string, (p: Pix, cx: number, base: number, t: number, ready: boolean) => void> = { bunga, daisi, tulip, matahari, orkid, cili, jagung, tembikai, durian };
 
 /** A crop at a growth stage: 0 a sprout, 1 young, 2 grown, 3 ready. The foot is the bottom centre. */
 export function cropSheet(crop: string, stage: 0 | 1 | 2 | 3) {
@@ -169,12 +232,25 @@ export function bedSheet(locked: boolean) {
 		p.hline(1, 12, 44, M.plank.c[4], M.plank.ink);
 		p.rect(1, 14, 3, 15, M.plank.c[3], M.plank.ink);
 		p.rect(42, 14, 3, 15, M.plank.c[2], M.plank.ink);
-		p.rect(1, 28, 44, 8, M.plank.c[2], M.plank.ink);
-		p.hline(1, 28, 44, M.plank.c[4], M.plank.ink);
-		p.hline(1, 32, 44, M.plank.c[1]);
-		p.hline(1, 35, 44, M.plank.c[1]);
-		for (const x of [12, 23, 34]) p.vline(x, 28, 8, M.plank.c[1]);
+		paintBedFront(p);
 		return sheetOf(p.outline());
+	});
+}
+
+function paintBedFront(p: Pix) {
+	p.rect(1, 28, 44, 8, M.plank.c[2], M.plank.ink);
+	p.hline(1, 28, 44, M.plank.c[4], M.plank.ink);
+	p.hline(1, 32, 44, M.plank.c[1]);
+	p.hline(1, 35, 44, M.plank.c[1]);
+	for (const x of [12, 23, 34]) p.vline(x, 28, 8, M.plank.c[1]);
+}
+
+/** Drawn in front of crops so their roots sit in the soil, behind the wooden lip. */
+export function bedFrontSheet() {
+	return memo('bed-front', () => {
+		const p = new Pix(BED.w, BED.h);
+		paintBedFront(p);
+		return sheetOf(p);
 	});
 }
 
