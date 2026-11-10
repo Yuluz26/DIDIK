@@ -10,7 +10,8 @@
 	import Sticker from '$ui/Sticker.svelte';
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	let { game, people }: { game: any; people: Map<string, Person> } = $props();
+	let { game, people, modeKey }: { game: any; people: Map<string, Person>; modeKey: string } = $props();
+	const theme = $derived(modeKey === 'interaktif-sains' ? 'sains' : modeKey === 'interaktif-sejarah' ? 'sejarah' : modeKey === 'interaktif-islam' ? 'islam' : 'umum');
 
 	interface Kid {
 		id: string;
@@ -28,7 +29,7 @@
 	const sum = (list: number[]) => list.reduce((a, b) => a + b, 0);
 </script>
 
-<section class="class-trail" aria-labelledby="ik-host-title">
+<section class="class-trail" data-theme={theme} aria-labelledby="ik-host-title">
 	<header>
 		<h2 id="ik-host-title">Denai Didi</h2>
 		<p><strong>{finished}</strong> daripada {kids.length} sudah sampai ke hujung · {total} soalan</p>
@@ -65,13 +66,19 @@
 
 <style>
 	.class-trail {
+		--host-surface: #edf4ed;
+		--host-ink: #21534b;
+		--host-accent: #8fbaaa;
 		display: grid;
 		gap: 0.8rem;
 		padding: 1.1rem 1.2rem;
-		border-radius: 26px;
-		background: linear-gradient(180deg, #fff0f7, #f1ecff 50%, #e9f8ff);
-		box-shadow: 0 5px 0 #e6dbf6;
+		border-radius: 18px;
+		background: var(--host-surface);
+		box-shadow: 0 12px 28px rgb(35 42 36 / 0.15);
 	}
+	.class-trail[data-theme='sains'] { --host-surface: #dfeff0; --host-ink: #145d63; --host-accent: #8bbfc1; }
+	.class-trail[data-theme='sejarah'] { --host-surface: #f1e5d1; --host-ink: #73451f; --host-accent: #c7a370; }
+	.class-trail[data-theme='islam'] { --host-surface: #e4efdf; --host-ink: #285c45; --host-accent: #9abd9b; }
 	header {
 		display: flex;
 		flex-wrap: wrap;
@@ -81,15 +88,15 @@
 	}
 	h2 {
 		font: 600 1.5rem 'Fredoka Variable', ui-rounded, sans-serif;
-		color: #5b3e99;
+		color: var(--host-ink);
 	}
 	header p {
-		color: #5a4d70;
+		color: var(--host-ink);
 		font-weight: 800;
 	}
 	.empty {
 		padding: 1.5rem;
-		color: #5a4d70;
+		color: var(--host-ink);
 		font-weight: 800;
 		text-align: center;
 	}
@@ -106,13 +113,13 @@
 		align-items: center;
 		gap: 0.8rem;
 		padding: 0.35rem 0.8rem 0.35rem 0.35rem;
-		border-radius: 999px;
+		border-radius: 12px;
 		background: #fff;
-		box-shadow: 0 3px 0 #ece3f8;
+		box-shadow: 0 3px 10px rgb(35 42 36 / 0.1);
 	}
 	.lane.done {
 		background: #fffbe6;
-		box-shadow: 0 3px 0 #f1d98b;
+		box-shadow: 0 3px 10px rgb(35 42 36 / 0.12);
 	}
 	.who {
 		display: flex;
@@ -128,7 +135,7 @@
 		height: 2.3rem;
 		overflow: hidden;
 		border-radius: 50%;
-		background: #f5ecff;
+		background: var(--host-surface);
 	}
 	.name {
 		overflow: hidden;
@@ -145,7 +152,7 @@
 		display: block;
 		height: 0.8rem;
 		border-radius: 999px;
-		background: #ede6f6;
+		background: var(--host-accent);
 	}
 	.stop.s3 {
 		background: #ffc93c;
@@ -174,7 +181,7 @@
 		display: flex;
 		flex-wrap: wrap;
 		gap: 0.4rem 1rem;
-		color: #5a4d70;
+		color: var(--host-ink);
 		font-size: 0.85rem;
 		font-weight: 800;
 	}

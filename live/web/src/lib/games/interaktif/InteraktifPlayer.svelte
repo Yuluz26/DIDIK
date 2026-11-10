@@ -1,16 +1,16 @@
-<!--
-	Kuiz Interaktif on a child's screen. A candy-floss sky, Didi's cloud trail along the top, and one
-	question at a time on a soft card: tap, drag, sort or spell, then Semak. After each answer Didi reacts,
+﻿<!--
+	Kuiz Interaktif on a child's screen. A themed learning table, Didi's trail along the top, and one
+	question at a time on a clear work surface: tap, drag, sort or spell, then Semak. After each answer Didi reacts,
 	the stars earned pop in (three for right, fewer for nearly right) and, when it was not right, the right
 	answer is shown on the spot. At the end of the trail: a celebration and the stars collected, while the
 	others finish.
 
 	Everything here is the room's own state from the server (the seat and the trail); nothing is decided in
-	the browser. The look is soft and rounded on purpose: the game screens' pixel frame is set aside here.
+	the browser. The photographic backgrounds are quiet around the working area so controls stay legible.
 -->
 <script lang="ts">
 	import { fly, scale } from 'svelte/transition';
-	import { backOut } from 'svelte/easing';
+	import { cubicOut } from 'svelte/easing';
 	import type { RoomClient } from '$lib/room.svelte';
 	import type { Me, Person, PublicQuestion } from '$lib/types';
 	import { play } from '$lib/sound';
@@ -26,22 +26,26 @@
 	import DiagramFigure from '$ui/DiagramFigure.svelte';
 	import { isDiagram } from '$lib/diagrams';
 	import Timer from '$ui/Timer.svelte';
-	import CloudSky from './CloudSky.svelte';
 	import DidiSoft, { type DidiMood } from './DidiSoft.svelte';
 	import Trail from './Trail.svelte';
 	import TopThree from '../TopThree.svelte';
+	import { gameOf } from '$lib/subjects/games';
 
 	let {
 		client,
 		game,
 		me,
-		people
+		people,
+		modeKey,
+		modeTitle
 	}: {
 		client: RoomClient;
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		game: any;
 		me: Me;
 		people: Map<string, Person>;
+		modeKey: string;
+		modeTitle: string;
 	} = $props();
 
 	const seat = $derived(game.seat ?? {});
@@ -51,6 +55,8 @@
 	const stars = $derived<number[]>(world.stars ?? []);
 	const starSum = $derived(stars.reduce((a, b) => a + b, 0));
 	const question = $derived(seat.question as PublicQuestion | undefined);
+	const activity = $derived(gameOf(question?.game));
+	const theme = $derived(modeKey === 'interaktif-sains' ? 'sains' : modeKey === 'interaktif-sejarah' ? 'sejarah' : modeKey === 'interaktif-islam' ? 'islam' : 'umum');
 	const result = $derived(seat.result);
 	const number = $derived(step === 'question' ? stars.length + 1 : stars.length);
 	const paused = $derived(!!game.clock?.paused);
@@ -124,8 +130,8 @@
 	});
 </script>
 
-<div class="ik">
-	<CloudSky mood={step === 'done' ? 'party' : 'day'} />
+<div class="ik" data-theme={theme}>
+	<div class="room-scene" aria-hidden="true"></div>
 
 	<header class="top">
 		<span class="me">
@@ -133,11 +139,12 @@
 			<strong>{me.name}</strong>
 		</span>
 		<div class="trail-wrap">
+			<span class="room-title">{modeTitle}</span>
 			{#if total}<Trail {total} {stars} done={step === 'done'} />{/if}
 		</div>
 		<span class="tally" aria-label="{starSum} bintang">
 			<Sticker key="bintang" size={26} alt="" eager />
-			{#key starSum}<strong in:scale={{ start: 1.6, duration: 380, easing: backOut }}>{starSum}</strong>{/key}
+			{#key starSum}<strong in:scale={{ start: 1.6, duration: 380, easing: cubicOut }}>{starSum}</strong>{/key}
 		</span>
 		<span class="tools">
 			<FullscreenToggle />
@@ -150,11 +157,11 @@
 
 	{#if game.stage === 'intro'}
 		<main class="stage center">
-			<div class="intro card" in:scale={{ start: 0.8, duration: 500, easing: backOut }}>
+			<div class="intro card" in:scale={{ start: 0.8, duration: 500, easing: cubicOut }}>
 				<DidiSoft mood="wave" size={120} />
 				<p class="hello">Jom main bersama Didi!</p>
 				{#key count}
-					<span class="count" aria-live="assertive" in:scale={{ start: 1.8, duration: 420, easing: backOut }}>{count > 0 ? count : 'Mula!'}</span>
+					<span class="count" aria-live="assertive" in:scale={{ start: 1.8, duration: 420, easing: cubicOut }}>{count > 0 ? count : 'Mula!'}</span>
 				{/key}
 			</div>
 		</main>
@@ -163,9 +170,15 @@
 
 		<main class="stage">
 			{#key `${step}-${seat.answered ?? 0}`}
-				<div class="slide" in:fly={{ y: 36, duration: 460, easing: backOut, delay: 120 }}>
+				<div class="slide" in:fly={{ y: 36, duration: 460, easing: cubicOut, delay: 120 }}>
 					{#if step === 'question' && question}
-						<section class="card qcard" aria-labelledby="ik-prompt">
+						<section class="card qcard" class:subject={theme !== 'umum'} aria-labelledby="ik-prompt">
+							{#if activity}
+								<div class="activity-head">
+									<span class="activity-icon"><Sticker key={activity.icon} size={48} alt="" eager /></span>
+									<div><span class="activity-subject">{modeTitle}</span><strong>{activity.title}</strong><p>{activity.blurb}</p></div>
+								</div>
+							{/if}
 							<div class="meta">
 								<span class="chip num">Soalan {number}<small>/{total}</small></span>
 								<span class="chip kind">{question.label}</span>
@@ -228,7 +241,7 @@
 							</p>
 						</section>
 					{:else}
-						<section class="card center-card"><DidiSoft mood="wave" size={110} /><p class="wait">Didi sedang menyediakan soalan kamu…</p></section>
+						<section class="card center-card"><DidiSoft mood="wave" size={110} /><p class="wait">Didi sedang menyediakan soalan kamuâ€¦</p></section>
 					{/if}
 				</div>
 			{/key}
@@ -249,7 +262,7 @@
 <style>
 	/* The soft, rounded set of the game screens' own variables, for everything inside. */
 	.ik {
-		--edge: #d9c8f0;
+		--edge: #c9c1ad;
 		--r-sm: 12px;
 		--r-md: 18px;
 		--r-lg: 26px;
@@ -257,12 +270,43 @@
 		--font-display: 'Fredoka Variable', ui-rounded, system-ui, sans-serif;
 		--lift: 0 5px 0 var(--edge);
 		--lift-low: 0 4px 0 var(--edge);
-		--card-shadow: 0 6px 0 #e6dbf6, 0 18px 40px rgb(110 80 160 / 0.14);
-		--ik-ink: #2c2340;
+		--card-shadow: 0 14px 32px rgb(38 38 31 / 0.17);
+		--ik-ink: #29322e;
+		--theme-ink: #21534b;
+		--theme-soft: #e5f1ec;
+		--header-surface: rgb(247 250 246 / 0.96);
+		--scene: url('/interaktif/studio.webp');
 		position: relative;
 		min-height: 100dvh;
 		color: var(--ik-ink);
 		isolation: isolate;
+	}
+	.ik[data-theme='sains'] {
+		--theme-ink: #145d63;
+		--theme-soft: #e4f3f3;
+		--header-surface: rgb(240 250 250 / 0.96);
+	}
+	.ik[data-theme='sejarah'] {
+		--scene: url('/interaktif/sejarah.webp');
+		--theme-ink: #73451f;
+		--theme-soft: #f5ead8;
+		--header-surface: rgb(251 245 234 / 0.96);
+	}
+	.ik[data-theme='islam'] {
+		--scene: url('/interaktif/islam.webp');
+		--theme-ink: #285c45;
+		--theme-soft: #e7f2e7;
+		--header-surface: rgb(247 249 239 / 0.96);
+	}
+	.room-scene {
+		position: fixed;
+		inset: 0;
+		z-index: 0;
+		overflow: hidden;
+		pointer-events: none;
+		background-image: linear-gradient(rgb(255 255 255 / 0.1), rgb(255 255 255 / 0.1)), var(--scene);
+		background-size: cover;
+		background-position: center;
 	}
 	.top,
 	.stage,
@@ -279,7 +323,8 @@
 		align-items: center;
 		gap: 0.6rem;
 		padding: calc(0.5rem + env(safe-area-inset-top, 0px)) var(--gutter-r) 0.5rem var(--gutter);
-		background: linear-gradient(180deg, rgb(255 240 248 / 0.96), rgb(255 240 248 / 0.8) 70%, rgb(255 240 248 / 0));
+		background: var(--header-surface);
+		box-shadow: 0 4px 16px rgb(32 37 32 / 0.12);
 	}
 	/* a blur over a moving page is costly on a phone; only bigger screens get it */
 	@media (min-width: 900px) {
@@ -314,6 +359,12 @@
 	}
 	.trail-wrap {
 		min-width: 0;
+	}
+	.room-title {
+		display: block;
+		padding-left: 0.6rem;
+		color: var(--theme-ink);
+		font: 600 0.8rem/1 var(--font-display);
 	}
 	.tally {
 		display: inline-flex;
@@ -351,12 +402,49 @@
 		display: grid;
 		gap: 1rem;
 		padding: clamp(1rem, 0.6rem + 2vw, 1.6rem);
-		border-radius: 30px;
-		background: #fff;
-		box-shadow:
-			0 7px 0 #e6dbf6,
-			0 22px 46px rgb(110 80 160 / 0.16),
-			inset 0 -4px 0 rgb(240 232 252 / 0.9);
+		border-radius: 22px;
+		background: linear-gradient(155deg, #fffef9, #f8f7f0);
+		box-shadow: 0 3px 4px rgb(35 42 36 / 0.06), 0 24px 55px rgb(35 42 36 / 0.23);
+	}
+	.qcard {
+		width: 100%;
+		border-top: 5px solid var(--theme-ink);
+	}
+	.activity-head {
+		display: flex;
+		align-items: center;
+		gap: 0.9rem;
+		padding: 0.65rem 0.8rem;
+		border-radius: 14px;
+		background: var(--theme-soft);
+	}
+	.activity-icon {
+		display: grid;
+		place-items: center;
+		flex: none;
+		width: 4rem;
+		height: 4rem;
+		border-radius: 12px;
+		background: rgb(255 255 255 / 0.75);
+		box-shadow: 0 4px 10px rgb(32 37 32 / 0.12);
+	}
+	.activity-head div { min-width: 0; }
+	.activity-subject {
+		display: block;
+		color: var(--theme-ink);
+		font-size: 0.78rem;
+		font-weight: 800;
+	}
+	.activity-head strong {
+		display: block;
+		font: 600 1.2rem/1.15 var(--font-display);
+	}
+	.activity-head p { margin: 0.2rem 0 0; font-size: 0.9rem; line-height: 1.3; }
+	.answer {
+		padding: 0.7rem;
+		border-radius: 17px;
+		background: linear-gradient(145deg, rgb(233 238 229 / 0.8), rgb(247 247 240 / 0.85));
+		box-shadow: inset 0 2px 5px rgb(34 45 38 / 0.1);
 	}
 	.intro {
 		justify-items: center;
@@ -393,16 +481,16 @@
 		font: 600 0.92rem var(--font-display);
 	}
 	.chip.num {
-		background: linear-gradient(135deg, #ff7eb0, #ff9f6e);
+		background: var(--theme-ink);
 		color: #fff;
-		box-shadow: 0 3px 0 #d9567f;
+		box-shadow: 0 3px 8px rgb(32 37 32 / 0.2);
 	}
 	.chip.num small {
 		opacity: 0.85;
 	}
 	.chip.kind {
-		background: #efe6ff;
-		color: #5b3e99;
+		background: var(--theme-soft);
+		color: var(--theme-ink);
 	}
 	.listen {
 		display: inline-flex;
@@ -413,15 +501,21 @@
 		padding: 0 0.95rem;
 		border: 0;
 		border-radius: 999px;
-		background: #dff3ff;
-		color: #1d5a99;
+		background: #e8f2ed;
+		color: #18554a;
 		font: 600 0.95rem var(--font-display);
-		box-shadow: 0 3px 0 #a9d5f5;
+		box-shadow: 0 3px 9px rgb(31 76 64 / 0.16);
 		cursor: pointer;
+	}
+	.listen:hover { background: #d4e9e0; }
+	.listen:focus-visible,
+	.qcard :global(button:focus-visible) {
+		outline: 3px solid #236fcd;
+		outline-offset: 3px;
 	}
 	.listen:active {
 		transform: translateY(2px);
-		box-shadow: 0 1px 0 #a9d5f5;
+		box-shadow: 0 1px 4px rgb(31 76 64 / 0.14);
 	}
 	.prompt {
 		font: 600 clamp(1.35rem, 1.05rem + 1.5vw, 2rem) / 1.25 var(--font-display);
@@ -439,8 +533,8 @@
 		width: 7.4rem;
 		height: 7.4rem;
 		border-radius: 50%;
-		background: radial-gradient(circle at 50% 40%, #fff 0 45%, #fff1f8 72%, #ffe4f1);
-		box-shadow: 0 5px 0 #f7d9e8;
+		background: radial-gradient(circle at 45% 30%, #fff 0 35%, #e9f2e8 80%);
+		box-shadow: 0 10px 22px rgb(35 42 36 / 0.15);
 		animation: float-pic 3.4s ease-in-out infinite;
 	}
 	@keyframes float-pic {
@@ -462,7 +556,8 @@
 		max-width: 100%;
 		max-height: 30vh;
 		justify-self: center;
-		border-radius: 20px;
+		border-radius: 12px;
+		box-shadow: 0 10px 24px rgb(30 40 32 / 0.18);
 		object-fit: contain;
 	}
 	/* the answer tiles in the soft palette: pastel with dark words */
@@ -470,10 +565,10 @@
 	.reveal :global(.tiles .tile) {
 		--on: var(--ik-ink);
 		border: 3px solid var(--shade);
-		border-radius: 22px;
+		border-radius: 15px;
 		box-shadow:
-			0 6px 0 var(--shade),
-			0 12px 20px rgb(110 80 160 / 0.12);
+			0 5px 12px rgb(40 45 38 / 0.17),
+			inset 0 2px 2px rgb(255 255 255 / 0.68);
 	}
 	.answer :global(.tiles .tile.t0),
 	.reveal :global(.tiles .tile.t0) {
@@ -520,7 +615,7 @@
 		text-align: center;
 	}
 	.rcard.right {
-		background: linear-gradient(180deg, #fffbe8, #fff 45%);
+		background: linear-gradient(180deg, #fff9df, #fffef8 45%);
 	}
 	.react {
 		display: flex;
@@ -551,7 +646,7 @@
 		font: 600 clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem) / 1.1 var(--font-display);
 	}
 	.rcard.right .title {
-		color: #d9467f;
+		color: var(--theme-ink);
 	}
 	.line {
 		font-weight: 800;
@@ -566,7 +661,7 @@
 	}
 	.star.got {
 		filter: none;
-		animation: star-in 520ms var(--spring) both;
+		animation: star-in 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
 		animation-delay: calc(400ms + var(--i) * 220ms);
 	}
 	.star:nth-child(2) {
@@ -598,7 +693,7 @@
 	}
 	.done h1 {
 		font: 600 clamp(1.8rem, 1.3rem + 2vw, 2.6rem) / 1.1 var(--font-display);
-		color: #d9467f;
+		color: var(--theme-ink);
 	}
 	.prize {
 		position: absolute;
@@ -607,7 +702,7 @@
 	}
 	.prize span {
 		position: absolute;
-		animation: pop-in 700ms var(--spring) both;
+		animation: pop-in 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
 	}
 	.p1 {
 		top: 0.6rem;
@@ -694,8 +789,12 @@
 			max-width: 6.5rem;
 		}
 		.card {
-			border-radius: 24px;
+			border-radius: 18px;
 		}
+		.activity-head { align-items: flex-start; gap: 0.6rem; padding: 0.55rem; }
+		.activity-icon { width: 3.25rem; height: 3.25rem; }
+		.activity-icon :global(img) { width: 40px; height: 40px; }
+		.activity-head p { font-size: 0.82rem; }
 		.bubble::before {
 			display: none;
 		}

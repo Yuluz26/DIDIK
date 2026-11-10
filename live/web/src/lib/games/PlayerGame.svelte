@@ -31,7 +31,7 @@
 </script>
 
 {#if mode.world === 'interaktif'}
-	<InteraktifPlayer {client} {game} {me} {people} />
+	<InteraktifPlayer {client} {game} {me} {people} modeKey={mode.key} modeTitle={mode.title} />
 {:else if mode.key === 'lumba'}
 	<SyncPlayer modeKey={mode.key} {client} {game} {me} {people} title={mode.title} unit={mode.unit}>
 		{#snippet scene()}

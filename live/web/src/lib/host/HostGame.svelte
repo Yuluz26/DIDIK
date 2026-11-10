@@ -28,7 +28,7 @@
 {#if mode.world === 'interaktif'}
 	<SelfHost {client} {game} {people} feed={view.feed} title={mode.title} unit={mode.unit} total={minutes} boardTitle="Paling banyak bintang">
 		{#snippet world()}
-			<InteraktifHost {game} {people} />
+			<InteraktifHost {game} {people} modeKey={mode.key} />
 		{/snippet}
 	</SelfHost>
 {:else if mode.key === 'lumba'}
