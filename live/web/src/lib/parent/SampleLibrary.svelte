@@ -1,4 +1,4 @@
-﻿<script lang="ts">
+<script lang="ts">
 	import { api } from '$lib/api';
 	import { diagramOf, diagramUrl, isDiagram } from '$lib/diagrams';
 	import { stickerOf } from '$lib/stickers';
@@ -21,11 +21,11 @@
 	let requestId = 0;
 
 	const sections = $derived.by((): Section[] => {
-		const islam = quizzes.filter((q) => q.title.startsWith('Pendidikan Islam'));
+		const islam = quizzes.filter((q) => q.title.startsWith('Pendidikan Islam') && !q.title.includes('Menengah'));
 		const primary = quizzes.filter((q) => !islam.includes(q) && !/Menengah|Tingkatan/.test(q.title));
 		const secondary = quizzes.filter((q) => !islam.includes(q) && !primary.includes(q));
 		return [
-			{ key: 'islam', title: 'Pendidikan Islam & KAFA', subtitle: 'Akhlak, ibadah, sirah dan tajwid', badge: 'Buku 01', color: 'plum', books: islam },
+			{ key: 'islam', title: 'Pendidikan Islam · topik KAFA', subtitle: 'Akhlak, ibadah dan sirah untuk sekolah rendah', badge: 'Buku 01', color: 'plum', books: islam },
 			{ key: 'primary', title: 'KSSR & asas pembelajaran', subtitle: 'Bahasa, nombor, sains dan negaraku', badge: 'Buku 02', color: 'teal', books: primary },
 			{ key: 'secondary', title: 'Menengah', subtitle: 'Topik lebih mendalam untuk remaja', badge: 'Buku 03', color: 'coral', books: secondary }
 		].filter((section) => section.books.length);
@@ -181,4 +181,3 @@
 	@media (max-width:650px) { .library-intro { flex-wrap:wrap; }.library-count { width:100%; margin-left:58px; }.book-row { grid-template-columns:repeat(auto-fill,minmax(125px,1fr)); gap:.8rem; padding-inline:.35rem; }.book { height:210px; }.book:nth-child(3n+2) { height:205px; }.book:nth-child(4n+3) { height:218px; }.book-cover { padding:10px 9px 9px 17px; }.cover-art { width:70px; height:59px; }.book strong { font-size:.8rem; }.shelf-total { display:none; }.spread { grid-template-columns:1fr; max-height:calc(88vh - 126px); }.left-page { max-height:185px; padding:1rem; box-shadow:inset 0 -9px 10px -11px #72584666; }.left-page h2 { margin:.3rem 0; }.book-description { display:none; }.contents-title { display:none; }.question-list { display:flex; gap:.35rem; overflow-x:auto; }.question-list button { flex:none; width:auto; max-width:170px; }.question-list button span:last-child { overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }.right-page { padding:1rem; }.book-actions { justify-content:stretch; }.book-actions a,.book-actions button { flex:1; padding:.65rem .45rem; font-size:.76rem; } }
 	@media (prefers-reduced-motion:reduce) { .book-cover { transition:none; }.book-dialog { animation:none; } }
 </style>
-
