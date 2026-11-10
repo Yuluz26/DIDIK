@@ -15,6 +15,7 @@ DIAGRAMS: frozenset[str] = frozenset(
     rajah-organ rajah-cerna rajah-sel-haiwan rajah-sel-pokok rajah-kitaran-air rajah-rangka
     rajah-malaysia rajah-semenanjung rajah-arab rajah-jalur rajah-suria rajah-gunung-berapi
     rajah-afamosa rajah-kaabah rajah-lembah-bujang rajah-gua-niah
+    rajah-number-line rajah-letters rajah-gajah-asia
     """.split()
 )
 

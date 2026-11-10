@@ -34,3 +34,10 @@ rajah-lembah-bujang.webp  Bujang valley.jpg. Imhadi (English Wikipedia). Public 
                           https://commons.wikimedia.org/wiki/File:Bujang_valley.jpg
 rajah-gua-niah.webp       The Great Cave of Niah.jpg. Nur Nafis Naim. CC BY-SA 4.0.
                           https://commons.wikimedia.org/wiki/File:The_Great_Cave_of_Niah.jpg
+
+rajah-number-line.webp    Simple number line.svg. Wikimedia Commons. Public domain.
+                          https://commons.wikimedia.org/wiki/File:Simple_number_line.svg
+rajah-letters.webp        English letters (alphabet).svg. Cangjie6. CC BY-SA 4.0 / public domain. Flattened on white.
+                          https://commons.wikimedia.org/wiki/File:English_letters_(alphabet).svg
+rajah-gajah-asia.webp     Asian Elephant.jpg. Kseajayne. CC BY 3.0. Resized.
+                          https://commons.wikimedia.org/wiki/File:Asian_Elephant.jpg

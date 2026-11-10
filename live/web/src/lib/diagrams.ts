@@ -189,7 +189,10 @@ export const DIAGRAMS: Diagram[] = [
 	{ key: 'rajah-afamosa', name: 'A Famosa, Melaka', w: 900, h: 675, credit: 'Wikimedia Commons, CC BY 2.5', photo: true },
 	{ key: 'rajah-kaabah', name: 'Kaabah, Masjidil Haram', w: 900, h: 600, credit: 'مريم محمد الغلبان, CC0', photo: true },
 	{ key: 'rajah-lembah-bujang', name: 'Candi di Lembah Bujang', w: 900, h: 599, credit: 'Imhadi, domain awam', photo: true },
-	{ key: 'rajah-gua-niah', name: 'Gua Niah, Sarawak', w: 900, h: 625, credit: 'Nur Nafis Naim, CC BY-SA 4.0', photo: true }
+	{ key: 'rajah-gua-niah', name: 'Gua Niah, Sarawak', w: 900, h: 625, credit: 'Nur Nafis Naim, CC BY-SA 4.0', photo: true },
+	{ key: 'rajah-number-line', name: 'Garis nombor', w: 960, h: 56, credit: 'Wikimedia Commons, domain awam' },
+	{ key: 'rajah-letters', name: 'Huruf abjad Rumi', w: 960, h: 535, credit: 'Cangjie6, CC BY-SA 4.0 / domain awam' },
+	{ key: 'rajah-gajah-asia', name: 'Gajah Asia', w: 333, h: 500, credit: 'Kseajayne, CC BY 3.0', photo: true }
 ];
 
 const BY_KEY = new Map(DIAGRAMS.map((d) => [d.key, d]));

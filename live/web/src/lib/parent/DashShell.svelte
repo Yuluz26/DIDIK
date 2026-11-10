@@ -24,7 +24,7 @@
 	const NAV = [
 		{ href: '/ibu-bapa', label: 'Papan pemuka', icon: 'dashboard' },
 		{ href: '/ibu-bapa/kuiz', label: 'Kuiz saya', icon: 'quiz' },
-		{ href: '/ibu-bapa/contoh', label: 'Kuiz contoh', icon: 'sparkle' },
+		{ href: '/ibu-bapa/contoh', label: 'Perpustakaan', icon: 'sparkle' },
 		{ href: '/ibu-bapa/kuiz/baru', label: 'Kuiz baharu', icon: 'plus' },
 		{ href: '/ibu-bapa/bilik', label: 'Bilik langsung', icon: 'room' },
 		{ href: '/ibu-bapa/permainan', label: 'Permainan', icon: 'game' },
