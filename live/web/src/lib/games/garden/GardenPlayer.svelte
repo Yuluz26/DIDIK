@@ -4,6 +4,7 @@
 	shop. Right answers fill the water jar.
 -->
 <script lang="ts">
+	import { tick } from 'svelte';
 	import type { RoomClient } from '$lib/room.svelte';
 	import type { Person } from '$lib/types';
 	import { confetti } from '$lib/confetti';
@@ -63,6 +64,10 @@
 		if (!plot) {
 			picking = i;
 			play('tap');
+			void tick().then(() => {
+				const seeds = document.querySelector('.kebun .seeds');
+				if (seeds instanceof HTMLElement) seeds.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'center' });
+			});
 			return;
 		}
 		picking = null;

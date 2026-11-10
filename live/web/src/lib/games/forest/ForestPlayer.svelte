@@ -17,6 +17,7 @@
 	import Timer from '$ui/Timer.svelte';
 	import Hud from '../Hud.svelte';
 	import QuestionPopup from '../QuestionPopup.svelte';
+	import { nextMove } from '../nextMove';
 	import ForestMap from './ForestMap.svelte';
 	import Joystick from './Joystick.svelte';
 	import { livePositions } from './positions.svelte';
@@ -34,6 +35,7 @@
 	const escaped = $derived((world?.escaped ?? []).includes(me.id));
 	const keys = $derived(world?.keys ?? 0);
 	const need = $derived(world?.need ?? 5);
+	const nextStep = $derived(nextMove('hutan', game));
 	const order = $derived((world?.escaped ?? []).indexOf(me.id) + 1);
 
 	const distance = (a: { x: number; y: number }, b: { x: number; y: number }) => Math.hypot(a.x - b.x, a.y - b.y);
@@ -215,6 +217,7 @@
 				onanswer={(a) => client.send({ t: 'answer', a })}
 			/>
 			{#if seat.step === 'result'}
+				<p class="move-guide"><strong>{nextStep.title}</strong> {nextStep.detail}</p>
 				<button type="button" class="btn btn--sun btn--big" onclick={() => client.send({ t: 'next' })}>
 					Teruskan jelajah <Icon name="next" />
 				</button>
@@ -305,4 +308,6 @@
 		font-weight: 700;
 		text-align: center;
 	}
+	.move-guide { padding: 0.7rem 0.9rem; border: 2px solid var(--sun); border-radius: var(--r-md); background: #fff8dd; line-height: 1.4; }
+	.move-guide strong { display: block; color: var(--brand-ink); }
 </style>

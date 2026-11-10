@@ -20,12 +20,14 @@
 	import Timer from '$ui/Timer.svelte';
 	import Hud from './Hud.svelte';
 	import QuestionPopup from './QuestionPopup.svelte';
+	import { nextMove, showNextMove } from './nextMove';
 
 	let {
 		client,
 		game,
 		me,
 		title,
+		modeKey,
 		unit = 'mata',
 		rewardText,
 		nextLabel = 'Soalan seterusnya',
@@ -38,6 +40,7 @@
 		game: any;
 		me: Me;
 		title: string;
+		modeKey: string;
 		unit?: string;
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		rewardText?: (reward: any) => string;
@@ -49,7 +52,21 @@
 
 	const seat = $derived(game.seat ?? {});
 	const step = $derived(seat.step as string);
+	const move = $derived(nextMove(modeKey, game));
+	let dismissedFor = $state(-1);
+	const resultStep = $derived(step === 'result' || step === 'capture');
+	const guideOpen = $derived(resultStep && !!seat.result && dismissedFor !== seat.answered);
 	let lastAnswered = -1;
+
+	function goPlay() {
+		dismissedFor = seat.answered;
+		showNextMove(move.target);
+	}
+
+	function next() {
+		dismissedFor = seat.answered;
+		client.send({ t: 'next' });
+	}
 
 	$effect(() => {
 		if (!seat.result || seat.answered === lastAnswered || step === 'question') return;
@@ -69,7 +86,7 @@
 	<main class="wrap"><Countdown clock={game.clock} offset={client.offset} {title} /></main>
 {:else}
 	<div class="clock wrap"><Timer clock={game.clock} offset={client.offset} {total} compact /></div>
-	<main class="self wrap" class:docked={step === 'result'}>
+	<main class="self wrap" class:docked={resultStep && !guideOpen}>
 		<section class="world" aria-label="Dunia permainan">
 			{@render world()}
 		</section>
@@ -83,9 +100,8 @@
 			<QuestionCard question={seat.question} />
 			<Answer question={seat.question} onanswer={(a) => client.send({ t: 'answer', a })} />
 		</QuestionPopup>
-	{:else if step === 'result' && seat.result}
-		<!-- the result docks at the bottom, so what the answer earned can be spent in the world above -->
-		<QuestionPopup mode="dock" label="Keputusan">
+	{:else if resultStep && seat.result && guideOpen}
+		<QuestionPopup label="Keputusan dan langkah seterusnya" key={seat.answered ?? 0}>
 			<Feedback
 				correct={seat.result.correct}
 				fraction={seat.result.fraction}
@@ -93,15 +109,34 @@
 				explain={seat.result.reveal?.explain ?? ''}
 			/>
 			{#if !seat.result.correct && seat.question}
-				<!-- the right answer folds away, so the dock leaves the world in view -->
 				<details class="reveal">
 					<summary>Lihat jawapan betul</summary>
 					<Answer question={seat.question} disabled mine={seat.result.answer} reveal={seat.result.reveal} allRight={false} onanswer={() => {}} />
 				</details>
 			{/if}
-			<button type="button" class="btn btn--sun btn--big next" onclick={() => client.send({ t: 'next' })}>
-				{nextLabel} <Icon name="next" />
-			</button>
+			<div class="move" aria-live="polite">
+				<span class="move-icon" aria-hidden="true">✦</span>
+				<div><h2>{move.title}</h2><p>{move.detail}</p></div>
+			</div>
+			<div class="choices">
+				<button type="button" class="btn btn--sun btn--big" onclick={goPlay}>{move.button} <Icon name="next" /></button>
+				{#if step === 'capture'}
+					<button type="button" class="btn btn--plain btn--big" onclick={() => { dismissedFor = seat.answered; client.send({ t: 'keep' }); }}>Simpan bendera</button>
+				{:else}
+					<button type="button" class="btn btn--plain btn--big" onclick={next}>{nextLabel}</button>
+				{/if}
+			</div>
+		</QuestionPopup>
+	{:else if resultStep && seat.result}
+		<QuestionPopup mode="dock" label="Pilihan permainan">
+			<div class="dock-actions">
+				<button type="button" class="btn btn--plain" onclick={() => (dismissedFor = -1)}>Lihat panduan</button>
+				{#if step === 'capture'}
+					<button type="button" class="btn btn--sun" onclick={() => client.send({ t: 'keep' })}>Simpan bendera</button>
+				{:else}
+					<button type="button" class="btn btn--sun" onclick={next}>{nextLabel} <Icon name="next" /></button>
+				{/if}
+			</div>
 		</QuestionPopup>
 	{/if}
 {/if}
@@ -120,8 +155,22 @@
 	.world {
 		min-width: 0;
 	}
-	.next {
-		width: 100%;
+	.move {
+		display: flex;
+		align-items: flex-start;
+		gap: 0.8rem;
+		padding: 0.85rem 1rem;
+		border: 2px solid var(--sun);
+		border-radius: var(--r-md);
+		background: #fff8dd;
+	}
+	.move-icon { font-size: 1.8rem; line-height: 1; color: #c78600; }
+	.move h2 { font-size: 1.15rem; line-height: 1.2; }
+	.move p { margin-top: 0.25rem; line-height: 1.4; }
+	.choices, .dock-actions { display: flex; flex-wrap: wrap; gap: 0.55rem; }
+	.choices > button, .dock-actions > button { flex: 1 1 11rem; }
+	@media (max-width: 36rem) {
+		.choices > button { flex-basis: 100%; }
 	}
 	.reveal summary {
 		cursor: pointer;

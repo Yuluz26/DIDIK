@@ -13,12 +13,14 @@
 	import Timer from '$ui/Timer.svelte';
 	import Hud from '../Hud.svelte';
 	import QuestionPopup from '../QuestionPopup.svelte';
+	import { nextMove } from '../nextMove';
 	import JumpPond from './JumpPond.svelte';
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	let { client, game, me, people }: { client: RoomClient; game: any; me: Me; people: Map<string, Person> } = $props();
 
 	const hearts = $derived(game.pond?.hearts?.[me.id] ?? 3);
+	const move = $derived(nextMove('lompat', game));
 	let lastReveal = -1;
 	// the floating question's height: the pond keeps that much room at its top
 	let room = $state(0);
@@ -73,6 +75,9 @@
 						extra={hearts === 0 ? 'Kamu ikan sekarang. Jawab betul dua kali untuk naik semula ke darat.' : ''}
 						explain={game.reveal?.explain ?? ''}
 					/>
+					<p class="after"><strong>{move.title}</strong> {move.detail}</p>
+				{:else if game.stage === 'question' && game.myPick}
+					<p class="after"><strong>Pulau dipilih!</strong> Lihat watak kamu melompat. Kamu masih boleh tukar pulau sebelum masa tamat.</p>
 				{:else if hearts === 0}
 					<p class="note">Kamu ikan sekarang, tapi masih boleh menjawab! Dua jawapan betul berturut-turut dan kamu naik semula ke darat.</p>
 				{/if}
@@ -118,6 +123,8 @@
 		color: #0b5866;
 		font-weight: 800;
 	}
+	.after { padding: 0.55rem 0.8rem; border-radius: var(--r-md); background: #fff8dd; font-weight: 700; line-height: 1.35; }
+	.after strong { color: var(--brand-ink); }
 	.tip {
 		text-align: center;
 		font-weight: 800;

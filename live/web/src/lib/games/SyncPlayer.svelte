@@ -20,6 +20,7 @@
 	import Avatar from '$ui/Avatar.svelte';
 	import Hud from './Hud.svelte';
 	import QuestionPopup from './QuestionPopup.svelte';
+	import { nextMove, showNextMove } from './nextMove';
 
 	let {
 		client,
@@ -27,6 +28,7 @@
 		me,
 		people,
 		title,
+		modeKey,
 		unit = 'mata',
 		scene,
 		extra,
@@ -38,6 +40,7 @@
 		me: Me;
 		people: Map<string, Person>;
 		title: string;
+		modeKey: string;
 		unit?: string;
 		scene?: Snippet;
 		extra?: Snippet;
@@ -45,6 +48,7 @@
 	} = $props();
 
 	let lastReveal = '';
+	const move = $derived(nextMove(modeKey, game));
 
 	// Sound and confetti once per reveal.
 	$effect(() => {
@@ -86,12 +90,20 @@
 			<!-- the result docks at the bottom, so the scene (boats, kites, the picture's tiles) shows what it did -->
 			<QuestionPopup mode="dock" label="Keputusan soalan {game.index + 1}">
 				<Feedback correct={game.result.correct} fraction={game.result.fraction} missed={game.result.missed} points={game.result.points} {unit} explain={game.reveal?.explain ?? ''} />
+				<p class="move-tip"><strong>{move.title}</strong> {move.detail}</p>
+				<button type="button" class="btn btn--sun" onclick={() => showNextMove(move.target)}>{move.button}</button>
 				{#if !game.result.correct}
 					<details class="reveal">
 						<summary>Lihat jawapan betul</summary>
 						<Answer question={game.question} disabled mine={game.myAnswer} reveal={game.reveal} allRight={false} onanswer={() => {}} />
 					</details>
 				{/if}
+			</QuestionPopup>
+		{:else if game.stage === 'question' && game.answered}
+			<QuestionPopup mode="dock" label="Jawapan dihantar dan langkah permainan">
+				<p class="move-tip"><strong>{move.title}</strong> {move.detail}</p>
+				<button type="button" class="btn btn--sun" onclick={() => showNextMove(move.target)}>{move.button}</button>
+				<p class="waiting" aria-live="polite">Menunggu kawan-kawan… <strong>{game.answeredCount}/{game.playerCount}</strong></p>
 			</QuestionPopup>
 		{:else}
 			<QuestionPopup label="Soalan {game.index + 1} daripada {game.total}" {minimisable} key={game.index}>
@@ -102,11 +114,6 @@
 				{/snippet}
 				<QuestionCard question={game.question} index={game.index} total={game.total} />
 				<Answer question={game.question} disabled={game.answered || game.stage !== 'question'} mine={game.myAnswer} onanswer={answer} />
-				{#if game.stage === 'question' && game.answered}
-					<p class="waiting" aria-live="polite">
-						Jawapan dihantar! Menunggu kawan-kawan… <strong>{game.answeredCount}/{game.playerCount}</strong>
-					</p>
-				{/if}
 			</QuestionPopup>
 		{/if}
 	{/if}
@@ -137,6 +144,8 @@
 		text-align: center;
 		animation: rise-in var(--t-enter) var(--ease-out);
 	}
+	.move-tip { line-height: 1.4; text-align: center; }
+	.move-tip strong { display: block; font-size: 1.05rem; color: var(--brand-ink); }
 	.standings {
 		display: grid;
 		gap: 1rem;
