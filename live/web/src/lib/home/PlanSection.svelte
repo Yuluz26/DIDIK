@@ -6,7 +6,7 @@
 	import Sticker from '$ui/Sticker.svelte';
 	import { reveal } from './reveal';
 
-	let { beach }: { beach: string } = $props();
+	let { beach, showPaymentNote = true }: { beach: string; showPaymentNote?: boolean } = $props();
 	type Interval = 'monthly' | 'yearly';
 	type Plan = { key: string; pricesSen: { monthly: number; yearly: number } };
 	let plans = $state<Record<string, Plan>>({});
@@ -76,7 +76,7 @@
 				</article>
 			</div>
 		{/if}
-		<p class="payment-note" {@attach reveal(230)}>Premium dan Family dibayar melalui QR bagi setiap tempoh. Hantar bukti ke WhatsApp DIDIK; akses aktif selepas semakan admin. Tiada pembaharuan atau caj automatik. <a href="/keahlian">Lihat semua butiran pelan</a>.</p>
+		{#if showPaymentNote}<p class="payment-note" {@attach reveal(230)}>Premium dan Family dibayar melalui QR bagi setiap tempoh. Hantar bukti ke WhatsApp DIDIK; akses aktif selepas semakan admin. Tiada pembaharuan atau caj automatik. <a href="/keahlian">Lihat semua butiran pelan</a>.</p>{/if}
 	</div>
 </section>
 
