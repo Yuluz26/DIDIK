@@ -3,7 +3,7 @@
 	import StickerArt from './StickerArt.svelte';
 	import { play } from '$lib/sound';
 
-	let { onsend }: { onsend: (id: string) => void } = $props();
+	let { onsend, compact = false }: { onsend: (id: string) => void; compact?: boolean } = $props();
 
 	const STICKERS: [string, string][] = [
 		['hati', 'Hati'],
@@ -27,7 +27,7 @@
 	}
 </script>
 
-<div class="bar" role="group" aria-label="Hantar stiker">
+<div class="bar" class:compact role="group" aria-label="Hantar stiker">
 	{#each STICKERS as [id, name] (id)}
 		<button type="button" class="sticker" class:cooling onclick={() => send(id)} aria-label="Hantar stiker {name}">
 			<StickerArt name={id} size={34} />
@@ -71,5 +71,7 @@
 		.bar {
 			grid-template-columns: repeat(4, minmax(0, 1fr));
 		}
+		.bar.compact { grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 0; padding: 0; }
+		.compact .sticker { width: clamp(2rem, 9vw, 3rem); height: clamp(2rem, 9vw, 3rem); }
 	}
 </style>

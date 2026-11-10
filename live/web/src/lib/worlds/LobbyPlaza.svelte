@@ -80,6 +80,7 @@
 		spots,
 		client,
 		me = null,
+		fill = false,
 		onwalk,
 		onsit
 	}: {
@@ -88,6 +89,8 @@
 		client: RoomClient;
 		/** On a child's phone: their own id. They can walk, and the view follows them. */
 		me?: string | null;
+		/** The student's classroom occupies the space between its header and sticker dock. */
+		fill?: boolean;
 		onwalk?: (x: number, y: number) => void;
 		onsit?: (seat: number) => void;
 	} = $props();
@@ -129,9 +132,14 @@
 	let el = $state<HTMLElement>();
 	let world = $state<ReturnType<typeof World>>();
 	let width = $state(0);
+	let height = $state(0);
 	// The host sees the whole classroom; a phone follows the child's own place.
-	const tile = $derived(me ? fitTile(width, W, { min: 2 }) : fitTile(width, W));
-	const follow = $derived(!!me && tile * W > width + 1);
+	const tile = $derived(me && fill && height
+		? width / height < W / H
+			? fitTile(height, H, { min: 2 })
+			: fitTile(width, W, { availH: height, rows: H, min: 2 })
+		: me ? fitTile(width, W, { min: 2 }) : fitTile(width, W));
+	const follow = $derived(!!me && (fill || tile * W > width + 1));
 
 	interface Shown {
 		x: number;
@@ -307,8 +315,10 @@
 	<div
 		class="plaza walkable"
 		class:follow
+		class:fill
 		bind:this={el}
 		bind:clientWidth={width}
+		bind:clientHeight={height}
 		style:--plaza-h="{H * tile}px"
 		role="application"
 		aria-label="Kelas. Ketik kerusi berwarna dan pilih Duduk, atau tekan anak panah untuk berjalan."
@@ -329,6 +339,8 @@
 		position: relative;
 		width: 100%;
 	}
+	.plaza.fill { height: 100%; min-height: 0; }
+	.plaza.fill .stage { width: 100%; height: 100%; }
 	/* The square is drawn at a whole step of the pixel size, so it can be a little narrower than its box. */
 	.stage {
 		margin-inline: auto;
@@ -359,6 +371,7 @@
 		background: #fff5dd;
 		box-shadow: 0 0.45rem 1.2rem rgb(55 32 28 / 0.25);
 	}
+	.fill .seat-choice { bottom: 4.2rem; }
 	.seat-swatch { flex: none; width: 1.7rem; height: 1.7rem; border: 2px solid #6a483c; border-radius: 0.35rem; }
 	.seat-copy { display: grid; gap: 0.1rem; min-width: 0; flex: 1; font-size: 0.8rem; line-height: 1.15; }
 	.seat-copy strong { font-size: 0.92rem; }
@@ -371,6 +384,7 @@
 	.follow .stage {
 		height: min(var(--plaza-h), 60dvh);
 	}
+	.fill.follow .stage { height: 100%; }
 	.walkable {
 		cursor: pointer;
 		touch-action: manipulation;
@@ -416,4 +430,5 @@
 		white-space: nowrap;
 		animation: bob 2.4s ease-in-out infinite;
 	}
+	.fill .hint { bottom: 4.2rem; }
 </style>
