@@ -35,17 +35,18 @@
 	function visual(quiz: QuizSummary, question?: Question): string {
 		if (question?.diagram && isDiagram(question.diagram)) return question.diagram;
 		if (question?.picture && isDiagram(question.picture)) return question.picture;
-		const text = `${question?.prompt ?? ''} ${quiz.title}`.toLowerCase();
+		const title = quiz.title.toLowerCase();
+		const text = `${question?.prompt ?? ''} ${title}`.toLowerCase();
 		if (/suria|planet|angkasa|matahari/.test(text)) return 'rajah-suria';
 		if (/air|hujan|sejatan|wap/.test(text) && /sains|kitaran/.test(text)) return 'rajah-kitaran-air';
 		if (/sel tumbuhan|pokok|daun/.test(text)) return 'rajah-sel-pokok';
-		if (/sel|haiwan|paru|jantung|rangka|organ/.test(text) && /sains/.test(quiz.title)) return 'rajah-sel-haiwan';
+		if (/sel|haiwan|paru|jantung|rangka|organ/.test(text) && /sains/.test(title)) return 'rajah-sel-haiwan';
 		if (/haiwan|gajah|harimau|penyu|burung|rama-rama/.test(text)) return 'rajah-gajah-asia';
 		if (/merdeka|melaka|kesultanan|famosa/.test(text)) return 'rajah-afamosa';
 		if (/bujang|sejarah/.test(text)) return 'rajah-lembah-bujang';
 		if (/malaysia|negeri|sabah|sarawak|semenanjung/.test(text)) return 'rajah-malaysia';
 		if (/matematik|nombor|kira|algebra|wang/.test(text)) return 'rajah-number-line';
-		if (/bahasa|eja|huruf|kata|ayat/.test(text)) return 'rajah-letters';
+		if (/bahasa|eja|huruf/.test(title)) return 'rajah-letters';
 		if (/islam|sirah|ibadah|fiqh|tajwid|solat/.test(text)) return 'rajah-kaabah';
 		return 'rajah-malaysia';
 	}
