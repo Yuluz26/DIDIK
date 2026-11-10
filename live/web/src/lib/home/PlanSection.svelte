@@ -4,6 +4,7 @@
 	import Icon from '$ui/Icon.svelte';
 	import Didi from '$ui/Didi.svelte';
 	import Sticker from '$ui/Sticker.svelte';
+	import { GAMES } from './islands';
 	import { reveal } from './reveal';
 
 	let { beach, showPaymentNote = true }: { beach: string; showPaymentNote?: boolean } = $props();
@@ -76,6 +77,16 @@
 				</article>
 			</div>
 		{/if}
+		<div class="game-catalog" {@attach reveal(160)}>
+			<div class="catalog-heading">
+				<div><h3>Semua permainan dalam Premium &amp; Family</h3><p>Nama penuh, supaya anda tahu dunia mana yang boleh dipilih.</p></div>
+				<span>{GAMES.length} permainan 2D</span>
+			</div>
+			<ul class="game-list" aria-label="Senarai permainan 2D Premium dan Family">
+				{#each GAMES as game (game.key)}<li style:--game-color={game.tint}>{game.title}</li>{/each}
+			</ul>
+			<p class="more-games"><strong>Juga termasuk</strong> Kuiz Interaktif (Umum, Sains, Sejarah, Pendidikan Islam) dan Story Mode: Hikayat Lima Alam.</p>
+		</div>
 		{#if showPaymentNote}<p class="payment-note" {@attach reveal(230)}>Premium dan Family dibayar melalui QR bagi setiap tempoh. Hantar bukti ke WhatsApp DIDIK; akses aktif selepas semakan admin. Tiada pembaharuan atau caj automatik. <a href="/keahlian">Lihat semua butiran pelan</a>.</p>{/if}
 	</div>
 </section>
@@ -113,6 +124,16 @@
 	.premium li::before { background: #e2d6ff; color: #53329e; }
 	.family li::before { background: #fce1cf; color: #8b4038; }
 	.choose { display: flex; align-items: center; justify-content: space-between; gap: .7rem; min-height: 3.25rem; padding: .68rem 1rem; border-radius: 11px; background: var(--button-bg); color: #fff; font: 700 .96rem var(--font-display); text-decoration: none; transition: filter 160ms ease; }
+	.game-catalog { margin-top: 1.6rem; padding: clamp(1.2rem,2.5vw,2rem); border: 1px solid #63513b; border-radius: 17px; background: #fffaf0; box-shadow: 0 11px 24px #4e34231d; }
+	.catalog-heading { display: flex; align-items: end; justify-content: space-between; gap: 1rem; margin-bottom: 1.15rem; }
+	.catalog-heading h3 { max-width: 25ch; margin: 0; font: 700 clamp(1.3rem,2.4vw,1.9rem)/1.1 var(--font-display); text-wrap: balance; }
+	.catalog-heading p { margin: .4rem 0 0; color: var(--ink-2); font-size: .88rem; line-height: 1.4; }
+	.catalog-heading > span { flex: none; padding: .4rem .7rem; border-radius: 999px; background: #e7dcfa; color: #50348b; font-size: .76rem; font-weight: 900; }
+	.game-list { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 0 1rem; margin: 0; padding: 0; list-style: none; }
+	.game-list li { position: relative; min-width: 0; padding: .63rem .2rem .63rem 1.15rem; border-top: 1px solid #e5d9c6; font-size: .87rem; font-weight: 800; line-height: 1.25; }
+	.game-list li::before { content: ''; position: absolute; left: .15rem; top: 1.02rem; width: .5rem; height: .5rem; border-radius: 50%; background: var(--game-color); }
+	.more-games { margin: .85rem 0 0; padding-top: .9rem; border-top: 1px solid #c9baa6; color: var(--ink-2); font-size: .87rem; line-height: 1.5; }
+	.more-games strong { margin-right: .4rem; color: var(--ink); }
 	.payment-note { max-width: 75ch; margin: 1.4rem 0 0; color: var(--ink-2); font-weight: 700; line-height: 1.55; }
 	.payment-note a { color: var(--brand-deep); text-underline-offset: 3px; }
 	.plan-land :is(a,button):focus-visible { outline: 3px solid #6543b9; outline-offset: 3px; }
@@ -133,6 +154,7 @@
 		.heading { align-items: center; }
 		.mascot { width: 80px; overflow: hidden; }
 		.controls { align-items: start; flex-direction: column; }
+		.game-list { grid-template-columns: repeat(2,minmax(0,1fr)); }
 	}
 	@media (max-width: 500px) {
 		.plan-land { padding-top: 3.5rem; }
@@ -142,6 +164,9 @@
 		.period { width: 100%; }
 		.period button { flex: 1; }
 		.copy h2 { max-width: 15ch; }
+		.catalog-heading { align-items: start; flex-direction: column; }
+		.game-list { gap: 0 .6rem; }
+		.game-list li { font-size: .78rem; }
 	}
 	@media (prefers-reduced-motion: reduce) {
 		.mascot { animation: none; }

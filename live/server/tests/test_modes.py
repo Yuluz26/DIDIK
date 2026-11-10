@@ -9,6 +9,7 @@ import pytest
 
 from didik_live.game.modes import MODES
 from didik_live.game.modes import forest as forest_mod
+from didik_live.game.modes.base import Seat, SelfPacedMode
 from didik_live.game.modes.picture import TILES
 
 from .roomkit import connection, open_room, sample, settle, until
@@ -34,6 +35,64 @@ async def started(mode: str, title: str = "Haiwan di Malaysia", kids: int = 2, *
 def answer(room, player, correct: bool) -> None:
     seat = room.mode.seats[player.id]
     room.handle_player(player, {"t": "answer", "a": seat.pres.sample_answer(correct, room.mode.rng)})
+
+
+@pytest.mark.parametrize(
+    "key", [key for key, cls in MODES.items() if issubclass(cls, SelfPacedMode) and cls.family == "2d"]
+)
+def test_every_self_paced_2d_game_deals_each_question_once(key: str) -> None:
+    async def scenario() -> None:
+        room = open_room(key)
+        mode = MODES[key](room)
+        seat = Seat()
+        shown = []
+        for _ in mode.questions:
+            mode.deal(seat)
+            assert seat.step == "question"
+            shown.append(seat.last_index)
+            seat.answered += 1
+        mode.deal(seat)
+        assert len(set(shown)) == len(mode.questions)
+        assert seat.step == "done" and seat.pres is None
+        room.close()
+
+    run(scenario())
+
+
+def test_2d_game_ends_when_every_child_finishes_before_timer() -> None:
+    async def scenario() -> None:
+        room = open_room("kebun", minutes=20)
+        room.questions = room.questions[:2]
+        host, _ = connection()
+        room.attach_host(host)
+        children = [room.join(connection()[0], {"avatar": avatar}) for avatar in ("kancil", "harimau")]
+        assert room.start_game() is None
+        await until(lambda: room.mode.stage == "play")
+        for child in children:
+            for _ in range(2):
+                answer(room, child, True)
+                room.handle_player(child, {"t": "next"})
+            assert room.mode.seats[child.id].step == "done"
+            if child is children[0]:
+                assert room.phase == "playing"
+        await until(lambda: room.phase == "ended")
+        room.close()
+
+    run(scenario())
+
+
+def test_forest_stops_after_its_last_question() -> None:
+    async def scenario() -> None:
+        room, _, _, ((child, _),) = await started("hutan", kids=1, minutes=20)
+        seat = room.mode.seats[child.id]
+        seat.answered = len(room.mode.questions)
+        seat.step = "result"
+        room.handle_player(child, {"t": "next"})
+        assert seat.step == "done" and seat.pres is None
+        await until(lambda: room.phase == "ended")
+        room.close()
+
+    run(scenario())
 
 
 # ---------------------------------------------------------------- every game with bots only
@@ -152,11 +211,11 @@ def test_treasure_parrot_only_steals_from_someone_ahead() -> None:
 
 def test_village_is_built_together_and_ends_when_complete() -> None:
     async def scenario() -> None:
-        room, _, host_socket, ((a, _), (b, _)) = await started("kampung", minutes=2)
+        room, _, host_socket, players = await started("kampung", kids=4, minutes=2)
         mode = room.mode
         total = sum(mode.costs)
         for i in range(total):
-            kid = a if i % 2 else b
+            kid = players[i % len(players)][0]
             answer(room, kid, True)
             seat = mode.seats[kid.id]
             if seat.extra["tokens"]:

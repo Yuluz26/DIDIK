@@ -52,7 +52,10 @@
 
 	const seat = $derived(game.seat ?? {});
 	const step = $derived(seat.step as string);
-	const move = $derived(nextMove(modeKey, game));
+	const move = $derived(seat.remaining === 0
+		? { title: 'Semua soalan selesai!', detail: 'Gunakan ganjaran terakhir di dunia permainan, kemudian tekan Tamat bermain.', button: 'Lihat permainan', target: '.world' }
+		: nextMove(modeKey, game));
+	const continueLabel = $derived(seat.remaining === 0 ? 'Tamat bermain' : nextLabel);
 	let dismissedFor = $state(-1);
 	const resultStep = $derived(step === 'result' || step === 'capture');
 	const guideOpen = $derived(resultStep && !!seat.result && dismissedFor !== seat.answered);
@@ -123,7 +126,7 @@
 				{#if step === 'capture'}
 					<button type="button" class="btn btn--plain btn--big" onclick={() => { dismissedFor = seat.answered; client.send({ t: 'keep' }); }}>Simpan bendera</button>
 				{:else}
-					<button type="button" class="btn btn--plain btn--big" onclick={next}>{nextLabel}</button>
+						<button type="button" class="btn btn--plain btn--big" onclick={next}>{continueLabel}</button>
 				{/if}
 			</div>
 		</QuestionPopup>
@@ -134,9 +137,14 @@
 				{#if step === 'capture'}
 					<button type="button" class="btn btn--sun" onclick={() => client.send({ t: 'keep' })}>Simpan bendera</button>
 				{:else}
-					<button type="button" class="btn btn--sun" onclick={next}>{nextLabel} <Icon name="next" /></button>
+					<button type="button" class="btn btn--sun" onclick={next}>{continueLabel} <Icon name="next" /></button>
 				{/if}
 			</div>
+		</QuestionPopup>
+	{:else if step === 'done'}
+		<QuestionPopup label="Soalan selesai">
+			<h2>Semua soalan kamu selesai!</h2>
+			<p>Tunggu rakan lain selesai. Keputusan akan dipaparkan sebentar lagi.</p>
 		</QuestionPopup>
 	{/if}
 {/if}

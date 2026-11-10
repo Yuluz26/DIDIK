@@ -157,7 +157,7 @@
 		<div class="top">
 			<Timer clock={game.clock} offset={client.offset} total={game.length ?? 300} compact />
 			{#if !escaped}
-				<p class="goal">{keys >= need ? 'Semua kunci ada! Cari pintu hutan di bucu kanan bawah.' : `Cari peti soalan dan kumpul ${need} kunci.`}</p>
+				<p class="goal">{seat.step === 'done' ? 'Semua soalan kamu selesai.' : keys >= need ? 'Semua kunci ada! Cari pintu hutan di bucu kanan bawah.' : `Cari peti soalan dan kumpul ${need} kunci.`}</p>
 			{/if}
 		</div>
 		<div class="stage">
@@ -176,7 +176,7 @@
 				onchest={open}
 			/>
 
-			{#if !asking && !escaped}
+			{#if seat.step === 'explore' && !escaped}
 				<div class="controls">
 					<Joystick onmove={move} />
 					{#if nearGate}
@@ -192,6 +192,11 @@
 				<div class="escaped">
 					<h2>Kamu berjaya keluar!</h2>
 					<p>Tempat ke-{order}. Tunggu kawan-kawan keluar atau masa tamat.</p>
+				</div>
+			{:else if seat.step === 'done'}
+				<div class="escaped" role="status">
+					<h2>Semua soalan selesai!</h2>
+					<p>Tunggu rakan lain selesai. Keputusan akan dipaparkan sebentar lagi.</p>
 				</div>
 			{/if}
 		</div>
@@ -217,9 +222,9 @@
 				onanswer={(a) => client.send({ t: 'answer', a })}
 			/>
 			{#if seat.step === 'result'}
-				<p class="move-guide"><strong>{nextStep.title}</strong> {nextStep.detail}</p>
+				<p class="move-guide"><strong>{seat.remaining === 0 ? 'Semua soalan selesai!' : nextStep.title}</strong> {seat.remaining === 0 ? 'Tekan Tamat bermain untuk melihat keputusan selepas rakan lain selesai.' : nextStep.detail}</p>
 				<button type="button" class="btn btn--sun btn--big" onclick={() => client.send({ t: 'next' })}>
-					Teruskan jelajah <Icon name="next" />
+					{seat.remaining === 0 ? 'Tamat bermain' : 'Teruskan jelajah'} <Icon name="next" />
 				</button>
 				{#if !seat.result?.correct}<p class="lock-note">Peti ini berkunci beberapa saat. Cuba peti lain dahulu.</p>{/if}
 			{/if}

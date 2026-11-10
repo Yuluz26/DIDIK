@@ -265,7 +265,7 @@ class ForestMode(SelfPacedMode):
     def act_next(self, player: Any) -> None:
         seat = self.seats.get(player.id)
         if seat is not None and seat.step == "result":
-            seat.step = "explore"
+            seat.step = "done" if seat.answered >= len(self.questions) else "explore"
             seat.pres = None
             seat.result = None
             self.room.mark_dirty()

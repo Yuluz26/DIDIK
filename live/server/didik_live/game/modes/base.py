@@ -4,8 +4,9 @@ Two shapes cover all the games:
 
 - `SyncMode`: everyone answers the same question at the same time; the server opens it, closes it
   when time is up (or everyone has answered), shows the answer, and moves on.
-- `SelfPacedMode`: each child gets their own stream of questions for a few minutes; a right
-  answer earns something to spend in the game world (a shovel, water, a flag).
+- `SelfPacedMode`: each child gets their own stream of questions; a right answer earns
+  something to spend in the game world (a shovel, water, a flag). In 2D games each
+  question appears once, and the game ends when everyone has finished the quiz.
 
 A game only decides what answers *do*. Checking, timing, pausing, streaks and the practice bots
 live here, so every game is fair in the same way.
@@ -547,7 +548,7 @@ class SelfPacedMode(BaseMode):
             for player in self.players():
                 self.seat(player)
             self.on_play()
-        await self.wait(self.settings.minutes * 60, done=self.goal_reached)
+        await self.wait(self.settings.minutes * 60, done=lambda: self.goal_reached() or self.questions_exhausted())
         self.room.finish_game()
 
     def save(self) -> dict[str, Any]:
@@ -589,6 +590,15 @@ class SelfPacedMode(BaseMode):
     def goal_reached(self) -> bool:
         return False
 
+    def questions_exhausted(self) -> bool:
+        if self.family != "2d":
+            return False
+        online = self.online()
+        return bool(online) and all(
+            (seat := self.seats.get(player.id)) is not None and seat.step in ("done", "escaped")
+            for player in online
+        )
+
     def add_player(self, player: Player) -> None:
         if self.stage == "play":
             self.seat(player)
@@ -606,11 +616,13 @@ class SelfPacedMode(BaseMode):
 
     def deal(self, seat: Seat) -> None:
         if not seat.deck:
+            if self.family == "2d" and seat.answered >= len(self.questions):
+                seat.pres = None
+                seat.result = None
+                seat.step = "done"
+                return
             seat.deck = list(range(len(self.questions)))
             self.rng.shuffle(seat.deck)
-            # Never the same question twice in a row when the deck starts over.
-            if len(seat.deck) > 1 and seat.deck[-1] == seat.last_index:
-                seat.deck[0], seat.deck[-1] = seat.deck[-1], seat.deck[0]
         index = seat.deck.pop()
         seat.last_index = index
         question = self.questions[index]
@@ -676,6 +688,8 @@ class SelfPacedMode(BaseMode):
             "answered": seat.answered,
             "correct": seat.correct,
         }
+        if self.family == "2d":
+            view["remaining"] = max(0, len(self.questions) - seat.answered)
         if seat.step in ("question", "result") and seat.pres is not None:
             view["question"] = seat.pres.public
         if seat.step != "question":
