@@ -22,6 +22,7 @@
 	import QuestionCard from '$lib/questions/QuestionCard.svelte';
 	import FullscreenToggle from '$ui/FullscreenToggle.svelte';
 	import Hud from '../Hud.svelte';
+	import TopThree from '../TopThree.svelte';
 	import Icon from '$ui/Icon.svelte';
 	import SoundToggle from '$ui/SoundToggle.svelte';
 	import Banner from './Banner.svelte';
@@ -383,6 +384,7 @@
 	<main class="wrap story"><p class="loading">Membuka kitab legenda…</p></main>
 {:else}
 	<div class="arena step-{step}" class:asking style:--backdrop="url({battleBg(worldIndex)})">
+		<TopThree rows={game.leaders ?? []} {people} {me} rank={game.rank ?? null} />
 		<div class="frame" style:--ar={sceneAr(worldIndex)}>
 			<Stage
 				bind:this={stage}

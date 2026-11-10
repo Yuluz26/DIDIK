@@ -29,6 +29,8 @@
 		y: number;
 		facing?: number;
 		walking?: boolean;
+		/** Render the classroom seated pose when the actor has reached a chair. */
+		seated?: boolean;
 		animal: string;
 		colour: string;
 		skin?: string;
@@ -193,6 +195,7 @@
 					skin={actor.skin}
 					{s}
 					walking={actor.walking}
+					seated={actor.seated}
 					dir={looks[actor.id]?.dir ?? 'front'}
 					facing={looks[actor.id]?.facing ?? actor.facing ?? 1}
 					mood={actor.mood}
@@ -207,7 +210,7 @@
 					class="tag"
 					class:me={actor.id === me}
 					style:left="{Math.round(Math.min(W - 0.9, Math.max(0.9, actor.x)) * tile)}px"
-					style:top="{Math.round(actor.y * tile - (CH - 6) * s)}px"
+					style:top="{Math.round(actor.y * tile - (CH - (actor.seated ? 10 : 6)) * s)}px"
 					style:--step={actor.ms === undefined ? undefined : `${actor.ms}ms`}>{actor.id === me ? 'Kamu' : actor.name}</span
 				>
 			{/if}

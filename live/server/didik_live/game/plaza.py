@@ -14,10 +14,13 @@ LEFT, TOP, RIGHT, BOTTOM = 0.7, 3.4, 15.3, 8.6
 TEACHER_DESK = (8.0, 4.15, 1.55, 0.4)
 SEATS = ((2.45, 5.25), (6.15, 5.25), (9.85, 5.25), (13.55, 5.25),
          (2.45, 7.25), (6.15, 7.25), (9.85, 7.25), (13.55, 7.25))
-# Each obstacle is the footprint of a desk; chairs remain reachable behind the desks.
+# Chairs are reached only by the explicit sit action; ordinary walking goes around them.
 OBSTACLES: tuple[tuple[float, float, float, float], ...] = (
     TEACHER_DESK,
     *((x, y + 0.70, 0.95, 0.34) for x, y in SEATS),
+    *((x, y, 0.38, 0.34) for x, y in SEATS),
+    (14.7, 3.55, 0.55, 0.32),  # bookcase
+    (0.6, 5.2, 0.5, 0.38),  # plant
 )
 # Two children never stand on top of each other: closer than this (wider than tall, the way they
 # stand side by side) and the one arriving steps aside.

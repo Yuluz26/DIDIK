@@ -310,6 +310,9 @@ class Room:
             view["plaza"] = self.plaza_view()
         elif self.phase == "playing" and self.mode is not None:
             view["game"] = self.mode.player_view(player)
+            # Four overall rows ensure every child can see three *other* leaders,
+            # including when this child is in first place.
+            view["game"]["leaders"] = self.mode.leaders(4)
         elif self.phase == "ended":
             view["results"] = self.results
         return view
@@ -539,6 +542,9 @@ class Room:
         if kind == "walk":
             self.walk(player, msg.get("x"), msg.get("y"))
             return
+        if kind == "sit":
+            self.sit(player, msg.get("seat"))
+            return
         if not player.approved or self.phase != "playing" or self.mode is None:
             return
         self.mode.handle(player, kind, msg)
@@ -558,6 +564,20 @@ class Room:
             return
         player.last_walk = now
         self.move(player, *plaza.clamp(tx, ty))
+
+    def sit(self, player: Player, seat: Any) -> None:
+        """Seat a child at an available chair; walking cannot pass through chairs."""
+        now = time.monotonic()
+        if self.phase != "lobby" or not player.approved or now - player.last_walk < plaza.WALK_EVERY:
+            return
+        if not isinstance(seat, int) or isinstance(seat, bool) or not 0 <= seat < len(plaza.SEATS):
+            return
+        x, y = plaza.SEATS[seat]
+        if any(p is not player and p.approved and ((x - p.spot[0]) / plaza.APART_X) ** 2 + ((y - p.spot[1]) / plaza.APART_Y) ** 2 < 1 for p in self.players.values()):
+            return
+        player.last_walk = now
+        player.spot = (x, y)
+        self.mark_dirty()
 
     def move(self, player: Player, x: float, y: float) -> None:
         x, y = plaza.apart(x, y, [p.spot for p in self.players.values() if p is not player and p.approved])

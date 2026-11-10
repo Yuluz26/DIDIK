@@ -582,6 +582,15 @@ class LegendaMode(SelfPacedMode):
         view["raids"] = [self.raid_view(r) | {"world": r["world"]} for r in self.raids.values() if r["hp"] > 0]
         return view
 
+    def _leaders(self, limit: int) -> list[dict[str, Any]]:
+        # Story progress wins before points, matching the final results.
+        rows = sorted(self.players(), key=lambda p: (-len(self.seat(p).extra["worlds"]), -p.score, p.joined_at))
+        return [{"id": p.id, "score": p.score, "rank": i + 1} for i, p in enumerate(rows[:limit])]
+
+    def rank_of(self, player: Any) -> int:
+        rows = self.leaders(len(self.players()))
+        return next((row["rank"] for row in rows if row["id"] == player.id), len(rows) + 1)
+
     def results(self) -> dict[str, Any]:
         rows = sorted(self.players(), key=lambda p: (-len(self.seat(p).extra["worlds"]), -p.score, p.joined_at))
         best = max((len(self.seat(p).extra["worlds"]) for p in rows), default=0)

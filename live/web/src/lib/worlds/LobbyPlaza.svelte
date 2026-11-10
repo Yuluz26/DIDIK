@@ -20,7 +20,13 @@
 			{ x: 2.45, y: 5.95, rx: 0.95, ry: 0.34 }, { x: 6.15, y: 5.95, rx: 0.95, ry: 0.34 },
 			{ x: 9.85, y: 5.95, rx: 0.95, ry: 0.34 }, { x: 13.55, y: 5.95, rx: 0.95, ry: 0.34 },
 			{ x: 2.45, y: 7.95, rx: 0.95, ry: 0.34 }, { x: 6.15, y: 7.95, rx: 0.95, ry: 0.34 },
-			{ x: 9.85, y: 7.95, rx: 0.95, ry: 0.34 }, { x: 13.55, y: 7.95, rx: 0.95, ry: 0.34 }
+			{ x: 9.85, y: 7.95, rx: 0.95, ry: 0.34 }, { x: 13.55, y: 7.95, rx: 0.95, ry: 0.34 },
+			{ x: 2.45, y: 5.25, rx: 0.38, ry: 0.34 }, { x: 6.15, y: 5.25, rx: 0.38, ry: 0.34 },
+			{ x: 9.85, y: 5.25, rx: 0.38, ry: 0.34 }, { x: 13.55, y: 5.25, rx: 0.38, ry: 0.34 },
+			{ x: 2.45, y: 7.25, rx: 0.38, ry: 0.34 }, { x: 6.15, y: 7.25, rx: 0.38, ry: 0.34 },
+			{ x: 9.85, y: 7.25, rx: 0.38, ry: 0.34 }, { x: 13.55, y: 7.25, rx: 0.38, ry: 0.34 },
+			{ x: 14.7, y: 3.55, rx: 0.55, ry: 0.32 },
+			{ x: 0.6, y: 5.2, rx: 0.5, ry: 0.38 }
 		]
 	};
 
@@ -74,7 +80,8 @@
 		spots,
 		client,
 		me = null,
-		onwalk
+		onwalk,
+		onsit
 	}: {
 		people: Person[];
 		spots: [string, number, number, number][];
@@ -82,6 +89,7 @@
 		/** On a child's phone: their own id. They can walk, and the view follows them. */
 		me?: string | null;
 		onwalk?: (x: number, y: number) => void;
+		onsit?: (seat: number) => void;
 	} = $props();
 
 	const { W, H } = PLAZA;
@@ -92,12 +100,20 @@
 	function chooseSeat(index: number) { selectedSeat = index; }
 	function occupied(index: number) {
 		const seat = PLAZA.seats[index];
-		return spots.some(([id, x, y]) => id !== me && Math.hypot(x - seat.x, y - seat.y) < 0.45);
+		return spots.some(([id, x, y]) => id !== me && ((x - seat.x) / 0.85) ** 2 + ((y - seat.y) / 0.5) ** 2 < 1);
 	}
 	function sit() {
-		if (selectedSeat === null || occupied(selectedSeat)) return;
+		if (selectedSeat === null || occupied(selectedSeat) || !me || !onsit) return;
+		const now = performance.now();
+		if (now - lastStep < 300) return;
+		lastStep = now;
 		const seat = PLAZA.seats[selectedSeat];
-		if (step(seat.x, seat.y)) selectedSeat = null;
+		const from = shown[me];
+		walkTo(me, seat.x, seat.y, from && Math.abs(seat.x - from.x) > 0.05 ? Math.sign(seat.x - from.x) : (from?.facing ?? 1));
+		target = { ...seat, n: (target?.n ?? 0) + 1 };
+		walked = true;
+		onsit(selectedSeat);
+		selectedSeat = null;
 	}
 
 	const PROPS: WorldProp[] = [
@@ -202,6 +218,7 @@
 					y: at.y,
 					facing: at.facing,
 					walking: at.walking,
+					seated: !at.walking && PLAZA.seats.some((seat) => Math.hypot(at.x - seat.x, at.y - seat.y) < 0.28),
 					ms: at.ms,
 					animal: person.avatar,
 					colour: person.colour,

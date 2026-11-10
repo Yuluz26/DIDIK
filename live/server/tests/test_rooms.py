@@ -133,6 +133,24 @@ def test_a_whole_boat_race() -> None:
     run(scenario())
 
 
+def test_every_player_sees_three_other_leaders_in_a_large_game() -> None:
+    async def scenario() -> None:
+        room = open_room("lumba", max_players=20)
+        children = [room.join(connection()[0], {"avatar": "kancil"}) for _ in range(12)]
+        assert room.start_game() is None
+        for score, child in enumerate(children):
+            child.score = score * 10
+        for child in (children[0], children[-1]):
+            game = room.player_view(child)["game"]
+            others = [row for row in game["leaders"] if row["id"] != child.id][:3]
+            assert len(others) == 3
+            assert all(row["id"] != child.id for row in others)
+            assert [row["score"] for row in others] == sorted((p.score for p in children if p.id != child.id), reverse=True)[:3]
+        room.close()
+
+    run(scenario())
+
+
 def test_pausing_freezes_the_clock() -> None:
     async def scenario() -> None:
         room = open_room("lumba")
@@ -201,7 +219,7 @@ def test_children_walk_around_the_waiting_room_square() -> None:
         return all(((x - ox) / rx) ** 2 + ((y - oy) / ry) ** 2 >= 1 for ox, oy, rx, ry in plaza.OBSTACLES)
 
     def in_square(x: float, y: float) -> bool:
-        return plaza.LEFT <= x <= plaza.RIGHT and plaza.TOP <= y <= plaza.BOTTOM and outside_furniture(x, y)
+        return plaza.LEFT <= x <= plaza.RIGHT and plaza.TOP <= y <= plaza.BOTTOM and (outside_furniture(x, y) or (x, y) in plaza.SEATS)
 
     async def scenario() -> None:
         room = open_room("lumba")
@@ -404,7 +422,7 @@ def test_a_full_class_uses_seats_then_spreads_over_the_classroom() -> None:
         first, later = kids[: plaza.CROWD], kids[plaza.CROWD :]
         assert {k.spot for k in first} == set(plaza.SEATS)
         assert len({k.spot for k in later}) > 10
-        assert all(plaza.clamp(*k.spot) == k.spot for k in kids)
+        assert all(plaza.clamp(*k.spot) == k.spot or k.spot in plaza.SEATS for k in kids)
         room.close()
 
     run(scenario())
@@ -421,6 +439,28 @@ def test_two_children_never_stand_on_the_same_spot() -> None:
         dx, dy = (a.spot[0] - b.spot[0]) / plaza.APART_X, (a.spot[1] - b.spot[1]) / plaza.APART_Y
         assert math.hypot(dx, dy) >= 1
         assert plaza.clamp(*b.spot) == b.spot  # still in the classroom, outside the desks
+
+    run(scenario())
+
+
+def test_a_chair_requires_sit_and_cannot_be_shared() -> None:
+    async def scenario() -> None:
+        room = open_room("lumba")
+        a = room.join(connection()[0], {"avatar": "kancil"})
+        b = room.join(connection()[0], {"avatar": "penyu"})
+        target = next(i for i, seat in enumerate(plaza.SEATS) if seat not in (a.spot, b.spot))
+        x, y = plaza.SEATS[target]
+        a.last_walk -= 1
+        room.handle_player(a, {"t": "walk", "x": x, "y": y})
+        assert a.spot != (x, y)  # ordinary walking bends around the chair
+        a.last_walk -= 1
+        room.handle_player(a, {"t": "sit", "seat": target})
+        assert a.spot == (x, y)
+        b.last_walk -= 1
+        old = b.spot
+        room.handle_player(b, {"t": "sit", "seat": target})
+        assert b.spot == old
+        room.close()
 
     run(scenario())
 

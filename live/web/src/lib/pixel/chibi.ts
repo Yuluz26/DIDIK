@@ -408,6 +408,26 @@ export function chibiSheet(animal: string, colour: string, tone: string): Sheet 
 	});
 }
 
+/** A child resting on a classroom chair: knees forward, body lower, hands beside the desk. */
+export function sittingSheet(animal: string, colour: string, tone: string): Sheet {
+	return memo(`chibi:sit:${animal}:${colour}:${tone}`, () => {
+		const l = look(animal, colour, tone);
+		const p = new Pix(CW, CH);
+		const pose: Pose = { dy: 4, lift: 0, swing: 0 };
+		p.shadow(9, 30.2, 7, 1.4);
+		p.rect(3, 27, 5, 3, PANTS.c[2], PANTS.ink);
+		p.rect(10, 27, 5, 3, PANTS.c[2], PANTS.ink);
+		p.rect(2, 29, 5, 2, SHOE, PANTS.ink);
+		p.rect(11, 29, 5, 2, SHOE, PANTS.ink);
+		bodyFront(p, l, pose);
+		earsBehind(p, l, pose.dy);
+		hood(p, l, pose.dy);
+		overlays(p, l, pose.dy, 'front');
+		face(p, l, 'happy', pose.dy);
+		return sheetOf(p.outline());
+	});
+}
+
 /** The child side on, facing left, both hands forward holding something (a fishing rod, a kite's string). */
 export function holdingSheet(animal: string, colour: string, tone: string): Sheet {
 	return memo(`chibi:hold:${animal}:${colour}:${tone}`, () => {

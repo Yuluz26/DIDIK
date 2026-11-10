@@ -8,7 +8,7 @@
 -->
 <script lang="ts">
 	import { snapScale } from '$lib/pixel/cache';
-	import { CH, CW, ROW, chibiSheet, type Mood } from '$lib/pixel/chibi';
+	import { CH, CW, ROW, chibiSheet, sittingSheet, type Mood } from '$lib/pixel/chibi';
 	import Sprite from '$lib/pixel/Sprite.svelte';
 
 	let {
@@ -19,6 +19,7 @@
 		s,
 		mood = 'happy',
 		walking = false,
+		seated = false,
 		facing = 1,
 		dir = 'front',
 		label = ''
@@ -30,6 +31,7 @@
 		s?: number;
 		mood?: Mood;
 		walking?: boolean;
+		seated?: boolean;
 		/** Which way a sideways character looks: -1 left, 1 right. */
 		facing?: number;
 		dir?: 'front' | 'back' | 'side';
@@ -39,6 +41,7 @@
 
 	const scale = $derived(s ?? snapScale(size / CW, 1));
 	const sheet = $derived(chibiSheet(animal, colour, skin));
+	const seatSheet = $derived(sittingSheet(animal, colour, skin));
 	const view = $derived(mood === 'happy' ? dir : 'front');
 </script>
 
@@ -50,7 +53,9 @@
 	aria-label={label || undefined}
 	aria-hidden={label ? undefined : 'true'}
 >
-	{#if mood === 'cheer'}
+	{#if seated && !walking}
+		<Sprite sheet={seatSheet} s={scale} />
+	{:else if mood === 'cheer'}
 		<Sprite {sheet} s={scale} row={ROW.mood} col={0} frames={2} ms={560} />
 	{:else if mood === 'oops'}
 		<Sprite {sheet} s={scale} row={ROW.mood} col={2} />

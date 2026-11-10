@@ -21,6 +21,7 @@
 	import TrainWorld from './fun/TrainWorld.svelte';
 	import MarketWorld from './fun/MarketWorld.svelte';
 	import StarSky from './fun/StarSky.svelte';
+	import TopThree from './TopThree.svelte';
 
 	let { client, view, me, people }: { client: RoomClient; view: View; me: Me; people: Map<string, Person> } = $props();
 
@@ -138,4 +139,8 @@
 	<LegendaPlayer {client} {game} {me} {people} />
 {:else}
 	<p class="wrap">Permainan ini sedang disiapkan.</p>
+{/if}
+
+{#if game?.stage !== 'intro' && mode.key !== 'legenda' && mode.world !== 'interaktif'}
+	<TopThree rows={game?.leaders ?? []} {people} {me} rank={game?.rank ?? null} unit={mode.unit} />
 {/if}

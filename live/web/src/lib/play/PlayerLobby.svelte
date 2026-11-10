@@ -32,7 +32,7 @@
 		</p>
 	</section>
 
-	<LobbyPlaza people={friends} spots={view.plaza ?? []} {client} me={me.id} onwalk={(x, y) => client.send({ t: 'walk', x, y })} />
+	<LobbyPlaza people={friends} spots={view.plaza ?? []} {client} me={me.id} onwalk={(x, y) => client.send({ t: 'walk', x, y })} onsit={(seat) => client.send({ t: 'sit', seat })} />
 
 	<section class="mode">
 		<WorldBadge world={view.room.mode.world} size={76} />

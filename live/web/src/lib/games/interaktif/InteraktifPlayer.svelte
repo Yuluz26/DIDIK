@@ -29,17 +29,19 @@
 	import CloudSky from './CloudSky.svelte';
 	import DidiSoft, { type DidiMood } from './DidiSoft.svelte';
 	import Trail from './Trail.svelte';
+	import TopThree from '../TopThree.svelte';
 
 	let {
 		client,
 		game,
-		me
+		me,
+		people
 	}: {
 		client: RoomClient;
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		game: any;
 		me: Me;
-		people?: Map<string, Person>;
+		people: Map<string, Person>;
 	} = $props();
 
 	const seat = $derived(game.seat ?? {});
@@ -142,6 +144,9 @@
 			<SoundToggle />
 		</span>
 	</header>
+	{#if game.stage !== 'intro'}
+		<TopThree rows={game.leaders ?? []} {people} {me} rank={game.rank ?? null} unit="bintang" inline />
+	{/if}
 
 	{#if game.stage === 'intro'}
 		<main class="stage center">
