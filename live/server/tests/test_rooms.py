@@ -197,11 +197,11 @@ def test_stickers_are_limited_to_the_set_and_rate() -> None:
 
 
 def test_children_walk_around_the_waiting_room_square() -> None:
-    def outside_fountain(x: float, y: float) -> bool:
-        return math.hypot((x - plaza.FOUNTAIN_X) / plaza.FOUNTAIN_RX, (y - plaza.FOUNTAIN_Y) / plaza.FOUNTAIN_RY) >= 1
+    def outside_furniture(x: float, y: float) -> bool:
+        return all(((x - ox) / rx) ** 2 + ((y - oy) / ry) ** 2 >= 1 for ox, oy, rx, ry in plaza.OBSTACLES)
 
     def in_square(x: float, y: float) -> bool:
-        return plaza.LEFT <= x <= plaza.RIGHT and plaza.TOP <= y <= plaza.BOTTOM and outside_fountain(x, y)
+        return plaza.LEFT <= x <= plaza.RIGHT and plaza.TOP <= y <= plaza.BOTTOM and outside_furniture(x, y)
 
     async def scenario() -> None:
         room = open_room("lumba")
@@ -214,8 +214,8 @@ def test_children_walk_around_the_waiting_room_square() -> None:
         assert in_square(*kid.spot)
         assert [kid.id, *kid.spot, 1] in host_socket.view()["plaza"]
 
-        # A tap on the fountain lands at its edge; one straight after is ignored.
-        room.handle_player(kid, {"t": "walk", "x": plaza.FOUNTAIN_X, "y": plaza.FOUNTAIN_Y})
+        # A tap on the teacher's desk lands at its edge; one straight after is ignored.
+        room.handle_player(kid, {"t": "walk", "x": plaza.TEACHER_DESK[0], "y": plaza.TEACHER_DESK[1]})
         assert in_square(*kid.spot)
         here = kid.spot
         room.handle_player(kid, {"t": "walk", "x": 2, "y": 7})
@@ -397,14 +397,14 @@ def test_a_phone_that_falls_behind_gets_the_newest_view_not_every_old_one() -> N
     run(scenario())
 
 
-def test_a_full_class_spreads_over_the_whole_square() -> None:
+def test_a_full_class_uses_seats_then_spreads_over_the_classroom() -> None:
     async def scenario() -> None:
         room = open_room("lumba")
         kids = [room.join(connection()[0], {"avatar": "kancil"}) for _ in range(40)]
         first, later = kids[: plaza.CROWD], kids[plaza.CROWD :]
-        assert all(k.spot[1] >= 6.3 for k in first)  # the first arrivals line up at the front
-        assert min(k.spot[1] for k in later) < 6.0  # a full class fills the square, not one row
-        assert all(plaza.clamp(*k.spot) == k.spot for k in kids)  # never in the fountain
+        assert {k.spot for k in first} == set(plaza.SEATS)
+        assert len({k.spot for k in later}) > 10
+        assert all(plaza.clamp(*k.spot) == k.spot for k in kids)
         room.close()
 
     run(scenario())
@@ -420,12 +420,12 @@ def test_two_children_never_stand_on_the_same_spot() -> None:
             room.handle_player(kid, {"t": "walk", "x": 4.0, "y": 7.0})
         dx, dy = (a.spot[0] - b.spot[0]) / plaza.APART_X, (a.spot[1] - b.spot[1]) / plaza.APART_Y
         assert math.hypot(dx, dy) >= 1
-        assert plaza.clamp(*b.spot) == b.spot  # still in the square, outside the fountain
+        assert plaza.clamp(*b.spot) == b.spot  # still in the classroom, outside the desks
 
     run(scenario())
 
 
-def test_nobody_stands_in_the_fountain_on_a_bench_a_lamp_or_the_arch_posts() -> None:
+def test_nobody_stands_inside_classroom_desks() -> None:
     rng = random.Random(7)
     for _ in range(5000):
         x, y = plaza.clamp(rng.uniform(0, 16), rng.uniform(2, 9.5))
@@ -433,4 +433,4 @@ def test_nobody_stands_in_the_fountain_on_a_bench_a_lamp_or_the_arch_posts() -> 
         assert plaza.LEFT <= x <= plaza.RIGHT and plaza.TOP <= y <= plaza.BOTTOM
         for ox, oy, rx, ry in plaza.OBSTACLES:
             assert ((x - ox) / rx) ** 2 + ((y - oy) / ry) ** 2 >= 1, (x, y, ox, oy)
-    assert plaza.clamp(*plaza.ARCH) == plaza.ARCH  # the way in, between the arch's posts, stays open
+    assert plaza.clamp(*plaza.ARCH) == plaza.ARCH  # the doorway stays open

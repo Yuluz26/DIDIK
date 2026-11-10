@@ -1,31 +1,26 @@
-<!--
-	The waiting room's town square, on the host's screen and on every phone. Children come in under
-	the arch when they join; on a phone, tapping the square (or the arrow keys) walks your character
-	there and everyone sees it. Positions come from the server; this only animates the walking, round
-	whatever is in the way (the fountain, the lamp posts, the benches, the arch's posts, the cat and the
-	hen), never through it. The walkable box, the obstacles and the arch match didik_live/game/plaza.py.
--->
+<!-- The shared classroom lobby. Children arrive at a free chair, can tap desks to sit or walk
+	between them, and appear in the same place on every screen. Furniture collision and seat
+	coordinates match didik_live/game/plaza.py. -->
 <script lang="ts" module>
 	export const PLAZA = {
 		W: 16,
 		H: 9,
-		left: 0.8,
+		left: 0.7,
 		top: 3.4,
-		right: 15.2,
+		right: 15.3,
 		bottom: 8.6,
-		fountain: { x: 8, y: 5.6, rx: 1.8, ry: 1.35 },
-		arch: { x: 8, y: 3.5 },
-		// where each thing stands on the ground (plaza.py OBSTACLES, in the same order)
+		arch: { x: 1.2, y: 3.6 },
+		seats: [
+			{ x: 2.45, y: 5.25 }, { x: 6.15, y: 5.25 }, { x: 9.85, y: 5.25 }, { x: 13.55, y: 5.25 },
+			{ x: 2.45, y: 7.25 }, { x: 6.15, y: 7.25 }, { x: 9.85, y: 7.25 }, { x: 13.55, y: 7.25 }
+		],
+		// Furniture footprints must match plaza.py OBSTACLES in this order.
 		obstacles: [
-			{ x: 8, y: 5.6, rx: 1.8, ry: 1.35 },
-			{ x: 5.6, y: 4.2, rx: 0.4, ry: 0.3 },
-			{ x: 10.4, y: 4.2, rx: 0.4, ry: 0.3 },
-			{ x: 2.6, y: 4.45, rx: 1.05, ry: 0.4 },
-			{ x: 13.4, y: 4.45, rx: 1.05, ry: 0.4 },
-			{ x: 6.85, y: 3.4, rx: 0.35, ry: 0.3 },
-			{ x: 9.15, y: 3.4, rx: 0.35, ry: 0.3 },
-			{ x: 14.4, y: 4.8, rx: 0.45, ry: 0.3 },
-			{ x: 1.5, y: 7.3, rx: 0.4, ry: 0.3 }
+			{ x: 8, y: 4.15, rx: 1.55, ry: 0.4 },
+			{ x: 2.45, y: 5.95, rx: 0.95, ry: 0.34 }, { x: 6.15, y: 5.95, rx: 0.95, ry: 0.34 },
+			{ x: 9.85, y: 5.95, rx: 0.95, ry: 0.34 }, { x: 13.55, y: 5.95, rx: 0.95, ry: 0.34 },
+			{ x: 2.45, y: 7.95, rx: 0.95, ry: 0.34 }, { x: 6.15, y: 7.95, rx: 0.95, ry: 0.34 },
+			{ x: 9.85, y: 7.95, rx: 0.95, ry: 0.34 }, { x: 13.55, y: 7.95, rx: 0.95, ry: 0.34 }
 		]
 	};
 
@@ -67,10 +62,11 @@
 	import { untrack } from 'svelte';
 	import type { RoomClient } from '$lib/room.svelte';
 	import type { Person } from '$lib/types';
-	import { fitTile, memo } from '$lib/pixel/cache';
-	import { landMap, paintGround } from '$lib/pixel/ground';
+	import { fitTile, TILE } from '$lib/pixel/cache';
+	import Sprite from '$lib/pixel/Sprite.svelte';
 	import Stickers from '$lib/play/Stickers.svelte';
 	import World, { type WorldActor, type WorldProp } from './World.svelte';
+	import { CHAIR_COLOURS, classroomArt, classroomGround } from './classroom';
 	import { route } from './route';
 
 	let {
@@ -90,52 +86,34 @@
 
 	const { W, H } = PLAZA;
 
-	// Grass with a hedge row along the back, a dirt path in from the arch and out to each side, and a
-	// paved oval square in the middle, in pixels (a tile is 16).
-	const ground = memo('ground:plaza', () => {
-		const map = landMap(Array.from({ length: H }, () => 'g'.repeat(W)), { g: 'grass' });
-		const oval = (cx: number, cy: number, rx: number, ry: number) => (x: number, y: number) => ((x + 0.5 - cx) / rx) ** 2 + ((y + 0.5 - cy) / ry) ** 2 <= 1;
-		return paintGround(map, {
-			seed: 4,
-			meadow: 0.35,
-			shapes: [
-				{ land: 'moss', test: (x, y) => y < 40 + Math.sin(x / 8) * 3 },
-				{ land: 'dirt', test: (x, y) => x >= 113 && x < 143 && y >= 43 && y < 62 },
-				{ land: 'dirt', test: (x, y) => y >= 86 && y < 106 && (x < 54 || x >= 202) },
-				{ land: 'dirt', test: (x, y) => x >= 118 && x < 138 && y >= 130 },
-				{ land: 'stone', test: oval(128, 95, 102, 43) }
-			]
-		});
-	});
+	const ground = classroomGround();
 	const SPEED = 3; // tiles a second, about a child's stroll
+	let selectedSeat = $state<number | null>(null);
+	function chooseSeat(index: number) { selectedSeat = index; }
+	function occupied(index: number) {
+		const seat = PLAZA.seats[index];
+		return spots.some(([id, x, y]) => id !== me && Math.hypot(x - seat.x, y - seat.y) < 0.45);
+	}
+	function sit() {
+		if (selectedSeat === null || occupied(selectedSeat)) return;
+		const seat = PLAZA.seats[selectedSeat];
+		if (step(seat.x, seat.y)) selectedSeat = null;
+	}
 
 	const PROPS: WorldProp[] = [
-		{ id: 't1', kind: 'tree', x: 0.9, y: 2.7, variant: 0 },
-		{ id: 't2', kind: 'palm', x: 2.4, y: 2.2, variant: 1 },
-		{ id: 't3', kind: 'pine', x: 3.8, y: 2.8, variant: 2 },
-		{ id: 't4', kind: 'tree', x: 5.3, y: 2.3, variant: 2 },
-		{ id: 'arch', kind: 'arch', x: 8, y: 3.35 },
-		{ id: 't5', kind: 'tree', x: 10.7, y: 2.3, variant: 1 },
-		{ id: 't6', kind: 'pine', x: 12.2, y: 2.8, variant: 0 },
-		{ id: 't7', kind: 'palm', x: 13.7, y: 2.2, variant: 0 },
-		{ id: 'wau', kind: 'wau', x: 15.25, y: 3.1 },
-		{ id: 'lamp1', kind: 'lamp', x: 5.6, y: 4.2 },
-		{ id: 'lamp2', kind: 'lamp', x: 10.4, y: 4.2 },
-		{ id: 'fountain', kind: 'fountain', x: 8, y: 5.95 },
-		{ id: 'bench1', kind: 'bench', x: 2.6, y: 4.5 },
-		{ id: 'bench2', kind: 'bench', x: 13.4, y: 4.5 },
-		{ id: 'cat', kind: 'cat', x: 14.4, y: 4.8 },
-		{ id: 'hen', kind: 'hen', x: 1.5, y: 7.3 },
-		{ id: 'hibiscus', kind: 'hibiscus', x: 0.6, y: 9 },
-		{ id: 'flowers1', kind: 'flowers', x: 4.4, y: 8.95 },
-		{ id: 'flowers2', kind: 'flowers', x: 11.9, y: 8.95, variant: 1 },
-		{ id: 'bush', kind: 'bush', x: 15.5, y: 9.05 }
+		{ id: 'teacher', kind: 'teacher', x: 8, y: 4.28, custom: true },
+		{ id: 'shelf', kind: 'bookcase', x: 14.7, y: 3.55, custom: true },
+		{ id: 'plant', kind: 'plant', x: 0.6, y: 5.2, custom: true },
+		...PLAZA.seats.flatMap((seat, i) => [
+			{ id: `chair${i}`, kind: 'chair', x: seat.x, y: seat.y - 0.16, variant: i, custom: true, action: me ? () => chooseSeat(i) : undefined, label: `Pilih kerusi ${CHAIR_COLOURS[i].name}` },
+			{ id: `desk${i}`, kind: 'desk', x: seat.x, y: seat.y + 0.74, variant: i, custom: true, action: me ? () => chooseSeat(i) : undefined, label: `Pilih meja dengan kerusi ${CHAIR_COLOURS[i].name}` }
+		])
 	];
 
 	let el = $state<HTMLElement>();
 	let world = $state<ReturnType<typeof World>>();
 	let width = $state(0);
-	// The host's screen shows the whole square; a phone shows a closer view that follows the child.
+	// The host sees the whole classroom; a phone follows the child's own place.
 	const tile = $derived(me ? fitTile(width, W, { min: 2 }) : fitTile(width, W));
 	const follow = $derived(!!me && tile * W > width + 1);
 
@@ -188,7 +166,7 @@
 				if (!primed || still) {
 					shown[id] = { x, y, facing, ms: 0, walking: false };
 				} else {
-					// A new arrival: stand under the arch first, then walk in once that has been drawn.
+					// A new arrival enters through the side door, then walks to the free chair.
 					shown[id] = { x: PLAZA.arch.x, y: PLAZA.arch.y, facing, ms: 0, walking: false };
 					requestAnimationFrame(() => requestAnimationFrame(() => walkTo(id, x, y, facing)));
 				}
@@ -241,11 +219,11 @@
 	let lastStep = 0;
 	let walked = $state(false);
 
-	function step(x: number, y: number) {
-		if (!me || !onwalk) return;
+	function step(x: number, y: number): boolean {
+		if (!me || !onwalk) return false;
 		const now = performance.now();
 		// The server takes a new spot four times a second at most; stay just under that.
-		if (now - lastStep < 300) return;
+		if (now - lastStep < 300) return false;
 		lastStep = now;
 		const to = clampToPlaza(x, y);
 		const from = shown[me];
@@ -253,9 +231,11 @@
 		target = { ...to, n: (target?.n ?? 0) + 1 };
 		walked = true;
 		onwalk(to.x, to.y);
+		return true;
 	}
 
 	function tap(event: MouseEvent) {
+		if ((event.target as HTMLElement).closest('button, .seat-choice')) return;
 		const at = world?.toTiles(event.clientX, event.clientY);
 		if (at) step(at.x, at.y);
 	}
@@ -278,18 +258,34 @@
 	{/if}
 {/snippet}
 
+{#snippet furniture(prop: WorldProp, tile: number)}
+	<Sprite sheet={classroomArt(prop.kind, prop.variant ?? 0)} s={tile / TILE} />
+{/snippet}
+
+{#snippet classroomLabels(tile: number)}
+	<span class="board-word" style:left="{128 * tile / TILE}px" style:top="{23 * tile / TILE}px" style:font-size="{Math.max(7, tile * 0.28)}px">DIDIK</span>
+{/snippet}
+
 {#snippet square()}
 	<div class="stage" style:width={follow ? undefined : `${W * tile}px`} style:height={follow ? undefined : `${H * tile}px`}>
-		<World bind:this={world} width={W} height={H} {tile} {ground} props={PROPS} {actors} {me} {follow} step={600} overlay={marker} />
+		<World bind:this={world} width={W} height={H} {tile} {ground} props={PROPS} {actors} {me} {follow} step={600} art={furniture} under={classroomLabels} overlay={marker} />
 	</div>
+	{#if me && selectedSeat !== null}
+		<div class="seat-choice" role="group" aria-label="Pilih tempat duduk">
+			<span class="seat-swatch" style:background={CHAIR_COLOURS[selectedSeat].seat} aria-hidden="true"></span>
+			<div class="seat-copy"><strong>Kerusi {CHAIR_COLOURS[selectedSeat].name}</strong><span>{occupied(selectedSeat) ? 'Kerusi ini sudah ada kawan. Pilih kerusi lain ya!' : 'Nak duduk di sini?'}</span></div>
+			<button type="button" class="seat-sit" disabled={occupied(selectedSeat)} onclick={sit}>Duduk</button>
+			<button type="button" class="seat-cancel" onclick={() => (selectedSeat = null)} aria-label="Batal pilih kerusi">×</button>
+		</div>
+	{/if}
 	{#if me && !walked}
-		<p class="hint" aria-hidden="true">Ketik di mana-mana untuk berjalan</p>
+		<p class="hint" aria-hidden="true">Ketik kerusi berwarna untuk pilih tempat duduk</p>
 	{/if}
 	<Stickers {client} within={el} />
 {/snippet}
 
 {#if me}
-	<!-- The square handles its own keys (arrows walk), which is what the application role is for. -->
+	<!-- The classroom handles its own keys (arrows walk), which is what the application role is for. -->
 	<!-- svelte-ignore a11y_no_noninteractive_tabindex, a11y_no_noninteractive_element_interactions -->
 	<div
 		class="plaza walkable"
@@ -298,7 +294,7 @@
 		bind:clientWidth={width}
 		style:--plaza-h="{H * tile}px"
 		role="application"
-		aria-label="Dataran. Ketik di mana-mana, atau tekan anak panah, untuk berjalan."
+		aria-label="Kelas. Ketik kerusi berwarna dan pilih Duduk, atau tekan anak panah untuk berjalan."
 		tabindex="0"
 		onclick={tap}
 		onkeydown={key}
@@ -320,6 +316,40 @@
 	.stage {
 		margin-inline: auto;
 	}
+	.plaza :global(.viewport) { background: #c99061; }
+	.board-word {
+		position: absolute;
+		translate: -50% -50%;
+		color: #583e38;
+		font-family: var(--font-pixel);
+		font-weight: 800;
+		letter-spacing: 0.12em;
+		text-shadow: 1px 1px #fff6da;
+	}
+	.seat-choice {
+		position: absolute;
+		z-index: 5;
+		left: 50%;
+		bottom: 0.65rem;
+		translate: -50% 0;
+		width: min(29rem, calc(100% - 1rem));
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.55rem;
+		border: 2px solid #6a483c;
+		border-radius: var(--r-md);
+		background: #fff5dd;
+		box-shadow: 0 0.45rem 1.2rem rgb(55 32 28 / 0.25);
+	}
+	.seat-swatch { flex: none; width: 1.7rem; height: 1.7rem; border: 2px solid #6a483c; border-radius: 0.35rem; }
+	.seat-copy { display: grid; gap: 0.1rem; min-width: 0; flex: 1; font-size: 0.8rem; line-height: 1.15; }
+	.seat-copy strong { font-size: 0.92rem; }
+	.seat-sit, .seat-cancel { flex: none; min-height: 2.5rem; border: 0; border-radius: 0.5rem; font: 800 0.9rem var(--font-display); cursor: pointer; }
+	.seat-sit { padding-inline: 0.85rem; background: var(--sun); color: var(--ink); }
+	.seat-sit:disabled { opacity: 0.5; cursor: not-allowed; }
+	.seat-cancel { width: 2.5rem; background: #ead6b6; color: #513e35; font-size: 1.35rem; }
+	.seat-sit:focus-visible, .seat-cancel:focus-visible { outline: 3px solid #295b9b; outline-offset: 2px; }
 	/* A phone shows a window onto the square that follows the child. */
 	.follow .stage {
 		height: min(var(--plaza-h), 60dvh);

@@ -1,11 +1,7 @@
-"""The waiting room's town square. Children appear at the arch when they join and walk wherever they
-tap while the host gets ready; everyone sees everyone else on their own screen.
+"""Positions and furniture collision for the pixel classroom waiting room.
 
-Positions are in tiles of the square drawn by the web app (LobbyPlaza.svelte, 16 x 9 tiles); keep
-the walkable box, the fountain, the other things in the way and the arch in step with that drawing.
-
-Nobody stands in the fountain or on a lamp post, a bench, the arch's posts or the cat and the hen: a spot
-inside one of them moves to just outside it. (The web app walks children round them too.)
+Keep these tile coordinates in step with LobbyPlaza.svelte. A tap on a desk can send a pupil
+to its chair; everyone can also walk around the desks while waiting for the host.
 """
 
 from __future__ import annotations
@@ -14,31 +10,19 @@ import math
 import random
 
 WIDTH, HEIGHT = 16.0, 9.0
-# Nobody walks into the tree line at the top or off the edges.
-LEFT, TOP, RIGHT, BOTTOM = 0.8, 3.4, 15.2, 8.6
-# The fountain in the middle is an ellipse you walk around: its basin and the room a child takes up.
-# A child is two tiles tall, so in front of the fountain they stand a full tile clear of its rim (else
-# their body covers the water and they seem to stand in it); behind it, clear of its top; at the sides,
-# half a child's width clear of the basin.
-FOUNTAIN_X, FOUNTAIN_Y, FOUNTAIN_RX, FOUNTAIN_RY = 8.0, 5.6, 1.8, 1.35
-# Everything else in the way, where it stands on the ground, as (x, y, half width, half depth) in tiles:
-# the two lamp posts, the two benches, the arch's two posts, the cat by the right bench and the hen.
+LEFT, TOP, RIGHT, BOTTOM = 0.7, 3.4, 15.3, 8.6
+TEACHER_DESK = (8.0, 4.15, 1.55, 0.4)
+SEATS = ((2.45, 5.25), (6.15, 5.25), (9.85, 5.25), (13.55, 5.25),
+         (2.45, 7.25), (6.15, 7.25), (9.85, 7.25), (13.55, 7.25))
+# Each obstacle is the footprint of a desk; chairs remain reachable behind the desks.
 OBSTACLES: tuple[tuple[float, float, float, float], ...] = (
-    (FOUNTAIN_X, FOUNTAIN_Y, FOUNTAIN_RX, FOUNTAIN_RY),
-    (5.6, 4.2, 0.4, 0.3),
-    (10.4, 4.2, 0.4, 0.3),
-    (2.6, 4.45, 1.05, 0.4),
-    (13.4, 4.45, 1.05, 0.4),
-    (6.85, 3.4, 0.35, 0.3),
-    (9.15, 3.4, 0.35, 0.3),
-    (14.4, 4.8, 0.45, 0.3),
-    (1.5, 7.3, 0.4, 0.3),
+    TEACHER_DESK,
+    *((x, y + 0.70, 0.95, 0.34) for x, y in SEATS),
 )
 # Two children never stand on top of each other: closer than this (wider than tall, the way they
 # stand side by side) and the one arriving steps aside.
 APART_X, APART_Y = 0.85, 0.5
-# Where new arrivals come in, just under the arch.
-ARCH = (8.0, 3.5)
+ARCH = (1.2, 3.6)
 # The quickest a child can pick a new spot; taps in between are ignored.
 WALK_EVERY = 0.25
 # Practice bots stroll now and then: the chance per bot on each quarter-second tick.
@@ -97,22 +81,24 @@ def apart(x: float, y: float, others: list[tuple[float, float]]) -> tuple[float,
     return x, y
 
 
-# Past this many children the newcomers spread over the whole square, so a full class is not one
-# long row along the front.
-CROWD = 16
+# Once the desks are full, arrivals use free floor space.
+CROWD = len(SEATS)
 
 
 def arrival(rng: random.Random, crowd: int = 0) -> tuple[float, float]:
-    """A spot for someone who has just come in: the front of the square, or anywhere in it once
-    the square is busy."""
-    top = 6.3 if crowd < CROWD else TOP + 0.5
+    """A free floor spot for a crowded classroom."""
+    top = TOP + 0.5
     return clamp(rng.uniform(LEFT + 1.0, RIGHT - 1.0), rng.uniform(top, BOTTOM - 0.2))
 
 
 def free_arrival(rng: random.Random, others: list[tuple[float, float]]) -> tuple[float, float]:
-    """A spot for a newcomer that is not on top of anyone: a few tries in the arrival area first,
-    and only in a packed square the nearest free spot to one of them."""
+    """Seat newcomers at an open desk first, then find floor space when the desks are full."""
     crowd = len(others)
+    seats = list(SEATS)
+    rng.shuffle(seats)
+    for x, y in seats:
+        if all(((x - ox) / APART_X) ** 2 + ((y - oy) / APART_Y) ** 2 >= 1 for ox, oy in others):
+            return x, y
     for _ in range(16):
         x, y = arrival(rng, crowd)
         if all(((x - ox) / APART_X) ** 2 + ((y - oy) / APART_Y) ** 2 >= 1 for ox, oy in others):

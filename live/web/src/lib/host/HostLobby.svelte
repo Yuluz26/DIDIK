@@ -77,7 +77,7 @@
 			<div class="stage">
 				<LobbyPlaza people={players} spots={view.plaza ?? []} {client} />
 				{#if !players.length}
-					<p class="empty">Dataran masih kosong. Kanak-kanak akan muncul di bawah gerbang sebaik sahaja mereka masuk.{view.botsAllowed ? ' Untuk mencuba seorang diri, tambah beberapa bot.' : ''}</p>
+					<p class="empty">Kelas masih kosong. Murid akan duduk di meja apabila mereka masuk.{view.botsAllowed ? ' Untuk mencuba seorang diri, tambah beberapa bot.' : ''}</p>
 				{/if}
 			</div>
 
@@ -237,18 +237,14 @@
 		min-width: 0;
 	}
 	.empty {
-		position: absolute;
-		left: 50%;
-		bottom: 1.2rem;
-		translate: -50% 0;
-		width: min(30rem, calc(100% - 2rem));
-		padding: 0.8rem 1.1rem;
+		margin: 0.55rem auto 0;
+		width: min(36rem, 100%);
+		padding: 0.55rem 0.9rem;
 		border-radius: var(--r-md);
-		background: rgb(255 255 255 / 0.94);
+		background: var(--card);
 		color: var(--on-bright);
 		font-weight: 700;
 		text-align: center;
-		box-shadow: var(--lift-low);
 	}
 	.roster {
 		display: flex;
