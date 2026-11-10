@@ -63,12 +63,21 @@
 	let ticket = $state<ReturnType<typeof Ticket>>();
 	let ticketArea = $state<HTMLElement>();
 	let pastTicket = $state(false);
+	let planVisible = $state(false);
 
 	// Once the ticket has scrolled away, a small one follows the page so a code can go in from anywhere.
 	$effect(() => {
 		if (!ticketArea || !('IntersectionObserver' in window)) return;
 		const watch = new IntersectionObserver(([entry]) => (pastTicket = !entry.isIntersecting && entry.boundingClientRect.top < 0));
 		watch.observe(ticketArea);
+		return () => watch.disconnect();
+	});
+	$effect(() => {
+		if (!('IntersectionObserver' in window)) return;
+		const plan = document.getElementById('pelan');
+		if (!plan) return;
+		const watch = new IntersectionObserver(([entry]) => (planVisible = entry.isIntersecting), { threshold: .05 });
+		watch.observe(plan);
 		return () => watch.disconnect();
 	});
 
@@ -202,7 +211,7 @@
 	</div>
 </footer>
 
-{#if pastTicket}
+{#if pastTicket && !planVisible}
 	<button type="button" class="mini-ticket" onclick={backToTicket} in:fly={{ y: 48, duration: 320 }} out:fade={{ duration: 140 }}>
 		Ada kod? <strong>Masuk</strong>
 	</button>
