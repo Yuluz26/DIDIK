@@ -9,6 +9,7 @@
 	import { RoomClient } from '$lib/room.svelte';
 	import type { RoomInfo } from '$lib/types';
 	import { play } from '$lib/sound';
+	import { enterFullscreen, fullscreenActive, fullscreenAvailable } from '$lib/fullscreen';
 	import Didi from '$ui/Didi.svelte';
 	import Logo from '$ui/Logo.svelte';
 	import Podium from '$ui/Podium.svelte';
@@ -26,11 +27,31 @@
 
 	let info = $state<RoomInfo | null>(null);
 	let missing = $state<string | null>(null);
+	let canFullscreen = $state(false);
+	let isFullscreen = $state(false);
+	let dismissFullscreenPrompt = $state(false);
+	let wasPlaying = false;
 
 	const view = $derived(client.view);
 	const me = $derived(view?.me);
 	const people = $derived(client.people);
 	const unit = $derived(view?.room.mode.unit ?? 'mata');
+
+	$effect(() => {
+		const playing = view?.phase === 'playing';
+		if (playing && !wasPlaying) dismissFullscreenPrompt = false;
+		wasPlaying = playing;
+	});
+
+	function joinWithFullscreen(data: Parameters<typeof client.join>[0]) {
+		// JoinForm calls this directly from its submit event, while user activation is still available.
+		void enterFullscreen();
+		client.join(data);
+	}
+
+	async function enterForGame() {
+		if (!(await enterFullscreen())) dismissFullscreenPrompt = true;
+	}
 
 
 	$effect(() => {
@@ -41,6 +62,11 @@
 	});
 
 	onMount(() => {
+		canFullscreen = fullscreenAvailable();
+		const syncFullscreen = () => (isFullscreen = fullscreenActive());
+		syncFullscreen();
+		document.addEventListener('fullscreenchange', syncFullscreen);
+		document.addEventListener('webkitfullscreenchange', syncFullscreen);
 		api
 			.get<RoomInfo>(`/api/rooms/${encodeURIComponent(key)}`)
 			.then((room) => {
@@ -53,6 +79,8 @@
 			if (fx.kind === 'joined' && fx.player !== client.youId) play('pop');
 		});
 		return () => {
+			document.removeEventListener('fullscreenchange', syncFullscreen);
+			document.removeEventListener('webkitfullscreenchange', syncFullscreen);
 			stopFx();
 			client.close();
 		};
@@ -85,6 +113,13 @@
 	<PlayerLobby {client} {view} {me} people={client.roster} />
 {:else if view && me && view.phase === 'playing' && view.game}
 	<PlayerGame {client} {view} {me} {people} />
+	{#if canFullscreen && !isFullscreen && !dismissFullscreenPrompt}
+		<div class="fullscreen-prompt" role="region" aria-label="Pilihan skrin penuh">
+			<span>Main dengan paparan skrin penuh?</span>
+			<button type="button" class="fullscreen-yes" onclick={enterForGame}>Skrin penuh</button>
+			<button type="button" class="fullscreen-skip" onclick={() => (dismissFullscreenPrompt = true)} aria-label="Teruskan tanpa skrin penuh">×</button>
+		</div>
+	{/if}
 {:else if view && me && view.phase === 'ended' && view.results}
 	<main class="ended wrap">
 		<h1>Tamat!</h1>
@@ -103,7 +138,7 @@
 				<h1>{info.quizTitle}</h1>
 			</div>
 		</section>
-		<JoinForm {info} busy={client.joining} error={client.error} onjoin={(data) => client.join(data)} />
+		<JoinForm {info} busy={client.joining} error={client.error} onjoin={joinWithFullscreen} />
 	</main>
 {:else}
 	<main class="center wrap" aria-busy="true">
@@ -194,5 +229,33 @@
 	.toast {
 		background: #7a3d00;
 		bottom: max(4.2rem, env(safe-area-inset-bottom, 0px));
+	}
+	.fullscreen-prompt {
+		position: fixed;
+		z-index: 90;
+		top: max(.7rem, env(safe-area-inset-top, 0px));
+		left: 50%;
+		translate: -50% 0;
+		display: flex;
+		align-items: center;
+		gap: .65rem;
+		width: max-content;
+		max-width: calc(100vw - 1rem);
+		padding: .55rem;
+		border: 2px solid #4e3d37;
+		border-radius: .85rem;
+		background: #fff7e5;
+		box-shadow: 0 .4rem 1.3rem #1f172c55;
+		font-size: .85rem;
+		font-weight: 800;
+	}
+	.fullscreen-prompt button { flex: none; min-height: 2.5rem; border: 0; border-radius: .55rem; font: 800 .82rem var(--font-body); cursor: pointer; }
+	.fullscreen-yes { padding: .35rem .75rem; background: #6d4ed2; color: white; }
+	.fullscreen-skip { width: 2.5rem; background: #eee3d4; color: #4e3d37; font-size: 1.2rem !important; }
+	.fullscreen-prompt button:focus-visible { outline: 3px solid #176b9c; outline-offset: 2px; }
+	@media (max-width: 500px) {
+		.fullscreen-prompt { flex-wrap: wrap; width: calc(100vw - 1rem); }
+		.fullscreen-prompt span { flex: 1 1 100%; }
+		.fullscreen-skip { margin-left: auto; }
 	}
 </style>
