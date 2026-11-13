@@ -1,17 +1,31 @@
 <!-- A thing sitting in a group of a sorting game: its picture and name, a mark once shown, movable while playing. -->
 <script lang="ts">
 	import Sticker from '$ui/Sticker.svelte';
+	import GameImage from './GameImage.svelte';
 	import Mark from './Mark.svelte';
 	import type { SortThing, SortView } from './SortPlay.svelte';
 
-	let { v, item, group, size = 32, dark = false }: { v: SortView; item: SortThing; group: string; size?: number; dark?: boolean } = $props();
+	let {
+		v,
+		item,
+		group,
+		size = 32,
+		dark = false,
+		photo
+	}: { v: SortView; item: SortThing; group: string; size?: number; dark?: boolean; /** a picture from the games' library, shown instead of a sticker */ photo?: string | null } = $props();
 	const pic = $derived(v.sticker(item));
 	const ok = $derived(v.ok(item.id));
 </script>
 
 <span class="wrap">
 	<button type="button" class="in" class:dark class:ok={ok === true} class:off={ok === false} disabled={v.locked} {@attach v.grab(item.id, group)} aria-label="{item.text}. Ketik untuk keluarkan">
-		{#if pic}<Sticker key={pic} {size} alt="" />{/if}
+		{#if photo}
+			<span class="photo" style:width="{size}px" style:height="{size}px">
+				<GameImage name={photo} fit="cover">
+					{#snippet fallback()}{#if pic}<Sticker key={pic} {size} alt="" />{/if}{/snippet}
+				</GameImage>
+			</span>
+		{:else if pic}<Sticker key={pic} {size} alt="" />{/if}
 		<span>{item.text}</span>
 		{#if ok !== null}<Mark {ok} size={12} />{/if}
 	</button>
@@ -19,6 +33,18 @@
 </span>
 
 <style>
+	.photo {
+		display: grid;
+		place-items: center;
+		flex: none;
+		overflow: hidden;
+		border-radius: 22%;
+		background: #fff;
+	}
+	.photo :global(img.g-img) {
+		width: 100%;
+		height: 100%;
+	}
 	.wrap {
 		display: inline-grid;
 		justify-items: center;

@@ -1,0 +1,691 @@
+Pictures in this folder are used by DIDIK's subject games. All come from Wikimedia Commons under the
+licence shown (public domain, CC0, CC BY or CC BY-SA). Each was resized and saved as WebP; other changes
+are noted. Works under CC BY-SA remain under that licence.
+
+space/sun.webp
+    Matahari dalam cahaya ultraungu melampau (SDO/AIA), warna palsu
+    "The Sun by the Atmospheric Imaging Assembly of NASA's Solar Dynamics Observatory - 20100819.jpg" by NASA/SDO (AIA). Public domain. Changes: latar langit dibuang, dikecilkan.
+
+space/mercury.webp
+    Utarid (MESSENGER), warna hampir sebenar
+    "Mercury in true color.jpg" by NASA/Johns Hopkins University Applied Physics Laboratory/Arizona State University/Carnegie Institution of Washington. Public domain. Changes: latar langit dibuang, dikecilkan.
+
+space/venus.webp
+    Zuhrah (Mariner 10), warna hampir sebenar
+    "Venus-real color.jpg" by NASA or Ricardo Nunes. Public domain. Changes: latar langit dibuang, dikecilkan.
+
+space/earth.webp
+    Bumi dari Apollo 17 (The Blue Marble)
+    "The Earth seen from Apollo 17.jpg" by NASA/Apollo 17 crew; taken by either Harrison Schmitt or Ron Evans. Public domain. Changes: latar langit dibuang, dikecilkan.
+
+space/moon.webp
+    Bulan, muka dekat (mozek LRO)
+    "Moon nearside LRO.jpg" by NASA/GSFC/Arizona State University. Public domain. Changes: latar langit dibuang, dikecilkan.
+
+space/mars.webp
+    Marikh dengan Valles Marineris (mozek Viking)
+    "Mars Valles Marineris.jpeg" by NASA / USGS (see PIA04304 catalog page). Public domain. Changes: latar langit dibuang, dikecilkan.
+
+space/jupiter.webp
+    Musytari dan Bintik Merah Besar (Hubble)
+    "Jupiter and its shrunken Great Red Spot.jpg" by NASA, ESA, and A. Simon (Goddard Space Flight Center). Public domain. Changes: latar langit dibuang, dikecilkan.
+
+space/saturn.webp
+    Zuhal dan gelangnya semasa ekuinoks (Cassini)
+    "Saturn during Equinox.jpg" by NASA / JPL / Space Science Institute. Public domain. Changes: latar gelap dijadikan lut sinar, dikecilkan.
+
+space/uranus.webp
+    Uranus (Voyager 2)
+    "Uranus2.jpg" by NASA/JPL-Caltech. Public domain. Changes: latar langit dibuang, dikecilkan.
+
+space/neptune.webp
+    Neptun (Voyager 2)
+    "Neptune Full.jpg" by NASA. Public domain. Changes: latar langit dibuang, dikecilkan.
+
+space/milkyway.webp
+    Panorama langit malam dengan Bima Sakti
+    "ESO - Milky Way.jpg" by ESO/S. Brunier. CC BY 4.0. Changes: dipotong dan dikecilkan.
+
+space/milkyway-core.webp
+    Pusat Bima Sakti, dari panorama langit yang sama
+    "ESO - Milky Way.jpg" by ESO/S. Brunier. CC BY 4.0. Changes: dipotong; latar gelap dijadikan lut sinar, dikecilkan.
+
+space/andromeda.webp
+    Galaksi Andromeda dalam ultraungu (GALEX), warna palsu
+    "Andromeda galaxy.jpg" by NASA/JPL/California Institute of Technology. Public domain. Changes: latar gelap dijadikan lut sinar, dikecilkan.
+
+space/sombrero.webp
+    Galaksi Sombrero, M104 (Hubble)
+    "M104 ngc4594 sombrero galaxy hi-res.jpg" by NASA/ESA and The Hubble Heritage Team (STScI/AURA). Public domain. Changes: dipotong; latar gelap dijadikan lut sinar, dikecilkan.
+
+space/lmc.webp
+    Awan Magellan Besar (teleskop Schmidt ESO)
+    "LMC snapped by the ESO 1-metre Schmidt telescope.jpg" by ESO. CC BY 4.0. Changes: latar gelap dijadikan lut sinar, dikecilkan.
+
+space/polaris.webp
+    Bintang Utara (Polaris A dan B, Hubble)
+    "Polaris A and Polaris B (opo0602c).jpg" by NASA, ESA, N. Evans (Harvard-Smithsonian CfA), and H. Bond (STScI). Public domain. Changes: dipotong; latar gelap dijadikan lut sinar, dikecilkan.
+
+space/star.webp
+    Sebutir bintang terang (Sirius A dan B, Hubble)
+    "Sirius A and B Hubble photo.jpg" by NASA, ESA, H. Bond (STScI), and M. Barstow (University of Leicester). Public domain. Changes: latar gelap dijadikan lut sinar, dikecilkan.
+
+space/comet.webp
+    Komet Halley, 1986
+    "Lspn comet halley.jpg" by NASA/W. Liller. Public domain. Changes: latar gelap dijadikan lut sinar, dikecilkan.
+
+micro/onion.webp
+    Sel epidermis bawang di bawah mikroskop cahaya (40x)
+    "Onion Epidermis Cells W.M. 40x - 183.jpg" by loganrickert. CC BY 2.0. Changes: dipotong dan dikecilkan.
+
+circuit/battery.webp
+    Bateri AA
+    "2500 mAh NiMH Battery - AA (11469147674).jpg" by SparkFun Electronics from Boulder, USA. CC BY 2.0. Changes: latar dibuang, dikecilkan.
+
+mat/key.webp
+    Kunci logam
+    "Solex 99 30 padlock with keys (DSCF2659).jpg" by Trougnouf. CC BY 4.0. Changes: dipotong dan dikecilkan.
+
+mat/eraser.webp
+    Pemadam getah
+    "Office-pink-erasers.jpg" by Evan-Amos. Public domain. Changes: dipotong dan dikecilkan.
+
+mat/pencil.webp
+    Pensel dengan mata grafit
+    "Pencils hb.jpg" by Original uploader was Dmgerman at en.wikipedia. CC BY 3.0. Changes: dipotong dan dikecilkan.
+
+mat/rubber-band.webp
+    Gelang getah
+    "Rubber bands.jpg" by FML. CC BY-SA 2.5. Changes: dipotong dan dikecilkan.
+
+mat/sponge.webp
+    Span
+    "Éponge type 3 (1).jpg" by Lionel Allorge. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+mat/nail.webp
+    Paku besi
+    "Clou 127.jpg" by Own work. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+mat/foil.webp
+    Kerajang aluminium
+    "Aluminio.jpg" by MdeVicente. CC0. Changes: dipotong dan dikecilkan.
+
+mat/copper.webp
+    Kuprum asli
+    "NatCopper.jpg" by Native_Copper_Macro_Digon3.jpg: “Jonathan Zander (Digon3)" derivative work: Materialscientist (talk). CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+mat/coins.webp
+    Duit syiling
+    "Kiloware.JPG" by Michael Sander. CC BY-SA 4.0. Changes: dipotong dan dikecilkan.
+
+mat/scissors.webp
+    Gunting keluli
+    "Standard household scissors.jpg" by Doggerelblogger. CC BY-SA 4.0. Changes: dipotong dan dikecilkan.
+
+mat/spoon.webp
+    Sudu logam
+    "Soup Spoon.jpg" by Donovan Govan.. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+mat/ice.webp
+    Ketulan ais
+    "Ice cubes openphoto.jpg" by Darren Hester. CC BY-SA 2.5. Changes: dipotong dan dikecilkan.
+
+mat/pebble.webp
+    Batu kecil
+    "Pebble Dash (15366562092).jpg" by wardyboy400. CC BY 2.0. Changes: dipotong dan dikecilkan.
+
+mat/mercury.webp
+    Merkuri (raksa), logam cecair
+    "Pouring liquid mercury bionerd.jpg" by Bionerd. CC BY 3.0. Changes: dipotong dan dikecilkan.
+
+mat/sugar.webp
+    Gula
+    "Sucre blanc cassonade complet rapadura.jpg" by Romain Behar. Public domain. Changes: dipotong dan dikecilkan.
+
+mat/milk.webp
+    Segelas susu
+    "Glass of Milk (33657535532).jpg" by NIAID. CC BY 2.0. Changes: dipotong dan dikecilkan.
+
+mat/oil.webp
+    Minyak masak
+    "Olive oil from Oneglia.jpg" by Lemone. CC BY-SA 4.0. Changes: dipotong dan dikecilkan.
+
+mat/steam.webp
+    Wap air
+    "Steam phase eruption of Castle Geyser.jpg" by Brocken Inaglory. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+mat/balloon.webp
+    Belon berisi gas
+    "Congrats bqt.jpg" by Photographer: Warren Denning. Creative Director: Stan Weir. Marketing Director: Tim Vlamis. Public domain. Changes: dipotong dan dikecilkan.
+
+mat/wood.webp
+    Kayu
+    "16 wood samples.jpg" by Anonimski. CC0. Changes: dipotong dan dikecilkan.
+
+mat/ring.webp
+    Cincin emas
+    "Traditional Wedding Ring.jpg" by A Minty Penguin. CC0. Changes: dipotong dan dikecilkan.
+
+mat/brick.webp
+    Batu bata
+    "Brick.jpg" by Andrewlister. Public domain. Changes: dipotong dan dikecilkan.
+
+circuit/bulb.webp
+    Mentol pijar kaca jernih
+    "Gluehlampe 01 KMJ.png" by KMJ, alpha masking by Edokter. CC BY-SA 3.0. Changes: dikecilkan.
+
+magnet/field.webp
+    Magnet ladam dengan garisan medan magnet
+    "VFPt horseshoe-magnet.svg" by Geek3. CC BY-SA 4.0. Changes: dikecilkan.
+
+mat/glass.webp
+    Gelas kaca berisi air
+    "Glass-of-water.jpg" by Derek Jensen (Tysto). Public domain. Changes: dipotong dan dikecilkan.
+
+mat/paper-clip.webp
+    Klip kertas keluli
+    "Paperclip-01 (xndr).jpg" by No machine-readable author provided. Svdmolen assumed (based on copyright claims).. CC BY 2.5. Changes: dipotong dan dikecilkan.
+
+mat/water.webp
+    Titisan air
+    "Water drop 001.jpg" by José Manuel Suárez from Spain. CC BY 2.0. Changes: dipotong dan dikecilkan.
+
+mat/feather.webp
+    Bulu pelepah
+    "Donsvlokje.jpg" by Wouter Hagens. CC BY-SA 4.0. Changes: dipotong dan dikecilkan.
+
+mat/plastic.webp
+    Botol plastik
+    "Water Bottle (51308317077).jpg" by Alabama Extension. CC0. Changes: dipotong dan dikecilkan.
+
+mat/salt.webp
+    Hablur garam (natrium klorida)
+    "Selpologne.jpg" by Didier Descouens. CC BY-SA 4.0. Changes: dipotong dan dikecilkan.
+
+mat/straw.webp
+    Penyedut minuman plastik
+    "Eight drinking straws (4273846588).jpg" by Horia Varlan from Bucharest, Romania. CC BY 2.0. Changes: dipotong dan dikecilkan.
+
+mat/cotton.webp
+    Kapas
+    "Vatta2.jpg" by Elkagye. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+mat/rope.webp
+    Tali
+    "Cordage en chanvre.jpg" by Ji-Elle. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+mat/honey.webp
+    Madu
+    "Runny hunny.jpg" by Scott Bauer, USDA ARS. Public domain. Changes: dipotong dan dikecilkan.
+
+mat/smoke.webp
+    Asap
+    "Ognisko ubt 0126.jpeg" by © 2005 by Tomasz Sienicki [user: tsca, mail: tomasz.sienicki at gmail.com]. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+micro/scope.webp
+    Mikroskop cahaya Leitz
+    "Leitz microscope at CSI-IMG 8731-white.jpg" by Rama. CC BY-SA 3.0 fr. Changes: latar dibuang, dikecilkan.
+
+life/rice.webp
+    Padi
+    "20201102.Hengnan.Hybrid rice Sanyou-1.6.jpg" by China News Service. CC BY 3.0. Changes: dipotong dan dikecilkan.
+
+life/mouse.webp
+    Tikus
+    "Mouse white background.jpg" by Unknown authorUnknown author (original) / Ilmari Karonen (editing). Public domain. Changes: dipotong dan dikecilkan.
+
+life/snake.webp
+    Ular tedung
+    "12 - The Mystical King Cobra and Coffee Forests.jpg" by Michael Allen Smith from Seattle, USA. CC BY-SA 2.0. Changes: dipotong dan dikecilkan.
+
+life/grass.webp
+    Rumput
+    "Meadow Foxtail head.jpg" by TadejM (pemuat naik, Wikimedia Commons). CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+life/grasshopper.webp
+    Belalang
+    "American Bird Grasshopper.jpg" by http://www.birdphotos.com. CC BY 3.0. Changes: dipotong dan dikecilkan.
+
+life/frog.webp
+    Katak dewasa
+    "Red-eyed Leaf Frog (49661076226).jpg" by Charlie Jackson. CC BY 2.0. Changes: dipotong dan dikecilkan.
+
+life/tadpole.webp
+    Berudu
+    "RanaTemporariaLarva2.jpg" by Viridiflavus. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+life/froglet.webp
+    Katak muda
+    "Young frog.jpg" by VinetVas17. CC BY-SA 4.0. Changes: dipotong dan dikecilkan.
+
+life/frogspawn.webp
+    Telur katak
+    "Frogspawn in a Paignton Pond.jpg" by Partonez. CC BY-SA 4.0. Changes: dipotong dan dikecilkan.
+
+life/eagle.webp
+    Helang merah
+    "Haliastur indus 136698204.jpg" by Afsar Nayakkan. CC BY 4.0. Changes: dipotong dan dikecilkan.
+
+life/phytoplankton.webp
+    Fitoplankton di bawah mikroskop
+    "Mixed phytoplankton community 2.png" by University of Rhode Island/Stephanie Anderson. Public domain. Changes: dipotong dan dikecilkan.
+
+life/zooplankton.webp
+    Zooplankton
+    "Mixed zooplankton sample.jpg" by Adriana Zingone, Domenico D'Alelio, Maria Grazia Mazzocchi, Marina Montresor, Diana Sarno, LTER-MC team. CC BY-SA 4.0. Changes: dipotong dan dikecilkan.
+
+life/shrimp.webp
+    Udang
+    "Palaemon serratus Croazia.jpg" by Etrusko25. Public domain. Changes: dipotong dan dikecilkan.
+
+life/fish.webp
+    Ikan kembung
+    "Rastrelliger kanagurta JNC2855.JPG" by Jean-Lou Justine. CC BY-SA 4.0. Changes: dipotong dan dikecilkan.
+
+life/shark.webp
+    Jerung
+    "Corl0207 (28225976491).jpg" by NOAA Photo Library. CC BY 2.0. Changes: dipotong dan dikecilkan.
+
+life/caterpillar.webp
+    Ulat beluncas
+    "Chenille de Grand porte queue (macaon).jpg" by Didier Descouens. CC BY-SA 4.0. Changes: dipotong dan dikecilkan.
+
+life/pupa.webp
+    Kepompong
+    "Cetoine global.jpg" by Didier Descouens. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+life/butterfly.webp
+    Rama-rama
+    "Fesoj - Papilio machaon (by).jpg" by fesoj. CC BY 2.0. Changes: dipotong dan dikecilkan.
+
+life/chicken.webp
+    Ayam
+    "Male and female chicken sitting together.jpg" by Andrei Niemimäki from Turku, Finland. CC BY-SA 2.0. Changes: dipotong dan dikecilkan.
+
+life/egg.webp
+    Telur ayam
+    "Chicken egg 2009-06-04.jpg" by Sun Ladder. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+life/seed.webp
+    Biji benih
+    "Разнообразие семян.jpg" by Alexander Klepnev. CC BY 4.0. Changes: dipotong dan dikecilkan.
+
+life/seedling.webp
+    Anak benih bercambah
+    "Sunflower seedlings.jpg" by Bluemoose~commonswiki (pemuat naik, Wikimedia Commons). CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+life/tree.webp
+    Pokok
+    "Usamljeni jasen - panoramio (cropped).jpg" by menergo. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+life/flower.webp
+    Bunga raya
+    "Hibiscus Brilliant.jpg" by Andy / Andrew Fogg from near Cambridge, UK. CC BY 2.0. Changes: dipotong dan dikecilkan.
+
+life/fruit.webp
+    Buah-buahan
+    "Fruit Platter- Seasonal Fruits.jpg" by روتانا. CC BY 4.0. Changes: dipotong dan dikecilkan.
+
+life/leaf.webp
+    Daun
+    "Lisc lipy.jpg" by Krzysztof P. Jasiutowicz. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+life/owl.webp
+    Burung hantu
+    "American Barn Owl (Tyto furcata guatemalae), Orange Walk.jpg" by Charles J. Sharp. CC BY-SA 4.0. Changes: dipotong dan dikecilkan.
+
+life/tiger.webp
+    Harimau
+    "Bengal tiger (Panthera tigris tigris) female 3 crop.jpg" by Charles J. Sharp. CC BY-SA 4.0. Changes: dipotong dan dikecilkan.
+
+life/worm.webp
+    Cacing tanah
+    "Eisenia foetida R.H. (8).JPG" by Rob Hille. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+life/mushroom.webp
+    Cendawan
+    "Sparrige Schüppling (Pholiota squarrosa).jpg" by Holger Krisp. CC BY 3.0. Changes: dipotong dan dikecilkan.
+
+life/lizard.webp
+    Cicak
+    "Hemidactylus platyurus (Flat-tailed House Gecko) on white background, focus stacking.jpg" by Basile Morin. CC BY-SA 4.0. Changes: dipotong dan dikecilkan.
+
+life/spider.webp
+    Labah-labah
+    "Araneus diadematus (Clerck, 1757).JPG" by Michael Gäbler. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+life/ant.webp
+    Semut
+    "Red Ant - March 2025.jpg" by Samantha Henneke from Seagrove, North Carolina, USA. CC BY 2.0. Changes: dipotong dan dikecilkan.
+
+life/bee.webp
+    Lebah
+    "Tetragonula carbonaria (14521993792).jpg" by Graham Wise from Brisbane, Australia. CC BY 2.0. Changes: dipotong dan dikecilkan.
+
+life/crab.webp
+    Ketam
+    "Cancer pagurus.jpg" by Hans Hillewaert. CC BY-SA 4.0. Changes: dipotong dan dikecilkan.
+
+life/squid.webp
+    Sotong
+    "Sepioteuthis sepioidea (Caribbean Reef Squid).jpg" by Nhobgood Nick Hobgood. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+life/turtle.webp
+    Penyu
+    "Chelonia mydas is going for the air edit.jpg" by Brocken Inaglory. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+life/seaweed.webp
+    Rumpai laut
+    "Fucus serratus 2015-09-08 ag M0010140.jpg" by Grubio--1. CC BY-SA 4.0. Changes: dipotong dan dikecilkan.
+
+life/rabbit.webp
+    Arnab
+    "Oryctolagus cuniculus Rcdo.jpg" by JM Ligero Loarte. CC BY 3.0. Changes: dipotong dan dikecilkan.
+
+life/goat.webp
+    Kambing
+    "Hausziege 04.jpg" by Kuebi = Armin Kübelbeck. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+life/cow.webp
+    Lembu
+    "Cow (Fleckvieh breed) Oeschinensee Slaunger 2009-07-07.jpg" by Kim Hansen. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+life/lion.webp
+    Singa
+    "020 The lion king Snyggve in the Serengeti National Park Photo by Giles Laurent.jpg" by Giles Laurent. CC BY-SA 4.0. Changes: dipotong dan dikecilkan.
+
+life/crocodile.webp
+    Buaya
+    "Nile crocodile head.jpg" by Leigh Bedford. CC BY 2.0. Changes: dipotong dan dikecilkan.
+
+life/dragonfly.webp
+    Pepatung
+    "Red grasshawk (Neurothemis fluctuans) male Phuket 2.jpg" by Charles J. Sharp. CC BY-SA 4.0. Changes: dipotong dan dikecilkan.
+
+life/bat.webp
+    Kelawar
+    "Big-eared-townsend-fledermaus.jpg" by PD-USGov, exact author unknown. Public domain. Changes: dipotong dan dikecilkan.
+
+cycle/evaporation.webp
+    Sejatan: wap naik dari air panas
+    "Watervapor cup.jpg" by Mahlum (pemuat naik, Wikimedia Commons). CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+cycle/cloud.webp
+    Awan kumulus (kondensasi)
+    "GoldenMedows.jpg" by PiccoloNamek. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+cycle/rain.webp
+    Hujan (kerpasan)
+    "Hard rain on a roof.jpg" by W.carter. CC0. Changes: dipotong dan dikecilkan.
+
+cycle/river.webp
+    Sungai mengalir ke laut
+    "Pirogue running on the Mekong at golden hour between Don Det and Don Khon Laos.jpg" by Basile Morin. CC BY-SA 4.0. Changes: dipotong dan dikecilkan.
+
+cycle/sea.webp
+    Laut
+    "Drone view of ocean waves (Unsplash).jpg" by Caleb Jones gcalebjones. CC0. Changes: dipotong dan dikecilkan.
+
+scene/paddy.webp
+    Sawah padi bertingkat
+    "Pana Banaue Rice Terraces (Cropped).jpg" by User:Ori~. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+moon/new.webp
+    Bulan baru: bahagian bercahaya dilukis pada mozek LRO
+    "Moon nearside LRO.jpg" by NASA/GSFC/Arizona State University. Public domain. Changes: latar langit dibuang; fasa dilukis dengan menggelapkan bahagian yang tidak disinari.
+
+moon/crescent.webp
+    Bulan sabit: bahagian bercahaya dilukis pada mozek LRO
+    "Moon nearside LRO.jpg" by NASA/GSFC/Arizona State University. Public domain. Changes: latar langit dibuang; fasa dilukis dengan menggelapkan bahagian yang tidak disinari.
+
+moon/quarter.webp
+    Bulan separa (suku pertama): bahagian bercahaya dilukis pada mozek LRO
+    "Moon nearside LRO.jpg" by NASA/GSFC/Arizona State University. Public domain. Changes: latar langit dibuang; fasa dilukis dengan menggelapkan bahagian yang tidak disinari.
+
+moon/full.webp
+    Bulan purnama: bahagian bercahaya dilukis pada mozek LRO
+    "Moon nearside LRO.jpg" by NASA/GSFC/Arizona State University. Public domain. Changes: latar langit dibuang; fasa dilukis dengan menggelapkan bahagian yang tidak disinari.
+
+hist/kris.webp
+    Keris dan sarungnya
+    "Javaanse kris, AK-MAK-318.jpg" by Rijksmuseum. CC0. Changes: latar dibuang, dikecilkan.
+
+hist/jar.webp
+    Tempayan Martaban
+    "Pots and Shades.JPG" by Ignacio Malapitan III. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+hist/handaxe.webp
+    Kapak tangan batu zaman prasejarah
+    "Handaxe by John Frere.png" by John Frere. Public domain. Changes: latar dibuang, dikecilkan.
+
+hist/drum.webp
+    Gendang gangsa Dong Son
+    "Tambour-song-da2.jpg" by Own work. Public domain. Changes: dipotong dan dikecilkan.
+
+hist/bujang-statue.webp
+    Arca dari Lembah Bujang
+    "Muzium Negara KL19b.JPG" by Gryffindor. CC BY 3.0. Changes: dipotong dan dikecilkan.
+
+hist/inscription.webp
+    Batu Bersurat Terengganu
+    "KlMuseumBatuBersurat.jpg" by Earth. CC BY 2.5. Changes: dipotong dan dikecilkan.
+
+hist/soil.webp
+    Lapisan tanah tapak arkeologi
+    "1555 - Keramikos archaeological area, Athens - Stratigraphy - Photo by Giovanni Dall'Orto, Nov 12 2009.jpg" by Giovanni Dall'Orto. Attribution. Changes: dipotong dan dikecilkan.
+
+hist/trowel.webp
+    Kulir (sudip) ahli arkeologi
+    "Masons trowel.jpg" by Mike Lupinacci. CC BY-SA 3.0. Changes: latar dibuang, dikecilkan.
+
+hist/niah.webp
+    Mulut Gua Niah, Sarawak
+    "The main entrance to the Niah Caves at sunset..jpg" by Starlightchild. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+hist/palace.webp
+    Muzium Istana Kesultanan Melaka (binaan semula)
+    "Malacca Sultanate Palace.JPG" by Adiput (talk). Public domain. Changes: dipotong dan dikecilkan.
+
+hist/throne.webp
+    Singgahsana istana
+    "Gamla Stan, Södermalm, Stockholm, Sweden - panoramio (225).jpg" by Aaron Zhu. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+hist/afamosa.webp
+    Kota A Famosa, Melaka
+    "A Famosa Fortress.JPG" by Chongkian. CC BY-SA 4.0. Changes: dipotong dan dikecilkan.
+
+hist/stadthuys.webp
+    Bangunan Stadthuys, Melaka
+    "Malacca stadhuys1.jpg" by User: (WT-shared) Slleong at wts wikivoyage. CC BY 1.0. Changes: dipotong dan dikecilkan.
+
+hist/stpaul.webp
+    Gereja St. Paul, Melaka
+    "St. Paul's Church Malacca 2012.JPG" by Bjørn Christian Tørrissen. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+hist/merdeka-square.webp
+    Dataran Merdeka, Kuala Lumpur
+    "Dataran Merdeka 2.jpg" by Haakon S. Krohn. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+hist/stadium.webp
+    Stadium Merdeka
+    "Stadium Merdeka Complete.jpg" by Malaysian1966 at English Wikipedia. Public domain. Changes: dipotong dan dikecilkan.
+
+hist/sultan-samad.webp
+    Bangunan Sultan Abdul Samad
+    "Kuala Lumpur Sultan Abdul Building.jpg" by Gerold Kogler. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+hist/junk.webp
+    Jong China (foto lama)
+    "Guangzhou, Chinese Boats by Lai Afong, cа 1880.jpg" by Lai Afong. Public domain. Changes: dipotong dan dikecilkan.
+
+hist/carrack.webp
+    Kapal karak Portugis (lukisan)
+    "Portuguese Carracks off a Rocky Coast.jpg" by Unknown authorUnknown author. Public domain. Changes: dipotong dan dikecilkan.
+
+hist/spice-map.webp
+    Laluan perdagangan rempah
+    "Silk route.jpg" by Whole_world_-_land_and_oceans_12000.jpg: NASA/Goddard Space Flight Center derivative work: Splette (talk). Public domain. Changes: dipotong dan dikecilkan.
+
+hist/melaka-map.webp
+    Peta wilayah Kesultanan Melaka
+    "Malacca Sultanate en.svg" by Gunawan Kartapranata. CC BY-SA 3.0. Changes: dikecilkan.
+
+hist/silk.webp
+    Kain sutera
+    "Silk raw 01a.jpg" by Kuebi = Armin Kübelbeck. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+hist/parchment.webp
+    Kulit perkamen
+    "Parchment from goatskin.jpg" by Michal Maňas. CC BY 2.5. Changes: dipotong dan dikecilkan.
+
+hist/wax.webp
+    Lilin mohor pada surat (lukisan)
+    "Cornelis Norbertus Gysbrechts - Quodlibet.jpg" by Cornelis Norbertus Gijsbrechts. Public domain. Changes: dipotong dan dikecilkan.
+
+hist/quill.webp
+    Pena bulu dan skrol
+    "קלף, נוצה ודיו.jpg" by Mushki Brichta. CC BY-SA 4.0. Changes: dipotong dan dikecilkan.
+
+hist/jawi.webp
+    Manuskrip bertulisan Jawi
+    "Letter from William Farquhar to Sultan Muhammad Kanzul Alam, the Sultan of Brunei, dated 28 November 1819.jpg" by William Farquhar. Public domain. Changes: dipotong dan dikecilkan.
+
+hist/typewriter.webp
+    Mesin taip Underwood
+    "MEK II-371.jpg" by GodeNehler. CC BY-SA 4.0. Changes: latar dibuang, dikecilkan.
+
+hist/archive.webp
+    Rak fail arkib
+    "Fondos archivo.jpg" by Archivo-FSP. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+hist/clockwork.webp
+    Jentera jam (gear dan spring)
+    "Prim clockwork.jpg" by Kozuch. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+hist/astrolabe.webp
+    Astrolab tembaga
+    "Khalili Collection Islamic Art sci 0430 back.jpg" by Khalili Collections. CC BY-SA 3.0 igo. Changes: latar dibuang, dikecilkan.
+
+hist/display.webp
+    Almari pameran muzium
+    "Gallery of Old European Painting Campin.jpg" by BurgererSF. CC0. Changes: dipotong dan dikecilkan.
+
+hist/museum.webp
+    Bangunan muzium
+    "Museo Chileno de Arte Precolombino - 2020 - 10.jpg" by LuisCG11. CC BY-SA 4.0. Changes: dipotong dan dikecilkan.
+
+isl/dunes.webp
+    Gumuk pasir Rub' al Khali
+    "Rub al Khali 002.JPG" by Nepenthes. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+isl/caravan.webp
+    Kafilah unta
+    "Salt transport by a camel train on Lake Assale (Karum) in Ethiopia.jpg" by LeFnake. CC BY-SA 4.0. Changes: dipotong dan dikecilkan.
+
+isl/camel.webp
+    Unta Arab
+    "Camelus dromedarius in Nuweiba.jpg" by Florian Prischl. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+isl/datepalm.webp
+    Pokok kurma
+    "Dates005.jpg" by Nepenthes. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+isl/rug.webp
+    Sejadah
+    "Unknown, Iran - Silk Carpet - Google Art Project (1901828).jpg" by Unknown, Iran, 1550-1600 (Iran). Public domain. Changes: dipotong dan dikecilkan.
+
+isl/mihrab.webp
+    Mihrab masjid
+    "Mihrab Othmani.jpg" by بلال الدويك. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+isl/mosque-hall.webp
+    Dewan solat masjid
+    "Masjid e Nabawi Interior 2.jpg" by King Eliot. CC BY-SA 4.0. Changes: dipotong dan dikecilkan.
+
+isl/salahuddin.webp
+    Masjid Sultan Salahuddin Abdul Aziz, Shah Alam
+    "SA Blue Mosque.jpg" by Lerdsuwa. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+isl/putra.webp
+    Masjid Putra, Putrajaya
+    "Masjid Putra, Putrajaya, Malaysia.jpg" by iPhone. CC BY 4.0. Changes: dipotong dan dikecilkan.
+
+isl/mushaf.webp
+    Mushaf al-Quran
+    "Quran-Mus'haf Al Tajweed.jpg" by Amr Fayez (TheEgyptian). CC BY 2.5. Changes: dipotong dan dikecilkan.
+
+isl/arabesque.webp
+    Ukiran arabes
+    "Flickr - jemasmith - Umayyad Mosque, Damascus, Detail..jpg" by Jan Smith from Brisbane, Australia. CC BY 2.0. Changes: dipotong dan dikecilkan.
+
+isl/pattern.webp
+    Corak geometri Islam
+    "Doorway in Ben Youssef Madrasa.JPG" by Ian Alexander. CC BY-SA 4.0. Changes: dipotong dan dikecilkan.
+
+isl/fanous.webp
+    Tanglung (fanous)
+    "Lanterns from below.JPG" by B. Simpson Cairocamels. CC BY 3.0. Changes: dipotong dan dikecilkan.
+
+isl/compass.webp
+    Kompas tangan
+    "2016 Busola.JPG" by Jacek Halicki. CC BY-SA 4.0. Changes: latar dibuang, dikecilkan.
+
+isl/qibla-compass.webp
+    Kompas kiblat lama (koleksi muzium)
+    "Ottoman qiblanuma 1738 CE, Turkish and Islamic Arts Museum Istanbul (cropped).jpg" by Own work. CC BY-SA 4.0. Changes: dipotong dan dikecilkan.
+
+isl/scale.webp
+    Neraca
+    "Balance à tabac 1850.JPG" by Photographie personnelle User:Poussin jean. CC BY-SA 3.0. Changes: latar dibuang, dikecilkan.
+
+isl/kaaba.webp
+    Kaabah
+    "The Ka'ba, Great Mosque of Mecca, Saudi Arabia (4).jpg" by Richard Mortel. CC BY 2.0. Changes: dipotong dan dikecilkan.
+
+isl/makkah.webp
+    Masjidil Haram, Makkah
+    "Great Mosque of Mecca1.jpg" by Saudipics.com. CC BY-SA 4.0. Changes: dipotong dan dikecilkan.
+
+isl/thawr.webp
+    Jabal Thur (Gua Thur)
+    "Jabele thor - panoramio.jpg" by Abdul Razzaq Phulpot…. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+isl/nour.webp
+    Jabal Nur (Gua Hira)
+    "Jabbal An-Nour (2024).jpg" by Kaliper1. CC BY-SA 4.0. Changes: dipotong dan dikecilkan.
+
+isl/madinah.webp
+    Masjid Nabawi, Madinah
+    "Al-Masjid An-Nabawi (Bird's Eye View).jpg" by Konevi. CC0. Changes: dipotong dan dikecilkan.
+
+isl/quba.webp
+    Masjid Quba
+    "Quba Mosque Full Picture (2024).jpg" by Kaliper1. CC BY-SA 4.0. Changes: dipotong dan dikecilkan.
+
+isl/donation.webp
+    Tabung derma masjid
+    "Donation boxes Masjid Inabah Kamal Semporna 20250628 121543.jpg" by Taufik. CC0. Changes: dipotong dan dikecilkan.
+
+sky/dawn.webp
+    Langit fajar
+    "Desert Dawn.jpg" by Jessie Eastland. CC BY-SA 4.0. Changes: dipotong dan dikecilkan.
+
+sky/sunrise.webp
+    Matahari terbit
+    "Spring Lake, New Jersey Beach at Sunrise.jpg" by Nick Harris. CC BY 2.5. Changes: dipotong dan dikecilkan.
+
+sky/noon.webp
+    Matahari tinggi di langit tengah hari
+    "Tea Field by Baraka.jpg" by TimothyBaraka. CC BY-SA 4.0. Changes: dipotong dan dikecilkan.
+
+sky/afternoon.webp
+    Cahaya petang
+    "Golden Hour Timepiece.jpg" by Eleneru. CC BY-SA 4.0. Changes: dipotong dan dikecilkan.
+
+sky/sunset.webp
+    Matahari terbenam
+    "Full cycle of a Sunset on the high plains of the Mojave Desert.jpg" by Jessie Eastland. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+sky/night.webp
+    Langit malam
+    "Свет от деревни - panoramio.jpg" by Alexey Elfimov. CC BY 3.0. Changes: dipotong dan dikecilkan.

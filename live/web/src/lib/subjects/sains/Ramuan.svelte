@@ -8,7 +8,9 @@
 	import { play } from '$lib/sound';
 	import Sticker from '$ui/Sticker.svelte';
 	import Checks from '../Checks.svelte';
+	import GameImage from '../GameImage.svelte';
 	import Mark from '../Mark.svelte';
+	import { find } from '../assets';
 	import { type GameProps, isLocked, stickerFor } from '../kit.svelte';
 
 	let p: GameProps = $props();
@@ -21,6 +23,8 @@
 	const given = $derived<string[]>(p.mine !== undefined ? (many ? p.mine : [p.mine]) : p.reveal ? p.reveal.correct : poured);
 	const right = $derived<string[] | null>(p.reveal ? p.reveal.correct : null);
 	const good = $derived(!!right && given.length === right.length && given.every((g) => right.includes(g)));
+	// photographs only if every bottle has one, so none stands out
+	const photos = $derived(choices.every((c) => !!find('materials', c.text)?.key));
 	const COLOURS = ['#ff6b8b', '#4fc3f7', '#9be15d', '#ffd54f', '#b388ff', '#ffab40'];
 	const colourOf = (id: string) => COLOURS[choices.findIndex((c) => c.id === id) % COLOURS.length];
 	const mix = $derived(given.length ? given.map(colourOf) : ['#dff3ff']);
@@ -45,7 +49,12 @@
 				<button type="button" class="bottle" class:in={given.includes(c.id)} style:--c={COLOURS[i % COLOURS.length]} disabled={locked} onclick={() => pour(c.id)} aria-pressed={given.includes(c.id)}>
 					<span class="neck" aria-hidden="true"></span>
 					<span class="body">
-						{#if c.sticker ?? stickerFor(c.text)}<Sticker key={c.sticker ?? stickerFor(c.text) ?? ''} size={30} alt="" />{/if}
+						<!-- a photograph of what is in the bottle, as its label -->
+						<span class="label-pic">
+							<GameImage name={photos ? find('materials', c.text)?.key : null} fit="cover">
+								{#snippet fallback()}{#if c.sticker ?? stickerFor(c.text)}<Sticker key={c.sticker ?? stickerFor(c.text) ?? ''} size={30} alt="" />{/if}{/snippet}
+							</GameImage>
+						</span>
 					</span>
 					<span class="tag">{c.text}</span>
 					{#if right && (given.includes(c.id) || ok)}<Mark ok={!!ok} />{/if}
@@ -74,6 +83,20 @@
 {/if}
 
 <style>
+	.label-pic {
+		display: grid;
+		place-items: center;
+		width: 2rem;
+		height: 2rem;
+		overflow: hidden;
+		border: 2px solid #fff;
+		border-radius: 0.35rem;
+		box-shadow: 0 1px 3px rgb(0 0 0 / 0.3);
+	}
+	.label-pic :global(img.g-img) {
+		width: 100%;
+		height: 100%;
+	}
 	.lab {
 		display: grid;
 		gap: 0.6rem;

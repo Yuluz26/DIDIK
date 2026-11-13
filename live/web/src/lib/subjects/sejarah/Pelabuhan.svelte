@@ -10,17 +10,26 @@
 
 	let p: GameProps = $props();
 	const SAILS = ['#e2483d', '#2f7fcf', '#f5c518', '#2bb0a6', '#8a5cd1'];
+	import GameImage from '../GameImage.svelte';
+	import { asset, find } from '../assets';
+	// the trade routes that met at Melaka, faint behind the berths
+	const MAP = asset('hist/spice-map');
 </script>
 
 <MatchPlay {p} pool="Muatan di gudang">
 	{#snippet board(v: MatchView)}
-		<div class="harbour">
+		<div class="harbour" style:--map={MAP ? `url(${MAP.src})` : 'none'}>
 			{#each v.left as l, i (l.id)}
 				<!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
 				<div class="berth" data-zone={v.zone(l.id)} onclick={() => v.tapLeft(l.id)}>
-					<span class="ship" class:sail={v.allRight} style:--sail={SAILS[i % SAILS.length]} aria-hidden="true">
-						<i class="mast"></i><i class="canvas"></i><i class="hull"></i>
-					</span>
+					{#if find('history', l.text)?.key === 'hist/junk' || find('history', l.text)?.key === 'hist/carrack'}
+						<!-- a real picture of the kind of ship these traders sailed -->
+						<span class="ship photo" class:sail={v.allRight} aria-hidden="true"><GameImage name={find('history', l.text)?.key} fit="cover" /></span>
+					{:else}
+						<span class="ship" class:sail={v.allRight} style:--sail={SAILS[i % SAILS.length]} aria-hidden="true">
+							<i class="mast"></i><i class="canvas"></i><i class="hull"></i>
+						</span>
+					{/if}
 					<div class="manifest">
 						<span class="flag">{#if l.sticker}<Sticker key={l.sticker} size={22} alt="" />{/if}{l.text}</span>
 						<span class="cargo"><MatchCard {v} left={l.id} empty="Muatkan kargo" /></span>
@@ -33,6 +42,27 @@
 </MatchPlay>
 
 <style>
+	.harbour::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: var(--map) 50% 50% / cover no-repeat;
+		opacity: 0.22;
+		mix-blend-mode: luminosity;
+		pointer-events: none;
+	}
+	.ship.photo {
+		display: block;
+		overflow: hidden;
+		width: 5.2rem;
+		height: 3.4rem;
+		border-radius: 0.5rem;
+		box-shadow: 0 3px 8px rgb(0 0 0 / 0.35);
+	}
+	.ship.photo :global(img.g-img) {
+		width: 100%;
+		height: 100%;
+	}
 	.harbour {
 		position: relative;
 		display: grid;

@@ -8,9 +8,15 @@
 	import type { GameProps } from '../kit.svelte';
 
 	let p: GameProps = $props();
+	import GameImage from '../GameImage.svelte';
+	import { find } from '../assets';
 </script>
 
 <OrderPlay {p} pool="Peristiwa" tip="Yang paling awal di atas. Ketik atau seret ke tali.">
+	{#snippet thing(item)}
+		{#if find('history', item.text)}<span class="snap small"><GameImage name={find('history', item.text)?.key} fit="cover" /></span>{/if}
+		<span>{item.text}</span>
+	{/snippet}
 	{#snippet board(v: OrderView)}
 		<div class="page">
 			<p class="end top">Awal</p>
@@ -22,7 +28,10 @@
 						{#if id}
 							<button type="button" class="card" style:--tilt="{i % 2 ? 1.2 : -1.2}deg" disabled={v.locked} {@attach v.grab(i)} aria-label="{v.text(id)}, urutan {i + 1}">
 								<span class="clip" aria-hidden="true"></span>
-								{v.text(id)}
+								{#if find('history', v.text(id))}
+									<span class="snap"><GameImage name={find('history', v.text(id))?.key} eager fit="cover" /></span>
+								{/if}
+								<span class="words">{v.text(id)}</span>
 								{#if ok !== null}<Mark {ok} />{/if}
 							</button>
 							{#if v.should(i)}<span class="should">→ {v.should(i)}</span>{/if}
@@ -38,6 +47,35 @@
 </OrderPlay>
 
 <style>
+	/* a photograph pinned to the card: the place the event stands for */
+	.snap {
+		display: block;
+		flex: none;
+		width: 3.2rem;
+		height: 2.4rem;
+		overflow: hidden;
+		border: 2px solid #fff;
+		border-radius: 3px;
+		box-shadow: 0 2px 4px rgb(60 40 10 / 0.35);
+		rotate: -2deg;
+	}
+	.snap.small {
+		width: 2.5rem;
+		height: 1.9rem;
+	}
+	.snap :global(img.g-img) {
+		width: 100%;
+		height: 100%;
+		filter: sepia(0.25);
+	}
+	.card {
+		display: flex !important;
+		align-items: center;
+		gap: 0.5rem;
+	}
+	.words {
+		flex: 1;
+	}
 	.page {
 		position: relative;
 		padding: 0.8rem 0.8rem 0.6rem 0.8rem;

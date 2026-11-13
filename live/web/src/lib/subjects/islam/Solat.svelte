@@ -10,12 +10,15 @@
 	import Pose, { poseOf } from './Pose.svelte';
 
 	let p: GameProps = $props();
+	import GameImage from '../GameImage.svelte';
+	import { asset } from '../assets';
+	const RUG = asset('isl/rug');
 </script>
 
 <OrderPlay {p} pic={() => undefined} pool="Gerakan" tip="Mula dari kepala sejadah. Ketik atau seret ke tempatnya.">
 	{#snippet board(v: OrderView)}
-		<div class="mat">
-			<div class="arch" aria-hidden="true"><span></span></div>
+		<div class="mat" style:--rug={RUG ? `url(${RUG.src})` : 'none'}>
+			<span class="mihrab" aria-hidden="true"><GameImage name="isl/mihrab" eager fit="cover">{#snippet fallback()}<span class="arch"><span></span></span>{/snippet}</GameImage></span>
 			<ol class="steps">
 				{#each v.slots as id, i (i)}
 					{@const ok = v.ok(i)}
@@ -40,6 +43,25 @@
 </OrderPlay>
 
 <style>
+	.mat {
+		background-image: linear-gradient(rgb(120 20 30 / 0.55), rgb(90 14 24 / 0.65)), var(--rug) !important;
+		background-size: cover !important;
+		background-position: center !important;
+	}
+	.mihrab {
+		display: block;
+		width: 5rem;
+		height: 6rem;
+		margin: 0 auto 0.5rem;
+		overflow: hidden;
+		border: 3px solid #e8c25a;
+		border-radius: 2.5rem 2.5rem 0.4rem 0.4rem;
+		box-shadow: 0 4px 10px rgb(0 0 0 / 0.4);
+	}
+	.mihrab :global(img.g-img) {
+		width: 100%;
+		height: 100%;
+	}
 	.mat {
 		position: relative;
 		width: min(100%, 26rem);

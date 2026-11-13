@@ -29,9 +29,12 @@
 			play('build');
 		}
 	}
+	import { asset } from '../assets';
+	// Masjid Sultan Salahuddin Abdul Aziz, Shah Alam, behind the pillars
+	const MASJID = asset('isl/salahuddin');
 </script>
 
-<div class="mosque">
+<div class="mosque" style:--masjid={MASJID ? `url(${MASJID.src})` : 'none'}>
 	<div class="dome" aria-hidden="true"><span class="crescent"></span></div>
 	<div class="roof" aria-hidden="true"></div>
 	<div class="colonnade" style:--n={need}>
@@ -73,6 +76,11 @@
 {/if}
 
 <style>
+	.mosque {
+		background-image: linear-gradient(180deg, rgb(230 245 255 / 0.55), rgb(255 255 255 / 0.75) 55%), var(--masjid) !important;
+		background-size: cover !important;
+		background-position: center 35% !important;
+	}
 	.mosque {
 		display: grid;
 		justify-items: center;

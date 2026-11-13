@@ -1,0 +1,3359 @@
+{
+ "assets": [
+  {
+   "key": "space/sun",
+   "path": "game-assets/space/sun.webp",
+   "width": 400,
+   "height": 400,
+   "bytes": 44588,
+   "games": [
+    "teropong",
+    "orbit"
+   ],
+   "shows": "Matahari dalam cahaya ultraungu melampau (SDO/AIA), warna palsu",
+   "kind": "enhanced",
+   "source": "Wikimedia Commons",
+   "file": "The Sun by the Atmospheric Imaging Assembly of NASA's Solar Dynamics Observatory - 20100819.jpg",
+   "author": "NASA/SDO (AIA)",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "disc:400",
+   "changes": "latar langit dibuang, dikecilkan"
+  },
+  {
+   "key": "space/mercury",
+   "path": "game-assets/space/mercury.webp",
+   "width": 280,
+   "height": 280,
+   "bytes": 14060,
+   "games": [
+    "teropong",
+    "orbit"
+   ],
+   "shows": "Utarid (MESSENGER), warna hampir sebenar",
+   "kind": "observation",
+   "source": "Wikimedia Commons",
+   "file": "Mercury in true color.jpg",
+   "author": "NASA/Johns Hopkins University Applied Physics Laboratory/Arizona State University/Carnegie Institution of Washington",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "disc:280",
+   "changes": "latar langit dibuang, dikecilkan"
+  },
+  {
+   "key": "space/venus",
+   "path": "game-assets/space/venus.webp",
+   "width": 280,
+   "height": 280,
+   "bytes": 5588,
+   "games": [
+    "teropong",
+    "orbit"
+   ],
+   "shows": "Zuhrah (Mariner 10), warna hampir sebenar",
+   "kind": "observation",
+   "source": "Wikimedia Commons",
+   "file": "Venus-real color.jpg",
+   "author": "NASA or Ricardo Nunes",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "disc:280",
+   "changes": "latar langit dibuang, dikecilkan"
+  },
+  {
+   "key": "space/earth",
+   "path": "game-assets/space/earth.webp",
+   "width": 320,
+   "height": 320,
+   "bytes": 32624,
+   "games": [
+    "teropong",
+    "orbit",
+    "kitaran"
+   ],
+   "shows": "Bumi dari Apollo 17 (The Blue Marble)",
+   "kind": "observation",
+   "source": "Wikimedia Commons",
+   "file": "The Earth seen from Apollo 17.jpg",
+   "author": "NASA/Apollo 17 crew; taken by either Harrison Schmitt or Ron Evans",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "disc:320",
+   "changes": "latar langit dibuang, dikecilkan"
+  },
+  {
+   "key": "space/moon",
+   "path": "game-assets/space/moon.webp",
+   "width": 320,
+   "height": 320,
+   "bytes": 26228,
+   "games": [
+    "teropong",
+    "orbit",
+    "kitaran"
+   ],
+   "shows": "Bulan, muka dekat (mozek LRO)",
+   "kind": "observation",
+   "source": "Wikimedia Commons",
+   "file": "Moon nearside LRO.jpg",
+   "author": "NASA/GSFC/Arizona State University",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "disc:320",
+   "changes": "latar langit dibuang, dikecilkan"
+  },
+  {
+   "key": "space/mars",
+   "path": "game-assets/space/mars.webp",
+   "width": 280,
+   "height": 280,
+   "bytes": 11984,
+   "games": [
+    "teropong",
+    "orbit"
+   ],
+   "shows": "Marikh dengan Valles Marineris (mozek Viking)",
+   "kind": "observation",
+   "source": "Wikimedia Commons",
+   "file": "Mars Valles Marineris.jpeg",
+   "author": "NASA / USGS (see PIA04304 catalog page)",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "disc:280",
+   "changes": "latar langit dibuang, dikecilkan"
+  },
+  {
+   "key": "space/jupiter",
+   "path": "game-assets/space/jupiter.webp",
+   "width": 360,
+   "height": 360,
+   "bytes": 17466,
+   "games": [
+    "teropong",
+    "orbit"
+   ],
+   "shows": "Musytari dan Bintik Merah Besar (Hubble)",
+   "kind": "observation",
+   "source": "Wikimedia Commons",
+   "file": "Jupiter and its shrunken Great Red Spot.jpg",
+   "author": "NASA, ESA, and A. Simon (Goddard Space Flight Center)",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "disc:360",
+   "changes": "latar langit dibuang, dikecilkan"
+  },
+  {
+   "key": "space/saturn",
+   "path": "game-assets/space/saturn.webp",
+   "width": 560,
+   "height": 229,
+   "bytes": 15230,
+   "games": [
+    "teropong",
+    "orbit"
+   ],
+   "shows": "Zuhal dan gelangnya semasa ekuinoks (Cassini)",
+   "kind": "observation",
+   "source": "Wikimedia Commons",
+   "file": "Saturn during Equinox.jpg",
+   "author": "NASA / JPL / Space Science Institute",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "glow:560",
+   "feather": false,
+   "changes": "latar gelap dijadikan lut sinar, dikecilkan"
+  },
+  {
+   "key": "space/uranus",
+   "path": "game-assets/space/uranus.webp",
+   "width": 280,
+   "height": 280,
+   "bytes": 6422,
+   "games": [
+    "teropong",
+    "orbit"
+   ],
+   "shows": "Uranus (Voyager 2)",
+   "kind": "observation",
+   "source": "Wikimedia Commons",
+   "file": "Uranus2.jpg",
+   "author": "NASA/JPL-Caltech",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "disc:280",
+   "changes": "latar langit dibuang, dikecilkan"
+  },
+  {
+   "key": "space/neptune",
+   "path": "game-assets/space/neptune.webp",
+   "width": 280,
+   "height": 280,
+   "bytes": 7584,
+   "games": [
+    "teropong",
+    "orbit"
+   ],
+   "shows": "Neptun (Voyager 2)",
+   "kind": "observation",
+   "source": "Wikimedia Commons",
+   "file": "Neptune Full.jpg",
+   "author": "NASA",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "disc:280",
+   "changes": "latar langit dibuang, dikecilkan"
+  },
+  {
+   "key": "space/milkyway",
+   "path": "game-assets/space/milkyway.webp",
+   "width": 1440,
+   "height": 720,
+   "bytes": 93844,
+   "games": [
+    "teropong",
+    "orbit"
+   ],
+   "shows": "Panorama langit malam dengan Bima Sakti",
+   "kind": "observation",
+   "source": "Wikimedia Commons",
+   "file": "ESO - Milky Way.jpg",
+   "author": "ESO/S. Brunier",
+   "licence": "CC BY 4.0",
+   "share_alike": false,
+   "make": "cover:1440x720",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "space/milkyway-core",
+   "path": "game-assets/space/milkyway-core.webp",
+   "width": 460,
+   "height": 194,
+   "bytes": 76844,
+   "games": [
+    "teropong"
+   ],
+   "shows": "Pusat Bima Sakti, dari panorama langit yang sama",
+   "kind": "observation",
+   "source": "Wikimedia Commons",
+   "file": "ESO - Milky Way.jpg",
+   "author": "ESO/S. Brunier",
+   "licence": "CC BY 4.0",
+   "share_alike": false,
+   "make": "glow:460",
+   "crop": [
+    36,
+    30,
+    64,
+    70
+   ],
+   "changes": "dipotong; latar gelap dijadikan lut sinar, dikecilkan"
+  },
+  {
+   "key": "space/andromeda",
+   "path": "game-assets/space/andromeda.webp",
+   "width": 440,
+   "height": 441,
+   "bytes": 78480,
+   "games": [
+    "teropong"
+   ],
+   "shows": "Galaksi Andromeda dalam ultraungu (GALEX), warna palsu",
+   "kind": "enhanced",
+   "source": "Wikimedia Commons",
+   "file": "Andromeda galaxy.jpg",
+   "author": "NASA/JPL/California Institute of Technology",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "glow:440",
+   "changes": "latar gelap dijadikan lut sinar, dikecilkan"
+  },
+  {
+   "key": "space/sombrero",
+   "path": "game-assets/space/sombrero.webp",
+   "width": 460,
+   "height": 229,
+   "bytes": 37584,
+   "games": [
+    "teropong"
+   ],
+   "shows": "Galaksi Sombrero, M104 (Hubble)",
+   "kind": "observation",
+   "source": "Wikimedia Commons",
+   "file": "M104 ngc4594 sombrero galaxy hi-res.jpg",
+   "author": "NASA/ESA and The Hubble Heritage Team (STScI/AURA)",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "glow:460",
+   "crop": [
+    14,
+    18,
+    86,
+    82
+   ],
+   "changes": "dipotong; latar gelap dijadikan lut sinar, dikecilkan"
+  },
+  {
+   "key": "space/lmc",
+   "path": "game-assets/space/lmc.webp",
+   "width": 420,
+   "height": 459,
+   "bytes": 184766,
+   "games": [
+    "teropong"
+   ],
+   "shows": "Awan Magellan Besar (teleskop Schmidt ESO)",
+   "kind": "observation",
+   "source": "Wikimedia Commons",
+   "file": "LMC snapped by the ESO 1-metre Schmidt telescope.jpg",
+   "author": "ESO",
+   "licence": "CC BY 4.0",
+   "share_alike": false,
+   "make": "glow:420",
+   "changes": "latar gelap dijadikan lut sinar, dikecilkan"
+  },
+  {
+   "key": "space/polaris",
+   "path": "game-assets/space/polaris.webp",
+   "width": 300,
+   "height": 300,
+   "bytes": 66130,
+   "games": [
+    "teropong"
+   ],
+   "shows": "Bintang Utara (Polaris A dan B, Hubble)",
+   "kind": "observation",
+   "source": "Wikimedia Commons",
+   "file": "Polaris A and Polaris B (opo0602c).jpg",
+   "author": "NASA, ESA, N. Evans (Harvard-Smithsonian CfA), and H. Bond (STScI)",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "glow:300",
+   "crop": [
+    10,
+    16,
+    38,
+    44
+   ],
+   "changes": "dipotong; latar gelap dijadikan lut sinar, dikecilkan"
+  },
+  {
+   "key": "space/star",
+   "path": "game-assets/space/star.webp",
+   "width": 300,
+   "height": 311,
+   "bytes": 43646,
+   "games": [
+    "teropong"
+   ],
+   "shows": "Sebutir bintang terang (Sirius A dan B, Hubble)",
+   "kind": "observation",
+   "source": "Wikimedia Commons",
+   "file": "Sirius A and B Hubble photo.jpg",
+   "author": "NASA, ESA, H. Bond (STScI), and M. Barstow (University of Leicester)",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "glow:300",
+   "changes": "latar gelap dijadikan lut sinar, dikecilkan"
+  },
+  {
+   "key": "space/comet",
+   "path": "game-assets/space/comet.webp",
+   "width": 460,
+   "height": 319,
+   "bytes": 136402,
+   "games": [
+    "teropong"
+   ],
+   "shows": "Komet Halley, 1986",
+   "kind": "observation",
+   "source": "Wikimedia Commons",
+   "file": "Lspn comet halley.jpg",
+   "author": "NASA/W. Liller",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "glow:460",
+   "changes": "latar gelap dijadikan lut sinar, dikecilkan"
+  },
+  {
+   "key": "micro/onion",
+   "path": "game-assets/micro/onion.webp",
+   "width": 900,
+   "height": 675,
+   "bytes": 28574,
+   "games": [
+    "mikroskop"
+   ],
+   "shows": "Sel epidermis bawang di bawah mikroskop cahaya (40x)",
+   "kind": "observation",
+   "source": "Wikimedia Commons",
+   "file": "Onion Epidermis Cells W.M. 40x - 183.jpg",
+   "author": "loganrickert",
+   "licence": "CC BY 2.0",
+   "share_alike": false,
+   "make": "cover:900x675",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "circuit/battery",
+   "path": "game-assets/circuit/battery.webp",
+   "width": 150,
+   "height": 460,
+   "bytes": 8902,
+   "games": [
+    "litar"
+   ],
+   "shows": "Bateri AA",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "2500 mAh NiMH Battery - AA (11469147674).jpg",
+   "author": "SparkFun Electronics from Boulder, USA",
+   "licence": "CC BY 2.0",
+   "share_alike": false,
+   "make": "cut:150",
+   "changes": "latar dibuang, dikecilkan"
+  },
+  {
+   "key": "mat/key",
+   "path": "game-assets/mat/key.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 3736,
+   "games": [
+    "litar",
+    "magnet"
+   ],
+   "shows": "Kunci logam",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Solex 99 30 padlock with keys (DSCF2659).jpg",
+   "author": "Trougnouf",
+   "licence": "CC BY 4.0",
+   "share_alike": false,
+   "make": "tile:168@36,66",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "mat/eraser",
+   "path": "game-assets/mat/eraser.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 2392,
+   "games": [
+    "litar",
+    "magnet"
+   ],
+   "shows": "Pemadam getah",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Office-pink-erasers.jpg",
+   "author": "Evan-Amos",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "tile:168@30,50",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "mat/pencil",
+   "path": "game-assets/mat/pencil.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 2512,
+   "games": [
+    "litar",
+    "magnet"
+   ],
+   "shows": "Pensel dengan mata grafit",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Pencils hb.jpg",
+   "author": "Original uploader was Dmgerman at en.wikipedia",
+   "licence": "CC BY 3.0",
+   "share_alike": false,
+   "make": "tile:168@52,52",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "mat/rubber-band",
+   "path": "game-assets/mat/rubber-band.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 3378,
+   "games": [
+    "litar",
+    "magnet"
+   ],
+   "shows": "Gelang getah",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Rubber bands.jpg",
+   "author": "FML",
+   "licence": "CC BY-SA 2.5",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "mat/sponge",
+   "path": "game-assets/mat/sponge.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 2500,
+   "games": [
+    "litar",
+    "magnet"
+   ],
+   "shows": "Span",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Éponge type 3 (1).jpg",
+   "author": "Lionel Allorge",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "mat/nail",
+   "path": "game-assets/mat/nail.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 1120,
+   "games": [
+    "litar",
+    "magnet"
+   ],
+   "shows": "Paku besi",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Clou 127.jpg",
+   "author": "Own work",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "tile:168@55,55",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "mat/foil",
+   "path": "game-assets/mat/foil.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 1988,
+   "games": [
+    "litar",
+    "magnet"
+   ],
+   "shows": "Kerajang aluminium",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Aluminio.jpg",
+   "author": "MdeVicente",
+   "licence": "CC0",
+   "share_alike": false,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "mat/copper",
+   "path": "game-assets/mat/copper.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 7012,
+   "games": [
+    "litar",
+    "magnet"
+   ],
+   "shows": "Kuprum asli",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "NatCopper.jpg",
+   "author": "Native_Copper_Macro_Digon3.jpg: “Jonathan Zander (Digon3)\" derivative work: Materialscientist (talk)",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "mat/coins",
+   "path": "game-assets/mat/coins.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 8980,
+   "games": [
+    "litar",
+    "magnet"
+   ],
+   "shows": "Duit syiling",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Kiloware.JPG",
+   "author": "Michael Sander",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "mat/scissors",
+   "path": "game-assets/mat/scissors.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 1198,
+   "games": [
+    "litar",
+    "magnet"
+   ],
+   "shows": "Gunting keluli",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Standard household scissors.jpg",
+   "author": "Doggerelblogger",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "mat/spoon",
+   "path": "game-assets/mat/spoon.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 3828,
+   "games": [
+    "litar",
+    "magnet"
+   ],
+   "shows": "Sudu logam",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Soup Spoon.jpg",
+   "author": "Donovan Govan.",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "tile:168@36,56",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "mat/ice",
+   "path": "game-assets/mat/ice.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 7624,
+   "games": [
+    "jirim"
+   ],
+   "shows": "Ketulan ais",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Ice cubes openphoto.jpg",
+   "author": "Darren Hester",
+   "licence": "CC BY-SA 2.5",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "mat/pebble",
+   "path": "game-assets/mat/pebble.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 7148,
+   "games": [
+    "jirim",
+    "magnet",
+    "litar"
+   ],
+   "shows": "Batu kecil",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Pebble Dash (15366562092).jpg",
+   "author": "wardyboy400",
+   "licence": "CC BY 2.0",
+   "share_alike": false,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "mat/mercury",
+   "path": "game-assets/mat/mercury.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 5766,
+   "games": [
+    "jirim"
+   ],
+   "shows": "Merkuri (raksa), logam cecair",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Pouring liquid mercury bionerd.jpg",
+   "author": "Bionerd",
+   "licence": "CC BY 3.0",
+   "share_alike": false,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "mat/sugar",
+   "path": "game-assets/mat/sugar.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 7016,
+   "games": [
+    "jirim",
+    "ramuan"
+   ],
+   "shows": "Gula",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Sucre blanc cassonade complet rapadura.jpg",
+   "author": "Romain Behar",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "tile:168@28,30",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "mat/milk",
+   "path": "game-assets/mat/milk.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 1944,
+   "games": [
+    "jirim"
+   ],
+   "shows": "Segelas susu",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Glass of Milk (33657535532).jpg",
+   "author": "NIAID",
+   "licence": "CC BY 2.0",
+   "share_alike": false,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "mat/oil",
+   "path": "game-assets/mat/oil.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 4598,
+   "games": [
+    "jirim"
+   ],
+   "shows": "Minyak masak",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Olive oil from Oneglia.jpg",
+   "author": "Lemone",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "tile:168@50,62",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "mat/steam",
+   "path": "game-assets/mat/steam.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 2830,
+   "games": [
+    "jirim"
+   ],
+   "shows": "Wap air",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Steam phase eruption of Castle Geyser.jpg",
+   "author": "Brocken Inaglory",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "mat/balloon",
+   "path": "game-assets/mat/balloon.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 4168,
+   "games": [
+    "jirim"
+   ],
+   "shows": "Belon berisi gas",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Congrats bqt.jpg",
+   "author": "Photographer: Warren Denning. Creative Director: Stan Weir. Marketing Director: Tim Vlamis",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "tile:168@50,42",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "mat/wood",
+   "path": "game-assets/mat/wood.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 2748,
+   "games": [
+    "litar",
+    "magnet",
+    "jirim"
+   ],
+   "shows": "Kayu",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "16 wood samples.jpg",
+   "author": "Anonimski",
+   "licence": "CC0",
+   "share_alike": false,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "mat/ring",
+   "path": "game-assets/mat/ring.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 4248,
+   "games": [
+    "litar",
+    "magnet"
+   ],
+   "shows": "Cincin emas",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Traditional Wedding Ring.jpg",
+   "author": "A Minty Penguin",
+   "licence": "CC0",
+   "share_alike": false,
+   "make": "tile:168@52,36",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "mat/brick",
+   "path": "game-assets/mat/brick.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 3292,
+   "games": [
+    "jirim",
+    "magnet"
+   ],
+   "shows": "Batu bata",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Brick.jpg",
+   "author": "Andrewlister",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "circuit/bulb",
+   "path": "game-assets/circuit/bulb.webp",
+   "width": 300,
+   "height": 498,
+   "bytes": 17002,
+   "games": [
+    "litar"
+   ],
+   "shows": "Mentol pijar kaca jernih",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Gluehlampe 01 KMJ.png",
+   "author": "KMJ, alpha masking by Edokter",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "keep:300",
+   "changes": "dikecilkan"
+  },
+  {
+   "key": "magnet/field",
+   "path": "game-assets/magnet/field.webp",
+   "width": 520,
+   "height": 520,
+   "bytes": 24004,
+   "games": [
+    "magnet"
+   ],
+   "shows": "Magnet ladam dengan garisan medan magnet",
+   "kind": "visualisation",
+   "source": "Wikimedia Commons",
+   "file": "VFPt horseshoe-magnet.svg",
+   "author": "Geek3",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "photo:520",
+   "changes": "dikecilkan"
+  },
+  {
+   "key": "mat/glass",
+   "path": "game-assets/mat/glass.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 1840,
+   "games": [
+    "litar",
+    "magnet",
+    "jirim"
+   ],
+   "shows": "Gelas kaca berisi air",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Glass-of-water.jpg",
+   "author": "Derek Jensen (Tysto)",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "tile:168@50,46",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "mat/paper-clip",
+   "path": "game-assets/mat/paper-clip.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 2162,
+   "games": [
+    "litar",
+    "magnet"
+   ],
+   "shows": "Klip kertas keluli",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Paperclip-01 (xndr).jpg",
+   "author": "No machine-readable author provided. Svdmolen assumed (based on copyright claims).",
+   "licence": "CC BY 2.5",
+   "share_alike": false,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "mat/water",
+   "path": "game-assets/mat/water.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 4820,
+   "games": [
+    "jirim",
+    "ramuan"
+   ],
+   "shows": "Titisan air",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Water drop 001.jpg",
+   "author": "José Manuel Suárez from Spain",
+   "licence": "CC BY 2.0",
+   "share_alike": false,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "mat/feather",
+   "path": "game-assets/mat/feather.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 3342,
+   "games": [
+    "litar",
+    "magnet"
+   ],
+   "shows": "Bulu pelepah",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Donsvlokje.jpg",
+   "author": "Wouter Hagens",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "mat/plastic",
+   "path": "game-assets/mat/plastic.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 1846,
+   "games": [
+    "litar",
+    "magnet"
+   ],
+   "shows": "Botol plastik",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Water Bottle (51308317077).jpg",
+   "author": "Alabama Extension",
+   "licence": "CC0",
+   "share_alike": false,
+   "make": "tile:168@50,40",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "mat/salt",
+   "path": "game-assets/mat/salt.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 3736,
+   "games": [
+    "jirim",
+    "ramuan"
+   ],
+   "shows": "Hablur garam (natrium klorida)",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Selpologne.jpg",
+   "author": "Didier Descouens",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "mat/straw",
+   "path": "game-assets/mat/straw.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 3880,
+   "games": [
+    "litar",
+    "magnet"
+   ],
+   "shows": "Penyedut minuman plastik",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Eight drinking straws (4273846588).jpg",
+   "author": "Horia Varlan from Bucharest, Romania",
+   "licence": "CC BY 2.0",
+   "share_alike": false,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "mat/cotton",
+   "path": "game-assets/mat/cotton.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 2226,
+   "games": [
+    "litar",
+    "magnet"
+   ],
+   "shows": "Kapas",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Vatta2.jpg",
+   "author": "Elkagye",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "mat/rope",
+   "path": "game-assets/mat/rope.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 8878,
+   "games": [
+    "litar",
+    "magnet"
+   ],
+   "shows": "Tali",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Cordage en chanvre.jpg",
+   "author": "Ji-Elle",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "mat/honey",
+   "path": "game-assets/mat/honey.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 7160,
+   "games": [
+    "jirim"
+   ],
+   "shows": "Madu",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Runny hunny.jpg",
+   "author": "Scott Bauer, USDA ARS",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "tile:168@50,38",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "mat/smoke",
+   "path": "game-assets/mat/smoke.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 4120,
+   "games": [
+    "jirim"
+   ],
+   "shows": "Asap",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Ognisko ubt 0126.jpeg",
+   "author": "© 2005 by Tomasz Sienicki [user: tsca, mail: tomasz.sienicki at gmail.com]",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "tile:168@50,35",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "micro/scope",
+   "path": "game-assets/micro/scope.webp",
+   "width": 300,
+   "height": 697,
+   "bytes": 31818,
+   "games": [
+    "mikroskop"
+   ],
+   "shows": "Mikroskop cahaya Leitz",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Leitz microscope at CSI-IMG 8731-white.jpg",
+   "author": "Rama",
+   "licence": "CC BY-SA 3.0 fr",
+   "share_alike": true,
+   "make": "cut:300",
+   "changes": "latar dibuang, dikecilkan"
+  },
+  {
+   "key": "life/rice",
+   "path": "game-assets/life/rice.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 11392,
+   "games": [
+    "rantai",
+    "kitaran"
+   ],
+   "shows": "Padi",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "20201102.Hengnan.Hybrid rice Sanyou-1.6.jpg",
+   "author": "China News Service",
+   "licence": "CC BY 3.0",
+   "share_alike": false,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "life/mouse",
+   "path": "game-assets/life/mouse.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 3784,
+   "games": [
+    "rantai"
+   ],
+   "shows": "Tikus",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Mouse white background.jpg",
+   "author": "Unknown authorUnknown author (original) / Ilmari Karonen (editing)",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "life/snake",
+   "path": "game-assets/life/snake.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 11296,
+   "games": [
+    "rantai"
+   ],
+   "shows": "Ular tedung",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "12 - The Mystical King Cobra and Coffee Forests.jpg",
+   "author": "Michael Allen Smith from Seattle, USA",
+   "licence": "CC BY-SA 2.0",
+   "share_alike": true,
+   "make": "tile:168@40,45",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "life/grass",
+   "path": "game-assets/life/grass.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 6216,
+   "games": [
+    "rantai"
+   ],
+   "shows": "Rumput",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Meadow Foxtail head.jpg",
+   "author": "TadejM (pemuat naik, Wikimedia Commons)",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "life/grasshopper",
+   "path": "game-assets/life/grasshopper.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 5760,
+   "games": [
+    "rantai"
+   ],
+   "shows": "Belalang",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "American Bird Grasshopper.jpg",
+   "author": "http://www.birdphotos.com",
+   "licence": "CC BY 3.0",
+   "share_alike": false,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "life/frog",
+   "path": "game-assets/life/frog.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 3414,
+   "games": [
+    "rantai",
+    "kitaran"
+   ],
+   "shows": "Katak dewasa",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Red-eyed Leaf Frog (49661076226).jpg",
+   "author": "Charlie Jackson",
+   "licence": "CC BY 2.0",
+   "share_alike": false,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "life/tadpole",
+   "path": "game-assets/life/tadpole.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 5272,
+   "games": [
+    "kitaran"
+   ],
+   "shows": "Berudu",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "RanaTemporariaLarva2.jpg",
+   "author": "Viridiflavus",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "life/froglet",
+   "path": "game-assets/life/froglet.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 2614,
+   "games": [
+    "kitaran"
+   ],
+   "shows": "Katak muda",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Young frog.jpg",
+   "author": "VinetVas17",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "life/frogspawn",
+   "path": "game-assets/life/frogspawn.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 9314,
+   "games": [
+    "kitaran"
+   ],
+   "shows": "Telur katak",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Frogspawn in a Paignton Pond.jpg",
+   "author": "Partonez",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "life/eagle",
+   "path": "game-assets/life/eagle.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 2656,
+   "games": [
+    "rantai"
+   ],
+   "shows": "Helang merah",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Haliastur indus 136698204.jpg",
+   "author": "Afsar Nayakkan",
+   "licence": "CC BY 4.0",
+   "share_alike": false,
+   "make": "tile:168@55,42",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "life/phytoplankton",
+   "path": "game-assets/life/phytoplankton.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 3994,
+   "games": [
+    "rantai"
+   ],
+   "shows": "Fitoplankton di bawah mikroskop",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Mixed phytoplankton community 2.png",
+   "author": "University of Rhode Island/Stephanie Anderson",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "life/zooplankton",
+   "path": "game-assets/life/zooplankton.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 6598,
+   "games": [
+    "rantai"
+   ],
+   "shows": "Zooplankton",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Mixed zooplankton sample.jpg",
+   "author": "Adriana Zingone, Domenico D'Alelio, Maria Grazia Mazzocchi, Marina Montresor, Diana Sarno, LTER-MC team",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "life/shrimp",
+   "path": "game-assets/life/shrimp.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 8802,
+   "games": [
+    "rantai"
+   ],
+   "shows": "Udang",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Palaemon serratus Croazia.jpg",
+   "author": "Etrusko25",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "life/fish",
+   "path": "game-assets/life/fish.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 3646,
+   "games": [
+    "rantai"
+   ],
+   "shows": "Ikan kembung",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Rastrelliger kanagurta JNC2855.JPG",
+   "author": "Jean-Lou Justine",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "life/shark",
+   "path": "game-assets/life/shark.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 2214,
+   "games": [
+    "rantai"
+   ],
+   "shows": "Jerung",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Corl0207 (28225976491).jpg",
+   "author": "NOAA Photo Library",
+   "licence": "CC BY 2.0",
+   "share_alike": false,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "life/caterpillar",
+   "path": "game-assets/life/caterpillar.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 4732,
+   "games": [
+    "rantai",
+    "kitaran"
+   ],
+   "shows": "Ulat beluncas",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Chenille de Grand porte queue (macaon).jpg",
+   "author": "Didier Descouens",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "life/pupa",
+   "path": "game-assets/life/pupa.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 4158,
+   "games": [
+    "kitaran"
+   ],
+   "shows": "Kepompong",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Cetoine global.jpg",
+   "author": "Didier Descouens",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "life/butterfly",
+   "path": "game-assets/life/butterfly.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 8232,
+   "games": [
+    "rantai",
+    "kitaran"
+   ],
+   "shows": "Rama-rama",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Fesoj - Papilio machaon (by).jpg",
+   "author": "fesoj",
+   "licence": "CC BY 2.0",
+   "share_alike": false,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "life/chicken",
+   "path": "game-assets/life/chicken.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 5962,
+   "games": [
+    "rantai",
+    "kitaran"
+   ],
+   "shows": "Ayam",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Male and female chicken sitting together.jpg",
+   "author": "Andrei Niemimäki from Turku, Finland",
+   "licence": "CC BY-SA 2.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "life/egg",
+   "path": "game-assets/life/egg.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 1846,
+   "games": [
+    "kitaran"
+   ],
+   "shows": "Telur ayam",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Chicken egg 2009-06-04.jpg",
+   "author": "Sun Ladder",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "life/seed",
+   "path": "game-assets/life/seed.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 6520,
+   "games": [
+    "kitaran"
+   ],
+   "shows": "Biji benih",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Разнообразие семян.jpg",
+   "author": "Alexander Klepnev",
+   "licence": "CC BY 4.0",
+   "share_alike": false,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "life/seedling",
+   "path": "game-assets/life/seedling.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 4900,
+   "games": [
+    "kitaran"
+   ],
+   "shows": "Anak benih bercambah",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Sunflower seedlings.jpg",
+   "author": "Bluemoose~commonswiki (pemuat naik, Wikimedia Commons)",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "life/tree",
+   "path": "game-assets/life/tree.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 7158,
+   "games": [
+    "rantai",
+    "kitaran"
+   ],
+   "shows": "Pokok",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Usamljeni jasen - panoramio (cropped).jpg",
+   "author": "menergo",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "life/flower",
+   "path": "game-assets/life/flower.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 6024,
+   "games": [
+    "kitaran"
+   ],
+   "shows": "Bunga raya",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Hibiscus Brilliant.jpg",
+   "author": "Andy / Andrew Fogg from near Cambridge, UK",
+   "licence": "CC BY 2.0",
+   "share_alike": false,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "life/fruit",
+   "path": "game-assets/life/fruit.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 9748,
+   "games": [
+    "kitaran"
+   ],
+   "shows": "Buah-buahan",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Fruit Platter- Seasonal Fruits.jpg",
+   "author": "روتانا",
+   "licence": "CC BY 4.0",
+   "share_alike": false,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "life/leaf",
+   "path": "game-assets/life/leaf.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 2976,
+   "games": [
+    "rantai"
+   ],
+   "shows": "Daun",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Lisc lipy.jpg",
+   "author": "Krzysztof P. Jasiutowicz",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "life/owl",
+   "path": "game-assets/life/owl.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 2478,
+   "games": [
+    "rantai"
+   ],
+   "shows": "Burung hantu",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "American Barn Owl (Tyto furcata guatemalae), Orange Walk.jpg",
+   "author": "Charles J. Sharp",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "life/tiger",
+   "path": "game-assets/life/tiger.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 11100,
+   "games": [
+    "rantai"
+   ],
+   "shows": "Harimau",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Bengal tiger (Panthera tigris tigris) female 3 crop.jpg",
+   "author": "Charles J. Sharp",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "life/worm",
+   "path": "game-assets/life/worm.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 11140,
+   "games": [
+    "rantai"
+   ],
+   "shows": "Cacing tanah",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Eisenia foetida R.H. (8).JPG",
+   "author": "Rob Hille",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "life/mushroom",
+   "path": "game-assets/life/mushroom.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 10420,
+   "games": [
+    "rantai"
+   ],
+   "shows": "Cendawan",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Sparrige Schüppling (Pholiota squarrosa).jpg",
+   "author": "Holger Krisp",
+   "licence": "CC BY 3.0",
+   "share_alike": false,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "life/lizard",
+   "path": "game-assets/life/lizard.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 3216,
+   "games": [
+    "rantai"
+   ],
+   "shows": "Cicak",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Hemidactylus platyurus (Flat-tailed House Gecko) on white background, focus stacking.jpg",
+   "author": "Basile Morin",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "life/spider",
+   "path": "game-assets/life/spider.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 4090,
+   "games": [
+    "rantai"
+   ],
+   "shows": "Labah-labah",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Araneus diadematus (Clerck, 1757).JPG",
+   "author": "Michael Gäbler",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "life/ant",
+   "path": "game-assets/life/ant.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 3596,
+   "games": [
+    "rantai"
+   ],
+   "shows": "Semut",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Red Ant - March 2025.jpg",
+   "author": "Samantha Henneke from Seagrove, North Carolina, USA",
+   "licence": "CC BY 2.0",
+   "share_alike": false,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "life/bee",
+   "path": "game-assets/life/bee.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 3884,
+   "games": [
+    "rantai"
+   ],
+   "shows": "Lebah",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Tetragonula carbonaria (14521993792).jpg",
+   "author": "Graham Wise from Brisbane, Australia",
+   "licence": "CC BY 2.0",
+   "share_alike": false,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "life/crab",
+   "path": "game-assets/life/crab.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 5514,
+   "games": [
+    "rantai"
+   ],
+   "shows": "Ketam",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Cancer pagurus.jpg",
+   "author": "Hans Hillewaert",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "life/squid",
+   "path": "game-assets/life/squid.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 4830,
+   "games": [
+    "rantai"
+   ],
+   "shows": "Sotong",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Sepioteuthis sepioidea (Caribbean Reef Squid).jpg",
+   "author": "Nhobgood Nick Hobgood",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "life/turtle",
+   "path": "game-assets/life/turtle.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 8310,
+   "games": [
+    "rantai"
+   ],
+   "shows": "Penyu",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Chelonia mydas is going for the air edit.jpg",
+   "author": "Brocken Inaglory",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "life/seaweed",
+   "path": "game-assets/life/seaweed.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 7852,
+   "games": [
+    "rantai"
+   ],
+   "shows": "Rumpai laut",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Fucus serratus 2015-09-08 ag M0010140.jpg",
+   "author": "Grubio--1",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "life/rabbit",
+   "path": "game-assets/life/rabbit.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 8966,
+   "games": [
+    "rantai"
+   ],
+   "shows": "Arnab",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Oryctolagus cuniculus Rcdo.jpg",
+   "author": "JM Ligero Loarte",
+   "licence": "CC BY 3.0",
+   "share_alike": false,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "life/goat",
+   "path": "game-assets/life/goat.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 4828,
+   "games": [
+    "rantai"
+   ],
+   "shows": "Kambing",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Hausziege 04.jpg",
+   "author": "Kuebi = Armin Kübelbeck",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "life/cow",
+   "path": "game-assets/life/cow.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 9324,
+   "games": [
+    "rantai"
+   ],
+   "shows": "Lembu",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Cow (Fleckvieh breed) Oeschinensee Slaunger 2009-07-07.jpg",
+   "author": "Kim Hansen",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "life/lion",
+   "path": "game-assets/life/lion.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 5896,
+   "games": [
+    "rantai"
+   ],
+   "shows": "Singa",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "020 The lion king Snyggve in the Serengeti National Park Photo by Giles Laurent.jpg",
+   "author": "Giles Laurent",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "life/crocodile",
+   "path": "game-assets/life/crocodile.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 7414,
+   "games": [
+    "rantai"
+   ],
+   "shows": "Buaya",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Nile crocodile head.jpg",
+   "author": "Leigh Bedford",
+   "licence": "CC BY 2.0",
+   "share_alike": false,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "life/dragonfly",
+   "path": "game-assets/life/dragonfly.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 3870,
+   "games": [
+    "rantai"
+   ],
+   "shows": "Pepatung",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Red grasshawk (Neurothemis fluctuans) male Phuket 2.jpg",
+   "author": "Charles J. Sharp",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "life/bat",
+   "path": "game-assets/life/bat.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 3500,
+   "games": [
+    "rantai"
+   ],
+   "shows": "Kelawar",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Big-eared-townsend-fledermaus.jpg",
+   "author": "PD-USGov, exact author unknown",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "cycle/evaporation",
+   "path": "game-assets/cycle/evaporation.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 3434,
+   "games": [
+    "kitaran"
+   ],
+   "shows": "Sejatan: wap naik dari air panas",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Watervapor cup.jpg",
+   "author": "Mahlum (pemuat naik, Wikimedia Commons)",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "cycle/cloud",
+   "path": "game-assets/cycle/cloud.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 6182,
+   "games": [
+    "kitaran"
+   ],
+   "shows": "Awan kumulus (kondensasi)",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "GoldenMedows.jpg",
+   "author": "PiccoloNamek",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "cycle/rain",
+   "path": "game-assets/cycle/rain.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 7390,
+   "games": [
+    "kitaran"
+   ],
+   "shows": "Hujan (kerpasan)",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Hard rain on a roof.jpg",
+   "author": "W.carter",
+   "licence": "CC0",
+   "share_alike": false,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "cycle/river",
+   "path": "game-assets/cycle/river.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 4720,
+   "games": [
+    "kitaran"
+   ],
+   "shows": "Sungai mengalir ke laut",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Pirogue running on the Mekong at golden hour between Don Det and Don Khon Laos.jpg",
+   "author": "Basile Morin",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "cycle/sea",
+   "path": "game-assets/cycle/sea.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 8808,
+   "games": [
+    "kitaran",
+    "rantai"
+   ],
+   "shows": "Laut",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Drone view of ocean waves (Unsplash).jpg",
+   "author": "Caleb Jones gcalebjones",
+   "licence": "CC0",
+   "share_alike": false,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "scene/paddy",
+   "path": "game-assets/scene/paddy.webp",
+   "width": 960,
+   "height": 560,
+   "bytes": 158810,
+   "games": [
+    "rantai"
+   ],
+   "shows": "Sawah padi bertingkat",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Pana Banaue Rice Terraces (Cropped).jpg",
+   "author": "User:Ori~",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "cover:960x560",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "moon/new",
+   "path": "game-assets/moon/new.webp",
+   "width": 200,
+   "height": 200,
+   "bytes": 3436,
+   "games": [
+    "kitaran"
+   ],
+   "shows": "Bulan baru: bahagian bercahaya dilukis pada mozek LRO",
+   "kind": "visualisation",
+   "source": "Wikimedia Commons",
+   "file": "Moon nearside LRO.jpg",
+   "author": "NASA/GSFC/Arizona State University",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "phase:200@0.0",
+   "changes": "latar langit dibuang; fasa dilukis dengan menggelapkan bahagian yang tidak disinari"
+  },
+  {
+   "key": "moon/crescent",
+   "path": "game-assets/moon/crescent.webp",
+   "width": 200,
+   "height": 200,
+   "bytes": 5040,
+   "games": [
+    "kitaran"
+   ],
+   "shows": "Bulan sabit: bahagian bercahaya dilukis pada mozek LRO",
+   "kind": "visualisation",
+   "source": "Wikimedia Commons",
+   "file": "Moon nearside LRO.jpg",
+   "author": "NASA/GSFC/Arizona State University",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "phase:200@0.2",
+   "changes": "latar langit dibuang; fasa dilukis dengan menggelapkan bahagian yang tidak disinari"
+  },
+  {
+   "key": "moon/quarter",
+   "path": "game-assets/moon/quarter.webp",
+   "width": 200,
+   "height": 200,
+   "bytes": 7250,
+   "games": [
+    "kitaran"
+   ],
+   "shows": "Bulan separa (suku pertama): bahagian bercahaya dilukis pada mozek LRO",
+   "kind": "visualisation",
+   "source": "Wikimedia Commons",
+   "file": "Moon nearside LRO.jpg",
+   "author": "NASA/GSFC/Arizona State University",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "phase:200@0.5",
+   "changes": "latar langit dibuang; fasa dilukis dengan menggelapkan bahagian yang tidak disinari"
+  },
+  {
+   "key": "moon/full",
+   "path": "game-assets/moon/full.webp",
+   "width": 200,
+   "height": 200,
+   "bytes": 11126,
+   "games": [
+    "kitaran"
+   ],
+   "shows": "Bulan purnama: bahagian bercahaya dilukis pada mozek LRO",
+   "kind": "visualisation",
+   "source": "Wikimedia Commons",
+   "file": "Moon nearside LRO.jpg",
+   "author": "NASA/GSFC/Arizona State University",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "phase:200@1.0",
+   "changes": "latar langit dibuang; fasa dilukis dengan menggelapkan bahagian yang tidak disinari"
+  },
+  {
+   "key": "hist/kris",
+   "path": "game-assets/hist/kris.webp",
+   "width": 200,
+   "height": 347,
+   "bytes": 13720,
+   "games": [
+    "gali",
+    "muzium"
+   ],
+   "shows": "Keris dan sarungnya",
+   "kind": "historic",
+   "source": "Wikimedia Commons",
+   "file": "Javaanse kris, AK-MAK-318.jpg",
+   "author": "Rijksmuseum",
+   "licence": "CC0",
+   "share_alike": false,
+   "make": "cut:200",
+   "changes": "latar dibuang, dikecilkan"
+  },
+  {
+   "key": "hist/jar",
+   "path": "game-assets/hist/jar.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 2984,
+   "games": [
+    "gali",
+    "muzium"
+   ],
+   "shows": "Tempayan Martaban",
+   "kind": "historic",
+   "source": "Wikimedia Commons",
+   "file": "Pots and Shades.JPG",
+   "author": "Ignacio Malapitan III",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/handaxe",
+   "path": "game-assets/hist/handaxe.webp",
+   "width": 200,
+   "height": 292,
+   "bytes": 21634,
+   "games": [
+    "gali",
+    "muzium"
+   ],
+   "shows": "Kapak tangan batu zaman prasejarah",
+   "kind": "historic",
+   "source": "Wikimedia Commons",
+   "file": "Handaxe by John Frere.png",
+   "author": "John Frere",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "cut:200",
+   "changes": "latar dibuang, dikecilkan"
+  },
+  {
+   "key": "hist/drum",
+   "path": "game-assets/hist/drum.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 3690,
+   "games": [
+    "gali",
+    "muzium"
+   ],
+   "shows": "Gendang gangsa Dong Son",
+   "kind": "historic",
+   "source": "Wikimedia Commons",
+   "file": "Tambour-song-da2.jpg",
+   "author": "Own work",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/bujang-statue",
+   "path": "game-assets/hist/bujang-statue.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 3114,
+   "games": [
+    "gali",
+    "muzium"
+   ],
+   "shows": "Arca dari Lembah Bujang",
+   "kind": "historic",
+   "source": "Wikimedia Commons",
+   "file": "Muzium Negara KL19b.JPG",
+   "author": "Gryffindor",
+   "licence": "CC BY 3.0",
+   "share_alike": false,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/inscription",
+   "path": "game-assets/hist/inscription.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 7124,
+   "games": [
+    "gali",
+    "muzium",
+    "skrol"
+   ],
+   "shows": "Batu Bersurat Terengganu",
+   "kind": "historic",
+   "source": "Wikimedia Commons",
+   "file": "KlMuseumBatuBersurat.jpg",
+   "author": "Earth",
+   "licence": "CC BY 2.5",
+   "share_alike": false,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/soil",
+   "path": "game-assets/hist/soil.webp",
+   "width": 900,
+   "height": 520,
+   "bytes": 195738,
+   "games": [
+    "gali"
+   ],
+   "shows": "Lapisan tanah tapak arkeologi",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "1555 - Keramikos archaeological area, Athens - Stratigraphy - Photo by Giovanni Dall'Orto, Nov 12 2009.jpg",
+   "author": "Giovanni Dall'Orto",
+   "licence": "Attribution",
+   "share_alike": false,
+   "make": "cover:900x520",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/trowel",
+   "path": "game-assets/hist/trowel.webp",
+   "width": 220,
+   "height": 104,
+   "bytes": 6216,
+   "games": [
+    "gali"
+   ],
+   "shows": "Kulir (sudip) ahli arkeologi",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Masons trowel.jpg",
+   "author": "Mike Lupinacci",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "cut:220",
+   "changes": "latar dibuang, dikecilkan"
+  },
+  {
+   "key": "hist/niah",
+   "path": "game-assets/hist/niah.webp",
+   "width": 900,
+   "height": 520,
+   "bytes": 84390,
+   "games": [
+    "gali",
+    "garismasa"
+   ],
+   "shows": "Mulut Gua Niah, Sarawak",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "The main entrance to the Niah Caves at sunset..jpg",
+   "author": "Starlightchild",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "cover:900x520",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/palace",
+   "path": "game-assets/hist/palace.webp",
+   "width": 960,
+   "height": 560,
+   "bytes": 139154,
+   "games": [
+    "empayar",
+    "istana"
+   ],
+   "shows": "Muzium Istana Kesultanan Melaka (binaan semula)",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Malacca Sultanate Palace.JPG",
+   "author": "Adiput (talk)",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "cover:960x560",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/throne",
+   "path": "game-assets/hist/throne.webp",
+   "width": 300,
+   "height": 300,
+   "bytes": 19830,
+   "games": [
+    "istana"
+   ],
+   "shows": "Singgahsana istana",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Gamla Stan, Södermalm, Stockholm, Sweden - panoramio (225).jpg",
+   "author": "Aaron Zhu",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "tile:300@50,55",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/afamosa",
+   "path": "game-assets/hist/afamosa.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 5916,
+   "games": [
+    "garismasa",
+    "muzium"
+   ],
+   "shows": "Kota A Famosa, Melaka",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "A Famosa Fortress.JPG",
+   "author": "Chongkian",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/stadthuys",
+   "path": "game-assets/hist/stadthuys.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 6312,
+   "games": [
+    "garismasa",
+    "muzium"
+   ],
+   "shows": "Bangunan Stadthuys, Melaka",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Malacca stadhuys1.jpg",
+   "author": "User: (WT-shared) Slleong at wts wikivoyage",
+   "licence": "CC BY 1.0",
+   "share_alike": false,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/stpaul",
+   "path": "game-assets/hist/stpaul.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 6700,
+   "games": [
+    "garismasa",
+    "muzium"
+   ],
+   "shows": "Gereja St. Paul, Melaka",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "St. Paul's Church Malacca 2012.JPG",
+   "author": "Bjørn Christian Tørrissen",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/merdeka-square",
+   "path": "game-assets/hist/merdeka-square.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 4002,
+   "games": [
+    "garismasa"
+   ],
+   "shows": "Dataran Merdeka, Kuala Lumpur",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Dataran Merdeka 2.jpg",
+   "author": "Haakon S. Krohn",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/stadium",
+   "path": "game-assets/hist/stadium.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 7692,
+   "games": [
+    "garismasa"
+   ],
+   "shows": "Stadium Merdeka",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Stadium Merdeka Complete.jpg",
+   "author": "Malaysian1966 at English Wikipedia",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/sultan-samad",
+   "path": "game-assets/hist/sultan-samad.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 4536,
+   "games": [
+    "garismasa"
+   ],
+   "shows": "Bangunan Sultan Abdul Samad",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Kuala Lumpur Sultan Abdul Building.jpg",
+   "author": "Gerold Kogler",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/junk",
+   "path": "game-assets/hist/junk.webp",
+   "width": 600,
+   "height": 360,
+   "bytes": 20678,
+   "games": [
+    "pelabuhan"
+   ],
+   "shows": "Jong China (foto lama)",
+   "kind": "historic",
+   "source": "Wikimedia Commons",
+   "file": "Guangzhou, Chinese Boats by Lai Afong, cа 1880.jpg",
+   "author": "Lai Afong",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "cover:600x360",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/carrack",
+   "path": "game-assets/hist/carrack.webp",
+   "width": 600,
+   "height": 360,
+   "bytes": 35096,
+   "games": [
+    "pelabuhan"
+   ],
+   "shows": "Kapal karak Portugis (lukisan)",
+   "kind": "historic",
+   "source": "Wikimedia Commons",
+   "file": "Portuguese Carracks off a Rocky Coast.jpg",
+   "author": "Unknown authorUnknown author",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "cover:600x360",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/spice-map",
+   "path": "game-assets/hist/spice-map.webp",
+   "width": 900,
+   "height": 520,
+   "bytes": 81002,
+   "games": [
+    "pelabuhan"
+   ],
+   "shows": "Laluan perdagangan rempah",
+   "kind": "visualisation",
+   "source": "Wikimedia Commons",
+   "file": "Silk route.jpg",
+   "author": "Whole_world_-_land_and_oceans_12000.jpg: NASA/Goddard Space Flight Center derivative work: Splette (talk)",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "cover:900x520",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/melaka-map",
+   "path": "game-assets/hist/melaka-map.webp",
+   "width": 700,
+   "height": 794,
+   "bytes": 60024,
+   "games": [
+    "pelabuhan",
+    "empayar"
+   ],
+   "shows": "Peta wilayah Kesultanan Melaka",
+   "kind": "visualisation",
+   "source": "Wikimedia Commons",
+   "file": "Malacca Sultanate en.svg",
+   "author": "Gunawan Kartapranata",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "photo:700",
+   "changes": "dikecilkan"
+  },
+  {
+   "key": "hist/silk",
+   "path": "game-assets/hist/silk.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 4568,
+   "games": [
+    "pelabuhan"
+   ],
+   "shows": "Kain sutera",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Silk raw 01a.jpg",
+   "author": "Kuebi = Armin Kübelbeck",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/parchment",
+   "path": "game-assets/hist/parchment.webp",
+   "width": 900,
+   "height": 600,
+   "bytes": 64358,
+   "games": [
+    "skrol"
+   ],
+   "shows": "Kulit perkamen",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Parchment from goatskin.jpg",
+   "author": "Michal Maňas",
+   "licence": "CC BY 2.5",
+   "share_alike": false,
+   "make": "cover:900x600@50,50",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/wax",
+   "path": "game-assets/hist/wax.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 6632,
+   "games": [
+    "skrol"
+   ],
+   "shows": "Lilin mohor pada surat (lukisan)",
+   "kind": "historic",
+   "source": "Wikimedia Commons",
+   "file": "Cornelis Norbertus Gysbrechts - Quodlibet.jpg",
+   "author": "Cornelis Norbertus Gijsbrechts",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/quill",
+   "path": "game-assets/hist/quill.webp",
+   "width": 220,
+   "height": 220,
+   "bytes": 3216,
+   "games": [
+    "skrol"
+   ],
+   "shows": "Pena bulu dan skrol",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "קלף, נוצה ודיו.jpg",
+   "author": "Mushki Brichta",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "tile:220",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/jawi",
+   "path": "game-assets/hist/jawi.webp",
+   "width": 900,
+   "height": 600,
+   "bytes": 104064,
+   "games": [
+    "skrol",
+    "arkib"
+   ],
+   "shows": "Manuskrip bertulisan Jawi",
+   "kind": "historic",
+   "source": "Wikimedia Commons",
+   "file": "Letter from William Farquhar to Sultan Muhammad Kanzul Alam, the Sultan of Brunei, dated 28 November 1819.jpg",
+   "author": "William Farquhar",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "cover:900x600",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/typewriter",
+   "path": "game-assets/hist/typewriter.webp",
+   "width": 520,
+   "height": 496,
+   "bytes": 53370,
+   "games": [
+    "mesintaip"
+   ],
+   "shows": "Mesin taip Underwood",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "MEK II-371.jpg",
+   "author": "GodeNehler",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "cut:520",
+   "changes": "latar dibuang, dikecilkan"
+  },
+  {
+   "key": "hist/archive",
+   "path": "game-assets/hist/archive.webp",
+   "width": 900,
+   "height": 520,
+   "bytes": 98204,
+   "games": [
+    "arkib"
+   ],
+   "shows": "Rak fail arkib",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Fondos archivo.jpg",
+   "author": "Archivo-FSP",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "cover:900x520",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/clockwork",
+   "path": "game-assets/hist/clockwork.webp",
+   "width": 300,
+   "height": 300,
+   "bytes": 19790,
+   "games": [
+    "mesinmasa"
+   ],
+   "shows": "Jentera jam (gear dan spring)",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Prim clockwork.jpg",
+   "author": "Kozuch",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "tile:300",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/astrolabe",
+   "path": "game-assets/hist/astrolabe.webp",
+   "width": 260,
+   "height": 342,
+   "bytes": 21100,
+   "games": [
+    "mesinmasa"
+   ],
+   "shows": "Astrolab tembaga",
+   "kind": "historic",
+   "source": "Wikimedia Commons",
+   "file": "Khalili Collection Islamic Art sci 0430 back.jpg",
+   "author": "Khalili Collections",
+   "licence": "CC BY-SA 3.0 igo",
+   "share_alike": true,
+   "make": "cut:260",
+   "changes": "latar dibuang, dikecilkan"
+  },
+  {
+   "key": "hist/display",
+   "path": "game-assets/hist/display.webp",
+   "width": 600,
+   "height": 800,
+   "bytes": 15788,
+   "games": [
+    "muzium"
+   ],
+   "shows": "Almari pameran muzium",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Gallery of Old European Painting Campin.jpg",
+   "author": "BurgererSF",
+   "licence": "CC0",
+   "share_alike": false,
+   "make": "cover:600x800",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/museum",
+   "path": "game-assets/hist/museum.webp",
+   "width": 900,
+   "height": 520,
+   "bytes": 136776,
+   "games": [
+    "muzium"
+   ],
+   "shows": "Bangunan muzium",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Museo Chileno de Arte Precolombino - 2020 - 10.jpg",
+   "author": "LuisCG11",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "cover:900x520",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "isl/dunes",
+   "path": "game-assets/isl/dunes.webp",
+   "width": 1200,
+   "height": 600,
+   "bytes": 27264,
+   "games": [
+    "kafilah"
+   ],
+   "shows": "Gumuk pasir Rub' al Khali",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Rub al Khali 002.JPG",
+   "author": "Nepenthes",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "cover:1200x600",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "isl/caravan",
+   "path": "game-assets/isl/caravan.webp",
+   "width": 900,
+   "height": 420,
+   "bytes": 61402,
+   "games": [
+    "kafilah"
+   ],
+   "shows": "Kafilah unta",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Salt transport by a camel train on Lake Assale (Karum) in Ethiopia.jpg",
+   "author": "LeFnake",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "cover:900x420",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "isl/camel",
+   "path": "game-assets/isl/camel.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 5132,
+   "games": [
+    "kafilah",
+    "hijrah"
+   ],
+   "shows": "Unta Arab",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Camelus dromedarius in Nuweiba.jpg",
+   "author": "Florian Prischl",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "isl/datepalm",
+   "path": "game-assets/isl/datepalm.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 12942,
+   "games": [
+    "kafilah"
+   ],
+   "shows": "Pokok kurma",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Dates005.jpg",
+   "author": "Nepenthes",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "isl/rug",
+   "path": "game-assets/isl/rug.webp",
+   "width": 500,
+   "height": 800,
+   "bytes": 199726,
+   "games": [
+    "solat"
+   ],
+   "shows": "Sejadah",
+   "kind": "historic",
+   "source": "Wikimedia Commons",
+   "file": "Unknown, Iran - Silk Carpet - Google Art Project (1901828).jpg",
+   "author": "Unknown, Iran, 1550-1600 (Iran)",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "cover:500x800",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "isl/mihrab",
+   "path": "game-assets/isl/mihrab.webp",
+   "width": 700,
+   "height": 900,
+   "bytes": 93294,
+   "games": [
+    "solat"
+   ],
+   "shows": "Mihrab masjid",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Mihrab Othmani.jpg",
+   "author": "بلال الدويك",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "cover:700x900",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "isl/mosque-hall",
+   "path": "game-assets/isl/mosque-hall.webp",
+   "width": 960,
+   "height": 560,
+   "bytes": 118800,
+   "games": [
+    "solat",
+    "rukun"
+   ],
+   "shows": "Dewan solat masjid",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Masjid e Nabawi Interior 2.jpg",
+   "author": "King Eliot",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "cover:960x560",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "isl/salahuddin",
+   "path": "game-assets/isl/salahuddin.webp",
+   "width": 960,
+   "height": 560,
+   "bytes": 40456,
+   "games": [
+    "rukun"
+   ],
+   "shows": "Masjid Sultan Salahuddin Abdul Aziz, Shah Alam",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "SA Blue Mosque.jpg",
+   "author": "Lerdsuwa",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "cover:960x560",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "isl/putra",
+   "path": "game-assets/isl/putra.webp",
+   "width": 960,
+   "height": 560,
+   "bytes": 44790,
+   "games": [
+    "rukun",
+    "waktu"
+   ],
+   "shows": "Masjid Putra, Putrajaya",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Masjid Putra, Putrajaya, Malaysia.jpg",
+   "author": "iPhone",
+   "licence": "CC BY 4.0",
+   "share_alike": false,
+   "make": "cover:960x560",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "isl/mushaf",
+   "path": "game-assets/isl/mushaf.webp",
+   "width": 900,
+   "height": 560,
+   "bytes": 122616,
+   "games": [
+    "tajwid"
+   ],
+   "shows": "Mushaf al-Quran",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Quran-Mus'haf Al Tajweed.jpg",
+   "author": "Amr Fayez (TheEgyptian)",
+   "licence": "CC BY 2.5",
+   "share_alike": false,
+   "make": "cover:900x560",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "isl/arabesque",
+   "path": "game-assets/isl/arabesque.webp",
+   "width": 900,
+   "height": 600,
+   "bytes": 63144,
+   "games": [
+    "hijaiyah"
+   ],
+   "shows": "Ukiran arabes",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Flickr - jemasmith - Umayyad Mosque, Damascus, Detail..jpg",
+   "author": "Jan Smith from Brisbane, Australia",
+   "licence": "CC BY 2.0",
+   "share_alike": false,
+   "make": "cover:900x600",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "isl/pattern",
+   "path": "game-assets/isl/pattern.webp",
+   "width": 600,
+   "height": 900,
+   "bytes": 121028,
+   "games": [
+    "hijaiyah",
+    "rukun"
+   ],
+   "shows": "Corak geometri Islam",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Doorway in Ben Youssef Madrasa.JPG",
+   "author": "Ian Alexander",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "cover:600x900",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "isl/fanous",
+   "path": "game-assets/isl/fanous.webp",
+   "width": 300,
+   "height": 300,
+   "bytes": 36108,
+   "games": [
+    "malaikat"
+   ],
+   "shows": "Tanglung (fanous)",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Lanterns from below.JPG",
+   "author": "B. Simpson Cairocamels",
+   "licence": "CC BY 3.0",
+   "share_alike": false,
+   "make": "tile:300",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "isl/compass",
+   "path": "game-assets/isl/compass.webp",
+   "width": 320,
+   "height": 337,
+   "bytes": 20990,
+   "games": [
+    "kiblat"
+   ],
+   "shows": "Kompas tangan",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "2016 Busola.JPG",
+   "author": "Jacek Halicki",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "cut:320",
+   "changes": "latar dibuang, dikecilkan"
+  },
+  {
+   "key": "isl/qibla-compass",
+   "path": "game-assets/isl/qibla-compass.webp",
+   "width": 300,
+   "height": 300,
+   "bytes": 26896,
+   "games": [
+    "kiblat"
+   ],
+   "shows": "Kompas kiblat lama (koleksi muzium)",
+   "kind": "historic",
+   "source": "Wikimedia Commons",
+   "file": "Ottoman qiblanuma 1738 CE, Turkish and Islamic Arts Museum Istanbul (cropped).jpg",
+   "author": "Own work",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "tile:300",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "isl/scale",
+   "path": "game-assets/isl/scale.webp",
+   "width": 420,
+   "height": 395,
+   "bytes": 32032,
+   "games": [
+    "timbangan"
+   ],
+   "shows": "Neraca",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Balance à tabac 1850.JPG",
+   "author": "Photographie personnelle User:Poussin jean",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "cut:420",
+   "changes": "latar dibuang, dikecilkan"
+  },
+  {
+   "key": "isl/kaaba",
+   "path": "game-assets/isl/kaaba.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 7756,
+   "games": [
+    "hijrah",
+    "kiblat"
+   ],
+   "shows": "Kaabah",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "The Ka'ba, Great Mosque of Mecca, Saudi Arabia (4).jpg",
+   "author": "Richard Mortel",
+   "licence": "CC BY 2.0",
+   "share_alike": false,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "isl/makkah",
+   "path": "game-assets/isl/makkah.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 9032,
+   "games": [
+    "hijrah"
+   ],
+   "shows": "Masjidil Haram, Makkah",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Great Mosque of Mecca1.jpg",
+   "author": "Saudipics.com",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "isl/thawr",
+   "path": "game-assets/isl/thawr.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 2786,
+   "games": [
+    "hijrah"
+   ],
+   "shows": "Jabal Thur (Gua Thur)",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Jabele thor - panoramio.jpg",
+   "author": "Abdul Razzaq Phulpot…",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "isl/nour",
+   "path": "game-assets/isl/nour.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 5048,
+   "games": [
+    "hijrah",
+    "kafilah"
+   ],
+   "shows": "Jabal Nur (Gua Hira)",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Jabbal An-Nour (2024).jpg",
+   "author": "Kaliper1",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "isl/madinah",
+   "path": "game-assets/isl/madinah.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 6802,
+   "games": [
+    "hijrah"
+   ],
+   "shows": "Masjid Nabawi, Madinah",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Al-Masjid An-Nabawi (Bird's Eye View).jpg",
+   "author": "Konevi",
+   "licence": "CC0",
+   "share_alike": false,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "isl/quba",
+   "path": "game-assets/isl/quba.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 5272,
+   "games": [
+    "hijrah"
+   ],
+   "shows": "Masjid Quba",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Quba Mosque Full Picture (2024).jpg",
+   "author": "Kaliper1",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "isl/donation",
+   "path": "game-assets/isl/donation.webp",
+   "width": 500,
+   "height": 700,
+   "bytes": 73372,
+   "games": [
+    "zakat"
+   ],
+   "shows": "Tabung derma masjid",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Donation boxes Masjid Inabah Kamal Semporna 20250628 121543.jpg",
+   "author": "Taufik",
+   "licence": "CC0",
+   "share_alike": false,
+   "make": "cover:500x700",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "sky/dawn",
+   "path": "game-assets/sky/dawn.webp",
+   "width": 420,
+   "height": 300,
+   "bytes": 21632,
+   "games": [
+    "waktu"
+   ],
+   "shows": "Langit fajar",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Desert Dawn.jpg",
+   "author": "Jessie Eastland",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "cover:420x300",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "sky/sunrise",
+   "path": "game-assets/sky/sunrise.webp",
+   "width": 420,
+   "height": 300,
+   "bytes": 9464,
+   "games": [
+    "waktu"
+   ],
+   "shows": "Matahari terbit",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Spring Lake, New Jersey Beach at Sunrise.jpg",
+   "author": "Nick Harris",
+   "licence": "CC BY 2.5",
+   "share_alike": false,
+   "make": "cover:420x300",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "sky/noon",
+   "path": "game-assets/sky/noon.webp",
+   "width": 420,
+   "height": 300,
+   "bytes": 5122,
+   "games": [
+    "waktu"
+   ],
+   "shows": "Matahari tinggi di langit tengah hari",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Tea Field by Baraka.jpg",
+   "author": "TimothyBaraka",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "cover:420x300@50,22",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "sky/afternoon",
+   "path": "game-assets/sky/afternoon.webp",
+   "width": 420,
+   "height": 300,
+   "bytes": 14546,
+   "games": [
+    "waktu"
+   ],
+   "shows": "Cahaya petang",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Golden Hour Timepiece.jpg",
+   "author": "Eleneru",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "cover:420x300@30,40",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "sky/sunset",
+   "path": "game-assets/sky/sunset.webp",
+   "width": 420,
+   "height": 300,
+   "bytes": 5198,
+   "games": [
+    "waktu"
+   ],
+   "shows": "Matahari terbenam",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Full cycle of a Sunset on the high plains of the Mojave Desert.jpg",
+   "author": "Jessie Eastland",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "cover:420x300",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "sky/night",
+   "path": "game-assets/sky/night.webp",
+   "width": 420,
+   "height": 300,
+   "bytes": 8180,
+   "games": [
+    "waktu"
+   ],
+   "shows": "Langit malam",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Свет от деревни - panoramio.jpg",
+   "author": "Alexey Elfimov",
+   "licence": "CC BY 3.0",
+   "share_alike": false,
+   "make": "cover:420x300",
+   "changes": "dipotong dan dikecilkan"
+  }
+ ]
+}

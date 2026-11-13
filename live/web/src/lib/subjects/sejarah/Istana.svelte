@@ -9,13 +9,16 @@
 	import type { GameProps } from '../kit.svelte';
 
 	let p: GameProps = $props();
+	import GameImage from '../GameImage.svelte';
+	import { asset } from '../assets';
+	const PALACE = asset('hist/palace');
 </script>
 
 <OrderPlay {p} pool="Kedudukan" tip="Yang paling tinggi di puncak. Susun ke bawah.">
 	{#snippet board(v: OrderView)}
 		{@const n = v.slots.length}
-		<div class="hall" class:won={v.allRight}>
-			<span class="crown" aria-hidden="true"><Sticker key="mahkota" size={58} alt="" /></span>
+		<div class="hall" class:won={v.allRight} style:--palace={PALACE ? `url(${PALACE.src})` : 'none'}>
+			<span class="throne" aria-hidden="true"><GameImage name="hist/throne" eager fit="cover" /></span>
 			<ol class="pyramid">
 				{#each v.slots as id, i (i)}
 					{@const ok = v.ok(i)}
@@ -38,6 +41,26 @@
 
 <style>
 	.hall {
+		background-image: linear-gradient(rgb(60 10 20 / 0.82), rgb(40 6 14 / 0.9)), var(--palace) !important;
+		background-size: cover !important;
+		background-position: center !important;
+	}
+	/* the throne at the top of the court */
+	.throne {
+		display: block;
+		width: 4.4rem;
+		height: 4.4rem;
+		margin: 0 auto 0.4rem;
+		overflow: hidden;
+		border: 3px solid #e8c25a;
+		border-radius: 50%;
+		box-shadow: 0 0 0 3px #5a0f1d, 0 6px 14px rgb(0 0 0 / 0.45);
+	}
+	.throne :global(img.g-img) {
+		width: 100%;
+		height: 100%;
+	}
+	.hall {
 		display: grid;
 		justify-items: center;
 		padding: 0.6rem 0.6rem 1rem;
@@ -49,13 +72,6 @@
 			inset 0 0 0 3px #c9a13b,
 			inset 0 0 0 7px #5b1530,
 			inset 0 0 0 8px #c9a13b;
-	}
-	.crown {
-		filter: drop-shadow(0 0 12px rgb(255 210 80 / 0.7));
-		animation: shine 2.4s ease-in-out infinite;
-	}
-	.won .crown {
-		animation-duration: 0.8s;
 	}
 	.pyramid {
 		display: grid;
@@ -113,11 +129,6 @@
 	@keyframes shine {
 		50% {
 			transform: translateY(-3px) scale(1.05);
-		}
-	}
-	@media (prefers-reduced-motion: reduce) {
-		.crown {
-			animation: none;
 		}
 	}
 </style>

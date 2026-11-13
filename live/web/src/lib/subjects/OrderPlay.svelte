@@ -42,7 +42,8 @@
 		tip = 'Ketik untuk letak di tempat kosong seterusnya, atau seret ke tempatnya.',
 		pool = 'Susun ini',
 		tone = '',
-		pic
+		pic,
+		thing
 	}: {
 		p: GameProps;
 		board: Snippet<[OrderView]>;
@@ -51,6 +52,8 @@
 		tone?: string;
 		/** The game's own picture for a thing, by its words (else its sticker, or one its name suggests). */
 		pic?: (text: string) => string | undefined;
+		/** The game's own way of drawing a thing in the pile (a real picture with its name), instead of a sticker. */
+		thing?: Snippet<[{ id: string; text: string }]>;
 	} = $props();
 
 	const items = $derived(p.question.items ?? []);
@@ -116,8 +119,10 @@
 							class="thing"
 							{@attach dragTap({ enabled: () => !locked, home: () => 'pool', tap: () => play.add(item.id), drop: (zone) => drop(item.id, zone) })}
 						>
-							{#if pic}<Sticker key={pic} size={34} alt="" />{/if}
-							<span>{item.text}</span>
+							{#if thing}{@render thing(item)}{:else}
+								{#if pic}<Sticker key={pic} size={34} alt="" />{/if}
+								<span>{item.text}</span>
+							{/if}
 						</button>
 					</li>
 				{:else}

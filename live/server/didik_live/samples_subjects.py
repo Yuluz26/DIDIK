@@ -68,10 +68,10 @@ SUBJECT_SAMPLES = [
                 why="Nukleus ialah pusat kawalan sel. Membran sel ialah lapisan nipis yang membalut sel.",
             )),
             play("unsur", _match(
-                "Padankan bahan dengan benda yang diperbuat daripadanya.",
-                [("Kaca", "Tingkap"), ("Kayu", "Meja"), ("Logam", "Sudu"), ("Plastik", "Botol air")],
-                time=60, pic="sudu",
-                why="Tingkap daripada kaca supaya cahaya masuk, meja daripada kayu, sudu daripada logam dan botol air daripada plastik.",
+                "Padankan unsur dengan kegunaannya.",
+                [("Oksigen", "Gas yang kita sedut"), ("Ferum", "Membuat paku besi"), ("Aurum", "Cincin emas"), ("Karbon", "Mata pensel")],
+                time=60, pic="tabung-uji",
+                why="Kita bernafas dengan oksigen. Ferum ialah besi, aurum ialah emas, dan mata pensel diperbuat daripada grafit, sejenis karbon.",
             )),
             play("alat", _number(
                 "Laraskan termometer kepada suhu badan manusia yang normal.", 37, "°C", time=45, pic="termometer",
@@ -106,9 +106,9 @@ SUBJECT_SAMPLES = [
                 why="Rumput (pengeluar) dimakan belalang, belalang dimakan katak, katak dimakan ular, dan ular dimakan helang.",
             )),
             play("litar", _single(
-                "Komponen manakah yang membekalkan tenaga elektrik kepada litar?", "Bateri", "Mentol", "Klip kertas", "Span", time=45,
-                stickers={"Bateri": "bateri", "Mentol": "mentol", "Klip kertas": "klip-kertas", "Span": "span"},
-                why="Bateri ialah sumber tenaga elektrik dalam litar. Mentol menggunakan tenaga itu untuk menyala.",
+                "Bahan manakah yang melengkapkan litar supaya mentol menyala?", "Klip kertas keluli", "Pembaris plastik", "Getah pemadam", "Batang aiskrim kayu", time=45,
+                stickers={"Klip kertas keluli": "klip-kertas", "Pembaris plastik": "pembaris"},
+                why="Keluli ialah logam, iaitu konduktor: arus elektrik mengalir melaluinya dan litar menjadi lengkap. Plastik, getah dan kayu ialah penebat.",
             )),
             play("magnet", _sort(
                 "Isihkan bahan magnet dan bahan bukan magnet.",
@@ -202,9 +202,9 @@ SUBJECT_SAMPLES = [
                 why="Selepas bulan baru, bahagian yang bercahaya bertambah: bulan sabit, bulan separa (suku pertama), kemudian bulan purnama.",
             )),
             play("mikroskop", _diagram(
-                "Labelkan bahagian sel haiwan.", "rajah-sel-haiwan",
-                [(37, 39, "Nukleus"), (92, 55, "Membran sel"), (66, 72, "Sitoplasma"), (53, 35, "Mitokondria")],
-                why="Nukleus mengawal sel, membran sel mengawal bahan keluar masuk, sitoplasma tempat tindak balas berlaku, dan mitokondria menghasilkan tenaga.",
+                "Ini sel epidermis bawang di bawah mikroskop cahaya. Labelkan bahagiannya.", "rajah-sel-bawang",
+                [(23, 57, "Nukleus"), (31.5, 46, "Dinding sel"), (44, 63, "Sitoplasma")],
+                why="Dinding sel ialah garis gelap yang mengelilingi setiap sel bawang. Nukleus kelihatan sebagai tompok gelap, dan sitoplasma mengisi ruang di dalam sel.",
             )),
             play("unsur", _match(
                 "Padankan simbol unsur dengan nama Melayunya.",

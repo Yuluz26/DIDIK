@@ -30,9 +30,12 @@
 			play('pop');
 		}
 	}
+	import { asset } from '../assets';
+	// a gallery wall; the frames hold no faces, only a name plate and an emblem
+	const WALL = asset('hist/museum');
 </script>
 
-<div class="hall">
+<div class="hall" style:--wall={WALL ? `url(${WALL.src})` : 'none'}>
 	<div class="frames" style:--n={Math.min(3, choices.length)}>
 		{#each choices as c, i (c.id)}
 			{@const open = locked || drawn[c.id]}
@@ -59,6 +62,11 @@
 </div>
 
 <style>
+	.hall {
+		background-image: linear-gradient(rgb(70 30 30 / 0.78), rgb(50 20 20 / 0.86)), var(--wall) !important;
+		background-size: cover !important;
+		background-position: center !important;
+	}
 	.hall {
 		display: grid;
 		gap: 0.6rem;

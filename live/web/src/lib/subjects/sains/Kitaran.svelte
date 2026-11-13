@@ -1,14 +1,24 @@
 <!--
-	Roda Kitaran: a wheel of stages round a turning arrow (a life cycle, the water cycle, the moon's
-	phases). Place 1 is at the top; the cycle runs clockwise and back to the start.
+	Roda Kitaran: a wheel of stages round a turning arrow (a life cycle, the water cycle, the Moon's
+	phases). Place 1 is at the top; the cycle runs clockwise and back to the start. Each stage is a real
+	photograph (frog spawn, a tadpole; steam, a cloud, rain), and the Moon's phases are drawn on the real
+	Moon. What is at the hub belongs to the cycle: the Earth the Moon goes round, the Sun that drives the
+	water cycle. The server gives this game only to stages that all belong to one cycle it knows.
 -->
 <script lang="ts">
 	import Sticker from '$ui/Sticker.svelte';
+	import GameImage from '../GameImage.svelte';
 	import Mark from '../Mark.svelte';
 	import OrderPlay, { type OrderView } from '../OrderPlay.svelte';
+	import { cycleOf, stageOf } from '../assets';
 	import type { GameProps } from '../kit.svelte';
 
 	let p: GameProps = $props();
+
+	const cycle = $derived(cycleOf((p.question.items ?? []).map((i) => i.text)));
+	const stage = (text: string) => stageOf(cycle, text);
+	const HUB: Record<string, [string, string]> = { bulan: ['space/earth', 'Bumi'], air: ['space/sun', 'Matahari'] };
+	const NAMES: Record<string, string> = { katak: 'Kitaran hidup katak', 'rama-rama': 'Kitaran hidup rama-rama', ayam: 'Kitaran hidup ayam', tumbuhan: 'Kitaran hidup tumbuhan', air: 'Kitaran air', bulan: 'Fasa Bulan' };
 
 	const at = (i: number, n: number) => {
 		const a = (-90 + (i * 360) / n) * (Math.PI / 180);
@@ -17,6 +27,14 @@
 </script>
 
 <OrderPlay {p} pool="Peringkat" tip="Peringkat 1 di atas, kemudian ikut arah jam.">
+	{#snippet thing(item)}
+		<span class="mini" class:night={cycle === 'bulan'}>
+			<GameImage name={stage(item.text)?.key} fit="cover">
+				{#snippet fallback()}<span class="dot">{item.text.slice(0, 1)}</span>{/snippet}
+			</GameImage>
+		</span>
+		<span>{item.text}</span>
+	{/snippet}
 	{#snippet board(v: OrderView)}
 		{@const n = v.slots.length}
 		<div class="wheel" class:spin={v.allRight}>
@@ -39,7 +57,14 @@
 					/>
 				{/each}
 			</svg>
-			<span class="hub" aria-hidden="true"><Sticker key="bumi" size={64} alt="" /></span>
+			<span class="hub" aria-hidden="true">
+				{#if cycle && HUB[cycle]}
+					<span class="hub-pic"><GameImage name={HUB[cycle][0]} eager /></span>
+					<b>{HUB[cycle][1]}</b>
+				{:else}
+					<b class="hub-name">{(cycle && NAMES[cycle]) || 'Kitaran'}</b>
+				{/if}
+			</span>
 			{#each v.slots as id, i (i)}
 				{@const pos = at(i, n)}
 				{@const ok = v.ok(i)}
@@ -47,7 +72,11 @@
 					<span class="n">{i + 1}</span>
 					{#if id}
 						<button type="button" class="thing" disabled={v.locked} {@attach v.grab(i)} aria-label="{v.text(id)}, peringkat {i + 1}">
-							{#if v.sticker(id)}<Sticker key={v.sticker(id) ?? ''} size={34} alt="" />{/if}
+							<span class="shot" class:night={cycle === 'bulan'}>
+								<GameImage name={stage(v.text(id))?.key} eager fit="cover">
+									{#snippet fallback()}{#if v.sticker(id)}<Sticker key={v.sticker(id) ?? ''} size={34} alt="" />{/if}{/snippet}
+								</GameImage>
+							</span>
 							<span>{v.text(id)}</span>
 							{#if ok !== null}<Mark {ok} />{/if}
 						</button>
@@ -68,6 +97,9 @@
 	.wheel {
 		container-type: inline-size;
 		position: relative;
+		/* the arrow ring turns once the cycle is complete; a turning square is wider at 45°, so it is clipped */
+		overflow: clip;
+		overflow-clip-margin: 1rem;
 		width: min(100%, 24rem);
 		aspect-ratio: 1;
 		margin-inline: auto;
@@ -92,6 +124,55 @@
 		top: 50%;
 		translate: -50% -50%;
 		filter: drop-shadow(0 4px 6px rgb(0 0 0 / 0.15));
+	}
+	.hub {
+		display: grid;
+		justify-items: center;
+		gap: 0.1rem;
+		color: #1d5c52;
+		font: 700 0.72rem var(--font-display);
+		text-align: center;
+	}
+	.hub-pic {
+		width: 3.6rem;
+	}
+	.hub-pic :global(img) {
+		width: 100%;
+	}
+	.hub-name {
+		max-width: 5.5rem;
+		font-size: 0.82rem;
+		line-height: 1.15;
+	}
+	/* a real photograph of the stage */
+	.shot,
+	.mini {
+		display: grid;
+		place-items: center;
+		flex: none;
+		width: 2.7rem;
+		height: 2.7rem;
+		overflow: hidden;
+		border-radius: 0.7rem;
+		background: #eef6f3;
+	}
+	.shot.night,
+	.mini.night {
+		border-radius: 50%;
+		background: #070b18;
+	}
+	.shot :global(img.g-img),
+	.mini :global(img.g-img) {
+		width: 100%;
+		height: 100%;
+	}
+	.mini {
+		width: 2.4rem;
+		height: 2.4rem;
+	}
+	.dot {
+		color: #2f9e8f;
+		font: 700 1.1rem var(--font-display);
 	}
 	.stage {
 		position: absolute;

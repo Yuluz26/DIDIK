@@ -94,13 +94,12 @@ export const EXAMPLES: Record<string, any> = {
 	mikroskop: {
 		type: 'diagram',
 		game: 'mikroskop',
-		prompt: 'Labelkan bahagian sel tumbuhan ini.',
-		diagram: 'rajah-sel-pokok',
+		prompt: 'Ini sel epidermis bawang di bawah mikroskop. Labelkan bahagiannya.',
+		diagram: 'rajah-sel-bawang',
 		spots: [
-			[9, 50, 'Dinding sel'],
-			[31, 23, 'Kloroplas'],
-			[33, 39, 'Nukleus'],
-			[65, 57, 'Vakuol']
+			[23, 57, 'Nukleus'],
+			[31.5, 46, 'Dinding sel'],
+			[44, 63, 'Sitoplasma']
 		],
 		explain: 'Sel tumbuhan ada dinding sel, kloroplas dan vakuol yang besar, yang tiada pada sel haiwan.'
 	},

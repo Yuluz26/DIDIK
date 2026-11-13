@@ -1,0 +1,1328 @@
+{
+ "space": [
+  {
+   "key": "space/milkyway-core",
+   "words": "bima sakti|milky way",
+   "name": "Bima Sakti",
+   "kind": "galaksi",
+   "wide": true
+  },
+  {
+   "key": "space/andromeda",
+   "words": "andromeda",
+   "name": "Galaksi Andromeda",
+   "kind": "galaksi"
+  },
+  {
+   "key": "space/sombrero",
+   "words": "sombrero",
+   "name": "Galaksi Sombrero",
+   "kind": "galaksi",
+   "wide": true
+  },
+  {
+   "key": "space/lmc",
+   "words": "awan magellan besar|awan magellan|magellan",
+   "name": "Awan Magellan Besar",
+   "kind": "galaksi"
+  },
+  {
+   "key": "space/polaris",
+   "words": "bintang utara|bintang kutub|polaris",
+   "name": "Bintang Utara",
+   "kind": "bintang"
+  },
+  {
+   "key": "space/comet",
+   "words": "komet halley|komet|comet",
+   "name": "Komet",
+   "kind": "komet",
+   "wide": true
+  },
+  {
+   "key": "space/sun",
+   "words": "matahari|suria",
+   "name": "Matahari",
+   "kind": "bintang",
+   "order": 0
+  },
+  {
+   "key": "space/mercury",
+   "words": "utarid|merkuri|merkurius|mercury",
+   "name": "Utarid",
+   "kind": "planet",
+   "order": 1
+  },
+  {
+   "key": "space/venus",
+   "words": "zuhrah|venus|kejora",
+   "name": "Zuhrah",
+   "kind": "planet",
+   "order": 2
+  },
+  {
+   "key": "space/earth",
+   "words": "bumi",
+   "name": "Bumi",
+   "kind": "planet",
+   "order": 3
+  },
+  {
+   "key": "space/mars",
+   "words": "marikh|mars",
+   "name": "Marikh",
+   "kind": "planet",
+   "order": 4
+  },
+  {
+   "key": "space/jupiter",
+   "words": "musytari|jupiter",
+   "name": "Musytari",
+   "kind": "planet",
+   "order": 5
+  },
+  {
+   "key": "space/saturn",
+   "words": "zuhal|saturnus|saturn",
+   "name": "Zuhal",
+   "kind": "planet",
+   "order": 6,
+   "wide": true
+  },
+  {
+   "key": "space/uranus",
+   "words": "uranus",
+   "name": "Uranus",
+   "kind": "planet",
+   "order": 7
+  },
+  {
+   "key": "space/neptune",
+   "words": "neptun|neptune",
+   "name": "Neptun",
+   "kind": "planet",
+   "order": 8
+  },
+  {
+   "key": "space/moon",
+   "words": "bulan",
+   "name": "Bulan",
+   "kind": "satelit semula jadi"
+  },
+  {
+   "key": "space/star",
+   "words": "sirius|bintang",
+   "name": "Bintang",
+   "kind": "bintang"
+  }
+ ],
+ "sirah": [
+  {
+   "key": "isl/thawr",
+   "words": "gua thur|gua tsur|jabal thur|thur|tsur",
+   "name": "Gua Thur"
+  },
+  {
+   "key": "isl/nour",
+   "words": "gua hira|jabal nur|hira",
+   "name": "Gua Hira"
+  },
+  {
+   "key": "isl/quba",
+   "words": "quba",
+   "name": "Masjid Quba"
+  },
+  {
+   "key": "isl/madinah",
+   "words": "madinah|yathrib|masjid nabawi",
+   "name": "Madinah"
+  },
+  {
+   "key": "isl/makkah",
+   "words": "makkah|mekah|masjidil haram",
+   "name": "Makkah"
+  }
+ ],
+ "sky": [
+  {
+   "key": "sky/dawn",
+   "words": "subuh|fajar",
+   "name": "Fajar"
+  },
+  {
+   "key": "sky/sunrise",
+   "words": "syuruk|dhuha|duha|pagi|matahari terbit",
+   "name": "Pagi"
+  },
+  {
+   "key": "sky/noon",
+   "words": "zohor|zuhur|tengah hari",
+   "name": "Tengah hari"
+  },
+  {
+   "key": "sky/afternoon",
+   "words": "asar|asr|petang",
+   "name": "Petang"
+  },
+  {
+   "key": "sky/sunset",
+   "words": "maghrib|matahari terbenam|senja",
+   "name": "Senja"
+  },
+  {
+   "key": "sky/night",
+   "words": "isyak|isya|tahajud|witir|malam",
+   "name": "Malam"
+  }
+ ],
+ "history": [
+  {
+   "key": "hist/kris",
+   "words": "keris",
+   "name": "Keris"
+  },
+  {
+   "key": "hist/jar",
+   "words": "tempayan|tembikar|pasu|seramik",
+   "name": "Tempayan"
+  },
+  {
+   "key": "hist/handaxe",
+   "words": "kapak batu|kapak tangan|alat batu|beliung|batu pemukul",
+   "name": "Alat batu"
+  },
+  {
+   "key": "hist/drum",
+   "words": "gendang gangsa|gangsa|dong son",
+   "name": "Gendang gangsa"
+  },
+  {
+   "key": "hist/inscription",
+   "words": "batu bersurat",
+   "name": "Batu Bersurat Terengganu"
+  },
+  {
+   "key": "hist/bujang-statue",
+   "words": "lembah bujang|candi|arca|kedah tua",
+   "name": "Lembah Bujang"
+  },
+  {
+   "key": "hist/jawi",
+   "words": "manuskrip|hikayat|jawi|kitab",
+   "name": "Manuskrip Jawi"
+  },
+  {
+   "key": "hist/niah",
+   "words": "gua niah|niah",
+   "name": "Gua Niah"
+  },
+  {
+   "key": "hist/afamosa",
+   "words": "a famosa|portugis|1511",
+   "name": "A Famosa"
+  },
+  {
+   "key": "hist/stadthuys",
+   "words": "belanda|stadthuys|1641",
+   "name": "Stadthuys"
+  },
+  {
+   "key": "hist/stpaul",
+   "words": "gereja st\\.? paul|bukit st\\.? paul",
+   "name": "Gereja St. Paul"
+  },
+  {
+   "key": "hist/stadium",
+   "words": "kemerdekaan|merdeka|1957",
+   "name": "Stadium Merdeka"
+  },
+  {
+   "key": "hist/merdeka-square",
+   "words": "malaysia ditubuhkan|pembentukan malaysia|1963|dataran merdeka",
+   "name": "Dataran Merdeka"
+  },
+  {
+   "key": "hist/sultan-samad",
+   "words": "british|inggeris|residen|pangkor|malayan union|persekutuan|negeri-negeri melayu bersekutu|negeri-negeri selat",
+   "name": "Bangunan Sultan Abdul Samad"
+  },
+  {
+   "key": "hist/palace",
+   "words": "kesultanan melayu melaka|kesultanan melaka|parameswara|istana|sultan mansur|melaka",
+   "name": "Istana Kesultanan Melaka"
+  },
+  {
+   "key": "hist/junk",
+   "words": "jong|pedagang china|china|cina|cheng ho|zheng he|ming",
+   "name": "Jong China"
+  },
+  {
+   "key": "hist/carrack",
+   "words": "kapal portugis|karak|pedagang eropah|eropah",
+   "name": "Kapal karak"
+  },
+  {
+   "key": "hist/silk",
+   "words": "sutera|kain",
+   "name": "Sutera"
+  }
+ ],
+ "materials": [
+  {
+   "key": null,
+   "words": "oksigen|nitrogen|karbon dioksida|hidrogen|helium",
+   "name": "Gas",
+   "conducts": false,
+   "magnetic": false,
+   "state": "gas"
+  },
+  {
+   "key": "mat/plastic",
+   "words": "[a-z]+ plastik",
+   "name": "Plastik",
+   "conducts": false,
+   "magnetic": false,
+   "state": "pepejal"
+  },
+  {
+   "key": "mat/wood",
+   "words": "[a-z]+ kayu",
+   "name": "Kayu",
+   "conducts": false,
+   "magnetic": false,
+   "state": "pepejal"
+  },
+  {
+   "key": "mat/glass",
+   "words": "[a-z]+ kaca",
+   "name": "Kaca",
+   "conducts": false,
+   "magnetic": false,
+   "state": "pepejal"
+  },
+  {
+   "key": "mat/paper-clip",
+   "words": "klip kertas",
+   "name": "Klip kertas keluli",
+   "conducts": true,
+   "magnetic": true,
+   "state": "pepejal"
+  },
+  {
+   "key": "mat/key",
+   "words": "kunci besi|kunci keluli|anak kunci besi",
+   "name": "Kunci besi",
+   "conducts": true,
+   "magnetic": true,
+   "state": "pepejal"
+  },
+  {
+   "key": "mat/key",
+   "words": "anak kunci|kunci",
+   "name": "Kunci logam",
+   "conducts": true,
+   "magnetic": null,
+   "state": "pepejal"
+  },
+  {
+   "key": "mat/nail",
+   "words": "paku besi|paku|skru|jarum",
+   "name": "Paku besi",
+   "conducts": true,
+   "magnetic": true,
+   "state": "pepejal"
+  },
+  {
+   "key": "mat/scissors",
+   "words": "gunting",
+   "name": "Gunting keluli",
+   "conducts": true,
+   "magnetic": true,
+   "state": "pepejal"
+  },
+  {
+   "key": "mat/foil",
+   "words": "kerajang aluminium|tin aluminium|aluminium",
+   "name": "Aluminium",
+   "conducts": true,
+   "magnetic": false,
+   "state": "pepejal"
+  },
+  {
+   "key": "mat/copper",
+   "words": "wayar kuprum|dawai kuprum|kuprum|tembaga",
+   "name": "Kuprum",
+   "conducts": true,
+   "magnetic": false,
+   "state": "pepejal"
+  },
+  {
+   "key": "mat/ring",
+   "words": "cincin emas|emas|cincin",
+   "name": "Emas",
+   "conducts": true,
+   "magnetic": false,
+   "state": "pepejal"
+  },
+  {
+   "key": null,
+   "words": "perak|argentum",
+   "name": "Perak",
+   "conducts": true,
+   "magnetic": false,
+   "state": "pepejal"
+  },
+  {
+   "key": null,
+   "words": "nikel",
+   "name": "Nikel",
+   "conducts": true,
+   "magnetic": true,
+   "state": "pepejal"
+  },
+  {
+   "key": null,
+   "words": "kobalt",
+   "name": "Kobalt",
+   "conducts": true,
+   "magnetic": true,
+   "state": "pepejal"
+  },
+  {
+   "key": "mat/coins",
+   "words": "duit syiling|syiling",
+   "name": "Duit syiling",
+   "conducts": true,
+   "magnetic": null,
+   "state": "pepejal"
+  },
+  {
+   "key": "mat/spoon",
+   "words": "sudu besi|sudu keluli",
+   "name": "Sudu besi",
+   "conducts": true,
+   "magnetic": true,
+   "state": "pepejal"
+  },
+  {
+   "key": "mat/spoon",
+   "words": "sudu logam|sudu",
+   "name": "Sudu logam",
+   "conducts": true,
+   "magnetic": null,
+   "state": "pepejal"
+  },
+  {
+   "key": "mat/pencil",
+   "words": "grafit pensel|grafit|mata pensel",
+   "name": "Grafit",
+   "conducts": true,
+   "magnetic": false,
+   "state": "pepejal"
+  },
+  {
+   "key": "mat/eraser",
+   "words": "getah pemadam|pemadam",
+   "name": "Pemadam getah",
+   "conducts": false,
+   "magnetic": false,
+   "state": "pepejal"
+  },
+  {
+   "key": "mat/rubber-band",
+   "words": "gelang getah|getah",
+   "name": "Getah",
+   "conducts": false,
+   "magnetic": false,
+   "state": "pepejal"
+  },
+  {
+   "key": "mat/wood",
+   "words": "pensel kayu|pembaris kayu|batang aiskrim|kayu|papan",
+   "name": "Kayu",
+   "conducts": false,
+   "magnetic": false,
+   "state": "pepejal"
+  },
+  {
+   "key": "mat/feather",
+   "words": "bulu ayam|bulu pelepah|bulu",
+   "name": "Bulu",
+   "conducts": false,
+   "magnetic": false,
+   "state": "pepejal"
+  },
+  {
+   "key": "mat/glass",
+   "words": "gelas kaca|kaca|gelas",
+   "name": "Kaca",
+   "conducts": false,
+   "magnetic": false,
+   "state": "pepejal"
+  },
+  {
+   "key": "mat/straw",
+   "words": "penyedut minuman|penyedut",
+   "name": "Penyedut plastik",
+   "conducts": false,
+   "magnetic": false,
+   "state": "pepejal"
+  },
+  {
+   "key": "mat/plastic",
+   "words": "pembaris plastik|botol plastik|plastik",
+   "name": "Plastik",
+   "conducts": false,
+   "magnetic": false,
+   "state": "pepejal"
+  },
+  {
+   "key": "mat/sponge",
+   "words": "span",
+   "name": "Span",
+   "conducts": false,
+   "magnetic": false,
+   "state": "pepejal"
+  },
+  {
+   "key": "mat/cotton",
+   "words": "kapas|kain",
+   "name": "Kapas",
+   "conducts": false,
+   "magnetic": false,
+   "state": "pepejal"
+  },
+  {
+   "key": "mat/rope",
+   "words": "tali|benang",
+   "name": "Tali",
+   "conducts": false,
+   "magnetic": false,
+   "state": "pepejal"
+  },
+  {
+   "key": "mat/brick",
+   "words": "batu bata|bata",
+   "name": "Batu bata",
+   "conducts": false,
+   "magnetic": false,
+   "state": "pepejal"
+  },
+  {
+   "key": "mat/pebble",
+   "words": "batu kecil|batu",
+   "name": "Batu",
+   "conducts": false,
+   "magnetic": false,
+   "state": "pepejal"
+  },
+  {
+   "key": null,
+   "words": "kertas|kadbod",
+   "name": "Kertas",
+   "conducts": false,
+   "magnetic": false,
+   "state": "pepejal"
+  },
+  {
+   "key": "mat/nail",
+   "words": "besi|keluli|ferum",
+   "name": "Besi",
+   "conducts": true,
+   "magnetic": true,
+   "state": "pepejal"
+  },
+  {
+   "key": "mat/ice",
+   "words": "ketulan ais|ais",
+   "name": "Ais",
+   "conducts": null,
+   "magnetic": false,
+   "state": "pepejal"
+  },
+  {
+   "key": "mat/salt",
+   "words": "natrium klorida|garam",
+   "name": "Garam",
+   "conducts": null,
+   "magnetic": false,
+   "state": "pepejal"
+  },
+  {
+   "key": "mat/sugar",
+   "words": "gula",
+   "name": "Gula",
+   "conducts": false,
+   "magnetic": false,
+   "state": "pepejal"
+  },
+  {
+   "key": "mat/mercury",
+   "words": "merkuri|raksa",
+   "name": "Merkuri",
+   "conducts": true,
+   "magnetic": false,
+   "state": "cecair"
+  },
+  {
+   "key": "mat/milk",
+   "words": "susu",
+   "name": "Susu",
+   "conducts": null,
+   "magnetic": false,
+   "state": "cecair"
+  },
+  {
+   "key": "mat/oil",
+   "words": "minyak masak|minyak",
+   "name": "Minyak",
+   "conducts": false,
+   "magnetic": false,
+   "state": "cecair"
+  },
+  {
+   "key": "mat/honey",
+   "words": "madu",
+   "name": "Madu",
+   "conducts": null,
+   "magnetic": false,
+   "state": "cecair"
+  },
+  {
+   "key": "mat/steam",
+   "words": "wap air|wap|stim",
+   "name": "Wap air",
+   "conducts": null,
+   "magnetic": false,
+   "state": "gas"
+  },
+  {
+   "key": "mat/balloon",
+   "words": "udara dalam belon|udara|belon",
+   "name": "Udara",
+   "conducts": false,
+   "magnetic": false,
+   "state": "gas"
+  },
+  {
+   "key": "mat/smoke",
+   "words": "asap",
+   "name": "Asap",
+   "conducts": null,
+   "magnetic": false,
+   "state": "gas"
+  },
+  {
+   "key": "mat/water",
+   "words": "air",
+   "name": "Air",
+   "conducts": null,
+   "magnetic": false,
+   "state": "cecair"
+  }
+ ],
+ "living": [
+  {
+   "key": "life/phytoplankton",
+   "words": "fitoplankton",
+   "name": "Fitoplankton",
+   "home": "laut"
+  },
+  {
+   "key": "life/zooplankton",
+   "words": "zooplankton",
+   "name": "Zooplankton",
+   "home": "laut"
+  },
+  {
+   "key": "life/seaweed",
+   "words": "rumpai laut|alga",
+   "name": "Rumpai laut",
+   "home": "laut"
+  },
+  {
+   "key": "life/shrimp",
+   "words": "udang",
+   "name": "Udang",
+   "home": "laut"
+  },
+  {
+   "key": "life/squid",
+   "words": "sotong",
+   "name": "Sotong",
+   "home": "laut"
+  },
+  {
+   "key": "life/crab",
+   "words": "ketam",
+   "name": "Ketam",
+   "home": "laut"
+  },
+  {
+   "key": "life/turtle",
+   "words": "penyu",
+   "name": "Penyu",
+   "home": "laut"
+  },
+  {
+   "key": "life/shark",
+   "words": "jerung|yu",
+   "name": "Jerung",
+   "home": "laut"
+  },
+  {
+   "key": "life/fish",
+   "words": "ikan kecil|ikan besar|ikan",
+   "name": "Ikan",
+   "home": "laut"
+  },
+  {
+   "key": "life/rice",
+   "words": "pokok padi|padi",
+   "name": "Padi",
+   "home": "darat"
+  },
+  {
+   "key": "life/grass",
+   "words": "rumput",
+   "name": "Rumput",
+   "home": "darat"
+  },
+  {
+   "key": "life/leaf",
+   "words": "daun|sayur|kubis|tumbuhan hijau|tumbuhan",
+   "name": "Tumbuhan",
+   "home": "darat"
+  },
+  {
+   "key": "life/tree",
+   "words": "pokok",
+   "name": "Pokok",
+   "home": "darat"
+  },
+  {
+   "key": "life/flower",
+   "words": "bunga",
+   "name": "Bunga",
+   "home": "darat"
+  },
+  {
+   "key": "life/fruit",
+   "words": "buah",
+   "name": "Buah",
+   "home": "darat"
+  },
+  {
+   "key": "life/mushroom",
+   "words": "cendawan|kulat",
+   "name": "Cendawan",
+   "home": "darat"
+  },
+  {
+   "key": "life/grasshopper",
+   "words": "belalang",
+   "name": "Belalang",
+   "home": "darat"
+  },
+  {
+   "key": "life/caterpillar",
+   "words": "ulat beluncas|beluncas|ulat",
+   "name": "Ulat",
+   "home": "darat"
+  },
+  {
+   "key": "life/butterfly",
+   "words": "rama-rama|kupu-kupu",
+   "name": "Rama-rama",
+   "home": "darat"
+  },
+  {
+   "key": "life/ant",
+   "words": "semut",
+   "name": "Semut",
+   "home": "darat"
+  },
+  {
+   "key": "life/bee",
+   "words": "lebah",
+   "name": "Lebah",
+   "home": "darat"
+  },
+  {
+   "key": "life/dragonfly",
+   "words": "pepatung",
+   "name": "Pepatung",
+   "home": "darat"
+  },
+  {
+   "key": "life/spider",
+   "words": "labah-labah",
+   "name": "Labah-labah",
+   "home": "darat"
+  },
+  {
+   "key": "life/worm",
+   "words": "cacing tanah|cacing",
+   "name": "Cacing tanah",
+   "home": "darat"
+  },
+  {
+   "key": "life/frog",
+   "words": "katak",
+   "name": "Katak",
+   "home": "darat"
+  },
+  {
+   "key": "life/lizard",
+   "words": "cicak|mengkarung",
+   "name": "Cicak",
+   "home": "darat"
+  },
+  {
+   "key": "life/mouse",
+   "words": "tikus",
+   "name": "Tikus",
+   "home": "darat"
+  },
+  {
+   "key": "life/snake",
+   "words": "ular",
+   "name": "Ular",
+   "home": "darat"
+  },
+  {
+   "key": "life/owl",
+   "words": "burung hantu",
+   "name": "Burung hantu",
+   "home": "darat"
+  },
+  {
+   "key": "life/eagle",
+   "words": "helang|lang",
+   "name": "Helang",
+   "home": "darat"
+  },
+  {
+   "key": "life/chicken",
+   "words": "ayam",
+   "name": "Ayam",
+   "home": "darat"
+  },
+  {
+   "key": "life/bat",
+   "words": "kelawar",
+   "name": "Kelawar",
+   "home": "darat"
+  },
+  {
+   "key": "life/rabbit",
+   "words": "arnab",
+   "name": "Arnab",
+   "home": "darat"
+  },
+  {
+   "key": "life/goat",
+   "words": "kambing",
+   "name": "Kambing",
+   "home": "darat"
+  },
+  {
+   "key": "life/cow",
+   "words": "lembu|kerbau",
+   "name": "Lembu",
+   "home": "darat"
+  },
+  {
+   "key": "life/tiger",
+   "words": "harimau",
+   "name": "Harimau",
+   "home": "darat"
+  },
+  {
+   "key": "life/lion",
+   "words": "singa",
+   "name": "Singa",
+   "home": "darat"
+  },
+  {
+   "key": "life/crocodile",
+   "words": "buaya",
+   "name": "Buaya",
+   "home": "darat"
+  }
+ ],
+ "stages": [
+  {
+   "key": "life/frogspawn",
+   "words": "telur katak|telur",
+   "name": "Telur katak",
+   "cycle": "katak"
+  },
+  {
+   "key": "life/tadpole",
+   "words": "berudu",
+   "name": "Berudu",
+   "cycle": "katak"
+  },
+  {
+   "key": "life/froglet",
+   "words": "katak muda|anak katak|katak berekor",
+   "name": "Katak muda",
+   "cycle": "katak"
+  },
+  {
+   "key": "life/frog",
+   "words": "katak dewasa|katak",
+   "name": "Katak dewasa",
+   "cycle": "katak"
+  },
+  {
+   "key": null,
+   "words": "telur rama-rama|telur",
+   "name": "Telur",
+   "cycle": "rama-rama"
+  },
+  {
+   "key": "life/caterpillar",
+   "words": "ulat beluncas|beluncas|ulat|larva",
+   "name": "Ulat beluncas",
+   "cycle": "rama-rama"
+  },
+  {
+   "key": "life/pupa",
+   "words": "kepompong|pupa",
+   "name": "Kepompong",
+   "cycle": "rama-rama"
+  },
+  {
+   "key": "life/butterfly",
+   "words": "rama-rama dewasa|rama-rama|kupu-kupu",
+   "name": "Rama-rama",
+   "cycle": "rama-rama"
+  },
+  {
+   "key": "life/egg",
+   "words": "telur ayam|telur",
+   "name": "Telur",
+   "cycle": "ayam"
+  },
+  {
+   "key": null,
+   "words": "anak ayam",
+   "name": "Anak ayam",
+   "cycle": "ayam"
+  },
+  {
+   "key": "life/chicken",
+   "words": "ayam dewasa|ayam",
+   "name": "Ayam dewasa",
+   "cycle": "ayam"
+  },
+  {
+   "key": "life/seed",
+   "words": "biji benih|benih",
+   "name": "Biji benih",
+   "cycle": "tumbuhan"
+  },
+  {
+   "key": "life/seedling",
+   "words": "anak benih|anak pokok|percambahan|bercambah",
+   "name": "Anak benih",
+   "cycle": "tumbuhan"
+  },
+  {
+   "key": "life/tree",
+   "words": "pokok dewasa|tumbuhan dewasa|pokok",
+   "name": "Pokok dewasa",
+   "cycle": "tumbuhan"
+  },
+  {
+   "key": "life/flower",
+   "words": "berbunga|bunga",
+   "name": "Berbunga",
+   "cycle": "tumbuhan"
+  },
+  {
+   "key": "life/fruit",
+   "words": "berbuah|buah",
+   "name": "Berbuah",
+   "cycle": "tumbuhan"
+  },
+  {
+   "key": "cycle/evaporation",
+   "words": "penyejatan|sejatan",
+   "name": "Sejatan",
+   "cycle": "air"
+  },
+  {
+   "key": "cycle/cloud",
+   "words": "kondensasi|pemeluwapan|awan",
+   "name": "Kondensasi",
+   "cycle": "air"
+  },
+  {
+   "key": "cycle/rain",
+   "words": "kerpasan|hujan",
+   "name": "Kerpasan",
+   "cycle": "air"
+  },
+  {
+   "key": "cycle/river",
+   "words": "air larian ke laut|air larian|larian|sungai|pengumpulan",
+   "name": "Air larian",
+   "cycle": "air"
+  },
+  {
+   "key": "cycle/sea",
+   "words": "laut",
+   "name": "Laut",
+   "cycle": "air"
+  },
+  {
+   "key": "moon/new",
+   "words": "bulan baru|anak bulan",
+   "name": "Bulan baru",
+   "cycle": "bulan"
+  },
+  {
+   "key": "moon/crescent",
+   "words": "bulan sabit",
+   "name": "Bulan sabit",
+   "cycle": "bulan"
+  },
+  {
+   "key": "moon/quarter",
+   "words": "bulan separa|bulan separuh|suku pertama",
+   "name": "Bulan separa",
+   "cycle": "bulan"
+  },
+  {
+   "key": "moon/full",
+   "words": "bulan purnama|purnama",
+   "name": "Bulan purnama",
+   "cycle": "bulan"
+  }
+ ],
+ "elements": [
+  {
+   "key": null,
+   "sym": "H",
+   "words": "hidrogen",
+   "name": "Hidrogen",
+   "z": 1,
+   "group": 1,
+   "period": 1,
+   "family": "bukan logam"
+  },
+  {
+   "key": null,
+   "sym": "He",
+   "words": "helium",
+   "name": "Helium",
+   "z": 2,
+   "group": 18,
+   "period": 1,
+   "family": "gas adi"
+  },
+  {
+   "key": null,
+   "sym": "Li",
+   "words": "litium",
+   "name": "Litium",
+   "z": 3,
+   "group": 1,
+   "period": 2,
+   "family": "logam alkali"
+  },
+  {
+   "key": null,
+   "sym": "Be",
+   "words": "berilium",
+   "name": "Berilium",
+   "z": 4,
+   "group": 2,
+   "period": 2,
+   "family": "logam alkali bumi"
+  },
+  {
+   "key": null,
+   "sym": "B",
+   "words": "boron",
+   "name": "Boron",
+   "z": 5,
+   "group": 13,
+   "period": 2,
+   "family": "separa logam"
+  },
+  {
+   "key": null,
+   "sym": "C",
+   "words": "karbon",
+   "name": "Karbon",
+   "z": 6,
+   "group": 14,
+   "period": 2,
+   "family": "bukan logam"
+  },
+  {
+   "key": null,
+   "sym": "N",
+   "words": "nitrogen",
+   "name": "Nitrogen",
+   "z": 7,
+   "group": 15,
+   "period": 2,
+   "family": "bukan logam"
+  },
+  {
+   "key": null,
+   "sym": "O",
+   "words": "oksigen",
+   "name": "Oksigen",
+   "z": 8,
+   "group": 16,
+   "period": 2,
+   "family": "bukan logam"
+  },
+  {
+   "key": null,
+   "sym": "F",
+   "words": "fluorin",
+   "name": "Fluorin",
+   "z": 9,
+   "group": 17,
+   "period": 2,
+   "family": "halogen"
+  },
+  {
+   "key": null,
+   "sym": "Ne",
+   "words": "neon",
+   "name": "Neon",
+   "z": 10,
+   "group": 18,
+   "period": 2,
+   "family": "gas adi"
+  },
+  {
+   "key": null,
+   "sym": "Na",
+   "words": "natrium|sodium",
+   "name": "Natrium",
+   "z": 11,
+   "group": 1,
+   "period": 3,
+   "family": "logam alkali"
+  },
+  {
+   "key": null,
+   "sym": "Mg",
+   "words": "magnesium",
+   "name": "Magnesium",
+   "z": 12,
+   "group": 2,
+   "period": 3,
+   "family": "logam alkali bumi"
+  },
+  {
+   "key": null,
+   "sym": "Al",
+   "words": "aluminium",
+   "name": "Aluminium",
+   "z": 13,
+   "group": 13,
+   "period": 3,
+   "family": "logam lain"
+  },
+  {
+   "key": null,
+   "sym": "Si",
+   "words": "silikon",
+   "name": "Silikon",
+   "z": 14,
+   "group": 14,
+   "period": 3,
+   "family": "separa logam"
+  },
+  {
+   "key": null,
+   "sym": "P",
+   "words": "fosforus",
+   "name": "Fosforus",
+   "z": 15,
+   "group": 15,
+   "period": 3,
+   "family": "bukan logam"
+  },
+  {
+   "key": null,
+   "sym": "S",
+   "words": "sulfur|belerang",
+   "name": "Sulfur",
+   "z": 16,
+   "group": 16,
+   "period": 3,
+   "family": "bukan logam"
+  },
+  {
+   "key": null,
+   "sym": "Cl",
+   "words": "klorin",
+   "name": "Klorin",
+   "z": 17,
+   "group": 17,
+   "period": 3,
+   "family": "halogen"
+  },
+  {
+   "key": null,
+   "sym": "Ar",
+   "words": "argon",
+   "name": "Argon",
+   "z": 18,
+   "group": 18,
+   "period": 3,
+   "family": "gas adi"
+  },
+  {
+   "key": null,
+   "sym": "K",
+   "words": "kalium|potassium",
+   "name": "Kalium",
+   "z": 19,
+   "group": 1,
+   "period": 4,
+   "family": "logam alkali"
+  },
+  {
+   "key": null,
+   "sym": "Ca",
+   "words": "kalsium",
+   "name": "Kalsium",
+   "z": 20,
+   "group": 2,
+   "period": 4,
+   "family": "logam alkali bumi"
+  },
+  {
+   "key": null,
+   "sym": "Fe",
+   "words": "ferum|besi",
+   "name": "Ferum",
+   "z": 26,
+   "group": 8,
+   "period": 4,
+   "family": "logam peralihan"
+  },
+  {
+   "key": null,
+   "sym": "Co",
+   "words": "kobalt",
+   "name": "Kobalt",
+   "z": 27,
+   "group": 9,
+   "period": 4,
+   "family": "logam peralihan"
+  },
+  {
+   "key": null,
+   "sym": "Ni",
+   "words": "nikel",
+   "name": "Nikel",
+   "z": 28,
+   "group": 10,
+   "period": 4,
+   "family": "logam peralihan"
+  },
+  {
+   "key": null,
+   "sym": "Cu",
+   "words": "kuprum|tembaga",
+   "name": "Kuprum",
+   "z": 29,
+   "group": 11,
+   "period": 4,
+   "family": "logam peralihan"
+  },
+  {
+   "key": null,
+   "sym": "Zn",
+   "words": "zink",
+   "name": "Zink",
+   "z": 30,
+   "group": 12,
+   "period": 4,
+   "family": "logam peralihan"
+  },
+  {
+   "key": null,
+   "sym": "Br",
+   "words": "bromin",
+   "name": "Bromin",
+   "z": 35,
+   "group": 17,
+   "period": 4,
+   "family": "halogen"
+  },
+  {
+   "key": null,
+   "sym": "Ag",
+   "words": "argentum|perak",
+   "name": "Argentum",
+   "z": 47,
+   "group": 11,
+   "period": 5,
+   "family": "logam peralihan"
+  },
+  {
+   "key": null,
+   "sym": "Sn",
+   "words": "stanum|timah",
+   "name": "Stanum",
+   "z": 50,
+   "group": 14,
+   "period": 5,
+   "family": "logam lain"
+  },
+  {
+   "key": null,
+   "sym": "I",
+   "words": "iodin",
+   "name": "Iodin",
+   "z": 53,
+   "group": 17,
+   "period": 5,
+   "family": "halogen"
+  },
+  {
+   "key": null,
+   "sym": "Au",
+   "words": "aurum|emas",
+   "name": "Aurum",
+   "z": 79,
+   "group": 11,
+   "period": 6,
+   "family": "logam peralihan"
+  },
+  {
+   "key": null,
+   "sym": "Hg",
+   "words": "merkuri|raksa",
+   "name": "Merkuri",
+   "z": 80,
+   "group": 12,
+   "period": 6,
+   "family": "logam peralihan"
+  },
+  {
+   "key": null,
+   "sym": "Pb",
+   "words": "plumbum",
+   "name": "Plumbum",
+   "z": 82,
+   "group": 14,
+   "period": 6,
+   "family": "logam lain"
+  }
+ ]
+}

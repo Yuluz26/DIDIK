@@ -58,9 +58,11 @@
 		});
 		if (choices[best].id !== chosen) point(best);
 	}
+	import { asset } from '../assets';
+	const BRASS = asset('isl/compass');
 </script>
 
-<div class="desk">
+<div class="desk" style:--brass={BRASS ? `url(${BRASS.src})` : 'none'}>
 	<div
 		class="dial"
 		bind:this={dial}
@@ -99,11 +101,18 @@
 		{/each}
 	</div>
 </div>
+<p class="truth">{allDirections ? 'Arah ini dari Malaysia. Untuk solat, gunakan arah kiblat sebenar di tempat anda.' : 'Kompas ini cara memilih jawapan, bukan penunjuk arah kiblat.'}</p>
 {#if !locked}
 	<Checks tip={chosen ? 'Jarum sudah menunjuk. Semak bila pasti.' : 'Ketik jawapan atau putar jarum kompas.'} ready={!!chosen} dirty={!!chosen} onreset={() => (chosen = null)} oncheck={() => p.onanswer?.(chosen)} />
 {/if}
 
 <style>
+	.truth {
+		margin-top: 0.4rem;
+		color: var(--ink-2);
+		font: 600 0.74rem/1.3 var(--font-body);
+		text-align: center;
+	}
 	/* The dial is sized from the board, so the answers around it always fit beside it on a phone. */
 	.desk {
 		container-type: inline-size;

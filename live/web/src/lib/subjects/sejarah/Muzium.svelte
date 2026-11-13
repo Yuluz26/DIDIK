@@ -9,9 +9,15 @@
 	import type { GameProps } from '../kit.svelte';
 
 	let p: GameProps = $props();
+	import GameImage from '../GameImage.svelte';
+	import { find } from '../assets';
 </script>
 
 <SortPlay {p} pool="Artifak baharu tiba" tip="Pamerkan setiap artifak dalam almari zaman yang betul.">
+	{#snippet card(item)}
+		<span class="mini"><GameImage name={find('history', item.text)?.key} fit="cover">{#snippet fallback()}{#if item.sticker}<Sticker key={item.sticker} size={38} alt="" />{/if}{/snippet}</GameImage></span>
+		<span>{item.text}</span>
+	{/snippet}
 	{#snippet board(v: SortView)}
 		<div class="gallery" style:--n={v.groups.length}>
 			{#each v.groups as g, i (g.id)}
@@ -19,7 +25,7 @@
 				<div class="case" data-zone={v.zone(g.id)} onclick={() => v.tapGroup(g.id)}>
 					<span class="light" aria-hidden="true"></span>
 					<div class="glass">
-						{#each v.inside(g.id) as item (item.id)}<SortedThing {v} {item} group={g.id} size={34} />{/each}
+						{#each v.inside(g.id) as item (item.id)}<SortedThing {v} {item} group={g.id} size={34} photo={find('history', item.text)?.key} />{/each}
 					</div>
 					<div class="plinth">
 						{#if g.sticker}<Sticker key={g.sticker} size={26} alt="" />{/if}
@@ -33,6 +39,21 @@
 </SortPlay>
 
 <style>
+	.mini {
+		display: grid;
+		place-items: center;
+		flex: none;
+		width: 2.6rem;
+		height: 2.6rem;
+		overflow: hidden;
+		border-radius: 0.5rem;
+		background: #efe6d6;
+		box-shadow: 0 0 0 1px #d9c8a8;
+	}
+	.mini :global(img.g-img) {
+		width: 100%;
+		height: 100%;
+	}
 	.gallery {
 		display: grid;
 		grid-template-columns: repeat(var(--n), minmax(0, 1fr));

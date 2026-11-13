@@ -23,7 +23,7 @@ from pydantic import BaseModel, ConfigDict, Field, TypeAdapter, field_validator,
 
 from . import text as textutil
 from .diagrams import check_diagram
-from .games import check_game
+from .games import check_game, game_for
 from .stickers import PLACES, STICKERS, check_sticker
 
 ID_PATTERN = r"^[A-Za-z0-9_-]{1,16}$"
@@ -571,8 +571,9 @@ def present(question: Any, rng: random.Random, time_limit: int | None = None) ->
         "picture": question.picture,
         "timeLimit": time_limit or question.time_limit,
     }
-    if question.game:
-        public["game"] = question.game
+    game = game_for(question)
+    if game:
+        public["game"] = game
 
     if question.type in ("single", "multiple"):
         choices = list(question.choices)
