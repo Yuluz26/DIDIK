@@ -34,9 +34,11 @@
 		paid = paid.slice(0, -1);
 		play('tap');
 	}
+	import GameImage from '../GameImage.svelte';
 </script>
 
 <div class="counter">
+	<span class="real-box" aria-hidden="true"><GameImage name="isl/donation" eager fit="cover" /></span>
 	<div class="box">
 		<span class="slot" aria-hidden="true"></span>
 		{#key drop}{#if drop && !locked}<span class="falling" aria-hidden="true"></span>{/if}{/key}
@@ -71,6 +73,21 @@
 {/if}
 
 <style>
+	.real-box {
+		display: block;
+		width: 5.5rem;
+		height: 7.5rem;
+		margin: 0 auto -0.4rem;
+		overflow: hidden;
+		border: 3px solid #fff;
+		border-radius: 0.7rem;
+		box-shadow: 0 4px 10px rgb(0 0 0 / 0.25);
+		rotate: -2deg;
+	}
+	.real-box :global(img.g-img) {
+		width: 100%;
+		height: 100%;
+	}
 	.counter {
 		display: grid;
 		gap: 0.8rem;

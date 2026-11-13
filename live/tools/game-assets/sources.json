@@ -1615,16 +1615,6 @@
   "make": "cover:900x560"
  },
  {
-  "key": "isl/rehal",
-  "file": "ഗ്രന്ഥപ്പലക.jpg",
-  "games": [
-   "tajwid"
-  ],
-  "shows": "Rehal kayu",
-  "kind": "photo",
-  "make": "tile:220@46,60"
- },
- {
   "key": "isl/arabesque",
   "file": "Flickr - jemasmith - Umayyad Mosque, Damascus, Detail..jpg",
   "games": [

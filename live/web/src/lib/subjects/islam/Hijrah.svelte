@@ -38,6 +38,8 @@
 		return ROAD[ROAD.length - 1];
 	}
 	const stops = (n: number) => Array.from({ length: n }, (_, i) => along(n === 1 ? 0 : i / (n - 1)));
+	import GameImage from '../GameImage.svelte';
+	import { find } from '../assets';
 </script>
 
 <OrderPlay {p} pic={() => 'pin-peta'} pool="Tempat" tip="Mula di Makkah (bawah). Ikut jalan ke utara.">
@@ -54,7 +56,7 @@
 				<span class="stop" class:filled={!!v.slots[i]} class:ok={ok === true} class:off={ok === false} style:left="{x}%" style:top="{y}%" data-zone={v.zone(i)}>{i + 1}</span>
 			{/each}
 			{#if reach >= 0}
-				<span class="camel" style:left="{pts[reach][0]}%" style:top="{pts[reach][1]}%" aria-hidden="true"><Sticker key="unta" size={40} alt="" /></span>
+				<span class="camel" style:left="{pts[reach][0]}%" style:top="{pts[reach][1]}%" aria-hidden="true"><span class="camel-pic"><GameImage name="isl/camel" eager fit="cover" /></span></span>
 			{/if}
 			<span class="north" aria-hidden="true">U ↑</span>
 		</div>
@@ -65,6 +67,7 @@
 					<span class="n">{i + 1}</span>
 					{#if id}
 						<button type="button" class="place" disabled={v.locked} {@attach v.grab(i)} aria-label="{v.text(id)}, hentian {i + 1}">
+							{#if find('sirah', v.text(id))}<span class="spot"><GameImage name={find('sirah', v.text(id))?.key} eager fit="cover" /></span>{/if}
 							{v.text(id)}
 							{#if ok !== null}<Mark {ok} />{/if}
 						</button>
@@ -79,6 +82,31 @@
 </OrderPlay>
 
 <style>
+	.spot {
+		display: inline-block;
+		width: 2.2rem;
+		height: 1.7rem;
+		margin-right: 0.4rem;
+		overflow: hidden;
+		border: 2px solid #fff;
+		border-radius: 4px;
+		vertical-align: middle;
+		box-shadow: 0 1px 3px rgb(60 30 0 / 0.4);
+	}
+	.spot :global(img.g-img),
+	.camel-pic :global(img.g-img) {
+		width: 100%;
+		height: 100%;
+	}
+	.camel-pic {
+		display: block;
+		width: 2.4rem;
+		height: 2.4rem;
+		overflow: hidden;
+		border: 2px solid #fff;
+		border-radius: 50%;
+		box-shadow: 0 2px 6px rgb(0 0 0 / 0.4);
+	}
 	.map {
 		position: relative;
 		aspect-ratio: 4 / 3;

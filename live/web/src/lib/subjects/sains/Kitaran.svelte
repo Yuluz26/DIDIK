@@ -97,6 +97,9 @@
 	.wheel {
 		container-type: inline-size;
 		position: relative;
+		/* the arrow ring turns once the cycle is complete; a turning square is wider at 45°, so it is clipped */
+		overflow: clip;
+		overflow-clip-margin: 1rem;
 		width: min(100%, 24rem);
 		aspect-ratio: 1;
 		margin-inline: auto;

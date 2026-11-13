@@ -72,7 +72,7 @@ def lookup(files: list[str], width: int) -> dict[str, dict]:
     out: dict[str, dict] = {}
     titles = [f"File:{f}" for f in files]
     for i in range(0, len(titles), 40):
-        data = ask({"action": "query", "prop": "imageinfo", "iiprop": "url|extmetadata|size", "iiurlwidth": width, "titles": "|".join(titles[i : i + 40])})
+        data = ask({"action": "query", "prop": "imageinfo", "iiprop": "url|extmetadata|size|user", "iiurlwidth": width, "titles": "|".join(titles[i : i + 40])})
         norm = {n["to"]: n["from"] for n in data["query"].get("normalized", [])}
         for page in data["query"]["pages"].values():
             name = norm.get(page["title"], page["title"]).removeprefix("File:")
@@ -83,7 +83,10 @@ def lookup(files: list[str], width: int) -> dict[str, dict]:
             out[name] = {
                 "licence": strip((m.get("LicenseShortName") or {}).get("value")),
                 "licence_url": (m.get("LicenseUrl") or {}).get("value", ""),
-                "author": strip((m.get("Artist") or {}).get("value"))[:160] or strip((m.get("Credit") or {}).get("value"))[:160],
+                # the author named on the file's page; failing that, who uploaded it (as Commons itself credits)
+                "author": strip((m.get("Artist") or {}).get("value"))[:160]
+                or strip((m.get("Credit") or {}).get("value"))[:160]
+                or (f"{ii['user']} (pemuat naik, Wikimedia Commons)" if ii.get("user") else ""),
                 "thumb": ii.get("thumburl") or ii["url"],
                 "full": ii["url"],
                 "w": ii["width"],

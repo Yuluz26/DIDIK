@@ -1195,7 +1195,7 @@
    "kind": "photo",
    "source": "Wikimedia Commons",
    "file": "Meadow Foxtail head.jpg",
-   "author": "",
+   "author": "TadejM (pemuat naik, Wikimedia Commons)",
    "licence": "CC BY-SA 3.0",
    "share_alike": true,
    "make": "tile:168",
@@ -1541,7 +1541,7 @@
    "kind": "photo",
    "source": "Wikimedia Commons",
    "file": "Sunflower seedlings.jpg",
-   "author": "",
+   "author": "Bluemoose~commonswiki (pemuat naik, Wikimedia Commons)",
    "licence": "CC BY-SA 3.0",
    "share_alike": true,
    "make": "tile:168",
@@ -1998,7 +1998,7 @@
    "kind": "photo",
    "source": "Wikimedia Commons",
    "file": "Watervapor cup.jpg",
-   "author": "",
+   "author": "Mahlum (pemuat naik, Wikimedia Commons)",
    "licence": "CC BY-SA 3.0",
    "share_alike": true,
    "make": "tile:168",
@@ -2989,25 +2989,6 @@
    "licence": "CC BY 2.5",
    "share_alike": false,
    "make": "cover:900x560",
-   "changes": "dipotong dan dikecilkan"
-  },
-  {
-   "key": "isl/rehal",
-   "path": "game-assets/isl/rehal.webp",
-   "width": 220,
-   "height": 220,
-   "bytes": 6944,
-   "games": [
-    "tajwid"
-   ],
-   "shows": "Rehal kayu",
-   "kind": "photo",
-   "source": "Wikimedia Commons",
-   "file": "ഗ്രന്ഥപ്പലക.jpg",
-   "author": "Fotokannan",
-   "licence": "CC BY-SA 3.0",
-   "share_alike": true,
-   "make": "tile:220@46,60",
    "changes": "dipotong dan dikecilkan"
   },
   {

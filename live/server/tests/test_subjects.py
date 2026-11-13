@@ -118,10 +118,14 @@ def _single(*choices: str, game: str | None = None) -> dict:
 def test_a_subject_deals_its_games_spreading_them_out_and_keeps_games_written_for_it() -> None:
     from didik_live.games import deal_games
 
-    questions = [one(_single("a", "b", "c")) for _ in range(4)]
-    assert deal_games("sains", questions) == ["ramuan", "teropong", "litar", "ramuan"]
-    # a question written for one of the subject's games keeps it; one written for another subject does not
-    mixed = [one(_single("a", "b", game="litar")), one(_single("a", "b", game="gali")), one({"type": "clock", "prompt": "?", "hour": 3})]
+    words = one(_single("a", "b", "c"))
+    planets = one(_single("Musytari", "Marikh", "Bumi"))
+    conductor = one(_single("Kunci besi", "Pemadam", "Kayu"))
+    # Teropong only for things in the sky, Litar only for a conductor among insulators
+    assert deal_games("sains", [words] * 3) == ["ramuan", "ramuan", "ramuan"]
+    assert deal_games("sains", [planets, planets, conductor, conductor]) == ["ramuan", "teropong", "litar", "ramuan"]
+    # a question written for one of the subject's games keeps it (if it suits it); one written for another subject does not
+    mixed = [one(_single("Kunci besi", "Pemadam", game="litar")), one(_single("a", "b", game="gali")), one({"type": "clock", "prompt": "?", "hour": 3})]
     assert deal_games("sains", mixed) == ["litar", "ramuan", None]  # no Sains game tells the time
     assert deal_games("sejarah", mixed) == ["gali", "gali", None]
 
@@ -182,3 +186,76 @@ def test_a_subject_room_plays_every_question_it_can_as_the_subjects_games() -> N
         room.close()
 
     run(scenario())
+
+
+
+# ---------------------------------------------------------------- what a game may show (the lexicon)
+
+
+def test_the_web_copy_of_the_lexicon_is_the_servers() -> None:
+    from didik_live import lexicon
+
+    assert lexicon.WEB_COPY.read_text(encoding="utf-8") == lexicon.dump(), "run: python -m didik_live.lexicon"
+
+
+def test_a_game_is_never_shown_for_content_it_would_misrepresent() -> None:
+    from didik_live.games import game_for
+
+    def single(*choices: str, game: str) -> object:
+        return one(_single(*choices, game=game))
+
+    # no planets on a question about plants, no bulb lit by "the right answer"
+    assert game_for(single("Klorofil", "Akar", "Batang", game="teropong")) is None
+    assert game_for(single("Musytari", "Marikh", "Bumi", game="teropong")) == "teropong"
+    assert game_for(single("Bateri", "Mentol", "Span", game="litar")) is None  # not a question about conductors
+    assert game_for(single("Pemadam", "Kunci besi", "Kayu", game="litar")) is None  # right answer is an insulator among a conductor and an insulator
+    assert game_for(single("Kunci besi", "Pemadam", "Kayu", game="litar")) == "litar"
+    orbit = {"type": "order", "prompt": "?", "game": "orbit", "items": [{"text": t} for t in ("Merkurius", "Venus", "Bumi")]}
+    assert game_for(one(orbit)) == "orbit"
+    assert game_for(one({**orbit, "items": [{"text": t} for t in ("Bumi", "Venus", "Merkurius")]})) is None  # not their order from the Sun
+    assert game_for(one({**orbit, "items": [{"text": t} for t in ("Satu", "Dua", "Tiga")]})) is None
+    magnet = {
+        "type": "sort", "prompt": "?", "game": "magnet",
+        "groups": [{"id": "a", "name": "Ditarik magnet"}, {"id": "b", "name": "Tidak ditarik"}],
+        "items": [{"text": "Paku besi", "group": "a"}, {"text": "Kayu", "group": "b"}, {"text": "Getah", "group": "b"}],
+    }
+    assert game_for(one(magnet)) == "magnet"
+    wrong = {**magnet, "items": [{"text": "Emas", "group": "a"}, {"text": "Kayu", "group": "b"}, {"text": "Getah", "group": "b"}]}
+    assert game_for(one(wrong)) is None  # gold is not magnetic: the magnet would show a lie
+    cycle = {"type": "order", "prompt": "?", "game": "kitaran", "items": [{"text": t} for t in ("Telur", "Berudu", "Katak muda", "Katak dewasa")]}
+    assert game_for(one(cycle)) == "kitaran"
+    assert game_for(one({**cycle, "items": [{"text": t} for t in ("Isnin", "Selasa", "Rabu")]})) is None
+    elements = {"type": "match", "prompt": "?", "game": "unsur", "pairs": [{"left": "Fe", "right": "Ferum"}, {"left": "O", "right": "Oksigen"}]}
+    assert game_for(one(elements)) == "unsur"
+    assert game_for(one({**elements, "pairs": [{"left": "Kaca", "right": "Tingkap"}, {"left": "Kayu", "right": "Meja"}]})) is None
+
+
+def test_every_sample_question_written_for_a_game_is_played_as_it() -> None:
+    from didik_live.games import game_for
+
+    for sample in SUBJECT_SAMPLES:
+        for question in parse_questions(sample["questions"]):
+            assert game_for(question) == question.game, (sample["title"], question.prompt)
+
+
+def test_the_picture_library_is_complete_licensed_and_matches_the_lexicon() -> None:
+    import json
+
+    from didik_live import lexicon
+
+    folder = WEB / "static" / "game-assets"
+    manifest = json.loads((folder / "manifest.json").read_text(encoding="utf-8"))["assets"]
+    keys = {m["key"] for m in manifest}
+    allowed = re.compile(r"^(public domain|pd\b.*|cc0.*|cc[ -]by([ -]sa)?[ -]\d\.\d.*|no restrictions|attribution)$", re.I)
+    for m in manifest:
+        assert (folder / f"{m['key']}.webp").is_file(), m["key"]
+        assert allowed.match(m["licence"]), (m["key"], m["licence"])
+        assert m["author"] or m["licence"].lower() in ("public domain", "cc0", "no restrictions"), m["key"]
+        assert m["bytes"] < 260_000, m["key"]  # sized for a phone
+    assert {p.relative_to(folder).with_suffix("").as_posix() for p in folder.rglob("*.webp")} == keys
+    for group, entries in lexicon.LEXICON.items():
+        for entry in entries:
+            assert entry["key"] is None or entry["key"] in keys, (group, entry["name"], entry["key"])
+    # the web knows every picture's size
+    sizes = (WEB / "src" / "lib" / "subjects" / "assets.gen.ts").read_text(encoding="utf-8")
+    assert all(f"'{k}'" in sizes for k in keys)

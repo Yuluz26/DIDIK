@@ -18,7 +18,8 @@
 	const asked = page.url.searchParams.get('g') ?? '';
 	const stateAsked = page.url.searchParams.get('state') ?? '';
 	let subject = $state<string>(gameOf(asked)?.subject ?? 'sains');
-	let only = $state<string>(gameOf(asked) ? asked : '');
+	const first = gameOf(asked) ? asked : '';
+	let only = $state<string>(first);
 	const mocks = Object.fromEntries(Object.entries(EXAMPLES).map(([k, raw]) => [k, mock(raw)]));
 
 	/** An answer that is certainly wrong, of the shape the question's type sends. */
@@ -67,8 +68,8 @@
 	}
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	let answers = $state<Record<string, any>>(
-		only && (stateAsked === 'right' || stateAsked === 'wrong') && mocks[only]
-			? { [only]: stateAsked === 'right' ? rightOf(mocks[only].question, mocks[only].reveal) : wrongOf(mocks[only].question, mocks[only].reveal) }
+		first && (stateAsked === 'right' || stateAsked === 'wrong') && mocks[first]
+			? { [first]: stateAsked === 'right' ? rightOf(mocks[first].question, mocks[first].reveal) : wrongOf(mocks[first].question, mocks[first].reveal) }
 			: {}
 	);
 	const shown = $derived(GAMES.filter((g) => g.subject === subject && (!only || g.key === only)));

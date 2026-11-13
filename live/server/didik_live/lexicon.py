@@ -265,8 +265,29 @@ HISTORY: list[dict[str, Any]] = [
     _h("hist/silk", "sutera|kain", "Sutera"),
 ]
 
+# ---------------------------------------------------------------- places of the Sirah (Peta Hijrah, Kafilah)
+SIRAH: list[dict[str, Any]] = [
+    _h("isl/thawr", "gua thur|gua tsur|jabal thur|thur|tsur", "Gua Thur"),
+    _h("isl/nour", "gua hira|jabal nur|hira", "Gua Hira"),
+    _h("isl/quba", "quba", "Masjid Quba"),
+    _h("isl/madinah", "madinah|yathrib|masjid nabawi", "Madinah"),
+    _h("isl/makkah", "makkah|mekah|masjidil haram", "Makkah"),
+]
+
+# ---------------------------------------------------------------- the sky through the day (Langit Waktu Solat)
+SKY: list[dict[str, Any]] = [
+    _h("sky/dawn", "subuh|fajar", "Fajar"),
+    _h("sky/sunrise", "syuruk|dhuha|duha|pagi|matahari terbit", "Pagi"),
+    _h("sky/noon", "zohor|zuhur|tengah hari", "Tengah hari"),
+    _h("sky/afternoon", "asar|asr|petang", "Petang"),
+    _h("sky/sunset", "maghrib|matahari terbenam|senja", "Senja"),
+    _h("sky/night", "isyak|isya|tahajud|witir|malam", "Malam"),
+]
+
 LEXICON: dict[str, list[dict[str, Any]]] = {
     "space": SPACE,
+    "sirah": SIRAH,
+    "sky": SKY,
     "history": HISTORY,
     "materials": MATERIALS,
     "living": LIVING,

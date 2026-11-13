@@ -240,7 +240,7 @@ life/snake.webp
 
 life/grass.webp
     Rumput
-    "Meadow Foxtail head.jpg" by unknown. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+    "Meadow Foxtail head.jpg" by TadejM (pemuat naik, Wikimedia Commons). CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
 
 life/grasshopper.webp
     Belalang
@@ -312,7 +312,7 @@ life/seed.webp
 
 life/seedling.webp
     Anak benih bercambah
-    "Sunflower seedlings.jpg" by unknown. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+    "Sunflower seedlings.jpg" by Bluemoose~commonswiki (pemuat naik, Wikimedia Commons). CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
 
 life/tree.webp
     Pokok
@@ -408,7 +408,7 @@ life/bat.webp
 
 cycle/evaporation.webp
     Sejatan: wap naik dari air panas
-    "Watervapor cup.jpg" by unknown. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+    "Watervapor cup.jpg" by Mahlum (pemuat naik, Wikimedia Commons). CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
 
 cycle/cloud.webp
     Awan kumulus (kondensasi)
@@ -613,10 +613,6 @@ isl/putra.webp
 isl/mushaf.webp
     Mushaf al-Quran
     "Quran-Mus'haf Al Tajweed.jpg" by Amr Fayez (TheEgyptian). CC BY 2.5. Changes: dipotong dan dikecilkan.
-
-isl/rehal.webp
-    Rehal kayu
-    "ഗ്രന്ഥപ്പലക.jpg" by Fotokannan. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
 
 isl/arabesque.webp
     Ukiran arabes

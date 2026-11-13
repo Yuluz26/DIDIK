@@ -21,6 +21,7 @@
 	];
 	const NIGHT = /isyak|isya|tahajud|witir|malam/i;
 	const sky = (text: string) => SKIES.find(([re]) => re.test(text)) ?? [null, 'linear-gradient(180deg, #7fc4f5, #d6efff)', '#fff3a0', 30];
+	import { asset, find } from '../assets';
 </script>
 
 <MatchPlay {p} pool="Kad">
@@ -28,10 +29,11 @@
 		<div class="wall">
 			{#each v.left as l (l.id)}
 				{@const [, bg, orb, y] = sky(l.text)}
+				{@const photo = asset(find('sky', l.text)?.key)}
 				<!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
 				<div class="window" data-zone={v.zone(l.id)} onclick={() => v.tapLeft(l.id)}>
-					<div class="pane" style:background={bg}>
-						<span class="orb" class:moon={NIGHT.test(l.text)} style:background={orb} style:top="{y}%" aria-hidden="true"></span>
+					<div class="pane" style:background={photo ? `center / cover no-repeat url(${photo.src})` : bg}>
+						{#if !photo}<span class="orb" class:moon={NIGHT.test(l.text)} style:background={orb} style:top="{y}%" aria-hidden="true"></span>{/if}
 						<span class="dome" aria-hidden="true"></span>
 					</div>
 					<p class="name">{l.text}</p>

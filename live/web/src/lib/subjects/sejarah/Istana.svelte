@@ -73,13 +73,6 @@
 			inset 0 0 0 7px #5b1530,
 			inset 0 0 0 8px #c9a13b;
 	}
-	.crown {
-		filter: drop-shadow(0 0 12px rgb(255 210 80 / 0.7));
-		animation: shine 2.4s ease-in-out infinite;
-	}
-	.won .crown {
-		animation-duration: 0.8s;
-	}
 	.pyramid {
 		display: grid;
 		justify-items: center;
@@ -136,11 +129,6 @@
 	@keyframes shine {
 		50% {
 			transform: translateY(-3px) scale(1.05);
-		}
-	}
-	@media (prefers-reduced-motion: reduce) {
-		.crown {
-			animation: none;
 		}
 	}
 </style>

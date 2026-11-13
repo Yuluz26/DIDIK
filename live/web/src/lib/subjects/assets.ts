@@ -97,12 +97,12 @@ export interface Stage extends Entry {
 
 /** The one cycle every one of these stages belongs to (a frog's life, the water cycle), as the server finds it. */
 export function cycleOf(texts: string[]): string | undefined {
-	let shared: Set<string> | null = null;
+	let shared: string[] | null = null;
 	for (const text of texts) {
-		const cycles = new Set(findAll<Stage>('stages', text).map((e) => e.cycle));
-		shared = shared === null ? cycles : new Set([...shared].filter((c) => cycles.has(c)));
+		const cycles: string[] = findAll<Stage>('stages', text).map((e) => String(e.cycle));
+		shared = shared === null ? cycles : shared.filter((c: string) => cycles.includes(c));
 	}
-	return shared && shared.size ? [...shared].sort()[0] : undefined;
+	return shared && shared.length ? [...new Set(shared)].sort()[0] : undefined;
 }
 
 /** A stage's entry within a known cycle. */

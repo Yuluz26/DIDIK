@@ -107,12 +107,6 @@
 		width: 100%;
 		height: 100%;
 	}
-	.sun {
-		position: absolute;
-		top: 0.2rem;
-		right: 0.4rem;
-		animation: glow 4s ease-in-out infinite;
-	}
 	.chain {
 		display: flex;
 		flex-direction: column-reverse;
@@ -216,11 +210,6 @@
 	@keyframes glow {
 		50% {
 			transform: scale(1.08) rotate(8deg);
-		}
-	}
-	@media (prefers-reduced-motion: reduce) {
-		.sun {
-			animation: none;
 		}
 	}
 </style>

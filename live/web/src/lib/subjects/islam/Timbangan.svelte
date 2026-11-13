@@ -9,12 +9,15 @@
 	import type { GameProps } from '../kit.svelte';
 
 	let p: GameProps = $props();
+	import GameImage from '../GameImage.svelte';
 </script>
 
 <SortPlay {p} pool="Perbuatan" tip="Letak setiap perbuatan di piring yang betul.">
 	{#snippet board(v: SortView)}
 		{@const [a, b, ...rest] = v.groups}
 		{@const tilt = a && b ? Math.max(-12, Math.min(12, (v.inside(b.id).length - v.inside(a.id).length) * 4)) : 0}
+		<span class="real-scale" aria-hidden="true"><GameImage name="isl/scale" eager /></span>
+		<p class="meaning">Neraca ini cara mengisih perbuatan, bukan sukatan pahala yang sebenar.</p>
 		<div class="stand">
 			<div class="beam" style:--tilt="{tilt}deg">
 				{#each [a, b] as g, side (side)}
@@ -45,6 +48,21 @@
 </SortPlay>
 
 <style>
+	.real-scale {
+		display: block;
+		width: 6.5rem;
+		margin: 0 auto;
+	}
+	.real-scale :global(img) {
+		width: 100%;
+		filter: drop-shadow(0 4px 6px rgb(0 0 0 / 0.25));
+	}
+	.meaning {
+		margin: 0.2rem 0 0.5rem;
+		color: var(--ink-2);
+		font: 600 0.74rem/1.3 var(--font-body);
+		text-align: center;
+	}
 	.stand {
 		position: relative;
 		display: grid;

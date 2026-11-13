@@ -141,55 +141,6 @@
 		border-color: #d33a2c;
 		box-shadow: 0 0 0 4px rgb(211 58 44 / 0.15);
 	}
-	.lines {
-		position: absolute;
-		inset: 0 10% auto;
-		height: 7rem;
-		width: 80%;
-		pointer-events: none;
-	}
-	.lines path {
-		fill: none;
-		stroke: rgb(120 140 170 / 0.45);
-		stroke-width: 1.5;
-		stroke-dasharray: 4 4;
-		animation: flow 2s linear infinite;
-	}
-	.horseshoe {
-		position: relative;
-		width: 7.5rem;
-		height: 5.6rem;
-		margin-top: 0.4rem;
-		border: 1.6rem solid #d33a2c;
-		border-top: 0;
-		border-radius: 0 0 4rem 4rem;
-		rotate: 180deg;
-		filter: drop-shadow(0 6px 6px rgb(0 0 0 / 0.2));
-		box-shadow: inset 0 -6px 0 rgb(0 0 0 / 0.12);
-	}
-	.horseshoe.buzz {
-		animation: buzz 0.18s linear infinite;
-	}
-	.arm {
-		position: absolute;
-		top: -1px;
-		width: 1.6rem;
-		height: 1.4rem;
-		background: linear-gradient(180deg, #e8edf2, #aeb8c4);
-		display: grid;
-		place-items: center;
-	}
-	.arm b {
-		rotate: 180deg;
-		color: #2a3340;
-		font: 700 0.8rem var(--font-display);
-	}
-	.arm.l {
-		left: -1.6rem;
-	}
-	.arm.r {
-		right: -1.6rem;
-	}
 	h4 {
 		display: inline-flex;
 		align-items: center;
@@ -236,12 +187,6 @@
 	@keyframes buzz {
 		50% {
 			translate: 1px 0;
-		}
-	}
-	@media (prefers-reduced-motion: reduce) {
-		.lines path,
-		.horseshoe.buzz {
-			animation: none;
 		}
 	}
 </style>

@@ -155,7 +155,6 @@ export const ASSET_SIZES: Record<string, [number, number]> = {
 	'isl/salahuddin': [960, 560],
 	'isl/putra': [960, 560],
 	'isl/mushaf': [900, 560],
-	'isl/rehal': [220, 220],
 	'isl/arabesque': [900, 600],
 	'isl/pattern': [600, 900],
 	'isl/fanous': [300, 300],

@@ -17,9 +17,12 @@
 	const pick = $derived<string | null>(p.mine !== undefined ? p.mine : p.reveal ? p.reveal.correct[0] : chosen);
 	const right = $derived<string | null>(p.reveal ? p.reveal.correct[0] : null);
 	const arabic = (t: string) => /[؀-ۿ]/.test(t);
+	import { asset } from '../assets';
+	// real arabesque carving, as the board's frame
+	const CARVING = asset('isl/arabesque');
 </script>
 
-<div class="luh">
+<div class="luh" style:--carving={CARVING ? `url(${CARVING.src})` : 'none'}>
 	<span class="handle" aria-hidden="true"></span>
 	<div class="board">
 		{#each choices as c (c.id)}
@@ -47,6 +50,11 @@
 {/if}
 
 <style>
+	.luh {
+		background-image: linear-gradient(rgb(110 60 20 / 0.35), rgb(80 40 10 / 0.45)), var(--carving) !important;
+		background-size: cover !important;
+		background-position: center !important;
+	}
 	.luh {
 		position: relative;
 		padding: 1.6rem 0.9rem 1rem;

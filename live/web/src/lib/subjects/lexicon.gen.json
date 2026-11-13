@@ -116,6 +116,65 @@
    "kind": "bintang"
   }
  ],
+ "sirah": [
+  {
+   "key": "isl/thawr",
+   "words": "gua thur|gua tsur|jabal thur|thur|tsur",
+   "name": "Gua Thur"
+  },
+  {
+   "key": "isl/nour",
+   "words": "gua hira|jabal nur|hira",
+   "name": "Gua Hira"
+  },
+  {
+   "key": "isl/quba",
+   "words": "quba",
+   "name": "Masjid Quba"
+  },
+  {
+   "key": "isl/madinah",
+   "words": "madinah|yathrib|masjid nabawi",
+   "name": "Madinah"
+  },
+  {
+   "key": "isl/makkah",
+   "words": "makkah|mekah|masjidil haram",
+   "name": "Makkah"
+  }
+ ],
+ "sky": [
+  {
+   "key": "sky/dawn",
+   "words": "subuh|fajar",
+   "name": "Fajar"
+  },
+  {
+   "key": "sky/sunrise",
+   "words": "syuruk|dhuha|duha|pagi|matahari terbit",
+   "name": "Pagi"
+  },
+  {
+   "key": "sky/noon",
+   "words": "zohor|zuhur|tengah hari",
+   "name": "Tengah hari"
+  },
+  {
+   "key": "sky/afternoon",
+   "words": "asar|asr|petang",
+   "name": "Petang"
+  },
+  {
+   "key": "sky/sunset",
+   "words": "maghrib|matahari terbenam|senja",
+   "name": "Senja"
+  },
+  {
+   "key": "sky/night",
+   "words": "isyak|isya|tahajud|witir|malam",
+   "name": "Malam"
+  }
+ ],
  "history": [
   {
    "key": "hist/kris",

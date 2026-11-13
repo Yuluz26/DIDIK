@@ -3,13 +3,13 @@
 Written by `live/tools/game-assets/build.py` from `live/tools/game-assets/sources.json`. Do not edit by hand:
 change `sources.json` and run the script. The machine-readable copy is `live/web/static/game-assets/manifest.json`.
 
-**173 pictures, 3.9 MB in all.** Every one is hosted locally (nothing is loaded from another
+**172 pictures, 3.9 MB in all.** Every one is hosted locally (nothing is loaded from another
 site while a child plays) and comes from Wikimedia Commons, where the licence and author below were read from the
 file's own page by the build script. The script refuses any licence outside public domain, CC0, CC BY and CC BY-SA.
 
 | Licence | Pictures |
 | --- | --- |
-| CC BY-SA 3.0 | 45 |
+| CC BY-SA 3.0 | 44 |
 | Public domain | 39 |
 | CC BY-SA 4.0 | 34 |
 | CC BY 2.0 | 15 |
@@ -88,7 +88,7 @@ Kinds: `observation` a real photograph or spacecraft image; `enhanced` real data
 | `life/rice` | rantai, kitaran | Padi | photo | 20201102.Hengnan.Hybrid rice Sanyou-1.6.jpg | China News Service | CC BY 3.0 | dipotong dan dikecilkan |
 | `life/mouse` | rantai | Tikus | photo | Mouse white background.jpg | Unknown authorUnknown author (original) / Ilmari Karonen (editing) | Public domain | dipotong dan dikecilkan |
 | `life/snake` | rantai | Ular tedung | photo | 12 - The Mystical King Cobra and Coffee Forests.jpg | Michael Allen Smith from Seattle, USA | CC BY-SA 2.0 | dipotong dan dikecilkan |
-| `life/grass` | rantai | Rumput | photo | Meadow Foxtail head.jpg | unknown | CC BY-SA 3.0 | dipotong dan dikecilkan |
+| `life/grass` | rantai | Rumput | photo | Meadow Foxtail head.jpg | TadejM (pemuat naik, Wikimedia Commons) | CC BY-SA 3.0 | dipotong dan dikecilkan |
 | `life/grasshopper` | rantai | Belalang | photo | American Bird Grasshopper.jpg | http://www.birdphotos.com | CC BY 3.0 | dipotong dan dikecilkan |
 | `life/frog` | rantai, kitaran | Katak dewasa | photo | Red-eyed Leaf Frog (49661076226).jpg | Charlie Jackson | CC BY 2.0 | dipotong dan dikecilkan |
 | `life/tadpole` | kitaran | Berudu | photo | RanaTemporariaLarva2.jpg | Viridiflavus | CC BY-SA 3.0 | dipotong dan dikecilkan |
@@ -106,7 +106,7 @@ Kinds: `observation` a real photograph or spacecraft image; `enhanced` real data
 | `life/chicken` | rantai, kitaran | Ayam | photo | Male and female chicken sitting together.jpg | Andrei Niemimäki from Turku, Finland | CC BY-SA 2.0 | dipotong dan dikecilkan |
 | `life/egg` | kitaran | Telur ayam | photo | Chicken egg 2009-06-04.jpg | Sun Ladder | CC BY-SA 3.0 | dipotong dan dikecilkan |
 | `life/seed` | kitaran | Biji benih | photo | Разнообразие семян.jpg | Alexander Klepnev | CC BY 4.0 | dipotong dan dikecilkan |
-| `life/seedling` | kitaran | Anak benih bercambah | photo | Sunflower seedlings.jpg | unknown | CC BY-SA 3.0 | dipotong dan dikecilkan |
+| `life/seedling` | kitaran | Anak benih bercambah | photo | Sunflower seedlings.jpg | Bluemoose~commonswiki (pemuat naik, Wikimedia Commons) | CC BY-SA 3.0 | dipotong dan dikecilkan |
 | `life/tree` | rantai, kitaran | Pokok | photo | Usamljeni jasen - panoramio (cropped).jpg | menergo | CC BY-SA 3.0 | dipotong dan dikecilkan |
 | `life/flower` | kitaran | Bunga raya | photo | Hibiscus Brilliant.jpg | Andy / Andrew Fogg from near Cambridge, UK | CC BY 2.0 | dipotong dan dikecilkan |
 | `life/fruit` | kitaran | Buah-buahan | photo | Fruit Platter- Seasonal Fruits.jpg | روتانا | CC BY 4.0 | dipotong dan dikecilkan |
@@ -130,7 +130,7 @@ Kinds: `observation` a real photograph or spacecraft image; `enhanced` real data
 | `life/crocodile` | rantai | Buaya | photo | Nile crocodile head.jpg | Leigh Bedford | CC BY 2.0 | dipotong dan dikecilkan |
 | `life/dragonfly` | rantai | Pepatung | photo | Red grasshawk (Neurothemis fluctuans) male Phuket 2.jpg | Charles J. Sharp | CC BY-SA 4.0 | dipotong dan dikecilkan |
 | `life/bat` | rantai | Kelawar | photo | Big-eared-townsend-fledermaus.jpg | PD-USGov, exact author unknown | Public domain | dipotong dan dikecilkan |
-| `cycle/evaporation` | kitaran | Sejatan: wap naik dari air panas | photo | Watervapor cup.jpg | unknown | CC BY-SA 3.0 | dipotong dan dikecilkan |
+| `cycle/evaporation` | kitaran | Sejatan: wap naik dari air panas | photo | Watervapor cup.jpg | Mahlum (pemuat naik, Wikimedia Commons) | CC BY-SA 3.0 | dipotong dan dikecilkan |
 | `cycle/cloud` | kitaran | Awan kumulus (kondensasi) | photo | GoldenMedows.jpg | PiccoloNamek | CC BY-SA 3.0 | dipotong dan dikecilkan |
 | `cycle/rain` | kitaran | Hujan (kerpasan) | photo | Hard rain on a roof.jpg | W.carter | CC0 | dipotong dan dikecilkan |
 | `cycle/river` | kitaran | Sungai mengalir ke laut | photo | Pirogue running on the Mekong at golden hour between Don Det and Don Khon Laos.jpg | Basile Morin | CC BY-SA 4.0 | dipotong dan dikecilkan |
@@ -182,7 +182,6 @@ Kinds: `observation` a real photograph or spacecraft image; `enhanced` real data
 | `isl/salahuddin` | rukun | Masjid Sultan Salahuddin Abdul Aziz, Shah Alam | photo | SA Blue Mosque.jpg | Lerdsuwa | CC BY-SA 3.0 | dipotong dan dikecilkan |
 | `isl/putra` | rukun, waktu | Masjid Putra, Putrajaya | photo | Masjid Putra, Putrajaya, Malaysia.jpg | iPhone | CC BY 4.0 | dipotong dan dikecilkan |
 | `isl/mushaf` | tajwid | Mushaf al-Quran | photo | Quran-Mus'haf Al Tajweed.jpg | Amr Fayez (TheEgyptian) | CC BY 2.5 | dipotong dan dikecilkan |
-| `isl/rehal` | tajwid | Rehal kayu | photo | ഗ്രന്ഥപ്പലക.jpg | Fotokannan | CC BY-SA 3.0 | dipotong dan dikecilkan |
 | `isl/arabesque` | hijaiyah | Ukiran arabes | photo | Flickr - jemasmith - Umayyad Mosque, Damascus, Detail..jpg | Jan Smith from Brisbane, Australia | CC BY 2.0 | dipotong dan dikecilkan |
 | `isl/pattern` | hijaiyah, rukun | Corak geometri Islam | photo | Doorway in Ben Youssef Madrasa.JPG | Ian Alexander | CC BY-SA 4.0 | dipotong dan dikecilkan |
 | `isl/fanous` | malaikat | Tanglung (fanous) | photo | Lanterns from below.JPG | B. Simpson Cairocamels | CC BY 3.0 | dipotong dan dikecilkan |

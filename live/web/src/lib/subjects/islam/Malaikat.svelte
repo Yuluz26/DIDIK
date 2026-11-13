@@ -8,6 +8,7 @@
 	import type { GameProps } from '../kit.svelte';
 
 	let p: GameProps = $props();
+	import GameImage from '../GameImage.svelte';
 </script>
 
 <MatchPlay {p} pool="Tugas">
@@ -19,7 +20,7 @@
 				<!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
 				<div class="hang" data-zone={v.zone(l.id)} onclick={() => v.tapLeft(l.id)}>
 					<span class="cord" aria-hidden="true"></span>
-					<span class="lantern" class:on aria-hidden="true"><i class="cap"></i><i class="glass"></i><i class="foot"></i></span>
+					<span class="fanous" class:on aria-hidden="true"><GameImage name="isl/fanous" eager fit="cover">{#snippet fallback()}<span class="lantern" class:on><i class="cap"></i><i class="glass"></i><i class="foot"></i></span>{/snippet}</GameImage></span>
 					<p class="name">{l.text}</p>
 					<div class="tag"><MatchCard {v} left={l.id} empty="Gantung tugas" dark /></div>
 				</div>
@@ -29,6 +30,29 @@
 </MatchPlay>
 
 <style>
+	.fanous {
+		display: block;
+		width: 4.2rem;
+		height: 4.2rem;
+		margin: 0 auto;
+		overflow: hidden;
+		border-radius: 50%;
+		filter: brightness(0.45) saturate(0.6);
+		box-shadow: 0 0 0 3px rgb(255 220 140 / 0.25);
+		transition:
+			filter 0.5s,
+			box-shadow 0.5s;
+	}
+	.fanous.on {
+		filter: brightness(1.1) saturate(1.2);
+		box-shadow:
+			0 0 0 3px #ffd36b,
+			0 0 26px 8px rgb(255 190 70 / 0.55);
+	}
+	.fanous :global(img.g-img) {
+		width: 100%;
+		height: 100%;
+	}
 	.night {
 		position: relative;
 		display: grid;

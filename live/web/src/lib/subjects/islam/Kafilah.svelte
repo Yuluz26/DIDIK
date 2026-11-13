@@ -29,9 +29,12 @@
 	const right = $derived<string | null>(p.reveal ? idOf(tf ? p.reveal.correct : p.reveal.correct[0]) : null);
 	const at = (i: number) => (camps.length === 1 ? 50 : 18 + (i / (camps.length - 1)) * 70);
 	const caravanX = $derived(pick ? at(camps.findIndex((c) => c.id === pick)) - 9 : 2);
+	import GameImage from '../GameImage.svelte';
+	import { asset } from '../assets';
+	const DUNES = asset('isl/dunes');
 </script>
 
-<div class="desert">
+<div class="desert" style:--dunes={DUNES ? `url(${DUNES.src})` : 'none'}>
 	<span class="sun" aria-hidden="true"></span>
 	<span class="dune d1" aria-hidden="true"></span>
 	<span class="dune d2" aria-hidden="true"></span>
@@ -55,7 +58,7 @@
 		</button>
 	{/each}
 	<span class="caravan" class:walk={!!pick} style:left="{caravanX}%" aria-hidden="true">
-		<Sticker key="unta" size={44} alt="" /><Sticker key="unta" size={36} alt="" />
+		<span class="train"><GameImage name="isl/caravan" eager fit="cover">{#snippet fallback()}<Sticker key="unta" size={44} alt="" /><Sticker key="unta" size={36} alt="" />{/snippet}</GameImage></span>
 	</span>
 </div>
 {#if !locked}
@@ -69,6 +72,27 @@
 {/if}
 
 <style>
+	.desert {
+		background-image: linear-gradient(180deg, rgb(255 230 180 / 0.15), rgb(120 70 20 / 0.2)), var(--dunes) !important;
+		background-size: cover !important;
+		background-position: center 60% !important;
+	}
+	.desert .dune {
+		display: none;
+	}
+	.train {
+		display: block;
+		width: 5.6rem;
+		height: 2.6rem;
+		overflow: hidden;
+		border: 2px solid #fff6e0;
+		border-radius: 0.6rem;
+		box-shadow: 0 3px 8px rgb(80 40 0 / 0.4);
+	}
+	.train :global(img.g-img) {
+		width: 100%;
+		height: 100%;
+	}
 	.desert {
 		position: relative;
 		min-height: 15rem;
