@@ -14,6 +14,8 @@ import re
 from collections import Counter
 from typing import Any, TypedDict
 
+from . import lexicon
+
 
 class Game(TypedDict):
     subject: str
@@ -77,12 +79,13 @@ GAMES: dict[str, Game] = {
 # content and are dealt only when the question has it (`_suits`): Arabic letters for Huruf Hijaiyah and
 # Warna Tajwid, solat movements for Gerakan Solat, prayer names for Langit Waktu Solat, a reading the
 # instrument can show for Alat Pengukur and Mesin Masa, the right kind of picture for the diagram games.
-# Rantai Makanan always says "dimakan oleh", so it is never dealt; a question written for it keeps it.
+# Every Sains game that shows a particular thing (a planet, a material, a living thing, an element, a
+# stage of a cycle) is dealt only to a question about such things, as the lexicon knows them.
 DEALT: dict[str, dict[str, tuple[str, ...]]] = {
     "sains": {
         "single": ("ramuan", "teropong", "litar"),
         "multiple": ("ramuan",),
-        "order": ("kitaran", "orbit"),
+        "order": ("kitaran", "orbit", "rantai"),
         "sort": ("jirim", "magnet"),
         "match": ("unsur",),
         "number": ("alat",),
@@ -135,7 +138,72 @@ def _instrument(unit: str) -> tuple[float, float, float]:
     }.get(u, (0, 1000, 1))
 
 
+def _conductivity(question: Any) -> bool:
+    """Litar Elektrik is a real circuit: the bulb lights for what conducts. It suits a question whose answers
+    are all things whose conductivity is known, and whose right answer is told apart by it: the one
+    conductor among insulators (which lights the bulb), or the one insulator among conductors."""
+    known = [(c.correct, lexicon.find("materials", c.text)) for c in question.choices]
+    if any(entry is None or entry["conducts"] is None for _, entry in known):
+        return False
+    right = {entry["conducts"] for correct, entry in known if correct}
+    wrong = {entry["conducts"] for correct, entry in known if not correct}
+    return len(right) == 1 and wrong == {not next(iter(right))}
+
+
+def _from_the_sun(question: Any) -> bool:
+    """Orbit Planet puts things on orbits round the Sun, nearest first. It suits a question whose things are
+    all planets and whose right order is their order from the Sun."""
+    orders = [(lexicon.find("space", item.text) or {}).get("order") for item in question.items]
+    return all(order is not None and order > 0 for order in orders) and orders == sorted(orders) and len(set(orders)) == len(orders)
+
+
+def _magnetism(question: Any) -> bool:
+    """Magnet Ajaib shows what a magnet holds. It suits a sort into "pulled by a magnet" and "not pulled"
+    whose things are all known, each in the group its material really belongs to."""
+    by_id = {g.id: lexicon.pulls(g.name) for g in question.groups}
+    if len(by_id) != 2 or set(by_id.values()) != {True, False}:
+        return False
+    for item in question.items:
+        entry = lexicon.find("materials", item.text)
+        if entry is None or entry["magnetic"] is None or entry["magnetic"] != by_id[item.group]:
+            return False
+    return True
+
+
+def _states(question: Any) -> bool:
+    """Balang Jirim has a jar for a solid, a liquid and a gas. It suits a sort whose groups are states of
+    matter (each once), with nothing the lexicon knows put in the wrong one."""
+    by_id = {g.id: lexicon.state_of_group(g.name) for g in question.groups}
+    if None in by_id.values() or len(set(by_id.values())) != len(by_id):
+        return False
+    for item in question.items:
+        entry = lexicon.find("materials", item.text)
+        if entry is not None and entry["state"] != by_id[item.group]:
+            return False
+    return True
+
+
 def _suits(game: str, question: Any) -> bool:
+    if game == "magnet":
+        return _magnetism(question)
+    if game == "jirim":
+        return _states(question)
+    if game == "kitaran":
+        # a wheel is for a cycle: every stage must belong to one the lexicon knows
+        return lexicon.cycle_of([item.text for item in question.items]) is not None
+    if game == "rantai":
+        # a food chain is of living things
+        return all(lexicon.find("living", item.text) for item in question.items)
+    if game == "unsur":
+        # periodic-table tiles are for elements
+        return all(lexicon.element(pair.left) for pair in question.pairs)
+    if game == "teropong":
+        # a telescope finds things in the sky: every answer must be one
+        return all(lexicon.find("space", c.text) for c in question.choices)
+    if game == "orbit":
+        return _from_the_sun(question)
+    if game == "litar":
+        return _conductivity(question)
     if game == "hijaiyah":
         return all(_ARABIC.search(c.text) for c in question.choices)
     if game == "tajwid":
@@ -160,13 +228,25 @@ def _suits(game: str, question: Any) -> bool:
     return True
 
 
+def game_for(question: Any) -> str | None:
+    """The subject game a question is played as outside a subject's own Kuiz Interaktif: the one its author
+    chose, as long as the question is the kind of thing that game shows. A telescope on a question about
+    plants would be a lie, so such a question is played the plain way instead (it is never refused: quizzes
+    written before a game learned what it suits keep working)."""
+    game = getattr(question, "game", None)
+    if game and game in GAMES and question.type in GAMES[game]["types"] and _suits(game, question):
+        return game
+    return None
+
+
 def deal_games(subject: str, questions: list[Any]) -> list[str | None]:
     """The game each question is played as in this subject's Kuiz Interaktif, in trail order. A question
-    written for one of this subject's games keeps it; a question nothing suits is played the plain way."""
+    written for one of this subject's games keeps it, if it suits it; a question nothing suits is played
+    the plain way."""
     used: Counter[str] = Counter()
     dealt: list[str | None] = []
     for question in questions:
-        if question.game and GAMES[question.game]["subject"] == subject:
+        if question.game and GAMES[question.game]["subject"] == subject and _suits(question.game, question):
             pick: str | None = question.game
         else:
             options = [g for g in DEALT[subject].get(question.type, ()) if _suits(g, question)]

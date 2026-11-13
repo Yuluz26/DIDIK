@@ -84,6 +84,19 @@ export const DIAGRAMS: Diagram[] = [
 		]
 	},
 	{
+		key: 'rajah-sel-bawang',
+		name: 'Sel bawang (mikrograf sebenar)',
+		w: 900,
+		h: 675,
+		credit: 'loganrickert, CC BY 2.0',
+		photo: true,
+		spots: [
+			{ x: 23, y: 57, label: 'Nukleus' },
+			{ x: 31.5, y: 46, label: 'Dinding sel' },
+			{ x: 44, y: 63, label: 'Sitoplasma' }
+		]
+	},
+	{
 		key: 'rajah-kitaran-air',
 		name: 'Kitaran air',
 		w: 1000,

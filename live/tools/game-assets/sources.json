@@ -1,0 +1,1180 @@
+[
+ {
+  "key": "space/sun",
+  "file": "The Sun by the Atmospheric Imaging Assembly of NASA's Solar Dynamics Observatory - 20100819.jpg",
+  "games": [
+   "teropong",
+   "orbit"
+  ],
+  "shows": "Matahari dalam cahaya ultraungu melampau (SDO/AIA), warna palsu",
+  "kind": "enhanced",
+  "make": "disc:400"
+ },
+ {
+  "key": "space/mercury",
+  "file": "Mercury in true color.jpg",
+  "games": [
+   "teropong",
+   "orbit"
+  ],
+  "shows": "Utarid (MESSENGER), warna hampir sebenar",
+  "kind": "observation",
+  "make": "disc:280"
+ },
+ {
+  "key": "space/venus",
+  "file": "Venus-real color.jpg",
+  "games": [
+   "teropong",
+   "orbit"
+  ],
+  "shows": "Zuhrah (Mariner 10), warna hampir sebenar",
+  "kind": "observation",
+  "make": "disc:280"
+ },
+ {
+  "key": "space/earth",
+  "file": "The Earth seen from Apollo 17.jpg",
+  "games": [
+   "teropong",
+   "orbit",
+   "kitaran"
+  ],
+  "shows": "Bumi dari Apollo 17 (The Blue Marble)",
+  "kind": "observation",
+  "make": "disc:320"
+ },
+ {
+  "key": "space/moon",
+  "file": "Moon nearside LRO.jpg",
+  "games": [
+   "teropong",
+   "orbit",
+   "kitaran"
+  ],
+  "shows": "Bulan, muka dekat (mozek LRO)",
+  "kind": "observation",
+  "make": "disc:320"
+ },
+ {
+  "key": "space/mars",
+  "file": "Mars Valles Marineris.jpeg",
+  "games": [
+   "teropong",
+   "orbit"
+  ],
+  "shows": "Marikh dengan Valles Marineris (mozek Viking)",
+  "kind": "observation",
+  "make": "disc:280"
+ },
+ {
+  "key": "space/jupiter",
+  "file": "Jupiter and its shrunken Great Red Spot.jpg",
+  "games": [
+   "teropong",
+   "orbit"
+  ],
+  "shows": "Musytari dan Bintik Merah Besar (Hubble)",
+  "kind": "observation",
+  "make": "disc:360"
+ },
+ {
+  "key": "space/saturn",
+  "file": "Saturn during Equinox.jpg",
+  "games": [
+   "teropong",
+   "orbit"
+  ],
+  "shows": "Zuhal dan gelangnya semasa ekuinoks (Cassini)",
+  "kind": "observation",
+  "make": "glow:560",
+  "feather": false
+ },
+ {
+  "key": "space/uranus",
+  "file": "Uranus2.jpg",
+  "games": [
+   "teropong",
+   "orbit"
+  ],
+  "shows": "Uranus (Voyager 2)",
+  "kind": "observation",
+  "make": "disc:280"
+ },
+ {
+  "key": "space/neptune",
+  "file": "Neptune Full.jpg",
+  "games": [
+   "teropong",
+   "orbit"
+  ],
+  "shows": "Neptun (Voyager 2)",
+  "kind": "observation",
+  "make": "disc:280"
+ },
+ {
+  "key": "space/milkyway",
+  "file": "ESO - Milky Way.jpg",
+  "games": [
+   "teropong",
+   "orbit"
+  ],
+  "shows": "Panorama langit malam dengan Bima Sakti",
+  "kind": "observation",
+  "make": "cover:1440x720",
+  "quality": 70
+ },
+ {
+  "key": "space/milkyway-core",
+  "file": "ESO - Milky Way.jpg",
+  "games": [
+   "teropong"
+  ],
+  "shows": "Pusat Bima Sakti, dari panorama langit yang sama",
+  "kind": "observation",
+  "crop": [
+   36,
+   30,
+   64,
+   70
+  ],
+  "make": "glow:460"
+ },
+ {
+  "key": "space/andromeda",
+  "file": "Andromeda galaxy.jpg",
+  "games": [
+   "teropong"
+  ],
+  "shows": "Galaksi Andromeda dalam ultraungu (GALEX), warna palsu",
+  "kind": "enhanced",
+  "make": "glow:440"
+ },
+ {
+  "key": "space/sombrero",
+  "file": "M104 ngc4594 sombrero galaxy hi-res.jpg",
+  "games": [
+   "teropong"
+  ],
+  "shows": "Galaksi Sombrero, M104 (Hubble)",
+  "kind": "observation",
+  "crop": [
+   14,
+   18,
+   86,
+   82
+  ],
+  "make": "glow:460"
+ },
+ {
+  "key": "space/lmc",
+  "file": "LMC snapped by the ESO 1-metre Schmidt telescope.jpg",
+  "games": [
+   "teropong"
+  ],
+  "shows": "Awan Magellan Besar (teleskop Schmidt ESO)",
+  "kind": "observation",
+  "make": "glow:420"
+ },
+ {
+  "key": "space/polaris",
+  "file": "Polaris A and Polaris B (opo0602c).jpg",
+  "games": [
+   "teropong"
+  ],
+  "shows": "Bintang Utara (Polaris A dan B, Hubble)",
+  "kind": "observation",
+  "make": "glow:300",
+  "crop": [
+   10,
+   16,
+   38,
+   44
+  ]
+ },
+ {
+  "key": "space/star",
+  "file": "Sirius A and B Hubble photo.jpg",
+  "games": [
+   "teropong"
+  ],
+  "shows": "Sebutir bintang terang (Sirius A dan B, Hubble)",
+  "kind": "observation",
+  "make": "glow:300"
+ },
+ {
+  "key": "space/comet",
+  "file": "Lspn comet halley.jpg",
+  "games": [
+   "teropong"
+  ],
+  "shows": "Komet Halley, 1986",
+  "kind": "observation",
+  "make": "glow:460"
+ },
+ {
+  "key": "micro/onion",
+  "file": "Onion Epidermis Cells W.M. 40x - 183.jpg",
+  "games": [
+   "mikroskop"
+  ],
+  "shows": "Sel epidermis bawang di bawah mikroskop cahaya (40x)",
+  "kind": "observation",
+  "make": "cover:900x675"
+ },
+ {
+  "key": "circuit/battery",
+  "file": "2500 mAh NiMH Battery - AA (11469147674).jpg",
+  "games": [
+   "litar"
+  ],
+  "shows": "Bateri AA",
+  "kind": "photo",
+  "make": "cut:150"
+ },
+ {
+  "key": "mat/key",
+  "file": "Solex 99 30 padlock with keys (DSCF2659).jpg",
+  "games": [
+   "litar",
+   "magnet"
+  ],
+  "shows": "Kunci logam",
+  "kind": "photo",
+  "make": "tile:168@36,66"
+ },
+ {
+  "key": "mat/eraser",
+  "file": "Office-pink-erasers.jpg",
+  "games": [
+   "litar",
+   "magnet"
+  ],
+  "shows": "Pemadam getah",
+  "kind": "photo",
+  "make": "tile:168@30,50"
+ },
+ {
+  "key": "mat/pencil",
+  "file": "Pencils hb.jpg",
+  "games": [
+   "litar",
+   "magnet"
+  ],
+  "shows": "Pensel dengan mata grafit",
+  "kind": "photo",
+  "make": "tile:168@52,52"
+ },
+ {
+  "key": "mat/rubber-band",
+  "file": "Rubber bands.jpg",
+  "games": [
+   "litar",
+   "magnet"
+  ],
+  "shows": "Gelang getah",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "mat/sponge",
+  "file": "Éponge type 3 (1).jpg",
+  "games": [
+   "litar",
+   "magnet"
+  ],
+  "shows": "Span",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "mat/nail",
+  "file": "Clou 127.jpg",
+  "games": [
+   "litar",
+   "magnet"
+  ],
+  "shows": "Paku besi",
+  "kind": "photo",
+  "make": "tile:168@55,55"
+ },
+ {
+  "key": "mat/foil",
+  "file": "Aluminio.jpg",
+  "games": [
+   "litar",
+   "magnet"
+  ],
+  "shows": "Kerajang aluminium",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "mat/copper",
+  "file": "NatCopper.jpg",
+  "games": [
+   "litar",
+   "magnet"
+  ],
+  "shows": "Kuprum asli",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "mat/coins",
+  "file": "Kiloware.JPG",
+  "games": [
+   "litar",
+   "magnet"
+  ],
+  "shows": "Duit syiling",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "mat/scissors",
+  "file": "Standard household scissors.jpg",
+  "games": [
+   "litar",
+   "magnet"
+  ],
+  "shows": "Gunting keluli",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "mat/spoon",
+  "file": "Soup Spoon.jpg",
+  "games": [
+   "litar",
+   "magnet"
+  ],
+  "shows": "Sudu logam",
+  "kind": "photo",
+  "make": "tile:168@36,56"
+ },
+ {
+  "key": "mat/ice",
+  "file": "Ice cubes openphoto.jpg",
+  "games": [
+   "jirim"
+  ],
+  "shows": "Ketulan ais",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "mat/pebble",
+  "file": "Pebble Dash (15366562092).jpg",
+  "games": [
+   "jirim",
+   "magnet",
+   "litar"
+  ],
+  "shows": "Batu kecil",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "mat/mercury",
+  "file": "Pouring liquid mercury bionerd.jpg",
+  "games": [
+   "jirim"
+  ],
+  "shows": "Merkuri (raksa), logam cecair",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "mat/sugar",
+  "file": "Sucre blanc cassonade complet rapadura.jpg",
+  "games": [
+   "jirim",
+   "ramuan"
+  ],
+  "shows": "Gula",
+  "kind": "photo",
+  "make": "tile:168@28,30"
+ },
+ {
+  "key": "mat/milk",
+  "file": "Glass of Milk (33657535532).jpg",
+  "games": [
+   "jirim"
+  ],
+  "shows": "Segelas susu",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "mat/oil",
+  "file": "Olive oil from Oneglia.jpg",
+  "games": [
+   "jirim"
+  ],
+  "shows": "Minyak masak",
+  "kind": "photo",
+  "make": "tile:168@50,62"
+ },
+ {
+  "key": "mat/steam",
+  "file": "Steam phase eruption of Castle Geyser.jpg",
+  "games": [
+   "jirim"
+  ],
+  "shows": "Wap air",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "mat/balloon",
+  "file": "Congrats bqt.jpg",
+  "games": [
+   "jirim"
+  ],
+  "shows": "Belon berisi gas",
+  "kind": "photo",
+  "make": "tile:168@50,42"
+ },
+ {
+  "key": "mat/wood",
+  "file": "16 wood samples.jpg",
+  "games": [
+   "litar",
+   "magnet",
+   "jirim"
+  ],
+  "shows": "Kayu",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "mat/ring",
+  "file": "Traditional Wedding Ring.jpg",
+  "games": [
+   "litar",
+   "magnet"
+  ],
+  "shows": "Cincin emas",
+  "kind": "photo",
+  "make": "tile:168@52,36"
+ },
+ {
+  "key": "mat/brick",
+  "file": "Brick.jpg",
+  "games": [
+   "jirim",
+   "magnet"
+  ],
+  "shows": "Batu bata",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "circuit/bulb",
+  "file": "Gluehlampe 01 KMJ.png",
+  "games": [
+   "litar"
+  ],
+  "shows": "Mentol pijar kaca jernih",
+  "kind": "photo",
+  "make": "keep:300"
+ },
+ {
+  "key": "magnet/field",
+  "file": "VFPt horseshoe-magnet.svg",
+  "games": [
+   "magnet"
+  ],
+  "shows": "Magnet ladam dengan garisan medan magnet",
+  "kind": "visualisation",
+  "make": "photo:520"
+ },
+ {
+  "key": "mat/glass",
+  "file": "Glass-of-water.jpg",
+  "games": [
+   "litar",
+   "magnet",
+   "jirim"
+  ],
+  "shows": "Gelas kaca berisi air",
+  "kind": "photo",
+  "make": "tile:168@50,46"
+ },
+ {
+  "key": "mat/paper-clip",
+  "file": "Paperclip-01 (xndr).jpg",
+  "games": [
+   "litar",
+   "magnet"
+  ],
+  "shows": "Klip kertas keluli",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "mat/water",
+  "file": "Water drop 001.jpg",
+  "games": [
+   "jirim",
+   "ramuan"
+  ],
+  "shows": "Titisan air",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "mat/feather",
+  "file": "Donsvlokje.jpg",
+  "games": [
+   "litar",
+   "magnet"
+  ],
+  "shows": "Bulu pelepah",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "mat/plastic",
+  "file": "Water Bottle (51308317077).jpg",
+  "games": [
+   "litar",
+   "magnet"
+  ],
+  "shows": "Botol plastik",
+  "kind": "photo",
+  "make": "tile:168@50,40"
+ },
+ {
+  "key": "mat/salt",
+  "file": "Selpologne.jpg",
+  "games": [
+   "jirim",
+   "ramuan"
+  ],
+  "shows": "Hablur garam (natrium klorida)",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "mat/straw",
+  "file": "Eight drinking straws (4273846588).jpg",
+  "games": [
+   "litar",
+   "magnet"
+  ],
+  "shows": "Penyedut minuman plastik",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "mat/cotton",
+  "file": "Vatta2.jpg",
+  "games": [
+   "litar",
+   "magnet"
+  ],
+  "shows": "Kapas",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "mat/rope",
+  "file": "Cordage en chanvre.jpg",
+  "games": [
+   "litar",
+   "magnet"
+  ],
+  "shows": "Tali",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "mat/honey",
+  "file": "Runny hunny.jpg",
+  "games": [
+   "jirim"
+  ],
+  "shows": "Madu",
+  "kind": "photo",
+  "make": "tile:168@50,38"
+ },
+ {
+  "key": "mat/smoke",
+  "file": "Ognisko ubt 0126.jpeg",
+  "games": [
+   "jirim"
+  ],
+  "shows": "Asap",
+  "kind": "photo",
+  "make": "tile:168@50,35"
+ },
+ {
+  "key": "micro/scope",
+  "file": "Leitz microscope at CSI-IMG 8731-white.jpg",
+  "games": [
+   "mikroskop"
+  ],
+  "shows": "Mikroskop cahaya Leitz",
+  "kind": "photo",
+  "make": "cut:300"
+ },
+ {
+  "key": "life/rice",
+  "file": "20201102.Hengnan.Hybrid rice Sanyou-1.6.jpg",
+  "games": [
+   "rantai",
+   "kitaran"
+  ],
+  "shows": "Padi",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "life/mouse",
+  "file": "Mouse white background.jpg",
+  "games": [
+   "rantai"
+  ],
+  "shows": "Tikus",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "life/snake",
+  "file": "12 - The Mystical King Cobra and Coffee Forests.jpg",
+  "games": [
+   "rantai"
+  ],
+  "shows": "Ular tedung",
+  "kind": "photo",
+  "make": "tile:168@40,45"
+ },
+ {
+  "key": "life/grass",
+  "file": "Meadow Foxtail head.jpg",
+  "games": [
+   "rantai"
+  ],
+  "shows": "Rumput",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "life/grasshopper",
+  "file": "American Bird Grasshopper.jpg",
+  "games": [
+   "rantai"
+  ],
+  "shows": "Belalang",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "life/frog",
+  "file": "Red-eyed Leaf Frog (49661076226).jpg",
+  "games": [
+   "rantai",
+   "kitaran"
+  ],
+  "shows": "Katak dewasa",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "life/tadpole",
+  "file": "RanaTemporariaLarva2.jpg",
+  "games": [
+   "kitaran"
+  ],
+  "shows": "Berudu",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "life/froglet",
+  "file": "Young frog.jpg",
+  "games": [
+   "kitaran"
+  ],
+  "shows": "Katak muda",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "life/frogspawn",
+  "file": "Frogspawn in a Paignton Pond.jpg",
+  "games": [
+   "kitaran"
+  ],
+  "shows": "Telur katak",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "life/eagle",
+  "file": "Haliastur indus 136698204.jpg",
+  "games": [
+   "rantai"
+  ],
+  "shows": "Helang merah",
+  "kind": "photo",
+  "make": "tile:168@55,42"
+ },
+ {
+  "key": "life/phytoplankton",
+  "file": "Mixed phytoplankton community 2.png",
+  "games": [
+   "rantai"
+  ],
+  "shows": "Fitoplankton di bawah mikroskop",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "life/zooplankton",
+  "file": "Mixed zooplankton sample.jpg",
+  "games": [
+   "rantai"
+  ],
+  "shows": "Zooplankton",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "life/shrimp",
+  "file": "Palaemon serratus Croazia.jpg",
+  "games": [
+   "rantai"
+  ],
+  "shows": "Udang",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "life/fish",
+  "file": "Rastrelliger kanagurta JNC2855.JPG",
+  "games": [
+   "rantai"
+  ],
+  "shows": "Ikan kembung",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "life/shark",
+  "file": "Corl0207 (28225976491).jpg",
+  "games": [
+   "rantai"
+  ],
+  "shows": "Jerung",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "life/caterpillar",
+  "file": "Chenille de Grand porte queue (macaon).jpg",
+  "games": [
+   "rantai",
+   "kitaran"
+  ],
+  "shows": "Ulat beluncas",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "life/pupa",
+  "file": "Cetoine global.jpg",
+  "games": [
+   "kitaran"
+  ],
+  "shows": "Kepompong",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "life/butterfly",
+  "file": "Fesoj - Papilio machaon (by).jpg",
+  "games": [
+   "rantai",
+   "kitaran"
+  ],
+  "shows": "Rama-rama",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "life/chicken",
+  "file": "Male and female chicken sitting together.jpg",
+  "games": [
+   "rantai",
+   "kitaran"
+  ],
+  "shows": "Ayam",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "life/egg",
+  "file": "Chicken egg 2009-06-04.jpg",
+  "games": [
+   "kitaran"
+  ],
+  "shows": "Telur ayam",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "life/seed",
+  "file": "Разнообразие семян.jpg",
+  "games": [
+   "kitaran"
+  ],
+  "shows": "Biji benih",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "life/seedling",
+  "file": "Sunflower seedlings.jpg",
+  "games": [
+   "kitaran"
+  ],
+  "shows": "Anak benih bercambah",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "life/tree",
+  "file": "Usamljeni jasen - panoramio (cropped).jpg",
+  "games": [
+   "rantai",
+   "kitaran"
+  ],
+  "shows": "Pokok",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "life/flower",
+  "file": "Hibiscus Brilliant.jpg",
+  "games": [
+   "kitaran"
+  ],
+  "shows": "Bunga raya",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "life/fruit",
+  "file": "Fruit Platter- Seasonal Fruits.jpg",
+  "games": [
+   "kitaran"
+  ],
+  "shows": "Buah-buahan",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "life/leaf",
+  "file": "Lisc lipy.jpg",
+  "games": [
+   "rantai"
+  ],
+  "shows": "Daun",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "life/owl",
+  "file": "American Barn Owl (Tyto furcata guatemalae), Orange Walk.jpg",
+  "games": [
+   "rantai"
+  ],
+  "shows": "Burung hantu",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "life/tiger",
+  "file": "Bengal tiger (Panthera tigris tigris) female 3 crop.jpg",
+  "games": [
+   "rantai"
+  ],
+  "shows": "Harimau",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "life/worm",
+  "file": "Eisenia foetida R.H. (8).JPG",
+  "games": [
+   "rantai"
+  ],
+  "shows": "Cacing tanah",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "life/mushroom",
+  "file": "Sparrige Schüppling (Pholiota squarrosa).jpg",
+  "games": [
+   "rantai"
+  ],
+  "shows": "Cendawan",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "life/lizard",
+  "file": "Hemidactylus platyurus (Flat-tailed House Gecko) on white background, focus stacking.jpg",
+  "games": [
+   "rantai"
+  ],
+  "shows": "Cicak",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "life/spider",
+  "file": "Araneus diadematus (Clerck, 1757).JPG",
+  "games": [
+   "rantai"
+  ],
+  "shows": "Labah-labah",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "life/ant",
+  "file": "Red Ant - March 2025.jpg",
+  "games": [
+   "rantai"
+  ],
+  "shows": "Semut",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "life/bee",
+  "file": "Tetragonula carbonaria (14521993792).jpg",
+  "games": [
+   "rantai"
+  ],
+  "shows": "Lebah",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "life/crab",
+  "file": "Cancer pagurus.jpg",
+  "games": [
+   "rantai"
+  ],
+  "shows": "Ketam",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "life/squid",
+  "file": "Sepioteuthis sepioidea (Caribbean Reef Squid).jpg",
+  "games": [
+   "rantai"
+  ],
+  "shows": "Sotong",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "life/turtle",
+  "file": "Chelonia mydas is going for the air edit.jpg",
+  "games": [
+   "rantai"
+  ],
+  "shows": "Penyu",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "life/seaweed",
+  "file": "Fucus serratus 2015-09-08 ag M0010140.jpg",
+  "games": [
+   "rantai"
+  ],
+  "shows": "Rumpai laut",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "life/rabbit",
+  "file": "Oryctolagus cuniculus Rcdo.jpg",
+  "games": [
+   "rantai"
+  ],
+  "shows": "Arnab",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "life/goat",
+  "file": "Hausziege 04.jpg",
+  "games": [
+   "rantai"
+  ],
+  "shows": "Kambing",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "life/cow",
+  "file": "Cow (Fleckvieh breed) Oeschinensee Slaunger 2009-07-07.jpg",
+  "games": [
+   "rantai"
+  ],
+  "shows": "Lembu",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "life/lion",
+  "file": "020 The lion king Snyggve in the Serengeti National Park Photo by Giles Laurent.jpg",
+  "games": [
+   "rantai"
+  ],
+  "shows": "Singa",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "life/crocodile",
+  "file": "Nile crocodile head.jpg",
+  "games": [
+   "rantai"
+  ],
+  "shows": "Buaya",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "life/dragonfly",
+  "file": "Red grasshawk (Neurothemis fluctuans) male Phuket 2.jpg",
+  "games": [
+   "rantai"
+  ],
+  "shows": "Pepatung",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "life/bat",
+  "file": "Big-eared-townsend-fledermaus.jpg",
+  "games": [
+   "rantai"
+  ],
+  "shows": "Kelawar",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "cycle/evaporation",
+  "file": "Watervapor cup.jpg",
+  "games": [
+   "kitaran"
+  ],
+  "shows": "Sejatan: wap naik dari air panas",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "cycle/cloud",
+  "file": "GoldenMedows.jpg",
+  "games": [
+   "kitaran"
+  ],
+  "shows": "Awan kumulus (kondensasi)",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "cycle/rain",
+  "file": "Hard rain on a roof.jpg",
+  "games": [
+   "kitaran"
+  ],
+  "shows": "Hujan (kerpasan)",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "cycle/river",
+  "file": "Pirogue running on the Mekong at golden hour between Don Det and Don Khon Laos.jpg",
+  "games": [
+   "kitaran"
+  ],
+  "shows": "Sungai mengalir ke laut",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "cycle/sea",
+  "file": "Drone view of ocean waves (Unsplash).jpg",
+  "games": [
+   "kitaran",
+   "rantai"
+  ],
+  "shows": "Laut",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "scene/paddy",
+  "file": "Pana Banaue Rice Terraces (Cropped).jpg",
+  "games": [
+   "rantai"
+  ],
+  "shows": "Sawah padi bertingkat",
+  "kind": "photo",
+  "make": "cover:960x560"
+ },
+ {
+  "key": "moon/new",
+  "file": "Moon nearside LRO.jpg",
+  "games": [
+   "kitaran"
+  ],
+  "shows": "Bulan baru: bahagian bercahaya dilukis pada mozek LRO",
+  "kind": "visualisation",
+  "make": "phase:200@0.0"
+ },
+ {
+  "key": "moon/crescent",
+  "file": "Moon nearside LRO.jpg",
+  "games": [
+   "kitaran"
+  ],
+  "shows": "Bulan sabit: bahagian bercahaya dilukis pada mozek LRO",
+  "kind": "visualisation",
+  "make": "phase:200@0.2"
+ },
+ {
+  "key": "moon/quarter",
+  "file": "Moon nearside LRO.jpg",
+  "games": [
+   "kitaran"
+  ],
+  "shows": "Bulan separa (suku pertama): bahagian bercahaya dilukis pada mozek LRO",
+  "kind": "visualisation",
+  "make": "phase:200@0.5"
+ },
+ {
+  "key": "moon/full",
+  "file": "Moon nearside LRO.jpg",
+  "games": [
+   "kitaran"
+  ],
+  "shows": "Bulan purnama: bahagian bercahaya dilukis pada mozek LRO",
+  "kind": "visualisation",
+  "make": "phase:200@1.0"
+ }
+]

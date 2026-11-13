@@ -8,6 +8,7 @@
 <script lang="ts">
 	import { diagramOf, diagramUrl } from '$lib/diagrams';
 	import Sticker from '$ui/Sticker.svelte';
+	import GameImage from './GameImage.svelte';
 	import { dragTap } from '$lib/questions/drag';
 	import Checks from './Checks.svelte';
 	import Mark from './Mark.svelte';
@@ -26,6 +27,13 @@
 	const tray = $derived(labels.filter((l) => !Object.values(map).includes(l.id)));
 	let lit = $state<string | null>(null);
 
+	// Mikroskop: the specimen starts out of focus, as it does on a real stage. The focus knob brings it
+	// sharp; where "sharp" is differs from one question to the next. Labels go on once it can be seen.
+	const sharpAt = $derived(28 + ([...p.question.id].reduce((sum, ch) => sum + ch.charCodeAt(0), 0) % 46));
+	let focus = $state(6);
+	const blur = $derived(skin === 'scope' && !locked ? Math.max(0, Math.abs(focus - sharpAt) - 4) : 0);
+	const sharp = $derived(blur === 0);
+
 	function drop(label: string, zone: string) {
 		if (zone.startsWith('s-')) pairs.set(zone.slice(2), label);
 		else if (zone === 'tray') {
@@ -37,20 +45,30 @@
 		if (locked || !pairs.picked) return;
 		pairs.set(spot, pairs.picked);
 	}
-	const LOOK = { plain: '', xray: 'Imbasan X-ray', scope: 'Kanta 400×', parchment: 'Peta lama' };
+	// Down the eyepiece a drawing sits whole inside the round field. A photograph taken through a microscope
+	// fills the field instead, as it would, as long as every place to label is still inside the circle.
+	const scopeWidth = $derived.by(() => {
+		if (!d) return 78;
+		const whole = d.w >= d.h ? 78 : (78 * d.w) / d.h;
+		if (!d.photo) return whole;
+		const wide = Math.max(100, (100 * d.w) / d.h);
+		const tall = (wide * d.h) / d.w;
+		const inside = spots.every((s) => Math.hypot(((s.x - 50) * wide) / 100, ((s.y - 50) * tall) / 100) <= 43);
+		return inside ? wide : whole;
+	});
+	const LOOK = { plain: '', xray: 'Imbasan X-ray', scope: 'Pembesaran 400×', parchment: 'Peta lama' };
 </script>
 
 <div class="board {skin}" class:picking={!!pairs.picked}>
 	<div class="view">
-		{#if skin === 'scope'}<span class="knob" aria-hidden="true"></span>{/if}
 		{#if skin === 'parchment'}<span class="rose" aria-hidden="true"><Sticker key="kompas" size={44} alt="" /></span>{/if}
 		{#if LOOK[skin]}<span class="tag">{LOOK[skin]}</span>{/if}
 		<div class="frame" style:width={d && skin !== 'scope' ? `min(100%, 30rem, calc(58vh * ${d.w} / ${d.h}))` : undefined}>
 			<!-- the picture's own box: the pins are placed in it, so they sit on the parts however it is framed -->
-			<div class="stage" style:aspect-ratio={d ? `${d.w} / ${d.h}` : '4 / 3'} style:width={skin === 'scope' && d ? `${d.w >= d.h ? 78 : (78 * d.w) / d.h}%` : '100%'}>
+			<div class="stage" style:aspect-ratio={d ? `${d.w} / ${d.h}` : '4 / 3'} style:width={skin === 'scope' && d ? `${scopeWidth}%` : '100%'} style:filter={blur ? `blur(${Math.min(10, blur / 3.2).toFixed(1)}px)` : undefined}>
 			{#if d}<img src={diagramUrl(d.key)} alt="Rajah untuk dilabel" draggable="false" />{/if}
 			{#if skin === 'xray'}<span class="scan" aria-hidden="true"></span>{/if}
-			{#each spots as spot, i (spot.id)}
+			{#each sharp ? spots : [] as spot, i (spot.id)}
 				{@const placed = map[spot.id]}
 				{@const ok = right ? right[spot.id] === placed : null}
 				<!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
@@ -72,6 +90,18 @@
 		</div>
 	</div>
 
+	{#if skin === 'scope' && !locked}
+		<div class="rig" class:sharp>
+			<span class="instrument" aria-hidden="true"><GameImage name="micro/scope" eager /></span>
+			<label class="focus">
+				<span>Tombol fokus {sharp ? '· imej jelas' : ''}</span>
+				<input type="range" min="0" max="100" step="1" bind:value={focus} aria-label="Tombol fokus mikroskop" />
+				<small>{sharp ? 'Sel sudah jelas. Sekarang labelkan bahagiannya.' : 'Pusing tombol sehingga sel kelihatan jelas.'}</small>
+			</label>
+		</div>
+	{/if}
+
+	{#if sharp}
 	<ol class="lines">
 		{#each spots as spot, i (spot.id)}
 			{@const placed = map[spot.id]}
@@ -129,6 +159,7 @@
 			onreset={() => pairs.clear()}
 			oncheck={() => p.onanswer?.(pairs.map)}
 		/>
+	{/if}
 	{/if}
 </div>
 
@@ -368,19 +399,82 @@
 		box-shadow:
 			inset 0 0 30px rgb(0 0 0 / 0.45),
 			0 0 0 4px #1d1f24;
-		animation: focus 1.1s var(--ease-out, ease-out) both;
 	}
-
-	.knob {
-		position: absolute;
-		right: 0.6rem;
-		top: 50%;
-		width: 1.1rem;
-		height: 3.4rem;
-		translate: 0 -50%;
-		border-radius: 6px;
-		background: repeating-linear-gradient(180deg, #6b6f7a 0 3px, #4a4e57 3px 6px);
-		box-shadow: inset -2px 0 0 rgb(0 0 0 / 0.3);
+	.scope .stage {
+		transition: filter 0.12s linear;
+	}
+	/* the instrument and its focus knob */
+	.rig {
+		display: flex;
+		align-items: center;
+		gap: 0.8rem;
+		padding: 0.5rem 0.8rem 0.5rem 0.5rem;
+		border-radius: var(--r-md);
+		background: linear-gradient(180deg, #f3f5f8, #dfe4ea);
+		box-shadow: inset 0 0 0 2px #c5ccd6;
+	}
+	.instrument {
+		flex: none;
+		width: 3.6rem;
+	}
+	.instrument :global(img) {
+		width: 100%;
+		filter: drop-shadow(0 3px 4px rgb(0 0 0 / 0.3));
+	}
+	.focus {
+		display: grid;
+		flex: 1;
+		min-width: 0;
+		gap: 0.2rem;
+		color: #2c3540;
+		font: 700 0.85rem var(--font-display);
+	}
+	.focus small {
+		color: #5a6572;
+		font: 600 0.78rem/1.3 var(--font-body);
+	}
+	.rig.sharp .focus span {
+		color: #0f7a55;
+	}
+	/* a knurled metal knob on a slotted track */
+	.focus input {
+		width: 100%;
+		height: 2.6rem;
+		margin: 0;
+		background: transparent;
+		appearance: none;
+		-webkit-appearance: none;
+		touch-action: pan-y;
+		cursor: ew-resize;
+	}
+	.focus input::-webkit-slider-runnable-track {
+		height: 0.55rem;
+		border-radius: 999px;
+		background: linear-gradient(180deg, #7d8694, #aab3c0);
+		box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.4);
+	}
+	.focus input::-moz-range-track {
+		height: 0.55rem;
+		border-radius: 999px;
+		background: linear-gradient(180deg, #7d8694, #aab3c0);
+	}
+	.focus input::-webkit-slider-thumb {
+		width: 2.2rem;
+		height: 2.2rem;
+		margin-top: -0.85rem;
+		border: 2px solid #23272f;
+		border-radius: 50%;
+		background: repeating-conic-gradient(#4a4f5a 0 9deg, #7c8492 9deg 18deg);
+		box-shadow: 0 2px 5px rgb(0 0 0 / 0.4);
+		appearance: none;
+		-webkit-appearance: none;
+	}
+	.focus input::-moz-range-thumb {
+		width: 2.2rem;
+		height: 2.2rem;
+		border: 2px solid #23272f;
+		border-radius: 50%;
+		background: repeating-conic-gradient(#4a4f5a 0 9deg, #7c8492 9deg 18deg);
 	}
 
 	/* Peta Nusantara: an old map */
@@ -446,20 +540,9 @@
 			top: 100%;
 		}
 	}
-	@keyframes focus {
-		from {
-			filter: blur(6px);
-			transform: scale(0.92);
-		}
-		to {
-			filter: none;
-			transform: none;
-		}
-	}
 	@media (prefers-reduced-motion: reduce) {
 		.scan,
-		.picking .pin,
-		.scope .frame {
+		.picking .pin {
 			animation: none;
 		}
 	}

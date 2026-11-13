@@ -5,21 +5,30 @@
 -->
 <script lang="ts">
 	import Sticker from '$ui/Sticker.svelte';
+	import GameImage from '../GameImage.svelte';
 	import SortPlay, { type SortView } from '../SortPlay.svelte';
 	import SortedThing from '../SortedThing.svelte';
+	import { find, stateOfGroup } from '../assets';
 	import type { GameProps } from '../kit.svelte';
 
 	let p: GameProps = $props();
 
-	const stateOf = (name: string, i: number): 'pepejal' | 'cecair' | 'gas' =>
-		/pepejal|solid/i.test(name) ? 'pepejal' : /cecair|liquid/i.test(name) ? 'cecair' : /gas|wap/i.test(name) ? 'gas' : (['pepejal', 'cecair', 'gas'] as const)[i % 3];
+	// A jar shows the state its group names. The server gives this game only to groups that are states of
+	// matter; a group that is not is drawn as a plain jar, never as a state it is not.
+	const stateOf = (name: string): 'pepejal' | 'cecair' | 'gas' | 'plain' => stateOfGroup(name) ?? 'plain';
+	const photo = (text: string) => find('materials', text)?.key;
+	const EXAMPLE = { pepejal: 'mat/ice', cecair: 'mat/water', gas: 'mat/steam', plain: null };
 </script>
 
-<SortPlay {p} pool="Bahan" tip="Masukkan setiap bahan ke dalam balang yang betul.">
+<SortPlay {p} pool="Bahan" tip="Masukkan setiap bahan ke dalam balang keadaan jirimnya.">
+	{#snippet card(item)}
+		<span class="mini"><GameImage name={photo(item.text)} fit="cover">{#snippet fallback()}{#if item.sticker}<Sticker key={item.sticker} size={38} alt="" />{/if}{/snippet}</GameImage></span>
+		<span>{item.text}</span>
+	{/snippet}
 	{#snippet board(v: SortView)}
 		<div class="shelf" style:--n={v.groups.length}>
 			{#each v.groups as g, i (g.id)}
-				{@const kind = stateOf(g.name, i)}
+				{@const kind = stateOf(g.name)}
 				<!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
 				<div class="jar {kind}" data-zone={v.zone(g.id)} onclick={() => v.tapGroup(g.id)}>
 					<span class="lid" aria-hidden="true"></span>
@@ -29,9 +38,12 @@
 						{#if kind === 'gas'}{#each [0, 1, 2, 3, 4] as b (b)}<i class="bubble" style:--b={b}></i>{/each}{/if}
 					</span>
 					<div class="things">
-						{#each v.inside(g.id) as item (item.id)}<SortedThing {v} {item} group={g.id} size={26} />{/each}
+						{#each v.inside(g.id) as item (item.id)}<SortedThing {v} {item} group={g.id} size={28} photo={photo(item.text)} />{/each}
 					</div>
-					<h4>{#if g.sticker}<Sticker key={g.sticker} size={24} alt="" />{/if}{g.name}</h4>
+					<h4>
+						{#if EXAMPLE[kind]}<span class="eg"><GameImage name={EXAMPLE[kind]} fit="cover" /></span>{:else if g.sticker}<Sticker key={g.sticker} size={24} alt="" />{/if}
+						<span>{g.name}</span>
+					</h4>
 				</div>
 			{/each}
 		</div>
@@ -39,6 +51,34 @@
 </SortPlay>
 
 <style>
+	.eg {
+		display: inline-grid;
+		flex: none;
+		width: 1.35rem;
+		height: 1.35rem;
+		overflow: hidden;
+		border-radius: 50%;
+		box-shadow: 0 0 0 2px #fff;
+	}
+	.eg :global(img.g-img) {
+		width: 100%;
+		height: 100%;
+	}
+	.mini {
+		display: grid;
+		place-items: center;
+		flex: none;
+		width: 2.6rem;
+		height: 2.6rem;
+		overflow: hidden;
+		border-radius: 0.6rem;
+		background: #fff;
+		box-shadow: 0 0 0 1px #e7dccb;
+	}
+	.mini :global(img.g-img) {
+		width: 100%;
+		height: 100%;
+	}
 	.shelf {
 		display: grid;
 		grid-template-columns: repeat(var(--n), minmax(0, 1fr));

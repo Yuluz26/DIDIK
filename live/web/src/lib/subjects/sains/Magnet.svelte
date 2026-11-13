@@ -4,32 +4,45 @@
 -->
 <script lang="ts">
 	import Sticker from '$ui/Sticker.svelte';
+	import GameImage from '../GameImage.svelte';
 	import SortPlay, { type SortView } from '../SortPlay.svelte';
 	import SortedThing from '../SortedThing.svelte';
+	import { find, pulls, type Entry } from '../assets';
 	import type { GameProps } from '../kit.svelte';
 
 	let p: GameProps = $props();
+
+	interface Material extends Entry {
+		magnetic: boolean | null;
+	}
+	const material = (text: string) => find<Material>('materials', text);
+	// the magnet's side is the group whose name says "pulled by a magnet" (else the first)
+	const pullId = $derived((p.question.groups ?? []).find((g) => pulls(g.name) === true)?.id ?? p.question.groups?.[0]?.id);
 </script>
 
-<SortPlay {p} pool="Benda" tip="Bawa setiap benda ke magnet atau ke dulang.">
+<SortPlay {p} pool="Benda" tip="Bawa setiap benda ke magnet atau ke dulang. Magnet hanya menarik bahan tertentu.">
+	{#snippet card(item)}
+		<span class="mini"><GameImage name={material(item.text)?.key} fit="cover">{#snippet fallback()}{#if item.sticker}<Sticker key={item.sticker} size={38} alt="" />{/if}{/snippet}</GameImage></span>
+		<span>{item.text}</span>
+	{/snippet}
 	{#snippet board(v: SortView)}
-		{@const [pull, ...rest] = v.groups}
+		{@const pull = v.groups.find((g) => g.id === pullId)}
+		{@const rest = v.groups.filter((g) => g.id !== pullId)}
 		<div class="lab">
 			{#if pull}
 				<!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
 				<div class="field" data-zone={v.zone(pull.id)} onclick={() => v.tapGroup(pull.id)}>
-					<svg class="lines" viewBox="0 0 200 120" aria-hidden="true">
-						{#each [20, 34, 48] as r (r)}
-							<path d="M {70 - r * 0.2} 110 C {70 - r} {40 - r * 0.6}, {130 + r} {40 - r * 0.6}, {130 + r * 0.2} 110" />
-						{/each}
-					</svg>
-					<div class="horseshoe" class:buzz={v.allRight} aria-hidden="true">
-						<span class="arm l"><b>U</b></span>
-						<span class="arm r"><b>S</b></span>
-					</div>
+					<span class="magnet" aria-hidden="true"><GameImage name="magnet/field" eager /></span>
 					<h4>{pull.name}</h4>
 					<div class="stuck">
-						{#each v.inside(pull.id) as item (item.id)}<SortedThing {v} {item} group={pull.id} />{/each}
+						{#each v.inside(pull.id) as item (item.id)}
+							{@const held = material(item.text)?.magnetic}
+							<!-- once the answer is in, the magnet does what a magnet does: it holds iron and steel, and lets the rest fall -->
+							<span class="on-magnet" class:falls={v.locked && held === false} class:holds={v.locked && held === true}>
+								<SortedThing {v} {item} group={pull.id} photo={material(item.text)?.key} />
+								{#if v.locked && held != null}<small>{held ? 'melekat' : 'jatuh: tidak ditarik'}</small>{/if}
+							</span>
+						{/each}
 					</div>
 				</div>
 			{/if}
@@ -39,7 +52,7 @@
 					<div class="tray" data-zone={v.zone(g.id)} onclick={() => v.tapGroup(g.id)}>
 						<h4>{#if g.sticker}<Sticker key={g.sticker} size={26} alt="" />{/if}{g.name}</h4>
 						<div class="stuck">
-							{#each v.inside(g.id) as item (item.id)}<SortedThing {v} {item} group={g.id} />{/each}
+							{#each v.inside(g.id) as item (item.id)}<SortedThing {v} {item} group={g.id} photo={material(item.text)?.key} />{/each}
 						</div>
 					</div>
 				{/each}
@@ -49,6 +62,62 @@
 </SortPlay>
 
 <style>
+	/* the real picture of a horseshoe magnet's field */
+	.magnet {
+		display: block;
+		width: min(100%, 15rem);
+		margin: 0 auto 0.3rem;
+		overflow: hidden;
+		border-radius: 0.8rem;
+		background: #fff;
+		box-shadow: 0 4px 10px rgb(0 0 0 / 0.18);
+	}
+	.magnet :global(img) {
+		width: 100%;
+	}
+	.on-magnet {
+		display: inline-grid;
+		justify-items: center;
+		gap: 0.1rem;
+		transition:
+			transform 0.5s cubic-bezier(0.4, 0, 0.8, 0.4),
+			opacity 0.5s;
+	}
+	.on-magnet small {
+		padding: 0 0.4rem;
+		border-radius: 999px;
+		background: #e7f6ec;
+		color: #17613f;
+		font: 800 0.66rem/1.5 var(--font-body);
+	}
+	.on-magnet.falls {
+		transform: translateY(0.9rem) rotate(7deg);
+		opacity: 0.75;
+	}
+	.on-magnet.falls small {
+		background: #eef0f3;
+		color: #55606e;
+	}
+	.mini {
+		display: grid;
+		place-items: center;
+		flex: none;
+		width: 2.6rem;
+		height: 2.6rem;
+		overflow: hidden;
+		border-radius: 0.6rem;
+		background: #fff;
+		box-shadow: 0 0 0 1px #e7dccb;
+	}
+	.mini :global(img.g-img) {
+		width: 100%;
+		height: 100%;
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.on-magnet {
+			transition: none;
+		}
+	}
 	.lab {
 		display: grid;
 		gap: 0.6rem;
