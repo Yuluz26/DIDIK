@@ -9,13 +9,16 @@
 	import type { GameProps } from '../kit.svelte';
 
 	let p: GameProps = $props();
+	import GameImage from '../GameImage.svelte';
+	import { asset } from '../assets';
+	const PALACE = asset('hist/palace');
 </script>
 
 <OrderPlay {p} pool="Kedudukan" tip="Yang paling tinggi di puncak. Susun ke bawah.">
 	{#snippet board(v: OrderView)}
 		{@const n = v.slots.length}
-		<div class="hall" class:won={v.allRight}>
-			<span class="crown" aria-hidden="true"><Sticker key="mahkota" size={58} alt="" /></span>
+		<div class="hall" class:won={v.allRight} style:--palace={PALACE ? `url(${PALACE.src})` : 'none'}>
+			<span class="throne" aria-hidden="true"><GameImage name="hist/throne" eager fit="cover" /></span>
 			<ol class="pyramid">
 				{#each v.slots as id, i (i)}
 					{@const ok = v.ok(i)}
@@ -37,6 +40,26 @@
 </OrderPlay>
 
 <style>
+	.hall {
+		background-image: linear-gradient(rgb(60 10 20 / 0.82), rgb(40 6 14 / 0.9)), var(--palace) !important;
+		background-size: cover !important;
+		background-position: center !important;
+	}
+	/* the throne at the top of the court */
+	.throne {
+		display: block;
+		width: 4.4rem;
+		height: 4.4rem;
+		margin: 0 auto 0.4rem;
+		overflow: hidden;
+		border: 3px solid #e8c25a;
+		border-radius: 50%;
+		box-shadow: 0 0 0 3px #5a0f1d, 0 6px 14px rgb(0 0 0 / 0.45);
+	}
+	.throne :global(img.g-img) {
+		width: 100%;
+		height: 100%;
+	}
 	.hall {
 		display: grid;
 		justify-items: center;

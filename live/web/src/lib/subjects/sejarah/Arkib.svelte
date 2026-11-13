@@ -25,9 +25,12 @@
 		play('kick');
 	}
 	const ref = Math.floor(1000 + Math.random() * 8999);
+	import { asset } from '../assets';
+	// the archive's shelves of files behind the desk
+	const SHELVES = asset('hist/archive');
 </script>
 
-<div class="desk">
+<div class="desk" style:--shelves={SHELVES ? `url(${SHELVES.src})` : 'none'}>
 	<div class="card" data-zone="card">
 		<p class="head">ARKIB NEGARA · FAIL {ref}</p>
 		<p class="text">{p.question.prompt}</p>
@@ -65,6 +68,11 @@
 {/if}
 
 <style>
+	.desk {
+		background-image: linear-gradient(rgb(40 30 20 / 0.55), rgb(60 40 20 / 0.75)), var(--shelves) !important;
+		background-size: cover !important;
+		background-position: center !important;
+	}
 	.desk {
 		display: grid;
 		gap: 0.8rem;

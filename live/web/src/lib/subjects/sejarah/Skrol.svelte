@@ -48,9 +48,12 @@
 		seals = next;
 		play('tap');
 	}
+	import { asset } from '../assets';
+	// a real skin of parchment, under the writing
+	const SKIN = asset('hist/parchment');
 </script>
 
-<div class="scroll">
+<div class="scroll" style:--skin={SKIN ? `url(${SKIN.src})` : 'none'}>
 	<span class="rod" aria-hidden="true"></span>
 	<div class="parchment">
 		<p class="text">
@@ -115,6 +118,11 @@
 {/if}
 
 <style>
+	.parchment {
+		background-image: linear-gradient(rgb(250 236 200 / 0.72), rgb(240 220 170 / 0.72)), var(--skin) !important;
+		background-size: cover !important;
+		background-position: center !important;
+	}
 	.scroll {
 		display: grid;
 		justify-items: center;

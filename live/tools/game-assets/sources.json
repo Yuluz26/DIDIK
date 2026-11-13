@@ -1176,5 +1176,645 @@
   "shows": "Bulan purnama: bahagian bercahaya dilukis pada mozek LRO",
   "kind": "visualisation",
   "make": "phase:200@1.0"
+ },
+ {
+  "key": "hist/kris",
+  "file": "Javaanse kris, AK-MAK-318.jpg",
+  "games": [
+   "gali",
+   "muzium"
+  ],
+  "shows": "Keris dan sarungnya",
+  "kind": "historic",
+  "make": "cut:200"
+ },
+ {
+  "key": "hist/jar",
+  "file": "Pots and Shades.JPG",
+  "games": [
+   "gali",
+   "muzium"
+  ],
+  "shows": "Tempayan Martaban",
+  "kind": "historic",
+  "make": "tile:168"
+ },
+ {
+  "key": "hist/handaxe",
+  "file": "Handaxe by John Frere.png",
+  "games": [
+   "gali",
+   "muzium"
+  ],
+  "shows": "Kapak tangan batu zaman prasejarah",
+  "kind": "historic",
+  "make": "cut:200"
+ },
+ {
+  "key": "hist/drum",
+  "file": "Tambour-song-da2.jpg",
+  "games": [
+   "gali",
+   "muzium"
+  ],
+  "shows": "Gendang gangsa Dong Son",
+  "kind": "historic",
+  "make": "tile:168"
+ },
+ {
+  "key": "hist/bujang-statue",
+  "file": "Muzium Negara KL19b.JPG",
+  "games": [
+   "gali",
+   "muzium"
+  ],
+  "shows": "Arca dari Lembah Bujang",
+  "kind": "historic",
+  "make": "tile:168"
+ },
+ {
+  "key": "hist/inscription",
+  "file": "KlMuseumBatuBersurat.jpg",
+  "games": [
+   "gali",
+   "muzium",
+   "skrol"
+  ],
+  "shows": "Batu Bersurat Terengganu",
+  "kind": "historic",
+  "make": "tile:168"
+ },
+ {
+  "key": "hist/soil",
+  "file": "1555 - Keramikos archaeological area, Athens - Stratigraphy - Photo by Giovanni Dall'Orto, Nov 12 2009.jpg",
+  "games": [
+   "gali"
+  ],
+  "shows": "Lapisan tanah tapak arkeologi",
+  "kind": "photo",
+  "make": "cover:900x520"
+ },
+ {
+  "key": "hist/trowel",
+  "file": "Masons trowel.jpg",
+  "games": [
+   "gali"
+  ],
+  "shows": "Kulir (sudip) ahli arkeologi",
+  "kind": "photo",
+  "make": "cut:220"
+ },
+ {
+  "key": "hist/niah",
+  "file": "The main entrance to the Niah Caves at sunset..jpg",
+  "games": [
+   "gali",
+   "garismasa"
+  ],
+  "shows": "Mulut Gua Niah, Sarawak",
+  "kind": "photo",
+  "make": "cover:900x520"
+ },
+ {
+  "key": "hist/palace",
+  "file": "Malacca Sultanate Palace.JPG",
+  "games": [
+   "empayar",
+   "istana"
+  ],
+  "shows": "Muzium Istana Kesultanan Melaka (binaan semula)",
+  "kind": "photo",
+  "make": "cover:960x560"
+ },
+ {
+  "key": "hist/throne",
+  "file": "Gamla Stan, Södermalm, Stockholm, Sweden - panoramio (225).jpg",
+  "games": [
+   "istana"
+  ],
+  "shows": "Singgahsana istana",
+  "kind": "photo",
+  "make": "tile:300@50,55"
+ },
+ {
+  "key": "hist/afamosa",
+  "file": "A Famosa Fortress.JPG",
+  "games": [
+   "garismasa",
+   "muzium"
+  ],
+  "shows": "Kota A Famosa, Melaka",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "hist/stadthuys",
+  "file": "Malacca stadhuys1.jpg",
+  "games": [
+   "garismasa",
+   "muzium"
+  ],
+  "shows": "Bangunan Stadthuys, Melaka",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "hist/stpaul",
+  "file": "St. Paul's Church Malacca 2012.JPG",
+  "games": [
+   "garismasa",
+   "muzium"
+  ],
+  "shows": "Gereja St. Paul, Melaka",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "hist/merdeka-square",
+  "file": "Dataran Merdeka 2.jpg",
+  "games": [
+   "garismasa"
+  ],
+  "shows": "Dataran Merdeka, Kuala Lumpur",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "hist/stadium",
+  "file": "Stadium Merdeka Complete.jpg",
+  "games": [
+   "garismasa"
+  ],
+  "shows": "Stadium Merdeka",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "hist/sultan-samad",
+  "file": "Kuala Lumpur Sultan Abdul Building.jpg",
+  "games": [
+   "garismasa"
+  ],
+  "shows": "Bangunan Sultan Abdul Samad",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "hist/junk",
+  "file": "Guangzhou, Chinese Boats by Lai Afong, cа 1880.jpg",
+  "games": [
+   "pelabuhan"
+  ],
+  "shows": "Jong China (foto lama)",
+  "kind": "historic",
+  "make": "cover:600x360"
+ },
+ {
+  "key": "hist/carrack",
+  "file": "Portuguese Carracks off a Rocky Coast.jpg",
+  "games": [
+   "pelabuhan"
+  ],
+  "shows": "Kapal karak Portugis (lukisan)",
+  "kind": "historic",
+  "make": "cover:600x360"
+ },
+ {
+  "key": "hist/spice-map",
+  "file": "Silk route.jpg",
+  "games": [
+   "pelabuhan"
+  ],
+  "shows": "Laluan perdagangan rempah",
+  "kind": "visualisation",
+  "make": "cover:900x520"
+ },
+ {
+  "key": "hist/melaka-map",
+  "file": "Malacca Sultanate en.svg",
+  "games": [
+   "pelabuhan",
+   "empayar"
+  ],
+  "shows": "Peta wilayah Kesultanan Melaka",
+  "kind": "visualisation",
+  "make": "photo:700"
+ },
+ {
+  "key": "hist/silk",
+  "file": "Silk raw 01a.jpg",
+  "games": [
+   "pelabuhan"
+  ],
+  "shows": "Kain sutera",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "hist/parchment",
+  "file": "Parchment from goatskin.jpg",
+  "games": [
+   "skrol"
+  ],
+  "shows": "Kulit perkamen",
+  "kind": "photo",
+  "make": "cover:900x600@50,50"
+ },
+ {
+  "key": "hist/wax",
+  "file": "Cornelis Norbertus Gysbrechts - Quodlibet.jpg",
+  "games": [
+   "skrol"
+  ],
+  "shows": "Lilin mohor pada surat (lukisan)",
+  "kind": "historic",
+  "make": "tile:168"
+ },
+ {
+  "key": "hist/quill",
+  "file": "קלף, נוצה ודיו.jpg",
+  "games": [
+   "skrol"
+  ],
+  "shows": "Pena bulu dan skrol",
+  "kind": "photo",
+  "make": "tile:220"
+ },
+ {
+  "key": "hist/jawi",
+  "file": "Letter from William Farquhar to Sultan Muhammad Kanzul Alam, the Sultan of Brunei, dated 28 November 1819.jpg",
+  "games": [
+   "skrol",
+   "arkib"
+  ],
+  "shows": "Manuskrip bertulisan Jawi",
+  "kind": "historic",
+  "make": "cover:900x600"
+ },
+ {
+  "key": "hist/typewriter",
+  "file": "MEK II-371.jpg",
+  "games": [
+   "mesintaip"
+  ],
+  "shows": "Mesin taip Underwood",
+  "kind": "photo",
+  "make": "cut:520"
+ },
+ {
+  "key": "hist/archive",
+  "file": "Fondos archivo.jpg",
+  "games": [
+   "arkib"
+  ],
+  "shows": "Rak fail arkib",
+  "kind": "photo",
+  "make": "cover:900x520"
+ },
+ {
+  "key": "hist/clockwork",
+  "file": "Prim clockwork.jpg",
+  "games": [
+   "mesinmasa"
+  ],
+  "shows": "Jentera jam (gear dan spring)",
+  "kind": "photo",
+  "make": "tile:300"
+ },
+ {
+  "key": "hist/astrolabe",
+  "file": "Khalili Collection Islamic Art sci 0430 back.jpg",
+  "games": [
+   "mesinmasa"
+  ],
+  "shows": "Astrolab tembaga",
+  "kind": "historic",
+  "make": "cut:260"
+ },
+ {
+  "key": "hist/display",
+  "file": "Gallery of Old European Painting Campin.jpg",
+  "games": [
+   "muzium"
+  ],
+  "shows": "Almari pameran muzium",
+  "kind": "photo",
+  "make": "cover:600x800"
+ },
+ {
+  "key": "hist/museum",
+  "file": "Museo Chileno de Arte Precolombino - 2020 - 10.jpg",
+  "games": [
+   "muzium"
+  ],
+  "shows": "Bangunan muzium",
+  "kind": "photo",
+  "make": "cover:900x520"
+ },
+ {
+  "key": "isl/dunes",
+  "file": "Rub al Khali 002.JPG",
+  "games": [
+   "kafilah"
+  ],
+  "shows": "Gumuk pasir Rub' al Khali",
+  "kind": "photo",
+  "make": "cover:1200x600"
+ },
+ {
+  "key": "isl/caravan",
+  "file": "Salt transport by a camel train on Lake Assale (Karum) in Ethiopia.jpg",
+  "games": [
+   "kafilah"
+  ],
+  "shows": "Kafilah unta",
+  "kind": "photo",
+  "make": "cover:900x420"
+ },
+ {
+  "key": "isl/camel",
+  "file": "Camelus dromedarius in Nuweiba.jpg",
+  "games": [
+   "kafilah",
+   "hijrah"
+  ],
+  "shows": "Unta Arab",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "isl/datepalm",
+  "file": "Dates005.jpg",
+  "games": [
+   "kafilah"
+  ],
+  "shows": "Pokok kurma",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "isl/rug",
+  "file": "Unknown, Iran - Silk Carpet - Google Art Project (1901828).jpg",
+  "games": [
+   "solat"
+  ],
+  "shows": "Sejadah",
+  "kind": "historic",
+  "make": "cover:500x800"
+ },
+ {
+  "key": "isl/mihrab",
+  "file": "Mihrab Othmani.jpg",
+  "games": [
+   "solat"
+  ],
+  "shows": "Mihrab masjid",
+  "kind": "photo",
+  "make": "cover:700x900"
+ },
+ {
+  "key": "isl/mosque-hall",
+  "file": "Masjid e Nabawi Interior 2.jpg",
+  "games": [
+   "solat",
+   "rukun"
+  ],
+  "shows": "Dewan solat masjid",
+  "kind": "photo",
+  "make": "cover:960x560"
+ },
+ {
+  "key": "isl/salahuddin",
+  "file": "SA Blue Mosque.jpg",
+  "games": [
+   "rukun"
+  ],
+  "shows": "Masjid Sultan Salahuddin Abdul Aziz, Shah Alam",
+  "kind": "photo",
+  "make": "cover:960x560"
+ },
+ {
+  "key": "isl/putra",
+  "file": "Masjid Putra, Putrajaya, Malaysia.jpg",
+  "games": [
+   "rukun",
+   "waktu"
+  ],
+  "shows": "Masjid Putra, Putrajaya",
+  "kind": "photo",
+  "make": "cover:960x560"
+ },
+ {
+  "key": "isl/mushaf",
+  "file": "Quran-Mus'haf Al Tajweed.jpg",
+  "games": [
+   "tajwid"
+  ],
+  "shows": "Mushaf al-Quran",
+  "kind": "photo",
+  "make": "cover:900x560"
+ },
+ {
+  "key": "isl/rehal",
+  "file": "ഗ്രന്ഥപ്പലക.jpg",
+  "games": [
+   "tajwid"
+  ],
+  "shows": "Rehal kayu",
+  "kind": "photo",
+  "make": "tile:220@46,60"
+ },
+ {
+  "key": "isl/arabesque",
+  "file": "Flickr - jemasmith - Umayyad Mosque, Damascus, Detail..jpg",
+  "games": [
+   "hijaiyah"
+  ],
+  "shows": "Ukiran arabes",
+  "kind": "photo",
+  "make": "cover:900x600"
+ },
+ {
+  "key": "isl/pattern",
+  "file": "Doorway in Ben Youssef Madrasa.JPG",
+  "games": [
+   "hijaiyah",
+   "rukun"
+  ],
+  "shows": "Corak geometri Islam",
+  "kind": "photo",
+  "make": "cover:600x900"
+ },
+ {
+  "key": "isl/fanous",
+  "file": "Lanterns from below.JPG",
+  "games": [
+   "malaikat"
+  ],
+  "shows": "Tanglung (fanous)",
+  "kind": "photo",
+  "make": "tile:300"
+ },
+ {
+  "key": "isl/compass",
+  "file": "2016 Busola.JPG",
+  "games": [
+   "kiblat"
+  ],
+  "shows": "Kompas tangan",
+  "kind": "photo",
+  "make": "cut:320"
+ },
+ {
+  "key": "isl/qibla-compass",
+  "file": "Ottoman qiblanuma 1738 CE, Turkish and Islamic Arts Museum Istanbul (cropped).jpg",
+  "games": [
+   "kiblat"
+  ],
+  "shows": "Kompas kiblat lama (koleksi muzium)",
+  "kind": "historic",
+  "make": "tile:300"
+ },
+ {
+  "key": "isl/scale",
+  "file": "Balance à tabac 1850.JPG",
+  "games": [
+   "timbangan"
+  ],
+  "shows": "Neraca",
+  "kind": "photo",
+  "make": "cut:420"
+ },
+ {
+  "key": "isl/kaaba",
+  "file": "The Ka'ba, Great Mosque of Mecca, Saudi Arabia (4).jpg",
+  "games": [
+   "hijrah",
+   "kiblat"
+  ],
+  "shows": "Kaabah",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "isl/makkah",
+  "file": "Great Mosque of Mecca1.jpg",
+  "games": [
+   "hijrah"
+  ],
+  "shows": "Masjidil Haram, Makkah",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "isl/thawr",
+  "file": "Jabele thor - panoramio.jpg",
+  "games": [
+   "hijrah"
+  ],
+  "shows": "Jabal Thur (Gua Thur)",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "isl/nour",
+  "file": "Jabbal An-Nour (2024).jpg",
+  "games": [
+   "hijrah",
+   "kafilah"
+  ],
+  "shows": "Jabal Nur (Gua Hira)",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "isl/madinah",
+  "file": "Al-Masjid An-Nabawi (Bird's Eye View).jpg",
+  "games": [
+   "hijrah"
+  ],
+  "shows": "Masjid Nabawi, Madinah",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "isl/quba",
+  "file": "Quba Mosque Full Picture (2024).jpg",
+  "games": [
+   "hijrah"
+  ],
+  "shows": "Masjid Quba",
+  "kind": "photo",
+  "make": "tile:168"
+ },
+ {
+  "key": "isl/donation",
+  "file": "Donation boxes Masjid Inabah Kamal Semporna 20250628 121543.jpg",
+  "games": [
+   "zakat"
+  ],
+  "shows": "Tabung derma masjid",
+  "kind": "photo",
+  "make": "cover:500x700"
+ },
+ {
+  "key": "sky/dawn",
+  "file": "Desert Dawn.jpg",
+  "games": [
+   "waktu"
+  ],
+  "shows": "Langit fajar",
+  "kind": "photo",
+  "make": "cover:420x300"
+ },
+ {
+  "key": "sky/sunrise",
+  "file": "Spring Lake, New Jersey Beach at Sunrise.jpg",
+  "games": [
+   "waktu"
+  ],
+  "shows": "Matahari terbit",
+  "kind": "photo",
+  "make": "cover:420x300"
+ },
+ {
+  "key": "sky/noon",
+  "file": "Tea Field by Baraka.jpg",
+  "games": [
+   "waktu"
+  ],
+  "shows": "Matahari tinggi di langit tengah hari",
+  "kind": "photo",
+  "make": "cover:420x300@50,22"
+ },
+ {
+  "key": "sky/afternoon",
+  "file": "Golden Hour Timepiece.jpg",
+  "games": [
+   "waktu"
+  ],
+  "shows": "Cahaya petang",
+  "kind": "photo",
+  "make": "cover:420x300@30,40"
+ },
+ {
+  "key": "sky/sunset",
+  "file": "Full cycle of a Sunset on the high plains of the Mojave Desert.jpg",
+  "games": [
+   "waktu"
+  ],
+  "shows": "Matahari terbenam",
+  "kind": "photo",
+  "make": "cover:420x300"
+ },
+ {
+  "key": "sky/night",
+  "file": "Свет от деревни - panoramio.jpg",
+  "games": [
+   "waktu"
+  ],
+  "shows": "Langit malam",
+  "kind": "photo",
+  "make": "cover:420x300"
  }
 ]

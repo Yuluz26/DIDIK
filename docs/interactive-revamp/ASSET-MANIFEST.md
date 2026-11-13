@@ -3,23 +3,26 @@
 Written by `live/tools/game-assets/build.py` from `live/tools/game-assets/sources.json`. Do not edit by hand:
 change `sources.json` and run the script. The machine-readable copy is `live/web/static/game-assets/manifest.json`.
 
-**111 pictures, 1.6 MB in all.** Every one is hosted locally (nothing is loaded from another
+**173 pictures, 3.9 MB in all.** Every one is hosted locally (nothing is loaded from another
 site while a child plays) and comes from Wikimedia Commons, where the licence and author below were read from the
 file's own page by the build script. The script refuses any licence outside public domain, CC0, CC BY and CC BY-SA.
 
 | Licence | Pictures |
 | --- | --- |
-| Public domain | 29 |
-| CC BY-SA 3.0 | 25 |
-| CC BY-SA 4.0 | 19 |
-| CC BY 2.0 | 13 |
-| CC BY 4.0 | 7 |
-| CC BY 3.0 | 6 |
-| CC0 | 6 |
+| CC BY-SA 3.0 | 45 |
+| Public domain | 39 |
+| CC BY-SA 4.0 | 34 |
+| CC BY 2.0 | 15 |
+| CC0 | 10 |
+| CC BY 3.0 | 9 |
+| CC BY 4.0 | 8 |
+| CC BY 2.5 | 5 |
 | CC BY-SA 2.5 | 2 |
 | CC BY-SA 2.0 | 2 |
-| CC BY 2.5 | 1 |
 | CC BY-SA 3.0 fr | 1 |
+| Attribution | 1 |
+| CC BY 1.0 | 1 |
+| CC BY-SA 3.0 igo | 1 |
 
 Kinds: `observation` a real photograph or spacecraft image; `enhanced` real data in enhanced or false colour;
 `visualisation` a scientific or modern illustration; `historic` a historical artwork or photograph; `photo` an ordinary photograph.
@@ -137,3 +140,65 @@ Kinds: `observation` a real photograph or spacecraft image; `enhanced` real data
 | `moon/crescent` | kitaran | Bulan sabit: bahagian bercahaya dilukis pada mozek LRO | visualisation | Moon nearside LRO.jpg | NASA/GSFC/Arizona State University | Public domain | latar langit dibuang; fasa dilukis dengan menggelapkan bahagian yang tidak disinari |
 | `moon/quarter` | kitaran | Bulan separa (suku pertama): bahagian bercahaya dilukis pada mozek LRO | visualisation | Moon nearside LRO.jpg | NASA/GSFC/Arizona State University | Public domain | latar langit dibuang; fasa dilukis dengan menggelapkan bahagian yang tidak disinari |
 | `moon/full` | kitaran | Bulan purnama: bahagian bercahaya dilukis pada mozek LRO | visualisation | Moon nearside LRO.jpg | NASA/GSFC/Arizona State University | Public domain | latar langit dibuang; fasa dilukis dengan menggelapkan bahagian yang tidak disinari |
+| `hist/kris` | gali, muzium | Keris dan sarungnya | historic | Javaanse kris, AK-MAK-318.jpg | Rijksmuseum | CC0 | latar dibuang, dikecilkan |
+| `hist/jar` | gali, muzium | Tempayan Martaban | historic | Pots and Shades.JPG | Ignacio Malapitan III | CC BY-SA 3.0 | dipotong dan dikecilkan |
+| `hist/handaxe` | gali, muzium | Kapak tangan batu zaman prasejarah | historic | Handaxe by John Frere.png | John Frere | Public domain | latar dibuang, dikecilkan |
+| `hist/drum` | gali, muzium | Gendang gangsa Dong Son | historic | Tambour-song-da2.jpg | Own work | Public domain | dipotong dan dikecilkan |
+| `hist/bujang-statue` | gali, muzium | Arca dari Lembah Bujang | historic | Muzium Negara KL19b.JPG | Gryffindor | CC BY 3.0 | dipotong dan dikecilkan |
+| `hist/inscription` | gali, muzium, skrol | Batu Bersurat Terengganu | historic | KlMuseumBatuBersurat.jpg | Earth | CC BY 2.5 | dipotong dan dikecilkan |
+| `hist/soil` | gali | Lapisan tanah tapak arkeologi | photo | 1555 - Keramikos archaeological area, Athens - Stratigraphy - Photo by Giovanni Dall'Orto, Nov 12 2009.jpg | Giovanni Dall'Orto | Attribution | dipotong dan dikecilkan |
+| `hist/trowel` | gali | Kulir (sudip) ahli arkeologi | photo | Masons trowel.jpg | Mike Lupinacci | CC BY-SA 3.0 | latar dibuang, dikecilkan |
+| `hist/niah` | gali, garismasa | Mulut Gua Niah, Sarawak | photo | The main entrance to the Niah Caves at sunset..jpg | Starlightchild | CC BY-SA 3.0 | dipotong dan dikecilkan |
+| `hist/palace` | empayar, istana | Muzium Istana Kesultanan Melaka (binaan semula) | photo | Malacca Sultanate Palace.JPG | Adiput (talk) | Public domain | dipotong dan dikecilkan |
+| `hist/throne` | istana | Singgahsana istana | photo | Gamla Stan, Södermalm, Stockholm, Sweden - panoramio (225).jpg | Aaron Zhu | CC BY-SA 3.0 | dipotong dan dikecilkan |
+| `hist/afamosa` | garismasa, muzium | Kota A Famosa, Melaka | photo | A Famosa Fortress.JPG | Chongkian | CC BY-SA 4.0 | dipotong dan dikecilkan |
+| `hist/stadthuys` | garismasa, muzium | Bangunan Stadthuys, Melaka | photo | Malacca stadhuys1.jpg | User: (WT-shared) Slleong at wts wikivoyage | CC BY 1.0 | dipotong dan dikecilkan |
+| `hist/stpaul` | garismasa, muzium | Gereja St. Paul, Melaka | photo | St. Paul's Church Malacca 2012.JPG | Bjørn Christian Tørrissen | CC BY-SA 3.0 | dipotong dan dikecilkan |
+| `hist/merdeka-square` | garismasa | Dataran Merdeka, Kuala Lumpur | photo | Dataran Merdeka 2.jpg | Haakon S. Krohn | CC BY-SA 3.0 | dipotong dan dikecilkan |
+| `hist/stadium` | garismasa | Stadium Merdeka | photo | Stadium Merdeka Complete.jpg | Malaysian1966 at English Wikipedia | Public domain | dipotong dan dikecilkan |
+| `hist/sultan-samad` | garismasa | Bangunan Sultan Abdul Samad | photo | Kuala Lumpur Sultan Abdul Building.jpg | Gerold Kogler | CC BY-SA 3.0 | dipotong dan dikecilkan |
+| `hist/junk` | pelabuhan | Jong China (foto lama) | historic | Guangzhou, Chinese Boats by Lai Afong, cа 1880.jpg | Lai Afong | Public domain | dipotong dan dikecilkan |
+| `hist/carrack` | pelabuhan | Kapal karak Portugis (lukisan) | historic | Portuguese Carracks off a Rocky Coast.jpg | Unknown authorUnknown author | Public domain | dipotong dan dikecilkan |
+| `hist/spice-map` | pelabuhan | Laluan perdagangan rempah | visualisation | Silk route.jpg | Whole_world_-_land_and_oceans_12000.jpg: NASA/Goddard Space Flight Center derivative work: Splette (talk) | Public domain | dipotong dan dikecilkan |
+| `hist/melaka-map` | pelabuhan, empayar | Peta wilayah Kesultanan Melaka | visualisation | Malacca Sultanate en.svg | Gunawan Kartapranata | CC BY-SA 3.0 | dikecilkan |
+| `hist/silk` | pelabuhan | Kain sutera | photo | Silk raw 01a.jpg | Kuebi = Armin Kübelbeck | CC BY-SA 3.0 | dipotong dan dikecilkan |
+| `hist/parchment` | skrol | Kulit perkamen | photo | Parchment from goatskin.jpg | Michal Maňas | CC BY 2.5 | dipotong dan dikecilkan |
+| `hist/wax` | skrol | Lilin mohor pada surat (lukisan) | historic | Cornelis Norbertus Gysbrechts - Quodlibet.jpg | Cornelis Norbertus Gijsbrechts | Public domain | dipotong dan dikecilkan |
+| `hist/quill` | skrol | Pena bulu dan skrol | photo | קלף, נוצה ודיו.jpg | Mushki Brichta | CC BY-SA 4.0 | dipotong dan dikecilkan |
+| `hist/jawi` | skrol, arkib | Manuskrip bertulisan Jawi | historic | Letter from William Farquhar to Sultan Muhammad Kanzul Alam, the Sultan of Brunei, dated 28 November 1819.jpg | William Farquhar | Public domain | dipotong dan dikecilkan |
+| `hist/typewriter` | mesintaip | Mesin taip Underwood | photo | MEK II-371.jpg | GodeNehler | CC BY-SA 4.0 | latar dibuang, dikecilkan |
+| `hist/archive` | arkib | Rak fail arkib | photo | Fondos archivo.jpg | Archivo-FSP | CC BY-SA 3.0 | dipotong dan dikecilkan |
+| `hist/clockwork` | mesinmasa | Jentera jam (gear dan spring) | photo | Prim clockwork.jpg | Kozuch | CC BY-SA 3.0 | dipotong dan dikecilkan |
+| `hist/astrolabe` | mesinmasa | Astrolab tembaga | historic | Khalili Collection Islamic Art sci 0430 back.jpg | Khalili Collections | CC BY-SA 3.0 igo | latar dibuang, dikecilkan |
+| `hist/display` | muzium | Almari pameran muzium | photo | Gallery of Old European Painting Campin.jpg | BurgererSF | CC0 | dipotong dan dikecilkan |
+| `hist/museum` | muzium | Bangunan muzium | photo | Museo Chileno de Arte Precolombino - 2020 - 10.jpg | LuisCG11 | CC BY-SA 4.0 | dipotong dan dikecilkan |
+| `isl/dunes` | kafilah | Gumuk pasir Rub' al Khali | photo | Rub al Khali 002.JPG | Nepenthes | CC BY-SA 3.0 | dipotong dan dikecilkan |
+| `isl/caravan` | kafilah | Kafilah unta | photo | Salt transport by a camel train on Lake Assale (Karum) in Ethiopia.jpg | LeFnake | CC BY-SA 4.0 | dipotong dan dikecilkan |
+| `isl/camel` | kafilah, hijrah | Unta Arab | photo | Camelus dromedarius in Nuweiba.jpg | Florian Prischl | CC BY-SA 3.0 | dipotong dan dikecilkan |
+| `isl/datepalm` | kafilah | Pokok kurma | photo | Dates005.jpg | Nepenthes | CC BY-SA 3.0 | dipotong dan dikecilkan |
+| `isl/rug` | solat | Sejadah | historic | Unknown, Iran - Silk Carpet - Google Art Project (1901828).jpg | Unknown, Iran, 1550-1600 (Iran) | Public domain | dipotong dan dikecilkan |
+| `isl/mihrab` | solat | Mihrab masjid | photo | Mihrab Othmani.jpg | بلال الدويك | CC BY-SA 3.0 | dipotong dan dikecilkan |
+| `isl/mosque-hall` | solat, rukun | Dewan solat masjid | photo | Masjid e Nabawi Interior 2.jpg | King Eliot | CC BY-SA 4.0 | dipotong dan dikecilkan |
+| `isl/salahuddin` | rukun | Masjid Sultan Salahuddin Abdul Aziz, Shah Alam | photo | SA Blue Mosque.jpg | Lerdsuwa | CC BY-SA 3.0 | dipotong dan dikecilkan |
+| `isl/putra` | rukun, waktu | Masjid Putra, Putrajaya | photo | Masjid Putra, Putrajaya, Malaysia.jpg | iPhone | CC BY 4.0 | dipotong dan dikecilkan |
+| `isl/mushaf` | tajwid | Mushaf al-Quran | photo | Quran-Mus'haf Al Tajweed.jpg | Amr Fayez (TheEgyptian) | CC BY 2.5 | dipotong dan dikecilkan |
+| `isl/rehal` | tajwid | Rehal kayu | photo | ഗ്രന്ഥപ്പലക.jpg | Fotokannan | CC BY-SA 3.0 | dipotong dan dikecilkan |
+| `isl/arabesque` | hijaiyah | Ukiran arabes | photo | Flickr - jemasmith - Umayyad Mosque, Damascus, Detail..jpg | Jan Smith from Brisbane, Australia | CC BY 2.0 | dipotong dan dikecilkan |
+| `isl/pattern` | hijaiyah, rukun | Corak geometri Islam | photo | Doorway in Ben Youssef Madrasa.JPG | Ian Alexander | CC BY-SA 4.0 | dipotong dan dikecilkan |
+| `isl/fanous` | malaikat | Tanglung (fanous) | photo | Lanterns from below.JPG | B. Simpson Cairocamels | CC BY 3.0 | dipotong dan dikecilkan |
+| `isl/compass` | kiblat | Kompas tangan | photo | 2016 Busola.JPG | Jacek Halicki | CC BY-SA 4.0 | latar dibuang, dikecilkan |
+| `isl/qibla-compass` | kiblat | Kompas kiblat lama (koleksi muzium) | historic | Ottoman qiblanuma 1738 CE, Turkish and Islamic Arts Museum Istanbul (cropped).jpg | Own work | CC BY-SA 4.0 | dipotong dan dikecilkan |
+| `isl/scale` | timbangan | Neraca | photo | Balance à tabac 1850.JPG | Photographie personnelle User:Poussin jean | CC BY-SA 3.0 | latar dibuang, dikecilkan |
+| `isl/kaaba` | hijrah, kiblat | Kaabah | photo | The Ka'ba, Great Mosque of Mecca, Saudi Arabia (4).jpg | Richard Mortel | CC BY 2.0 | dipotong dan dikecilkan |
+| `isl/makkah` | hijrah | Masjidil Haram, Makkah | photo | Great Mosque of Mecca1.jpg | Saudipics.com | CC BY-SA 4.0 | dipotong dan dikecilkan |
+| `isl/thawr` | hijrah | Jabal Thur (Gua Thur) | photo | Jabele thor - panoramio.jpg | Abdul Razzaq Phulpot… | CC BY-SA 3.0 | dipotong dan dikecilkan |
+| `isl/nour` | hijrah, kafilah | Jabal Nur (Gua Hira) | photo | Jabbal An-Nour (2024).jpg | Kaliper1 | CC BY-SA 4.0 | dipotong dan dikecilkan |
+| `isl/madinah` | hijrah | Masjid Nabawi, Madinah | photo | Al-Masjid An-Nabawi (Bird's Eye View).jpg | Konevi | CC0 | dipotong dan dikecilkan |
+| `isl/quba` | hijrah | Masjid Quba | photo | Quba Mosque Full Picture (2024).jpg | Kaliper1 | CC BY-SA 4.0 | dipotong dan dikecilkan |
+| `isl/donation` | zakat | Tabung derma masjid | photo | Donation boxes Masjid Inabah Kamal Semporna 20250628 121543.jpg | Taufik | CC0 | dipotong dan dikecilkan |
+| `sky/dawn` | waktu | Langit fajar | photo | Desert Dawn.jpg | Jessie Eastland | CC BY-SA 4.0 | dipotong dan dikecilkan |
+| `sky/sunrise` | waktu | Matahari terbit | photo | Spring Lake, New Jersey Beach at Sunrise.jpg | Nick Harris | CC BY 2.5 | dipotong dan dikecilkan |
+| `sky/noon` | waktu | Matahari tinggi di langit tengah hari | photo | Tea Field by Baraka.jpg | TimothyBaraka | CC BY-SA 4.0 | dipotong dan dikecilkan |
+| `sky/afternoon` | waktu | Cahaya petang | photo | Golden Hour Timepiece.jpg | Eleneru | CC BY-SA 4.0 | dipotong dan dikecilkan |
+| `sky/sunset` | waktu | Matahari terbenam | photo | Full cycle of a Sunset on the high plains of the Mojave Desert.jpg | Jessie Eastland | CC BY-SA 3.0 | dipotong dan dikecilkan |
+| `sky/night` | waktu | Langit malam | photo | Свет от деревни - panoramio.jpg | Alexey Elfimov | CC BY 3.0 | dipotong dan dikecilkan |

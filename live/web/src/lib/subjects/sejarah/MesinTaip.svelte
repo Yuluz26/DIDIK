@@ -17,6 +17,7 @@
 	const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9À-ɏ]+/g, ' ').trim();
 	const ok = $derived(right !== null ? [right, ...(p.reveal?.accepted ?? [])].some((a) => norm(a) === norm(shown)) : null);
 	const max = $derived(p.question.maxLength ?? 60);
+	import GameImage from '../GameImage.svelte';
 </script>
 
 <div class="typewriter">
@@ -26,11 +27,18 @@
 		{#if ok !== null}<span class="mark"><Mark {ok} size={16} /></span>{/if}
 	</div>
 	<div class="roller" aria-hidden="true"></div>
-	<div class="body" aria-hidden="true">
-		{#each ['QWERTYUIOP', 'ASDFGHJKL', 'ZXCVBNM'] as row (row)}
-			<div class="keys">{#each row.split('') as k (k)}<span class="key">{k}</span>{/each}</div>
-		{/each}
-	</div>
+	<!-- a real Underwood typewriter; a key bar jumps as each letter is typed -->
+	<span class="machine" class:strike={!!typed && !locked} aria-hidden="true">
+		{#key typed.length}<GameImage name="hist/typewriter" eager>
+			{#snippet fallback()}
+				<span class="body">
+					{#each ['QWERTYUIOP', 'ASDFGHJKL', 'ZXCVBNM'] as row (row)}
+						<span class="keys">{#each row.split('') as k (k)}<span class="key">{k}</span>{/each}</span>
+					{/each}
+				</span>
+			{/snippet}
+		</GameImage>{/key}
+	</span>
 </div>
 {#if ok === false && right}<p class="should">Jawapan: <strong>{right}</strong></p>{/if}
 {#if !locked}
@@ -55,6 +63,28 @@
 {/if}
 
 <style>
+	.machine {
+		display: block;
+		width: min(100%, 22rem);
+		margin: -0.9rem auto 0;
+	}
+	.machine :global(img) {
+		width: 100%;
+		filter: drop-shadow(0 8px 10px rgb(0 0 0 / 0.35));
+	}
+	.machine.strike :global(img) {
+		animation: clack 0.12s ease-out;
+	}
+	@keyframes clack {
+		50% {
+			transform: translateY(2px);
+		}
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.machine.strike :global(img) {
+			animation: none;
+		}
+	}
 	.typewriter {
 		display: grid;
 		justify-items: center;

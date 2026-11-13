@@ -235,8 +235,39 @@ ELEMENTS: list[dict[str, Any]] = [
     _e("Pb", "Plumbum", 82, 14, 6, "logam lain"),
 ]
 
+
+
+def _h(key: str, words: str, name: str) -> dict[str, Any]:
+    return {"key": key, "words": words, "name": name}
+
+
+# ---------------------------------------------------------------- history (Gali, Muzium, Garis Masa, Pelabuhan)
+# Things a pupil meets in Sejarah, each with a real photograph of it or of the place it stands for.
+# A picture only illustrates: it never decides an answer, so a near match does no harm.
+HISTORY: list[dict[str, Any]] = [
+    _h("hist/kris", "keris", "Keris"),
+    _h("hist/jar", "tempayan|tembikar|pasu|seramik", "Tempayan"),
+    _h("hist/handaxe", "kapak batu|kapak tangan|alat batu|beliung|batu pemukul", "Alat batu"),
+    _h("hist/drum", "gendang gangsa|gangsa|dong son", "Gendang gangsa"),
+    _h("hist/inscription", "batu bersurat", "Batu Bersurat Terengganu"),
+    _h("hist/bujang-statue", "lembah bujang|candi|arca|kedah tua", "Lembah Bujang"),
+    _h("hist/jawi", "manuskrip|hikayat|jawi|kitab", "Manuskrip Jawi"),
+    _h("hist/niah", "gua niah|niah", "Gua Niah"),
+    _h("hist/afamosa", "a famosa|portugis|1511", "A Famosa"),
+    _h("hist/stadthuys", "belanda|stadthuys|1641", "Stadthuys"),
+    _h("hist/stpaul", "gereja st\\.? paul|bukit st\\.? paul", "Gereja St. Paul"),
+    _h("hist/stadium", "kemerdekaan|merdeka|1957", "Stadium Merdeka"),
+    _h("hist/merdeka-square", "malaysia ditubuhkan|pembentukan malaysia|1963|dataran merdeka", "Dataran Merdeka"),
+    _h("hist/sultan-samad", "british|inggeris|residen|pangkor|malayan union|persekutuan|negeri-negeri melayu bersekutu|negeri-negeri selat", "Bangunan Sultan Abdul Samad"),
+    _h("hist/palace", "kesultanan melayu melaka|kesultanan melaka|parameswara|istana|sultan mansur|melaka", "Istana Kesultanan Melaka"),
+    _h("hist/junk", "jong|pedagang china|china|cina|cheng ho|zheng he|ming", "Jong China"),
+    _h("hist/carrack", "kapal portugis|karak|pedagang eropah|eropah", "Kapal karak"),
+    _h("hist/silk", "sutera|kain", "Sutera"),
+]
+
 LEXICON: dict[str, list[dict[str, Any]]] = {
     "space": SPACE,
+    "history": HISTORY,
     "materials": MATERIALS,
     "living": LIVING,
     "stages": STAGES,

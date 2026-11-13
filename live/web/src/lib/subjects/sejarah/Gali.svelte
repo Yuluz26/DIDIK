@@ -35,9 +35,16 @@
 		play((dug[id] ?? 0) >= DEEP ? 'key' : 'dig');
 	}
 	const found = $derived(choices.filter((c) => open(c.id)).length);
+	import GameImage from '../GameImage.svelte';
+	import { asset, find } from '../assets';
+	// real excavation soil, its layers showing, under the squares
+	const SOIL = asset('hist/soil');
+	// Finds are shown as photographs only if every one has its own; a single photograph among stickers
+	// would make one answer stand out.
+	const photos = $derived(choices.every((c) => !!find('history', c.text)));
 </script>
 
-<div class="site">
+<div class="site" style:--soil={SOIL ? `url(${SOIL.src})` : 'none'}>
 	<div class="trench" style:--cols={choices.length > 4 ? 3 : 2}>
 		{#each choices as c, i (c.id)}
 			{@const depth = locked ? DEEP : (dug[c.id] ?? 0)}
@@ -55,7 +62,11 @@
 				<span class="grid-ref">{String.fromCharCode(65 + i)}{i + 1}</span>
 				{#if open(c.id)}
 					<span class="find">
-						<Sticker key={c.sticker ?? stickerFor(c.text) ?? FINDS[i % FINDS.length]} size={44} alt="" />
+						<span class="relic">
+							<GameImage name={photos ? find('history', c.text)?.key : null} fit="cover">
+								{#snippet fallback()}<Sticker key={c.sticker ?? stickerFor(c.text) ?? FINDS[i % FINDS.length]} size={44} alt="" />{/snippet}
+							</GameImage>
+						</span>
 						<span class="label">{c.text}</span>
 					</span>
 					{#if right && (pick === c.id || c.id === right)}<Mark ok={c.id === right} />{/if}
@@ -67,7 +78,7 @@
 			</button>
 		{/each}
 	</div>
-	<p class="log"><Sticker key="beliung" size={26} alt="" /> Jumpaan: <strong>{locked ? choices.length : found}</strong> / {choices.length}</p>
+	<p class="log"><span class="trowel" aria-hidden="true"><GameImage name="hist/trowel" eager /></span> Jumpaan: <strong>{locked ? choices.length : found}</strong> / {choices.length}</p>
 	{#if !locked}
 		<Checks
 			tip={chosen ? 'Artifak ditanda. Semak bila pasti.' : found ? 'Ketik artifak untuk menandanya sebagai jawapan.' : 'Ketik petak untuk menggali.'}
@@ -80,6 +91,36 @@
 </div>
 
 <style>
+	/* the trench is dug in real ground */
+	.trench {
+		background-image: linear-gradient(rgb(60 36 16 / 0.35), rgb(60 36 16 / 0.35)), var(--soil) !important;
+		background-size: cover !important;
+		background-position: center !important;
+	}
+	.relic {
+		display: grid;
+		place-items: center;
+		width: 3.4rem;
+		height: 3.4rem;
+		overflow: hidden;
+		border-radius: 0.6rem;
+		background: #f3ead8;
+		box-shadow:
+			0 0 0 2px #fff8e8,
+			0 3px 8px rgb(40 20 0 / 0.4);
+	}
+	.relic :global(img.g-img) {
+		width: 100%;
+		height: 100%;
+	}
+	.trowel {
+		display: inline-block;
+		width: 2rem;
+		vertical-align: middle;
+	}
+	.trowel :global(img) {
+		width: 100%;
+	}
 	.site {
 		display: grid;
 		gap: 0.6rem;

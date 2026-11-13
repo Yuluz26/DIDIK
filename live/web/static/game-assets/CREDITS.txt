@@ -445,3 +445,251 @@ moon/quarter.webp
 moon/full.webp
     Bulan purnama: bahagian bercahaya dilukis pada mozek LRO
     "Moon nearside LRO.jpg" by NASA/GSFC/Arizona State University. Public domain. Changes: latar langit dibuang; fasa dilukis dengan menggelapkan bahagian yang tidak disinari.
+
+hist/kris.webp
+    Keris dan sarungnya
+    "Javaanse kris, AK-MAK-318.jpg" by Rijksmuseum. CC0. Changes: latar dibuang, dikecilkan.
+
+hist/jar.webp
+    Tempayan Martaban
+    "Pots and Shades.JPG" by Ignacio Malapitan III. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+hist/handaxe.webp
+    Kapak tangan batu zaman prasejarah
+    "Handaxe by John Frere.png" by John Frere. Public domain. Changes: latar dibuang, dikecilkan.
+
+hist/drum.webp
+    Gendang gangsa Dong Son
+    "Tambour-song-da2.jpg" by Own work. Public domain. Changes: dipotong dan dikecilkan.
+
+hist/bujang-statue.webp
+    Arca dari Lembah Bujang
+    "Muzium Negara KL19b.JPG" by Gryffindor. CC BY 3.0. Changes: dipotong dan dikecilkan.
+
+hist/inscription.webp
+    Batu Bersurat Terengganu
+    "KlMuseumBatuBersurat.jpg" by Earth. CC BY 2.5. Changes: dipotong dan dikecilkan.
+
+hist/soil.webp
+    Lapisan tanah tapak arkeologi
+    "1555 - Keramikos archaeological area, Athens - Stratigraphy - Photo by Giovanni Dall'Orto, Nov 12 2009.jpg" by Giovanni Dall'Orto. Attribution. Changes: dipotong dan dikecilkan.
+
+hist/trowel.webp
+    Kulir (sudip) ahli arkeologi
+    "Masons trowel.jpg" by Mike Lupinacci. CC BY-SA 3.0. Changes: latar dibuang, dikecilkan.
+
+hist/niah.webp
+    Mulut Gua Niah, Sarawak
+    "The main entrance to the Niah Caves at sunset..jpg" by Starlightchild. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+hist/palace.webp
+    Muzium Istana Kesultanan Melaka (binaan semula)
+    "Malacca Sultanate Palace.JPG" by Adiput (talk). Public domain. Changes: dipotong dan dikecilkan.
+
+hist/throne.webp
+    Singgahsana istana
+    "Gamla Stan, Södermalm, Stockholm, Sweden - panoramio (225).jpg" by Aaron Zhu. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+hist/afamosa.webp
+    Kota A Famosa, Melaka
+    "A Famosa Fortress.JPG" by Chongkian. CC BY-SA 4.0. Changes: dipotong dan dikecilkan.
+
+hist/stadthuys.webp
+    Bangunan Stadthuys, Melaka
+    "Malacca stadhuys1.jpg" by User: (WT-shared) Slleong at wts wikivoyage. CC BY 1.0. Changes: dipotong dan dikecilkan.
+
+hist/stpaul.webp
+    Gereja St. Paul, Melaka
+    "St. Paul's Church Malacca 2012.JPG" by Bjørn Christian Tørrissen. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+hist/merdeka-square.webp
+    Dataran Merdeka, Kuala Lumpur
+    "Dataran Merdeka 2.jpg" by Haakon S. Krohn. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+hist/stadium.webp
+    Stadium Merdeka
+    "Stadium Merdeka Complete.jpg" by Malaysian1966 at English Wikipedia. Public domain. Changes: dipotong dan dikecilkan.
+
+hist/sultan-samad.webp
+    Bangunan Sultan Abdul Samad
+    "Kuala Lumpur Sultan Abdul Building.jpg" by Gerold Kogler. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+hist/junk.webp
+    Jong China (foto lama)
+    "Guangzhou, Chinese Boats by Lai Afong, cа 1880.jpg" by Lai Afong. Public domain. Changes: dipotong dan dikecilkan.
+
+hist/carrack.webp
+    Kapal karak Portugis (lukisan)
+    "Portuguese Carracks off a Rocky Coast.jpg" by Unknown authorUnknown author. Public domain. Changes: dipotong dan dikecilkan.
+
+hist/spice-map.webp
+    Laluan perdagangan rempah
+    "Silk route.jpg" by Whole_world_-_land_and_oceans_12000.jpg: NASA/Goddard Space Flight Center derivative work: Splette (talk). Public domain. Changes: dipotong dan dikecilkan.
+
+hist/melaka-map.webp
+    Peta wilayah Kesultanan Melaka
+    "Malacca Sultanate en.svg" by Gunawan Kartapranata. CC BY-SA 3.0. Changes: dikecilkan.
+
+hist/silk.webp
+    Kain sutera
+    "Silk raw 01a.jpg" by Kuebi = Armin Kübelbeck. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+hist/parchment.webp
+    Kulit perkamen
+    "Parchment from goatskin.jpg" by Michal Maňas. CC BY 2.5. Changes: dipotong dan dikecilkan.
+
+hist/wax.webp
+    Lilin mohor pada surat (lukisan)
+    "Cornelis Norbertus Gysbrechts - Quodlibet.jpg" by Cornelis Norbertus Gijsbrechts. Public domain. Changes: dipotong dan dikecilkan.
+
+hist/quill.webp
+    Pena bulu dan skrol
+    "קלף, נוצה ודיו.jpg" by Mushki Brichta. CC BY-SA 4.0. Changes: dipotong dan dikecilkan.
+
+hist/jawi.webp
+    Manuskrip bertulisan Jawi
+    "Letter from William Farquhar to Sultan Muhammad Kanzul Alam, the Sultan of Brunei, dated 28 November 1819.jpg" by William Farquhar. Public domain. Changes: dipotong dan dikecilkan.
+
+hist/typewriter.webp
+    Mesin taip Underwood
+    "MEK II-371.jpg" by GodeNehler. CC BY-SA 4.0. Changes: latar dibuang, dikecilkan.
+
+hist/archive.webp
+    Rak fail arkib
+    "Fondos archivo.jpg" by Archivo-FSP. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+hist/clockwork.webp
+    Jentera jam (gear dan spring)
+    "Prim clockwork.jpg" by Kozuch. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+hist/astrolabe.webp
+    Astrolab tembaga
+    "Khalili Collection Islamic Art sci 0430 back.jpg" by Khalili Collections. CC BY-SA 3.0 igo. Changes: latar dibuang, dikecilkan.
+
+hist/display.webp
+    Almari pameran muzium
+    "Gallery of Old European Painting Campin.jpg" by BurgererSF. CC0. Changes: dipotong dan dikecilkan.
+
+hist/museum.webp
+    Bangunan muzium
+    "Museo Chileno de Arte Precolombino - 2020 - 10.jpg" by LuisCG11. CC BY-SA 4.0. Changes: dipotong dan dikecilkan.
+
+isl/dunes.webp
+    Gumuk pasir Rub' al Khali
+    "Rub al Khali 002.JPG" by Nepenthes. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+isl/caravan.webp
+    Kafilah unta
+    "Salt transport by a camel train on Lake Assale (Karum) in Ethiopia.jpg" by LeFnake. CC BY-SA 4.0. Changes: dipotong dan dikecilkan.
+
+isl/camel.webp
+    Unta Arab
+    "Camelus dromedarius in Nuweiba.jpg" by Florian Prischl. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+isl/datepalm.webp
+    Pokok kurma
+    "Dates005.jpg" by Nepenthes. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+isl/rug.webp
+    Sejadah
+    "Unknown, Iran - Silk Carpet - Google Art Project (1901828).jpg" by Unknown, Iran, 1550-1600 (Iran). Public domain. Changes: dipotong dan dikecilkan.
+
+isl/mihrab.webp
+    Mihrab masjid
+    "Mihrab Othmani.jpg" by بلال الدويك. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+isl/mosque-hall.webp
+    Dewan solat masjid
+    "Masjid e Nabawi Interior 2.jpg" by King Eliot. CC BY-SA 4.0. Changes: dipotong dan dikecilkan.
+
+isl/salahuddin.webp
+    Masjid Sultan Salahuddin Abdul Aziz, Shah Alam
+    "SA Blue Mosque.jpg" by Lerdsuwa. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+isl/putra.webp
+    Masjid Putra, Putrajaya
+    "Masjid Putra, Putrajaya, Malaysia.jpg" by iPhone. CC BY 4.0. Changes: dipotong dan dikecilkan.
+
+isl/mushaf.webp
+    Mushaf al-Quran
+    "Quran-Mus'haf Al Tajweed.jpg" by Amr Fayez (TheEgyptian). CC BY 2.5. Changes: dipotong dan dikecilkan.
+
+isl/rehal.webp
+    Rehal kayu
+    "ഗ്രന്ഥപ്പലക.jpg" by Fotokannan. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+isl/arabesque.webp
+    Ukiran arabes
+    "Flickr - jemasmith - Umayyad Mosque, Damascus, Detail..jpg" by Jan Smith from Brisbane, Australia. CC BY 2.0. Changes: dipotong dan dikecilkan.
+
+isl/pattern.webp
+    Corak geometri Islam
+    "Doorway in Ben Youssef Madrasa.JPG" by Ian Alexander. CC BY-SA 4.0. Changes: dipotong dan dikecilkan.
+
+isl/fanous.webp
+    Tanglung (fanous)
+    "Lanterns from below.JPG" by B. Simpson Cairocamels. CC BY 3.0. Changes: dipotong dan dikecilkan.
+
+isl/compass.webp
+    Kompas tangan
+    "2016 Busola.JPG" by Jacek Halicki. CC BY-SA 4.0. Changes: latar dibuang, dikecilkan.
+
+isl/qibla-compass.webp
+    Kompas kiblat lama (koleksi muzium)
+    "Ottoman qiblanuma 1738 CE, Turkish and Islamic Arts Museum Istanbul (cropped).jpg" by Own work. CC BY-SA 4.0. Changes: dipotong dan dikecilkan.
+
+isl/scale.webp
+    Neraca
+    "Balance à tabac 1850.JPG" by Photographie personnelle User:Poussin jean. CC BY-SA 3.0. Changes: latar dibuang, dikecilkan.
+
+isl/kaaba.webp
+    Kaabah
+    "The Ka'ba, Great Mosque of Mecca, Saudi Arabia (4).jpg" by Richard Mortel. CC BY 2.0. Changes: dipotong dan dikecilkan.
+
+isl/makkah.webp
+    Masjidil Haram, Makkah
+    "Great Mosque of Mecca1.jpg" by Saudipics.com. CC BY-SA 4.0. Changes: dipotong dan dikecilkan.
+
+isl/thawr.webp
+    Jabal Thur (Gua Thur)
+    "Jabele thor - panoramio.jpg" by Abdul Razzaq Phulpot…. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+isl/nour.webp
+    Jabal Nur (Gua Hira)
+    "Jabbal An-Nour (2024).jpg" by Kaliper1. CC BY-SA 4.0. Changes: dipotong dan dikecilkan.
+
+isl/madinah.webp
+    Masjid Nabawi, Madinah
+    "Al-Masjid An-Nabawi (Bird's Eye View).jpg" by Konevi. CC0. Changes: dipotong dan dikecilkan.
+
+isl/quba.webp
+    Masjid Quba
+    "Quba Mosque Full Picture (2024).jpg" by Kaliper1. CC BY-SA 4.0. Changes: dipotong dan dikecilkan.
+
+isl/donation.webp
+    Tabung derma masjid
+    "Donation boxes Masjid Inabah Kamal Semporna 20250628 121543.jpg" by Taufik. CC0. Changes: dipotong dan dikecilkan.
+
+sky/dawn.webp
+    Langit fajar
+    "Desert Dawn.jpg" by Jessie Eastland. CC BY-SA 4.0. Changes: dipotong dan dikecilkan.
+
+sky/sunrise.webp
+    Matahari terbit
+    "Spring Lake, New Jersey Beach at Sunrise.jpg" by Nick Harris. CC BY 2.5. Changes: dipotong dan dikecilkan.
+
+sky/noon.webp
+    Matahari tinggi di langit tengah hari
+    "Tea Field by Baraka.jpg" by TimothyBaraka. CC BY-SA 4.0. Changes: dipotong dan dikecilkan.
+
+sky/afternoon.webp
+    Cahaya petang
+    "Golden Hour Timepiece.jpg" by Eleneru. CC BY-SA 4.0. Changes: dipotong dan dikecilkan.
+
+sky/sunset.webp
+    Matahari terbenam
+    "Full cycle of a Sunset on the high plains of the Mojave Desert.jpg" by Jessie Eastland. CC BY-SA 3.0. Changes: dipotong dan dikecilkan.
+
+sky/night.webp
+    Langit malam
+    "Свет от деревни - panoramio.jpg" by Alexey Elfimov. CC BY 3.0. Changes: dipotong dan dikecilkan.

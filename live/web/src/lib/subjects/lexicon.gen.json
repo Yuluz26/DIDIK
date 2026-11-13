@@ -116,6 +116,98 @@
    "kind": "bintang"
   }
  ],
+ "history": [
+  {
+   "key": "hist/kris",
+   "words": "keris",
+   "name": "Keris"
+  },
+  {
+   "key": "hist/jar",
+   "words": "tempayan|tembikar|pasu|seramik",
+   "name": "Tempayan"
+  },
+  {
+   "key": "hist/handaxe",
+   "words": "kapak batu|kapak tangan|alat batu|beliung|batu pemukul",
+   "name": "Alat batu"
+  },
+  {
+   "key": "hist/drum",
+   "words": "gendang gangsa|gangsa|dong son",
+   "name": "Gendang gangsa"
+  },
+  {
+   "key": "hist/inscription",
+   "words": "batu bersurat",
+   "name": "Batu Bersurat Terengganu"
+  },
+  {
+   "key": "hist/bujang-statue",
+   "words": "lembah bujang|candi|arca|kedah tua",
+   "name": "Lembah Bujang"
+  },
+  {
+   "key": "hist/jawi",
+   "words": "manuskrip|hikayat|jawi|kitab",
+   "name": "Manuskrip Jawi"
+  },
+  {
+   "key": "hist/niah",
+   "words": "gua niah|niah",
+   "name": "Gua Niah"
+  },
+  {
+   "key": "hist/afamosa",
+   "words": "a famosa|portugis|1511",
+   "name": "A Famosa"
+  },
+  {
+   "key": "hist/stadthuys",
+   "words": "belanda|stadthuys|1641",
+   "name": "Stadthuys"
+  },
+  {
+   "key": "hist/stpaul",
+   "words": "gereja st\\.? paul|bukit st\\.? paul",
+   "name": "Gereja St. Paul"
+  },
+  {
+   "key": "hist/stadium",
+   "words": "kemerdekaan|merdeka|1957",
+   "name": "Stadium Merdeka"
+  },
+  {
+   "key": "hist/merdeka-square",
+   "words": "malaysia ditubuhkan|pembentukan malaysia|1963|dataran merdeka",
+   "name": "Dataran Merdeka"
+  },
+  {
+   "key": "hist/sultan-samad",
+   "words": "british|inggeris|residen|pangkor|malayan union|persekutuan|negeri-negeri melayu bersekutu|negeri-negeri selat",
+   "name": "Bangunan Sultan Abdul Samad"
+  },
+  {
+   "key": "hist/palace",
+   "words": "kesultanan melayu melaka|kesultanan melaka|parameswara|istana|sultan mansur|melaka",
+   "name": "Istana Kesultanan Melaka"
+  },
+  {
+   "key": "hist/junk",
+   "words": "jong|pedagang china|china|cina|cheng ho|zheng he|ming",
+   "name": "Jong China"
+  },
+  {
+   "key": "hist/carrack",
+   "words": "kapal portugis|karak|pedagang eropah|eropah",
+   "name": "Kapal karak"
+  },
+  {
+   "key": "hist/silk",
+   "words": "sutera|kain",
+   "name": "Sutera"
+  }
+ ],
  "materials": [
   {
    "key": null,

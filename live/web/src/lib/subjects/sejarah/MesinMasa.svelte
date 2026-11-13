@@ -32,10 +32,14 @@
 		play('tick');
 	}
 	let swipe: { i: number; y: number } | null = null;
+	import { asset } from '../assets';
+	// real clockwork, turning behind the wheels
+	const WORKS = asset('hist/clockwork');
 </script>
 
-<div class="machine" class:go={ok === true}>
+<div class="machine" class:go={ok === true} style:--works={WORKS ? `url(${WORKS.src})` : 'none'}>
 	<span class="vortex" aria-hidden="true"></span>
+	<span class="works" aria-hidden="true"></span>
 	<div class="panel">
 		<p class="plate">MESIN MASA · DESTINASI</p>
 		<div class="wheels">
@@ -75,6 +79,27 @@
 {/if}
 
 <style>
+	.works {
+		position: absolute;
+		inset: 0;
+		background: var(--works) 50% 50% / cover no-repeat;
+		opacity: 0.35;
+		mix-blend-mode: screen;
+		pointer-events: none;
+	}
+	.go .works {
+		animation: tick 6s linear infinite;
+	}
+	@keyframes tick {
+		to {
+			transform: rotate(360deg) scale(1.4);
+		}
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.go .works {
+			animation: none;
+		}
+	}
 	.machine {
 		position: relative;
 		display: grid;

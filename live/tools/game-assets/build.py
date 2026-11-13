@@ -29,6 +29,7 @@ An optional "crop": [left, top, right, bottom] (percent) is taken first.
 
 from __future__ import annotations
 
+import hashlib
 import io
 import json
 import re
@@ -93,8 +94,9 @@ def lookup(files: list[str], width: int) -> dict[str, dict]:
 
 def download(name: str, url: str) -> Image.Image:
     CACHE.mkdir(exist_ok=True)
-    safe = re.sub(r"[^A-Za-z0-9._-]+", "_", name)[:120]
-    path = CACHE / safe
+    # a readable part and a hash of the whole name, so names in other scripts never share a file
+    safe = re.sub(r"[^A-Za-z0-9._-]+", "_", name)[:80]
+    path = CACHE / f"{hashlib.sha1(name.encode()).hexdigest()[:10]}-{safe}"
     if not path.exists():
         for attempt in range(6):
             r = client.get(url)

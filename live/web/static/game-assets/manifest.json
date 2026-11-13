@@ -2175,6 +2175,1204 @@
    "share_alike": false,
    "make": "phase:200@1.0",
    "changes": "latar langit dibuang; fasa dilukis dengan menggelapkan bahagian yang tidak disinari"
+  },
+  {
+   "key": "hist/kris",
+   "path": "game-assets/hist/kris.webp",
+   "width": 200,
+   "height": 347,
+   "bytes": 13720,
+   "games": [
+    "gali",
+    "muzium"
+   ],
+   "shows": "Keris dan sarungnya",
+   "kind": "historic",
+   "source": "Wikimedia Commons",
+   "file": "Javaanse kris, AK-MAK-318.jpg",
+   "author": "Rijksmuseum",
+   "licence": "CC0",
+   "share_alike": false,
+   "make": "cut:200",
+   "changes": "latar dibuang, dikecilkan"
+  },
+  {
+   "key": "hist/jar",
+   "path": "game-assets/hist/jar.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 2984,
+   "games": [
+    "gali",
+    "muzium"
+   ],
+   "shows": "Tempayan Martaban",
+   "kind": "historic",
+   "source": "Wikimedia Commons",
+   "file": "Pots and Shades.JPG",
+   "author": "Ignacio Malapitan III",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/handaxe",
+   "path": "game-assets/hist/handaxe.webp",
+   "width": 200,
+   "height": 292,
+   "bytes": 21634,
+   "games": [
+    "gali",
+    "muzium"
+   ],
+   "shows": "Kapak tangan batu zaman prasejarah",
+   "kind": "historic",
+   "source": "Wikimedia Commons",
+   "file": "Handaxe by John Frere.png",
+   "author": "John Frere",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "cut:200",
+   "changes": "latar dibuang, dikecilkan"
+  },
+  {
+   "key": "hist/drum",
+   "path": "game-assets/hist/drum.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 3690,
+   "games": [
+    "gali",
+    "muzium"
+   ],
+   "shows": "Gendang gangsa Dong Son",
+   "kind": "historic",
+   "source": "Wikimedia Commons",
+   "file": "Tambour-song-da2.jpg",
+   "author": "Own work",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/bujang-statue",
+   "path": "game-assets/hist/bujang-statue.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 3114,
+   "games": [
+    "gali",
+    "muzium"
+   ],
+   "shows": "Arca dari Lembah Bujang",
+   "kind": "historic",
+   "source": "Wikimedia Commons",
+   "file": "Muzium Negara KL19b.JPG",
+   "author": "Gryffindor",
+   "licence": "CC BY 3.0",
+   "share_alike": false,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/inscription",
+   "path": "game-assets/hist/inscription.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 7124,
+   "games": [
+    "gali",
+    "muzium",
+    "skrol"
+   ],
+   "shows": "Batu Bersurat Terengganu",
+   "kind": "historic",
+   "source": "Wikimedia Commons",
+   "file": "KlMuseumBatuBersurat.jpg",
+   "author": "Earth",
+   "licence": "CC BY 2.5",
+   "share_alike": false,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/soil",
+   "path": "game-assets/hist/soil.webp",
+   "width": 900,
+   "height": 520,
+   "bytes": 195738,
+   "games": [
+    "gali"
+   ],
+   "shows": "Lapisan tanah tapak arkeologi",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "1555 - Keramikos archaeological area, Athens - Stratigraphy - Photo by Giovanni Dall'Orto, Nov 12 2009.jpg",
+   "author": "Giovanni Dall'Orto",
+   "licence": "Attribution",
+   "share_alike": false,
+   "make": "cover:900x520",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/trowel",
+   "path": "game-assets/hist/trowel.webp",
+   "width": 220,
+   "height": 104,
+   "bytes": 6216,
+   "games": [
+    "gali"
+   ],
+   "shows": "Kulir (sudip) ahli arkeologi",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Masons trowel.jpg",
+   "author": "Mike Lupinacci",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "cut:220",
+   "changes": "latar dibuang, dikecilkan"
+  },
+  {
+   "key": "hist/niah",
+   "path": "game-assets/hist/niah.webp",
+   "width": 900,
+   "height": 520,
+   "bytes": 84390,
+   "games": [
+    "gali",
+    "garismasa"
+   ],
+   "shows": "Mulut Gua Niah, Sarawak",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "The main entrance to the Niah Caves at sunset..jpg",
+   "author": "Starlightchild",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "cover:900x520",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/palace",
+   "path": "game-assets/hist/palace.webp",
+   "width": 960,
+   "height": 560,
+   "bytes": 139154,
+   "games": [
+    "empayar",
+    "istana"
+   ],
+   "shows": "Muzium Istana Kesultanan Melaka (binaan semula)",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Malacca Sultanate Palace.JPG",
+   "author": "Adiput (talk)",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "cover:960x560",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/throne",
+   "path": "game-assets/hist/throne.webp",
+   "width": 300,
+   "height": 300,
+   "bytes": 19830,
+   "games": [
+    "istana"
+   ],
+   "shows": "Singgahsana istana",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Gamla Stan, Södermalm, Stockholm, Sweden - panoramio (225).jpg",
+   "author": "Aaron Zhu",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "tile:300@50,55",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/afamosa",
+   "path": "game-assets/hist/afamosa.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 5916,
+   "games": [
+    "garismasa",
+    "muzium"
+   ],
+   "shows": "Kota A Famosa, Melaka",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "A Famosa Fortress.JPG",
+   "author": "Chongkian",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/stadthuys",
+   "path": "game-assets/hist/stadthuys.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 6312,
+   "games": [
+    "garismasa",
+    "muzium"
+   ],
+   "shows": "Bangunan Stadthuys, Melaka",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Malacca stadhuys1.jpg",
+   "author": "User: (WT-shared) Slleong at wts wikivoyage",
+   "licence": "CC BY 1.0",
+   "share_alike": false,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/stpaul",
+   "path": "game-assets/hist/stpaul.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 6700,
+   "games": [
+    "garismasa",
+    "muzium"
+   ],
+   "shows": "Gereja St. Paul, Melaka",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "St. Paul's Church Malacca 2012.JPG",
+   "author": "Bjørn Christian Tørrissen",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/merdeka-square",
+   "path": "game-assets/hist/merdeka-square.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 4002,
+   "games": [
+    "garismasa"
+   ],
+   "shows": "Dataran Merdeka, Kuala Lumpur",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Dataran Merdeka 2.jpg",
+   "author": "Haakon S. Krohn",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/stadium",
+   "path": "game-assets/hist/stadium.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 7692,
+   "games": [
+    "garismasa"
+   ],
+   "shows": "Stadium Merdeka",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Stadium Merdeka Complete.jpg",
+   "author": "Malaysian1966 at English Wikipedia",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/sultan-samad",
+   "path": "game-assets/hist/sultan-samad.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 4536,
+   "games": [
+    "garismasa"
+   ],
+   "shows": "Bangunan Sultan Abdul Samad",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Kuala Lumpur Sultan Abdul Building.jpg",
+   "author": "Gerold Kogler",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/junk",
+   "path": "game-assets/hist/junk.webp",
+   "width": 600,
+   "height": 360,
+   "bytes": 20678,
+   "games": [
+    "pelabuhan"
+   ],
+   "shows": "Jong China (foto lama)",
+   "kind": "historic",
+   "source": "Wikimedia Commons",
+   "file": "Guangzhou, Chinese Boats by Lai Afong, cа 1880.jpg",
+   "author": "Lai Afong",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "cover:600x360",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/carrack",
+   "path": "game-assets/hist/carrack.webp",
+   "width": 600,
+   "height": 360,
+   "bytes": 35096,
+   "games": [
+    "pelabuhan"
+   ],
+   "shows": "Kapal karak Portugis (lukisan)",
+   "kind": "historic",
+   "source": "Wikimedia Commons",
+   "file": "Portuguese Carracks off a Rocky Coast.jpg",
+   "author": "Unknown authorUnknown author",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "cover:600x360",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/spice-map",
+   "path": "game-assets/hist/spice-map.webp",
+   "width": 900,
+   "height": 520,
+   "bytes": 81002,
+   "games": [
+    "pelabuhan"
+   ],
+   "shows": "Laluan perdagangan rempah",
+   "kind": "visualisation",
+   "source": "Wikimedia Commons",
+   "file": "Silk route.jpg",
+   "author": "Whole_world_-_land_and_oceans_12000.jpg: NASA/Goddard Space Flight Center derivative work: Splette (talk)",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "cover:900x520",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/melaka-map",
+   "path": "game-assets/hist/melaka-map.webp",
+   "width": 700,
+   "height": 794,
+   "bytes": 60024,
+   "games": [
+    "pelabuhan",
+    "empayar"
+   ],
+   "shows": "Peta wilayah Kesultanan Melaka",
+   "kind": "visualisation",
+   "source": "Wikimedia Commons",
+   "file": "Malacca Sultanate en.svg",
+   "author": "Gunawan Kartapranata",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "photo:700",
+   "changes": "dikecilkan"
+  },
+  {
+   "key": "hist/silk",
+   "path": "game-assets/hist/silk.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 4568,
+   "games": [
+    "pelabuhan"
+   ],
+   "shows": "Kain sutera",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Silk raw 01a.jpg",
+   "author": "Kuebi = Armin Kübelbeck",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/parchment",
+   "path": "game-assets/hist/parchment.webp",
+   "width": 900,
+   "height": 600,
+   "bytes": 64358,
+   "games": [
+    "skrol"
+   ],
+   "shows": "Kulit perkamen",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Parchment from goatskin.jpg",
+   "author": "Michal Maňas",
+   "licence": "CC BY 2.5",
+   "share_alike": false,
+   "make": "cover:900x600@50,50",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/wax",
+   "path": "game-assets/hist/wax.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 6632,
+   "games": [
+    "skrol"
+   ],
+   "shows": "Lilin mohor pada surat (lukisan)",
+   "kind": "historic",
+   "source": "Wikimedia Commons",
+   "file": "Cornelis Norbertus Gysbrechts - Quodlibet.jpg",
+   "author": "Cornelis Norbertus Gijsbrechts",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/quill",
+   "path": "game-assets/hist/quill.webp",
+   "width": 220,
+   "height": 220,
+   "bytes": 3216,
+   "games": [
+    "skrol"
+   ],
+   "shows": "Pena bulu dan skrol",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "קלף, נוצה ודיו.jpg",
+   "author": "Mushki Brichta",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "tile:220",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/jawi",
+   "path": "game-assets/hist/jawi.webp",
+   "width": 900,
+   "height": 600,
+   "bytes": 104064,
+   "games": [
+    "skrol",
+    "arkib"
+   ],
+   "shows": "Manuskrip bertulisan Jawi",
+   "kind": "historic",
+   "source": "Wikimedia Commons",
+   "file": "Letter from William Farquhar to Sultan Muhammad Kanzul Alam, the Sultan of Brunei, dated 28 November 1819.jpg",
+   "author": "William Farquhar",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "cover:900x600",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/typewriter",
+   "path": "game-assets/hist/typewriter.webp",
+   "width": 520,
+   "height": 496,
+   "bytes": 53370,
+   "games": [
+    "mesintaip"
+   ],
+   "shows": "Mesin taip Underwood",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "MEK II-371.jpg",
+   "author": "GodeNehler",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "cut:520",
+   "changes": "latar dibuang, dikecilkan"
+  },
+  {
+   "key": "hist/archive",
+   "path": "game-assets/hist/archive.webp",
+   "width": 900,
+   "height": 520,
+   "bytes": 98204,
+   "games": [
+    "arkib"
+   ],
+   "shows": "Rak fail arkib",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Fondos archivo.jpg",
+   "author": "Archivo-FSP",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "cover:900x520",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/clockwork",
+   "path": "game-assets/hist/clockwork.webp",
+   "width": 300,
+   "height": 300,
+   "bytes": 19790,
+   "games": [
+    "mesinmasa"
+   ],
+   "shows": "Jentera jam (gear dan spring)",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Prim clockwork.jpg",
+   "author": "Kozuch",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "tile:300",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/astrolabe",
+   "path": "game-assets/hist/astrolabe.webp",
+   "width": 260,
+   "height": 342,
+   "bytes": 21100,
+   "games": [
+    "mesinmasa"
+   ],
+   "shows": "Astrolab tembaga",
+   "kind": "historic",
+   "source": "Wikimedia Commons",
+   "file": "Khalili Collection Islamic Art sci 0430 back.jpg",
+   "author": "Khalili Collections",
+   "licence": "CC BY-SA 3.0 igo",
+   "share_alike": true,
+   "make": "cut:260",
+   "changes": "latar dibuang, dikecilkan"
+  },
+  {
+   "key": "hist/display",
+   "path": "game-assets/hist/display.webp",
+   "width": 600,
+   "height": 800,
+   "bytes": 15788,
+   "games": [
+    "muzium"
+   ],
+   "shows": "Almari pameran muzium",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Gallery of Old European Painting Campin.jpg",
+   "author": "BurgererSF",
+   "licence": "CC0",
+   "share_alike": false,
+   "make": "cover:600x800",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "hist/museum",
+   "path": "game-assets/hist/museum.webp",
+   "width": 900,
+   "height": 520,
+   "bytes": 136776,
+   "games": [
+    "muzium"
+   ],
+   "shows": "Bangunan muzium",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Museo Chileno de Arte Precolombino - 2020 - 10.jpg",
+   "author": "LuisCG11",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "cover:900x520",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "isl/dunes",
+   "path": "game-assets/isl/dunes.webp",
+   "width": 1200,
+   "height": 600,
+   "bytes": 27264,
+   "games": [
+    "kafilah"
+   ],
+   "shows": "Gumuk pasir Rub' al Khali",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Rub al Khali 002.JPG",
+   "author": "Nepenthes",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "cover:1200x600",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "isl/caravan",
+   "path": "game-assets/isl/caravan.webp",
+   "width": 900,
+   "height": 420,
+   "bytes": 61402,
+   "games": [
+    "kafilah"
+   ],
+   "shows": "Kafilah unta",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Salt transport by a camel train on Lake Assale (Karum) in Ethiopia.jpg",
+   "author": "LeFnake",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "cover:900x420",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "isl/camel",
+   "path": "game-assets/isl/camel.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 5132,
+   "games": [
+    "kafilah",
+    "hijrah"
+   ],
+   "shows": "Unta Arab",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Camelus dromedarius in Nuweiba.jpg",
+   "author": "Florian Prischl",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "isl/datepalm",
+   "path": "game-assets/isl/datepalm.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 12942,
+   "games": [
+    "kafilah"
+   ],
+   "shows": "Pokok kurma",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Dates005.jpg",
+   "author": "Nepenthes",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "isl/rug",
+   "path": "game-assets/isl/rug.webp",
+   "width": 500,
+   "height": 800,
+   "bytes": 199726,
+   "games": [
+    "solat"
+   ],
+   "shows": "Sejadah",
+   "kind": "historic",
+   "source": "Wikimedia Commons",
+   "file": "Unknown, Iran - Silk Carpet - Google Art Project (1901828).jpg",
+   "author": "Unknown, Iran, 1550-1600 (Iran)",
+   "licence": "Public domain",
+   "share_alike": false,
+   "make": "cover:500x800",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "isl/mihrab",
+   "path": "game-assets/isl/mihrab.webp",
+   "width": 700,
+   "height": 900,
+   "bytes": 93294,
+   "games": [
+    "solat"
+   ],
+   "shows": "Mihrab masjid",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Mihrab Othmani.jpg",
+   "author": "بلال الدويك",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "cover:700x900",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "isl/mosque-hall",
+   "path": "game-assets/isl/mosque-hall.webp",
+   "width": 960,
+   "height": 560,
+   "bytes": 118800,
+   "games": [
+    "solat",
+    "rukun"
+   ],
+   "shows": "Dewan solat masjid",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Masjid e Nabawi Interior 2.jpg",
+   "author": "King Eliot",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "cover:960x560",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "isl/salahuddin",
+   "path": "game-assets/isl/salahuddin.webp",
+   "width": 960,
+   "height": 560,
+   "bytes": 40456,
+   "games": [
+    "rukun"
+   ],
+   "shows": "Masjid Sultan Salahuddin Abdul Aziz, Shah Alam",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "SA Blue Mosque.jpg",
+   "author": "Lerdsuwa",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "cover:960x560",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "isl/putra",
+   "path": "game-assets/isl/putra.webp",
+   "width": 960,
+   "height": 560,
+   "bytes": 44790,
+   "games": [
+    "rukun",
+    "waktu"
+   ],
+   "shows": "Masjid Putra, Putrajaya",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Masjid Putra, Putrajaya, Malaysia.jpg",
+   "author": "iPhone",
+   "licence": "CC BY 4.0",
+   "share_alike": false,
+   "make": "cover:960x560",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "isl/mushaf",
+   "path": "game-assets/isl/mushaf.webp",
+   "width": 900,
+   "height": 560,
+   "bytes": 122616,
+   "games": [
+    "tajwid"
+   ],
+   "shows": "Mushaf al-Quran",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Quran-Mus'haf Al Tajweed.jpg",
+   "author": "Amr Fayez (TheEgyptian)",
+   "licence": "CC BY 2.5",
+   "share_alike": false,
+   "make": "cover:900x560",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "isl/rehal",
+   "path": "game-assets/isl/rehal.webp",
+   "width": 220,
+   "height": 220,
+   "bytes": 6944,
+   "games": [
+    "tajwid"
+   ],
+   "shows": "Rehal kayu",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "ഗ്രന്ഥപ്പലക.jpg",
+   "author": "Fotokannan",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "tile:220@46,60",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "isl/arabesque",
+   "path": "game-assets/isl/arabesque.webp",
+   "width": 900,
+   "height": 600,
+   "bytes": 63144,
+   "games": [
+    "hijaiyah"
+   ],
+   "shows": "Ukiran arabes",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Flickr - jemasmith - Umayyad Mosque, Damascus, Detail..jpg",
+   "author": "Jan Smith from Brisbane, Australia",
+   "licence": "CC BY 2.0",
+   "share_alike": false,
+   "make": "cover:900x600",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "isl/pattern",
+   "path": "game-assets/isl/pattern.webp",
+   "width": 600,
+   "height": 900,
+   "bytes": 121028,
+   "games": [
+    "hijaiyah",
+    "rukun"
+   ],
+   "shows": "Corak geometri Islam",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Doorway in Ben Youssef Madrasa.JPG",
+   "author": "Ian Alexander",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "cover:600x900",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "isl/fanous",
+   "path": "game-assets/isl/fanous.webp",
+   "width": 300,
+   "height": 300,
+   "bytes": 36108,
+   "games": [
+    "malaikat"
+   ],
+   "shows": "Tanglung (fanous)",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Lanterns from below.JPG",
+   "author": "B. Simpson Cairocamels",
+   "licence": "CC BY 3.0",
+   "share_alike": false,
+   "make": "tile:300",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "isl/compass",
+   "path": "game-assets/isl/compass.webp",
+   "width": 320,
+   "height": 337,
+   "bytes": 20990,
+   "games": [
+    "kiblat"
+   ],
+   "shows": "Kompas tangan",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "2016 Busola.JPG",
+   "author": "Jacek Halicki",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "cut:320",
+   "changes": "latar dibuang, dikecilkan"
+  },
+  {
+   "key": "isl/qibla-compass",
+   "path": "game-assets/isl/qibla-compass.webp",
+   "width": 300,
+   "height": 300,
+   "bytes": 26896,
+   "games": [
+    "kiblat"
+   ],
+   "shows": "Kompas kiblat lama (koleksi muzium)",
+   "kind": "historic",
+   "source": "Wikimedia Commons",
+   "file": "Ottoman qiblanuma 1738 CE, Turkish and Islamic Arts Museum Istanbul (cropped).jpg",
+   "author": "Own work",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "tile:300",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "isl/scale",
+   "path": "game-assets/isl/scale.webp",
+   "width": 420,
+   "height": 395,
+   "bytes": 32032,
+   "games": [
+    "timbangan"
+   ],
+   "shows": "Neraca",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Balance à tabac 1850.JPG",
+   "author": "Photographie personnelle User:Poussin jean",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "cut:420",
+   "changes": "latar dibuang, dikecilkan"
+  },
+  {
+   "key": "isl/kaaba",
+   "path": "game-assets/isl/kaaba.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 7756,
+   "games": [
+    "hijrah",
+    "kiblat"
+   ],
+   "shows": "Kaabah",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "The Ka'ba, Great Mosque of Mecca, Saudi Arabia (4).jpg",
+   "author": "Richard Mortel",
+   "licence": "CC BY 2.0",
+   "share_alike": false,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "isl/makkah",
+   "path": "game-assets/isl/makkah.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 9032,
+   "games": [
+    "hijrah"
+   ],
+   "shows": "Masjidil Haram, Makkah",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Great Mosque of Mecca1.jpg",
+   "author": "Saudipics.com",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "isl/thawr",
+   "path": "game-assets/isl/thawr.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 2786,
+   "games": [
+    "hijrah"
+   ],
+   "shows": "Jabal Thur (Gua Thur)",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Jabele thor - panoramio.jpg",
+   "author": "Abdul Razzaq Phulpot…",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "isl/nour",
+   "path": "game-assets/isl/nour.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 5048,
+   "games": [
+    "hijrah",
+    "kafilah"
+   ],
+   "shows": "Jabal Nur (Gua Hira)",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Jabbal An-Nour (2024).jpg",
+   "author": "Kaliper1",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "isl/madinah",
+   "path": "game-assets/isl/madinah.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 6802,
+   "games": [
+    "hijrah"
+   ],
+   "shows": "Masjid Nabawi, Madinah",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Al-Masjid An-Nabawi (Bird's Eye View).jpg",
+   "author": "Konevi",
+   "licence": "CC0",
+   "share_alike": false,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "isl/quba",
+   "path": "game-assets/isl/quba.webp",
+   "width": 168,
+   "height": 168,
+   "bytes": 5272,
+   "games": [
+    "hijrah"
+   ],
+   "shows": "Masjid Quba",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Quba Mosque Full Picture (2024).jpg",
+   "author": "Kaliper1",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "tile:168",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "isl/donation",
+   "path": "game-assets/isl/donation.webp",
+   "width": 500,
+   "height": 700,
+   "bytes": 73372,
+   "games": [
+    "zakat"
+   ],
+   "shows": "Tabung derma masjid",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Donation boxes Masjid Inabah Kamal Semporna 20250628 121543.jpg",
+   "author": "Taufik",
+   "licence": "CC0",
+   "share_alike": false,
+   "make": "cover:500x700",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "sky/dawn",
+   "path": "game-assets/sky/dawn.webp",
+   "width": 420,
+   "height": 300,
+   "bytes": 21632,
+   "games": [
+    "waktu"
+   ],
+   "shows": "Langit fajar",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Desert Dawn.jpg",
+   "author": "Jessie Eastland",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "cover:420x300",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "sky/sunrise",
+   "path": "game-assets/sky/sunrise.webp",
+   "width": 420,
+   "height": 300,
+   "bytes": 9464,
+   "games": [
+    "waktu"
+   ],
+   "shows": "Matahari terbit",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Spring Lake, New Jersey Beach at Sunrise.jpg",
+   "author": "Nick Harris",
+   "licence": "CC BY 2.5",
+   "share_alike": false,
+   "make": "cover:420x300",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "sky/noon",
+   "path": "game-assets/sky/noon.webp",
+   "width": 420,
+   "height": 300,
+   "bytes": 5122,
+   "games": [
+    "waktu"
+   ],
+   "shows": "Matahari tinggi di langit tengah hari",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Tea Field by Baraka.jpg",
+   "author": "TimothyBaraka",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "cover:420x300@50,22",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "sky/afternoon",
+   "path": "game-assets/sky/afternoon.webp",
+   "width": 420,
+   "height": 300,
+   "bytes": 14546,
+   "games": [
+    "waktu"
+   ],
+   "shows": "Cahaya petang",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Golden Hour Timepiece.jpg",
+   "author": "Eleneru",
+   "licence": "CC BY-SA 4.0",
+   "share_alike": true,
+   "make": "cover:420x300@30,40",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "sky/sunset",
+   "path": "game-assets/sky/sunset.webp",
+   "width": 420,
+   "height": 300,
+   "bytes": 5198,
+   "games": [
+    "waktu"
+   ],
+   "shows": "Matahari terbenam",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Full cycle of a Sunset on the high plains of the Mojave Desert.jpg",
+   "author": "Jessie Eastland",
+   "licence": "CC BY-SA 3.0",
+   "share_alike": true,
+   "make": "cover:420x300",
+   "changes": "dipotong dan dikecilkan"
+  },
+  {
+   "key": "sky/night",
+   "path": "game-assets/sky/night.webp",
+   "width": 420,
+   "height": 300,
+   "bytes": 8180,
+   "games": [
+    "waktu"
+   ],
+   "shows": "Langit malam",
+   "kind": "photo",
+   "source": "Wikimedia Commons",
+   "file": "Свет от деревни - panoramio.jpg",
+   "author": "Alexey Elfimov",
+   "licence": "CC BY 3.0",
+   "share_alike": false,
+   "make": "cover:420x300",
+   "changes": "dipotong dan dikecilkan"
   }
  ]
 }

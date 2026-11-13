@@ -9,12 +9,15 @@
 	import type { GameProps } from '../kit.svelte';
 
 	let p: GameProps = $props();
+	import { asset } from '../assets';
+	// the reconstructed Malacca Sultanate Palace, the kind of building the floors raise
+	const PALACE = asset('hist/palace');
 </script>
 
 <OrderPlay {p} pool="Bahan binaan" tip="Tingkat 1 ialah asas di bawah. Bina ke atas.">
 	{#snippet board(v: OrderView)}
 		{@const n = v.slots.length}
-		<div class="site" class:won={v.allRight}>
+		<div class="site" class:won={v.allRight} style:--palace={PALACE ? `url(${PALACE.src})` : 'none'}>
 			<div class="palace">
 				<div class="roof" aria-hidden="true">
 					<span class="tier t1"></span><span class="tier t2"></span><span class="tier t3"></span>
@@ -38,11 +41,28 @@
 				{/each}
 			</div>
 			<span class="tree" aria-hidden="true"><Sticker key="pokok-kelapa" size={58} alt="" /></span>
+			<p class="real">Istana Kesultanan Melaka seperti dibina semula di Bandar Hilir, Melaka</p>
 		</div>
 	{/snippet}
 </OrderPlay>
 
 <style>
+	.site {
+		background-image: linear-gradient(180deg, rgb(255 248 230 / 0.7), rgb(255 248 230 / 0.35) 60%, rgb(80 60 20 / 0.25)), var(--palace) !important;
+		background-size: cover !important;
+		background-position: center 30% !important;
+	}
+	.real {
+		position: relative;
+		margin: 0.3rem auto 0;
+		width: fit-content;
+		padding: 0.1rem 0.6rem;
+		border-radius: 999px;
+		background: rgb(255 248 230 / 0.92);
+		color: #5a4318;
+		font: 700 0.7rem/1.3 var(--font-body);
+		text-align: center;
+	}
 	.site {
 		position: relative;
 		padding: 1rem 0.6rem 0;
